@@ -184,17 +184,17 @@ def main():
     os.makedirs(os.path.join(output_dir, 'yearly'), exist_ok=True)
     
     weights = {
-        'goals': 60.0,
-        'behinds': 1.0,
-        'disposals': 12.0,
-        'goal_assist': 3.0,
-        'contested_marks': 6.0,
-        'contested_possessions': 4.5,
-        'marks': 2.0,
-        'kicks': 4.0,
-        'tackles': 2.0,
-        'one_percenters': 2.0,
-        'clearances': 4.0
+        'goals': 55.0,
+        'behinds': 1.5,
+        'disposals': 14.0,
+        'goal_assist': 4.0,
+        'contested_marks': 7.0,
+        'contested_possessions': 5.5,
+        'marks': 2.5,
+        'kicks': 4.5,
+        'tackles': 3.5,
+        'one_percenters': 3.0,
+        'clearances': 5.5
     }
     
     yearly_top_100 = {}
