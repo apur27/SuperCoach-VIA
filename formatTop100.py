@@ -27,28 +27,80 @@ def read_player_data(player_id):
 def read_performance_data(player_id):
     """
     Read the player's performance data from their performance CSV file.
-    Returns a list of teams, total games, and total goals; returns ([], 0, 0) if the file is missing or empty.
+    Returns a dictionary with teams in chronological order of first appearance, total games, total goals,
+    total disposals, average disposals per game, total Brownlow votes, games with 20+ disposals,
+    and games with 3+ goals; returns a default dictionary if the file is missing or empty.
     """
     file_path = f"data/player_data/{player_id}_performance_details.csv"
     print(f"Looking for performance file: {file_path}")
     if not os.path.exists(file_path):
         print(f"File does not exist: {file_path}")
-        return [], 0, 0
+        return {
+            'teams': [],
+            'total_games': 0,
+            'total_goals': 0,
+            'total_disposals': 0,
+            'avg_disposals': 0.0,
+            'total_brownlow_votes': 0,
+            'games_20_plus_disposals': 0,
+            'games_3_plus_goals': 0
+        }
     try:
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)
-            teams = set()
+            teams_order = []          # List to maintain chronological order of teams
+            seen_teams = set()        # Set to track teams already encountered
             total_games = 0
             total_goals = 0
+            total_disposals = 0
+            total_brownlow_votes = 0
+            games_20_plus_disposals = 0
+            games_3_plus_goals = 0
             for row in reader:
-                teams.add(row['team'])
+                team = row['team']
+                if team not in seen_teams:
+                    teams_order.append(team)
+                    seen_teams.add(team)
                 total_games += 1
+                # Calculate disposals from kicks and handballs
+                kicks = int(row['kicks']) if row['kicks'] else 0
+                handballs = int(row['handballs']) if row['handballs'] else 0
+                disposals = kicks + handballs
+                total_disposals += disposals
+                # Goals and Brownlow votes
                 goals = int(row['goals']) if row['goals'] else 0
                 total_goals += goals
-            return list(teams), total_games, total_goals
+                brownlow_votes = int(row['brownlow_votes']) if row['brownlow_votes'] else 0
+                total_brownlow_votes += brownlow_votes
+                # Check for high-performance games
+                if disposals >= 20:
+                    games_20_plus_disposals += 1
+                if goals >= 3:
+                    games_3_plus_goals += 1
+            # Calculate average disposals per game
+            avg_disposals = total_disposals / total_games if total_games > 0 else 0.0
+            return {
+                'teams': teams_order,
+                'total_games': total_games,
+                'total_goals': total_goals,
+                'total_disposals': total_disposals,
+                'avg_disposals': avg_disposals,
+                'total_brownlow_votes': total_brownlow_votes,
+                'games_20_plus_disposals': games_20_plus_disposals,
+                'games_3_plus_goals': games_3_plus_goals
+            }
     except StopIteration:
         print(f"File is empty: {file_path}")
-        return [], 0, 0
+        return {
+            'teams': [],
+            'total_games': 0,
+            'total_goals': 0,
+            'total_disposals': 0,
+            'avg_disposals': 0.0,
+            'total_brownlow_votes': 0,
+            'games_20_plus_disposals': 0,
+            'games_3_plus_goals': 0
+        }
 
 def main(input_csv, output_csv):
     """
@@ -73,16 +125,22 @@ def main(input_csv, output_csv):
             
             # Read player data and performance data
             player_data = read_player_data(player_id)
-            teams, total_games, total_goals = read_performance_data(player_id)
+            performance_data = read_performance_data(player_id)
             
             # Generate summary based on available data
-            if player_data and teams:
+            if player_data and performance_data['teams']:
                 full_name = f"{player_data['first_name']} {player_data['last_name']}"
-                teams_str = " - ".join(teams)
+                teams_str = " - ".join(performance_data['teams'])
                 summary = (f"{full_name}, born on {player_data['born_date']}, "
                            f"debuted on {player_data['debut_date']}, "
                            f"height {player_data['height']} cm, weight {player_data['weight']} kg. "
-                           f"Played for {teams_str} across {total_games} games, scoring {total_goals} goals.")
+                           f"Played for {teams_str} across {performance_data['total_games']} games, "
+                           f"scoring {performance_data['total_goals']} goals. "
+                           f"Career highlights include {performance_data['total_disposals']} total disposals, "
+                           f"averaging {performance_data['avg_disposals']:.1f} per game, "
+                           f"{performance_data['total_brownlow_votes']} Brownlow votes, "
+                           f"{performance_data['games_20_plus_disposals']} games with 20+ disposals, "
+                           f"and {performance_data['games_3_plus_goals']} games with 3+ goals.")
             else:
                 full_name = "Unknown"
                 teams_str = "Unknown"
