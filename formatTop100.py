@@ -4,13 +4,11 @@ from statistics import median
 
 def read_player_data(player_id):
     """
-    Read the player's data from their personal details CSV file in data/player_data.
+    Read the player's personal data from their CSV file in data/player_data.
     Returns a dictionary with the player's info or None if the file is missing or empty.
     """
     file_path = f"data/player_data/{player_id}_personal_details.csv"
-    print(f"Looking for personal details file: {file_path}")
     if not os.path.exists(file_path):
-        print(f"File does not exist: {file_path}")
         return None
     try:
         with open(file_path, 'r') as file:
@@ -18,25 +16,18 @@ def read_player_data(player_id):
             row = next(reader)
             required_columns = ['first_name', 'last_name', 'born_date', 'debut_date', 'height', 'weight']
             if not all(col in row for col in required_columns):
-                print(f"Missing columns in {file_path}")
                 return None
             return row
     except StopIteration:
-        print(f"File is empty: {file_path}")
         return None
 
 def read_performance_data(player_id):
     """
-    Read the player's performance data from their performance CSV file.
-    Returns a dictionary with teams in chronological order, total games, total goals,
-    total disposals, average disposals per game, total Brownlow votes, games with 20+ disposals,
-    games with 3+ goals, number of seasons, peak disposals, peak goals, median disposals,
-    impact score, and consistency score. Returns a default dictionary if the file is missing or empty.
+    Read the player's performance data from their CSV file.
+    Returns a dictionary with performance metrics, setting values to 0 if data is missing.
     """
     file_path = f"data/player_data/{player_id}_performance_details.csv"
-    print(f"Looking for performance file: {file_path}")
     if not os.path.exists(file_path):
-        print(f"File does not exist: {file_path}")
         return {
             'teams': [],
             'total_games': 0,
@@ -51,16 +42,19 @@ def read_performance_data(player_id):
             'peak_goals': 0,
             'median_disposals': 0,
             'impact_score': 0,
-            'consistency_score': 0
+            'consistency_score': 0,
+            'brownlow_available': False
         }
     try:
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)
-            teams_order = []          # List to maintain chronological order of teams
-            seen_teams = set()        # Set to track teams already encountered
-            unique_years = set()      # Set to track unique seasons
-            disposals_per_game = []   # List to track disposals per game
-            goals_per_game = []       # List to track goals per game
+            fieldnames = reader.fieldnames
+            brownlow_available = 'brownlow_votes' in fieldnames
+            teams_order = []
+            seen_teams = set()
+            unique_years = set()
+            disposals_per_game = []
+            goals_per_game = []
             total_games = 0
             total_goals = 0
             total_disposals = 0
@@ -84,8 +78,9 @@ def read_performance_data(player_id):
                 goals = int(row['goals']) if row['goals'] else 0
                 goals_per_game.append(goals)
                 total_goals += goals
-                brownlow_votes = int(row['brownlow_votes']) if row['brownlow_votes'] else 0
-                total_brownlow_votes += brownlow_votes
+                if brownlow_available:
+                    brownlow_votes = int(row['brownlow_votes']) if row['brownlow_votes'] else 0
+                    total_brownlow_votes += brownlow_votes
                 if disposals >= 20:
                     games_20_plus_disposals += 1
                 if goals >= 3:
@@ -95,8 +90,17 @@ def read_performance_data(player_id):
             peak_disposals = max(disposals_per_game) if disposals_per_game else 0
             peak_goals = max(goals_per_game) if goals_per_game else 0
             median_disposals = median(disposals_per_game) if disposals_per_game else 0
-            impact_score = (total_brownlow_votes / total_games) * 100 if total_games > 0 else 0
-            consistency_score = (games_20_plus_disposals / total_games) * 100 if total_games > 0 else 0
+            
+            # Calculate Impact Score (requires total_games > 0)
+            if total_games > 0:
+                if brownlow_available and total_brownlow_votes > 0:
+                    impact_score = (total_brownlow_votes / total_games) * 100
+                else:
+                    impact_score = total_disposals / total_games if total_disposals > 0 else 0
+                consistency_score = (games_20_plus_disposals / total_games) * 100 if games_20_plus_disposals > 0 else 0
+            else:
+                impact_score = 0
+                consistency_score = 0
             
             return {
                 'teams': teams_order,
@@ -112,10 +116,10 @@ def read_performance_data(player_id):
                 'peak_goals': peak_goals,
                 'median_disposals': median_disposals,
                 'impact_score': impact_score,
-                'consistency_score': consistency_score
+                'consistency_score': consistency_score,
+                'brownlow_available': brownlow_available
             }
     except StopIteration:
-        print(f"File is empty: {file_path}")
         return {
             'teams': [],
             'total_games': 0,
@@ -130,61 +134,97 @@ def read_performance_data(player_id):
             'peak_goals': 0,
             'median_disposals': 0,
             'impact_score': 0,
-            'consistency_score': 0
+            'consistency_score': 0,
+            'brownlow_available': False
         }
 
 def main(input_csv, output_csv):
     """
-    Process the input CSV containing player IDs, read player and performance data,
-    and generate an output CSV with summaries for each player.
+    Process the input CSV with player IDs and generate an output CSV with summaries.
     """
-    print(f"Current working directory: {os.getcwd()}")
     with open(input_csv, 'r') as infile, open(output_csv, 'w', newline='') as outfile:
         reader = csv.reader(infile)
         writer = csv.writer(outfile, quoting=csv.QUOTE_ALL)
         
-        # Write the header to the output CSV
+        # Write header
         writer.writerow(['Serial Number', 'Player Name', 'Footy Teams', 'Comment'])
-        
-        # Skip the header row in the input CSV
-        next(reader)
+        next(reader)  # Skip header row
         
         # Process each player
         for i, row in enumerate(reader, start=1):
-            player_id = row[0].lower()  # Convert to lowercase to match file names if needed
-            print(f"Processing player ID: {player_id}")
-            
-            # Read player data and performance data
+            player_id = row[0].lower()
             player_data = read_player_data(player_id)
             performance_data = read_performance_data(player_id)
             
-            # Generate summary based on available data
-            if player_data and performance_data['teams']:
+            # Generate summary
+            if player_data:
                 full_name = f"{player_data['first_name']} {player_data['last_name']}"
-                teams_str = " - ".join(performance_data['teams'])
-                summary = (
+                base_summary = (
                     f"{full_name}, born on {player_data['born_date']}, "
                     f"debuted on {player_data['debut_date']}, "
-                    f"height {player_data['height']} cm, weight {player_data['weight']} kg. "
-                    f"A true legend of the game, {full_name} had an illustrious career spanning "
-                    f"{performance_data['num_seasons']} seasons and {performance_data['total_games']} games. "
-                    f"Playing for {teams_str}, he amassed an incredible {performance_data['total_disposals']} total disposals "
-                    f"and {performance_data['total_goals']} goals. "
-                    f"His impact on the game is reflected in his {performance_data['impact_score']:.1f} Impact Score "
-                    f"and {performance_data['consistency_score']:.1f}% Consistency Score. "
-                    f"Peak performances include {performance_data['peak_disposals']} disposals and "
-                    f"{performance_data['peak_goals']} goals in a single game. "
-                    f"His consistency is evident with {performance_data['games_20_plus_disposals']} games of 20+ disposals "
-                    f"and {performance_data['games_3_plus_goals']} games with 3+ goals. "
-                    f"A true champion, he earned {performance_data['total_brownlow_votes']} Brownlow votes "
-                    f"throughout his career, cementing his status as one of the greats."
+                    f"height {player_data['height']} cm, weight {player_data['weight']} kg"
                 )
             else:
                 full_name = "Unknown"
-                teams_str = "Unknown"
-                summary = "No information available."
+                base_summary = "Unknown player"
             
-            # Write the row to the output CSV
+            if performance_data['teams']:
+                teams_str = " - ".join(performance_data['teams'])
+                summary = f"{base_summary}. A true legend of the game, {full_name} played for {teams_str}"
+                
+                # Add seasons and games if non-zero
+                if performance_data['num_seasons'] > 0 and performance_data['total_games'] > 0:
+                    summary += f" over {performance_data['num_seasons']} seasons and {performance_data['total_games']} games"
+                
+                summary += "."
+                
+                # Add total disposals and goals if non-zero
+                if performance_data['total_disposals'] > 0 or performance_data['total_goals'] > 0:
+                    summary += " He recorded"
+                    if performance_data['total_disposals'] > 0:
+                        summary += f" {performance_data['total_disposals']} total disposals"
+                    if performance_data['total_goals'] > 0:
+                        summary += f" and {performance_data['total_goals']} goals" if performance_data['total_disposals'] > 0 else f" {performance_data['total_goals']} goals"
+                    summary += "."
+                
+                # Add impact score if non-zero
+                if performance_data['impact_score'] > 0:
+                    if performance_data['brownlow_available'] and performance_data['total_brownlow_votes'] > 0:
+                        summary += f" His impact is shown by a {performance_data['impact_score']:.1f} Impact Score (based on Brownlow votes)."
+                    else:
+                        summary += f" His impact is shown by a {performance_data['impact_score']:.1f} Impact Score (based on disposals)."
+                
+                # Add consistency score if non-zero
+                if performance_data['consistency_score'] > 0:
+                    summary += f" He maintained a {performance_data['consistency_score']:.1f}% Consistency Score."
+                
+                # Add peak performances if non-zero
+                if performance_data['peak_disposals'] > 0 or performance_data['peak_goals'] > 0:
+                    summary += " Peak performances include"
+                    if performance_data['peak_disposals'] > 0:
+                        summary += f" {performance_data['peak_disposals']} disposals"
+                    if performance_data['peak_goals'] > 0:
+                        summary += f" and {performance_data['peak_goals']} goals" if performance_data['peak_disposals'] > 0 else f" {performance_data['peak_goals']} goals"
+                    summary += " in a single game."
+                
+                # Add consistency metrics if non-zero
+                if performance_data['games_20_plus_disposals'] > 0 or performance_data['games_3_plus_goals'] > 0:
+                    summary += " His consistency shines with"
+                    if performance_data['games_20_plus_disposals'] > 0:
+                        summary += f" {performance_data['games_20_plus_disposals']} games of 20+ disposals"
+                    if performance_data['games_3_plus_goals'] > 0:
+                        summary += f" and {performance_data['games_3_plus_goals']} games with 3+ goals" if performance_data['games_20_plus_disposals'] > 0 else f" {performance_data['games_3_plus_goals']} games with 3+ goals"
+                    summary += "."
+                
+                # Add Brownlow votes if available and non-zero
+                if performance_data['brownlow_available'] and performance_data['total_brownlow_votes'] > 0:
+                    summary += f" He earned {performance_data['total_brownlow_votes']} Brownlow votes, cementing his greatness."
+                else:
+                    summary += " His legacy as a great is undeniable."
+            else:
+                teams_str = "Unknown"
+                summary = f"{base_summary}. No performance data available."
+            
             writer.writerow([i, full_name, teams_str, summary])
 
 if __name__ == "__main__":
