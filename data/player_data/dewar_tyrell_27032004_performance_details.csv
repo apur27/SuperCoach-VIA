@@ -1,9 +1,12 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-West Coast,2024,1,Collingwood,10,L,43,7,3,2,9,1,1,,,,3,,3,,,,,8,,1,,,,75,2024-05-03
-West Coast,2024,2↑,Melbourne,11,W,43,1,1,1,2,,,,1,,2,,,,,,,1,,,,,,9,2024-05-10
-West Coast,2024,3↑,Adelaide,12,L,43,2,1,,2,,,,,1,1,,1,,1,,1,1,1,,,,,21,2024-05-17
-West Coast,2024,4,Gold Coast,22,W,43,5,4,4,9,2,,,2,,1,1,2,,1,,3,6,1,2,,,,74,2024-07-26
-West Coast,2024,5,North Melbourne,23,W,43,6,1,4,10,1,1,,,2,1,3,,,,,5,5,,,,1,,69,2024-08-02
-West Coast,2024,6,Carlton,24,L,43,5,4,3,8,,,,2,,1,1,2,,1,,2,6,,,,,,71,2024-08-09
-West Coast,2024,7,Geelong,25,L,43,7,5,7,14,1,,,1,1,2,1,1,,1,,4,10,,,,,,81,2024-08-16
-West Coast,2025,8,Gold Coast,2,L,43,12,2,3,15,,,,1,5,3,,6,,2,,,11,,,,,,83,2025-03-08
+West Coast,2024,1,Collingwood,10,L,43,7,3,2.0,9,1.0,1.0,,,,3,,3.0,,,,,8,,1.0,,,,75,2024-05-03
+West Coast,2024,2↑,Melbourne,11,W,43,1,1,1.0,2,,,,1.0,,2,,,,,,,1,,,,,,9,2024-05-10
+West Coast,2024,3↑,Adelaide,12,L,43,2,1,,2,,,,,1.0,1,,1.0,,1.0,,1.0,1,1.0,,,,,21,2024-05-17
+West Coast,2024,4,Gold Coast,22,W,43,5,4,4.0,9,2.0,,,2.0,,1,1.0,2.0,,1.0,,3.0,6,1.0,2.0,,,,74,2024-07-26
+West Coast,2024,5,North Melbourne,23,W,43,6,1,4.0,10,1.0,1.0,,,2.0,1,3.0,,,,,5.0,5,,,,1.0,,69,2024-08-02
+West Coast,2024,6,Carlton,24,L,43,5,4,3.0,8,,,,2.0,,1,1.0,2.0,,1.0,,2.0,6,,,,,,71,2024-08-09
+West Coast,2024,7,Geelong,25,L,43,7,5,7.0,14,1.0,,,1.0,1.0,2,1.0,1.0,,1.0,,4.0,10,,,,,,81,2024-08-16
+West Coast,2025,8,Gold Coast,2,L,43,12,2,3.0,15,,,,1.0,5.0,3,,6.0,,2.0,,,11,,,,,,83,2025-03-08
+West Coast,2025,9,Brisbane Lions,3,L,43,15,7,5,20,2,,,1,1,4,,4,,1,,5,18,,,2,1,,82,2025-03-15
+West Coast,2025,10,Fremantle,4,L,43,10,4,9,19,,,,,4,3,,6,2,1,,3,16,,,1,2,,78,2025-03-22
+West Coast,2025,11,Greater Western Sydney,5,L,43,11,2,3,14,1,2,,,1,3,1,2,,,,3,12,,,1,,,82,2025-03-29

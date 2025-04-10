@@ -2,3 +2,7 @@ datetime
 bs4
 requests
 tqdm
+pandas
+numpy
+matplotlib
+beautifulsoup4
