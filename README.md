@@ -14,10 +14,12 @@ An in-depth analysis of Australian Football League (AFL) data. This repository c
   - [🛠 Features](#features)
 - [💾 Installation](#installation)
   - [📖 Usage](#usage)
+  - [📁 Repository Structure](#repository-structure)
   - [🔍 Scraping Examples](#scraping-examples)
 - [📚 Data Guide](#data-guide)
 - [🔗 Data Sources](#data-sources)
 - [🤝 Contributing](#contributing)
+- [🎓 Learning Pointers](#learning-pointers)
 - [⚖️ License](#license)
 
 
@@ -68,6 +70,26 @@ Contributions are encouraged; don't hesitate to submit a pull request or contact
 ## Usage
 
 I regularly update the CSV data files in the **/data** directory with the latest AFL match and player data. But you can also do your own data scraping using the provided scripts in the "scripts" directory. Scripts, using the Beautiful Soup library, are available for web scraping.
+
+For up-to-date statistics in your own copy of the repository, run `player_scraper.py` and `game_scraper.py` every week. This fetches the latest player info and match results so your data stays current.
+
+
+## Repository Structure
+
+The project organizes data and scripts into several key locations:
+
+- `data/matches/` – yearly match results (`matches_<year>.csv`).
+- `data/lineups/` – team lineups by season.
+- `data/player_data/` – individual player profiles and performance details.
+- `data/top100/` – yearly and all-time top player rankings.
+- `data/era_stats.csv` – aggregate statistics for each AFL era.
+
+Important scripts include:
+
+- `player_scraper.py` – collects player data from AFL Tables using concurrent requests.
+- `game_scraper.py` – downloads match results and team lineups.
+- `analysis.py` and `era_based_statistical_analysis.py` – generate team metrics and era comparisons.
+- `top_players_comprehensive.py` – ranks players for each season and all time.
 
 
 ## Data Guide
@@ -141,6 +163,13 @@ This used to be more granular, but the data is now fully available in the reposi
 ## Contributing
 
 AFL Data Analysis thrives on collaboration! Got a novel analysis idea or data source? Open an issue or send a pull request. Your expertise is invaluable in elevating this project.
+
+## Learning Pointers
+
+- Explore the CSV layouts in the `data` directory to understand the available metrics.
+- Experiment with `top_players_comprehensive.py` by adjusting weighting schemes or era definitions.
+- Review the generated heatmaps and charts in the `charts` folder for visualization examples.
+- Try extending the scrapers or analysis scripts to incorporate new metrics or plots.
 
 ## License
 
