@@ -2674,3 +2674,11 @@ year,date,round_num,team_name,players
 2025,2025-03-15 19:35,2,Collingwood,Darcy Cameron;Jack Crisp;Josh Daicos;Nick Daicos;Jamie Elliott;Bobby Hill;Dan Houston;Jeremy Howe;Patrick Lipinski;Ned Long;Brayden Maynard;Beau McCreery;Reef McInnes;Daniel McStay;Tim Membrey;Brody Mihocek;Darcy Moore;Scott Pendlebury;Harry Perryman;Isaac Quaynor;Lachie Schultz;Steele Sidebottom;Lachlan Sullivan
 2025,2025-03-21 19:40,3,Collingwood,14;46;25;7;35;2;5;23;9;38;1;44 ↑;4;31;26 ↓;11;28;30;10;12;3;8;22;Rushed;Totals;Opposition
 2025,2025-04-03 19:30,5,Collingwood,14;25;7;35;2 ↓;5;17;23;9;38;1;44 ↑;4;31;11;28;41;30;10;12;3;8;22;Rushed;Totals;Opposition
+2025,2025-04-11 19:10,6,Collingwood,16 ↑;14;25;7;35;5 ↓;17;23;32;38;1;44;4;31;11;28;41;30;10;12;3;22;33;Rushed;Totals;Opposition
+2025,2025-04-17 19:30,7,Collingwood,16 ↑;14;46;25;7;35;2;5;17;23;32;38;1;44;4;31;11;41;30 ↓;10;12;3;22;Rushed;Totals;Opposition
+2025,2025-04-25 15:20,8,Collingwood,14;25;7;35;2;5;17;23;32;9;38;1;44;4;31;11 ↓;28;41;10;12;3;22;33 ↑;Rushed;Totals;Opposition
+2025,2025-05-03 19:35,9,Collingwood,14;46 ↓;25;7;35;2;5;17;23;32 ↑;9;1;44;4;31;28;41;30;10;12;3;8;22;Rushed;Totals;Opposition
+2025,2025-05-08 18:10,10,Collingwood,16;14;46;25;7;35;5;17;23;32;9;38;1;44;37 ↑;31;28;30;12;3;8;22 ↓;33;Totals;Opposition
+2025,2025-05-17 13:20,11,Collingwood,16;14;46 ↓;25;7;35;5;17;23;32;9;38;1 ↑;44;4;31;28;41;10;12;3;22;33;Rushed;Totals;Opposition
+2025,2025-05-24 19:35,12,Collingwood,16;14;46;25;7;35;5;17;9;32;9;38;1;44;37 ↑;4 ↓;31;28;41;15;12;3;33;Rushed;Totals;Opposition
+2025,2025-05-30 19:40,13,Collingwood,16;14;25;7;35;5;17;23;32;9;38;1 ↓;44;31;28;41;30;10;12;3;8;22;33 ↑;Rushed;Totals;Opposition

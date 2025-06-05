@@ -1,2 +1,9 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
 Carlton,2025,1,Collingwood,5,L,38,9,5,1,10,,3,,,1,3,1,3,1,1,,4,6,,1,,,,68,2025-03-29
+Carlton,2025,2,West Coast,6,W,38,9,6,6,15,1,1,,2,,,,3,,1,,3,12,,5,1,,2,84,2025-04-05
+Carlton,2025,3,North Melbourne,7,W,38,10,1,2,12,3,1,,5,,2,,3,2,2,,5,8,,1,3,,1,74,2025-04-12
+Carlton,2025,4,Geelong,8,W,38,4,3,5,9,1,3,,2,,1,,,,,,3,6,,2,,,,73,2025-04-19
+Carlton,2025,5,Adelaide,9,L,38,5,2,4,9,,,,,2,2,1,,,,,3,6,,,,,,82,2025-04-26
+Carlton,2025,6,St Kilda,10,W,38,5,1,3,8,1,,,2,1,2,,3,,1,,3,5,,,1,,1,79,2025-05-03
+Carlton,2025,7,Sydney,11,L,38,3,,3,6,,,,1,,,,2,,1,,3,2,,,,,,65,2025-05-10
+Carlton,2025,8,Greater Western Sydney,12,L,38,11,4,2,13,1,1,,,,3,,5,,1,,4,11,,2,1,,1,76,2025-05-17

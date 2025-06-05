@@ -1000,3 +1000,11 @@ year,date,round_num,team_name,players
 2025,2025-03-15 16:15,2,Sydney,Joel Amartey;Riley Bice;Nick Blakey;Braeden Campbell;Oliver Florent;Brodie Grundy;Joel Hamling;Tom Hanily;Will Hayward;Isaac Heeney;James Jordon;Jake Lloyd;Tom McCartin;Justin McInerney;Lewis Melican;Tom Papley;Ben Paton;Dane Rampe;Matt Roberts;James Rowbottom;Chad Warner;Corey Warner;Sam Wicks
 2025,2025-03-23 15:10,3,Sydney,36;26;22;16;13;4 ↓;29;40;9;5;17;19;44;30;2;11;24;34;8;12 ↑;1;37;15;Rushed;Totals;Opposition
 2025,2025-04-05 19:35,5,Sydney,36;26;22;16;33;13;4;29;40;9;5;17;19;44;30;2;24;34;8;12 ↑;1 ↓;37;15;Totals;Opposition
+2025,2025-04-11 19:10,6,Sydney,36 ↓;26;22;16;33;13;4;29;40;9;5;17;19;44;30;2;24;34;8;12 ↑;1;37;15;Totals;Opposition
+2025,2025-04-20 15:20,7,Sydney,26;22;16;33;13;10 ↑;4;29;40 ↓;9;5;17;44;30;27;2;43;24;34;8;1;37;15;Rushed;Totals;Opposition
+2025,2025-04-27 13:15,8,Sydney,26;22;16;33;13;10;4;40 ↑;9;5;17;19;44;30;27;2;43;25 ↓;24;34;8;1;37;Totals;Opposition
+2025,2025-05-04 13:10,9,Sydney,26;22;16;33;13;10;4;29;9;5;17;44;30;27;2;43;24;34;8;12 ↑;1;37 ↓;15;Rushed;Totals;Opposition
+2025,2025-05-10 16:15,10,Sydney,26;22;16;33;13;10;4;29;9;5;17;44;30;27;2;25 ↓;24;34;8;12 ↑;1;37;15;Rushed;Totals;Opposition
+2025,2025-05-16 19:40,11,Sydney,36;26;22;16;33;13 ↑;10 ↓;4;29;9;5;17;19;44;30;27;24;34;8;12;1;37;15;Totals;Opposition
+2025,2025-05-25 15:20,12,Sydney,3 ↑;26;22;16;33;13;4;29;9;5;17;19;44;30;2;14;24;34;8;12;1;37;15 ↓;Rushed;Totals;Opposition
+2025,2025-05-31 19:35,13,Sydney,3;26 ↓;22;16;33 ↑;4;29;9;5;17;19;44;30;27;2;43;35;24;34;8;12;1;37;Rushed;Totals;Opposition
