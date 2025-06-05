@@ -49,7 +49,7 @@ class PlayerScraper:
         'https://afltables.com/afl/stats/alltime/stkilda.html',
         'https://afltables.com/afl/stats/alltime/swans.html',      # Sydney
         'https://afltables.com/afl/stats/alltime/westcoast.html',
-        'https://afltables.com/afl/stats/alltime/bullldogs.html',  # Western Bulldogs
+        'https://afltables.com/afl/stats/alltime/bulldogs.html',  # Western Bulldogs
         'https://afltables.com/afl/stats/alltime/university.html'
     ]
     PLAYER_COL_TITLES: List[str] = [
