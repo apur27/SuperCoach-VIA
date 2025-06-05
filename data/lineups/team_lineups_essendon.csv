@@ -2589,3 +2589,11 @@ year,date,round_num,team_name,players
 2025,2025-03-14 19:40,2,Essendon,Nick Bryan;Nate Caddy;Jye Caldwell;Sam Draper;Sam Durham;Xavier Duursma;Jade Gresham;Ben Hobbs;Harry Jones;Isaac Kako;Kyle Langford;Nic Martin;Andrew McGrath;Ben McKay;Zach Merrett;Archie Perkins;Jaxon Prior;Mason Redman;Zach Reid;Jordan Ridley;Archie Roberts;Dylan Shiel;Elijah Tsatas
 2025,2025-03-22 13:20,3,Essendon,24;30 ↓;6;2;22;28;45;11;8;23;10;37;1;32;29 ↑;7;16;25;27;31;21;9;5;Rushed;Totals;Opposition
 2025,2025-03-27 19:30,4,Essendon,24;30;6;2;22;28;45 ↓;41 ↑;11;8;23;10;37;1;32;29;7;25;27;31;14;21;9;Rushed;Totals;Opposition
+2025,2025-04-12 19:05,6,Essendon,24 ↓;30;2;22;28;41 ↑;11;8;23;10;37;1;32;29;7;16;25;27;31;14;21;12;9;Rushed;Totals;Opposition
+2025,2025-04-18 16:10,7,Essendon,30;2;22;28;41 ↑;11 ↓;8;23;10;37;1;32;29;7;16;25;27;31;14;21;12;9;20;Rushed;Totals;Opposition
+2025,2025-04-25 15:20,8,Essendon,30;22;28;17;11;8;23 ↓;10;4;37;1;32;29 ↑;7;16;25;27;31;14;21;12;9;20;Rushed;Totals;Opposition
+2025,2025-05-01 19:30,9,Essendon,30;22;28;17;11;8;23;10;4;37;1;32;29 ↑;7;16;25;27;31;14 ↓;21;12;5;20;Rushed;Totals;Opposition
+2025,2025-05-10 16:15,10,Essendon,30;6;44;22;28;41;17;18 ↓;8;10;4;37;1;32;7;16;25;27;31;21;12;9 ↑;20;Rushed;Totals;Opposition
+2025,2025-05-17 19:35,11,Essendon,30;6;44;22;28;41 ↓;17;8;10;4;15;37;1;32;7;16;25;27;31;21;12;9 ↑;20;Totals;Opposition
+2025,2025-05-23 19:40,12,Essendon,30;6;36;22;28;17;11;35;8 ↑;10;4 ↓;15;37;1;32;7;16;25;27;31;21;12;20;Rushed;Totals;Opposition
+2025,2025-05-29 19:30,13,Essendon,30;6;36;44;22;28;17;11;35;8;40 ↓;10;15;37;1;7;16;25;27;21;12;5 ↑;20;Rushed;Totals;Opposition

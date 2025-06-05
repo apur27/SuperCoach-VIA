@@ -1,4 +1,12 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Melbourne,2025,1↑,Greater Western Sydney,2,L,19,3,1,2,5,,,,,,1,,,,,,2,2,,,,,,21,2025-03-08
-Melbourne,2025,2,Gold Coast,4,L,19,10,3,16,26,1,1,,1,1,5,6,5,2,3,,15,12,,,,,2,66,2025-03-22
-Melbourne,2025,3,Geelong,5,L,19,4,,7,11,1,,,1,1,1,3,2,,,,6,5,,,1,,,63,2025-03-29
+Melbourne,2025,1↑,Greater Western Sydney,2,L,19,3,1.0,2,5,,,,,,1,,,,,,2.0,2,,,,,,21,2025-03-08
+Melbourne,2025,2,Gold Coast,4,L,19,10,3.0,16,26,1.0,1.0,,1.0,1.0,5,6.0,5.0,2.0,3.0,,15.0,12,,,,,2.0,66,2025-03-22
+Melbourne,2025,3,Geelong,5,L,19,4,,7,11,1.0,,,1.0,1.0,1,3.0,2.0,,,,6.0,5,,,1.0,,,63,2025-03-29
+Melbourne,2025,4,Essendon,6,L,19,11,5.0,12,23,,,,1.0,1.0,2,3.0,5.0,1.0,,,8.0,15,,,,,,73,2025-04-05
+Melbourne,2025,5,Fremantle,7,W,19,10,2.0,7,17,2.0,,,2.0,1.0,5,,3.0,,2.0,,5.0,13,,,1.0,2.0,1.0,86,2025-04-12
+Melbourne,2025,6,Richmond,8,W,19,11,4.0,10,21,,1.0,,2.0,1.0,3,2.0,4.0,,,,8.0,13,,1.0,1.0,,,78,2025-04-19
+Melbourne,2025,7,West Coast,9,W,19,14,4.0,11,25,,1.0,,,4.0,4,5.0,3.0,1.0,,,9.0,15,,,2.0,,,78,2025-04-26
+Melbourne,2025,8,Hawthorn,10,L,19,16,6.0,6,22,3.0,,,1.0,3.0,2,2.0,4.0,1.0,2.0,,7.0,15,1.0,1.0,1.0,,,82,2025-05-03
+Melbourne,2025,9,Brisbane Lions,11,W,19,11,7.0,8,19,,,,1.0,2.0,2,,4.0,,,,,17,,,1.0,,,79,2025-05-10
+Melbourne,2025,10,Sydney,12,W,19,11,3.0,10,21,,1.0,,1.0,2.0,4,3.0,2.0,,,,9.0,12,,,1.0,1.0,1.0,85,2025-05-17
+Melbourne,2025,11,St Kilda,13,L,19,6,2,4,10,,,,1,,5,1,1,,,,5,6,,,1,,,73,2025-05-24

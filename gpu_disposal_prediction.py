@@ -1,342 +1,385 @@
-import os
-import pandas as pd
+import sys
 import numpy as np
-from typing import Dict, List, Tuple, Optional
-from datetime import datetime, timedelta
-import logging
-from cuml.ensemble import RandomForestRegressor as cuRFRegressor
-from cuml.linear_model import Ridge as cuRidge
-from xgboost import XGBRegressor
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-import joblib
-import warnings
-warnings.filterwarnings('ignore')
+import pandas as pd
+import cudf
+import cupy as cp
+from datetime import datetime
+from pathlib import Path
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.model_selection import cross_val_score
 
+# Data types for DataFrame columns
+DTYPES = {
+    'player': 'category',
+    'year': 'Int16',
+    'round': 'category',
+    'date': 'datetime64[ns]',
+    'team': 'category',
+    'opponent': 'category',
+    'venue': 'category',
+    'disposals': 'Int16',
+    'kicks': 'Int16',
+    'handballs': 'Int16',
+    'goals': 'Int16',
+    'behinds': 'Int16',
+    'hitouts': 'Int16',
+    'tackles': 'Int16',
+    'rebound_50s': 'Int16',
+    'inside_50s': 'Int16',
+    'clearances': 'Int16',
+    'clangers': 'Int16',
+    'frees_for': 'Int16',
+    'frees_against': 'Int16',
+    'brownlow_votes': 'Int8',
+    'contested_possessions': 'Int16',
+    'uncontested_possessions': 'Int16',
+    'contested_marks': 'Int16',
+    'marks_inside_50': 'Int16',
+    'one_percenters': 'Int16',
+    'bounces': 'Int16',
+    'goal_assists': 'Int16',
+    'percentage_time_played': 'float32'
+}
 
-class DisposalPredictionModel:
-    """Predict AFL player disposals using GPU-accelerated models."""
+NA_VALUES = ['NA', 'N/A', '', 'nan']
 
-    def __init__(self, data_dir: str = "./data/player_data", model_dir: str = "./models"):
-        self.data_dir = data_dir
-        self.model_dir = model_dir
-        self.models: Dict[str, object] = {}
-        self.scalers: Dict[str, object] = {}
-        self.encoders: Dict[str, LabelEncoder] = {}
-        self.feature_columns: List[str] = []
-        self.target_column = 'disposals'
-        os.makedirs(model_dir, exist_ok=True)
+def extract_dob_and_name(filepath):
+    """Extract player name and date of birth from filename.
 
-        self.model_configs = {
-            'random_forest': {
-                'model': cuRFRegressor(random_state=42),
-                'params': {
-                    'n_estimators': [100, 200, 300],
-                    'max_depth': [10, 20, None],
-                    'min_samples_split': [2, 5, 10],
-                    'min_samples_leaf': [1, 2, 4]
-                }
-            },
-            'gradient_boosting': {
-                'model': XGBRegressor(random_state=42, tree_method='gpu_hist'),
-                'params': {
-                    'n_estimators': [100, 200],
-                    'learning_rate': [0.05, 0.1, 0.15],
-                    'max_depth': [3, 5, 7],
-                    'subsample': [0.8, 0.9, 1.0]
-                }
-            },
-            'ridge_regression': {
-                'model': cuRidge(random_state=42),
-                'params': {
-                    'alpha': [0.1, 1.0, 10.0, 100.0],
-                    'solver': ['eig', 'svd']
-                }
-            }
+    Args:
+        filepath (Path): Path to the player's CSV file.
+
+    Returns:
+        tuple: (player_name, dob) where dob is a datetime object.
+    """
+    parts = filepath.stem.split('_')
+    player_name = ' '.join(parts[:-2]).title()
+    dob_str = '_'.join(parts[-2:])
+    dob = pd.to_datetime(dob_str, format='%Y_%m_%d', errors='coerce')
+    return player_name, dob
+
+class AFLDisposalPredictor:
+    def __init__(self, data_dir: str, target_year: int = 2025, debug_mode: bool = False):
+        """Initialize the AFL Disposal Predictor.
+
+        Args:
+            data_dir (str): Directory containing player data CSV files.
+            target_year (int): Year for which to make predictions.
+            debug_mode (bool): Enable debug output.
+        """
+        self.data_dir = Path(data_dir)
+        self.target_year = target_year
+        self.debug_mode = debug_mode
+        self.models = {
+            'linear': LinearRegression(),
+            'ridge': Ridge(alpha=1.0),
+            'lasso': Lasso(alpha=0.1)
         }
-        logging.info("DisposalPredictionModel initialised")
+        self.scaler = StandardScaler()
+        self.feature_columns = [
+            'rolling_avg_disposals_5', 'rolling_avg_kicks_5', 'rolling_avg_handballs_5',
+            'rolling_avg_tackles_5', 'rolling_avg_clearances_5', 'rolling_avg_inside_50s_5'
+        ]
+        self.best_name = None
 
-    def validate_and_clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
-        logging.info("Validating and cleaning data")
-        for col in df.columns:
-            if df[col].dtype == 'object':
-                df[col] = df[col].astype(str).str.replace(r'[\u2191\u2193\u2192\u2190]', '', regex=True)
-                df[col] = df[col].str.replace(r'[^\w\s.-]', '', regex=True)
+    def load_player(self, filepath: Path) -> pd.DataFrame:
+        """Load and preprocess player data from a CSV file.
+
+        Args:
+            filepath (Path): Path to the player's CSV file.
+
+        Returns:
+            pd.DataFrame: Preprocessed player data.
+        """
+        df = pd.read_csv(filepath, na_values=NA_VALUES, dtype=str)
+        int_columns = [col for col, dtype in DTYPES.items() if 'Int' in dtype]
+        for col in int_columns:
+            if col in df.columns:
+                df[col] = df[col].apply(lambda x: np.nan if pd.isna(x) else int(''.join(filter(str.isdigit, str(x)))) if ''.join(filter(str.isdigit, str(x))) else np.nan)
+        for col, dtype in DTYPES.items():
+            if col in df.columns:
+                if dtype in ['Int8', 'Int16', 'Int32', 'Int64']:
+                    df[col] = pd.to_numeric(df[col], errors='coerce').astype(dtype)
+                elif dtype == 'category':
+                    df[col] = df[col].astype('category')
+                elif dtype == 'datetime64[ns]':
+                    df[col] = pd.to_datetime(df[col], errors='coerce')
+                else:
+                    df[col] = pd.to_numeric(df[col], errors='coerce').astype(dtype)
+        player_name, _ = extract_dob_and_name(filepath)
+        df['player'] = player_name
         return df
+
+    def validate_and_clean_data(self, gdf: cudf.DataFrame) -> cudf.DataFrame:
+        """Validate and clean the data.
+
+        Args:
+            gdf (cudf.DataFrame): DataFrame to clean.
+
+        Returns:
+            cudf.DataFrame: Cleaned DataFrame.
+        """
+        required_columns = {'year', 'round', 'disposals'}
+        missing_cols = required_columns - set(gdf.columns)
+        if missing_cols:
+            print(f"⚠️ Missing columns: {missing_cols}")
+            return cudf.DataFrame()
+        gdf = gdf[gdf['year'].notnull() & gdf['disposals'].notnull()]
+        return gdf
 
     def load_and_prepare_data(self) -> pd.DataFrame:
-        logging.info("Loading player performance data")
-        all_data: List[pd.DataFrame] = []
-        current_date = datetime.now()
-        three_years_ago = current_date - timedelta(days=1095)
-        for filename in os.listdir(self.data_dir):
-            if filename.endswith("_performance_details.csv"):
-                filepath = os.path.join(self.data_dir, filename)
-                try:
-                    player_id = "_".join(filename.split("_")[:-2])
-                    df = pd.read_csv(filepath, low_memory=False)
-                    if df.empty or 'disposals' not in df.columns:
-                        continue
-                    df = self.validate_and_clean_data(df)
-                    if 'date' in df.columns:
-                        df['date'] = pd.to_datetime(df['date'], errors='coerce')
-                        df.dropna(subset=['date'], inplace=True)
-                        recent_games = df[df['date'] >= three_years_ago]
-                        if recent_games.empty:
-                            continue
-                        df['player_id'] = player_id
-                        df['year'] = df['date'].dt.year
-                        df['month'] = df['date'].dt.month
-                        df['day_of_year'] = df['date'].dt.dayofyear
-                    all_data.append(df)
-                except Exception as exc:
-                    logging.warning(f"Error processing {filename}: {exc}")
-        if not all_data:
-            raise ValueError("No valid player data found")
-        combined = pd.concat(all_data, ignore_index=True)
-        return self._engineer_features(combined)
+        """Load and concatenate data from all player files.
+
+        Returns:
+            pd.DataFrame: Combined DataFrame of all player data.
+        """
+        all_dfs = []
+        birth_year_threshold = self.target_year - 40
+        for filepath in self.data_dir.glob('*.csv'):
+            if "_performance_details" not in filepath.name:
+                continue
+            player_name, dob = extract_dob_and_name(filepath)
+            if dob.year <= birth_year_threshold:
+                continue
+            df = self.load_player(filepath)
+            if not df.empty:
+                all_dfs.append(df)
+        if not all_dfs:
+            print("⚠️ No valid data loaded")
+            return pd.DataFrame()
+        return pd.concat(all_dfs, ignore_index=True)
 
     def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        logging.info("Engineering features")
-        numeric_columns = [
-            'kicks', 'marks', 'handballs', 'disposals', 'goals', 'behinds',
-            'hit_outs', 'tackles', 'rebound_50s', 'inside_50s', 'clearances',
-            'clangers', 'free_kicks_for', 'free_kicks_against', 'brownlow_votes',
-            'contested_possessions', 'uncontested_possessions', 'contested_marks',
-            'marks_inside_50', 'one_percenters', 'bounces', 'goal_assist'
-        ]
-        for col in numeric_columns:
-            if col in df.columns:
-                df[col] = df[col].astype(str).str.replace(r'[^\d.-]', '', regex=True)
-                df[col] = df[col].replace('', '0')
-                df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
-        df = df[df['disposals'] > 0].copy()
-        df.sort_values(['player_id', 'date'], inplace=True)
-        df.reset_index(drop=True, inplace=True)
-        for window in [3, 5, 10]:
-            for stat in ['kicks', 'handballs', 'marks', 'tackles']:
-                if stat in df.columns:
-                    df[f'{stat}_avg_{window}'] = df.groupby('player_id')[stat].transform(
-                        lambda x: x.rolling(window=window, min_periods=1).mean()
-                    )
-        if 'kicks' in df.columns and 'handballs' in df.columns:
-            df['kick_handball_ratio'] = df['kicks'] / (df['handballs'] + 1)
-        if 'contested_possessions' in df.columns and 'uncontested_possessions' in df.columns:
-            total_poss = df['contested_possessions'] + df['uncontested_possessions']
-            df['contested_possession_rate'] = df['contested_possessions'] / (total_poss + 1)
-        if 'hit_outs' in df.columns:
-            df['likely_ruck'] = (df['hit_outs'] > 10).astype(int)
-        if 'goals' in df.columns:
-            df['likely_forward'] = (df['goals'] > 1).astype(int)
-        if 'rebound_50s' in df.columns:
-            df['likely_defender'] = (df['rebound_50s'] > 2).astype(int)
-        if 'year' in df.columns:
-            df['games_this_season'] = df.groupby(['player_id', 'year']).cumcount() + 1
-        df['career_games'] = df.groupby('player_id').cumcount() + 1
-        df['recent_form_disposals'] = df.groupby('player_id')['disposals'].transform(
-            lambda x: x.rolling(window=5, min_periods=1).mean().shift(1)
-        )
+        """Engineer features for training.
+
+        Args:
+            df (pd.DataFrame): Input DataFrame.
+
+        Returns:
+            pd.DataFrame: DataFrame with engineered features.
+        """
+        df = df.sort_values(['year', 'round'])
+        df['rolling_avg_disposals_5'] = df['disposals'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_kicks_5'] = df['kicks'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_handballs_5'] = df['handballs'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_tackles_5'] = df['tackles'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_clearances_5'] = df['clearances'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_inside_50s_5'] = df['inside_50s'].rolling(window=5, min_periods=1).mean().shift(1)
+        return df.dropna(subset=self.feature_columns + ['disposals'])
+
+    def _engineer_features_for_prediction(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Engineer features for prediction.
+
+        Args:
+            df (pd.DataFrame): Input DataFrame.
+
+        Returns:
+            pd.DataFrame: DataFrame with engineered features.
+        """
+        df = df.sort_values(['year', 'round'])
+        df['rolling_avg_disposals_5'] = df['disposals'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_kicks_5'] = df['kicks'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_handballs_5'] = df['handballs'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_tackles_5'] = df['tackles'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_clearances_5'] = df['clearances'].rolling(window=5, min_periods=1).mean().shift(1)
+        df['rolling_avg_inside_50s_5'] = df['inside_50s'].rolling(window=5, min_periods=1).mean().shift(1)
         return df
 
-    def prepare_features_and_target(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
-        exclude_cols = ['disposals', 'player_id', 'date', 'team', 'opponent', 'round', 'result']
-        feature_cols = [c for c in df.columns if c not in exclude_cols]
-        categorical = ['year', 'month']
-        for col in categorical:
-            if col in feature_cols:
-                if col not in self.encoders:
-                    self.encoders[col] = LabelEncoder()
-                    df[col] = self.encoders[col].fit_transform(df[col].astype(str))
-                else:
-                    df[col] = self.encoders[col].transform(df[col].astype(str))
-        X = df[feature_cols].copy()
-        y = df[self.target_column].copy()
-        for col in X.columns:
-            if X[col].dtype == 'object':
-                X[col] = X[col].astype(str).str.replace(r'[^\d.-]', '', regex=True)
-                X[col] = X[col].replace('', '0')
-                X[col] = pd.to_numeric(X[col], errors='coerce')
-        numeric_cols = X.select_dtypes(include=[np.number]).columns
-        X[numeric_cols] = X[numeric_cols].fillna(X[numeric_cols].median())
-        X = X.fillna(0)
-        self.feature_columns = feature_cols
+    def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
+        """Prepare features and target for training.
+
+        Args:
+            df (pd.DataFrame): Input DataFrame.
+
+        Returns:
+            tuple: (X, y) where X is features and y is target.
+        """
+        historical_data = df[df['year'] < self.target_year]
+        if historical_data.empty:
+            print("⚠️ No historical data available")
+            return None, None
+        engineered_df = self._engineer_features(historical_data)
+        X = engineered_df[self.feature_columns].fillna(0)
+        y = engineered_df['disposals']
         return X, y
 
-    def train_models(self, X: pd.DataFrame, y: pd.Series) -> Dict[str, Dict]:
-        logging.info("Training models")
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        self.scalers['standard'] = StandardScaler()
-        X_train_scaled = self.scalers['standard'].fit_transform(X_train)
-        X_test_scaled = self.scalers['standard'].transform(X_test)
-        results: Dict[str, Dict] = {}
-        for name, config in self.model_configs.items():
-            try:
-                grid = GridSearchCV(config['model'], config['params'], cv=5, scoring='neg_mean_squared_error', n_jobs=-1)
-                if 'ridge' in name:
-                    grid.fit(X_train_scaled, y_train)
-                    preds = grid.predict(X_test_scaled)
-                else:
-                    grid.fit(X_train, y_train)
-                    preds = grid.predict(X_test)
-                mse = mean_squared_error(y_test, preds)
-                rmse = np.sqrt(mse)
-                mae = mean_absolute_error(y_test, preds)
-                r2 = r2_score(y_test, preds)
-                self.models[name] = grid.best_estimator_
-                results[name] = {
-                    'model': grid.best_estimator_,
-                    'best_params': grid.best_params_,
-                    'cv_score': -grid.best_score_,
-                    'test_rmse': rmse,
-                    'test_mae': mae,
-                    'test_r2': r2,
-                    'feature_importance': self._get_feature_importance(grid.best_estimator_, name)
-                }
-                logging.info(f"{name} - RMSE: {rmse:.3f}, R2: {r2:.3f}")
-            except Exception as exc:
-                logging.error(f"Error training {name}: {exc}")
-        return results
+    def train_models(self, X, y) -> dict:
+        """Train models and evaluate with cross-validation.
 
-    def _get_feature_importance(self, model, name: str) -> Optional[pd.Series]:
-        try:
-            if hasattr(model, 'feature_importances_'):
-                return pd.Series(model.feature_importances_, index=self.feature_columns)
-            if hasattr(model, 'coef_'):
-                return pd.Series(np.abs(model.coef_), index=self.feature_columns)
-            return None
-        except Exception as exc:
-            logging.warning(f"Could not extract feature importance for {name}: {exc}")
-            return None
+        Args:
+            X (pd.DataFrame): Feature matrix.
+            y (pd.Series): Target variable.
 
-    def save_models(self) -> None:
-        logging.info("Saving models")
+        Returns:
+            dict: Model names and their cross-validation scores.
+        """
+        scores = {}
+        if X is None or y is None or X.empty or y.empty:
+            print("⚠️ No data to train models")
+            return scores
         for name, model in self.models.items():
-            path = os.path.join(self.model_dir, f"{name}_disposal_model.joblib")
-            joblib.dump(model, path)
-        joblib.dump(self.scalers, os.path.join(self.model_dir, "scalers.joblib"))
-        joblib.dump(self.encoders, os.path.join(self.model_dir, "encoders.joblib"))
-        joblib.dump(self.feature_columns, os.path.join(self.model_dir, "feature_columns.joblib"))
+            X_scaled = self.scaler.fit_transform(X) if 'ridge' in name or 'lasso' in name else X
+            try:
+                cv_scores = cross_val_score(model, X_scaled, y, cv=5, scoring='neg_mean_squared_error')
+                scores[name] = cv_scores.mean()
+                if self.debug_mode:
+                    print(f"Debug: {name} CV scores: {cv_scores}")
+            except Exception as e:
+                print(f"❌ Error training {name}: {e}")
+                scores[name] = float('-inf')
+        return scores
 
-    def load_models(self) -> None:
-        logging.info("Loading models")
-        for name in self.model_configs.keys():
-            path = os.path.join(self.model_dir, f"{name}_disposal_model.joblib")
-            if os.path.exists(path):
-                self.models[name] = joblib.load(path)
-        self.scalers = joblib.load(os.path.join(self.model_dir, "scalers.joblib"))
-        self.encoders = joblib.load(os.path.join(self.model_dir, "encoders.joblib"))
-        self.feature_columns = joblib.load(os.path.join(self.model_dir, "feature_columns.joblib"))
+    def select_best_model(self, scores: dict) -> str:
+        """Select the best model based on cross-validation scores.
 
-    def predict_current_season_disposals(self, output_file: str = "./data/predicted_disposals_ranking.csv") -> pd.DataFrame:
-        logging.info("Predicting disposals for current season")
-        if not self.models:
-            raise ValueError("No trained models available")
-        best_name = self._select_best_model()
-        best_model = self.models[best_name]
-        current_year = datetime.now().year
-        predictions: List[Dict[str, object]] = []
-        for filename in os.listdir(self.data_dir):
-            if filename.endswith("_performance_details.csv"):
-                try:
-                    player_id = "_".join(filename.split("_")[:-2])
-                    filepath = os.path.join(self.data_dir, filename)
-                    df = pd.read_csv(filepath, low_memory=False)
-                    if df.empty:
-                        continue
-                    if 'date' in df.columns:
-                        df['date'] = pd.to_datetime(df['date'], errors='coerce')
-                        df.dropna(subset=['date'], inplace=True)
-                        recent_cutoff = datetime.now() - timedelta(days=730)
-                        df = df[df['date'] >= recent_cutoff]
-                    if df.empty:
-                        continue
-                    features = self._prepare_prediction_features(df, player_id, current_year)
-                    if features is not None:
-                        if 'ridge' in best_name:
-                            features_scaled = self.scalers['standard'].transform(features.reshape(1, -1))
-                            pred = best_model.predict(features_scaled)[0]
-                        else:
-                            pred = best_model.predict(features.reshape(1, -1))[0]
-                        recent_avg = df['disposals'].tail(10).mean() if 'disposals' in df.columns else 0
-                        predictions.append({
-                            'player_id': player_id,
-                            'predicted_disposals': round(pred, 2),
-                            'recent_avg_disposals': round(recent_avg, 2),
-                            'prediction_confidence': self._calculate_confidence(df),
-                            'games_analyzed': len(df),
-                            'model_used': best_name
-                        })
-                except Exception as exc:
-                    logging.warning(f"Error predicting for {filename}: {exc}")
-        ranking_df = pd.DataFrame(predictions)
-        if ranking_df.empty:
-            logging.warning("No predictions generated")
-            return ranking_df
-        ranking_df.sort_values('predicted_disposals', ascending=False, inplace=True)
-        ranking_df.reset_index(drop=True, inplace=True)
-        ranking_df['rank'] = ranking_df.index + 1
-        ranking_df['disposal_category'] = pd.cut(
-            ranking_df['predicted_disposals'],
-            bins=[0, 15, 20, 25, 30, float('inf')],
-            labels=['Low', 'Medium', 'High', 'Elite', 'Exceptional']
-        )
-        ranking_df.to_csv(output_file, index=False)
-        return ranking_df
+        Args:
+            scores (dict): Model scores.
 
-    def _select_best_model(self) -> str:
-        if 'random_forest' in self.models:
-            return 'random_forest'
-        if 'gradient_boosting' in self.models:
-            return 'gradient_boosting'
-        return next(iter(self.models))
+        Returns:
+            str: Name of the best model.
+        """
+        if not scores:
+            print("⚠️ No models trained")
+            return 'linear'
+        best_name = max(scores, key=scores.get)
+        return best_name
 
-    def _prepare_prediction_features(self, df: pd.DataFrame, player_id: str, year: int) -> Optional[np.ndarray]:
+    def predict_current_season_disposals(self, player_data: pd.DataFrame) -> pd.DataFrame:
+        """Predict disposals for the target year.
+
+        Args:
+            player_data (pd.DataFrame): Player data.
+
+        Returns:
+            pd.DataFrame: Predictions with player, round, date, and predicted disposals.
+        """
+        if player_data.empty:
+            print("⚠️ Empty player data provided")
+            return pd.DataFrame()
+        
+        temp_gdf = cudf.from_pandas(player_data)
+        temp_gdf = self.validate_and_clean_data(temp_gdf)
+        player_data = temp_gdf.to_pandas()
+        del temp_gdf
+        cp.cuda.runtime.deviceSynchronize()
+        
+        player_data = self._engineer_features_for_prediction(player_data)
+        current_season_data = player_data[player_data['year'] == self.target_year]
+        
+        if current_season_data.empty:
+            player_name = player_data['player'].iloc[0] if 'player' in player_data.columns else 'Unknown'
+            print(f"⚠️ No {self.target_year} data for {player_name}")
+            return pd.DataFrame()
+        
+        X_pred = current_season_data[self.feature_columns].fillna(0)
+        if self.best_name in ('ridge', 'lasso'):
+            X_pred = self.scaler.transform(X_pred)
+        
+        predictions = self.models[self.best_name].predict(X_pred)
+        predictions_df = current_season_data[['player', 'round', 'date']].assign(predicted_disposals=predictions)
+        return predictions_df
+
+    def get_round_number(self, round_str):
+        """Extract the numerical part from the round string.
+
+        Handles both numeric strings (e.g., '5') and 'Round N' formats.
+
+        Args:
+            round_str (str): Round identifier.
+
+        Returns:
+            int or None: Round number if valid, else None.
+        """
+        round_str = round_str.strip()  # Remove leading/trailing spaces
         try:
-            df = df.copy()
-            df['player_id'] = player_id
-            df['year'] = year
-            df['month'] = datetime.now().month
-            df['day_of_year'] = datetime.now().timetuple().tm_yday
-            df = self._engineer_features(df)
-            latest = df.iloc[-1:].copy()
-            missing = set(self.feature_columns) - set(latest.columns)
-            for feat in missing:
-                latest[feat] = 0
-            return latest[self.feature_columns].values[0]
-        except Exception as exc:
-            logging.warning(f"Error preparing features for {player_id}: {exc}")
+            if round_str.isdigit():
+                return int(round_str)
+            parts = round_str.split()
+            if len(parts) >= 2 and parts[0] == 'Round':
+                return int(parts[1])
+            else:
+                print(f"⚠️ Unexpected round format: {round_str}")
+                return None
+        except (IndexError, ValueError):
+            print(f"⚠️ Invalid round format or non-integer: {round_str}")
             return None
 
-    def _calculate_confidence(self, df: pd.DataFrame) -> float:
-        recent_games = len(df)
-        completeness = df.notna().mean().mean()
-        if 'date' in df.columns and not df.empty:
-            latest_date = pd.to_datetime(df['date']).max()
-            days_since = (datetime.now() - latest_date).days
-            recency = max(0, 1 - (days_since / 365))
+    def run(self) -> None:
+        """Run the prediction pipeline and save next round predictions."""
+        print("🚀 Starting AFL Disposal Prediction Pipeline...")
+        df = self.load_and_prepare_data()
+        X, y = self.prepare_features_and_target(df)
+        
+        scores = self.train_models(X, y)
+        self.best_name = self.select_best_model(scores)
+        
+        # Fit the chosen model on the full training data
+        if self.best_name in ('ridge', 'lasso'):
+            X_full = self.scaler.fit_transform(X)
         else:
-            recency = 0.5
-        confidence = min(1.0, (recent_games / 50) * completeness * recency)
-        return round(confidence, 3)
-
-
-def main() -> None:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    predictor = DisposalPredictionModel()
-    model_files = [f for f in os.listdir(predictor.model_dir) if f.endswith('.joblib')]
-    if model_files:
-        logging.info("Loading pre-trained models")
-        predictor.load_models()
-    else:
-        logging.info("Training new models")
-        data = predictor.load_and_prepare_data()
-        X, y = predictor.prepare_features_and_target(data)
-        predictor.train_models(X, y)
-        predictor.save_models()
-    rankings = predictor.predict_current_season_disposals()
-    print("Top predictions:\n", rankings.head(20))
-
+            X_full = X
+        self.models[self.best_name].fit(X_full, y)
+        
+        print(f"\n📊 Model Performance Summary:")
+        for name, score in scores.items():
+            print(f" {'✅' if score > -1.0 else '❌'} {name}: {score:.4f}")
+        
+        all_predictions_dfs = []
+        birth_year_threshold = self.target_year - 40
+        print(f"\n🔮 Generating predictions for {self.target_year}...")
+        
+        for filepath in self.data_dir.glob('*.csv'):
+            if "_performance_details" not in filepath.name:
+                continue
+            try:
+                player_name, dob = extract_dob_and_name(filepath)
+                if dob.year <= birth_year_threshold:
+                    continue
+                player_df = self.load_player(filepath)
+                if 'year' not in player_df.columns or not (player_df['year'] == self.target_year).any():
+                    print(f"⚠️ No {self.target_year} data for {player_name}")
+                    continue
+                player_predictions = self.predict_current_season_disposals(player_df)
+                if len(player_predictions) > 0:
+                    all_predictions_dfs.append(player_predictions)
+                    print(f"✅ Generated predictions for {player_name}")
+            except Exception as e:
+                print(f"❌ Prediction error for {filepath.name}: {e}")
+                continue
+        
+        if all_predictions_dfs:
+            all_predictions = pd.concat(all_predictions_dfs, ignore_index=True)
+            # Clean player names by removing any appended 8-digit date of birth
+            all_predictions['player'] = all_predictions['player'].str.replace(r'\s\d{8}$', '', regex=True)
+            all_predictions['round_number'] = all_predictions['round'].apply(self.get_round_number)
+            valid_predictions = all_predictions[all_predictions['round_number'].notnull()]
+            if not valid_predictions.empty:
+                next_round_number = valid_predictions['round_number'].min()
+                next_round_predictions = valid_predictions[valid_predictions['round_number'] == next_round_number]
+                next_round_predictions = next_round_predictions.sort_values(by='predicted_disposals', ascending=False)
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+                prediction_dir = Path("./data/prediction")
+                prediction_dir.mkdir(parents=True, exist_ok=True)
+                csv_path = prediction_dir / f"next_round_predictions_{timestamp}.csv"
+                # Save only 'player' and 'predicted_disposals' columns
+                next_round_predictions[['player', 'predicted_disposals']].to_csv(csv_path, index=False)
+                print(f"📄 Next round predictions saved to {csv_path}")
+            else:
+                print("⚠️ No valid round predictions generated.")
+        else:
+            print("⚠️ No predictions generated.")
+        print("\n🎉 Pipeline completed!")
 
 if __name__ == "__main__":
-    main()
+    import faulthandler
+    faulthandler.enable()
+    
+    debug_mode = "--debug" in sys.argv
+    try:
+        data_dir = "./data/player_data/"
+        predictor = AFLDisposalPredictor(data_dir, target_year=2025, debug_mode=debug_mode)
+        predictor.run()
+    except Exception as e:
+        print(f"💥 Fatal error: {e}")
+        sys.exit(1)

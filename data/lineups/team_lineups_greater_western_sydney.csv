@@ -304,3 +304,11 @@ year,date,round_num,team_name,players
 2025,2025-03-16 15:20,2,Greater Western Sydney,Lachie Ash;Toby Bedford;Callum Brown;Jack Buckley;Aaron Cadman;Finn Callaghan;Stephen Coniglio;Brent Daniels;Tom Green;Toby Greene;Max Gruzewski;Harry Himmelberg;Connor Idun;Darcy Jones;Lachlan Keeffe;Josh Kelly;James Leake;Xavier OHalloran;Conor Stone;Sam Taylor;Callan Ward;Jacob Wehr;Lachie Whitfield
 2025,2025-03-29 19:35,4,Greater Western Sydney,7;14;32;44;5;17;3;16;12;4;27;23;39;2;25;22;33;18;20;15;8 ↓;10 ↑;6;Rushed;Totals;Opposition
 2025,2025-04-06 13:10,5,Greater Western Sydney,7;14;32;46;44;5;17;16 ↓;12;4;27;23;39;2;22;33 ↑;26;18;20;15;8;10;6;Rushed;Totals;Opposition
+2025,2025-04-13 14:50,6,Greater Western Sydney,7;14;32;46 ↓;44;5;17;12;4;27;23;39;2;22;31 ↑;26;18;20;15;1;8;10;6;Rushed;Totals;Opposition
+2025,2025-04-19 15:45,7,Greater Western Sydney,7;14;32;46 ↓;44;5;17;12;4;27;39;2;22;31;33 ↑;26;18;20;15;1;8;10;6;Rushed;Totals;Opposition
+2025,2025-04-26 19:35,8,Greater Western Sydney,7;14;32;44;5;17;12;4;27;23;39;2;22;31;33 ↓;26;18;20;15;1;8 ↑;10;6;Totals;Opposition
+2025,2025-05-04 13:10,9,Greater Western Sydney,7;14 ↓;32;46;44;5;17;38;37;12;4;27;23;39;2;31;33;20 ↑;15;1;8;10;6;Rushed;Totals;Opposition
+2025,2025-05-11 15:20,10,Greater Western Sydney,29;7;32;46;44;5;17;38 ↑;37;12;4;27;23;39;31;33;26;20 ↓;15;1;8;10;6;Rushed;Totals;Opposition
+2025,2025-05-17 16:15,11,Greater Western Sydney,29;7;14;32;46;44;5;17;37;12;4;27;23;39;2;31 ↓;33;26;15;1 ↑;8;10;6;Rushed;Totals;Opposition
+2025,2025-05-24 12:35,12,Greater Western Sydney,21;29 ↓;7;14;32;46;44;5;37;12;4;27;23;39;2;33;26;24 ↑;15;1;8;10;6;Rushed;Totals;Opposition
+2025,2025-05-31 16:15,13,Greater Western Sydney,21;29;7;14;32;46;44;5;37;12;4;27;23;39;2;22;31 ↑;33;26;15;1;8 ↓;6;Rushed;Totals;Opposition

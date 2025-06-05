@@ -307,3 +307,11 @@ year,date,round_num,team_name,players
 2025,2025-03-16 15:10,2,Gold Coast,Ben Ainsworth;Noah Anderson;Charlie Ballard;Connor Budarick;Sam Clohesy;Sam Collins;Will Graham;Nick Holman;Bailey Humphrey;Joel Jeffrey;Ben King;Ben Long;Touk Miller;John Noble;Wil Powell;Ethan Read;Daniel Rioli;Jake Rogers;Matt Rowell;Alex Sexton;Bodhi Uwland;Lachie Weller;Jarrod Witts
 2025,2025-03-29 13:20,4,Gold Coast,15;1;35;33;25;3;26;7 ↓;19;40;34;22;11;2;27;20;17;29 ↑;18;32;4;14;28;Totals;Opposition
 2025,2025-04-05 12:20,5,Gold Coast,9;15;1;35;33 ↓;25;3;26;19;40;34;22;11;2;27;20;17;29 ↑;18;32;4;14;28;Totals;Opposition
+2025,2025-04-12 12:05,6,Gold Coast,9;15;1;33;25;3;26;7 ↑;19;40;34;22;11;2;27;20;17;29;18;32;4 ↓;14;28;Rushed;Totals;Opposition
+2025,2025-04-19 19:35,7,Gold Coast,9;15;1;35;25;3;26;7 ↑;19;40;34;22;11;2;27;20 ↓;17;29;18;32;4;14;28;Rushed;Totals;Opposition
+2025,2025-04-27 13:15,8,Gold Coast,9 ↓;15;1;35 ↑;25;3;26;7;19;40;34;22;11;2;27;20;17;29;18;32;4;14;28;Rushed;Totals;Opposition
+2025,2025-05-04 19:20,9,Gold Coast,9;15;1;35;25;3;26;7;19;40;34;11;2;27;20;17;29 ↑;18;24;32;4;14 ↓;28;Rushed;Totals;Opposition
+2025,2025-05-10 19:05,10,Gold Coast,9;15;1;33;25;8;3;26;7 ↓;19;40;34;22;11;2;27;17;29 ↑;41;18;32;4;28;Rushed;Totals;Opposition
+2025,2025-05-15 19:00,11,Gold Coast,9;15;1;33;25;8;3;7;19;40;34;22;11;21 ↓;2;27;17;41;18;24 ↑;32;4;28;Rushed;Totals;Opposition
+2025,2025-05-25 16:40,12,Gold Coast,9;15;1;33;25;8;3;7;19;40;34;22;11;2;27;20 ↓;17;41 ↑;18;24;32;4;28;Rushed;Totals;Opposition
+2025,2025-05-31 13:20,13,Gold Coast,9;15;1;33;25;8;3;7;19;40;34;30 ↓;22;11;21;2;27;17;18;24 ↑;32;4;28;Rushed;Totals;Opposition
