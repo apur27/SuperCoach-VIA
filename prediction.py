@@ -38,7 +38,8 @@ DTYPES = {
     'one_percenters': 'Int16',
     'bounces': 'Int16',
     'goal_assists': 'Int16',
-    'percentage_time_played': 'float32'
+    'percentage_time_played': 'float32',
+    'cba_percent': 'float32'  # Added for role context
 }
 
 NA_VALUES = ['NA', 'N/A', '', 'nan']
@@ -93,7 +94,13 @@ class AFLDisposalPredictor:
         self.models = {
             'hgb_poisson': make_pipeline(
                 StandardScaler(),
-                HistGradientBoostingRegressor(loss='poisson', max_depth=3, learning_rate=0.05, random_state=42)
+                HistGradientBoostingRegressor(
+                    loss='poisson',
+                    max_depth=4,
+                    learning_rate=0.03,
+                    max_leaf_nodes=63,
+                    random_state=42
+                )
             )
         }
         self.feature_columns = [
@@ -101,6 +108,7 @@ class AFLDisposalPredictor:
             'rolling_avg_tackles_5', 'rolling_avg_clearances_5', 'rolling_avg_inside_50s_5'
         ]
         self.best_name = None
+        self.training_feature_columns = None  # To store training features
 
     def load_player(self, filepath: Path) -> pd.DataFrame:
         """Load and preprocess player data from a CSV file with robust error handling."""
@@ -141,6 +149,10 @@ class AFLDisposalPredictor:
             print(f"❌ Error in data type conversion for {filepath.name}: {e}")
             return pd.DataFrame()
         
+        # Add venue and opponent dummies if columns exist
+        dummy_cols = [col for col in ['venue', 'opponent'] if col in df.columns]
+        if dummy_cols:
+            df = pd.get_dummies(df, columns=dummy_cols, drop_first=True)
         return df
 
     def validate_and_clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -212,6 +224,15 @@ class AFLDisposalPredictor:
             print("⚠️ No historical data available")
             return None, None
         engineered_df = self._engineer_features(historical_data)
+        # Add extra features if available
+        extra_feats = ['cba_percent', 'percentage_time_played']
+        available_extra = [feat for feat in extra_feats if feat in engineered_df.columns]
+        self.feature_columns += available_extra
+        # Add venue and opponent dummies to features
+        dummy_cols = [c for c in engineered_df.columns if c.startswith(('venue_', 'opponent_'))]
+        self.feature_columns += dummy_cols
+        # Store the training feature columns
+        self.training_feature_columns = self.feature_columns.copy()
         X = engineered_df[self.feature_columns]
         y = engineered_df['disposals']
         return X, y
@@ -256,9 +277,20 @@ class AFLDisposalPredictor:
             print(f"⚠️ No {self.target_year} data for {player_name}")
             return pd.DataFrame()
         
-        X_pred = current_season_data[self.feature_columns].fillna(0)
+        # Add venue and opponent dummies if columns exist
+        dummy_cols = [col for col in ['venue', 'opponent'] if col in current_season_data.columns]
+        if dummy_cols:
+            current_season_data = pd.get_dummies(current_season_data, columns=dummy_cols, drop_first=True)
+        
+        # Align prediction data with training feature columns
+        for col in self.training_feature_columns:
+            if col not in current_season_data.columns:
+                current_season_data[col] = 0
+        
+        # Use only the training feature columns for prediction
+        X_pred = current_season_data[self.training_feature_columns].fillna(0)
         predictions = self.models[self.best_name].predict(X_pred)
-        predictions = np.clip(predictions, 0, 40)
+        predictions = np.clip(predictions, 0, 45)
         predictions_df = current_season_data[['player', 'round', 'date']].assign(predicted_disposals=predictions)
         return predictions_df
 
@@ -336,7 +368,6 @@ class AFLDisposalPredictor:
                         .copy()
                     )
                     
-                    # Select the earliest game per player in 2025 (no date restriction)
                     next_game_predictions = (
                         valid_predictions
                         .sort_values('date')
