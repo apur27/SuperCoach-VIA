@@ -104,8 +104,8 @@ class AFLDisposalPredictor:
             )
         }
         self.feature_columns = [
-            'rolling_avg_disposals_5', 'rolling_avg_kicks_5', 'rolling_avg_handballs_5',
-            'rolling_avg_tackles_5', 'rolling_avg_clearances_5', 'rolling_avg_inside_50s_5'
+            'rolling_avg_disposals_2', 'rolling_avg_kicks_2', 'rolling_avg_handballs_2',
+            'rolling_avg_tackles_2', 'rolling_avg_clearances_2', 'rolling_avg_inside_50s_2'
         ]
         self.best_name = None
         self.training_feature_columns = None  # To store training features
@@ -194,10 +194,10 @@ class AFLDisposalPredictor:
         return pd.concat(all_dfs, ignore_index=True)
 
     def _add_rolling(self, df, col):
-        """Calculate rolling averages, resetting each season with error handling."""
+        """Calculate rolling averages using a simple moving average (SMA) with a window of 2, resetting each season."""
         try:
             return df.groupby('year')[col].transform(
-                lambda s: s.ewm(span=5, adjust=False, min_periods=1).mean().shift(1)
+                lambda s: s.rolling(window=2, min_periods=1).mean().shift(1)
             )
         except Exception as e:
             print(f"❌ Rolling average calculation failed for {col}: {e}")
@@ -207,14 +207,14 @@ class AFLDisposalPredictor:
         """Engineer features for training, resetting rolling averages per season."""
         df = df.sort_values(['year', 'round'])
         for col in ['disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s']:
-            df[f'rolling_avg_{col}_5'] = self._add_rolling(df, col)
-        return df.dropna(subset=self.feature_columns + ['disposals'])
+            df[f'rolling_avg_{col}_2'] = self._add_rolling(df, col)  # Use window=2 for SMA
+        return df.dropna(subset=[f'rolling_avg_{col}_2' for col in ['disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s']] + ['disposals'])
 
     def _engineer_features_for_prediction(self, df: pd.DataFrame) -> pd.DataFrame:
         """Engineer features for prediction, resetting rolling averages per season."""
         df = df.sort_values(['year', 'round'])
         for col in ['disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s']:
-            df[f'rolling_avg_{col}_5'] = self._add_rolling(df, col)
+            df[f'rolling_avg_{col}_2'] = self._add_rolling(df, col)  # Use window=2 for SMA
         return df
 
     def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
@@ -224,6 +224,11 @@ class AFLDisposalPredictor:
             print("⚠️ No historical data available")
             return None, None
         engineered_df = self._engineer_features(historical_data)
+        # Update feature columns to use rolling_avg_{col}_2
+        self.feature_columns = [
+            'rolling_avg_disposals_2', 'rolling_avg_kicks_2', 'rolling_avg_handballs_2',
+            'rolling_avg_tackles_2', 'rolling_avg_clearances_2', 'rolling_avg_inside_50s_2'
+        ]
         # Add extra features if available
         extra_feats = ['cba_percent', 'percentage_time_played']
         available_extra = [feat for feat in extra_feats if feat in engineered_df.columns]
@@ -282,13 +287,9 @@ class AFLDisposalPredictor:
         if dummy_cols:
             current_season_data = pd.get_dummies(current_season_data, columns=dummy_cols, drop_first=True)
         
-        # Align prediction data with training feature columns
-        for col in self.training_feature_columns:
-            if col not in current_season_data.columns:
-                current_season_data[col] = 0
+        # Create X_pred by reindexing to training feature columns
+        X_pred = current_season_data.reindex(columns=self.training_feature_columns, fill_value=0)
         
-        # Use only the training feature columns for prediction
-        X_pred = current_season_data[self.training_feature_columns].fillna(0)
         predictions = self.models[self.best_name].predict(X_pred)
         predictions = np.clip(predictions, 0, 45)
         predictions_df = current_season_data[['player', 'round', 'date']].assign(predicted_disposals=predictions)
