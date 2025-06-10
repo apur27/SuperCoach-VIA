@@ -1,15 +1,16 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Greater Western Sydney,2022,1,Sydney,20,L,21,4,3.0,1.0,5,,,,1.0,2,,,2.0,,1.0,,,5,,,1,,,70,2022-07-12
-Greater Western Sydney,2022,2,Essendon,21,W,21,7,6.0,,7,,,,2.0,1,1.0,,,1.0,,,3.0,4,2.0,,5,,,79,2022-07-19
-Greater Western Sydney,2022,3,Western Bulldogs,22,L,21,7,5.0,7.0,14,,,,2.0,1,1.0,,2.0,3.0,,,6.0,8,,,6,,,88,2022-07-26
-Greater Western Sydney,2022,4,Fremantle,23,L,21,7,5.0,5.0,12,,,,4.0,1,,,1.0,2.0,,,7.0,5,2.0,,6,,,83,2022-08-02
-Greater Western Sydney,2024,5,Carlton,7,L,21,2,2.0,3.0,5,,,,4.0,1,,,1.0,,1.0,,2.0,3,,,13,,,89,2024-04-12
-Greater Western Sydney,2024,6,Brisbane Lions,8,W,21,6,5.0,5.0,11,,,,,3,,,,1.0,,,4.0,6,,,4,,,89,2024-04-19
-Greater Western Sydney,2024,7,Geelong,12,W,21,10,7.0,5.0,15,,,,2.0,5,,,2.0,2.0,,,9.0,6,4.0,,1,,,86,2024-05-17
-Greater Western Sydney,2024,8,Hawthorn,14,L,21,6,3.0,2.0,8,,,,2.0,1,,,,2.0,,,4.0,4,1.0,,4,1.0,,82,2024-05-31
-Greater Western Sydney,2024,9,Port Adelaide,15,W,21,5,1.0,8.0,13,,,,4.0,2,2.0,,3.0,1.0,2.0,,7.0,6,1.0,,4,,,82,2024-06-07
-Greater Western Sydney,2024,10,Sydney,16,L,21,7,5.0,9.0,16,,,,2.0,2,1.0,,3.0,3.0,1.0,,7.0,8,1.0,,7,,,89,2024-06-14
-Greater Western Sydney,2024,11,Adelaide,17,L,21,5,3.0,3.0,8,,,,2.0,4,,,1.0,,,,2.0,5,,,8,,,100,2024-06-21
-Greater Western Sydney,2024,12↓,Carlton,18,W,21,2,,4.0,6,,,,2.0,1,,1.0,5.0,,4.0,,2.0,3,,,5,,,76,2024-06-28
-Greater Western Sydney,2025,13,Carlton,12,W,21,5,5.0,3.0,8,,,,2.0,3,2.0,,1.0,,,,2.0,6,1.0,,9,,,84,2025-05-17
-Greater Western Sydney,2025,14,Richmond,13,W,21,5,4,10,15,,,,,,,1,2,1,1,,8,7,1,,5,,,75,2025-05-24
+Greater Western Sydney,2022,1,Sydney,20,L,21,4,3.0,1.0,5,,,,1.0,2.0,,,2.0,,1.0,,,5,,,1,,,70,2022-07-12
+Greater Western Sydney,2022,2,Essendon,21,W,21,7,6.0,,7,,,,2.0,1.0,1.0,,,1.0,,,3.0,4,2.0,,5,,,79,2022-07-19
+Greater Western Sydney,2022,3,Western Bulldogs,22,L,21,7,5.0,7.0,14,,,,2.0,1.0,1.0,,2.0,3.0,,,6.0,8,,,6,,,88,2022-07-26
+Greater Western Sydney,2022,4,Fremantle,23,L,21,7,5.0,5.0,12,,,,4.0,1.0,,,1.0,2.0,,,7.0,5,2.0,,6,,,83,2022-08-02
+Greater Western Sydney,2024,5,Carlton,7,L,21,2,2.0,3.0,5,,,,4.0,1.0,,,1.0,,1.0,,2.0,3,,,13,,,89,2024-04-12
+Greater Western Sydney,2024,6,Brisbane Lions,8,W,21,6,5.0,5.0,11,,,,,3.0,,,,1.0,,,4.0,6,,,4,,,89,2024-04-19
+Greater Western Sydney,2024,7,Geelong,12,W,21,10,7.0,5.0,15,,,,2.0,5.0,,,2.0,2.0,,,9.0,6,4.0,,1,,,86,2024-05-17
+Greater Western Sydney,2024,8,Hawthorn,14,L,21,6,3.0,2.0,8,,,,2.0,1.0,,,,2.0,,,4.0,4,1.0,,4,1.0,,82,2024-05-31
+Greater Western Sydney,2024,9,Port Adelaide,15,W,21,5,1.0,8.0,13,,,,4.0,2.0,2.0,,3.0,1.0,2.0,,7.0,6,1.0,,4,,,82,2024-06-07
+Greater Western Sydney,2024,10,Sydney,16,L,21,7,5.0,9.0,16,,,,2.0,2.0,1.0,,3.0,3.0,1.0,,7.0,8,1.0,,7,,,89,2024-06-14
+Greater Western Sydney,2024,11,Adelaide,17,L,21,5,3.0,3.0,8,,,,2.0,4.0,,,1.0,,,,2.0,5,,,8,,,100,2024-06-21
+Greater Western Sydney,2024,12↓,Carlton,18,W,21,2,,4.0,6,,,,2.0,1.0,,1.0,5.0,,4.0,,2.0,3,,,5,,,76,2024-06-28
+Greater Western Sydney,2025,13,Carlton,12,W,21,5,5.0,3.0,8,,,,2.0,3.0,2.0,,1.0,,,,2.0,6,1.0,,9,,,84,2025-05-17
+Greater Western Sydney,2025,14,Richmond,13,W,21,5,4.0,10.0,15,,,,,,,1.0,2.0,1.0,1.0,,8.0,7,1.0,,5,,,75,2025-05-24
+Greater Western Sydney,2025,15,Port Adelaide,14,L,21,3,3,3,6,,,,,1,,,1,,1,,,7,,,1,,,47,2025-05-31

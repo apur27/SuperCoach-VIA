@@ -1,0 +1,106 @@
+year,round,team,opponent,disposals_conceded,kicks_conceded,handballs_conceded,marks_conceded,goals_conceded,behinds_conceded,tackles_conceded,hitouts_conceded,inside_50s_conceded,clearances_conceded
+2025,1,Hawthorn,Sydney,123,208,89,331,11,10,33,12,28,59
+2025,1,Collingwood,Greater Western Sydney,143,209,87,352,15,14,47,16,38,39
+2025,2,Carlton,Richmond,173,231,88,404,13,4,35,15,27,70
+2025,2,Essendon,Hawthorn,160,232,93,392,17,9,54,13,30,78
+2025,2,Fremantle,Geelong,178,183,55,361,23,9,57,9,32,59
+2025,2,Brisbane Lions,Sydney,130,214,66,344,12,10,29,14,47,46
+2025,2,Port Adelaide,Collingwood,173,192,84,365,21,10,37,9,44,43
+2025,2,North Melbourne,Western Bulldogs,169,209,85,378,17,11,52,13,40,75
+2025,2,St Kilda,Adelaide,148,202,79,350,21,9,36,12,37,52
+2025,2,Greater Western Sydney,Melbourne,170,193,56,363,11,8,26,11,44,71
+2025,2,Gold Coast,West Coast,162,206,77,368,7,7,77,16,27,64
+2025,3,Hawthorn,Carlton,162,206,74,368,8,12,47,8,45,88
+2025,3,Collingwood,Western Bulldogs,160,204,77,364,10,10,38,16,32,64
+2025,3,Adelaide,Essendon,138,254,129,392,15,10,34,11,33,60
+2025,3,Richmond,Port Adelaide,123,174,70,297,21,14,42,14,35,39
+2025,3,Geelong,St Kilda,133,188,81,321,15,8,43,13,37,75
+2025,3,West Coast,Brisbane Lions,135,188,67,323,14,10,37,9,44,57
+2025,3,Melbourne,North Melbourne,158,193,82,351,19,11,30,12,34,47
+2025,3,Sydney,Fremantle,122,226,94,348,9,11,31,14,49,57
+2025,4,Port Adelaide,Essendon,158,224,116,382,9,18,36,12,50,41
+2025,4,Western Bulldogs,Carlton,152,216,99,368,11,9,39,11,45,65
+2025,4,Gold Coast,Melbourne,176,212,91,388,8,14,29,12,31,52
+2025,4,Richmond,St Kilda,112,218,119,330,20,15,42,11,36,41
+2025,4,Geelong,Brisbane Lions,101,219,77,320,10,10,39,7,56,77
+2025,4,Greater Western Sydney,Hawthorn,181,194,82,375,10,16,33,10,51,63
+2025,4,North Melbourne,Adelaide,144,220,100,364,17,12,35,6,38,47
+2025,4,Fremantle,West Coast,134,210,89,344,10,8,38,16,27,39
+2025,5,Carlton,Collingwood,154,220,93,374,8,15,38,10,47,69
+2025,5,Melbourne,Geelong,129,190,82,319,12,13,37,10,36,46
+2025,5,Adelaide,Gold Coast,162,208,70,370,13,13,45,6,46,67
+2025,5,Brisbane Lions,Richmond,162,214,94,376,13,12,51,10,25,73
+2025,5,Sydney,North Melbourne,111,230,120,341,8,4,31,9,29,49
+2025,5,West Coast,Greater Western Sydney,128,176,60,304,20,12,31,9,41,39
+2025,5,St Kilda,Port Adelaide,111,209,70,320,10,12,22,11,48,57
+2025,5,Western Bulldogs,Fremantle,154,221,85,375,15,7,46,9,29,57
+2025,6,Geelong,Adelaide,141,215,73,356,15,10,29,11,35,51
+2025,6,Sydney,Collingwood,171,206,80,377,16,13,50,6,38,61
+2025,6,Gold Coast,North Melbourne,159,200,69,359,13,11,46,15,34,52
+2025,6,West Coast,Carlton,104,177,87,281,17,19,32,14,54,46
+2025,6,Brisbane Lions,Western Bulldogs,150,246,102,396,14,13,53,10,38,64
+2025,6,Essendon,Melbourne,204,244,116,448,8,9,34,6,41,57
+2025,6,Fremantle,Richmond,154,208,98,362,7,5,35,12,28,62
+2025,6,Greater Western Sydney,St Kilda,154,223,105,377,12,10,45,14,50,57
+2025,6,Hawthorn,Port Adelaide,150,198,67,348,18,13,38,7,43,64
+2025,7,Collingwood,Brisbane Lions,138,195,86,333,7,11,37,9,29,33
+2025,7,Carlton,North Melbourne,143,226,85,369,11,5,32,9,27,83
+2025,7,Essendon,West Coast,152,196,93,348,11,9,35,11,35,51
+2025,7,Fremantle,Melbourne,141,185,80,326,16,11,25,13,39,46
+2025,7,Greater Western Sydney,Adelaide,153,229,104,382,7,10,18,10,49,61
+2025,7,Gold Coast,Richmond,150,183,78,333,12,8,42,15,30,61
+2025,7,Port Adelaide,Sydney,104,203,86,307,10,17,43,7,49,57
+2025,7,St Kilda,Western Bulldogs,155,189,85,344,18,19,31,8,50,52
+2025,7,Hawthorn,Geelong,171,203,91,374,12,14,52,13,33,83
+2025,8,Richmond,Melbourne,128,198,94,326,12,11,36,9,34,42
+2025,8,Essendon,Collingwood,133,216,79,349,16,11,50,6,43,49
+2025,8,Adelaide,Fremantle,119,207,81,326,12,13,37,13,40,72
+2025,8,Brisbane Lions,St Kilda,171,239,95,410,11,7,41,16,31,57
+2025,8,North Melbourne,Port Adelaide,149,190,48,339,14,13,46,10,42,54
+2025,8,Western Bulldogs,Greater Western Sydney,155,197,62,352,12,9,38,11,32,45
+2025,8,Sydney,Gold Coast,137,218,96,355,17,15,37,7,38,51
+2025,8,Geelong,Carlton,130,198,69,328,14,10,38,4,49,67
+2025,8,West Coast,Hawthorn,145,167,62,312,18,16,37,8,36,65
+2025,9,North Melbourne,Essendon,153,185,77,338,9,11,41,8,31,61
+2025,9,Fremantle,St Kilda,121,165,82,286,14,10,51,3,46,87
+2025,9,Port Adelaide,Western Bulldogs,143,162,57,305,20,11,55,11,47,65
+2025,9,Carlton,Adelaide,117,194,94,311,16,14,19,8,42,46
+2025,9,Melbourne,West Coast,154,210,87,364,11,10,49,12,31,56
+2025,9,Geelong,Collingwood,137,197,78,334,12,15,32,12,40,56
+2025,9,Greater Western Sydney,Sydney,167,202,79,369,12,15,38,13,41,49
+2025,9,Richmond,Hawthorn,131,180,94,311,16,13,29,8,34,46
+2025,9,Gold Coast,Brisbane Lions,152,177,71,329,9,12,51,7,47,52
+2025,10,Collingwood,Fremantle,110,190,94,300,12,11,35,7,48,66
+2025,10,Carlton,St Kilda,124,219,107,343,9,8,42,11,36,69
+2025,10,Hawthorn,Melbourne,167,205,98,372,7,14,27,13,39,44
+2025,10,Sydney,Essendon,140,208,92,348,11,5,32,15,33,46
+2025,10,Western Bulldogs,Gold Coast,173,226,100,399,15,16,41,12,47,68
+2025,10,Adelaide,Port Adelaide,107,210,79,317,12,12,46,11,50,77
+2025,10,West Coast,Richmond,142,189,72,331,11,15,38,13,42,71
+2025,10,Greater Western Sydney,Geelong,171,196,83,367,14,17,43,9,45,62
+2025,10,Brisbane Lions,North Melbourne,148,212,94,360,10,11,41,11,41,66
+2025,11,Hawthorn,Gold Coast,134,208,70,342,16,8,37,6,42,58
+2025,11,Carlton,Sydney,140,218,70,358,11,12,28,8,42,71
+2025,11,Adelaide,Collingwood,125,202,72,327,11,12,40,8,35,53
+2025,11,Geelong,Port Adelaide,128,235,107,363,5,9,35,13,37,52
+2025,11,Fremantle,Greater Western Sydney,146,190,72,336,8,13,37,17,35,49
+2025,11,Essendon,Western Bulldogs,182,203,102,385,18,19,44,6,41,46
+2025,11,North Melbourne,Richmond,127,192,64,319,11,8,54,6,38,92
+2025,11,Melbourne,Brisbane Lions,142,228,109,370,13,10,53,15,38,41
+2025,11,St Kilda,West Coast,157,219,91,376,16,12,42,8,42,65
+2025,12,Western Bulldogs,Geelong,153,191,75,344,20,7,53,17,31,76
+2025,12,Richmond,Essendon,141,201,94,342,11,15,30,10,44,54
+2025,12,Greater Western Sydney,Carlton,148,197,85,345,12,10,34,8,46,64
+2025,12,Brisbane Lions,Hawthorn,124,242,110,366,8,12,29,9,41,59
+2025,12,Collingwood,North Melbourne,152,194,76,346,9,9,29,18,38,90
+2025,12,Port Adelaide,Fremantle,162,200,68,362,15,10,40,9,40,64
+2025,12,West Coast,Adelaide,116,166,60,282,19,14,28,14,45,57
+2025,12,Sydney,Melbourne,146,189,72,335,19,17,51,6,44,82
+2025,12,Gold Coast,St Kilda,155,208,95,363,8,13,53,8,34,72
+2025,13,Essendon,Brisbane Lions,169,189,77,358,13,12,47,6,48,51
+2025,13,Hawthorn,Collingwood,140,203,91,343,16,11,42,8,27,38
+2025,13,Fremantle,Gold Coast,146,193,53,339,9,10,50,9,43,86
+2025,13,Richmond,Greater Western Sydney,142,216,84,358,12,8,40,17,38,43
+2025,13,Adelaide,Sydney,119,229,83,348,5,11,45,5,39,84
+2025,13,St Kilda,Melbourne,130,260,140,390,7,21,25,7,50,52
+2025,13,Geelong,West Coast,115,230,111,345,11,7,39,14,31,67
