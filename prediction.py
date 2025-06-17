@@ -4,12 +4,14 @@ import pandas as pd
 from datetime import datetime
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor, VotingRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor, StackingRegressor
+from sklearn.linear_model import Ridge
+from lightgbm import LGBMRegressor
+from catboost import CatBoostRegressor
 from sklearn.model_selection import cross_val_score, GroupKFold
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
-from lightgbm import LGBMRegressor
 import optuna
 import warnings
 
@@ -128,13 +130,13 @@ class AFLDisposalPredictor:
         self.debug_mode = debug_mode
         self.models = {}
         self.base_rolling_features = [
-            'disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s'
+            'disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s', 'contested_possessions'
         ]
         self.extra_features = ['cba_percent', 'percentage_time_played']
         self.feature_columns = []
         self.best_name = None
         self.training_feature_columns = None
-        self.preprocessor = None  # Store preprocessor for prediction
+        self.preprocessor = None
 
     def load_player(self, filepath: Path) -> pd.DataFrame:
         """Load and preprocess player data from CSV."""
@@ -147,6 +149,7 @@ class AFLDisposalPredictor:
         try:
             player_name, dob = extract_dob_and_name(filepath)
             df['player'] = player_name
+            df['dob'] = dob  # Add DOB to dataframe
             df = clean_columns(df)
         except Exception as e:
             print(f"❌ Failed to process player data for {filepath.name}: {e}")
@@ -167,7 +170,7 @@ class AFLDisposalPredictor:
                         df[col] = df[col].astype('category')
                     elif dtype == 'datetime64[ns]':
                         df[col] = pd.to_datetime(df[col], errors='coerce')
-                        df = df.dropna(subset=[col])  # Drop rows with invalid dates
+                        df = df.dropna(subset=[col])
                     else:
                         df[col] = pd.to_numeric(df[col], errors='coerce').astype(dtype)
         except Exception as e:
@@ -187,7 +190,6 @@ class AFLDisposalPredictor:
             print(f"⚠️ Missing columns: {missing_cols}")
             return pd.DataFrame()
         original_rows = len(df)
-        # Keep rows where 'disposals' is null only for target_year
         df = df[(df['year'] >= target_year) | df['disposals'].notnull()].copy()
         cleaned_rows = len(df)
         if original_rows > cleaned_rows:
@@ -216,33 +218,65 @@ class AFLDisposalPredictor:
             return pd.DataFrame()
         return pd.concat(all_dfs, ignore_index=True)
 
-    def _add_rolling(self, df, col, window, group_by):
-        """Calculate rolling averages with specified window and grouping."""
+    def _validate_numeric_columns(self, df):
+        """Validate and clean numeric columns before feature engineering."""
+        numeric_cols = self.base_rolling_features + ['disposals']
+        for col in numeric_cols:
+            if col in df.columns:
+                non_numeric = df[col].apply(lambda x: not pd.api.types.is_numeric_dtype(type(x)) and pd.notna(x))
+                if non_numeric.any():
+                    print(f"⚠️ Found non-numeric values in {col}, converting to numeric")
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+        return df
+
+    def _add_rolling(self, df, col, window, group_by, agg_func='mean'):
+        """Calculate rolling aggregates with specified window, grouping, and function."""
         try:
-            return df.groupby(group_by, observed=False)[col].transform(
-                lambda s: s.rolling(window=window, min_periods=1).mean().shift(1)
-            )
+            if col not in df.columns:
+                print(f"⚠️ Column {col} not found in DataFrame")
+                return pd.Series(np.nan, index=df.index)
+            df_clean = df.copy()
+            df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
+            if agg_func == 'mean':
+                rolling_result = (df_clean.groupby(group_by, observed=False)[col]
+                                .rolling(window=window, min_periods=1)
+                                .mean()
+                                .reset_index(level=group_by, drop=True)
+                                .shift(1))
+            elif agg_func == 'std':
+                rolling_result = (df_clean.groupby(group_by, observed=False)[col]
+                                .rolling(window=window, min_periods=1)
+                                .std()
+                                .reset_index(level=group_by, drop=True)
+                                .shift(1))
+            else:
+                raise ValueError(f"Unsupported agg_func: {agg_func}")
+            return rolling_result.reindex(df.index)
         except Exception as e:
-            print(f"❌ Rolling average failed for {col} with group_by {group_by}: {e}")
+            print(f"❌ Rolling aggregate failed for {col} with agg {agg_func}: {e}")
             return pd.Series(np.nan, index=df.index)
 
     def _add_expanding_mean(self, df, col, group_by):
-        """Calculate season-to-date expanding mean with specified grouping."""
+        """Calculate season-to-date expanding mean."""
         try:
-            return df.groupby(group_by, observed=False)[col].transform(
-                lambda s: s.expanding().mean().shift(1)
-            )
+            df_clean = df.copy()
+            df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
+            expanding_result = (df_clean.groupby(group_by, observed=False)[col]
+                              .expanding(min_periods=1)
+                              .mean()
+                              .reset_index(level=group_by, drop=True)
+                              .shift(1))
+            return expanding_result.reindex(df.index)
         except Exception as e:
-            print(f"❌ Expanding mean failed for {col} with group_by {group_by}: {e}")
+            print(f"❌ Expanding mean failed for {col}: {e}")
             return pd.Series(np.nan, index=df.index)
 
     def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Engineer features for training, including rolling averages and more."""
+        """Engineer features for training, including advanced features."""
+        df = self._validate_numeric_columns(df)
         df.loc[:, 'round_number'] = df['round'].apply(extract_round_number)
         df = df.sort_values(['player', 'year', 'round_number'])
-        
         rolling_cols_available = [col for col in self.base_rolling_features if col in df.columns]
-        
         for col in rolling_cols_available:
             df.loc[:, f'across_season_rolling_avg_{col}_{self.rolling_window}'] = self._add_rolling(df, col, window=self.rolling_window, group_by=['player'])
             df.loc[:, f'within_season_rolling_avg_{col}_{self.within_season_window}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'])
@@ -250,33 +284,35 @@ class AFLDisposalPredictor:
             df.loc[:, f'recent_form_{col}'] = df.groupby(['player'], observed=False)[col].transform(
                 lambda x: x.ewm(span=3, adjust=False).mean().shift(1)
             )
-        
+            df.loc[:, f'within_season_volatility_{col}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'], agg_func='std')
+        if 'kicks' in df.columns and 'handballs' in df.columns:
+            df.loc[:, 'kicks_to_handballs_ratio'] = df['kicks'] / (df['handballs'] + 1)
+        if 'tackles' in df.columns and 'disposals' in df.columns:
+            df.loc[:, 'tackles_per_disposal'] = df['tackles'] / (df['disposals'] + 1)
+        df['age'] = (df['date'] - df['dob']).dt.days / 365.25
+        df['games_played'] = df.groupby('player', observed=False).cumcount()
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
-        
         across_season_features = [f'across_season_rolling_avg_{col}_{self.rolling_window}' for col in rolling_cols_available]
         within_season_features = [f'within_season_rolling_avg_{col}_{self.within_season_window}' for col in rolling_cols_available]
         season_to_date_features = [f'season_to_date_mean_{col}' for col in rolling_cols_available]
         recent_form_features = [f'recent_form_{col}' for col in rolling_cols_available]
+        volatility_features = [f'within_season_volatility_{col}' for col in rolling_cols_available]
+        interaction_features = ['kicks_to_handballs_ratio', 'tackles_per_disposal']
         extra_feats = [feat for feat in self.extra_features if feat in df.columns]
         dummy_cols = [c for c in df.columns if c.startswith(('venue_', 'opponent_'))]
-        self.feature_columns = across_season_features + within_season_features + season_to_date_features + recent_form_features + ['round_number', 'days_since_last_game'] + extra_feats + dummy_cols
-        
-        if self.debug_mode:
-            print(f"Engineered features: {self.feature_columns}")
-            for col in self.feature_columns:
-                nan_count = df[col].isna().sum()
-                if nan_count > 0:
-                    print(f"⚠️ {nan_count} NaN values in feature '{col}'")
-        
-        return df.dropna(subset=across_season_features + within_season_features + season_to_date_features + recent_form_features + ['disposals'])
+        self.feature_columns = (
+            across_season_features + within_season_features + season_to_date_features + 
+            recent_form_features + volatility_features + interaction_features + 
+            ['round_number', 'days_since_last_game', 'age', 'games_played'] + extra_feats + dummy_cols
+        )
+        self.feature_columns = [col for col in self.feature_columns if col in df.columns]
+        return df.dropna(subset=across_season_features + within_season_features + ['disposals'])
 
     def _engineer_features_for_prediction(self, df: pd.DataFrame) -> pd.DataFrame:
         """Engineer features for prediction, matching training features."""
         df.loc[:, 'round_number'] = df['round'].apply(extract_round_number)
         df = df.sort_values(['player', 'year', 'round_number'])
-        
         rolling_cols_available = [col for col in self.base_rolling_features if col in df.columns]
-        
         for col in rolling_cols_available:
             df.loc[:, f'across_season_rolling_avg_{col}_{self.rolling_window}'] = self._add_rolling(df, col, window=self.rolling_window, group_by=['player'])
             df.loc[:, f'within_season_rolling_avg_{col}_{self.within_season_window}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'])
@@ -284,9 +320,14 @@ class AFLDisposalPredictor:
             df.loc[:, f'recent_form_{col}'] = df.groupby(['player'], observed=False)[col].transform(
                 lambda x: x.ewm(span=3, adjust=False).mean().shift(1)
             )
-        
+            df.loc[:, f'within_season_volatility_{col}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'], agg_func='std')
+        if 'kicks' in df.columns and 'handballs' in df.columns:
+            df.loc[:, 'kicks_to_handballs_ratio'] = df['kicks'] / (df['handballs'] + 1)
+        if 'tackles' in df.columns and 'disposals' in df.columns:
+            df.loc[:, 'tackles_per_disposal'] = df['tackles'] / (df['disposals'] + 1)
+        df['age'] = (df['date'] - df['dob']).dt.days / 365.25
+        df['games_played'] = df.groupby('player', observed=False).cumcount()
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
-        
         return df
 
     def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
@@ -294,28 +335,19 @@ class AFLDisposalPredictor:
         global df_global
         df_global = df
         historical_data = df[df['year'] < self.target_year].copy()
-        historical_data = historical_data[historical_data['disposals'].notnull()]  # Ensure 'disposals' not除尘 for training
+        historical_data = historical_data[historical_data['disposals'].notnull()]
         if historical_data.empty:
             print("⚠️ No historical data available")
             return None, None
         engineered_df = self._engineer_features(historical_data)
         X = engineered_df[self.feature_columns]
-        y = np.log1p(engineered_df['disposals'])  # Transform target
+        y = np.log1p(engineered_df['disposals'])
         self.training_feature_columns = self.feature_columns.copy()
-        
         X.loc[:, 'missing_count'] = X.isna().sum(axis=1)
         self.training_feature_columns.append('missing_count')
-        
         numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
         categorical_cols = X.select_dtypes(include=['category']).columns
         remainder_cols = [col for col in X.columns if col not in numerical_cols and col not in categorical_cols]
-        
-        if self.debug_mode:
-            print(f"Numerical columns: {numerical_cols}")
-            print(f"Categorical columns: {categorical_cols}")
-            print(f"Remainder columns: {remainder_cols}")
-            print(f"Expected columns: {self.training_feature_columns}")
-        
         preprocessor = ColumnTransformer(
             transformers=[
                 ('num', SimpleImputer(strategy='median'), numerical_cols),
@@ -324,62 +356,19 @@ class AFLDisposalPredictor:
             remainder='passthrough'
         )
         X_transformed = preprocessor.fit_transform(X)
-        
         transformed_columns = list(numerical_cols) + list(categorical_cols) + remainder_cols
-        if len(transformed_columns) != X_transformed.shape[1]:
-            raise ValueError(f"Column mismatch: expected {X_transformed.shape[1]} columns, got {len(transformed_columns)}")
-        
         X = pd.DataFrame(X_transformed, columns=transformed_columns, index=X.index)
         X = X.astype(float)
         X = X.reindex(columns=self.training_feature_columns, fill_value=0)
-        
         self.preprocessor = preprocessor
-        
-        if self.debug_mode:
-            print(f"Transformed X shape: {X.shape}")
-            print(f"Transformed columns: {X.columns.tolist()}")
-        
         return X, y
-
-    def tune_model(self, X, y):
-        """Hyperparameter tuning for HistGradientBoostingRegressor using Optuna."""
-        def objective(trial):
-            params = {
-                'max_depth': trial.suggest_int('max_depth', 3, 7),
-                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1),
-                'max_leaf_nodes': trial.suggest_int('max_leaf_nodes', 20, 100),
-                'min_samples_leaf': trial.suggest_int('min_samples_leaf', 10, 100),
-                'loss': trial.suggest_categorical('loss', ['poisson', 'quantile'])
-            }
-
-            if params['loss'] == 'quantile':
-                params['quantile'] = trial.suggest_float('quantile', 0.1, 0.9)
-
-            model = Pipeline([
-                ('scaler', StandardScaler()),
-                ('regressor', HistGradientBoostingRegressor(**params, random_state=42))
-            ])
-            score = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error').mean()
-            return score
-
-        study = optuna.create_study(direction='maximize')
-        study.optimize(objective, n_trials=50)
-        best_params = study.best_params
-        self.models['hgb_tuned'] = Pipeline([
-            ('scaler', StandardScaler()),
-            ('regressor', HistGradientBoostingRegressor(**best_params, random_state=42))
-        ])
-        print(f"Best parameters: {best_params}")
-        return study.best_value
 
     def tune_lgbm_gpu(self, X, y):
         """Hyperparameter tuning for LGBMRegressor on GPU using Optuna."""
-        print("Tuning LGBM on GPU with Optuna...")
-
         def objective(trial):
             params = {
-                'device': 'cuda',  # Use CUDA for NVIDIA GPUs
-                'objective': 'regression_l1',  # MAE, robust to outliers
+                'device': 'cuda',
+                'objective': trial.suggest_categorical('objective', ['regression_l1', 'regression_l2', 'huber', 'poisson']),
                 'metric': 'rmse',
                 'random_state': 42,
                 'n_estimators': trial.suggest_int('n_estimators', 100, 1000, step=100),
@@ -391,86 +380,67 @@ class AFLDisposalPredictor:
                 'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
                 'reg_alpha': trial.suggest_float('reg_alpha', 1e-3, 10.0, log=True),
                 'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
-                'max_bin': trial.suggest_categorical('max_bin', [63, 127, 255])  # Key GPU performance parameter
+                'max_bin': trial.suggest_categorical('max_bin', [63, 127, 255])
             }
-
+            if params['objective'] == 'huber':
+                params['alpha'] = trial.suggest_float('alpha', 0.1, 10.0)
             model = LGBMRegressor(**params)
-            
             groups = df_global.loc[X.index, 'player']
             cv = GroupKFold(n_splits=5)
-            
-            score = cross_val_score(
-                model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error'
-            ).mean()
-            
+            score = cross_val_score(model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error').mean()
             return score
-
         study = optuna.create_study(direction='maximize')
-        study.optimize(objective, n_trials=50, timeout=600)  # 10-minute timeout
-        
-        print(f"Best LGBM GPU parameters: {study.best_params}")
-        
+        study.optimize(objective, n_trials=50, timeout=600)
+        best_params = study.best_params
         self.models['lgbm_gpu_tuned'] = Pipeline([
             ('scaler', StandardScaler()),
-            ('regressor', LGBMRegressor(**study.best_params, device='cuda', random_state=42))
+            ('regressor', LGBMRegressor(**best_params, device='cuda', random_state=42))
         ])
-        
         return study.best_value
 
     def train_models(self, X, y) -> dict:
-        """Train all models, including GPU-tuned LightGBM, and evaluate."""
+        """Train all models, including CatBoost and a Stacking ensemble, and evaluate."""
         if X is None or y is None or X.empty or y.empty:
             print("⚠️ No data to train models")
             return {}
-
-        self.tune_model(X, y)
         self.tune_lgbm_gpu(X, y)
-
+        self.models['hgb'] = Pipeline([
+            ('scaler', StandardScaler()),
+            ('regressor', HistGradientBoostingRegressor(loss='poisson', learning_rate=0.05, max_depth=6, random_state=42))
+        ])
         self.models['rf'] = Pipeline([
             ('scaler', StandardScaler()),
             ('regressor', RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42))
         ])
-
-        ensemble_estimators = []
-        if 'hgb_tuned' in self.models:
-            ensemble_estimators.append(('hgb', self.models['hgb_tuned']['regressor']))
-        if 'rf' in self.models:
-            ensemble_estimators.append(('rf', self.models['rf']['regressor']))
-        if 'lgbm_gpu_tuned' in self.models:
-            ensemble_estimators.append(('lgbm_gpu', self.models['lgbm_gpu_tuned']['regressor']))
-
-        if ensemble_estimators:
-            ensemble_model = VotingRegressor(estimators=ensemble_estimators)
-            self.models['ensemble'] = Pipeline([('scaler', StandardScaler()), ('regressor', ensemble_model)])
-
+        self.models['catboost'] = Pipeline([
+            ('scaler', StandardScaler()),
+            ('regressor', CatBoostRegressor(verbose=0, random_state=42, allow_writing_files=False))
+        ])
+        estimators = [
+            ('hgb', self.models['hgb']['regressor']),
+            ('rf', self.models['rf']['regressor']),
+            ('lgbm_gpu', self.models['lgbm_gpu_tuned']['regressor']),
+            ('catboost', self.models['catboost']['regressor'])
+        ]
+        meta_learner = Ridge(random_state=42)
+        stacking_model = StackingRegressor(estimators=estimators, final_estimator=meta_learner, cv=5)
+        self.models['stacking_ensemble'] = Pipeline([('scaler', StandardScaler()), ('regressor', stacking_model)])
         scores = {}
         groups = df_global.loc[X.index, 'player']
         cv = GroupKFold(n_splits=5)
-
-        print("\n--- Evaluating Model Performance ---")
-        for name, model in self.models.items():
-            try:
-                cv_scores = cross_val_score(model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error')
-                scores[name] = cv_scores.mean()
-                if self.debug_mode:
-                    print(f"{name} CV scores: {cv_scores}")
-            except Exception as e:
-                print(f"Could not evaluate model '{name}': {e}")
-
-        across_col = f'across_season_rolling_avg_disposals_{self.rolling_window}'
-        if across_col in X.columns:
-            vals = pd.to_numeric(X[across_col], errors="coerce").astype(float)
-            baseline_mse = np.mean((np.expm1(vals) - np.expm1(y.values)) ** 2)
-            print(f"\nBaseline MSE (across-season rolling avg): {baseline_mse:.4f}")
-        
+        for name in ['hgb', "rf", 'lgbm_gpu_tuned', 'catboost', 'stacking_ensemble']:
+            model = self.models[name]
+            cv_scores = cross_val_score(model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error')
+            scores[name] = cv_scores.mean()
         return scores
 
     def select_best_model(self, scores: dict) -> str:
-        """Select the best model based on CV scores."""
+        """Select the stacking ensemble as the best model."""
         if not scores:
             print("⚠️ No models trained")
-            return 'hgb_tuned'
-        return max(scores, key=scores.get)
+            return 'hgb'
+        self.best_name = 'stacking_ensemble'
+        return self.best_name
 
     def predict_current_season_disposals(self, player_data: pd.DataFrame) -> pd.DataFrame:
         """Predict disposals for the target year."""
@@ -490,60 +460,23 @@ class AFLDisposalPredictor:
         dummy_cols = [col for col in ['venue', 'opponent'] if col in current_season_data.columns]
         if dummy_cols:
             current_season_data = pd.get_dummies(current_season_data, columns=dummy_cols, drop_first=True)
-        
-        # Reindex with training feature columns, filling missing with 0
-        X_pred = current_season_data.reindex(
-            columns=self.training_feature_columns,
-            fill_value=0
-        ).copy()
-        
-        # Add missing_count feature
+        X_pred = current_season_data.reindex(columns=self.training_feature_columns, fill_value=0).copy()
         X_pred['missing_count'] = X_pred.isna().sum(axis=1)
-        
-        # Apply preprocessor
         X_transformed = self.preprocessor.transform(X_pred)
-        
-        # Reconstruct DataFrame with training feature columns
-        X_final = pd.DataFrame(
-            X_transformed,
-            columns=self.training_feature_columns,
-            index=X_pred.index
-        )
-        
-        # Make predictions
+        X_final = pd.DataFrame(X_transformed, columns=self.training_feature_columns, index=X_pred.index)
         predictions = np.expm1(self.models[self.best_name].predict(X_final))
         predictions = np.clip(predictions, 0, 45)
-        
         return current_season_data[['player', 'team', 'round', 'date', 'round_number']].assign(predicted_disposals=predictions)
 
     def get_next_round(self, df: pd.DataFrame, target_year) -> int:
-        """
-        Return the next round to predict for the specified target year.
-
-        Strategy: take the largest round_number that exists in rows where
-        'year' equals target_year, add 1. If no round_number is present or
-        no rows match the target_year, fall back to 1.
-        """
-        # Check for required columns
-        if 'year' not in df.columns:
-            raise ValueError("'year' column is missing")
-        if 'round_number' not in df.columns:
-            raise ValueError("'round_number' column is missing")
-
-        # Filter DataFrame to the target year
+        """Return the next round to predict for the specified target year."""
+        if 'year' not in df.columns or 'round_number' not in df.columns:
+            raise ValueError("Required columns are missing")
         df_target = df[df['year'] == target_year]
-
-        # Extract round numbers, convert to numeric, and drop NaNs
         round_numbers = pd.to_numeric(df_target['round_number'], errors='coerce').dropna()
-        print(round_numbers)
-
-        # If no valid round numbers exist, return 1
         if round_numbers.empty:
             return 1
-        
-        # Compute max round and return next round
         max_round = round_numbers.max()
-        print(max_round)
         return int(max_round) + 1
 
     def run(self):
@@ -551,20 +484,15 @@ class AFLDisposalPredictor:
         print("🚀 Starting AFL Disposal Prediction Pipeline...")
         try:
             df = self.load_and_prepare_data()
-            if df.empty or df is None:
+            if df.empty:
                 raise ValueError("No valid data to process")
-            
-            # Early sanity check for next round
-            next_round_preview = self.get_next_round(
-                df if 'round_number' in df.columns else self._engineer_features_for_prediction(df), self.target_year
-            )
-            print(f"🔎 Earliest sanity-check: next_round will be {next_round_preview}")
-            
+            next_round_preview = self.get_next_round(df if 'round_number' in df.columns else self._engineer_features_for_prediction(df), self.target_year)
+            print(f"🔎 Next round to predict: {next_round_preview}")
             X, y = self.prepare_features_and_target(df)
             if X is None or y is None:
                 raise ValueError("No historical data for training")
             scores = self.train_models(X, y)
-            self.best_name = self.select_best_model(scores)
+            self.select_best_model(scores)
             self.models[self.best_name].fit(X, y)
             print(f"\n📊 Model Performance Summary:")
             for name, score in scores.items():
@@ -592,20 +520,12 @@ class AFLDisposalPredictor:
             if all_predictions_dfs:
                 all_predictions = pd.concat(all_predictions_dfs, ignore_index=True)
                 all_predictions['player'] = all_predictions['player'].str.replace(r'\s\d{8}$', '', regex=True)
-                # Ensure round_number is present
                 if 'round_number' not in all_predictions.columns:
                     all_predictions['round_number'] = all_predictions['round'].apply(extract_round_number)
                 valid_predictions = all_predictions[all_predictions['round_number'].notnull()].copy()
-                
                 if not valid_predictions.empty:
-                    # Get the next round
-                    next_round = next_round_preview
-                    
-                    # Filter for future rounds
-                    future_predictions = valid_predictions[valid_predictions['round_number'] >= (next_round - 1)].copy()
-                    
+                    future_predictions = valid_predictions[valid_predictions['round_number'] >= (next_round_preview - 1)].copy()
                     if not future_predictions.empty:
-                        # Get the next game per player
                         next_game_predictions = (
                             future_predictions
                                 .sort_values(['round_number', 'date'])
@@ -613,51 +533,22 @@ class AFLDisposalPredictor:
                                 .head(1)
                                 .sort_values('predicted_disposals', ascending=False)
                         )
-                        
                         if not next_game_predictions.empty:
                             timestamp = datetime.now().strftime("%Y%m%d_%H%M")
                             prediction_dir = Path("./data/prediction")
                             prediction_dir.mkdir(parents=True, exist_ok=True)
-                            csv_path = prediction_dir / f"next_round_{next_round}_prediction_{timestamp}.csv"
-                            output_cols = ['player', 'team', 'predicted_disposals']  # round_number omitted
+                            csv_path = prediction_dir / f"next_round_{next_round_preview}_prediction_{timestamp}.csv"
+                            output_cols = ['player', 'team', 'predicted_disposals']
                             next_game_predictions[output_cols].to_csv(csv_path, index=False)
-                            print(f"📄 Saved predictions for round {next_round} → {csv_path}")
+                            print(f"📄 Saved predictions for round {next_round_preview} → {csv_path}")
                         else:
                             print("⚠️ No next game predictions generated after filtering")
                     else:
                         print("⚠️ No future predictions for rounds >= next_round")
-                        print(f"Next round: {next_round}")
-                        print(f"Available rounds: {valid_predictions['round_number'].min()} to {valid_predictions['round_number'].max()}")
-                        print(f"Predictions before filter: {len(valid_predictions)}")
                 else:
                     print("⚠️ No valid predictions with round numbers")
             else:
                 print("⚠️ No predictions generated")
-            
-            # Print ML state summary
-            print("\n📈 Machine Learning State Summary:")
-            for name, model in self.models.items():
-                print(f"\nModel: {name}")
-                # Extract regressor from pipeline
-                regressor = model.named_steps['regressor'] if isinstance(model, Pipeline) else model
-                # Get parameters
-                params = regressor.get_params()
-                relevant_params = {k: v for k, v in params.items() if k in ['max_depth', 'learning_rate', 'n_estimators', 'num_leaves', 'loss', 'max_leaf_nodes', 'min_samples_leaf']}
-                param_str = ", ".join(f"{k}={v}" for k, v in relevant_params.items())
-                print(f"  Parameters: {param_str}")
-                # Print CV score if available
-                if name in scores:
-                    print(f"  CV MSE: {-scores[name]:.4f}")
-                # Feature importance
-                if hasattr(regressor, 'feature_importances_'):
-                    model.fit(X, y)  # Fit to get feature importances
-                    importances = regressor.feature_importances_
-                    top_indices = importances.argsort()[-5:][::-1]  # Top 5 features
-                    print("  Top 5 Feature Importances:")
-                    for idx in top_indices:
-                        print(f"    {X.columns[idx]}: {importances[idx]:.4f}")
-                elif isinstance(regressor, VotingRegressor):
-                    print("  Feature importance not available for ensemble")
         except Exception as e:
             print(f"💥 Fatal error in pipeline: {e}")
             raise
