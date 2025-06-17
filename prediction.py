@@ -294,7 +294,7 @@ class AFLDisposalPredictor:
         global df_global
         df_global = df
         historical_data = df[df['year'] < self.target_year].copy()
-        historical_data = historical_data[historical_data['disposals'].notnull()]  # Ensure 'disposals' not null for training
+        historical_data = historical_data[historical_data['disposals'].notnull()]  # Ensure 'disposals' not除尘 for training
         if historical_data.empty:
             print("⚠️ No historical data available")
             return None, None
@@ -516,33 +516,35 @@ class AFLDisposalPredictor:
         
         return current_season_data[['player', 'team', 'round', 'date', 'round_number']].assign(predicted_disposals=predictions)
 
-    def get_next_round(self, df: pd.DataFrame) -> int:
-        """Determine the next round number based on player data."""
-        # Defensive check for required columns
+    def get_next_round(self, df: pd.DataFrame, target_year) -> int:
+        """
+        Return the next round to predict for the specified target year.
+
+        Strategy: take the largest round_number that exists in rows where
+        'year' equals target_year, add 1. If no round_number is present or
+        no rows match the target_year, fall back to 1.
+        """
+        # Check for required columns
         if 'year' not in df.columns:
-            print(f"⚠️ 'year' column missing in DataFrame. Available columns: {df.columns.tolist()}")
-            return 1  # Default to round 1
-        
-        if df.empty:
-            print("⚠️ Empty DataFrame passed to get_next_round")
+            raise ValueError("'year' column is missing")
+        if 'round_number' not in df.columns:
+            raise ValueError("'round_number' column is missing")
+
+        # Filter DataFrame to the target year
+        df_target = df[df['year'] == target_year]
+
+        # Extract round numbers, convert to numeric, and drop NaNs
+        round_numbers = pd.to_numeric(df_target['round_number'], errors='coerce').dropna()
+        print(round_numbers)
+
+        # If no valid round numbers exist, return 1
+        if round_numbers.empty:
             return 1
         
-        df_target = df[df['year'] == self.target_year].copy()
-        
-        if df_target.empty:
-            print(f"⚠️ No data found for target year {self.target_year}")
-            return 1
-        
-        df_target['round_number'] = df_target['round'].apply(extract_round_number)
-        played_rounds = df_target[df_target['disposals'].notna()]['round_number'].unique()
-        
-        if len(played_rounds) > 0:
-            max_played_round = max(played_rounds)
-            next_round = max_played_round + 1
-        else:
-            next_round = 1
-        
-        return int(next_round)
+        # Compute max round and return next round
+        max_round = round_numbers.max()
+        print(max_round)
+        return int(max_round) + 1
 
     def run(self):
         """Execute the prediction pipeline."""
@@ -551,6 +553,13 @@ class AFLDisposalPredictor:
             df = self.load_and_prepare_data()
             if df.empty or df is None:
                 raise ValueError("No valid data to process")
+            
+            # Early sanity check for next round
+            next_round_preview = self.get_next_round(
+                df if 'round_number' in df.columns else self._engineer_features_for_prediction(df), self.target_year
+            )
+            print(f"🔎 Earliest sanity-check: next_round will be {next_round_preview}")
+            
             X, y = self.prepare_features_and_target(df)
             if X is None or y is None:
                 raise ValueError("No historical data for training")
@@ -583,15 +592,17 @@ class AFLDisposalPredictor:
             if all_predictions_dfs:
                 all_predictions = pd.concat(all_predictions_dfs, ignore_index=True)
                 all_predictions['player'] = all_predictions['player'].str.replace(r'\s\d{8}$', '', regex=True)
-                all_predictions['round_number'] = all_predictions['round'].apply(extract_round_number)
+                # Ensure round_number is present
+                if 'round_number' not in all_predictions.columns:
+                    all_predictions['round_number'] = all_predictions['round'].apply(extract_round_number)
                 valid_predictions = all_predictions[all_predictions['round_number'].notnull()].copy()
                 
                 if not valid_predictions.empty:
                     # Get the next round
-                    next_round = self.get_next_round(valid_predictions)
+                    next_round = next_round_preview
                     
                     # Filter for future rounds
-                    future_predictions = valid_predictions[valid_predictions['round_number'] >= next_round].copy()
+                    future_predictions = valid_predictions[valid_predictions['round_number'] >= (next_round - 1)].copy()
                     
                     if not future_predictions.empty:
                         # Get the next game per player
@@ -608,8 +619,9 @@ class AFLDisposalPredictor:
                             prediction_dir = Path("./data/prediction")
                             prediction_dir.mkdir(parents=True, exist_ok=True)
                             csv_path = prediction_dir / f"next_round_{next_round}_prediction_{timestamp}.csv"
-                            next_game_predictions[['player', 'team', 'predicted_disposals', 'round_number']].to_csv(csv_path, index=False)
-                            print(f"📄 Next game predictions for round {next_round} saved to {csv_path}")
+                            output_cols = ['player', 'team', 'predicted_disposals']  # round_number omitted
+                            next_game_predictions[output_cols].to_csv(csv_path, index=False)
+                            print(f"📄 Saved predictions for round {next_round} → {csv_path}")
                         else:
                             print("⚠️ No next game predictions generated after filtering")
                     else:
