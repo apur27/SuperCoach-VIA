@@ -137,6 +137,8 @@ class AFLDisposalPredictor:
         self.best_name = None
         self.training_feature_columns = None
         self.preprocessor = None
+        self.league_avg_disposals = None
+        self.credibility_k = 5  # Credibility parameter for adjusting rolling averages
 
     def load_player(self, filepath: Path) -> pd.DataFrame:
         """Load and preprocess player data from CSV."""
@@ -149,7 +151,7 @@ class AFLDisposalPredictor:
         try:
             player_name, dob = extract_dob_and_name(filepath)
             df['player'] = player_name
-            df['dob'] = dob  # Add DOB to dataframe
+            df['dob'] = dob
             df = clean_columns(df)
         except Exception as e:
             print(f"❌ Failed to process player data for {filepath.name}: {e}")
@@ -216,7 +218,9 @@ class AFLDisposalPredictor:
         if not all_dfs:
             print("⚠️ No valid data loaded")
             return pd.DataFrame()
-        return pd.concat(all_dfs, ignore_index=True)
+        df = pd.concat(all_dfs, ignore_index=True)
+        self.league_avg_disposals = df['disposals'].mean()
+        return df
 
     def _validate_numeric_columns(self, df):
         """Validate and clean numeric columns before feature engineering."""
@@ -272,11 +276,13 @@ class AFLDisposalPredictor:
             return pd.Series(np.nan, index=df.index)
 
     def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Engineer features for training, including advanced features."""
+        """Engineer features for training with credibility adjustments for new players."""
         df = self._validate_numeric_columns(df)
         df.loc[:, 'round_number'] = df['round'].apply(extract_round_number)
         df = df.sort_values(['player', 'year', 'round_number'])
         rolling_cols_available = [col for col in self.base_rolling_features if col in df.columns]
+        
+        # Calculate base rolling features
         for col in rolling_cols_available:
             df.loc[:, f'across_season_rolling_avg_{col}_{self.rolling_window}'] = self._add_rolling(df, col, window=self.rolling_window, group_by=['player'])
             df.loc[:, f'within_season_rolling_avg_{col}_{self.within_season_window}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'])
@@ -285,6 +291,8 @@ class AFLDisposalPredictor:
                 lambda x: x.ewm(span=3, adjust=False).mean().shift(1)
             )
             df.loc[:, f'within_season_volatility_{col}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'], agg_func='std')
+        
+        # Additional features
         if 'kicks' in df.columns and 'handballs' in df.columns:
             df.loc[:, 'kicks_to_handballs_ratio'] = df['kicks'] / (df['handballs'] + 1)
         if 'tackles' in df.columns and 'disposals' in df.columns:
@@ -292,8 +300,32 @@ class AFLDisposalPredictor:
         df['age'] = (df['date'] - df['dob']).dt.days / 365.25
         df['games_played'] = df.groupby('player', observed=False).cumcount()
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
-        across_season_features = [f'across_season_rolling_avg_{col}_{self.rolling_window}' for col in rolling_cols_available]
-        within_season_features = [f'within_season_rolling_avg_{col}_{self.within_season_window}' for col in rolling_cols_available]
+        df['max_disposals_to_date'] = df.groupby('player', observed=False)['disposals'].transform(lambda x: x.expanding().max().shift(1))
+        df['cv_disposals'] = df[f'within_season_volatility_disposals'] / (df[f'within_season_rolling_avg_disposals_{self.within_season_window}'] + 1e-6)
+        
+        # Calculate games_in_season for within-season adjustments
+        df['games_in_season'] = df.groupby(['player', 'year'], observed=False).cumcount()
+        
+        # Adjust rolling features with credibility for players with limited data
+        for col in rolling_cols_available:
+            df[f'adjusted_across_season_rolling_avg_{col}_{self.rolling_window}'] = df.apply(
+                lambda row: (
+                    (row['games_played'] / (row['games_played'] + self.credibility_k)) * row[f'across_season_rolling_avg_{col}_{self.rolling_window}'] +
+                    (self.credibility_k / (row['games_played'] + self.credibility_k)) * self.league_avg_disposals
+                ) if pd.notnull(row[f'across_season_rolling_avg_{col}_{self.rolling_window}']) else self.league_avg_disposals,
+                axis=1
+            )
+            df[f'adjusted_within_season_rolling_avg_{col}_{self.within_season_window}'] = df.apply(
+                lambda row: (
+                    (row['games_in_season'] / (row['games_in_season'] + self.credibility_k)) * row[f'within_season_rolling_avg_{col}_{self.within_season_window}'] +
+                    (self.credibility_k / (row['games_in_season'] + self.credibility_k)) * self.league_avg_disposals
+                ) if pd.notnull(row[f'within_season_rolling_avg_{col}_{self.within_season_window}']) else self.league_avg_disposals,
+                axis=1
+            )
+        
+        # Define feature sets with adjusted rolling averages
+        across_season_features = [f'adjusted_across_season_rolling_avg_{col}_{self.rolling_window}' for col in rolling_cols_available]
+        within_season_features = [f'adjusted_within_season_rolling_avg_{col}_{self.within_season_window}' for col in rolling_cols_available]
         season_to_date_features = [f'season_to_date_mean_{col}' for col in rolling_cols_available]
         recent_form_features = [f'recent_form_{col}' for col in rolling_cols_available]
         volatility_features = [f'within_season_volatility_{col}' for col in rolling_cols_available]
@@ -303,16 +335,19 @@ class AFLDisposalPredictor:
         self.feature_columns = (
             across_season_features + within_season_features + season_to_date_features + 
             recent_form_features + volatility_features + interaction_features + 
-            ['round_number', 'days_since_last_game', 'age', 'games_played'] + extra_feats + dummy_cols
+            ['round_number', 'days_since_last_game', 'age', 'games_played', 'max_disposals_to_date', 'cv_disposals'] + 
+            extra_feats + dummy_cols
         )
         self.feature_columns = [col for col in self.feature_columns if col in df.columns]
         return df.dropna(subset=across_season_features + within_season_features + ['disposals'])
 
     def _engineer_features_for_prediction(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Engineer features for prediction, matching training features."""
+        """Engineer features for prediction with credibility adjustments."""
         df.loc[:, 'round_number'] = df['round'].apply(extract_round_number)
         df = df.sort_values(['player', 'year', 'round_number'])
         rolling_cols_available = [col for col in self.base_rolling_features if col in df.columns]
+        
+        # Calculate base rolling features
         for col in rolling_cols_available:
             df.loc[:, f'across_season_rolling_avg_{col}_{self.rolling_window}'] = self._add_rolling(df, col, window=self.rolling_window, group_by=['player'])
             df.loc[:, f'within_season_rolling_avg_{col}_{self.within_season_window}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'])
@@ -321,6 +356,8 @@ class AFLDisposalPredictor:
                 lambda x: x.ewm(span=3, adjust=False).mean().shift(1)
             )
             df.loc[:, f'within_season_volatility_{col}'] = self._add_rolling(df, col, window=self.within_season_window, group_by=['player', 'year'], agg_func='std')
+        
+        # Additional features
         if 'kicks' in df.columns and 'handballs' in df.columns:
             df.loc[:, 'kicks_to_handballs_ratio'] = df['kicks'] / (df['handballs'] + 1)
         if 'tackles' in df.columns and 'disposals' in df.columns:
@@ -328,10 +365,32 @@ class AFLDisposalPredictor:
         df['age'] = (df['date'] - df['dob']).dt.days / 365.25
         df['games_played'] = df.groupby('player', observed=False).cumcount()
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
+        df['max_disposals_to_date'] = df.groupby('player', observed=False)['disposals'].transform(lambda x: x.expanding().max().shift(1))
+        df['cv_disposals'] = df[f'within_season_volatility_disposals'] / (df[f'within_season_rolling_avg_disposals_{self.within_season_window}'] + 1e-6)
+        
+        # Calculate games_in_season for within-season adjustments
+        df['games_in_season'] = df.groupby(['player', 'year'], observed=False).cumcount()
+        
+        # Adjust rolling features with credibility for players with limited data
+        for col in rolling_cols_available:
+            df[f'adjusted_across_season_rolling_avg_{col}_{self.rolling_window}'] = df.apply(
+                lambda row: (
+                    (row['games_played'] / (row['games_played'] + self.credibility_k)) * row[f'across_season_rolling_avg_{col}_{self.rolling_window}'] +
+                    (self.credibility_k / (row['games_played'] + self.credibility_k)) * self.league_avg_disposals
+                ) if pd.notnull(row[f'across_season_rolling_avg_{col}_{self.rolling_window}']) else self.league_avg_disposals,
+                axis=1
+            )
+            df[f'adjusted_within_season_rolling_avg_{col}_{self.within_season_window}'] = df.apply(
+                lambda row: (
+                    (row['games_in_season'] / (row['games_in_season'] + self.credibility_k)) * row[f'within_season_rolling_avg_{col}_{self.within_season_window}'] +
+                    (self.credibility_k / (row['games_in_season'] + self.credibility_k)) * self.league_avg_disposals
+                ) if pd.notnull(row[f'within_season_rolling_avg_{col}_{self.within_season_window}']) else self.league_avg_disposals,
+                axis=1
+            )
         return df
 
     def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
-        """Prepare features (X) and target (y) for training."""
+        """Prepare features (X) and target (y) for training with winsorization."""
         global df_global
         df_global = df
         historical_data = df[df['year'] < self.target_year].copy()
@@ -340,8 +399,11 @@ class AFLDisposalPredictor:
             print("⚠️ No historical data available")
             return None, None
         engineered_df = self._engineer_features(historical_data)
+        percentile_1 = historical_data['disposals'].quantile(0.01)
+        percentile_99 = historical_data['disposals'].quantile(0.99)
+        clipped_disposals = engineered_df['disposals'].clip(lower=percentile_1, upper=percentile_99)
+        y = np.log1p(clipped_disposals)
         X = engineered_df[self.feature_columns]
-        y = np.log1p(engineered_df['disposals'])
         self.training_feature_columns = self.feature_columns.copy()
         X.loc[:, 'missing_count'] = X.isna().sum(axis=1)
         self.training_feature_columns.append('missing_count')
@@ -443,7 +505,7 @@ class AFLDisposalPredictor:
         return self.best_name
 
     def predict_current_season_disposals(self, player_data: pd.DataFrame) -> pd.DataFrame:
-        """Predict disposals for the target year."""
+        """Predict disposals for the target year with stricter dynamic clipping."""
         if player_data.empty:
             print("⚠️ Empty player data")
             return pd.DataFrame()
@@ -464,8 +526,13 @@ class AFLDisposalPredictor:
         X_pred['missing_count'] = X_pred.isna().sum(axis=1)
         X_transformed = self.preprocessor.transform(X_pred)
         X_final = pd.DataFrame(X_transformed, columns=self.training_feature_columns, index=X_pred.index)
-        predictions = np.expm1(self.models[self.best_name].predict(X_final))
-        predictions = np.clip(predictions, 0, 45)
+        raw_predictions = self.models[self.best_name].predict(X_final)
+        predictions = np.expm1(raw_predictions)
+        # Stricter dynamic clipping
+        max_realistic = current_season_data[f'adjusted_across_season_rolling_avg_disposals_{self.rolling_window}'] + 1.5 * current_season_data[f'within_season_volatility_disposals']
+        max_realistic = max_realistic.fillna(25)
+        predictions = np.clip(predictions, 0, max_realistic)
+        predictions = np.clip(predictions, 0, 40)
         return current_season_data[['player', 'team', 'round', 'date', 'round_number']].assign(predicted_disposals=predictions)
 
     def get_next_round(self, df: pd.DataFrame, target_year) -> int:
