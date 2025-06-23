@@ -1,5 +1,6 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Essendon,2025,1,Richmond,12,W,36,14,8,2,16,3.0,1.0,,3,,6.0,,2,,1.0,,3,14,2.0,3.0,1.0,,,84,2025-05-17
-Essendon,2025,2,Brisbane Lions,13,L,36,5,3,6,11,,,,3,3.0,2.0,1.0,2,,2.0,,4,8,,,,,1.0,79,2025-05-24
-Essendon,2025,3,Carlton,14,L,36,10,5,4,14,,1.0,,1,,,1.0,1,,,,5,9,1.0,1.0,3.0,,,85,2025-05-31
-Essendon,2025,4,Geelong,15,L,36,8,4,2,10,,,,,3,1,,1,,,,,10,,,2,,,80,2025-06-07
+Essendon,2025,1,Richmond,12,W,36,14,8,2,16,3.0,1.0,,3.0,,6.0,,2,,1.0,,3.0,14,2.0,3.0,1.0,,,84,2025-05-17
+Essendon,2025,2,Brisbane Lions,13,L,36,5,3,6,11,,,,3.0,3.0,2.0,1.0,2,,2.0,,4.0,8,,,,,1.0,79,2025-05-24
+Essendon,2025,3,Carlton,14,L,36,10,5,4,14,,1.0,,1.0,,,1.0,1,,,,5.0,9,1.0,1.0,3.0,,,85,2025-05-31
+Essendon,2025,4,Geelong,15,L,36,8,4,2,10,,,,,3.0,1.0,,1,,,,,10,,,2.0,,,80,2025-06-07
+Essendon,2025,5,Fremantle,16,L,36,11,4,10,21,,,,,3,,,2,1,,,7,14,,,2,,,86,2025-06-14

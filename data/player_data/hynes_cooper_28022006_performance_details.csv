@@ -1,5 +1,6 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Western Bulldogs,2025,1,Brisbane Lions,6,L,6,1,1.0,2,3,,,,,,1.0,,2.0,,,,3,1,,,,,1.0,60,2025-04-05
-Western Bulldogs,2025,2↑,St Kilda,7,W,6,3,4.0,6,9,,1.0,,,,,,1.0,,1.0,,4,5,,1.0,,,1.0,61,2025-04-12
-Western Bulldogs,2025,3↑,Greater Western Sydney,8,W,6,2,,1,3,,,,,,,,,1.0,,,1,2,,,,,,22,2025-04-19
-Western Bulldogs,2025,4↑,St Kilda,15,W,6,2,1,,2,1,,,1,,1,,2,,,,1,1,1,1,1,,,21,2025-06-07
+Western Bulldogs,2025,1,Brisbane Lions,6,L,6,1,1.0,2.0,3,,,,,,1.0,,2.0,,,,3,1,,,,,1.0,60,2025-04-05
+Western Bulldogs,2025,2↑,St Kilda,7,W,6,3,4.0,6.0,9,,1.0,,,,,,1.0,,1.0,,4,5,,1.0,,,1.0,61,2025-04-12
+Western Bulldogs,2025,3↑,Greater Western Sydney,8,W,6,2,,1.0,3,,,,,,,,,1.0,,,1,2,,,,,,22,2025-04-19
+Western Bulldogs,2025,4↑,St Kilda,15,W,6,2,1.0,,2,1.0,,,1.0,,1.0,,2.0,,,,1,1,1.0,1.0,1.0,,,21,2025-06-07
+Western Bulldogs,2025,5,Richmond,16,W,6,4,2,6,10,2,,,3,,2,,3,,1,,2,8,,,,,,77,2025-06-14
