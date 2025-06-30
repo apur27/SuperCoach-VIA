@@ -8,7 +8,7 @@ import csv
 # Define directories and file paths
 DATA_DIR = Path("./data/player_data")
 PREDICTION_DIR = Path("./data/prediction")
-PREDICTION_FILE = PREDICTION_DIR / "next_round_16_prediction_20250617_1726.csv"
+PREDICTION_FILE = PREDICTION_DIR / "next_round_17_prediction_20250623_2146.csv"
 
 # Extract round number from prediction file name
 match = re.search(r'next_round_(\d+)_prediction_\d{8}_\d{4}\.csv', PREDICTION_FILE.name)
