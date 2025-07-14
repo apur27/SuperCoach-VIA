@@ -1,4 +1,5 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
 West Coast,2025,1,Carlton,15,L,45,19,6,12,31,,,,1.0,7,1,,1,1.0,1.0,,9,12,,,2,,1.0,80,2025-06-07
 West Coast,2025,2,Collingwood,17,L,45,22,5,7,29,,,,,5,3,1.0,4,,,,7,19,2.0,,1,1.0,,83,2025-06-21
-West Coast,2025,3,Greater Western Sydney,18,L,45,14,6,5,19,,,,2,11,1,1,2,1,1,,4,9,,,3,2,,82,2025-06-28
+West Coast,2025,3,Greater Western Sydney,18,L,45,14,6,5,19,,,,2.0,11,1,1.0,2,1.0,1.0,,4,9,,,3,2.0,,82,2025-06-28
+West Coast,2025,4,Port Adelaide,19,L,45,12,2,9,21,,,,3,4,1,2,1,,,,4,11,,,4,,,79,2025-07-05
