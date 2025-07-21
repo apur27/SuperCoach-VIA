@@ -1,7 +1,8 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Hawthorn,2023,1,Port Adelaide,12,L,42,4,6,6,10,,,,2.0,2,1.0,,,1.0,,,2,8,1.0,,,3,,78,2023-05-17
-Hawthorn,2023,2↑,Western Bulldogs,22,W,42,9,5,6,15,,,,,5,,1.0,2.0,,,,2,13,,,,1,,63,2023-07-26
-Hawthorn,2025,3↑,West Coast,8,W,42,3,,5,8,,,,,1,,,1,1,,,1,6,,,,1,,47,2025-04-19
-Hawthorn,2025,4↑,Richmond,9,W,42,3,1,2,5,,,,,2,,,1,,1,,1,4,,,,1,,26,2025-04-26
-Hawthorn,2025,5↑,Melbourne,10,W,42,3,2,4,7,,,,1,,,1,,,,,5,2,,,,,,33,2025-05-03
-Hawthorn,2025,6↑,Gold Coast,11,L,42,3,,2,5,,,,,2,1,,1,1,,,1,5,,,1,2,,26,2025-05-10
+Hawthorn,2023,1,Port Adelaide,12,L,42,4,6.0,6,10,,,,2.0,2.0,1.0,,,1.0,,,2,8,1.0,,,3.0,,78,2023-05-17
+Hawthorn,2023,2↑,Western Bulldogs,22,W,42,9,5.0,6,15,,,,,5.0,,1.0,2.0,,,,2,13,,,,1.0,,63,2023-07-26
+Hawthorn,2025,3↑,West Coast,8,W,42,3,,5,8,,,,,1.0,,,1.0,1.0,,,1,6,,,,1.0,,47,2025-04-19
+Hawthorn,2025,4↑,Richmond,9,W,42,3,1.0,2,5,,,,,2.0,,,1.0,,1.0,,1,4,,,,1.0,,26,2025-04-26
+Hawthorn,2025,5↑,Melbourne,10,W,42,3,2.0,4,7,,,,1.0,,,1.0,,,,,5,2,,,,,,33,2025-05-03
+Hawthorn,2025,6↑,Gold Coast,11,L,42,3,,2,5,,,,,2.0,1.0,,1.0,1.0,,,1,5,,,1.0,2.0,,26,2025-05-10
+Hawthorn,2025,7↑,Port Adelaide,20,W,42,3,,1,4,1,,,2,,2,,,,,,2,2,,,3,,,32,2025-07-12
