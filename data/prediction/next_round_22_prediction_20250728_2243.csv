@@ -1,0 +1,414 @@
+player,team,predicted_disposals
+Anderson Noah,Gold Coast,28.595277852744275
+Smith Bailey,Geelong,27.661946676690203
+Wanganeen-Milera Nasiah,St Kilda,27.66179367671848
+Callaghan Finn,Greater Western Sydney,27.181987183702702
+Ash Lachie,Greater Western Sydney,26.341658412646385
+Merrett Zach,Essendon,26.321703676309024
+Brayshaw Andrew,Fremantle,25.92662320265474
+Daicos Nick,Collingwood,25.81817431895445
+Rozee Connor,Port Adelaide,25.476739455811916
+Sheezel Harry,North Melbourne,25.277007887816666
+Butters Zak,Port Adelaide,25.130244473668935
+Daicos Josh,Collingwood,25.038110012648886
+Holmes Max,Geelong,25.028420876361928
+Green Tom,Greater Western Sydney,24.98564914722256
+Ashcroft Will,Brisbane Lions,24.92678462802893
+Bontempelli Marcus,Western Bulldogs,24.709642533435662
+Rowell Matt,Gold Coast,24.707680915028497
+Hopper Jacob,Richmond,24.539940362668457
+Zorko Dayne,Brisbane Lions,24.33531516731465
+Serong Caleb,Fremantle,24.264365267746065
+Liberatore Tom,Western Bulldogs,24.203622506364525
+Petracca Christian,Melbourne,24.074018019410765
+Dale Bailey,Western Bulldogs,24.061788414847214
+Whitfield Lachie,Greater Western Sydney,24.0584057431696
+Daniel Caleb,North Melbourne,24.005083327214823
+Noble John,Gold Coast,23.921995122575257
+Mccluggage Hugh,Brisbane Lions,23.840079174478547
+Richards Ed,Western Bulldogs,23.736877711716577
+Hewett George,Carlton,23.60238849483831
+Mckercher Colby,North Melbourne,23.436560209253287
+Sinclair Jack,St Kilda,23.37573586166668
+Oliver Clayton,Melbourne,23.35636803771336
+Neale Lachie,Brisbane Lions,23.346234227533685
+Macrae Jack,St Kilda,23.202107687597636
+Cerra Adam,Carlton,23.17820982763132
+Dunkley Josh,Brisbane Lions,23.176817951430785
+Clark Jordan,Fremantle,23.152563027288622
+Dawson Jordan,Adelaide,22.95865946612861
+Powell Tom,North Melbourne,22.95428634245807
+Amon Karl,Hawthorn,22.403020262055534
+Prestia Dion,Richmond,22.3938666685902
+Wines Ollie,Port Adelaide,22.24022091828838
+Banks Sam,Richmond,22.169682041343798
+Heeney Isaac,Sydney,22.119908933185854
+Laird Rory,Adelaide,21.936515705835316
+Gulden Errol,Sydney,21.878871816877243
+Mills Callum,Sydney,21.689766668635265
+Roberts Archie,Essendon,21.63324409200427
+Mccarthy Tom,West Coast,21.349389520571794
+Miers Gryan,Geelong,21.30369216436153
+Davies-Uniacke Luke,North Melbourne,21.257636230443456
+Kennedy Matthew,Western Bulldogs,21.089218089836375
+Bowey Jake,Melbourne,21.082110264709307
+Viney Jack,Melbourne,20.882998162991825
+Windhager Marcus,St Kilda,20.853420491338916
+Mitchell Tom,Collingwood,20.84933907029604
+Warner Chad,Sydney,20.82211182140413
+Steele Jack,St Kilda,20.779381279576096
+Baker Liam,West Coast,20.768500292269017
+Kelly Josh,Greater Western Sydney,20.678637884687944
+Fiorini Brayden,Gold Coast,20.573822215322465
+Salem Christian,Melbourne,20.54400003096101
+Soligo Jake,Adelaide,20.520107268728353
+Mcinerney Justin,Sydney,20.45512029221499
+Ryan Luke,Fremantle,20.447362434588115
+Parker Luke,North Melbourne,20.374028479589168
+Simpkin Jy,North Melbourne,20.275456441048966
+Blakey Nick,Sydney,20.266719653823184
+Rivers Trent,Melbourne,20.258016572098743
+Worrell Josh,Adelaide,20.228335998639135
+Flanders Sam,Gold Coast,20.15799788147724
+Duggan Liam,West Coast,20.07861771618979
+Newcombe Jai,Hawthorn,20.06123263725277
+Sidebottom Steele,Collingwood,19.94995831990824
+Cripps Patrick,Carlton,19.88645831043209
+Fletcher Jaspa,Brisbane Lions,19.80782690998074
+Reid Harley,West Coast,19.80698886169372
+Docherty Sam,Carlton,19.774180166304507
+Ward Josh,Hawthorn,19.72392708527538
+Vlastuin Nick,Richmond,19.72246072268822
+Redman Mason,Essendon,19.562496574401575
+Pickett Kysaiah,Melbourne,19.50946626205817
+Farrell Kane,Port Adelaide,19.435464859177866
+Berry Jarrod,Brisbane Lions,19.247728841850368
+Mcgrath Andrew,Essendon,19.188361078408537
+Crisp Jack,Collingwood,19.177510640721742
+Jeffrey Joel,Gold Coast,19.121225981363587
+Rankine Izak,Adelaide,18.918088499734615
+Short Jayden,Richmond,18.89869194603111
+Impey Jarman,Hawthorn,18.872750584860867
+Boak Travis,Port Adelaide,18.798125639767473
+Sanders Ryley,Western Bulldogs,18.700118008579793
+Hill Bradley,St Kilda,18.600263043677526
+Langdon Ed,Melbourne,18.564095451908372
+Moore Dylan,Hawthorn,18.520448327890044
+Wilmot Darcy,Brisbane Lions,18.50407226347695
+Williams Bailey,Western Bulldogs,18.476774315241705
+Bramble Lachlan,Western Bulldogs,18.457412161457377
+Ashcroft Levi,Brisbane Lions,18.361001404886032
+Peatling James,Adelaide,18.234630204532326
+Burgoyne Jase,Port Adelaide,18.119678426742823
+Freijah Joel,Western Bulldogs,18.044313999436238
+Ross Jack,Richmond,17.879725784009228
+Odriscoll Nathan,Fremantle,17.761139465818133
+Lloyd Jake,Sydney,17.728381544269865
+Idun Connor,Greater Western Sydney,17.701730493633523
+Ginnivan Jack,Hawthorn,17.700098141417065
+Durham Sam,Essendon,17.60621185322413
+Worpel James,Hawthorn,17.505023535351217
+Mannagh Shaun,Geelong,17.473640518680348
+Stewart Tom,Geelong,17.471762719845287
+Sicily James,Hawthorn,17.42377250111415
+Marshall Rowan,St Kilda,17.416619441134813
+Shiel Dylan,Essendon,17.354075089149234
+Long Ned,Collingwood,17.354001513762633
+Bailey Zac,Brisbane Lions,17.33974515839964
+Roberts Matt,Sydney,17.225521293266354
+Dambrosio Massimo,Hawthorn,17.188991428501694
+Hollands Oliver,Carlton,17.177575175845202
+Omeara Jaeger,Fremantle,17.10586294028907
+Himmelberg Harry,Greater Western Sydney,17.04820368819936
+Keays Ben,Adelaide,16.959403412943644
+Sheldrick Angus,Sydney,16.951940969784122
+Cameron Darcy,Collingwood,16.950234755908937
+English Tim,Western Bulldogs,16.88156258792014
+Gawn Max,Melbourne,16.88124732793956
+Bergman Miles,Port Adelaide,16.752586837080177
+Ridley Jordan,Essendon,16.751126666702945
+Hough Brady,West Coast,16.749737202628857
+Bolton Shai,Fremantle,16.69275953325697
+Acres Blake,Carlton,16.666541942514257
+Battle Josh,Hawthorn,16.665051753483482
+Wilkie Callum,St Kilda,16.575207656071406
+Hall Clay,West Coast,16.506835639827933
+Neal-Bullen Alex,Adelaide,16.495480826359596
+Milera Wayne,Adelaide,16.47057527348962
+Dempsey Oliver,Geelong,16.450412268086154
+Morrison Harry,Hawthorn,16.443471192360164
+Guthrie Zach,Geelong,16.43684389781846
+Nash Conor,Hawthorn,16.43223736068583
+Saad Adam,Carlton,16.42655934589181
+Drew Willem,Port Adelaide,16.308626696661378
+Byrnes Ryan,St Kilda,16.22880218713814
+Langford Harvey,Melbourne,16.22441418798525
+Hall Max,St Kilda,16.14663066604914
+Ohalloran Xavier,Greater Western Sydney,16.10579470850826
+Jackson Luke,Fremantle,16.084942651654753
+Johannisen Jason,Western Bulldogs,16.074444664898085
+Maric Ryan,West Coast,16.05483331922859
+Atkins Tom,Geelong,15.97430920327771
+Lipinski Patrick,Collingwood,15.93877539943088
+Hardwick Blake,Hawthorn,15.938758055146234
+Cole Tom,West Coast,15.851611277502885
+Haynes Nick,Carlton,15.769702430324267
+Rayner Cam,Brisbane Lions,15.69146316865465
+Grundy Brodie,Sydney,15.619743412128203
+Humphries Lawson,Geelong,15.614604121767213
+Busslinger Jedd,Western Bulldogs,15.476553535757152
+Koning Tom,Carlton,15.417657831462737
+Dewar Tyrell,West Coast,15.305769358287733
+Mcintosh Kamdyn,Richmond,15.250254888990582
+Humphrey Bailey,Gold Coast,15.245362085969708
+Curtin Daniel,Adelaide,15.170374576084074
+Day Will,Hawthorn,15.094261998969696
+Young Hayden,Fremantle,15.079048071505373
+Richards Joe,Port Adelaide,15.073149592957618
+Martin Jack,Geelong,15.021442013053994
+Rowbottom James,Sydney,15.003223977441307
+Greene Toby,Greater Western Sydney,14.893056961030725
+Nankervis Toby,Richmond,14.892377926435893
+Angwin Ryan,Greater Western Sydney,14.865888503356363
+Stephens Dylan,North Melbourne,14.8501100785226
+Davies Alex,Gold Coast,14.830596503172384
+Berry Sam,Adelaide,14.782333208725563
+Houston Dan,Collingwood,14.70592038033355
+Weller Lachie,Gold Coast,14.669426134507646
+Keane Mark,Adelaide,14.591848720777879
+Powell Wil,Gold Coast,14.591003906893242
+Chandler Kade,Melbourne,14.556249039798754
+Williams Zac,Carlton,14.503095200274329
+Laverde Jayden,Essendon,14.485884608498178
+Sonsie Tyler,Richmond,14.458930131883179
+Uwland Bodhi,Gold Coast,14.43694647117645
+Broad Nathan,Richmond,14.355607214064634
+Mcdonald Tom,Melbourne,14.344962094529656
+Osullivan Finn,North Melbourne,14.29462615873561
+Allan Edward,Collingwood,14.280817986761663
+Maynard Brayden,Collingwood,14.244209357941468
+Wood Mason,St Kilda,14.224466759497643
+Garcia Riley,Western Bulldogs,14.20157808945709
+Prior Jaxon,Essendon,14.186940248653551
+Hardeman Riley,North Melbourne,14.16083709192354
+Mckay Harry,Carlton,14.11439777218005
+Quaynor Isaac,Collingwood,14.089966413514603
+Erasmus Neil,Fremantle,14.084639609353559
+Schoenmaker Arie,St Kilda,14.08416027571794
+Blicavs Mark,Geelong,14.078232985378076
+Jones Zak,St Kilda,14.042037132156052
+Lord Cooper,Carlton,14.03901481426528
+Taylor Sam,Greater Western Sydney,14.033166771852201
+Young Tylar,Richmond,14.024932510422675
+Perryman Harry,Collingwood,13.839437539336412
+Baker Oskar,Western Bulldogs,13.806639888435916
+Hinge Mitch,Adelaide,13.696118664142562
+Coniglio Stephen,Greater Western Sydney,13.669772591787984
+Darcy Sam,Western Bulldogs,13.64968139965823
+Hewett Elijah,West Coast,13.597209634752481
+Brown Tom,Richmond,13.568454337665383
+Jones Darcy,Greater Western Sydney,13.485279294901007
+Mcvee Judd,Melbourne,13.403486870087379
+West Rhylee,Western Bulldogs,13.397923742600105
+Michalanney Max,Adelaide,13.370297870921501
+Teakle Brynn,North Melbourne,13.3592479098129
+Dangerfield Patrick,Geelong,13.320066714795969
+El-Hawli Saad,Essendon,13.218940109013632
+Kelly Tim,West Coast,13.186623930197166
+Macdonald Connor,Hawthorn,13.110064162843493
+Reid Murphy,Fremantle,13.072995843756697
+Oconnor Mark,Geelong,13.060584612180726
+Jordon James,Sydney,13.054092424812708
+Worner Karl,Fremantle,12.95809740309254
+Fritsch Bayley,Melbourne,12.920019880241691
+Budarick Connor,Gold Coast,12.913778771659041
+Chee Callum,Brisbane Lions,12.874902967296073
+Wicks Sam,Sydney,12.86054888026631
+Cowan Lachlan,Carlton,12.854761629606083
+Switkowski Sam,Fremantle,12.826828501401208
+Weitering Jacob,Carlton,12.79838666561342
+Owens Mitch,St Kilda,12.768350335522788
+Evans Logan,Port Adelaide,12.760458894126387
+Johnson Zak,Essendon,12.753171984154264
+Perkins Archie,Essendon,12.735890383815786
+Lindsay Xavier,Melbourne,12.706004086617819
+Ginbey Reuben,West Coast,12.696446762247867
+Koning Sam,Geelong,12.664617588968474
+Chapman Heath,Fremantle,12.660133350312238
+Brockman Tyler,West Coast,12.645638942750985
+Obrien Reilly,Adelaide,12.644686193738194
+Cunningham Harry,Sydney,12.62962086283714
+Clarke Angus,Essendon,12.615541293691713
+Thilthorpe Riley,Adelaide,12.596391991322236
+Meek Lloyd,Hawthorn,12.59620434564254
+Clark Hunter,St Kilda,12.553472248285384
+Riccardi Jake,Greater Western Sydney,12.460927067449303
+Papley Tom,Sydney,12.456537585246757
+Schultz Lachie,Collingwood,12.418678706056216
+Stengle Tyson,Geelong,12.409131759559374
+Bowes Jack,Geelong,12.362187728697936
+Banfield Bailey,Fremantle,12.349781110643306
+Mead Jackson,Port Adelaide,12.330376681763253
+Henry Jack,Geelong,12.321560817742707
+Carroll Matt,Carlton,12.281655839669426
+Turner Daniel,Melbourne,12.237492776312244
+Byrne-Jones Darcy,Port Adelaide,12.208948009497394
+Lobb Rory,Western Bulldogs,12.182174053191117
+Cameron Jeremy,Geelong,12.175699572531851
+Hutchinson Jack,West Coast,12.129751810742574
+Scrimshaw Jack,Hawthorn,12.091938528603755
+Trainor Luke,Richmond,12.070068399698464
+Andrews Harris,Brisbane Lions,12.021555393944666
+Curnow Charlie,Carlton,12.01810334113119
+Close Brad,Geelong,12.015068205499636
+Farrar Jy,Gold Coast,11.992226361876472
+Witts Jarrod,Gold Coast,11.989678767050059
+Osullivan Connor,Geelong,11.955065476043533
+Cleary Luke,Western Bulldogs,11.922688919138423
+Ainsworth Ben,Gold Coast,11.838558434284813
+Mcmullin Toby,Greater Western Sydney,11.8224986239516
+Brown Callum,Greater Western Sydney,11.808342589101906
+Hotton Taj,Richmond,11.788760872811043
+Flynn Matt,West Coast,11.775712320054284
+Hayward Will,Sydney,11.739185387910037
+Goldstein Todd,Essendon,11.719985822883602
+Aliir Aliir,Port Adelaide,11.67324244640268
+Caminiti Anthony,St Kilda,11.645728228080761
+Zurhaar Cameron,North Melbourne,11.619832377157186
+Walker Taylor,Adelaide,11.564653421021369
+Sparrow Tom,Melbourne,11.560854515527295
+Windsor Caleb,Melbourne,11.533698799133706
+Lester Ryan,Brisbane Lions,11.514242291612103
+Campbell Braeden,Sydney,11.49414392788171
+Naughton Aaron,Western Bulldogs,11.454953935323847
+Fonti Joe,Greater Western Sydney,11.43253244417481
+Rampe Dane,Sydney,11.408793854659006
+Kako Isaac,Essendon,11.349939885776866
+Gresham Jade,Essendon,11.282829471934313
+Sweet Jordon,Port Adelaide,11.256985620022082
+Pittonet Marc,Carlton,11.249936248679884
+Fogarty Lachie,Carlton,11.23855839874838
+Sullivan Lachlan,Collingwood,11.23749234827536
+Stringer Jake,Greater Western Sydney,11.224264013545609
+Miller Ben,Richmond,11.213827093074856
+Gunston Jack,Hawthorn,11.211182133478488
+Buckley Jack,Greater Western Sydney,11.188473612927945
+Collins Sam,Gold Coast,11.172104124962328
+Murray Nick,Adelaide,11.167596541932463
+Andrew Mac,Gold Coast,11.159439578191716
+Balta Noah,Richmond,11.132834193677196
+Sinn Josh,Port Adelaide,11.129510305420121
+Logue Griffin,North Melbourne,11.128721347336587
+Lukosius Jack,Port Adelaide,11.10164872185413
+Elliott Jamie,Collingwood,11.06372941693052
+Howes Blake,Melbourne,10.992319172364372
+Wright Peter,Essendon,10.9361801064913
+Jackson Hugh,Port Adelaide,10.915360313094833
+Mansell Rhyan,Richmond,10.895130287740567
+Brock Sandy,West Coast,10.885450755678447
+Vandermeer Laitham,Western Bulldogs,10.883097002940403
+Darcy Sean,Fremantle,10.877297083042713
+Cadman Aaron,Greater Western Sydney,10.806433869126549
+Briggs Kieren,Greater Western Sydney,10.783023271514171
+Ryan Liam,West Coast,10.779869733767809
+Frederick Michael,Fremantle,10.736660782371306
+Bedford Toby,Greater Western Sydney,10.722996897221599
+Cox Brennan,Fremantle,10.706511803276207
+Zerk-Thatcher Brandon,Port Adelaide,10.69218571727199
+Stocker Liam,St Kilda,10.689944661346296
+Watson Nick,Hawthorn,10.673551534905354
+Georgiades Mitch,Port Adelaide,10.586000228753278
+Hastie Angus,St Kilda,10.550491900347112
+Jones Lachie,Port Adelaide,10.520497344624701
+Treacy Josh,Fremantle,10.513883526502283
+Cripps Jamie,West Coast,10.473435560629417
+Caddy Nate,Essendon,10.471390494887126
+Morris Logan,Brisbane Lions,10.468184547963752
+Motlop Jesse,Carlton,10.437186663163114
+Sharman Cooper,St Kilda,10.351662449974238
+Long Ben,Gold Coast,10.296704970825676
+Melican Lewis,Sydney,10.294634912181406
+Boxshall Hugh,St Kilda,10.227338704643405
+Comben Charlie,North Melbourne,10.220887739503063
+Guelfi Matt,Essendon,10.20725561396746
+Blakiston Lachlan,Essendon,10.167633195736563
+Stanley Rhys,Geelong,10.161186953176564
+Mullin Oisin,Geelong,10.12788390306275
+Odonnell James,Western Bulldogs,10.122885003333401
+Mcneil Lachlan,Western Bulldogs,10.11175874103604
+Fogarty Darcy,Adelaide,10.09071398130043
+Mcinerney Oscar,Brisbane Lions,10.079686582178377
+Trezise James,Richmond,10.07670594285588
+Spargo Charlie,Melbourne,10.059991643418513
+Jones Chayce,Adelaide,10.037560202267592
+Owies Matthew,West Coast,10.003669109442994
+Rooyen Jacob,Melbourne,9.997958719520517
+Starcevich Brandon,Brisbane Lions,9.991439382204033
+Hogan Jesse,Greater Western Sydney,9.982411968049286
+Moore Darcy,Collingwood,9.938634684820496
+Voss Patrick,Fremantle,9.937575966442298
+Curtis Paul,North Melbourne,9.879950366595699
+Hansen Robert,North Melbourne,9.867961475744615
+Konstanty Jacob,North Melbourne,9.827974036237263
+Hipwood Eric,Brisbane Lions,9.822963342243186
+Pink Toby,North Melbourne,9.814623564235562
+Mcdonald Oscar,Fremantle,9.810355502870523
+Barrass Tom,Hawthorn,9.759207155613183
+Ofarrell Harry,Carlton,9.73447531812537
+Mclean Hayden,Sydney,9.70254316618253
+Membrey Tim,Collingwood,9.599329720930248
+Fort Darcy,Brisbane Lions,9.595591685975561
+Holman Nick,Gold Coast,9.576836006017679
+Markov Oleg,Collingwood,9.571597061736943
+Melksham Jake,Melbourne,9.525689026102194
+Rioli Maurice,Richmond,9.479755216027279
+Tauru Alix,St Kilda,9.465139677128196
+Gardiner Darcy,Brisbane Lions,9.445964826433537
+Moir Ashton,Carlton,9.440437872501453
+Darling Jack,North Melbourne,9.389148245789375
+Mihocek Brody,Collingwood,9.369831038754315
+Shanahan Jobe,West Coast,9.233751389914508
+Cameron Charlie,Brisbane Lions,9.189145416839999
+Hoskin-Elliott Will,Collingwood,9.173175003757532
+Higgins Jack,St Kilda,9.143878860332226
+Berry Joe,Port Adelaide,9.13550568228458
+Neale Shannon,Geelong,9.091930159736394
+Mcstay Daniel,Collingwood,9.073241480962656
+Faull Jonty,Richmond,8.992156061074775
+Smartt Oskar,Essendon,8.815710923360516
+Dear Calsher,Hawthorn,8.732506172491803
+Cook Brayden,Adelaide,8.718899073549423
+Read Ethan,Gold Coast,8.677319117639762
+Lewis Mitch,Hawthorn,8.61223803182192
+King Ben,Gold Coast,8.497077350042657
+Pedlar Luke,Adelaide,8.45517607682393
+Taylor Zac,Adelaide,8.43131602629628
+Mckenna Conor,Brisbane Lions,8.42129119197156
+White Will,Carlton,8.397406057877737
+Mcentee Jed,Port Adelaide,8.323865379276027
+Dean Charlie,Collingwood,8.208372968129925
+Dawson Wil,North Melbourne,8.1979065048617
+Francis Aaron,Sydney,8.167668586897243
+Hamling Joel,Sydney,8.137111119043238
+Poulter Caleb,Western Bulldogs,8.078023586735975
+Lual Luamon,Essendon,8.06442121915268
+Marshall Sam,Brisbane Lions,8.051835281247318
+Petty Harry,Melbourne,8.013985045415051
+Green Steely,Richmond,8.011331297320076
+Dudley Isaiah,Fremantle,7.999002352155527
+Buller Jack,Sydney,7.950317895492709
+Amiss Jye,Fremantle,7.855335985054815
+Adams Oscar,Gold Coast,7.850974801938828
+Sims Tom,Richmond,7.844977234671621
+Maley Finnbar,North Melbourne,7.780489276972225
+Mcmahon Liam,Essendon,7.671730624444576
+Banch Zac,North Melbourne,7.644614836156431
+Durdin Corey,Carlton,7.639043351203763
+Macdonald Bailey,Hawthorn,7.595751377106668
+Lombard Leo,Gold Coast,7.591064943375201
+Collard Lance,St Kilda,7.574554498211049
+Duursma Zane,North Melbourne,7.524867360633691
+Lord Ollie,Port Adelaide,7.478330096375376
+Bazzo Rhett,West Coast,7.457456672397665
+Alger Jasper,Richmond,7.359196750790656
+Reid Archer,West Coast,7.309856141118703
