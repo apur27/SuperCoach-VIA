@@ -1,4 +1,5 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Richmond,2025,1,Essendon,19,W,24,6,3,4,10,1.0,,,3,,3,1.0,1,1,,,6,5,,1.0,1,,,56,2025-07-05
-Richmond,2025,2,West Coast,20,W,24,3,1,13,16,,1.0,,2,1.0,1,,1,1,,,7,11,1.0,,1,,1.0,67,2025-07-12
-Richmond,2025,3,Collingwood,21,L,24,5,1,6,11,2,,,2,,,,1,2,1,,7,5,1,1,1,,,67,2025-07-19
+Richmond,2025,1,Essendon,19,W,24,6,3,4,10,1.0,,,3,,3.0,1.0,1,1,,,6,5,,1.0,1,,,56,2025-07-05
+Richmond,2025,2,West Coast,20,W,24,3,1,13,16,,1.0,,2,1.0,1.0,,1,1,,,7,11,1.0,,1,,1.0,67,2025-07-12
+Richmond,2025,3,Collingwood,21,L,24,5,1,6,11,2.0,,,2,,,,1,2,1.0,,7,5,1.0,1.0,1,,,67,2025-07-19
+Richmond,2025,4,Gold Coast,22,L,24,3,5,11,14,,1,,2,,2,2,1,1,1,,7,9,,,2,1,,74,2025-07-26
