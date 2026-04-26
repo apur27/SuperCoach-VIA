@@ -70,16 +70,18 @@ def read_performance_data(player_id):
                     teams_order.append(team)
                     seen_teams.add(team)
                 total_games += 1
-                kicks = int(row['kicks']) if row['kicks'] else 0
-                handballs = int(row['handballs']) if row['handballs'] else 0
+                # Use int(float(...)) — the refresh script can append rows where pandas
+                # has upcast int columns to float during concat, producing strings like '5.0'.
+                kicks = int(float(row['kicks'])) if row['kicks'] else 0
+                handballs = int(float(row['handballs'])) if row['handballs'] else 0
                 disposals = kicks + handballs
                 disposals_per_game.append(disposals)
                 total_disposals += disposals
-                goals = int(row['goals']) if row['goals'] else 0
+                goals = int(float(row['goals'])) if row['goals'] else 0
                 goals_per_game.append(goals)
                 total_goals += goals
                 if brownlow_available:
-                    brownlow_votes = int(row['brownlow_votes']) if row['brownlow_votes'] else 0
+                    brownlow_votes = int(float(row['brownlow_votes'])) if row['brownlow_votes'] else 0
                     total_brownlow_votes += brownlow_votes
                 if disposals >= 20:
                     games_20_plus_disposals += 1

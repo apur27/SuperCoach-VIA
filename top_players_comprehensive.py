@@ -13,7 +13,7 @@ ERAS = {
     'pre_1965': (1897, 1964, ['goals', 'behinds']),
     '1965_1990': (1965, 1990, ['goals', 'behinds', 'kicks', 'handballs']),
     '1990_2010': (1991, 2010, ['goals', 'behinds', 'kicks', 'handballs', 'marks', 'disposals']),
-    'post_2010': (2011, 2025, ['goals', 'behinds', 'kicks', 'handballs', 'marks', 'disposals', 'tackles', 'one_percenters', 'clearances', 'contested_possessions', 'contested_marks', 'goal_assist'])
+    'post_2010': (2011, 2030, ['goals', 'behinds', 'kicks', 'handballs', 'marks', 'disposals', 'tackles', 'one_percenters', 'clearances', 'contested_possessions', 'contested_marks', 'goal_assist'])
 }
 
 def initialize_df_lib():
@@ -198,7 +198,8 @@ def main():
     }
     
     yearly_top_100 = {}
-    for year in range(1897, 2026):
+    current_year = datetime.now().year
+    for year in range(1897, current_year + 1):
         logging.info(f"Processing yearly rankings for {year}")
         top_100 = generate_yearly_top_100(data_dir, year, weights, output_dir, df_lib)
         if top_100:
