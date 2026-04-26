@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import hashlib
 import pandas as pd
 from typing import Dict, List, Optional, Tuple, Union, Any
@@ -55,10 +56,13 @@ class MatchScraper:
         
         if match_files or lineup_files:
             print(f"Data already exists in {match_folder_path} ({len(match_files)} files) and/or {lineup_folder_path} ({len(lineup_files)} files).")
-            proceed = input("Do you want to proceed with updating the data? (y/n): ").lower()
-            if proceed != 'y':
-                print("Scraping aborted by user.")
-                return
+            if sys.stdin is None or not sys.stdin.isatty():
+                print("Non-interactive run detected; proceeding with delta update.")
+            else:
+                proceed = input("Do you want to proceed with updating the data? (y/n): ").lower()
+                if proceed != 'y':
+                    print("Scraping aborted by user.")
+                    return
 
         # Load existing team lineup data to avoid duplicates
         self._load_existing_lineup_keys(lineup_folder_path)
