@@ -138,7 +138,9 @@ Each season's raw score is computed using only the statistics that were tracked 
 | 1990–2010 | 1991–2010 | + marks, disposals |
 | Post-2010 | 2011–present | + tackles, clearances, contested possessions, contested marks, one-percenters, goal assists |
 
-**Scoring weights:** `goals=55, disposals=14, clearances=5.5, contested_possessions=5.5, contested_marks=7, kicks=4.5, goal_assist=4, tackles=3.5, one_percenters=3, marks=2.5, behinds=1.5`.
+**Scoring weights:** `goals=55, kicks=4.5, handballs=3.0, clearances=5.5, contested_possessions=5.5, contested_marks=7, goal_assist=4, tackles=3.5, one_percenters=3, marks=2.5, behinds=1.5`.
+
+> **Note on disposals:** `disposals` is intentionally absent from the weights and era stat lists. Since `disposals = kicks + handballs`, weighting all three would double-count every kick. Instead, kicks and handballs are scored separately — handballs at ~65% of kick value (3.0 vs 4.5), reflecting their lower distance and accuracy.
 
 **40% single-stat cap:** No single statistic can contribute more than 40% of a player's raw score for a season. This prevents one-dimensional specialists — most notably pre-1965 goal kickers in a goals-only era — from running away with the ranking on the back of a single metric.
 
@@ -164,15 +166,37 @@ This is epistemic humility encoded into the score: a +3σ season evidenced by 2 
 A player's final score is:
 
 ```
-all_time_score = mean_z_top8 × longevity + peak_bonus + brownlow_bonus
+all_time_score = mean_z_top8 × longevity + peak_bonus
 ```
 
-- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons. Captures sustained excellence rather than a single freak year.
-- **`longevity`** = `min(seasons / 12, 1.5)` — durability multiplier capped at 1.5× so a 30-season journeyman cannot outscore a 15-season great purely on counting.
-- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge rewarding peak dominance on top of the top-8 average.
-- **`brownlow_bonus`** = `min(career_brownlow_votes × 0.0005, 0.15)` — a tiny prior that incorporates contemporary expert judgment (umpires' votes), capped at 0.15 so it never dominates the statistical signal.
+- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons. Using the top 8 rather than career average rewards sustained excellence without penalising long careers for weak tail seasons.
+- **`longevity`** = `min(career_games / 250, 1.5)` — games-based durability multiplier, capped at 1.5×. Using actual games played (not seasons) meaningfully separates a 9-season/185-game current player from a 19-season/400-game all-time great. Minimum 150 career games required to qualify.
+- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge rewarding peak dominance (e.g. a Norm Smith Medal year) without letting it dominate the career signal.
 
-The output is written to `data/top100/all_time_top_100.csv` and then enriched with player bios by `formatTop100.py` into the root-level `all_time_top_100.csv`. The algorithm is still being tuned — adjusting the weights, era boundaries, and bonus caps in `top_players_comprehensive.py` is an explicit avenue for experimentation.
+> **Brownlow bonus removed:** an earlier version included a Brownlow vote prior, but it created recency bias — modern midfielders accumulate votes across many more fully-tracked seasons, unfairly inflating their scores relative to pre-1990 players.
+
+### Step 5 — Decade representation guarantee
+
+To ensure the list spans the full history of the game, the top 3 scorers from each decade (1897–1909, 1910s, 1920s … 2020s) are guaranteed inclusion. Remaining spots are filled by overall score. The final list is re-sorted by score so rank order always reflects statistical merit.
+
+The output is written to `data/top100/all_time_top_100.csv` and then enriched with player bios by `formatTop100.py` into the root-level `all_time_top_100.csv`.
+
+### Re-running the rankings from scratch
+
+To force a full recalculation (e.g. after algorithm changes), delete the cached yearly files before running:
+
+```bash
+rm -f data/top100/all_time_top_100.csv
+rm -f data/top100/yearly/*.csv
+python top_players_comprehensive.py   # ~2 hours, processes 1897–present
+python3 formatTop100.py               # enriches with player bios → all_time_top_100.csv
+```
+
+Or use the full pipeline (also refreshes match/player data first):
+
+```bash
+./refresh_and_rank.sh
+```
 
 
 ## Data Guide
