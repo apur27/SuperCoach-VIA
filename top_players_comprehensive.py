@@ -48,16 +48,17 @@ def _is_debug_player(player_name: str) -> bool:
 
 
 # Eras define which stats are available for scoring.
-# brownlow_votes is listed in all eras so it is captured in totals for the
-# Brownlow prior — it carries weight=0 in the scoring weights dict, so it
-# never inflates a player's raw score.
+# 'disposals' is intentionally excluded from all eras: disposals = kicks + handballs,
+# so weighting both 'kicks' and 'disposals' double-counts every kick. Instead, kicks
+# and handballs are weighted separately, giving each proper credit.
+# brownlow_votes carries weight=0 and is retained only for potential future use.
 ERAS = {
-    'pre_1965':  (1897, 1964, ['goals', 'behinds', 'brownlow_votes']),
-    '1965_1990': (1965, 1990, ['goals', 'behinds', 'kicks', 'handballs', 'brownlow_votes']),
-    '1990_2010': (1991, 2010, ['goals', 'behinds', 'kicks', 'handballs', 'marks', 'disposals', 'brownlow_votes']),
-    'post_2010': (2011, 2030, ['goals', 'behinds', 'kicks', 'handballs', 'marks', 'disposals',
+    'pre_1965':  (1897, 1964, ['goals', 'behinds']),
+    '1965_1990': (1965, 1990, ['goals', 'behinds', 'kicks', 'handballs']),
+    '1990_2010': (1991, 2010, ['goals', 'behinds', 'kicks', 'handballs', 'marks']),
+    'post_2010': (2011, 2030, ['goals', 'behinds', 'kicks', 'handballs', 'marks',
                                'tackles', 'one_percenters', 'clearances', 'contested_possessions',
-                               'contested_marks', 'goal_assist', 'brownlow_votes']),
+                               'contested_marks', 'goal_assist']),
 }
 
 
@@ -426,17 +427,18 @@ def main():
     weights = {
         'goals': 55.0,
         'behinds': 1.5,
-        'disposals': 14.0,
+        # kicks and handballs weighted separately — 'disposals' is excluded from
+        # all ERAS lists to prevent double-counting (disposals = kicks + handballs).
+        # Handball ≈ 65% of kick value (less distance, less accuracy) → 3.0 vs 4.5.
+        'kicks': 4.5,
+        'handballs': 3.0,
+        'marks': 2.5,
         'goal_assist': 4.0,
         'contested_marks': 7.0,
         'contested_possessions': 5.5,
-        'marks': 2.5,
-        'kicks': 4.5,
         'tackles': 3.5,
         'one_percenters': 3.0,
         'clearances': 5.5,
-        # brownlow_votes: intentionally absent — weight=0 so it is captured
-        # in totals for the Brownlow prior but never inflates raw scores.
     }
 
     yearly_top_100 = {}
