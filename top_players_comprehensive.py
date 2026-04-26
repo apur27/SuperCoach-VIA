@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple, Optional
+from collections import defaultdict
 from datetime import datetime
 import logging
 import math
@@ -297,68 +298,66 @@ def compile_all_time_top_100(
     """Compile the all-time top 100 using era-fair z-score dominance.
 
     Formula:
-        all_time_score = mean_z_top8 * longevity + peak_bonus + brownlow_bonus
+        all_time_score = mean_z_top8 * longevity + peak_bonus
 
     Components:
       - mean_z_top8: era-adjusted mean z-score of the player's best TOP_N_SEASONS
                      seasons (already shrunk by sqrt(completeness) in generate_yearly).
-                     Using best N seasons rather than career mean rewards sustained
-                     excellence without penalising long careers for weak tail seasons.
-      - longevity = min(seasons / 12, 1.5): capped so 19 seasons beats 10 seasons
-                     but a 30-season plodder doesn't arithmetically dwarf a 12-season
-                     all-time great. Multiplied against mean_z (not added) so a player
-                     with negative mean_z cannot benefit from longevity.
+      - longevity = min(career_games / 250, 1.5): games-based rather than seasons-based
+                     so that a 9-season player with 185 games (e.g. Clayton Oliver) is
+                     meaningfully separated from a 19-season, 400-game player (Bartlett).
+                     Capped at 1.5× so durability doesn't overwhelm dominance.
+                     Minimum 150 career games required to appear in the list at all.
       - peak_bonus = 0.15 * max(peak_z_adj, 0): additive nudge for the single best
                      season. Rewards Norm-Smith-tier peaks without dominating the score.
-      - brownlow_bonus = min(total_votes * 0.0005, 0.15): small additive prior using
-                     contemporary expert judgment (Brownlow votes reflect the players
-                     peers and umpires considered dominant that year), capped at 0.15
-                     to prevent it from being decisive. Especially useful as a signal
-                     where raw stat coverage is thin.
+
+    Brownlow bonus deliberately excluded: it was creating a recency bias because modern
+    players accumulate Brownlow votes across far more seasons of tracked data, pushing
+    current midfielders unreasonably high relative to pre-1990 legends.
     """
     player_data: Dict[str, Dict] = {}
 
     for _, top_list in yearly_top_100.items():
-        for player, _, totals, _, percentile, z_adj in top_list:
+        for player, _, _, games, percentile, z_adj in top_list:
             if player not in player_data:
                 player_data[player] = {
                     'percentile_ranks': [],
-                    'z_scores': [],      # already shrunk by sqrt(completeness)
-                    'brownlow_votes': 0,
+                    'z_scores': [],
+                    'total_games': 0,
                     'seasons': 0,
                 }
             player_data[player]['percentile_ranks'].append(percentile)
             player_data[player]['z_scores'].append(z_adj)
-            player_data[player]['brownlow_votes'] += int(totals.get('brownlow_votes', 0))
+            player_data[player]['total_games'] += games
             player_data[player]['seasons'] += 1
 
     all_time_scores = []
     for player, data in player_data.items():
         seasons = data['seasons']
-        if seasons <= 0:
+        total_games = data['total_games']
+        if seasons <= 0 or total_games < 150:
             continue
 
         z_arr = np.asarray(data['z_scores'], dtype=float)
 
-        # Best TOP_N_SEASONS seasons (or all if fewer)
         top_idx = np.argsort(z_arr)[::-1][:TOP_N_SEASONS]
         mean_z = float(z_arr[top_idx].mean())
-
         peak_z_adj = float(z_arr[top_idx[0]])
 
-        longevity = min(seasons / 12.0, 1.5)
+        # Games-based longevity: 250 games = full multiplier (1.5×).
+        # A 185-game player gets 0.74× vs a 400-game player's 1.5× — a 2× gap
+        # that properly separates a good current player from a multi-decade great.
+        longevity = min(total_games / 250.0, 1.5)
         peak_bonus = 0.15 * max(peak_z_adj, 0.0)
-        brownlow_bonus = min(data['brownlow_votes'] * 0.0005, 0.15)
 
-        all_time_score = mean_z * longevity + peak_bonus + brownlow_bonus
-        all_time_scores.append((player, all_time_score, mean_z, peak_z_adj, seasons))
+        all_time_score = mean_z * longevity + peak_bonus
+        all_time_scores.append((player, all_time_score, mean_z, peak_z_adj, total_games))
 
         if _is_debug_player(player):
             logging.info(
-                f"[DEBUG ALL-TIME] {player}: seasons={seasons} "
+                f"[DEBUG ALL-TIME] {player}: seasons={seasons} games={total_games} "
                 f"mean_z_top{TOP_N_SEASONS}={mean_z:+.3f} peak_z_adj={peak_z_adj:+.3f} "
                 f"longevity={longevity:.3f} peak_bonus={peak_bonus:.3f} "
-                f"brownlow_votes={data['brownlow_votes']} brownlow_bonus={brownlow_bonus:.3f} "
                 f"all_time_score={all_time_score:.4f}"
             )
 
@@ -366,14 +365,54 @@ def compile_all_time_top_100(
         logging.info("No all-time top 100 players found")
         return
 
-    sorted_all_time = sorted(
+    # Full list sorted by score — used as the base for both constraints below.
+    all_sorted = sorted(
         all_time_scores,
-        key=lambda x: (x[1], x[2], x[4]),
+        key=lambda x: (x[1], x[2], x[4]),  # score, mean_z, total_games
         reverse=True,
-    )[:100]
+    )
+
+    # --- Decade representation constraint ---
+    # Determine each player's decade from their first year in the yearly top 100.
+    player_decade: Dict[str, int] = {}
+    for year in sorted(yearly_top_100.keys()):
+        decade = (year // 10) * 10
+        for entry in yearly_top_100[year]:
+            if entry[0] not in player_decade:
+                player_decade[entry[0]] = decade
+
+    # For each decade, reserve the top-3 scorers as guaranteed inclusions.
+    by_decade: Dict[int, list] = defaultdict(list)
+    for entry in all_sorted:
+        by_decade[player_decade.get(entry[0], 0)].append(entry)
+
+    MIN_PER_DECADE = 3
+    must_include: set = set()
+    for decade_entries in by_decade.values():
+        for entry in decade_entries[:MIN_PER_DECADE]:
+            must_include.add(entry[0])
+
+    # Build final 100: guaranteed decade reps first (in score order), then fill by score.
+    seen: set = set()
+    final_100 = []
+    for entry in all_sorted:
+        if entry[0] in must_include:
+            final_100.append(entry)
+            seen.add(entry[0])
+    for entry in all_sorted:
+        if len(final_100) >= 100:
+            break
+        if entry[0] not in seen:
+            final_100.append(entry)
+            seen.add(entry[0])
+
+    # Re-sort so the final output is still ordered by score (guaranteed reps may have
+    # lower scores than some non-guaranteed players displaced by the constraint).
+    final_100.sort(key=lambda x: (x[1], x[2], x[4]), reverse=True)
+    final_100 = final_100[:100]
 
     df = pd.DataFrame(
-        [(p, s) for p, s, *_ in sorted_all_time],
+        [(p, s) for p, s, *_ in final_100],
         columns=['player', 'all_time_score'],
     )
     df.to_csv(os.path.join(output_dir, 'all_time_top_100.csv'), index=False)
