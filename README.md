@@ -71,7 +71,13 @@ Contributions are encouraged; don't hesitate to submit a pull request or contact
 
 I regularly update the CSV data files in the **/data** directory with the latest AFL match and player data. But you can also do your own data scraping using the provided scripts in the "scripts" directory. Scripts, using the Beautiful Soup library, are available for web scraping.
 
-For up-to-date statistics in your own copy of the repository, run `player_scraper.py` and `game_scraper.py` every week. This fetches the latest player info and match results so your data stays current.
+For up-to-date statistics in your own copy of the repository, the primary pipeline entry point is:
+
+```bash
+./refresh_and_rank.sh
+```
+
+This runs the full end-to-end workflow: refreshes the underlying CSVs (player + match scrapers), regenerates the all-time top 100 ranking, and produces the formatted `all_time_top_100.csv` enriched with player bios. If you only need a partial refresh, the individual scripts (`player_scraper.py`, `game_scraper.py`, `refresh_data.py`, `top_players_fast.py`, `formatTop100.py`) can also be invoked directly.
 
 
 ## Repository Structure
@@ -84,12 +90,89 @@ The project organizes data and scripts into several key locations:
 - `data/top100/` – yearly and all-time top player rankings.
 - `data/era_stats.csv` – aggregate statistics for each AFL era.
 
-Important scripts include:
+### Scripts
 
-- `player_scraper.py` – collects player data from AFL Tables using concurrent requests.
-- `game_scraper.py` – downloads match results and team lineups.
-- `analysis.py` and `era_based_statistical_analysis.py` – generate team metrics and era comparisons.
-- `top_players_comprehensive.py` – ranks players for each season and all time.
+**Data acquisition & refresh**
+
+- `main.py` – entry point for the full data scraping pipeline (kicks off the scrapers from scratch).
+- `player_scraper.py` – scrapes player personal and performance data from AFL Tables using concurrent requests.
+- `game_scraper.py` – scrapes match results and team lineups.
+- `refresh_data.py` – orchestrates an incremental data refresh (calls the scrapers and updates CSVs in place).
+- `refresh_and_rank.sh` – full pipeline shell wrapper: refresh data → rank → format the top 100.
+
+**Ranking**
+
+- `top_players_comprehensive.py` – **main ranking script**: computes the era-normalised all-time top 100 (see [All-Time Top 100 Ranking Algorithm](#all-time-top-100-ranking-algorithm)).
+- `top_players_fast.py` – fast/lightweight variant of the ranking, used by `refresh_and_rank.sh` for quicker turnarounds.
+- `formatTop100.py` – reads `data/top100/all_time_top_100.csv`, enriches with player bios, and writes the root-level `all_time_top_100.csv`.
+
+**Analysis & visualisation**
+
+- `analysis.py` – team performance analysis and heatmap generation.
+- `era_based_statistical_analysis.py` – era-by-era statistical comparison with per-100-minute normalisation.
+- `charts.py` / `bar_chart.py` – visualisation scripts for team and player metrics.
+
+**Prediction**
+
+- `prediction.py` / `prediction_cpu.py` – match outcome prediction models (GPU and CPU variants).
+- `prediction_accuracy.py` – evaluates the prediction model's accuracy against held-out matches.
+
+**Utilities**
+
+- `helper_functions.py` – shared utilities used across scripts.
+- `cuDF_test.py` / `testGPU.py` – GPU/cuDF availability checks for the prediction stack.
+
+
+## All-Time Top 100 Ranking Algorithm
+
+The ranking in `top_players_comprehensive.py` uses an **era-normalised z-score dominance** approach. The goal is to produce a defensible all-time list that does not unfairly favour either modern players (who have more tracked stats) or pre-1965 goal kickers (who played in a 2-stat era where goals dominate everything). The methodology has four steps.
+
+### Step 1 — Era-aware raw scoring (per season, per player)
+
+Each season's raw score is computed using only the statistics that were tracked in that era:
+
+| Era | Years | Stats available |
+|-----|-------|----------------|
+| Pre-1965 | 1897–1964 | Goals, behinds |
+| 1965–1990 | 1965–1990 | + kicks, handballs |
+| 1990–2010 | 1991–2010 | + marks, disposals |
+| Post-2010 | 2011–present | + tackles, clearances, contested possessions, contested marks, one-percenters, goal assists |
+
+**Scoring weights:** `goals=55, disposals=14, clearances=5.5, contested_possessions=5.5, contested_marks=7, kicks=4.5, goal_assist=4, tackles=3.5, one_percenters=3, marks=2.5, behinds=1.5`.
+
+**40% single-stat cap:** No single statistic can contribute more than 40% of a player's raw score for a season. This prevents one-dimensional specialists — most notably pre-1965 goal kickers in a goals-only era — from running away with the ranking on the back of a single metric.
+
+### Step 2 — Position-stratified z-scores
+
+Each player is classified by role (forwards: ≥1 goal/game; everyone else lumped together as midfielders / defenders / rucks) and z-scored **within their position group for that season**. This avoids the trap where a pre-1965 forward looks +5σ simply because midfielders in that era had zero recorded goals — the comparison is now within forwards only.
+
+### Step 3 — Era completeness shrinkage
+
+Each season's z-score is multiplied by `sqrt(era_completeness)`, where completeness reflects how many of the modern stat categories were tracked in that era:
+
+| Era | Completeness | Shrinkage factor |
+|-----|--------------|------------------|
+| Pre-1965 | 0.40 | × 0.632 |
+| 1965–1990 | 0.65 | × 0.806 |
+| 1990–2010 | 0.82 | × 0.906 |
+| Post-2010 | 1.00 | × 1.000 |
+
+This is epistemic humility encoded into the score: a +3σ season evidenced by 2 stats is genuinely less convincing than a +3σ season evidenced by 12 stats, and the shrinkage formalises that.
+
+### Step 4 — All-time score formula
+
+A player's final score is:
+
+```
+all_time_score = mean_z_top8 × longevity + peak_bonus + brownlow_bonus
+```
+
+- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons. Captures sustained excellence rather than a single freak year.
+- **`longevity`** = `min(seasons / 12, 1.5)` — durability multiplier capped at 1.5× so a 30-season journeyman cannot outscore a 15-season great purely on counting.
+- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge rewarding peak dominance on top of the top-8 average.
+- **`brownlow_bonus`** = `min(career_brownlow_votes × 0.0005, 0.15)` — a tiny prior that incorporates contemporary expert judgment (umpires' votes), capped at 0.15 so it never dominates the statistical signal.
+
+The output is written to `data/top100/all_time_top_100.csv` and then enriched with player bios by `formatTop100.py` into the root-level `all_time_top_100.csv`. The algorithm is still being tuned — adjusting the weights, era boundaries, and bonus caps in `top_players_comprehensive.py` is an explicit avenue for experimentation.
 
 
 ## Data Guide
