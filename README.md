@@ -296,9 +296,19 @@ Each season's raw score is computed using only the statistics tracked in that er
 
 **55% single-stat cap:** No single statistic can contribute more than 55% of a player's raw score for a season. This prevents extreme goal-kicking seasons from totally dominating while still allowing goal kickers to be properly rewarded (the old 40% cap was confirmed to over-penalise elite forwards like Lockett and Dunstall in sparse-stat eras).
 
-### Step 2 — Full-cohort within-year z-scores
+### Step 2 — Three-group career position stratification
 
-Every player for a given year is z-scored against the entire year's cohort (not split by position). An earlier position-stratification approach (forwards vs others based on goals/game ≥ 1.0) was found to systematically damage all-round forwards — Wayne Carey, Gary Ablett Sr, and Kevin Bartlett were all classified "forward" and compared to pure goal machines like Lockett and Dunstall, depressing their z-scores despite being more complete players. The era_completeness shrinkage (Step 3) and single-stat cap (Step 1) are sufficient to prevent any era-dominance artefacts.
+Players are z-scored within their career position group, not against the full cohort. The goal weight (55 per goal) means a full-forward kicking 4+ goals/game scores vastly more in raw terms than a midfielder — without stratification, every year's top z-scores are monopolised by goal kickers, unfairly depressing complete players.
+
+Groups are determined by **career** goals/game (not single-year, to prevent year-to-year classification flipping):
+
+| Group | Career goals/game | Examples |
+|-------|-------------------|---------|
+| `key_forward` | ≥ 3.0 | Lockett (4.84), Dunstall (4.66), Ablett Sr (~4.1), Lloyd (4.17), Franklin (3.01) |
+| `forward_mid` | 0.80 – 2.99 | Carey (2.67), Matthews (2.75), Bartlett (1.93), Dangerfield (~1.0), Ablett Jr (~1.25) |
+| `other` | < 0.80 | Pendlebury (0.48), Parker (0.70), Neale (0.45) |
+
+The earlier binary split (≥ 1.0 g/game → forward) failed because it lumped Wayne Carey (2.67) with Tony Lockett (4.84) in the same pool. Carey consistently appeared below-average within elite full-forwards despite being a more complete player. Three groups give each type fair peer comparison. If a group has fewer than 5 players in a given year, it falls back to the full-cohort z-score.
 
 ### Step 3 — Era completeness shrinkage
 
@@ -318,10 +328,10 @@ Note: post-2010 is 0.92 rather than 1.0 because modern stats still omit GPS dist
 A player's final score is:
 
 ```
-all_time_score = mean_z_top5 × (1 + career_bonus) + peak_bonus
+all_time_score = mean_z_top8 × (1 + career_bonus) + peak_bonus
 ```
 
-- **`mean_z_top5`** — average era-adjusted z-score across the player's best **5** seasons (reduced from 8). Focusing on 5 peak seasons rewards players who were genuinely the best in the competition in multiple years (Carey, Matthews, Ablett Sr) rather than players who were consistently good but never dominant.
+- **`mean_z_top8`** — average era-adjusted z-score across the player's best **8** seasons. Top-5 was trialled but proved too vulnerable to outlier seasons — Stewart Loewe and Barry Hall reached top-10 all time on 2–3 exceptional goal-kicking years. Top-8 rewards sustained excellence without penalising long careers for weak tail seasons.
 - **`career_bonus`** = `0.30 × min(career_games / 300, 1.0)` — **additive** bonus (max +30%) for longevity. Critically, this is *additive* not *multiplicative*: a 364-game player and a 300-game player both receive the same 30% bonus, so a longer career cannot overcome lower per-season z-scores. The old multiplicative formula (×1.5 max) was producing Brad Johnson #1, Wayne Carey #16 — directly contradicting expert consensus. True career game count used (all games played, not just top-100 seasons; a longstanding bug was silently dropping injury seasons, under-counting Carey by 60 games, Voss 83, Hird 89). Minimum 150 career games required.
 - **`peak_bonus`** = `0.25 × best_season_z_adj` — raised from 0.15 to reward "seasons where you were clearly the #1 player in the competition" (Carey 1996, Matthews 1975, Ablett Sr's 1989 Grand Final).
 

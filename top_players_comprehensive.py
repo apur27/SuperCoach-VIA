@@ -21,10 +21,10 @@ DEBUG_PLAYERS = {
 Z_CAP = 3.0
 
 # Number of best seasons used for the core mean_z signal.
-# 5 (reduced from 8) focuses on peak excellence rather than career accumulation.
-# Expert consensus values "being the best player in the comp" over sustained
-# mediocrity — Carey's 5 exceptional seasons should outrank 8 good Johnson seasons.
-TOP_N_SEASONS = 5
+# Top 8 rewards sustained excellence without penalising long careers for
+# weak tail seasons. Top-5 was trialled but too susceptible to single outlier
+# seasons — Stewart Loewe, Barry Hall ranked top-10 all time on 2-3 big years.
+TOP_N_SEASONS = 8
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Applied as sqrt(completeness)
@@ -194,17 +194,33 @@ def compute_within_era_z_scores(scores: List[float]) -> np.ndarray:
     return np.clip((arr - mu) / sigma, -Z_CAP, Z_CAP)
 
 
-def _position_key(totals: Dict[str, int], games_played: int) -> str:
-    """Classify a player's role using goals-per-game as a proxy.
+def _career_position_group(career_gpg: float) -> str:
+    """Three-way career-based position classification using career goals/game.
 
-    Position is not recorded in the dataset. Goals/game >= 1.0 reliably
-    identifies forwards across all eras. This ensures pre-1965 goal-kickers
-    are z-scored against other forwards, not against midfielders who recorded
-    zero goals — which was inflating their dominance signal.
+    Groups (thresholds calibrated against actual career g/game data):
+      key_forward  ≥ 3.0 g/game — specialist goal machines:
+                   Lockett (4.84), Dunstall (4.66), Ablett Sr (~4.1),
+                   Lloyd (4.17), Franklin (3.01), Coleman (5.5)
+      forward_mid  0.80–2.99 g/game — complete forwards and forward-midfielders:
+                   Carey (2.67), Matthews (2.75), Bartlett (1.93),
+                   Hall (2.58), Loewe (2.84), Dangerfield (~1.0),
+                   Ablett Jr (~1.25), Martin (~1.2)
+      other        < 0.80 g/game — midfielders, defenders, rucks:
+                   Pendlebury (0.48), Neale (0.45), Parker (0.70)
+
+    Using career average (not single-year) prevents classification from flipping
+    on an atypical season, and ensures stable peer groups across all years.
+
+    The old binary split (≥1.0 g/game → forward) failed because it lumped
+    Wayne Carey (2.67) with Tony Lockett (4.84) — Carey always looked mediocre
+    vs elite full-forwards despite being a more complete player. Three groups
+    give each player type a fair peer comparison.
     """
-    if games_played <= 0:
-        return 'other'
-    return 'forward' if totals.get('goals', 0) / games_played >= 1.0 else 'other'
+    if career_gpg >= 3.0:
+        return 'key_forward'
+    if career_gpg >= 0.80:
+        return 'forward_mid'
+    return 'other'
 
 
 def _compute_position_stratified_z_scores(
@@ -516,6 +532,7 @@ def _generate_yearly_from_memory(
     year_data: List[Tuple[str, Dict[str, float], int]],
     weights: dict,
     output_dir: str,
+    career_gpg: Optional[Dict[str, float]] = None,
 ) -> List[Tuple[str, int, Dict[str, int], int, float, float]]:
     """Apply the full ranking algorithm to one year's pre-aggregated data."""
     if not year_data:
@@ -545,14 +562,27 @@ def _generate_yearly_from_memory(
 
     scores = [s for _, s, _, _ in player_scores]
     percentile_ranks = calculate_percentile_ranks(scores)
-    # Full-cohort z-scores: compare ALL players within the same year regardless
-    # of position. The original position stratification (forwards vs non-forwards)
-    # was intended to stop pre-1965 goal kickers from dominating, but that is
-    # already handled by era_completeness shrinkage and the single-stat cap.
-    # Position stratification was confirmed to severely penalise all-round
-    # forwards (Carey, Ablett Sr, Bartlett) by forcing them into the same
-    # forward pool as pure goal machines (Lockett, Dunstall).
-    raw_z = compute_within_era_z_scores(scores)
+
+    # Three-group career-based position stratification.
+    # Goal weight (55/goal) means a forward kicking 3 goals/game scores ~165 from
+    # goals alone — no midfielder can match this with disposals. Without
+    # stratification, every year's top z-scores are flooded with goal kickers,
+    # depressing all midfielders and complete-player forwards like Wayne Carey.
+    #
+    # The old binary split (≥1 goal/game → forward) failed because it lumped
+    # Carey (2.67 g/game) with Lockett (4.84) — Carey always looked below-average
+    # within a pool of elite full-forwards despite being the more complete player.
+    #
+    # Three groups (key_forward / forward_mid / other) compare each player to
+    # their genuine peers. Falls back to full-cohort if a group is too small.
+    if career_gpg:
+        positions = [
+            _career_position_group(career_gpg.get(p, 0.0))
+            for p, _, _, _ in player_scores
+        ]
+        raw_z = _compute_position_stratified_z_scores(scores, positions)
+    else:
+        raw_z = compute_within_era_z_scores(scores)
     z_scores = raw_z * shrinkage
 
     enriched = list(zip(player_scores, percentile_ranks, z_scores))
@@ -565,9 +595,10 @@ def _generate_yearly_from_memory(
     for rec, pr, z in enriched:
         player_name, raw_score, _, games = rec
         if _is_debug_player(player_name):
+            pos = _career_position_group(career_gpg.get(player_name, 0.0)) if career_gpg else 'n/a'
             logging.info(
                 f"[DEBUG {year}] {player_name}: raw_score={float(raw_score):.0f} "
-                f"games={games} pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
+                f"games={games} pos={pos} pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
             )
 
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
@@ -602,20 +633,37 @@ def main():
     # Single-pass aggregation: read each of ~13k player files exactly once.
     raw_aggregates = _aggregate_all_players(data_dir)
 
-    # Compute true career game counts before any top-100 filtering.
-    # This fixes the bug where compile_all_time_top_100 only counted games from
-    # seasons that cracked the yearly top 100, silently dropping injury/fringe
-    # seasons and depressing longevity for players like Carey (-60 games),
-    # Voss (-83 games), and Hird (-89 games).
+    # Single pass over all years to compute per-player career totals.
+    # career_gpg: career goals/game — used for stable 3-group position classification
+    #   so Wayne Carey (2.67 g/game → forward_mid) is never z-scored against
+    #   Tony Lockett (4.84 g/game → key_forward) in the same peer pool.
+    # true_career_games: total games from ALL seasons (not just top-100 seasons),
+    #   fixing the bug where injury-affected seasons were silently dropped.
+    career_goals: Dict[str, float] = defaultdict(float)
     true_career_games: Dict[str, int] = defaultdict(int)
     for year_data in raw_aggregates.values():
-        for player, _, games in year_data:
+        for player, totals, games in year_data:
+            career_goals[player] += totals.get('goals', 0.0)
             true_career_games[player] += games
+    career_gpg: Dict[str, float] = {
+        p: career_goals[p] / true_career_games[p]
+        for p in true_career_games
+        if true_career_games[p] > 0
+    }
+    logging.info(
+        "Career g/game computed for %d players — sample: Carey=%.2f, Lockett=%.2f, Pendlebury=%.2f",
+        len(career_gpg),
+        career_gpg.get('carey_wayne_27051971', 0),
+        career_gpg.get('lockett_tony_09031966', 0),
+        career_gpg.get('pendlebury_scott_07011988', 0),
+    )
 
     yearly_top_100 = {}
     for year in sorted(raw_aggregates.keys()):
         logging.info(f"Processing yearly rankings for {year}")
-        top_100 = _generate_yearly_from_memory(year, raw_aggregates[year], WEIGHTS, output_dir)
+        top_100 = _generate_yearly_from_memory(
+            year, raw_aggregates[year], WEIGHTS, output_dir, career_gpg=career_gpg
+        )
         if top_100:
             yearly_top_100[year] = top_100
 
