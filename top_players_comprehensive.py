@@ -1,3 +1,4 @@
+import glob
 import os
 import pandas as pd
 import numpy as np
@@ -60,6 +61,9 @@ ERAS = {
                                'tackles', 'one_percenters', 'clearances', 'contested_possessions',
                                'contested_marks', 'goal_assist']),
 }
+
+# Flat union of all stats across eras — used for efficient CSV column filtering.
+ALL_STATS: List[str] = sorted({s for _, _, stats in ERAS.values() for s in stats})
 
 
 def initialize_df_lib():
@@ -419,37 +423,161 @@ def compile_all_time_top_100(
     df.to_csv(os.path.join(output_dir, 'all_time_top_100.csv'), index=False)
 
 
+# ---------------------------------------------------------------------------
+# Fast single-pass ingestion
+# ---------------------------------------------------------------------------
+
+def _aggregate_one_file(path: str) -> List[Tuple[str, int, Dict[str, float], int]]:
+    """Read one player CSV once → [(player_name, year, totals, games_played), ...]."""
+    try:
+        df = pd.read_csv(path, low_memory=False)
+    except Exception as e:
+        logging.warning(f"Could not read {path}: {e}")
+        return []
+
+    if df.empty:
+        return []
+
+    # Derive year from the 'year' column (preferred) or parse from 'date'
+    if 'year' in df.columns:
+        df['year'] = pd.to_numeric(df['year'], errors='coerce')
+    elif 'date' in df.columns:
+        df['year'] = pd.to_datetime(df['date'], errors='coerce').dt.year
+    else:
+        return []
+
+    df = df.dropna(subset=['year'])
+    df['year'] = df['year'].astype(int)
+    if df.empty:
+        return []
+
+    available = [s for s in ALL_STATS if s in df.columns]
+    if not available:
+        return []
+    for s in available:
+        df[s] = pd.to_numeric(df[s], errors='coerce').fillna(0)
+
+    player_name = "_".join(os.path.basename(path).split("_")[:-2])
+    out = []
+    for year, sub in df.groupby('year', sort=False):
+        totals = {s: float(sub[s].sum()) for s in available}
+        out.append((player_name, int(year), totals, len(sub)))
+    return out
+
+
+def _aggregate_all_players(data_dir: str) -> Dict[int, List[Tuple[str, Dict[str, float], int]]]:
+    """Single pass over all player files → {year: [(player, totals, games), ...]}."""
+    files = glob.glob(os.path.join(data_dir, "*_performance_details.csv"))
+    logging.info(f"Single-pass aggregation of {len(files)} player files...")
+    by_year: Dict[int, List[Tuple[str, Dict[str, float], int]]] = defaultdict(list)
+    for i, path in enumerate(files, 1):
+        for player, year, totals, games in _aggregate_one_file(path):
+            by_year[year].append((player, totals, games))
+        if i % 1000 == 0:
+            logging.info(f"  aggregated {i}/{len(files)} files")
+    logging.info(f"Aggregation complete — {len(by_year)} years found")
+    return dict(by_year)
+
+
+def _generate_yearly_from_memory(
+    year: int,
+    year_data: List[Tuple[str, Dict[str, float], int]],
+    weights: dict,
+    output_dir: str,
+) -> List[Tuple[str, int, Dict[str, int], int, float, float]]:
+    """Apply the full ranking algorithm to one year's pre-aggregated data."""
+    if not year_data:
+        return []
+
+    era_name, era_stats = get_era(year)
+    shrinkage = math.sqrt(ERA_COMPLETENESS.get(era_name, 0.40))
+
+    player_scores = []
+    for player_name, totals, games_played in year_data:
+        contributions = {
+            stat: totals.get(stat, 0.0) * weights.get(stat, 0.0)
+            for stat in era_stats if stat in totals
+        }
+        if not contributions:
+            continue
+        uncapped = sum(contributions.values())
+        if uncapped <= 0:
+            continue
+        excess = sum(max(0.0, c - 0.40 * uncapped) for c in contributions.values())
+        score = max(0, int(uncapped - excess))
+        era_totals = {stat: int(totals.get(stat, 0)) for stat in era_stats if stat in totals}
+        player_scores.append((player_name, score, era_totals, games_played))
+
+    if not player_scores:
+        return []
+
+    scores = [s for _, s, _, _ in player_scores]
+    percentile_ranks = calculate_percentile_ranks(scores)
+    positions = [_position_key(t, g) for _, _, t, g in player_scores]
+    raw_z = _compute_position_stratified_z_scores(scores, positions)
+    z_scores = raw_z * shrinkage
+
+    enriched = list(zip(player_scores, percentile_ranks, z_scores))
+    sorted_players = sorted(enriched, key=lambda x: (x[0][1], x[0][3]), reverse=True)
+    top_100 = sorted_players[:100]
+
+    df = create_ranking_dataframe([(p[0], p[1], pr, p[3]) for p, pr, _ in top_100])
+    df.to_csv(os.path.join(output_dir, 'yearly', f'year_{year}.csv'), index=False)
+
+    for rec, pr, z in enriched:
+        player_name, raw_score, _, games = rec
+        if _is_debug_player(player_name):
+            logging.info(
+                f"[DEBUG {year}] {player_name}: raw_score={float(raw_score):.0f} "
+                f"games={games} pos={_position_key(rec[2], games)} "
+                f"pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
+            )
+
+    return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
+
+
+WEIGHTS = {
+    'goals': 55.0,
+    'behinds': 1.5,
+    # kicks and handballs weighted separately — 'disposals' is excluded from
+    # all ERAS lists to prevent double-counting (disposals = kicks + handballs).
+    # Handball ≈ 65% of kick value (less distance, less accuracy) → 3.0 vs 4.5.
+    'kicks': 4.5,
+    'handballs': 3.0,
+    'marks': 2.5,
+    'goal_assist': 4.0,
+    'contested_marks': 7.0,
+    'contested_possessions': 5.5,
+    'tackles': 3.5,
+    'one_percenters': 3.0,
+    'clearances': 5.5,
+}
+
+
 def main():
+    started = datetime.now()
+    logging.info(f"=== top_players_comprehensive started at {started.isoformat(timespec='seconds')} ===")
+
     data_dir = "./data/player_data/"
     output_dir = "./data/top100/"
     os.makedirs(os.path.join(output_dir, 'yearly'), exist_ok=True)
 
-    weights = {
-        'goals': 55.0,
-        'behinds': 1.5,
-        # kicks and handballs weighted separately — 'disposals' is excluded from
-        # all ERAS lists to prevent double-counting (disposals = kicks + handballs).
-        # Handball ≈ 65% of kick value (less distance, less accuracy) → 3.0 vs 4.5.
-        'kicks': 4.5,
-        'handballs': 3.0,
-        'marks': 2.5,
-        'goal_assist': 4.0,
-        'contested_marks': 7.0,
-        'contested_possessions': 5.5,
-        'tackles': 3.5,
-        'one_percenters': 3.0,
-        'clearances': 5.5,
-    }
+    # Single-pass aggregation: read each of ~13k player files exactly once,
+    # then apply the full ranking algorithm in memory — ~100× faster than the
+    # old year-by-year loop that re-read every file for every year.
+    raw_aggregates = _aggregate_all_players(data_dir)
 
     yearly_top_100 = {}
-    current_year = datetime.now().year
-    for year in range(1897, current_year + 1):
+    for year in sorted(raw_aggregates.keys()):
         logging.info(f"Processing yearly rankings for {year}")
-        top_100 = generate_yearly_top_100(data_dir, year, weights, output_dir, df_lib)
+        top_100 = _generate_yearly_from_memory(year, raw_aggregates[year], WEIGHTS, output_dir)
         if top_100:
             yearly_top_100[year] = top_100
 
     compile_all_time_top_100(yearly_top_100, output_dir)
+
+    elapsed = datetime.now() - started
+    logging.info(f"=== top_players_comprehensive complete in {elapsed} ===")
 
 
 if __name__ == "__main__":

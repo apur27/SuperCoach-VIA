@@ -102,8 +102,7 @@ The project organizes data and scripts into several key locations:
 
 **Ranking**
 
-- `top_players_comprehensive.py` – **main ranking script**: computes the era-normalised all-time top 100 (see [All-Time Top 100 Ranking Algorithm](#all-time-top-100-ranking-algorithm)).
-- `top_players_fast.py` – fast/lightweight variant of the ranking, used by `refresh_and_rank.sh` for quicker turnarounds.
+- `top_players_comprehensive.py` – **sole ranking script**: computes the era-normalised all-time top 100 using a single-pass file ingestion (reads each of ~13k player files exactly once for ~100× speed improvement over year-by-year approaches). See [All-Time Top 100 Ranking Algorithm](#all-time-top-100-ranking-algorithm).
 - `formatTop100.py` – reads `data/top100/all_time_top_100.csv`, enriches with player bios, and writes the root-level `all_time_top_100.csv`.
 
 **Analysis & visualisation**
@@ -188,7 +187,7 @@ To force a full recalculation (e.g. after algorithm changes), delete the cached 
 ```bash
 rm -f data/top100/all_time_top_100.csv
 rm -f data/top100/yearly/*.csv
-python top_players_comprehensive.py   # ~2 hours, processes 1897–present
+python top_players_comprehensive.py   # single-pass, processes 1897–present (~5–10 min)
 python3 formatTop100.py               # enriches with player bios → all_time_top_100.csv
 ```
 
