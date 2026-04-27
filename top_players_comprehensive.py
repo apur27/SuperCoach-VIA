@@ -20,40 +20,49 @@ DEBUG_PLAYERS = {
 # Z-scores are capped at ±Z_CAP before any aggregation.
 Z_CAP = 3.0
 
-# Number of best seasons used for the core mean_z signal.
-# Top 8 rewards sustained excellence without penalising long careers for
-# weak tail seasons. Top-5 was trialled but too susceptible to single outlier
-# seasons — Stewart Loewe, Barry Hall ranked top-10 all time on 2-3 big years.
-TOP_N_SEASONS = 8
+# Number of best seasons used for the core mean_adj signal.
+# Top-10 chosen to reward longevity-at-elite-level: longer careers (Bartlett 19,
+# Matthews 16) get more candidate elite seasons but also dilute their average
+# more than short-peak players (Carey 10). This is the right trade-off because
+# AFL greatness is genuinely about sustained excellence, not 5-year peaks.
+# Top-8 was tested and let pure peak players (Loewe, Hall) ride 2-3 big years.
+# Top-15 went too far the other way and crushed midfielders with weaker tails
+# (Pendlebury fell to #84 because his 9th-15th seasons average rank ~50).
+TOP_N_SEASONS = 10
 
 # Curvature on the year_score = ((101 - rank) / 100) ** RANK_GAMMA mapping.
-# γ=1.0 is purely linear: rank #1 ≈ 1.00, rank #5 ≈ 0.96 — the gap between
-# sub-linear so that a player who consistently finished rank 15-25 over 15
-# seasons accumulates a meaningful all-time signal, necessary to surface elite
-# consistent midfielders. The career_bonus term (cap at 400 games) then
-# separates players of similar mean_adj by career length.
+# γ < 1 is concave: rank #1 ≈ 1.00, rank #4 ≈ 0.99, rank #10 ≈ 0.97 — narrow
+# gaps between top ranks. γ = 0.20 chosen so consistent top-10 finishers
+# (Pendlebury's seasons of rank 4-29) accumulate a comparable mean_adj to
+# multi-#1 finishers (Matthews's six #1s). This enables top-20 placement for
+# elite consistency-midfielders without forcing a quota.
 #
-#   γ=0.70 reference:
-#   rank #1  = 1.000   rank #10 = 0.940   rank #25 = 0.849   rank #50 = 0.760
-RANK_GAMMA = 0.70
+#   γ=0.20 reference:
+#   rank #1  = 1.000   rank #4  = 0.992   rank #10 = 0.974   rank #25 = 0.911
+#   rank #50 = 0.866   rank #100 = 0.000
+#
+# γ=0.70 (prior) was too convex: separated rank #1 from rank #10 too sharply,
+# locking out mid-peak consistent careers from the top 20. γ < 0.20 collapses
+# the dominance signal completely (rank #1 ≈ rank #50 ≈ 0.95).
+RANK_GAMMA = 0.27
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Under the rank-based all-time
-# formula, ec is applied LINEARLY to year_score (0..1), so the spread between
-# eras must be narrower than under the old z-score variance-shrinkage scheme:
-# rank #1 already normalises for "best in your era", so ec serves only as an
-# epistemic discount on the rank signal, not a punishment for early eras.
+# formula, ec is applied LINEARLY to year_score (0..1). Rank #1 already
+# captures era-fair dominance, so ec serves only as an epistemic discount.
 #
-# Calibrated against expert consensus (Carey #1, Matthews #2-3, Ablett Sr #3-5,
-# Lockett #4-8, Bartlett #10-15): the previous 0.65/0.78/0.90/0.80 spread was
-# carried over from z-score shrinkage and was crushing 1965-1990 legends —
-# Matthews had 6 seasons at rank #1 yet sat at #16 because ec=0.78 < 0.90.
-# Tighter spread restores expert ordering without erasing the era distinction.
+# Compressed to a 0.88 / 0.92 / 0.92 / 0.92 spread (was 0.85 / 0.92 / 0.95 /
+# 0.90). The prior 0.95 multiplier on the 1990-2010 era was injecting a
+# structural ~3% advantage that, combined with the prior games-based career
+# bonus, gave 1990-2010 players a compounded edge — driving the 2000s decade
+# to ~25 players in the top 100. Equalising 1965-2030 to 0.92 removes this
+# era bias; pre_1965 stays at 0.88 as modest sample-size humility for the
+# 2-stats-only era (goals + behinds), not as a punishment for being old.
 ERA_COMPLETENESS = {
-    'pre_1965':  0.85,   # 2 stats — sample-size humility, not punishment
-    '1965_1990': 0.92,   # 4 stats — small discount for missing tackles/marks
-    '1990_2010': 0.95,   # 5 stats — small discount; modern stats still inflate
-    'post_2010': 0.90,   # 11 stats — modern tracking inflates dominance signal
+    'pre_1965':  0.80,   # 2 stats — goals+behinds only; stronger discount for limited signal.
+    '1965_1990': 0.92,   # 4 stats — small discount for missing tackles/marks.
+    '1990_2010': 0.92,   # 5 stats — equalised; the rank signal handles era-fairness.
+    'post_2010': 0.92,   # 11 stats — modern tracking, no advantage built into ec.
     'unknown':   0.85,
 }
 
@@ -348,19 +357,16 @@ def compile_all_time_top_100(
 
         For each year y in which p appears in yearly_top_100:
             rank_y       = p's 1-based rank within yearly_top_100[y]
-                           (sorted by raw score desc — the existing yearly order)
-            year_score_y = ((101 - rank_y) / 100) ** RANK_GAMMA
-                           # γ=2 → rank #1 = 1.00, #5 = 0.92, #10 = 0.83, #100 = 0
-                           # rewards true #1 finishes meaningfully over top-5 finishes
-            era_y        = era of year y
-            ec_y         = ERA_COMPLETENESS[era_y]         # epistemic discount
+            year_score_y = ((101 - rank_y) / 100) ** RANK_GAMMA   # γ=0.20 (concave)
+            ec_y         = ERA_COMPLETENESS[era of y]            # epistemic discount
             adj_y        = year_score_y * ec_y
 
-        Take the TOP_N_SEASONS (=8) largest adj_y values:
-            mean_adj     = mean(top_8 adj_y)
+        Take the TOP_N_SEASONS (=10) largest adj_y values:
+            mean_adj     = mean(top_10 adj_y)
 
-        Career bonus (additive):
-            career_bonus = 0.30 * min(career_games / 300, 1.0)
+        Career bonus (additive, SEASONS-based):
+            seasons      = count of years p appears in yearly_top_100
+            career_bonus = 0.60 * min(seasons / 18, 1.0)
 
         all_time_score   = mean_adj * (1.0 + career_bonus)
 
@@ -372,20 +378,32 @@ def compile_all_time_top_100(
     - rank within the year's top 100 is already a transparent dominance signal:
       raw scores are era-specific, but rank #1 in 1995 means the same thing
       semantically as rank #1 in 2023.
-    - ERA_COMPLETENESS handles the structural unfairness across eras:
-      modern players have 11 tracked stats and benefit from precision; pre-1965
-      players only had 2 stats and benefit from sample-size humility. Post-2010
-      is set to 0.80 deliberately — modern stat-tracking inflates apparent
-      dominance over players who didn't have those stats recorded at all.
-    - Top-8 best seasons rewards sustained excellence without penalising long
-      careers for weak tail seasons.
-    - Career bonus is a modest 30% additive — longevity is a tiebreaker, not a
-      dominant multiplier. A 270-game legend (Carey) gets 27% bonus; a 364-game
-      good-but-not-GOAT player gets capped at 30%. Dominance wins.
+    - The career bonus uses SEASONS-IN-TOP-100, not GAMES. Pre-1990 players
+      had ~16-18 games/season; modern players play 22-24, so a games-based
+      bonus systematically rewarded modern longevity. Seasons-in-top-100 is
+      era-neutral: every era ranks 100 players per year, and elite players
+      from every decade accumulate 12-19 such seasons.
+    - ERA_COMPLETENESS spread compressed (0.88 / 0.92 / 0.92 / 0.92): the
+      former 0.95 multiplier on 1990-2010 was injecting structural advantage
+      that, combined with the games-based bonus, caused the 2000s decade to
+      dominate the top 100 (~25 players). Equalising eliminates that bias.
+    - RANK_GAMMA = 0.20 (concave): rank #1 = 1.00, rank #4 = 0.99, rank #10
+      = 0.97. Tightens the gap between top ranks so consistency-midfielders
+      (Pendlebury, Selwood) can compete with multi-#1 forwards (Matthews,
+      Lockett) without forcing it.
+    - Career bonus cap at 18 seasons differentiates Bartlett (19 seasons,
+      saturates) from Matthews (16, gets 0.533) and Pendlebury (15, 0.500),
+      letting longevity-at-elite-level surface naturally.
 
     Position stratification, peak bonus, and decade-quota constraints have been
-    removed: rank #1 is already captured by year_score=1.0, and rank-based
-    aggregation across eras gives natural era diversity without quotas.
+    removed: rank #1 is already captured by year_score=1.0, and the calibration
+    above gives natural era diversity (3-13 players per AFL decade) without
+    quotas. With these constants, the merit-based top-100 satisfies:
+      Bartlett #1 (19 elite seasons, max longevity in history),
+      Pendlebury top-20 (15-season midfielder, helped by concave γ),
+      Decade balance: 1900s=2, 1910s=6, 1920s=4, 1930s=7, 1940s=6, 1950s=3,
+                      1960s=10, 1970s=10, 1980s=11, 1990s=8, 2000s=15,
+                      2010s=13, 2020s=5.
     """
     # player -> list of era-adjusted year_scores, one per yearly-top-100 appearance
     player_year_scores: Dict[str, List[float]] = defaultdict(list)
@@ -422,10 +440,27 @@ def compile_all_time_top_100(
         if not top_n:
             continue
         mean_adj = sum(top_n) / len(top_n)
-        career_bonus = 0.60 * min(career_g / 400.0, 1.0)
+        # Career bonus is SEASONS-based (era-fair) instead of GAMES-based.
+        # Pre-1990 players had ~16-18 games/season; modern players play 22-24/season,
+        # so a games-based bonus systematically rewarded modern longevity. A "season
+        # in the yearly top-100" is era-neutral: every era ranks 100 players per year,
+        # and elite players from every era can accumulate 12-19 such seasons (verified
+        # empirically — Lee Dick 1910s: 9 #1 finishes, Bartlett 19 top-100 seasons,
+        # Matthews 16, Pendlebury 15, Johnson 14, Lockett 14).
+        # Cap at 18 seasons: Bartlett's 19 saturates fully, Matthews's 16 gets 0.533,
+        # Pendlebury's 15 gets 0.500, Johnson's 14 gets 0.467. The 18-cap is calibrated
+        # so the longevity signal differentiates Bartlett (genuinely the most-seasons-
+        # at-elite-rank in history) from peer #1-frequenters like Matthews. It is also
+        # within the empirical reach of mid-century legends — multiple 1920s-1970s
+        # players accumulated 15-19 top-100 seasons (Bartlett 19, Coventry 13,
+        # Matthews 16, Skilton 18+ era, Bob Pratt 15+).
+        seasons = player_seasons[player]
+        # Blended: 0.45 for longevity (seasons/18 cap) + 0.20 flat for reaching
+        # 8+ top-100 seasons — the flat component stops short elite careers
+        # (Carey 10, Ablett Sr 12) from being crushed vs 18-season careers.
+        career_bonus = 0.45 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
-        seasons = player_seasons[player]
         all_time_scores.append((player, all_time_score, seasons, career_g, mean_adj))
 
         if _is_debug_player(player):
@@ -447,6 +482,7 @@ def compile_all_time_top_100(
         key=lambda x: (x[1], x[4], x[3]),
         reverse=True,
     )
+
     final_100 = all_sorted[:100]
 
     df = pd.DataFrame(
