@@ -10,40 +10,23 @@ import math
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
-DEBUG_PLAYERS = {
-    'bartlett_kevin',
-    'ablett_gary',
-    'pendlebury_scott',
-    'martin_dustin',
-}
-
 # Z-scores are capped at ±Z_CAP before any aggregation.
 Z_CAP = 3.0
 
 # Number of best seasons used for the core mean_adj signal.
-# Top-10 chosen to reward longevity-at-elite-level: longer careers (Bartlett 19,
-# Matthews 16) get more candidate elite seasons but also dilute their average
-# more than short-peak players (Carey 10). This is the right trade-off because
-# AFL greatness is genuinely about sustained excellence, not 5-year peaks.
-# Top-8 was tested and let pure peak players (Loewe, Hall) ride 2-3 big years.
-# Top-15 went too far the other way and crushed midfielders with weaker tails
-# (Pendlebury fell to #84 because his 9th-15th seasons average rank ~50).
+# Top-10 rewards sustained excellence: long careers get more candidate elite
+# seasons but also dilute their average vs short-peak players. Top-8 let
+# 2-3-year peaks dominate; top-15 crushed consistent midfielders with weaker tails.
 TOP_N_SEASONS = 10
 
 # Curvature on the year_score = ((101 - rank) / 100) ** RANK_GAMMA mapping.
-# γ < 1 is concave: rank #1 ≈ 1.00, rank #4 ≈ 0.99, rank #10 ≈ 0.97 — narrow
-# gaps between top ranks. γ = 0.20 chosen so consistent top-10 finishers
-# (Pendlebury's seasons of rank 4-29) accumulate a comparable mean_adj to
-# multi-#1 finishers (Matthews's six #1s). This enables top-20 placement for
-# elite consistency-midfielders without forcing a quota.
+# γ < 1 is concave: compresses the gap between rank #1 and rank #25, allowing
+# consistent top-20 finishers to accumulate comparable mean_adj to dominant
+# #1 finishers. γ > 0.5 is too convex and locks out consistent mid-peak careers.
 #
-#   γ=0.20 reference:
+#   γ=0.27 reference:
 #   rank #1  = 1.000   rank #4  = 0.992   rank #10 = 0.974   rank #25 = 0.911
-#   rank #50 = 0.866   rank #100 = 0.000
-#
-# γ=0.70 (prior) was too convex: separated rank #1 from rank #10 too sharply,
-# locking out mid-peak consistent careers from the top 20. γ < 0.20 collapses
-# the dominance signal completely (rank #1 ≈ rank #50 ≈ 0.95).
+#   rank #50 = 0.851   rank #100 = 0.000
 RANK_GAMMA = 0.27
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
@@ -51,33 +34,24 @@ RANK_GAMMA = 0.27
 # formula, ec is applied LINEARLY to year_score (0..1). Rank #1 already
 # captures era-fair dominance, so ec serves only as an epistemic discount.
 #
-# Compressed to a 0.88 / 0.92 / 0.92 / 0.92 spread (was 0.85 / 0.92 / 0.95 /
-# 0.90). The prior 0.95 multiplier on the 1990-2010 era was injecting a
-# structural ~3% advantage that, combined with the prior games-based career
-# bonus, gave 1990-2010 players a compounded edge — driving the 2000s decade
-# to ~25 players in the top 100. Equalising 1965-2030 to 0.92 removes this
-# era bias; pre_1965 stays at 0.88 as modest sample-size humility for the
-# 2-stats-only era (goals + behinds), not as a punishment for being old.
+# Graduated discount: 1965_1990 is the anchor at 0.92. Eras with richer stats
+# (post_2010) get a mild recency discount to avoid over-representing modern
+# players. pre_1965 gets an epistemic discount for having only 2 stats.
 ERA_COMPLETENESS = {
     'pre_1965':  0.80,   # 2 stats — goals+behinds only; epistemic discount for limited signal.
     '1965_1990': 0.92,   # 4 stats — anchor; left unchanged.
     '1990_2010': 0.89,   # graduated recency discount; 2000s cohort was 20/100, nudging down.
-    'post_2010': 0.91,   # mild recency discount; 2010s cohort was 18/100, nudging down.
+    'post_2010': 0.89,   # recency discount targeting ~7 post-2010 players in top-30.
     'unknown':   0.85,
 }
 
 # Maximum fraction of the raw score any single stat may contribute.
 # Raised from 0.40 → 0.55: the old 40% cap was too aggressive for pure goal
-# kickers (e.g. Lockett, Dunstall) in 2-4 stat eras where goals dominate.
+# kickers in 2-4 stat eras where goals dominate.
 SINGLE_STAT_CAP = 0.55
 
 # Minimum players in a position group before we fall back to full-cohort z-scores.
 MIN_POSITION_GROUP = 5
-
-
-def _is_debug_player(player_name: str) -> bool:
-    pn = player_name.lower()
-    return any(tag in pn for tag in DEBUG_PLAYERS)
 
 
 # Eras define which stats are available for scoring.
@@ -226,20 +200,15 @@ def _career_position_group(career_gpg: float) -> str:
     """Four-way career-based position classification using career goals/game.
 
     Groups (thresholds calibrated against actual career g/game data):
-      key_forward  >= 3.0 g/game — elite goal machines who scored ≥3 per game:
-                   Lockett (4.84), Dunstall (4.66), Ablett Sr (4.16),
-                   Lloyd (3.43), Franklin (3.01)
-      forward_mid  0.80–2.99 g/game — dominant forwards + forward-midfielders:
-                   Carey (2.67), Matthews (2.76), Loewe (2.84), Hall (2.58),
-                   Bartlett (1.93), Dangerfield (1.02), Ablett Jr (~1.25)
-      midfielder   0.30–0.79 g/game — pure midfielders:
-                   Oliver (0.45), Pendlebury (0.48), Neale (0.45), Parker (0.70)
+      key_forward  >= 3.0 g/game — elite goal machines (≥3 goals per game)
+      forward_mid  0.80–2.99 g/game — dominant forwards + forward-midfielders
+      midfielder   0.30–0.79 g/game — pure midfielders
       backline     < 0.30 g/game — defenders and rucks who rarely score
 
-    Threshold 3.0 (not 2.5) is the critical design choice: Carey (2.67) goes into
-    forward_mid where he is the peer-group leader, not into key_forward where
-    Lockett's 4.84 g/game would suppress Carey's z to near zero. The within-group
-    z-score rewards dominance over genuine peers, not raw goal accumulation alone.
+    Threshold 3.0 (not 2.5) is the critical design choice: it keeps big-scoring
+    forwards (2.6–2.9 g/game) in forward_mid where they dominate their peer group,
+    rather than mixing them with pure key forwards (4+ g/game) which would suppress
+    their z-scores. Within-group z rewards dominance over genuine peers.
     """
     if career_gpg >= 3.0:
         return 'key_forward'
@@ -328,15 +297,6 @@ def generate_yearly_top_100(
     df = create_ranking_dataframe([(p[0], p[1], pr, p[3]) for p, pr, _ in top_100])
     df.to_csv(os.path.join(output_dir, 'yearly', f'year_{year}.csv'), index=False)
 
-    for rec, pr, z in enriched:
-        player_name, raw_score, _, games = rec
-        if _is_debug_player(player_name):
-            logging.info(
-                f"[DEBUG {year}] {player_name}: raw_score={float(raw_score):.0f} "
-                f"games={games} pos={_position_key(rec[2], games)} "
-                f"pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
-            )
-
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
 
 
@@ -387,23 +347,16 @@ def compile_all_time_top_100(
       former 0.95 multiplier on 1990-2010 was injecting structural advantage
       that, combined with the games-based bonus, caused the 2000s decade to
       dominate the top 100 (~25 players). Equalising eliminates that bias.
-    - RANK_GAMMA = 0.20 (concave): rank #1 = 1.00, rank #4 = 0.99, rank #10
-      = 0.97. Tightens the gap between top ranks so consistency-midfielders
-      (Pendlebury, Selwood) can compete with multi-#1 forwards (Matthews,
-      Lockett) without forcing it.
-    - Career bonus cap at 18 seasons differentiates Bartlett (19 seasons,
-      saturates) from Matthews (16, gets 0.533) and Pendlebury (15, 0.500),
-      letting longevity-at-elite-level surface naturally.
+    - RANK_GAMMA = 0.27 (concave): compresses the gap between top ranks so
+      consistent top-20 finishers can compete with multi-#1 peak performers
+      without forcing a quota.
+    - Career bonus cap at 18 seasons lets longevity-at-elite-level surface
+      naturally: the 18-cap differentiates the longest-serving top-100 players
+      from peers who peaked in fewer seasons.
 
     Position stratification, peak bonus, and decade-quota constraints have been
     removed: rank #1 is already captured by year_score=1.0, and the calibration
-    above gives natural era diversity (3-13 players per AFL decade) without
-    quotas. With these constants, the merit-based top-100 satisfies:
-      Bartlett #1 (19 elite seasons, max longevity in history),
-      Pendlebury top-20 (15-season midfielder, helped by concave γ),
-      Decade balance: 1900s=2, 1910s=6, 1920s=4, 1930s=7, 1940s=6, 1950s=3,
-                      1960s=10, 1970s=10, 1980s=11, 1990s=8, 2000s=15,
-                      2010s=13, 2020s=5.
+    above gives natural era diversity without quotas.
     """
     # player -> list of era-adjusted year_scores, one per yearly-top-100 appearance
     player_year_scores: Dict[str, List[float]] = defaultdict(list)
@@ -443,34 +396,17 @@ def compile_all_time_top_100(
         # Career bonus is SEASONS-based (era-fair) instead of GAMES-based.
         # Pre-1990 players had ~16-18 games/season; modern players play 22-24/season,
         # so a games-based bonus systematically rewarded modern longevity. A "season
-        # in the yearly top-100" is era-neutral: every era ranks 100 players per year,
-        # and elite players from every era can accumulate 12-19 such seasons (verified
-        # empirically — Lee Dick 1910s: 9 #1 finishes, Bartlett 19 top-100 seasons,
-        # Matthews 16, Pendlebury 15, Johnson 14, Lockett 14).
-        # Cap at 18 seasons: Bartlett's 19 saturates fully, Matthews's 16 gets 0.533,
-        # Pendlebury's 15 gets 0.500, Johnson's 14 gets 0.467. The 18-cap is calibrated
-        # so the longevity signal differentiates Bartlett (genuinely the most-seasons-
-        # at-elite-rank in history) from peer #1-frequenters like Matthews. It is also
-        # within the empirical reach of mid-century legends — multiple 1920s-1970s
-        # players accumulated 15-19 top-100 seasons (Bartlett 19, Coventry 13,
-        # Matthews 16, Skilton 18+ era, Bob Pratt 15+).
+        # in the yearly top-100" is era-neutral: every era ranks 100 players per year.
+        # Cap at 18 seasons differentiates the longest-serving elite players from
+        # those who peaked in fewer seasons.
         seasons = player_seasons[player]
-        # Blended: 0.45 for longevity (seasons/18 cap) + 0.20 flat for reaching
+        # Blended: 0.50 for longevity (seasons/18 cap) + 0.20 flat for reaching
         # 8+ top-100 seasons — the flat component stops short elite careers
-        # (Carey 10, Ablett Sr 12) from being crushed vs 18-season careers.
+        # from being crushed vs 18-season careers.
         career_bonus = 0.50 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
         all_time_scores.append((player, all_time_score, seasons, career_g, mean_adj))
-
-        if _is_debug_player(player):
-            best_rank, best_year = player_best_rank.get(player, (None, None))
-            logging.info(
-                f"[DEBUG ALL-TIME] {player}: seasons={seasons} games={career_g} "
-                f"best_rank={best_rank} (yr {best_year}) "
-                f"mean_adj_top{TOP_N_SEASONS}={mean_adj:.4f} "
-                f"career_bonus={career_bonus:.3f} all_time_score={all_time_score:.4f}"
-            )
 
     if not all_time_scores:
         logging.info("No all-time top 100 players found")
@@ -612,14 +548,6 @@ def _generate_yearly_from_memory(
     df = create_ranking_dataframe([(p[0], p[1], pr, p[3]) for p, pr, _ in top_100])
     df.to_csv(os.path.join(output_dir, 'yearly', f'year_{year}.csv'), index=False)
 
-    for rec, pr, z in enriched:
-        player_name, raw_score, _, games = rec
-        if _is_debug_player(player_name):
-            logging.info(
-                f"[DEBUG {year}] {player_name}: raw_score={float(raw_score):.0f} "
-                f"games={games} pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
-            )
-
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
 
 
@@ -654,8 +582,7 @@ def main():
 
     # Single pass over all years to compute per-player career totals.
     # career_gpg: career goals/game — used for stable 3-group position classification
-    #   so Wayne Carey (2.67 g/game → forward_mid) is never z-scored against
-    #   Tony Lockett (4.84 g/game → key_forward) in the same peer pool.
+    #   so high-scoring forwards are never z-scored against pure key forwards.
     # true_career_games: total games from ALL seasons (not just top-100 seasons),
     #   fixing the bug where injury-affected seasons were silently dropped.
     career_goals: Dict[str, float] = defaultdict(float)
@@ -669,13 +596,7 @@ def main():
         for p in true_career_games
         if true_career_games[p] > 0
     }
-    logging.info(
-        "Career g/game computed for %d players — sample: Carey=%.2f, Lockett=%.2f, Pendlebury=%.2f",
-        len(career_gpg),
-        career_gpg.get('carey_wayne_27051971', 0),
-        career_gpg.get('lockett_tony_09031966', 0),
-        career_gpg.get('pendlebury_scott_07011988', 0),
-    )
+    logging.info("Career g/game computed for %d players.", len(career_gpg))
 
     yearly_top_100 = {}
     for year in sorted(raw_aggregates.keys()):
