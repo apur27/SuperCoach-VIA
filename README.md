@@ -67,6 +67,159 @@ Contributions are encouraged; don't hesitate to submit a pull request or contact
    pip install -r requirements.txt
    ```
 
+## Running GPU-Accelerated Code on a Gaming PC or Laptop
+
+Several scripts in this repo — `prediction.py`, `top_players_comprehensive.py`, `testGPU.py`, `cuDF_test.py` — can use an NVIDIA GPU for faster processing. GPU support is always optional; every script falls back to CPU automatically when a GPU isn't available or isn't set up.
+
+This section covers the full setup for a gaming PC or laptop with an NVIDIA RTX GPU (3000, 4000, or 5000 series).
+
+### What GPU acceleration is used for
+
+| Script | GPU library | What it speeds up |
+|--------|-------------|-------------------|
+| `prediction.py` | LightGBM CUDA | Hyperparameter tuning + model training |
+| `top_players_comprehensive.py` | cuDF (RAPIDS) | DataFrame operations on player CSVs |
+| `testGPU.py` | LightGBM CUDA | GPU smoke test |
+| `cuDF_test.py` | cuDF + CuPy | RAPIDS smoke test |
+
+### Step 1 — Check your GPU
+
+Open a terminal and run:
+
+```bash
+nvidia-smi
+```
+
+You should see your GPU name, driver version, and CUDA version. If this command is not found, install the latest NVIDIA driver from [nvidia.com/drivers](https://www.nvidia.com/drivers) first.
+
+Key requirements:
+- NVIDIA GPU with CUDA Compute Capability 6.0+ (all GTX 10-series and newer, all RTX series)
+- Driver version 520+ recommended
+- CUDA 11.8 or 12.x (check the `CUDA Version` field in `nvidia-smi` output)
+
+### Step 2 — Windows vs Linux
+
+**Linux (native):** All GPU libraries work out of the box. Skip to Step 3.
+
+**Windows:** RAPIDS (cuDF/CuPy) does **not** run on native Windows. You have two options:
+
+- **Option A — WSL2 (recommended):** Run everything inside Windows Subsystem for Linux. Install WSL2, then follow the Linux steps below inside your WSL2 terminal. NVIDIA's WSL2 driver passes your GPU through automatically — no separate Linux GPU driver needed inside WSL2.
+
+  ```powershell
+  # In PowerShell (admin)
+  wsl --install
+  # Restart, then open Ubuntu from the Start menu
+  ```
+
+- **Option B — CPU only:** Use `prediction_cpu.py` instead of `prediction.py`. The ranking scripts always fall back to CPU automatically.
+
+### Step 3 — Install the CUDA Toolkit
+
+Even if your driver already shows a CUDA version, you need the toolkit for libraries to compile against.
+
+```bash
+# Ubuntu / Debian (WSL2 or native Linux)
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt update
+sudo apt install -y cuda-toolkit-12-4
+```
+
+After installation, add CUDA to your PATH (add to `~/.bashrc`):
+
+```bash
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+source ~/.bashrc
+```
+
+Verify with:
+
+```bash
+nvcc --version
+```
+
+### Step 4 — Install RAPIDS (cuDF + CuPy)
+
+RAPIDS is the GPU DataFrame library used by `top_players_comprehensive.py`. It requires Linux (or WSL2).
+
+Use the RAPIDS selector at [rapids.ai/start](https://rapids.ai/start) for the exact command matching your CUDA version. For CUDA 12.x:
+
+```bash
+pip install cudf-cu12 cupy-cuda12x --extra-index-url=https://pypi.nvidia.com
+```
+
+For CUDA 11.8:
+
+```bash
+pip install cudf-cu11 cupy-cuda11x --extra-index-url=https://pypi.nvidia.com
+```
+
+Verify:
+
+```bash
+python cuDF_test.py
+```
+
+> **Note:** RAPIDS requires significant VRAM. Gaming laptops with 6 GB VRAM or less may run into out-of-memory errors on large datasets. The scripts automatically fall back to pandas/CPU in that case.
+
+### Step 5 — Install LightGBM with CUDA support
+
+The default `pip install lightgbm` does NOT include GPU support. You need to build or install the GPU variant:
+
+```bash
+# Option A: pre-built wheel (easiest)
+pip install lightgbm --config-settings=cmake.define.USE_CUDA=ON
+
+# Option B: if that fails, install from source
+git clone --recursive https://github.com/microsoft/LightGBM
+cd LightGBM
+mkdir build && cd build
+cmake -DUSE_CUDA=1 ..
+make -j4
+cd ../python-package
+pip install .
+```
+
+Verify:
+
+```bash
+python testGPU.py
+```
+
+### Step 6 — Laptop-specific tips
+
+Gaming laptops often throttle GPU performance by default. Before running long training jobs:
+
+1. **Set power mode to Performance** — Windows: Battery icon → Best Performance. Linux: `sudo nvidia-smi -pm 1`
+2. **Disable GPU switching** — Some laptops (MUX switch) run games through the NVIDIA GPU but route other apps through the integrated Intel/AMD GPU. Check your laptop's BIOS or Armoury Crate / Control Center and set discrete GPU mode.
+3. **Monitor GPU temperature** — `watch -n 1 nvidia-smi` shows real-time temperature. Above 85°C sustained means your cooling needs attention (clean fans, repaste).
+4. **VRAM limits** — `prediction.py` batches data to avoid VRAM exhaustion, but if you hit `CUDA out of memory`, reduce `max_bin` in the LightGBM parameters or switch to `prediction_cpu.py`.
+
+### Quick verification checklist
+
+```bash
+# 1. Driver
+nvidia-smi
+
+# 2. CUDA toolkit
+nvcc --version
+
+# 3. cuDF + CuPy (RAPIDS)
+python cuDF_test.py
+
+# 4. LightGBM CUDA
+python testGPU.py
+
+# 5. Full prediction pipeline (GPU)
+python prediction.py
+
+# 5b. Full prediction pipeline (CPU fallback)
+python prediction_cpu.py
+```
+
+All scripts print whether they are running on GPU or CPU at startup, so you can confirm the right path is taken.
+
 ## Usage
 
 I regularly update the CSV data files in the **/data** directory with the latest AFL match and player data. But you can also do your own data scraping using the provided scripts in the "scripts" directory. Scripts, using the Beautiful Soup library, are available for web scraping.
