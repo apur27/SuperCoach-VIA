@@ -59,10 +59,10 @@ RANK_GAMMA = 0.27
 # era bias; pre_1965 stays at 0.88 as modest sample-size humility for the
 # 2-stats-only era (goals + behinds), not as a punishment for being old.
 ERA_COMPLETENESS = {
-    'pre_1965':  0.80,   # 2 stats — goals+behinds only; stronger discount for limited signal.
-    '1965_1990': 0.92,   # 4 stats — small discount for missing tackles/marks.
-    '1990_2010': 0.92,   # 5 stats — equalised; the rank signal handles era-fairness.
-    'post_2010': 0.92,   # 11 stats — modern tracking, no advantage built into ec.
+    'pre_1965':  0.80,   # 2 stats — goals+behinds only; epistemic discount for limited signal.
+    '1965_1990': 0.92,   # 4 stats — anchor; left unchanged.
+    '1990_2010': 0.89,   # graduated recency discount; 2000s cohort was 20/100, nudging down.
+    'post_2010': 0.91,   # mild recency discount; 2010s cohort was 18/100, nudging down.
     'unknown':   0.85,
 }
 
@@ -458,7 +458,7 @@ def compile_all_time_top_100(
         # Blended: 0.45 for longevity (seasons/18 cap) + 0.20 flat for reaching
         # 8+ top-100 seasons — the flat component stops short elite careers
         # (Carey 10, Ablett Sr 12) from being crushed vs 18-season careers.
-        career_bonus = 0.45 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
+        career_bonus = 0.50 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
         all_time_scores.append((player, all_time_score, seasons, career_g, mean_adj))
