@@ -28,19 +28,22 @@ TOP_N_SEASONS = 8
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Applied as sqrt(completeness)
 # shrinkage on raw z-scores (z_adj = z * sqrt(c)) so a pre-1965 +3σ season
-# (only goals/behinds visible) is treated with appropriate epistemic humility
-# compared to a post-2010 +3σ season evidenced across 12 stats.
+# is treated with appropriate epistemic humility vs a post-2010 +3σ season.
+# Calibrated to close the structural gap: pre-1965 players were historically
+# undervalued (0.40 was too aggressive). Post-2010 is set to 0.92, not 1.0,
+# because modern stats still omit GPS, pressure acts, and defensive ratings.
 ERA_COMPLETENESS = {
-    'pre_1965': 0.40,    # 2 stats: goals, behinds
-    '1965_1990': 0.65,   # 4 stats: + kicks, handballs
-    '1990_2010': 0.82,   # 6 stats: + marks, disposals
-    'post_2010': 1.0,    # 12 stats: full modern picture
-    'unknown': 0.40,
+    'pre_1965':  0.65,   # raised from 0.40 — 2 stats, but shrinkage was too harsh
+    '1965_1990': 0.78,   # raised from 0.65 — 4 stats
+    '1990_2010': 0.90,   # raised from 0.82 — 6 stats
+    'post_2010': 0.92,   # lowered from 1.0  — modern stats still incomplete
+    'unknown':   0.65,
 }
 
-# Minimum players in a position group to compute stratified z-scores.
-# Below this threshold we fall back to the full-cohort z-score.
-MIN_POSITION_GROUP = 5
+# Maximum fraction of the raw score any single stat may contribute.
+# Raised from 0.40 → 0.55: the old 40% cap was too aggressive for pure goal
+# kickers (e.g. Lockett, Dunstall) in 2-4 stat eras where goals dominate.
+SINGLE_STAT_CAP = 0.55
 
 
 def _is_debug_player(player_name: str) -> bool:
@@ -154,12 +157,9 @@ def process_player_file(
 
         uncapped_score = sum(stat_contributions.values())
 
-        # Cap any single stat at 40% of the total weighted score so that
-        # one-dimensional specialists (e.g. pre-1965 goal-kickers in a 2-stat era)
-        # cannot fully dominate a season score.
         if uncapped_score > 0:
             excess = sum(
-                max(0.0, c - 0.40 * uncapped_score)
+                max(0.0, c - SINGLE_STAT_CAP * uncapped_score)
                 for c in stat_contributions.values()
             )
             score = max(0, int(uncapped_score - excess))
@@ -299,6 +299,7 @@ def generate_yearly_top_100(
 def compile_all_time_top_100(
     yearly_top_100: Dict[int, List[Tuple[str, int, Dict[str, int], int, float, float]]],
     output_dir: str,
+    career_games: Optional[Dict[str, int]] = None,
 ) -> None:
     """Compile the all-time top 100 using era-fair z-score dominance.
 
@@ -333,8 +334,20 @@ def compile_all_time_top_100(
                 }
             player_data[player]['percentile_ranks'].append(percentile)
             player_data[player]['z_scores'].append(z_adj)
+            # Use games from this yearly-top-100 season only for z-score tracking;
+            # true career game count is overridden below from the full aggregates.
             player_data[player]['total_games'] += games
             player_data[player]['seasons'] += 1
+
+    # Override total_games with the true career count if provided.
+    # The yearly-top-100 loop above only counts games from seasons where the
+    # player cracked the top 100, silently dropping injury-affected or early/late
+    # career seasons and artificially depressing longevity for fragmented careers
+    # (Carey lost 60 games, Voss 83, Hird 89 under the old approach).
+    if career_games:
+        for player in player_data:
+            if player in career_games:
+                player_data[player]['total_games'] = career_games[player]
 
     all_time_scores = []
     for player, data in player_data.items():
@@ -391,7 +404,12 @@ def compile_all_time_top_100(
     for entry in all_sorted:
         by_decade[player_decade.get(entry[0], 0)].append(entry)
 
-    MIN_PER_DECADE = 3
+    # Reduced from 3 → 1: the old 3-per-decade reservation locked up 39 of 100
+    # slots for decade anchors, displacing players like Lockett (#90 on merit)
+    # in favour of 1890s/1900s players whose stats are too sparse to rank fairly.
+    # Top-1 per decade (13 slots) still guarantees historical breadth while
+    # keeping the remaining 87 spots merit-driven.
+    MIN_PER_DECADE = 1
     must_include: set = set()
     for decade_entries in by_decade.values():
         for entry in decade_entries[:MIN_PER_DECADE]:
@@ -503,7 +521,7 @@ def _generate_yearly_from_memory(
         uncapped = sum(contributions.values())
         if uncapped <= 0:
             continue
-        excess = sum(max(0.0, c - 0.40 * uncapped) for c in contributions.values())
+        excess = sum(max(0.0, c - SINGLE_STAT_CAP * uncapped) for c in contributions.values())
         score = max(0, int(uncapped - excess))
         era_totals = {stat: int(totals.get(stat, 0)) for stat in era_stats if stat in totals}
         player_scores.append((player_name, score, era_totals, games_played))
@@ -513,8 +531,14 @@ def _generate_yearly_from_memory(
 
     scores = [s for _, s, _, _ in player_scores]
     percentile_ranks = calculate_percentile_ranks(scores)
-    positions = [_position_key(t, g) for _, _, t, g in player_scores]
-    raw_z = _compute_position_stratified_z_scores(scores, positions)
+    # Full-cohort z-scores: compare ALL players within the same year regardless
+    # of position. The original position stratification (forwards vs non-forwards)
+    # was intended to stop pre-1965 goal kickers from dominating, but that is
+    # already handled by era_completeness shrinkage and the single-stat cap.
+    # Position stratification was confirmed to severely penalise all-round
+    # forwards (Carey, Ablett Sr, Bartlett) by forcing them into the same
+    # forward pool as pure goal machines (Lockett, Dunstall).
+    raw_z = compute_within_era_z_scores(scores)
     z_scores = raw_z * shrinkage
 
     enriched = list(zip(player_scores, percentile_ranks, z_scores))
@@ -529,8 +553,7 @@ def _generate_yearly_from_memory(
         if _is_debug_player(player_name):
             logging.info(
                 f"[DEBUG {year}] {player_name}: raw_score={float(raw_score):.0f} "
-                f"games={games} pos={_position_key(rec[2], games)} "
-                f"pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
+                f"games={games} pct={pr:.2f} z_adj={z:+.3f} shrinkage={shrinkage:.3f}"
             )
 
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
@@ -562,10 +585,18 @@ def main():
     output_dir = "./data/top100/"
     os.makedirs(os.path.join(output_dir, 'yearly'), exist_ok=True)
 
-    # Single-pass aggregation: read each of ~13k player files exactly once,
-    # then apply the full ranking algorithm in memory — ~100× faster than the
-    # old year-by-year loop that re-read every file for every year.
+    # Single-pass aggregation: read each of ~13k player files exactly once.
     raw_aggregates = _aggregate_all_players(data_dir)
+
+    # Compute true career game counts before any top-100 filtering.
+    # This fixes the bug where compile_all_time_top_100 only counted games from
+    # seasons that cracked the yearly top 100, silently dropping injury/fringe
+    # seasons and depressing longevity for players like Carey (-60 games),
+    # Voss (-83 games), and Hird (-89 games).
+    true_career_games: Dict[str, int] = defaultdict(int)
+    for year_data in raw_aggregates.values():
+        for player, _, games in year_data:
+            true_career_games[player] += games
 
     yearly_top_100 = {}
     for year in sorted(raw_aggregates.keys()):
@@ -574,7 +605,7 @@ def main():
         if top_100:
             yearly_top_100[year] = top_100
 
-    compile_all_time_top_100(yearly_top_100, output_dir)
+    compile_all_time_top_100(yearly_top_100, output_dir, career_games=dict(true_career_games))
 
     elapsed = datetime.now() - started
     logging.info(f"=== top_players_comprehensive complete in {elapsed} ===")

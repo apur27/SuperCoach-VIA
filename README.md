@@ -124,41 +124,41 @@ The project organizes data and scripts into several key locations:
 
 ## All-Time Top 100 Ranking Algorithm
 
-The ranking in `top_players_comprehensive.py` uses an **era-normalised z-score dominance** approach. The goal is to produce a defensible all-time list that does not unfairly favour either modern players (who have more tracked stats) or pre-1965 goal kickers (who played in a 2-stat era where goals dominate everything). The methodology has four steps.
+The ranking in `top_players_comprehensive.py` uses an **era-normalised z-score dominance** approach. The goal is to produce a defensible all-time list that does not unfairly favour modern players (more tracked stats, no shrinkage) over historical legends. The methodology has five steps.
 
 ### Step 1 — Era-aware raw scoring (per season, per player)
 
-Each season's raw score is computed using only the statistics that were tracked in that era:
+Each season's raw score is computed using only the statistics tracked in that era:
 
 | Era | Years | Stats available |
 |-----|-------|----------------|
 | Pre-1965 | 1897–1964 | Goals, behinds |
 | 1965–1990 | 1965–1990 | + kicks, handballs |
-| 1990–2010 | 1991–2010 | + marks, disposals |
+| 1990–2010 | 1991–2010 | + marks |
 | Post-2010 | 2011–present | + tackles, clearances, contested possessions, contested marks, one-percenters, goal assists |
 
 **Scoring weights:** `goals=55, kicks=4.5, handballs=3.0, clearances=5.5, contested_possessions=5.5, contested_marks=7, goal_assist=4, tackles=3.5, one_percenters=3, marks=2.5, behinds=1.5`.
 
-> **Note on disposals:** `disposals` is intentionally absent from the weights and era stat lists. Since `disposals = kicks + handballs`, weighting all three would double-count every kick. Instead, kicks and handballs are scored separately — handballs at ~65% of kick value (3.0 vs 4.5), reflecting their lower distance and accuracy.
+> **Note on disposals:** `disposals` is intentionally absent — since `disposals = kicks + handballs`, weighting all three double-counts every kick. Kicks and handballs are scored separately instead.
 
-**40% single-stat cap:** No single statistic can contribute more than 40% of a player's raw score for a season. This prevents one-dimensional specialists — most notably pre-1965 goal kickers in a goals-only era — from running away with the ranking on the back of a single metric.
+**55% single-stat cap:** No single statistic can contribute more than 55% of a player's raw score for a season. This prevents extreme goal-kicking seasons from totally dominating while still allowing goal kickers to be properly rewarded (the old 40% cap was confirmed to over-penalise elite forwards like Lockett and Dunstall in sparse-stat eras).
 
-### Step 2 — Position-stratified z-scores
+### Step 2 — Full-cohort within-year z-scores
 
-Each player is classified by role (forwards: ≥1 goal/game; everyone else lumped together as midfielders / defenders / rucks) and z-scored **within their position group for that season**. This avoids the trap where a pre-1965 forward looks +5σ simply because midfielders in that era had zero recorded goals — the comparison is now within forwards only.
+Every player for a given year is z-scored against the entire year's cohort (not split by position). An earlier position-stratification approach (forwards vs others based on goals/game ≥ 1.0) was found to systematically damage all-round forwards — Wayne Carey, Gary Ablett Sr, and Kevin Bartlett were all classified "forward" and compared to pure goal machines like Lockett and Dunstall, depressing their z-scores despite being more complete players. The era_completeness shrinkage (Step 3) and single-stat cap (Step 1) are sufficient to prevent any era-dominance artefacts.
 
 ### Step 3 — Era completeness shrinkage
 
-Each season's z-score is multiplied by `sqrt(era_completeness)`, where completeness reflects how many of the modern stat categories were tracked in that era:
+Each season's z-score is multiplied by `sqrt(era_completeness)`. Values are calibrated to close the structural gap between eras — the original 1.0 (no shrinkage) for the post-2010 era was creating a mathematical ceiling that pre-1990 players could never reach regardless of their true dominance:
 
 | Era | Completeness | Shrinkage factor |
 |-----|--------------|------------------|
-| Pre-1965 | 0.40 | × 0.632 |
-| 1965–1990 | 0.65 | × 0.806 |
-| 1990–2010 | 0.82 | × 0.906 |
-| Post-2010 | 1.00 | × 1.000 |
+| Pre-1965 | 0.65 | × 0.806 |
+| 1965–1990 | 0.78 | × 0.883 |
+| 1990–2010 | 0.90 | × 0.949 |
+| Post-2010 | 0.92 | × 0.959 |
 
-This is epistemic humility encoded into the score: a +3σ season evidenced by 2 stats is genuinely less convincing than a +3σ season evidenced by 12 stats, and the shrinkage formalises that.
+Note: post-2010 is 0.92 rather than 1.0 because modern stats still omit GPS distance, pressure acts, and defensive ratings — even full modern tracking is not a complete picture.
 
 ### Step 4 — All-time score formula
 
@@ -168,15 +168,15 @@ A player's final score is:
 all_time_score = mean_z_top8 × longevity + peak_bonus
 ```
 
-- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons. Using the top 8 rather than career average rewards sustained excellence without penalising long careers for weak tail seasons.
-- **`longevity`** = `min(career_games / 250, 1.5)` — games-based durability multiplier, capped at 1.5×. Using actual games played (not seasons) meaningfully separates a 9-season/185-game current player from a 19-season/400-game all-time great. Minimum 150 career games required to qualify.
-- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge rewarding peak dominance (e.g. a Norm Smith Medal year) without letting it dominate the career signal.
+- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons.
+- **`longevity`** = `min(career_games / 250, 1.5)` — true career game count (all games played, not just seasons that cracked the yearly top 100). A longstanding bug was silently dropping injury-affected seasons, under-counting Carey by 60 games, Voss by 83, and Hird by 89. Minimum 150 career games required to qualify.
+- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge for a standout peak season.
 
-> **Brownlow bonus removed:** an earlier version included a Brownlow vote prior, but it created recency bias — modern midfielders accumulate votes across many more fully-tracked seasons, unfairly inflating their scores relative to pre-1990 players.
+> **Brownlow bonus removed:** it created recency bias — modern midfielders accumulate votes across far more fully-tracked seasons.
 
 ### Step 5 — Decade representation guarantee
 
-To ensure the list spans the full history of the game, the top 3 scorers from each decade (1897–1909, 1910s, 1920s … 2020s) are guaranteed inclusion. Remaining spots are filled by overall score. The final list is re-sorted by score so rank order always reflects statistical merit.
+To ensure historical breadth, the top scorer from each decade (1897–1909, 1910s … 2020s) is guaranteed inclusion. Remaining spots are filled by overall score. Reduced from top-3 to top-1 per decade: the old 3-per-decade rule reserved 39 of 100 slots for decade anchors, displacing genuine greats (e.g. Tony Lockett at #90 on merit) in favour of 1890s–1900s players whose sparse stats cannot be fairly compared.
 
 The output is written to `data/top100/all_time_top_100.csv` and then enriched with player bios by `formatTop100.py` into the root-level `all_time_top_100.csv`.
 
