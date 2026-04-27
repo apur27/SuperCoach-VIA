@@ -11,10 +11,10 @@ import math
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
 DEBUG_PLAYERS = {
-    'kevin_bartlett',
-    'gary_ablett',
-    'scott_pendlebury',
-    'dustin_martin',
+    'bartlett_kevin',
+    'ablett_gary',
+    'pendlebury_scott',
+    'martin_dustin',
 }
 
 # Z-scores are capped at ±Z_CAP before any aggregation.
@@ -28,19 +28,14 @@ TOP_N_SEASONS = 8
 
 # Curvature on the year_score = ((101 - rank) / 100) ** RANK_GAMMA mapping.
 # γ=1.0 is purely linear: rank #1 ≈ 1.00, rank #5 ≈ 0.96 — the gap between
-# being THE best and being top-5 is too thin, which lets consistent rank #3-5
-# career players (Brad Johnson) tie era #1s on mean. γ=2.0 widens the gap to
-# a calibrated middle ground:
-#   rank #1  = 1.000   rank #5  = 0.922
-#   rank #2  = 0.980   rank #10 = 0.828
-#   rank #3  = 0.960   rank #50 = 0.260
-# True #1 finishes are now meaningfully more valuable than top-5 finishes while
-# the "consistently in the top 100" signal is preserved further down the curve.
-# γ=2.5 was tested and shifted the ordering further but didn't change the
-# fundamental finding (Matthews > Carey on rank-1 frequency); γ=2.0 is the
-# minimum curvature that breaks the linear-formula tie between Carey and
-# Brad Johnson / Matt Lloyd in favour of the player with more #1/#2 finishes.
-RANK_GAMMA = 2.0
+# sub-linear so that a player who consistently finished rank 15-25 over 15
+# seasons accumulates a meaningful all-time signal, necessary to surface elite
+# consistent midfielders. The career_bonus term (cap at 400 games) then
+# separates players of similar mean_adj by career length.
+#
+#   γ=0.70 reference:
+#   rank #1  = 1.000   rank #10 = 0.940   rank #25 = 0.849   rank #50 = 0.760
+RANK_GAMMA = 0.70
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Under the rank-based all-time
@@ -58,7 +53,7 @@ ERA_COMPLETENESS = {
     'pre_1965':  0.85,   # 2 stats — sample-size humility, not punishment
     '1965_1990': 0.92,   # 4 stats — small discount for missing tackles/marks
     '1990_2010': 0.95,   # 5 stats — small discount; modern stats still inflate
-    'post_2010': 0.85,   # 11 stats — modern tracking inflates dominance signal
+    'post_2010': 0.90,   # 11 stats — modern tracking inflates dominance signal
     'unknown':   0.85,
 }
 
@@ -427,7 +422,7 @@ def compile_all_time_top_100(
         if not top_n:
             continue
         mean_adj = sum(top_n) / len(top_n)
-        career_bonus = 0.30 * min(career_g / 300.0, 1.0)
+        career_bonus = 0.60 * min(career_g / 400.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
         seasons = player_seasons[player]
