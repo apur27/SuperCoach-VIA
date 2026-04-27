@@ -165,12 +165,12 @@ Note: post-2010 is 0.92 rather than 1.0 because modern stats still omit GPS dist
 A player's final score is:
 
 ```
-all_time_score = mean_z_top8 × longevity + peak_bonus
+all_time_score = mean_z_top5 × (1 + career_bonus) + peak_bonus
 ```
 
-- **`mean_z_top8`** — the average era-adjusted z-score across the player's best 8 seasons.
-- **`longevity`** = `min(career_games / 250, 1.5)` — true career game count (all games played, not just seasons that cracked the yearly top 100). A longstanding bug was silently dropping injury-affected seasons, under-counting Carey by 60 games, Voss by 83, and Hird by 89. Minimum 150 career games required to qualify.
-- **`peak_bonus`** = `0.15 × best_season_z_adj` — small additive nudge for a standout peak season.
+- **`mean_z_top5`** — average era-adjusted z-score across the player's best **5** seasons (reduced from 8). Focusing on 5 peak seasons rewards players who were genuinely the best in the competition in multiple years (Carey, Matthews, Ablett Sr) rather than players who were consistently good but never dominant.
+- **`career_bonus`** = `0.30 × min(career_games / 300, 1.0)` — **additive** bonus (max +30%) for longevity. Critically, this is *additive* not *multiplicative*: a 364-game player and a 300-game player both receive the same 30% bonus, so a longer career cannot overcome lower per-season z-scores. The old multiplicative formula (×1.5 max) was producing Brad Johnson #1, Wayne Carey #16 — directly contradicting expert consensus. True career game count used (all games played, not just top-100 seasons; a longstanding bug was silently dropping injury seasons, under-counting Carey by 60 games, Voss 83, Hird 89). Minimum 150 career games required.
+- **`peak_bonus`** = `0.25 × best_season_z_adj` — raised from 0.15 to reward "seasons where you were clearly the #1 player in the competition" (Carey 1996, Matthews 1975, Ablett Sr's 1989 Grand Final).
 
 > **Brownlow bonus removed:** it created recency bias — modern midfielders accumulate votes across far more fully-tracked seasons.
 

@@ -21,9 +21,10 @@ DEBUG_PLAYERS = {
 Z_CAP = 3.0
 
 # Number of best seasons used for the core mean_z signal.
-# Using top seasons (not career average) rewards sustained excellence
-# without being dragged down by early/late filler years.
-TOP_N_SEASONS = 8
+# 5 (reduced from 8) focuses on peak excellence rather than career accumulation.
+# Expert consensus values "being the best player in the comp" over sustained
+# mediocrity — Carey's 5 exceptional seasons should outrank 8 good Johnson seasons.
+TOP_N_SEASONS = 5
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Applied as sqrt(completeness)
@@ -362,20 +363,33 @@ def compile_all_time_top_100(
         mean_z = float(z_arr[top_idx].mean())
         peak_z_adj = float(z_arr[top_idx[0]])
 
-        # Games-based longevity: 250 games = full multiplier (1.5×).
-        # A 185-game player gets 0.74× vs a 400-game player's 1.5× — a 2× gap
-        # that properly separates a good current player from a multi-decade great.
-        longevity = min(total_games / 250.0, 1.5)
-        peak_bonus = 0.15 * max(peak_z_adj, 0.0)
+        # Career bonus — ADDITIVE, not multiplicative.
+        #
+        # Old formula  : score = mean_z × min(games/250, 1.5)
+        # Problem      : a 364-game player (1.456×) beat a 272-game peak-dominator
+        #                (1.088×) even with 20% worse z-scores — Brad Johnson at #1,
+        #                Wayne Carey at #16. Expert consensus (AFL-commissioned Sheahan
+        #                list, 21-greats poll) puts Carey #1 by a wide margin.
+        #
+        # New formula  : score = mean_z × (1 + career_bonus) + peak_bonus
+        # Career bonus : max 30% additive for 300+ games — longevity is a modest
+        #                differentiator, not a dominant multiplier. A 272-game legend
+        #                (Carey) gets 27% bonus; a 364-game good-but-not-GOAT player
+        #                (Johnson) gets the same 30% cap. Dominance wins.
+        # Peak bonus   : raised 0.15 → 0.25 — experts explicitly value "seasons where
+        #                you were the #1 player in the competition" (Carey's 1996,
+        #                Matthews' 1975, Ablett Sr's 1989 Norm Smith year).
+        career_bonus = 0.30 * min(total_games / 300.0, 1.0)
+        peak_bonus = 0.25 * max(peak_z_adj, 0.0)
 
-        all_time_score = mean_z * longevity + peak_bonus
+        all_time_score = mean_z * (1.0 + career_bonus) + peak_bonus
         all_time_scores.append((player, all_time_score, mean_z, peak_z_adj, total_games))
 
         if _is_debug_player(player):
             logging.info(
                 f"[DEBUG ALL-TIME] {player}: seasons={seasons} games={total_games} "
                 f"mean_z_top{TOP_N_SEASONS}={mean_z:+.3f} peak_z_adj={peak_z_adj:+.3f} "
-                f"longevity={longevity:.3f} peak_bonus={peak_bonus:.3f} "
+                f"career_bonus={career_bonus:.3f} peak_bonus={peak_bonus:.3f} "
                 f"all_time_score={all_time_score:.4f}"
             )
 
