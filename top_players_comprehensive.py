@@ -19,7 +19,7 @@ Z_CAP = 3.0
 # Top-10 rewards sustained excellence: long careers get more candidate elite
 # seasons but also dilute their average vs short-peak players. Top-8 let
 # 2-3-year peaks dominate; top-15 crushed consistent midfielders with weaker tails.
-TOP_N_SEASONS = 10
+TOP_N_SEASONS = 11
 
 # Curvature on the year_score = ((101 - rank) / 100) ** RANK_GAMMA mapping.
 # γ < 1 is concave: compresses the gap between rank #1 and rank #25, allowing
@@ -29,7 +29,7 @@ TOP_N_SEASONS = 10
 #   γ=0.27 reference:
 #   rank #1  = 1.000   rank #4  = 0.992   rank #10 = 0.974   rank #25 = 0.911
 #   rank #50 = 0.851   rank #100 = 0.000
-RANK_GAMMA = 0.22
+RANK_GAMMA = 0.37
 
 # Blend weight for the per-year z-score dominance signal in year_score.
 # year_score = (1 - Z_BLEND) * rank_score + Z_BLEND * z_signal
@@ -43,7 +43,7 @@ RANK_GAMMA = 0.22
 #
 # Z_BLEND = 0 → pure rank (old behaviour). Z_BLEND > 0.35 risks losing the
 # career-consistency signal. Tuning sweet spot is 0.20-0.30.
-Z_BLEND = 0.15
+Z_BLEND = 0.20
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Under the rank-based all-time
@@ -77,7 +77,7 @@ MIN_POSITION_GROUP = 5
 # this constant. Active = appeared in any yearly_top_100 list for a year in
 # RECENT_YEARS (auto-detected from data; no player names hardcoded).
 RECENT_YEARS = {2025, 2026}
-ACTIVE_PLAYER_DISCOUNT = 0.90
+ACTIVE_PLAYER_DISCOUNT = 0.95
 
 
 # Eras define which stats are available for scoring.
@@ -449,7 +449,7 @@ def compile_all_time_top_100(
         # Blended: 0.50 for longevity (seasons/18 cap) + 0.20 flat for reaching
         # 8+ top-100 seasons — the flat component stops short elite careers
         # from being crushed vs 18-season careers.
-        career_bonus = 0.55 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
+        career_bonus = 2.00 * min(seasons / 18.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
         # Career-completeness discount for active players (see constant comment).
