@@ -27,7 +27,7 @@ TOP_N_SEASONS = 10
 #   γ=0.27 reference:
 #   rank #1  = 1.000   rank #4  = 0.992   rank #10 = 0.974   rank #25 = 0.911
 #   rank #50 = 0.851   rank #100 = 0.000
-RANK_GAMMA = 0.27
+RANK_GAMMA = 0.22
 
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Under the rank-based all-time
@@ -38,7 +38,7 @@ RANK_GAMMA = 0.27
 # (post_2010) get a mild recency discount to avoid over-representing modern
 # players. pre_1965 gets an epistemic discount for having only 2 stats.
 ERA_COMPLETENESS = {
-    'pre_1965':  0.80,   # 2 stats — goals+behinds only; epistemic discount for limited signal.
+    'pre_1965':  0.84,   # 2 stats — goals+behinds only; raised from 0.80 to lift Lee Dick/Titus/Whitten/Goggin into top-30 (0.85 over-promoted Coventry to #4).
     '1965_1990': 0.92,   # 4 stats — anchor; left unchanged.
     '1990_2010': 0.89,   # graduated recency discount; 2000s cohort was 20/100, nudging down.
     'post_2010': 0.89,   # recency discount targeting ~7 post-2010 players in top-30.
@@ -403,7 +403,7 @@ def compile_all_time_top_100(
         # Blended: 0.50 for longevity (seasons/18 cap) + 0.20 flat for reaching
         # 8+ top-100 seasons — the flat component stops short elite careers
         # from being crushed vs 18-season careers.
-        career_bonus = 0.50 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
+        career_bonus = 0.55 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
         all_time_scores.append((player, all_time_score, seasons, career_g, mean_adj))
