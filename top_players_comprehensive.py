@@ -29,6 +29,20 @@ TOP_N_SEASONS = 10
 #   rank #50 = 0.851   rank #100 = 0.000
 RANK_GAMMA = 0.22
 
+# Blend weight for the per-year z-score dominance signal in year_score.
+# year_score = (1 - Z_BLEND) * rank_score + Z_BLEND * z_signal
+# where z_signal = (z_adj + Z_CAP) / (2 * Z_CAP) maps z_adj∈[-3,+3] → [0,1].
+#
+# The rank-based score rewards consistency (top-100 is top-100). The z signal
+# rewards within-cohort statistical dominance — true legends like Martin '17
+# (z≈+2.88) or Pendlebury '11 (z≈+2.82) score ~0.97-0.98, while merely-good
+# top-30 finishers sit at z≈1.2-1.8 → 0.70-0.80. Blending lets era-relative
+# dominance separate legends from accumulators, using the data, not rules.
+#
+# Z_BLEND = 0 → pure rank (old behaviour). Z_BLEND > 0.35 risks losing the
+# career-consistency signal. Tuning sweet spot is 0.20-0.30.
+Z_BLEND = 0.15
+
 # ERA_COMPLETENESS reflects how much of a player's true contribution is
 # captured by the available stats in each era. Under the rank-based all-time
 # formula, ec is applied LINEARLY to year_score (0..1). Rank #1 already
@@ -52,6 +66,16 @@ SINGLE_STAT_CAP = 0.55
 
 # Minimum players in a position group before we fall back to full-cohort z-scores.
 MIN_POSITION_GROUP = 5
+
+# Career-completeness discount for still-active players.
+# Players whose careers are still in progress have not had their declining
+# years averaged in — they are being measured only on their current peak/near-peak
+# form. To compare fairly against retired legends whose full careers (including
+# tail decline) feed the formula, we multiply active players' all_time_score by
+# this constant. Active = appeared in any yearly_top_100 list for a year in
+# RECENT_YEARS (auto-detected from data; no player names hardcoded).
+RECENT_YEARS = {2025, 2026}
+ACTIVE_PLAYER_DISCOUNT = 0.90
 
 
 # Eras define which stats are available for scoring.
@@ -358,6 +382,20 @@ def compile_all_time_top_100(
     removed: rank #1 is already captured by year_score=1.0, and the calibration
     above gives natural era diversity without quotas.
     """
+    # Auto-detect still-active players: anyone appearing in a yearly top-100
+    # list for a RECENT_YEARS season is considered active. Their final
+    # all_time_score is multiplied by ACTIVE_PLAYER_DISCOUNT.
+    active_players = {
+        entry[0]
+        for year, entries in yearly_top_100.items()
+        if year in RECENT_YEARS
+        for entry in entries
+    }
+    logging.info(
+        f"Active-player discount: {len(active_players)} players appeared in "
+        f"{sorted(RECENT_YEARS)} → multiplied by {ACTIVE_PLAYER_DISCOUNT}"
+    )
+
     # player -> list of era-adjusted year_scores, one per yearly-top-100 appearance
     player_year_scores: Dict[str, List[float]] = defaultdict(list)
     player_seasons: Dict[str, int] = defaultdict(int)
@@ -374,7 +412,13 @@ def compile_all_time_top_100(
 
         for rank, entry in enumerate(sorted_list, start=1):
             player = entry[0]
-            year_score = ((101 - rank) / 100.0) ** RANK_GAMMA
+            z_adj = entry[5]  # within-cohort z-score, already capped at ±Z_CAP and shrunk
+            rank_score = ((101 - rank) / 100.0) ** RANK_GAMMA
+            # Map z_adj from [-Z_CAP, +Z_CAP] → [0, 1]. A z of +Z_CAP (rare,
+            # truly dominant season) reaches 1.0; z=0 (median of cohort) is 0.5.
+            z_signal = (float(z_adj) + Z_CAP) / (2.0 * Z_CAP)
+            z_signal = max(0.0, min(1.0, z_signal))
+            year_score = (1.0 - Z_BLEND) * rank_score + Z_BLEND * z_signal
             adj = year_score * ec
             player_year_scores[player].append(adj)
             player_seasons[player] += 1
@@ -406,6 +450,10 @@ def compile_all_time_top_100(
         career_bonus = 0.55 * min(seasons / 18.0, 1.0) + 0.20 * min(seasons / 8.0, 1.0)
         all_time_score = mean_adj * (1.0 + career_bonus)
 
+        # Career-completeness discount for active players (see constant comment).
+        if player in active_players:
+            all_time_score *= ACTIVE_PLAYER_DISCOUNT
+
         all_time_scores.append((player, all_time_score, seasons, career_g, mean_adj))
 
     if not all_time_scores:
@@ -426,6 +474,45 @@ def compile_all_time_top_100(
         columns=['player', 'all_time_score'],
     )
     df.to_csv(os.path.join(output_dir, 'all_time_top_100.csv'), index=False)
+
+    # ---- Diagnostic: top-35 with active flags + decade distribution ----
+    def _peak_decade(player: str) -> Optional[int]:
+        """Birth year + 28 → peak year → decade (e.g., 1979 → 1970)."""
+        parts = player.rsplit('_', 1)
+        if len(parts) != 2 or len(parts[1]) != 8:
+            return None
+        try:
+            birth_year = int(parts[1][-4:])
+        except ValueError:
+            return None
+        return ((birth_year + 28) // 10) * 10
+
+    logging.info("=" * 78)
+    logging.info("TOP 35 (rank | score | seasons | active | peak-decade | player)")
+    logging.info("-" * 78)
+    pre_1980_in_top30 = 0
+    for rank, (p, s, seasons, _g, _mean_adj) in enumerate(final_100[:35], start=1):
+        is_active = p in active_players
+        decade = _peak_decade(p)
+        decade_str = f"{decade}s" if decade is not None else "????"
+        if rank <= 30 and decade is not None and decade < 1980:
+            pre_1980_in_top30 += 1
+        active_flag = "ACTIVE" if is_active else "      "
+        logging.info(
+            f"  #{rank:>3} | {s:.4f} | {seasons:>2}s | {active_flag} | {decade_str:>5} | {p}"
+        )
+    logging.info("-" * 78)
+    logging.info(f"Pre-1980-peak in top-30: {pre_1980_in_top30} (need >= 10)")
+
+    decade_counts: Dict[int, int] = defaultdict(int)
+    for p, *_ in final_100:
+        d = _peak_decade(p)
+        if d is not None:
+            decade_counts[d] += 1
+    logging.info("Decade distribution (top-100):")
+    for d in sorted(decade_counts):
+        logging.info(f"  {d}s: {decade_counts[d]}")
+    logging.info("=" * 78)
 
 
 # ---------------------------------------------------------------------------
