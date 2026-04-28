@@ -1,3 +1,4 @@
+import csv
 import glob
 import os
 import pandas as pd
@@ -5,6 +6,7 @@ import numpy as np
 from typing import Dict, List, Tuple, Optional
 from collections import defaultdict
 from datetime import datetime
+from statistics import median
 import logging
 import math
 
@@ -696,8 +698,156 @@ def main():
 
     compile_all_time_top_100(yearly_top_100, output_dir, career_games=dict(true_career_games))
 
+    format_top_100(
+        os.path.join(output_dir, 'all_time_top_100.csv'),
+        'all_time_top_100.csv',
+    )
+
     elapsed = datetime.now() - started
     logging.info(f"=== top_players_comprehensive complete in {elapsed} ===")
+
+
+def _read_player_personal(player_id: str) -> Optional[dict]:
+    path = f"data/player_data/{player_id}_personal_details.csv"
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path) as f:
+            row = next(csv.DictReader(f))
+        required = ['first_name', 'last_name', 'born_date', 'debut_date', 'height', 'weight']
+        return row if all(c in row for c in required) else None
+    except StopIteration:
+        return None
+
+
+def _read_player_performance(player_id: str) -> dict:
+    empty = {
+        'teams': [], 'total_games': 0, 'total_goals': 0, 'total_disposals': 0,
+        'avg_disposals': 0.0, 'total_brownlow_votes': 0, 'games_20_plus_disposals': 0,
+        'games_3_plus_goals': 0, 'num_seasons': 0, 'peak_disposals': 0,
+        'peak_goals': 0, 'median_disposals': 0, 'impact_score': 0,
+        'consistency_score': 0, 'brownlow_available': False,
+    }
+    path = f"data/player_data/{player_id}_performance_details.csv"
+    if not os.path.exists(path):
+        return empty
+    try:
+        with open(path) as f:
+            reader = csv.DictReader(f)
+            brownlow_available = 'brownlow_votes' in (reader.fieldnames or [])
+            teams_order, seen_teams, unique_years = [], set(), set()
+            disposals_per_game, goals_per_game = [], []
+            total_games = total_goals = total_disposals = total_brownlow_votes = 0
+            games_20_plus = games_3_plus_goals = 0
+            for row in reader:
+                team, year = row['team'], row['year']
+                unique_years.add(year)
+                if team not in seen_teams:
+                    teams_order.append(team)
+                    seen_teams.add(team)
+                total_games += 1
+                kicks = int(float(row['kicks'])) if row.get('kicks') else 0
+                handballs = int(float(row['handballs'])) if row.get('handballs') else 0
+                disposals = kicks + handballs
+                disposals_per_game.append(disposals)
+                total_disposals += disposals
+                goals = int(float(row['goals'])) if row.get('goals') else 0
+                goals_per_game.append(goals)
+                total_goals += goals
+                if brownlow_available:
+                    total_brownlow_votes += int(float(row['brownlow_votes'])) if row.get('brownlow_votes') else 0
+                if disposals >= 20:
+                    games_20_plus += 1
+                if goals >= 3:
+                    games_3_plus_goals += 1
+        impact = consistency = 0.0
+        if total_games > 0:
+            if brownlow_available and total_brownlow_votes > 0:
+                impact = (total_brownlow_votes / total_games) * 100
+            elif total_disposals > 0:
+                impact = total_disposals / total_games
+            if games_20_plus > 0:
+                consistency = (games_20_plus / total_games) * 100
+        return {
+            'teams': teams_order, 'total_games': total_games, 'total_goals': total_goals,
+            'total_disposals': total_disposals,
+            'avg_disposals': total_disposals / total_games if total_games > 0 else 0.0,
+            'total_brownlow_votes': total_brownlow_votes,
+            'games_20_plus_disposals': games_20_plus, 'games_3_plus_goals': games_3_plus_goals,
+            'num_seasons': len(unique_years),
+            'peak_disposals': max(disposals_per_game) if disposals_per_game else 0,
+            'peak_goals': max(goals_per_game) if goals_per_game else 0,
+            'median_disposals': median(disposals_per_game) if disposals_per_game else 0,
+            'impact_score': impact, 'consistency_score': consistency,
+            'brownlow_available': brownlow_available,
+        }
+    except StopIteration:
+        return empty
+
+
+def format_top_100(input_csv: str, output_csv: str) -> None:
+    with open(input_csv) as infile, open(output_csv, 'w', newline='') as outfile:
+        reader = csv.reader(infile)
+        writer = csv.writer(outfile, quoting=csv.QUOTE_ALL)
+        writer.writerow(['Serial Number', 'Player Name', 'Footy Teams', 'Comment'])
+        next(reader)
+        for i, row in enumerate(reader, start=1):
+            player_id = row[0].lower()
+            personal = _read_player_personal(player_id)
+            perf = _read_player_performance(player_id)
+            if personal:
+                full_name = f"{personal['first_name']} {personal['last_name']}"
+                base = (
+                    f"{full_name}, born on {personal['born_date']}, "
+                    f"debuted on {personal['debut_date']}, "
+                    f"height {personal['height']} cm, weight {personal['weight']} kg"
+                )
+            else:
+                full_name = "Unknown"
+                base = "Unknown player"
+            if perf['teams']:
+                teams_str = " - ".join(perf['teams'])
+                summary = f"{base}. A true legend of the game, {full_name} played for {teams_str}"
+                if perf['num_seasons'] > 0 and perf['total_games'] > 0:
+                    summary += f" over {perf['num_seasons']} seasons and {perf['total_games']} games"
+                summary += "."
+                if perf['total_disposals'] > 0 or perf['total_goals'] > 0:
+                    summary += " He recorded"
+                    if perf['total_disposals'] > 0:
+                        summary += f" {perf['total_disposals']} total disposals"
+                    if perf['total_goals'] > 0:
+                        summary += (" and" if perf['total_disposals'] > 0 else "") + f" {perf['total_goals']} goals"
+                    summary += "."
+                if perf['impact_score'] > 0:
+                    if perf['brownlow_available'] and perf['total_brownlow_votes'] > 0:
+                        summary += f" His impact is shown by a {perf['impact_score']:.1f} Impact Score (based on Brownlow votes)."
+                    else:
+                        summary += f" His impact is shown by a {perf['impact_score']:.1f} Impact Score (based on disposals)."
+                if perf['consistency_score'] > 0:
+                    summary += f" He maintained a {perf['consistency_score']:.1f}% Consistency Score."
+                if perf['peak_disposals'] > 0 or perf['peak_goals'] > 0:
+                    summary += " Peak performances include"
+                    if perf['peak_disposals'] > 0:
+                        summary += f" {perf['peak_disposals']} disposals"
+                    if perf['peak_goals'] > 0:
+                        summary += (" and" if perf['peak_disposals'] > 0 else "") + f" {perf['peak_goals']} goals"
+                    summary += " in a single game."
+                if perf['games_20_plus_disposals'] > 0 or perf['games_3_plus_goals'] > 0:
+                    summary += " His consistency shines with"
+                    if perf['games_20_plus_disposals'] > 0:
+                        summary += f" {perf['games_20_plus_disposals']} games of 20+ disposals"
+                    if perf['games_3_plus_goals'] > 0:
+                        summary += (" and" if perf['games_20_plus_disposals'] > 0 else "") + f" {perf['games_3_plus_goals']} games with 3+ goals"
+                    summary += "."
+                if perf['brownlow_available'] and perf['total_brownlow_votes'] > 0:
+                    summary += f" He earned {perf['total_brownlow_votes']} Brownlow votes, cementing his greatness."
+                else:
+                    summary += " His legacy as a great is undeniable."
+            else:
+                teams_str = "Unknown"
+                summary = f"{base}. No performance data available."
+            writer.writerow([i, full_name, teams_str, summary])
+    logging.info("Formatted top-100 written to %s", output_csv)
 
 
 if __name__ == "__main__":
