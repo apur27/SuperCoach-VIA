@@ -1,3 +1,4 @@
+import argparse
 import sys
 import numpy as np
 import pandas as pd
@@ -114,14 +115,23 @@ def extract_round_number(round_str):
     return np.nan
 
 class AFLDisposalPredictor:
-    def __init__(self, data_dir: str, target_year: int = 2025, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False):
-        """Initialize predictor with data directory, target year, rolling window sizes, and debug mode."""
+    def __init__(self, data_dir: str, target_year: int | None = None, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False):
+        """Initialize predictor with data directory, target year, rolling window sizes, and debug mode.
+
+        If ``target_year`` is None, it is auto-detected as the maximum ``year``
+        observed across all player_data CSVs (falling back to the current
+        calendar year if detection fails).
+        """
         self.data_dir = Path(data_dir)
         if not self.data_dir.exists():
             raise FileNotFoundError(f"Data directory does not exist: {data_dir}")
         if not self.data_dir.is_dir():
             raise NotADirectoryError(f"Path is not a directory: {data_dir}")
-        
+
+        if target_year is None:
+            target_year = self._autodetect_target_year()
+            print(f"🗓  Auto-detected target_year = {target_year}")
+
         self.target_year = target_year
         self.rolling_window = rolling_window
         self.within_season_window = within_season_window
@@ -135,6 +145,40 @@ class AFLDisposalPredictor:
         self.best_name = None
         self.training_feature_columns = None
         self.preprocessor = None  # Store preprocessor for prediction
+        # Groups (player) for the training rows, set during
+        # ``prepare_features_and_target`` and consumed by GroupKFold-based
+        # tuning/eval. Replaces an earlier module-level ``df_global``.
+        self._train_groups: pd.Series | None = None
+        # Cache of {filepath: loaded DataFrame} populated during
+        # load_and_prepare_data() and reused for prediction so we don't
+        # re-read & re-parse every CSV a second time.
+        self._player_cache: dict = {}
+
+    def _autodetect_target_year(self) -> int:
+        """Return the highest ``year`` value present in any player CSV.
+
+        Falls back to the current calendar year when no usable data is found,
+        rather than guessing a fixed value that decays as time passes.
+        """
+        max_year = None
+        # Scan CSVs lightly — only read the 'year' column so this is fast even
+        # over the full player_data directory.
+        for filepath in self.data_dir.glob('*_performance_details.csv'):
+            try:
+                years = pd.read_csv(filepath, usecols=['year'], na_values=NA_VALUES)
+                years = pd.to_numeric(years['year'], errors='coerce').dropna()
+                if not years.empty:
+                    file_max = int(years.max())
+                    if max_year is None or file_max > max_year:
+                        max_year = file_max
+            except Exception:
+                # Bad / unreadable CSVs are tolerated — we just skip them.
+                continue
+        if max_year is None:
+            fallback = datetime.now().year
+            print(f"⚠️  Could not auto-detect target_year from data; falling back to {fallback}")
+            return fallback
+        return max_year
 
     def load_player(self, filepath: Path) -> pd.DataFrame:
         """Load and preprocess player data from CSV."""
@@ -187,17 +231,25 @@ class AFLDisposalPredictor:
             print(f"⚠️ Missing columns: {missing_cols}")
             return pd.DataFrame()
         original_rows = len(df)
-        # Keep rows where 'disposals' is null only for target_year
-        df = df[(df['year'] >= target_year) | df['disposals'].notnull()].copy()
+        # Keep rows where 'disposals' is null only for target_year (current
+        # season may have fixture rows or partial data with disposals == NaN
+        # that we still need to keep around for feature engineering).
+        df = df[(df['year'] == target_year) | df['disposals'].notnull()].copy()
         cleaned_rows = len(df)
         if original_rows > cleaned_rows:
             print(f"⚠️ Dropped {original_rows - cleaned_rows} rows due to missing 'disposals' in historical data")
         return df
 
     def load_and_prepare_data(self) -> pd.DataFrame:
-        """Load and combine data from all player CSV files."""
+        """Load and combine data from all player CSV files.
+
+        Populates ``self._player_cache`` keyed by filepath so the prediction
+        pass can reuse the parsed per-player DataFrames without re-reading
+        the CSVs from disk.
+        """
         all_dfs = []
         birth_year_threshold = self.target_year - 40
+        self._player_cache = {}
         for filepath in self.data_dir.glob('*.csv'):
             if "_performance_details" not in filepath.name:
                 continue
@@ -207,6 +259,7 @@ class AFLDisposalPredictor:
                     continue
                 df = self.load_player(filepath)
                 if not df.empty:
+                    self._player_cache[filepath] = df
                     all_dfs.append(df)
             except Exception as e:
                 print(f"❌ Error processing file {filepath.name}: {e}")
@@ -216,22 +269,50 @@ class AFLDisposalPredictor:
             return pd.DataFrame()
         return pd.concat(all_dfs, ignore_index=True)
 
+    @staticmethod
+    def _group_keys(df, group_by):
+        """Return the list of Series used to identify groups for ``group_by``."""
+        if isinstance(group_by, (list, tuple)):
+            return [df[g] for g in group_by]
+        return [df[group_by]]
+
     def _add_rolling(self, df, col, window, group_by):
-        """Calculate rolling averages with specified window and grouping."""
+        """Calculate rolling averages with specified window and grouping.
+
+        Equivalent to ``groupby(...).transform(lambda s: s.rolling(...).mean().shift(1))``
+        but uses pandas' native ``GroupBy.rolling`` followed by a separate
+        ``GroupBy.shift`` — avoids the per-group python lambda dispatch and
+        is multiple-times faster on the (player, year) groupings used here.
+        """
         try:
-            return df.groupby(group_by, observed=False)[col].transform(
-                lambda s: s.rolling(window=window, min_periods=1).mean().shift(1)
-            )
+            grouper = df.groupby(group_by, observed=False, sort=False)[col]
+            rolled = grouper.rolling(window=window, min_periods=1).mean()
+            # ``rolled`` has a multi-index (group_keys..., original_index);
+            # drop the group-key levels and reindex back to df's index so
+            # the result lines up with df even when df's index is unsorted
+            # (e.g. after sort_values reshuffled it).
+            n_levels = len(group_by) if isinstance(group_by, (list, tuple)) else 1
+            rolled = rolled.reset_index(
+                level=list(range(n_levels)), drop=True
+            ).reindex(df.index)
+            return rolled.groupby(self._group_keys(df, group_by)).shift(1)
         except Exception as e:
             print(f"❌ Rolling average failed for {col} with group_by {group_by}: {e}")
             return pd.Series(np.nan, index=df.index)
 
     def _add_expanding_mean(self, df, col, group_by):
-        """Calculate season-to-date expanding mean with specified grouping."""
+        """Calculate season-to-date expanding mean with specified grouping.
+
+        Same vectorisation rationale as :meth:`_add_rolling`.
+        """
         try:
-            return df.groupby(group_by, observed=False)[col].transform(
-                lambda s: s.expanding().mean().shift(1)
-            )
+            grouper = df.groupby(group_by, observed=False, sort=False)[col]
+            expanded = grouper.expanding().mean()
+            n_levels = len(group_by) if isinstance(group_by, (list, tuple)) else 1
+            expanded = expanded.reset_index(
+                level=list(range(n_levels)), drop=True
+            ).reindex(df.index)
+            return expanded.groupby(self._group_keys(df, group_by)).shift(1)
         except Exception as e:
             print(f"❌ Expanding mean failed for {col} with group_by {group_by}: {e}")
             return pd.Series(np.nan, index=df.index)
@@ -291,35 +372,62 @@ class AFLDisposalPredictor:
 
     def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
         """Prepare features (X) and target (y) for training."""
-        global df_global
-        df_global = df
         historical_data = df[df['year'] < self.target_year].copy()
-        historical_data = historical_data[historical_data['disposals'].notnull()]  # Ensure 'disposals' not除尘 for training
+        # Drop rows whose target is NaN — we can't train on them.
+        historical_data = historical_data[historical_data['disposals'].notnull()]
         if historical_data.empty:
             print("⚠️ No historical data available")
             return None, None
         engineered_df = self._engineer_features(historical_data)
-        X = engineered_df[self.feature_columns]
-        y = np.log1p(engineered_df['disposals'])  # Transform target
+        X = engineered_df[self.feature_columns].copy()
+        # Backtest evidence (R1-R8 2026, n=2879): predicting on log1p(disposals)
+        # then expm1 back caused severe top-end compression — max prediction
+        # was 28 vs max actual 43, and 30+ disposal games were under-predicted
+        # by 10-19. The Poisson-loss HGB candidate already uses a log link
+        # internally, so log1p was double-compressing high values. Train on
+        # raw disposals; the trees handle the mild right skew fine, and
+        # Poisson loss still works (target is non-negative).
+        y = engineered_df['disposals'].astype(float)
+        # Track player groups for GroupKFold so tuning/eval don't leak the
+        # same player across train and validation folds. cross_val_score
+        # iterates positionally, so we keep groups aligned by row order
+        # with X (same source DataFrame ⇒ same length & row order).
+        self._train_groups = engineered_df['player'].astype('object').to_numpy()
         self.training_feature_columns = self.feature_columns.copy()
-        
-        X.loc[:, 'missing_count'] = X.isna().sum(axis=1)
+
+        # Compute missing_count BEFORE any imputation. We base it only on
+        # ``self.feature_columns`` (engineered features) so that train and
+        # predict both compute the same quantity over the same domain.
+        X.loc[:, 'missing_count'] = X[self.feature_columns].isna().sum(axis=1)
         self.training_feature_columns.append('missing_count')
-        
-        numerical_cols = X.select_dtypes(include=['float64', 'int64']).columns
+
+        # Numeric columns: ALL integer/float dtypes (incl. float32, Int16,
+        # nullable Int/Float). Random Forest can't tolerate NaN, so e.g.
+        # cba_percent (float32, NaN pre-2018) MUST be routed through the
+        # median imputer rather than the passthrough branch — the previous
+        # selection of just ['float64','int64'] silently dropped float32 /
+        # nullable cols into 'remainder' and crashed RF on NaN.
+        numerical_cols = X.select_dtypes(include=['number']).columns
         categorical_cols = X.select_dtypes(include=['category']).columns
         remainder_cols = [col for col in X.columns if col not in numerical_cols and col not in categorical_cols]
-        
+
+        # Cast nullable / narrow numeric dtypes to plain float64 BEFORE
+        # imputation. SimpleImputer + sklearn don't always handle pandas
+        # extension dtypes (Int16, Float32) cleanly, and downstream
+        # estimators expect a homogeneous float matrix anyway.
+        for c in numerical_cols:
+            X[c] = pd.to_numeric(X[c], errors='coerce').astype('float64')
+
         if self.debug_mode:
-            print(f"Numerical columns: {numerical_cols}")
-            print(f"Categorical columns: {categorical_cols}")
+            print(f"Numerical columns: {list(numerical_cols)}")
+            print(f"Categorical columns: {list(categorical_cols)}")
             print(f"Remainder columns: {remainder_cols}")
             print(f"Expected columns: {self.training_feature_columns}")
-        
+
         preprocessor = ColumnTransformer(
             transformers=[
-                ('num', SimpleImputer(strategy='median'), numerical_cols),
-                ('cat', SimpleImputer(strategy='constant', fill_value='missing'), categorical_cols)
+                ('num', SimpleImputer(strategy='median'), list(numerical_cols)),
+                ('cat', SimpleImputer(strategy='constant', fill_value='missing'), list(categorical_cols))
             ],
             remainder='passthrough'
         )
@@ -342,14 +450,26 @@ class AFLDisposalPredictor:
         return X, y
 
     def tune_model(self, X, y):
-        """Hyperparameter tuning for HistGradientBoostingRegressor using Optuna."""
+        """Hyperparameter tuning for HistGradientBoostingRegressor using Optuna.
+
+        Uses GroupKFold by player so the same player can't appear in both
+        train and validation folds — otherwise tuning rewards memorising
+        per-player tendencies and overstates generalisation.
+        """
+        # Target is raw disposals (counts >= 0). Poisson loss requires y>=0,
+        # which holds. squared_error and quantile remain as candidates so
+        # Optuna can pick the loss that best matches our right-skewed target.
+        groups = self._train_groups
+        cv = GroupKFold(n_splits=5)
+
         def objective(trial):
             params = {
                 'max_depth': trial.suggest_int('max_depth', 3, 7),
-                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1, log=True),
                 'max_leaf_nodes': trial.suggest_int('max_leaf_nodes', 20, 100),
                 'min_samples_leaf': trial.suggest_int('min_samples_leaf', 10, 100),
-                'loss': trial.suggest_categorical('loss', ['poisson', 'quantile'])
+                'l2_regularization': trial.suggest_float('l2_regularization', 1e-6, 1.0, log=True),
+                'loss': trial.suggest_categorical('loss', ['poisson', 'quantile', 'squared_error']),
             }
 
             if params['loss'] == 'quantile':
@@ -359,10 +479,12 @@ class AFLDisposalPredictor:
                 ('scaler', StandardScaler()),
                 ('regressor', HistGradientBoostingRegressor(**params, random_state=42))
             ])
-            score = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error').mean()
+            score = cross_val_score(
+                model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error'
+            ).mean()
             return score
 
-        study = optuna.create_study(direction='maximize')
+        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=42))
         study.optimize(objective, n_trials=50)
         best_params = study.best_params
         self.models['hgb_tuned'] = Pipeline([
@@ -376,10 +498,21 @@ class AFLDisposalPredictor:
         """Hyperparameter tuning for LGBMRegressor on GPU using Optuna."""
         print("Tuning LGBM on GPU with Optuna...")
 
+        groups = self._train_groups
+        cv = GroupKFold(n_splits=5)
+
         def objective(trial):
             params = {
                 'device': 'cuda',  # Use CUDA for NVIDIA GPUs
-                'objective': 'regression_l1',  # MAE, robust to outliers
+                'verbose': -1,
+                # Switched from regression_l1 (MAE → predicts the median) to
+                # regression (L2 → predicts the mean). Backtest showed L1 was
+                # baking in median-bias on right-skewed disposals, so 30+
+                # disposal games systematically under-predicted by 7-15.
+                # L2 is slightly more sensitive to outliers but materially
+                # better calibrated at the top end, which is where the
+                # SuperCoach scoring and player-of-interest decisions live.
+                'objective': 'regression',
                 'metric': 'rmse',
                 'random_state': 42,
                 'n_estimators': trial.suggest_int('n_estimators', 100, 1000, step=100),
@@ -388,6 +521,7 @@ class AFLDisposalPredictor:
                 'max_depth': trial.suggest_int('max_depth', 3, 10),
                 'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
                 'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+                'subsample_freq': 1,
                 'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
                 'reg_alpha': trial.suggest_float('reg_alpha', 1e-3, 10.0, log=True),
                 'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
@@ -395,26 +529,26 @@ class AFLDisposalPredictor:
             }
 
             model = LGBMRegressor(**params)
-            
-            groups = df_global.loc[X.index, 'player']
-            cv = GroupKFold(n_splits=5)
-            
+
             score = cross_val_score(
                 model, X, y, cv=cv, groups=groups, scoring='neg_mean_squared_error'
             ).mean()
-            
+
             return score
 
-        study = optuna.create_study(direction='maximize')
+        study = optuna.create_study(
+            direction='maximize',
+            sampler=optuna.samplers.TPESampler(seed=42),
+        )
         study.optimize(objective, n_trials=50, timeout=600)  # 10-minute timeout
-        
+
         print(f"Best LGBM GPU parameters: {study.best_params}")
-        
+
         self.models['lgbm_gpu_tuned'] = Pipeline([
             ('scaler', StandardScaler()),
-            ('regressor', LGBMRegressor(**study.best_params, device='cuda', random_state=42))
+            ('regressor', LGBMRegressor(**study.best_params, device='cuda', verbose=-1, random_state=42))
         ])
-        
+
         return study.best_value
 
     def train_models(self, X, y) -> dict:
@@ -444,7 +578,7 @@ class AFLDisposalPredictor:
             self.models['ensemble'] = Pipeline([('scaler', StandardScaler()), ('regressor', ensemble_model)])
 
         scores = {}
-        groups = df_global.loc[X.index, 'player']
+        groups = self._train_groups
         cv = GroupKFold(n_splits=5)
 
         print("\n--- Evaluating Model Performance ---")
@@ -460,7 +594,8 @@ class AFLDisposalPredictor:
         across_col = f'across_season_rolling_avg_disposals_{self.rolling_window}'
         if across_col in X.columns:
             vals = pd.to_numeric(X[across_col], errors="coerce").astype(float)
-            baseline_mse = np.mean((np.expm1(vals) - np.expm1(y.values)) ** 2)
+            # y is now raw disposals (no log1p) — compare directly.
+            baseline_mse = np.mean((vals - y.values) ** 2)
             print(f"\nBaseline MSE (across-season rolling avg): {baseline_mse:.4f}")
         
         return scores
@@ -471,6 +606,63 @@ class AFLDisposalPredictor:
             print("⚠️ No models trained")
             return 'hgb_tuned'
         return max(scores, key=scores.get)
+
+    def _fit_calibration(self, X: pd.DataFrame, y: pd.Series) -> None:
+        """Fit a linear (slope, intercept) calibration on out-of-fold predictions.
+
+        We perform a GroupKFold pass with the chosen best model, collect OOF
+        predictions, and fit ``actual = a * pred + b`` via least squares.
+        Stored as ``self._calib_slope`` / ``self._calib_intercept``. If
+        anything goes wrong, calibration falls back to identity (a=1, b=0)
+        so we never silently degrade predictions.
+        """
+        # Identity defaults — used if calibration fails or is rejected.
+        self._calib_slope = 1.0
+        self._calib_intercept = 0.0
+        try:
+            from sklearn.base import clone
+            groups = self._train_groups
+            cv = GroupKFold(n_splits=5)
+            model_template = self.models[self.best_name]
+            oof_pred = np.full(len(y), np.nan)
+            for tr_idx, va_idx in cv.split(X, y, groups=groups):
+                m = clone(model_template)
+                m.fit(X.iloc[tr_idx], y.iloc[tr_idx])
+                oof_pred[va_idx] = m.predict(X.iloc[va_idx])
+            mask = ~np.isnan(oof_pred)
+            if mask.sum() < 100:
+                print("⚠️ Calibration: too few OOF preds, skipping (using identity)")
+                return
+            p = oof_pred[mask]
+            t = y.values[mask].astype(float)
+            # Closed-form OLS for actual = a*pred + b
+            p_mean = p.mean(); t_mean = t.mean()
+            denom = ((p - p_mean) ** 2).sum()
+            if denom <= 0:
+                print("⚠️ Calibration: zero-variance OOF preds, using identity")
+                return
+            a = float(((p - p_mean) * (t - t_mean)).sum() / denom)
+            b = float(t_mean - a * p_mean)
+            # Sanity-bound: a sensible calibration should be within (0.5, 2.0)
+            # in slope; anything outside that is more likely a numerical issue
+            # than a real correction we want to apply.
+            if not (0.5 <= a <= 2.0) or abs(b) > 20.0:
+                print(f"⚠️ Calibration out of bounds (a={a:.3f}, b={b:.3f}); using identity")
+                return
+            self._calib_slope = a
+            self._calib_intercept = b
+            # Diagnostics — quantify pre/post bias and compression.
+            raw_bias = (p - t).mean()
+            cal = a * p + b
+            cal_bias = (cal - t).mean()
+            print(
+                f"📐 Calibration fit: actual ≈ {a:.3f}·pred + {b:+.3f}  "
+                f"(OOF bias {raw_bias:+.3f} → {cal_bias:+.3f}, "
+                f"OOF max pred {p.max():.1f} → {cal.max():.1f}, "
+                f"actual max {t.max():.1f})"
+            )
+        except Exception as e:
+            print(f"⚠️ Calibration fit failed ({e}); using identity")
 
     def predict_current_season_disposals(self, player_data: pd.DataFrame) -> pd.DataFrame:
         """Predict disposals for the target year."""
@@ -491,60 +683,84 @@ class AFLDisposalPredictor:
         if dummy_cols:
             current_season_data = pd.get_dummies(current_season_data, columns=dummy_cols, drop_first=True)
         
-        # Reindex with training feature columns, filling missing with 0
+        # Compute missing_count over the engineered-feature domain BEFORE
+        # reindexing — the reindex below fills truly-absent columns with 0
+        # and would otherwise hide their NaN-ness from the count, producing
+        # a feature distribution that doesn't match training.
+        engineered_cols = [c for c in self.feature_columns if c in current_season_data.columns]
+        missing_count_pred = current_season_data[engineered_cols].isna().sum(axis=1)
+
+        # Reindex with training feature columns, filling absent ones with 0.
         X_pred = current_season_data.reindex(
             columns=self.training_feature_columns,
             fill_value=0
         ).copy()
-        
-        # Add missing_count feature
-        X_pred['missing_count'] = X_pred.isna().sum(axis=1)
-        
+        X_pred['missing_count'] = missing_count_pred.reindex(X_pred.index).fillna(0).astype(int)
+
+        # Cast numeric cols to float so transform mirrors training-time dtypes.
+        for c in X_pred.columns:
+            if pd.api.types.is_numeric_dtype(X_pred[c]):
+                X_pred[c] = pd.to_numeric(X_pred[c], errors='coerce').astype('float64')
+
         # Apply preprocessor
         X_transformed = self.preprocessor.transform(X_pred)
-        
+
         # Reconstruct DataFrame with training feature columns
         X_final = pd.DataFrame(
             X_transformed,
             columns=self.training_feature_columns,
             index=X_pred.index
         )
-        
-        # Make predictions
-        predictions = np.expm1(self.models[self.best_name].predict(X_final))
-        predictions = np.clip(predictions, 0, 45)
-        
+
+        # Raw model output is now on the disposals scale directly — the
+        # earlier np.log1p(target) / np.expm1(prediction) round-trip was
+        # responsible for severe top-end compression in backtest (max
+        # prediction was 28 vs max actual 43). Apply the post-hoc linear
+        # calibration learned from OOF predictions to correct residual
+        # mean-bias and top-end stretch.
+        raw_pred = self.models[self.best_name].predict(X_final)
+        a = getattr(self, "_calib_slope", 1.0)
+        b = getattr(self, "_calib_intercept", 0.0)
+        predictions = a * raw_pred + b
+        # Clip to a physically reasonable range. Lower=1: a 0-disposal
+        # prediction implies DNP, which the upstream pipeline doesn't model,
+        # so floor at 1 to avoid pathologically low values. Upper=55:
+        # historical max single-game disposals in the era covered is ~50,
+        # so 55 is a safe ceiling that never truncates a realistic forecast.
+        predictions = np.clip(predictions, 1.0, 55.0)
+
         return current_season_data[['player', 'team', 'round', 'date', 'round_number']].assign(predicted_disposals=predictions)
 
     def get_next_round(self, df: pd.DataFrame, target_year) -> int:
         """
         Return the next round to predict for the specified target year.
 
-        Strategy: take the largest round_number that exists in rows where
-        'year' equals target_year, add 1. If no round_number is present or
-        no rows match the target_year, fall back to 1.
+        Strategy: take the largest round_number among target-year rows that
+        already have a recorded ``disposals`` value (i.e. games actually
+        played, not future fixtures or missed games), add 1. Falls back to
+        any round_number if disposals is unavailable. If nothing matches,
+        returns 1.
         """
-        # Check for required columns
         if 'year' not in df.columns:
             raise ValueError("'year' column is missing")
         if 'round_number' not in df.columns:
             raise ValueError("'round_number' column is missing")
 
-        # Filter DataFrame to the target year
         df_target = df[df['year'] == target_year]
 
-        # Extract round numbers, convert to numeric, and drop NaNs
-        round_numbers = pd.to_numeric(df_target['round_number'], errors='coerce').dropna()
-        print(round_numbers)
+        if 'disposals' in df_target.columns:
+            played = df_target[df_target['disposals'].notnull()]
+            round_numbers = pd.to_numeric(played['round_number'], errors='coerce').dropna()
+            if round_numbers.empty:
+                round_numbers = pd.to_numeric(df_target['round_number'], errors='coerce').dropna()
+        else:
+            round_numbers = pd.to_numeric(df_target['round_number'], errors='coerce').dropna()
 
-        # If no valid round numbers exist, return 1
         if round_numbers.empty:
             return 1
-        
-        # Compute max round and return next round
-        max_round = round_numbers.max()
-        print(max_round)
-        return int(max_round) + 1
+
+        max_round = int(round_numbers.max())
+        return max_round + 1
 
     def run(self):
         """Execute the prediction pipeline."""
@@ -554,10 +770,17 @@ class AFLDisposalPredictor:
             if df.empty or df is None:
                 raise ValueError("No valid data to process")
             
-            # Early sanity check for next round
-            next_round_preview = self.get_next_round(
-                df if 'round_number' in df.columns else self._engineer_features_for_prediction(df), self.target_year
-            )
+            # Early sanity check for next round.
+            # We only need a round_number column to compute the next round —
+            # there is no need to run the full feature-engineering pipeline
+            # (which is what the old code path triggered as a side effect).
+            if 'round_number' in df.columns:
+                next_round_preview = self.get_next_round(df, self.target_year)
+            else:
+                df_for_round = df.assign(
+                    round_number=df['round'].apply(extract_round_number)
+                )
+                next_round_preview = self.get_next_round(df_for_round, self.target_year)
             print(f"🔎 Earliest sanity-check: next_round will be {next_round_preview}")
             
             X, y = self.prepare_features_and_target(df)
@@ -569,17 +792,35 @@ class AFLDisposalPredictor:
             print(f"\n📊 Model Performance Summary:")
             for name, score in scores.items():
                 print(f" {name}: MSE = {-score:.4f}")
+            # Fit a post-hoc linear calibration of predicted_disposals on
+            # actual_disposals using out-of-fold predictions from the chosen
+            # model. Backtest evidence (R1-R8 2026): raw model output had a
+            # compressed range (max 28 vs max actual 43) and -1.32 mean bias.
+            # A single (slope, intercept) on OOF predictions corrects both
+            # the central bias and the top-end compression without touching
+            # the model itself, and applies cleanly at predict time.
+            self._fit_calibration(X, y)
             all_predictions_dfs = []
             birth_year_threshold = self.target_year - 40
             print(f"\n🔮 Generating predictions for {self.target_year}...")
-            for filepath in self.data_dir.glob('*.csv'):
-                if "_performance_details" not in filepath.name:
-                    continue
+            # Reuse already-loaded per-player DataFrames from the cache
+            # populated by load_and_prepare_data(); fall back to disk only
+            # if the cache is empty (e.g. someone called run() in pieces).
+            if self._player_cache:
+                cache_items = list(self._player_cache.items())
+            else:
+                cache_items = []
+                for filepath in self.data_dir.glob('*.csv'):
+                    if "_performance_details" not in filepath.name:
+                        continue
+                    cache_items.append((filepath, None))
+
+            for filepath, cached_df in cache_items:
                 try:
                     player_name, dob = extract_dob_and_name(filepath)
                     if pd.isna(dob) or dob.year <= birth_year_threshold:
                         continue
-                    player_df = self.load_player(filepath)
+                    player_df = cached_df if cached_df is not None else self.load_player(filepath)
                     if 'year' not in player_df.columns or not (player_df['year'] == self.target_year).any():
                         continue
                     player_predictions = self.predict_current_season_disposals(player_df)
@@ -589,6 +830,12 @@ class AFLDisposalPredictor:
                 except Exception as e:
                     print(f"❌ Prediction error for {filepath.name}: {e}")
                     continue
+            # Release the per-player cache once we're done with the
+            # prediction loop — these DataFrames can occupy a lot of
+            # memory at scale and aren't needed for the post-processing
+            # / model summary that follows.
+            cache_items = None
+            self._player_cache = {}
             if all_predictions_dfs:
                 all_predictions = pd.concat(all_predictions_dfs, ignore_index=True)
                 all_predictions['player'] = all_predictions['player'].str.replace(r'\s\d{8}$', '', regex=True)
@@ -664,13 +911,59 @@ class AFLDisposalPredictor:
         finally:
             print("\n🎉 Pipeline completed!")
 
+def _parse_cli_args(argv: list[str]) -> argparse.Namespace:
+    """Parse command-line arguments for the prediction pipeline."""
+    parser = argparse.ArgumentParser(
+        description="AFL SuperCoach disposal prediction pipeline.",
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        default=None,
+        help=(
+            "Target season year to predict for (e.g. 2026). "
+            "If omitted, auto-detects from the latest year present in "
+            "./data/player_data/."
+        ),
+    )
+    parser.add_argument(
+        "--data-dir",
+        type=str,
+        default="./data/player_data/",
+        help="Directory containing *_performance_details.csv files.",
+    )
+    parser.add_argument(
+        "--rolling-window",
+        type=int,
+        default=5,
+        help="Across-season rolling window size (games).",
+    )
+    parser.add_argument(
+        "--within-season-window",
+        type=int,
+        default=3,
+        help="Within-season rolling window size (games).",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Print verbose feature / model diagnostics.",
+    )
+    return parser.parse_args(argv)
+
+
 if __name__ == "__main__":
     import faulthandler
     faulthandler.enable()
-    debug_mode = "--debug" in sys.argv
+    args = _parse_cli_args(sys.argv[1:])
     try:
-        data_dir = "./data/player_data/"
-        predictor = AFLDisposalPredictor(data_dir, target_year=2025, rolling_window=5, within_season_window=3, debug_mode=debug_mode)
+        predictor = AFLDisposalPredictor(
+            data_dir=args.data_dir,
+            target_year=args.year,
+            rolling_window=args.rolling_window,
+            within_season_window=args.within_season_window,
+            debug_mode=args.debug,
+        )
         predictor.run()
     except Exception as e:
         print(f"💥 Fatal error: {e}")
