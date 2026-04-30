@@ -1,4 +1,4 @@
-# 🏈 AFL Data Analysis
+# AFL SuperCoach VIA
 ![AFL Data Analysis Banner Image](/assets/readme_banner.png)
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/akareen/AFL-Data-Analysis">
@@ -7,576 +7,347 @@
   <img src="https://img.shields.io/github/forks/akareen/AFL-Data-Analysis?style=social">
 </div>
 <br>
-An in-depth analysis of Australian Football League (AFL) data. This repository contains comprehensive data, tools and code for exploring and analysing AFL match and player statistics, as well as historical odds data.
+
+A personal AFL data project that does three things:
+1. **Stores every AFL match and player stat** going back to 1897
+2. **Ranks the greatest players of all time** using a fair, era-adjusted formula
+3. **Predicts how many disposals each player will get** in the next round
+
+No AFL coding knowledge required — if you can open a terminal and run a command, you can use this.
 
 ## Table of Contents
-- [🔦 Overview](#overview)
-  - [🛠 Features](#features)
-- [💾 Installation](#installation)
-  - [📖 Usage](#usage)
-  - [📁 Repository Structure](#repository-structure)
-  - [🔍 Scraping Examples](#scraping-examples)
-- [🎯 Disposal Prediction](#disposal-prediction)
-- [🔁 Backtest Framework](#backtest-framework)
-- [📚 Data Guide](#data-guide)
-- [🔗 Data Sources](#data-sources)
-- [🤝 Contributing](#contributing)
-- [🎓 Learning Pointers](#learning-pointers)
-- [⚖️ License](#license)
+- [What's in this repo](#whats-in-this-repo)
+- [Getting started](#getting-started)
+- [Predict next week's disposals](#predict-next-weeks-disposals)
+- [Backtest — check how accurate the predictions were](#backtest--check-how-accurate-the-predictions-were)
+- [All-time top 100 ranking](#all-time-top-100-ranking)
+- [Setting up GPU acceleration (optional)](#setting-up-gpu-acceleration-optional)
+- [How the data is organised](#how-the-data-is-organised)
+- [Data sources](#data-sources)
+- [Contributing](#contributing)
+- [License](#license)
 
 
-## Overview
+## What's in this repo
 
-The AFL Data Analysis project provides a comprehensive platform for examining and deriving insights from AFL match and player data. Whether you're a sports enthusiast, a tipper, a data scientist, or a student, this repository offers valuable resources for diving into the world of Australian Rules Football. 
+| What | Where | Details |
+|------|-------|---------|
+| Every AFL match result (1897–now) | `data/matches/` | Scores, margins, venues, quarter-by-quarter breakdown |
+| Stats for every player ever | `data/player_data/` | Kicks, marks, goals, disposals, tackles and more — 5,700+ players, 682,000 game records |
+| All-time top 100 ranking | `all_time_top_100.csv` | Era-adjusted ranking updated whenever you run the pipeline |
+| Next round disposal predictions | `data/prediction/` | A CSV telling you how many disposals each player is predicted to get |
+| Backtest results | `data/prediction/backtest/` | How accurate past predictions were, round by round |
 
-The repository currently stores match scores data from 1897 to 2024, in depth personal and game statistics for every player who have ever played in the VFL/AFL and historical odds data from 2009 to 2024. All the data is  conveniently stored in CSV format for seamless access and analysis.
 
-Download the repository and explore the **/data/** directory for the complete dataset. 
+## Getting started
 
-Contributions are encouraged; don't hesitate to submit a pull request or contact me with the details on my GitHub profile.
+### 1. Download the repo
 
-## Features
+```bash
+git clone https://github.com/apur27/SuperCoach-VIA.git
+cd SuperCoach-VIA
+```
 
-**Current Offerings:**
-- Profiles for 5,700+ players, 682,000 rows of player performance data with 19 million data points
-- Statistics for 15,000+ matches, inclusive of individual player performance
-- Historical odds data for strategic tipping and betting
-- Cleansed data, primed for analysis
-- Analytical Jupyter notebooks showcasing potential insights
-- Python classes for players, teams, and matches
+### 2. Install dependencies
 
-**In the Pipeline:**
-- Expanding the classes to allow for complex analysis
-- Dedicated database system
-- Advanced scoring algorithms
-- Visualization tools for performance metrics
+```bash
+pip install -r requirements.txt
+```
 
-**Suggestions?**
-- Pitch in your wishlist. One current suggestion: Player GPS Data
+### 3. Refresh to latest data (optional)
 
-## Installation
+This pulls the latest match and player data from the web, then recalculates the top 100:
 
-1. Clone the repository:
+```bash
+./refresh_and_rank.sh
+```
 
-   ```bash
-   git clone https://github.com/apur27/SuperCoach-VIA.git
-   cd SuperCoach-VIA
-   ```
+That's it. You're ready to run predictions.
 
-2. (Skip if you just want the data) Install the required dependencies:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Predict next week's disposals
 
-## Running GPU-Accelerated Code on a Gaming PC or Laptop
+Run this command and it will automatically figure out the current year and the next round that hasn't been played yet, then generate predictions for every player:
 
-Several scripts in this repo — `prediction.py`, `top_players_comprehensive.py`, `testGPU.py`, `cuDF_test.py` — can use an NVIDIA GPU for faster processing. GPU support is always optional; every script falls back to CPU automatically when a GPU isn't available or isn't set up.
+```bash
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py
+```
 
-This section covers the full setup for a gaming PC or laptop with an NVIDIA RTX GPU (3000, 4000, or 5000 series).
+The result is saved to `data/prediction/next_round_N_prediction_<timestamp>.csv`. Open it in Excel or any spreadsheet app — it has three columns:
 
-### What GPU acceleration is used for
+| Column | What it means |
+|--------|---------------|
+| `player` | Player name |
+| `team` | Their club |
+| `predicted_disposals` | How many disposals the model thinks they'll get |
 
-| Script | GPU library | What it speeds up |
-|--------|-------------|-------------------|
-| `prediction.py` | LightGBM CUDA | Hyperparameter tuning + model training |
-| `top_players_comprehensive.py` | cuDF (RAPIDS) | DataFrame operations on player CSVs |
-| `testGPU.py` | LightGBM CUDA | GPU smoke test |
-| `cuDF_test.py` | cuDF + CuPy | RAPIDS smoke test |
+**Want more detail while it runs?**
+```bash
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py --debug
+```
 
-### Step 1 — Check your GPU
+**Want to predict for a specific year?**
+```bash
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py --year 2026
+```
 
-Open a terminal and run:
+**No GPU? Use the CPU version (slower but works anywhere):**
+```bash
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction_cpu.py
+```
+
+### How the predictions work (plain English)
+
+The model looks at each player's recent form — their disposals over the last 5 rounds, their average this season, how long since they last played — and uses that to estimate what they'll get next week. It tries two different machine learning approaches, picks the one that performed better in testing, then applies a final correction to remove any systematic over- or under-prediction.
+
+**Accuracy from the 2026 season (rounds 1–8):**
+- On average, predictions were off by **4.1 disposals**
+- **68%** of predictions were within 5 disposals of the actual
+- **94%** of predictions were within 10 disposals of the actual
+- Round 1 is always the hardest because there's no form data from the current season yet
+
+
+## Backtest — check how accurate the predictions were
+
+A backtest replays past rounds as if you were predicting them at the time — it only uses data that was available *before* each round, makes predictions, then checks them against what actually happened. This tells you honestly how good the model is.
+
+> **Heads up:** each round takes about 30 minutes on a GPU, so an 8-round backtest runs for 4–5 hours. Best to kick it off and leave it running.
+
+### Run the backtest
+
+```bash
+# Check all 2026 rounds played so far
+/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 1
+
+# Check from late 2025 season onwards
+/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2025 --start-round 23
+
+# Check just one specific round (quick sanity check, ~30 min)
+/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 5 --end-year 2026 --end-round 5
+```
+
+### What gets saved
+
+Everything lands in `data/prediction/backtest/`. Files are timestamped so old results aren't overwritten.
+
+| File | What's in it |
+|------|-------------|
+| `prediction_vs_actual_round_N_YEAR_*.csv` | Every player: what we predicted, what they actually got, how far off we were |
+| `backtest_summary_*.csv` | A one-line summary per round — average error, how often we were within 5 or 10 disposals |
+| `backtest_by_team_*.csv` | Same summary broken down by club |
+| `backtest_by_position_*.csv` | Same summary broken down by position |
+| `backtest_run_*.log` | Full details — biggest misses each round, which teams we consistently got wrong, overall accuracy |
+
+### Reading the per-player file
+
+Open `prediction_vs_actual_round_N_YEAR_*.csv` in Excel. Key columns:
+
+| Column | Meaning |
+|--------|---------|
+| `predicted_disposals` | What the model said |
+| `actual_disposals` | What they actually got |
+| `error` | predicted minus actual (negative = we under-predicted) |
+| `abs_error` | How far off, ignoring direction |
+| `over_under` | "over", "under", or "exact" (within 1 disposal) |
+
+Sort by `abs_error` (largest first) to see the biggest misses. If the same players keep showing up as big misses week after week, it usually means they changed role or came back from injury and the model doesn't know yet.
+
+### Reading the log file
+
+Open `backtest_run_*.log` in any text editor. Things to look for:
+
+| What you see | What it means |
+|--------------|---------------|
+| Bias around 0 | Model is well-calibrated — good |
+| Bias consistently below −1 | Model is under-predicting everyone — needs recalibration |
+| Round 1 error much higher than other rounds | Normal — no current-season form data available yet |
+| Error getting worse each round | Model is going stale as the season progresses |
+| Same players always under-predicted | They've changed role and the model hasn't caught up |
+| One team always off by 3+ disposals | Club-level data may be stale — refresh and re-run |
+
+### Options
+
+| Option | Default | What it does |
+|--------|---------|-------------|
+| `--start-year` | 2025 | Which year to start from |
+| `--start-round` | 22 | Which round to start from |
+| `--end-year` | auto | Which year to stop at (auto = last year with data) |
+| `--end-round` | auto | Which round to stop at (auto = last played round) |
+| `--data-dir` | `./data/player_data/` | Where the player CSV files are |
+
+
+## All-time top 100 ranking
+
+The file `all_time_top_100.csv` ranks the 100 greatest VFL/AFL players of all time. The ranking is updated whenever you run `./refresh_and_rank.sh`.
+
+### The problem it solves
+
+Comparing players across eras is hard. A midfielder in 2024 has 20+ stats tracked. A midfielder in 1965 had 4. If you just add up stats, modern players always win — not because they were better, but because more was counted. The formula below tries to make comparisons fair.
+
+### How the ranking works (plain English)
+
+**Step 1 — Score each season fairly**
+
+Each season is scored using only the stats that existed at the time. A 1960s player isn't penalised for not having a "contested possession" count — that stat didn't exist yet.
+
+| Era | Stats used for scoring |
+|-----|----------------------|
+| Before 1965 | Goals and behinds only |
+| 1965–1990 | + kicks and handballs |
+| 1991–2010 | + marks |
+| 2011–now | + tackles, clearances, contested possessions, contested marks, one-percenters, goal assists |
+
+No single stat can make up more than 55% of a player's score in any season. This stops one freakish goal-kicking year from drowning out everything else.
+
+**Step 2 — Compare players against their peers, not everyone**
+
+A key forward kicking 4 goals a game will always score higher in raw numbers than a midfielder. So players are compared within three groups based on their career goals-per-game:
+
+| Group | Goals per game | Examples |
+|-------|---------------|---------|
+| Key forwards | 3.0 or more | Lockett, Dunstall, Ablett Sr, Lloyd, Franklin |
+| Forward-midfielders | 0.8–2.99 | Carey, Matthews, Bartlett, Dangerfield, Ablett Jr |
+| Midfielders/defenders | Under 0.8 | Pendlebury, Parker, Neale |
+
+A midfielder ranked #1 in their group is genuinely considered the best midfielder of their era — not just "not as good as Lockett."
+
+**Step 3 — Adjust for era completeness**
+
+Even within a group, pre-1990 seasons have fewer stats tracked, so scores are slightly scaled down for modern players to close that gap. Post-2010 seasons are still scaled down a little too — GPS distance, defensive pressure acts, and other modern measures still aren't in the data.
+
+**Step 4 — Calculate the final score**
+
+```
+Final score = average of best 8 seasons × (1 + career bonus) + peak bonus
+```
+
+- **Best 8 seasons** — rewards sustained excellence. Using only top 5 was tried but let a few players with 2–3 exceptional seasons rank too high.
+- **Career bonus** — up to +30% for playing 300+ games. Capped so a long-but-average career can't beat a shorter-but-brilliant one.
+- **Peak bonus** — extra credit for having a season where you were clearly the best player in the competition.
+- Minimum 150 games required to be ranked.
+
+**Step 5 — Guarantee historical coverage**
+
+The best player from each decade (1900s, 1910s … 2020s) is guaranteed a spot. This ensures the list isn't dominated by recent players just because the data is richer.
+
+### Re-run the rankings
+
+```bash
+# Quick re-run (uses cached data, ~5–10 min)
+/home/abhi/sourceCode/python/coding/.venv/bin/python top_players_comprehensive.py
+
+# Full re-run from scratch (clears cache first)
+rm -f data/top100/all_time_top_100.csv
+/home/abhi/sourceCode/python/coding/.venv/bin/python top_players_comprehensive.py
+
+# Full pipeline (refresh all data + re-rank)
+./refresh_and_rank.sh
+```
+
+
+## Setting up GPU acceleration (optional)
+
+The prediction scripts run faster with an NVIDIA GPU. If you don't have one, everything still works — just use `prediction_cpu.py` instead of `prediction.py`, and the ranking script falls back to CPU automatically.
+
+### Do you need GPU setup?
+
+- **No GPU / not sure** — use `prediction_cpu.py`, skip this section
+- **NVIDIA GPU on Linux** — follow the steps below
+- **NVIDIA GPU on Windows** — GPU DataFrame support doesn't work on native Windows; either use WSL2 (Windows Subsystem for Linux) or use `prediction_cpu.py`
+
+### Step 1 — Check your GPU works
 
 ```bash
 nvidia-smi
 ```
 
-You should see your GPU name, driver version, and CUDA version. If this command is not found, install the latest NVIDIA driver from [nvidia.com/drivers](https://www.nvidia.com/drivers) first.
+You should see your GPU name and a CUDA version number. If this command fails, install the latest NVIDIA driver from [nvidia.com/drivers](https://www.nvidia.com/drivers) first.
 
-Key requirements:
-- NVIDIA GPU with CUDA Compute Capability 6.0+ (all GTX 10-series and newer, all RTX series)
-- Driver version 520+ recommended
-- CUDA 11.8 or 12.x (check the `CUDA Version` field in `nvidia-smi` output)
-
-### Step 2 — Windows vs Linux
-
-**Linux (native):** All GPU libraries work out of the box. Skip to Step 3.
-
-**Windows:** RAPIDS (cuDF/CuPy) does **not** run on native Windows. You have two options:
-
-- **Option A — WSL2 (recommended):** Run everything inside Windows Subsystem for Linux. Install WSL2, then follow the Linux steps below inside your WSL2 terminal. NVIDIA's WSL2 driver passes your GPU through automatically — no separate Linux GPU driver needed inside WSL2.
-
-  ```powershell
-  # In PowerShell (admin)
-  wsl --install
-  # Restart, then open Ubuntu from the Start menu
-  ```
-
-- **Option B — CPU only:** Use `prediction_cpu.py` instead of `prediction.py`. The ranking scripts always fall back to CPU automatically.
-
-### Step 3 — Install the CUDA Toolkit
-
-Even if your driver already shows a CUDA version, you need the toolkit for libraries to compile against.
+### Step 2 — Install the CUDA toolkit
 
 ```bash
-# Ubuntu / Debian (WSL2 or native Linux)
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt update
 sudo apt install -y cuda-toolkit-12-4
 ```
 
-After installation, add CUDA to your PATH (add to `~/.bashrc`):
+Then add CUDA to your terminal path (paste into `~/.bashrc`):
 
 ```bash
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-source ~/.bashrc
 ```
 
-Verify with:
+Reload: `source ~/.bashrc`, then verify: `nvcc --version`
+
+### Step 3 — Install the GPU libraries
 
 ```bash
-nvcc --version
-```
-
-### Step 4 — Install RAPIDS (cuDF + CuPy)
-
-RAPIDS is the GPU DataFrame library used by `top_players_comprehensive.py`. It requires Linux (or WSL2).
-
-Use the RAPIDS selector at [rapids.ai/start](https://rapids.ai/start) for the exact command matching your CUDA version. For CUDA 12.x:
-
-```bash
+# GPU DataFrame library (speeds up ranking)
 pip install cudf-cu12 cupy-cuda12x --extra-index-url=https://pypi.nvidia.com
-```
 
-For CUDA 11.8:
-
-```bash
-pip install cudf-cu11 cupy-cuda11x --extra-index-url=https://pypi.nvidia.com
-```
-
-Verify:
-
-```bash
-python cuDF_test.py
-```
-
-> **Note:** RAPIDS requires significant VRAM. Gaming laptops with 6 GB VRAM or less may run into out-of-memory errors on large datasets. The scripts automatically fall back to pandas/CPU in that case.
-
-### Step 5 — Install LightGBM with CUDA support
-
-The default `pip install lightgbm` does NOT include GPU support. You need to build or install the GPU variant:
-
-```bash
-# Option A: pre-built wheel (easiest)
+# GPU-enabled LightGBM (speeds up predictions)
 pip install lightgbm --config-settings=cmake.define.USE_CUDA=ON
-
-# Option B: if that fails, install from source
-git clone --recursive https://github.com/microsoft/LightGBM
-cd LightGBM
-mkdir build && cd build
-cmake -DUSE_CUDA=1 ..
-make -j4
-cd ../python-package
-pip install .
 ```
 
-Verify:
+### Step 4 — Verify everything works
 
 ```bash
-python testGPU.py
+python cuDF_test.py   # should print "cuDF working"
+python testGPU.py     # should print "LightGBM GPU working"
+python prediction.py  # should say "Running on GPU" at the top
 ```
 
-### Step 6 — Laptop-specific tips
+### Laptop tips
 
-Gaming laptops often throttle GPU performance by default. Before running long training jobs:
-
-1. **Set power mode to Performance** — Windows: Battery icon → Best Performance. Linux: `sudo nvidia-smi -pm 1`
-2. **Disable GPU switching** — Some laptops (MUX switch) run games through the NVIDIA GPU but route other apps through the integrated Intel/AMD GPU. Check your laptop's BIOS or Armoury Crate / Control Center and set discrete GPU mode.
-3. **Monitor GPU temperature** — `watch -n 1 nvidia-smi` shows real-time temperature. Above 85°C sustained means your cooling needs attention (clean fans, repaste).
-4. **VRAM limits** — `prediction.py` batches data to avoid VRAM exhaustion, but if you hit `CUDA out of memory`, reduce `max_bin` in the LightGBM parameters or switch to `prediction_cpu.py`.
-
-### Quick verification checklist
-
-```bash
-# 1. Driver
-nvidia-smi
-
-# 2. CUDA toolkit
-nvcc --version
-
-# 3. cuDF + CuPy (RAPIDS)
-python cuDF_test.py
-
-# 4. LightGBM CUDA
-python testGPU.py
-
-# 5. Full prediction pipeline (GPU)
-python prediction.py
-
-# 5b. Full prediction pipeline (CPU fallback)
-python prediction_cpu.py
-```
-
-All scripts print whether they are running on GPU or CPU at startup, so you can confirm the right path is taken.
-
-## Usage
-
-I regularly update the CSV data files in the **/data** directory with the latest AFL match and player data. But you can also do your own data scraping using the provided scripts in the "scripts" directory. Scripts, using the Beautiful Soup library, are available for web scraping.
-
-For up-to-date statistics in your own copy of the repository, the primary pipeline entry point is:
-
-```bash
-./refresh_and_rank.sh
-```
-
-This runs the full end-to-end workflow: refreshes the underlying CSVs (player + match scrapers), regenerates the all-time top 100 ranking, and produces the formatted `all_time_top_100.csv` enriched with player bios. If you only need a partial refresh, the individual scripts (`player_scraper.py`, `game_scraper.py`, `refresh_data.py`, `top_players_fast.py`, `formatTop100.py`) can also be invoked directly.
+If you're on a gaming laptop and predictions feel slow:
+- Set your laptop to Performance power mode
+- Check that it's using the NVIDIA GPU, not the integrated Intel/AMD one (look in BIOS or Armoury Crate)
+- If you see `CUDA out of memory`, switch to `prediction_cpu.py`
 
 
-## Repository Structure
-
-The project organizes data and scripts into several key locations:
-
-- `data/matches/` – yearly match results (`matches_<year>.csv`).
-- `data/lineups/` – team lineups by season.
-- `data/player_data/` – individual player profiles and performance details.
-- `data/top100/` – yearly and all-time top player rankings.
-- `data/era_stats.csv` – aggregate statistics for each AFL era.
-
-### Scripts
-
-**Data acquisition & refresh**
-
-- `main.py` – entry point for the full data scraping pipeline (kicks off the scrapers from scratch).
-- `player_scraper.py` – scrapes player personal and performance data from AFL Tables using concurrent requests.
-- `game_scraper.py` – scrapes match results and team lineups.
-- `refresh_data.py` – orchestrates an incremental data refresh (calls the scrapers and updates CSVs in place).
-- `refresh_and_rank.sh` – full pipeline shell wrapper: refresh data → rank → format the top 100.
-
-**Ranking**
-
-- `top_players_comprehensive.py` – **sole ranking script**: computes the era-normalised all-time top 100 using a single-pass file ingestion (reads each of ~13k player files exactly once for ~100× speed improvement over year-by-year approaches). See [All-Time Top 100 Ranking Algorithm](#all-time-top-100-ranking-algorithm).
-- `formatTop100.py` – reads `data/top100/all_time_top_100.csv`, enriches with player bios, and writes the root-level `all_time_top_100.csv`.
-
-**Analysis & visualisation**
-
-- `analysis.py` – team performance analysis and heatmap generation.
-- `era_based_statistical_analysis.py` – era-by-era statistical comparison with per-100-minute normalisation.
-- `charts.py` / `bar_chart.py` – visualisation scripts for team and player metrics.
-
-**Prediction**
-
-- `prediction.py` – AFL disposal prediction model (GPU-accelerated via LightGBM CUDA). Auto-detects the current year and next unplayed round from your data. Outputs `data/prediction/next_round_N_prediction_*.csv`.
-- `prediction_cpu.py` – CPU fallback variant of `prediction.py`.
-- `backtest.py` – walk-forward backtesting framework. Replays every round in a date range using only pre-round data (no leakage), compares predictions to actuals, and generates per-round CSVs plus aggregate diagnostics for model tuning.
-- `prediction_accuracy.py` – evaluates the prediction model's accuracy against held-out matches.
-
-**Utilities**
-
-- `helper_functions.py` – shared utilities used across scripts.
-- `cuDF_test.py` / `testGPU.py` – GPU/cuDF availability checks for the prediction stack.
-
-
-## All-Time Top 100 Ranking Algorithm
-
-The ranking in `top_players_comprehensive.py` uses an **era-normalised z-score dominance** approach. The goal is to produce a defensible all-time list that does not unfairly favour modern players (more tracked stats, no shrinkage) over historical legends. The methodology has five steps.
-
-### Step 1 — Era-aware raw scoring (per season, per player)
-
-Each season's raw score is computed using only the statistics tracked in that era:
-
-| Era | Years | Stats available |
-|-----|-------|----------------|
-| Pre-1965 | 1897–1964 | Goals, behinds |
-| 1965–1990 | 1965–1990 | + kicks, handballs |
-| 1990–2010 | 1991–2010 | + marks |
-| Post-2010 | 2011–present | + tackles, clearances, contested possessions, contested marks, one-percenters, goal assists |
-
-**Scoring weights:** `goals=55, kicks=4.5, handballs=3.0, clearances=5.5, contested_possessions=5.5, contested_marks=7, goal_assist=4, tackles=3.5, one_percenters=3, marks=2.5, behinds=1.5`.
-
-> **Note on disposals:** `disposals` is intentionally absent — since `disposals = kicks + handballs`, weighting all three double-counts every kick. Kicks and handballs are scored separately instead.
-
-**55% single-stat cap:** No single statistic can contribute more than 55% of a player's raw score for a season. This prevents extreme goal-kicking seasons from totally dominating while still allowing goal kickers to be properly rewarded (the old 40% cap was confirmed to over-penalise elite forwards like Lockett and Dunstall in sparse-stat eras).
-
-### Step 2 — Three-group career position stratification
-
-Players are z-scored within their career position group, not against the full cohort. The goal weight (55 per goal) means a full-forward kicking 4+ goals/game scores vastly more in raw terms than a midfielder — without stratification, every year's top z-scores are monopolised by goal kickers, unfairly depressing complete players.
-
-Groups are determined by **career** goals/game (not single-year, to prevent year-to-year classification flipping):
-
-| Group | Career goals/game | Examples |
-|-------|-------------------|---------|
-| `key_forward` | ≥ 3.0 | Lockett (4.84), Dunstall (4.66), Ablett Sr (~4.1), Lloyd (4.17), Franklin (3.01) |
-| `forward_mid` | 0.80 – 2.99 | Carey (2.67), Matthews (2.75), Bartlett (1.93), Dangerfield (~1.0), Ablett Jr (~1.25) |
-| `other` | < 0.80 | Pendlebury (0.48), Parker (0.70), Neale (0.45) |
-
-The earlier binary split (≥ 1.0 g/game → forward) failed because it lumped Wayne Carey (2.67) with Tony Lockett (4.84) in the same pool. Carey consistently appeared below-average within elite full-forwards despite being a more complete player. Three groups give each type fair peer comparison. If a group has fewer than 5 players in a given year, it falls back to the full-cohort z-score.
-
-### Step 3 — Era completeness shrinkage
-
-Each season's z-score is multiplied by `sqrt(era_completeness)`. Values are calibrated to close the structural gap between eras — the original 1.0 (no shrinkage) for the post-2010 era was creating a mathematical ceiling that pre-1990 players could never reach regardless of their true dominance:
-
-| Era | Completeness | Shrinkage factor |
-|-----|--------------|------------------|
-| Pre-1965 | 0.65 | × 0.806 |
-| 1965–1990 | 0.78 | × 0.883 |
-| 1990–2010 | 0.90 | × 0.949 |
-| Post-2010 | 0.92 | × 0.959 |
-
-Note: post-2010 is 0.92 rather than 1.0 because modern stats still omit GPS distance, pressure acts, and defensive ratings — even full modern tracking is not a complete picture.
-
-### Step 4 — All-time score formula
-
-A player's final score is:
+## How the data is organised
 
 ```
-all_time_score = mean_z_top8 × (1 + career_bonus) + peak_bonus
+data/
+  matches/          — one CSV per year: every match result 1897–now
+  lineups/          — team lineups by season
+  player_data/      — one CSV per player: their full career stats
+  top100/           — all-time and yearly rankings
+  prediction/       — disposal predictions (next round)
+    backtest/       — historical accuracy results
 ```
 
-- **`mean_z_top8`** — average era-adjusted z-score across the player's best **8** seasons. Top-5 was trialled but proved too vulnerable to outlier seasons — Stewart Loewe and Barry Hall reached top-10 all time on 2–3 exceptional goal-kicking years. Top-8 rewards sustained excellence without penalising long careers for weak tail seasons.
-- **`career_bonus`** = `0.30 × min(career_games / 300, 1.0)` — **additive** bonus (max +30%) for longevity. Critically, this is *additive* not *multiplicative*: a 364-game player and a 300-game player both receive the same 30% bonus, so a longer career cannot overcome lower per-season z-scores. The old multiplicative formula (×1.5 max) was producing Brad Johnson #1, Wayne Carey #16 — directly contradicting expert consensus. True career game count used (all games played, not just top-100 seasons; a longstanding bug was silently dropping injury seasons, under-counting Carey by 60 games, Voss 83, Hird 89). Minimum 150 career games required.
-- **`peak_bonus`** = `0.25 × best_season_z_adj` — raised from 0.15 to reward "seasons where you were clearly the #1 player in the competition" (Carey 1996, Matthews 1975, Ablett Sr's 1989 Grand Final).
+### Match data columns
 
-> **Brownlow bonus removed:** it created recency bias — modern midfielders accumulate votes across far more fully-tracked seasons.
+Each row in `data/matches/matches_YEAR.csv` is one game:
 
-### Step 5 — Decade representation guarantee
+`year, round, venue, date, home_team, away_team, home_q1_g, home_q1_b, ...`  
+(goals and behinds for each quarter, final totals, winning team, margin)
 
-To ensure historical breadth, the top scorer from each decade (1897–1909, 1910s … 2020s) is guaranteed inclusion. Remaining spots are filled by overall score. Reduced from top-3 to top-1 per decade: the old 3-per-decade rule reserved 39 of 100 slots for decade anchors, displacing genuine greats (e.g. Tony Lockett at #90 on merit) in favour of 1890s–1900s players whose sparse stats cannot be fairly compared.
+### Player data columns
 
-The output is written to `data/top100/all_time_top_100.csv` and then enriched with player bios by `formatTop100.py` into the root-level `all_time_top_100.csv`.
+Each player has two files in `data/player_data/`:
 
-### Re-running the rankings from scratch
+**Performance file** (`*_performance_details.csv`) — one row per game played:  
+`team, year, round, opponent, kicks, marks, handballs, disposals, goals, behinds, tackles, clearances, brownlow_votes, ...`
 
-To force a full recalculation (e.g. after algorithm changes), delete the cached yearly files before running:
+**Personal file** (`*_personal_details.csv`):  
+`first_name, last_name, born_date, debut_date, height, weight`
 
-```bash
-rm -f data/top100/all_time_top_100.csv
-rm -f data/top100/yearly/*.csv
-python top_players_comprehensive.py   # single-pass, processes 1897–present (~5–10 min)
-python3 formatTop100.py               # enriches with player bios → all_time_top_100.csv
-```
 
-Or use the full pipeline (also refreshes match/player data first):
+## Data sources
 
-```bash
-./refresh_and_rank.sh
-```
-
-
-## Disposal Prediction
-
-`prediction.py` predicts each player's disposal count for the next unplayed AFL round using a gradient-boosted ensemble (LightGBM GPU + HistGradientBoosting) tuned via Optuna.
-
-### Running a prediction
-
-```bash
-# Auto-detects current year and next unplayed round
-/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py
-
-# Override year or enable verbose logging
-/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py --year 2026 --debug
-```
-
-Output is written to `data/prediction/next_round_N_prediction_<timestamp>.csv`:
-
-| Column | Description |
-|--------|-------------|
-| `player` | Player name |
-| `team` | Club |
-| `predicted_disposals` | Model output (clipped to [1, 55]) |
-
-### How the model works
-
-1. **Features** — rolling averages (5-round and 3-round within-season windows), expanding career means, EWM form, days since last game, and team/opponent encoding.
-2. **Target** — raw disposal count (no log transform — avoids top-end compression on high-disposal midfielders).
-3. **Tuning** — 50 Optuna trials each for LightGBM (CUDA) and HGB; GroupKFold on player groups to prevent per-player memorisation.
-4. **Calibration** — out-of-fold linear calibration (`actual = a·pred + b`) is fit after training to remove residual mean bias. Slope bounds [0.5, 2.0] guard against pathological fits.
-5. **Ensemble** — best model (by GroupKFold MAE) is selected; final predictions clipped to [1, 55].
-
-### CPU fallback
-
-```bash
-/home/abhi/sourceCode/python/coding/.venv/bin/python prediction_cpu.py
-```
-
----
-
-## Backtest Framework
-
-`backtest.py` runs a walk-forward backtest over any range of historical rounds. For each round it trains strictly on prior data, predicts disposals for that round, then scores the predictions against the actual results — no data leakage.
-
-> **Runtime note:** each round runs the full Optuna tuning pipeline (~30 min/round on GPU). An 8-round backtest takes ~4–5 hours. Plan accordingly or run overnight.
-
-### Typical workflow
-
-```
-1. Refresh data          →  python refresh_data.py
-2. Run backtest          →  python backtest.py --start-year 2026 --start-round 1
-3. Read the log          →  data/prediction/backtest/backtest_run_*.log
-4. Check summary CSV     →  data/prediction/backtest/backtest_summary_*.csv
-5. Feed log to Scientist →  @"Scientist (agent)" analyse the backtest and fix prediction.py
-6. Re-run backtest       →  verify MAE improved
-```
-
-### Commands
-
-```bash
-PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
-
-# All 2026 rounds played so far (most common)
-$PYTHON backtest.py --start-year 2026 --start-round 1
-
-# From late 2025 season through current 2026 rounds
-$PYTHON backtest.py --start-year 2025 --start-round 23
-
-# Single round only (fast sanity check)
-$PYTHON backtest.py --start-year 2026 --start-round 5 --end-year 2026 --end-round 5
-
-# Custom data directory
-$PYTHON backtest.py --start-year 2026 --start-round 1 --data-dir ./data/player_data/
-```
-
-### CLI options
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--start-year` | 2025 | Year to start backtesting from |
-| `--start-round` | 22 | Round to start from |
-| `--end-year` | auto | Last year with played data |
-| `--end-round` | auto | Last played round in end year |
-| `--data-dir` | `./data/player_data/` | Player CSV directory |
-
-### Output files
-
-All outputs land in `data/prediction/backtest/`, timestamped so multiple runs don't overwrite each other:
-
-| File | Contents |
-|------|----------|
-| `prediction_vs_actual_round_N_YEAR_*.csv` | Per-player: predicted vs actual disposals, error, abs\_error, pct\_error, over\_under flag |
-| `backtest_summary_*.csv` | Per-round: MAE, RMSE, bias, pct\_within\_5, pct\_within\_10, n\_players |
-| `backtest_by_team_*.csv` | Same metrics grouped by team — useful for spotting club-level systematic errors |
-| `backtest_by_position_*.csv` | Same metrics grouped by position |
-| `backtest_run_*.log` | Full diagnostic log (see below) |
-
-### Understanding the per-player CSV
-
-```
-player, team, position, round, year, predicted_disposals, actual_disposals,
-error, abs_error, pct_error, over_under
-```
-
-- `error` = predicted − actual (negative = under-prediction)
-- `over_under` = "over" / "under" / "exact" (within 1 disposal)
-
-Sort by `abs_error` descending to find the biggest misses. Persistent names in the top-10 across multiple rounds usually signal a role change or injury return not captured by the features.
-
-### Interpreting the log
-
-The `.log` file is the primary input for model improvement. Key things to look for:
-
-| Signal | What it means | What to do |
-|--------|---------------|-----------|
-| Cumulative bias < −1.0 | Model consistently under-predicts | Top-end compression in features or target; check calibration |
-| R1 MAE >> other rounds | Cold-start: no within-season data yet | Expected; within-season form features have no history in round 1 |
-| MAE rising each round | Model goes stale as season progresses | Increase recency weighting in rolling features |
-| Same players always under-predicted | Role/position change mid-season | Manual feature or position override needed |
-| Team bias > 2 disposals | Team-level features stale | Refresh match data and re-run |
-
-### What good results look like
-
-From the 2026 R1–R8 backtest (post-calibration):
-
-| Metric | Value |
-|--------|-------|
-| MAE | 4.1 disposals |
-| RMSE | 5.2 disposals |
-| Bias | −0.06 (effectively zero) |
-| Within 5 disposals | 68% of predictions |
-| Within 10 disposals | 94% of predictions |
-
-Round 1 is always the hardest (MAE ~4.9) due to cold-start. Mid-season rounds typically reach MAE ~3.7–4.0.
-
-## Data Guide
-
-### Match Data -  Explanation
-
-The repository contains the information for all matches from 1897-2023.
-
-![Match Data Example](/assets/matchdata_example.png)
-
-The above includes part of the data the columns are too numerous to show completely. An example of a selection of the match data can be seen here: [matches_2023.csv](data/matches/matches_2023.csv)
-
-**The columns for each match are as follows:**   
-Year, Round, Venue, Date,  
-Home Team, Away Team,   
-Home Teams Goals by Quarter, Home Teams Behinds by Quarter,  
-Away Teams Goals by Quarter, Away Teams Behinds by Quarter,  
-Home Total Goals, Home Total Behinds,  
-Away Total Goals, Away Total Behinds,  
-Winning Team, Margin  
-
-All the columns are in **snake case** and there is a column for each quarter such as **home_q1_g** for Home Team Quarter 1 goals and **away_q1_b** for Away team Quarter 1 Behinds.
-
-----
-### Player Data - Explanation
-
-#### Player Performance Data
-
-![Player Performance Data Example](/assets/playerstats_example.png)
-
-An example of the player performance data can be seen here: [BONTEMPELLI_MARCUS_24-11-1995_STATS.csv](data/players/bontempelli_marcus_24111995_performance_details.csv)
-
-**The columns for each player are as follows:**  
-
-Team, Year, Games Played, Opponent, Round, Result,   
-Jersey Num, Kicks, Marks, Handballs, Disposals, Goals, Behinds, Hit Outs,   
-Tackles, Rebound 50s, Inside 50s, Clearances, Clangers, Free Kicks For, Free Kicks Against,   
-Brownlow Votes, Contested Possessions, Uncontested Possessions, Contested Marks, Marks Inside 50,   
-One Percenters %, Bounces, Goal Assist, % Percentage of Game Played
-
-Inside the data all the columns are in **snake case**. The file format is *{last_name}_{first_name}_{born_date}_performance.csv*.
-
-
-#### Player Personal Data
-
-**The columns for each player are as follows:**
-First Name, Last Name, Born Date, Debut Date, Height, Weight
-
-Inside the data all the columns are in **snake case** and the players born date along with first and last name are used to create a unique identifier for each player. The file format is The file format is *{last_name}_{first_name}_{born_date}_personal.csv*.
-
-
-## Data Sources
-
-This project uses publicly available AFL data sources, including match scores, player statistics, and historical odds data. The data sources are as follows:
-
-- Match and Player Data: [AFL Tables](https://afltables.com/afl/afl_index.html)
-- Historical Odds Data: [AusSportsBetting](https://www.aussportsbetting.com/data/historical-afl-results-and-odds-data/)
-
-## Scraping Examples
-While data is readily available in the repository, here's how you can use scraping if needed.
-
-- To scrape match scores data from 1897 to 2023 and store it in the "data/match_scores" directory:
-
-  ```bash
-  python main.py
-  ```
-
-This used to be more granular, but the data is now fully available in the repository. I'll be making a small update soon to bring back the ability to only scrape most recent data without rescraping existing data.
+- Match results and player stats: [AFL Tables](https://afltables.com/afl/afl_index.html)
+- Historical betting odds: [AusSportsBetting](https://www.aussportsbetting.com/data/historical-afl-results-and-odds-data/)
 
 
 ## Contributing
 
-AFL Data Analysis thrives on collaboration! Got a novel analysis idea or data source? Open an issue or send a pull request. Your expertise is invaluable in elevating this project.
+Got an idea, found a bug, or want to add a new feature? Open an issue or send a pull request — all contributions welcome.
 
-## Learning Pointers
-
-- Explore the CSV layouts in the `data` directory to understand the available metrics.
-- Experiment with `top_players_comprehensive.py` by adjusting weighting schemes or era definitions.
-- Review the generated heatmaps and charts in the `charts` folder for visualization examples.
-- Try extending the scrapers or analysis scripts to incorporate new metrics or plots.
 
 ## License
 
-AFL Data Analysis is under the MIT License. Refer to the [LICENSE](LICENSE) file for a complete understanding.
+MIT License — see the [LICENSE](LICENSE) file.
