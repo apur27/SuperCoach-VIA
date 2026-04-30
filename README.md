@@ -16,6 +16,8 @@ An in-depth analysis of Australian Football League (AFL) data. This repository c
   - [📖 Usage](#usage)
   - [📁 Repository Structure](#repository-structure)
   - [🔍 Scraping Examples](#scraping-examples)
+- [🎯 Disposal Prediction](#disposal-prediction)
+- [🔁 Backtest Framework](#backtest-framework)
 - [📚 Data Guide](#data-guide)
 - [🔗 Data Sources](#data-sources)
 - [🤝 Contributing](#contributing)
@@ -266,7 +268,9 @@ The project organizes data and scripts into several key locations:
 
 **Prediction**
 
-- `prediction.py` / `prediction_cpu.py` – match outcome prediction models (GPU and CPU variants).
+- `prediction.py` – AFL disposal prediction model (GPU-accelerated via LightGBM CUDA). Auto-detects the current year and next unplayed round from your data. Outputs `data/prediction/next_round_N_prediction_*.csv`.
+- `prediction_cpu.py` – CPU fallback variant of `prediction.py`.
+- `backtest.py` – walk-forward backtesting framework. Replays every round in a date range using only pre-round data (no leakage), compares predictions to actuals, and generates per-round CSVs plus aggregate diagnostics for model tuning.
 - `prediction_accuracy.py` – evaluates the prediction model's accuracy against held-out matches.
 
 **Utilities**
@@ -360,6 +364,87 @@ Or use the full pipeline (also refreshes match/player data first):
 ./refresh_and_rank.sh
 ```
 
+
+## Disposal Prediction
+
+`prediction.py` predicts each player's disposal count for the next unplayed AFL round using a gradient-boosted ensemble (LightGBM GPU + HistGradientBoosting) tuned via Optuna.
+
+### Running a prediction
+
+```bash
+# Auto-detects current year and next unplayed round
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py
+
+# Override year or enable verbose logging
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py --year 2026 --debug
+```
+
+Output is written to `data/prediction/next_round_N_prediction_<timestamp>.csv`:
+
+| Column | Description |
+|--------|-------------|
+| `player` | Player name |
+| `team` | Club |
+| `predicted_disposals` | Model output (clipped to [1, 55]) |
+
+### How the model works
+
+1. **Features** — rolling averages (5-round and 3-round within-season windows), expanding career means, EWM form, days since last game, and team/opponent encoding.
+2. **Target** — raw disposal count (no log transform — avoids top-end compression on high-disposal midfielders).
+3. **Tuning** — 50 Optuna trials each for LightGBM (CUDA) and HGB; GroupKFold on player groups to prevent per-player memorisation.
+4. **Calibration** — out-of-fold linear calibration (`actual = a·pred + b`) is fit after training to remove residual mean bias. Slope bounds [0.5, 2.0] guard against pathological fits.
+5. **Ensemble** — best model (by GroupKFold MAE) is selected; final predictions clipped to [1, 55].
+
+### CPU fallback
+
+```bash
+/home/abhi/sourceCode/python/coding/.venv/bin/python prediction_cpu.py
+```
+
+---
+
+## Backtest Framework
+
+`backtest.py` runs a walk-forward backtest over any range of rounds. For each round it trains on all prior data, predicts, then measures accuracy against the actual results — no data leakage.
+
+### Running a backtest
+
+```bash
+# All 2026 rounds played so far
+/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 1
+
+# From late 2025 through current 2026 rounds
+/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2025 --start-round 23
+```
+
+All outputs land in `data/prediction/backtest/`:
+
+| File | Contents |
+|------|----------|
+| `prediction_vs_actual_round_N_YEAR_*.csv` | Per-player predicted vs actual, error, abs\_error, over\_under |
+| `backtest_summary_*.csv` | MAE, RMSE, bias, pct\_within\_5, pct\_within\_10 per round |
+| `backtest_by_team_*.csv` | Same metrics grouped by team |
+| `backtest_by_position_*.csv` | Same metrics grouped by position |
+| `backtest_run_*.log` | Full diagnostic log: top over/under-predicted players per round, rounds with abnormally high error, cumulative MAE, position/team bias summary |
+
+### CLI options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--start-year` | 2025 | Year to start backtesting from |
+| `--start-round` | 22 | Round to start from |
+| `--end-year` | auto | Last year with played data |
+| `--end-round` | auto | Last played round in end year |
+| `--data-dir` | `./data/player_data/` | Player CSV directory |
+
+### Interpreting the log
+
+The `.log` file is the primary input for model tuning. Key sections to look for:
+
+- **Bias** — consistent negative bias means the model is under-predicting (check top-end compression)
+- **Top over/under-predicted players** — persistent names suggest role/position changes not captured in features
+- **Round-to-round MAE trend** — rising MAE over the season suggests within-season form features need stronger recency weighting
+- **Team bias** — teams consistently off by >2 disposals may need team-level features refreshed
 
 ## Data Guide
 
