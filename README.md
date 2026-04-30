@@ -405,27 +405,38 @@ Output is written to `data/prediction/next_round_N_prediction_<timestamp>.csv`:
 
 ## Backtest Framework
 
-`backtest.py` runs a walk-forward backtest over any range of rounds. For each round it trains on all prior data, predicts, then measures accuracy against the actual results — no data leakage.
+`backtest.py` runs a walk-forward backtest over any range of historical rounds. For each round it trains strictly on prior data, predicts disposals for that round, then scores the predictions against the actual results — no data leakage.
 
-### Running a backtest
+> **Runtime note:** each round runs the full Optuna tuning pipeline (~30 min/round on GPU). An 8-round backtest takes ~4–5 hours. Plan accordingly or run overnight.
 
-```bash
-# All 2026 rounds played so far
-/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 1
+### Typical workflow
 
-# From late 2025 through current 2026 rounds
-/home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2025 --start-round 23
+```
+1. Refresh data          →  python refresh_data.py
+2. Run backtest          →  python backtest.py --start-year 2026 --start-round 1
+3. Read the log          →  data/prediction/backtest/backtest_run_*.log
+4. Check summary CSV     →  data/prediction/backtest/backtest_summary_*.csv
+5. Feed log to Scientist →  @"Scientist (agent)" analyse the backtest and fix prediction.py
+6. Re-run backtest       →  verify MAE improved
 ```
 
-All outputs land in `data/prediction/backtest/`:
+### Commands
 
-| File | Contents |
-|------|----------|
-| `prediction_vs_actual_round_N_YEAR_*.csv` | Per-player predicted vs actual, error, abs\_error, over\_under |
-| `backtest_summary_*.csv` | MAE, RMSE, bias, pct\_within\_5, pct\_within\_10 per round |
-| `backtest_by_team_*.csv` | Same metrics grouped by team |
-| `backtest_by_position_*.csv` | Same metrics grouped by position |
-| `backtest_run_*.log` | Full diagnostic log: top over/under-predicted players per round, rounds with abnormally high error, cumulative MAE, position/team bias summary |
+```bash
+PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
+
+# All 2026 rounds played so far (most common)
+$PYTHON backtest.py --start-year 2026 --start-round 1
+
+# From late 2025 season through current 2026 rounds
+$PYTHON backtest.py --start-year 2025 --start-round 23
+
+# Single round only (fast sanity check)
+$PYTHON backtest.py --start-year 2026 --start-round 5 --end-year 2026 --end-round 5
+
+# Custom data directory
+$PYTHON backtest.py --start-year 2026 --start-round 1 --data-dir ./data/player_data/
+```
 
 ### CLI options
 
@@ -437,14 +448,55 @@ All outputs land in `data/prediction/backtest/`:
 | `--end-round` | auto | Last played round in end year |
 | `--data-dir` | `./data/player_data/` | Player CSV directory |
 
+### Output files
+
+All outputs land in `data/prediction/backtest/`, timestamped so multiple runs don't overwrite each other:
+
+| File | Contents |
+|------|----------|
+| `prediction_vs_actual_round_N_YEAR_*.csv` | Per-player: predicted vs actual disposals, error, abs\_error, pct\_error, over\_under flag |
+| `backtest_summary_*.csv` | Per-round: MAE, RMSE, bias, pct\_within\_5, pct\_within\_10, n\_players |
+| `backtest_by_team_*.csv` | Same metrics grouped by team — useful for spotting club-level systematic errors |
+| `backtest_by_position_*.csv` | Same metrics grouped by position |
+| `backtest_run_*.log` | Full diagnostic log (see below) |
+
+### Understanding the per-player CSV
+
+```
+player, team, position, round, year, predicted_disposals, actual_disposals,
+error, abs_error, pct_error, over_under
+```
+
+- `error` = predicted − actual (negative = under-prediction)
+- `over_under` = "over" / "under" / "exact" (within 1 disposal)
+
+Sort by `abs_error` descending to find the biggest misses. Persistent names in the top-10 across multiple rounds usually signal a role change or injury return not captured by the features.
+
 ### Interpreting the log
 
-The `.log` file is the primary input for model tuning. Key sections to look for:
+The `.log` file is the primary input for model improvement. Key things to look for:
 
-- **Bias** — consistent negative bias means the model is under-predicting (check top-end compression)
-- **Top over/under-predicted players** — persistent names suggest role/position changes not captured in features
-- **Round-to-round MAE trend** — rising MAE over the season suggests within-season form features need stronger recency weighting
-- **Team bias** — teams consistently off by >2 disposals may need team-level features refreshed
+| Signal | What it means | What to do |
+|--------|---------------|-----------|
+| Cumulative bias < −1.0 | Model consistently under-predicts | Top-end compression in features or target; check calibration |
+| R1 MAE >> other rounds | Cold-start: no within-season data yet | Expected; within-season form features have no history in round 1 |
+| MAE rising each round | Model goes stale as season progresses | Increase recency weighting in rolling features |
+| Same players always under-predicted | Role/position change mid-season | Manual feature or position override needed |
+| Team bias > 2 disposals | Team-level features stale | Refresh match data and re-run |
+
+### What good results look like
+
+From the 2026 R1–R8 backtest (post-calibration):
+
+| Metric | Value |
+|--------|-------|
+| MAE | 4.1 disposals |
+| RMSE | 5.2 disposals |
+| Bias | −0.06 (effectively zero) |
+| Within 5 disposals | 68% of predictions |
+| Within 10 disposals | 94% of predictions |
+
+Round 1 is always the hardest (MAE ~4.9) due to cold-start. Mid-season rounds typically reach MAE ~3.7–4.0.
 
 ## Data Guide
 
