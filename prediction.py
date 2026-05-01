@@ -867,7 +867,15 @@ class AFLDisposalPredictor:
                             prediction_dir.mkdir(parents=True, exist_ok=True)
                             csv_path = prediction_dir / f"next_round_{next_round}_prediction_{timestamp}.csv"
                             output_cols = ['player', 'team', 'predicted_disposals']  # round_number omitted
-                            next_game_predictions[output_cols].to_csv(csv_path, index=False)
+                            # Round predicted_disposals to whole numbers ONLY for
+                            # the user-facing CSV. Internal calculations above
+                            # (rolling averages, model output, calibration,
+                            # ranking sort) all retain float precision.
+                            output_df = next_game_predictions[output_cols].copy()
+                            output_df['predicted_disposals'] = (
+                                np.round(output_df['predicted_disposals']).astype(int)
+                            )
+                            output_df.to_csv(csv_path, index=False)
                             print(f"📄 Saved predictions for round {next_round} → {csv_path}")
                         else:
                             print("⚠️ No next game predictions generated after filtering")

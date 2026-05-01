@@ -418,7 +418,17 @@ def run_round_backtest(
     detail_path = BACKTEST_DIR / (
         f"prediction_vs_actual_round_{round_num}_{year}_{timestamp}.csv"
     )
-    detail.to_csv(detail_path, index=False)
+    # Cast predicted_disposals to int for the user-facing CSV. In practice the
+    # source `preds` CSV is already integer-valued (prediction.py rounds at
+    # write time), so this is largely a dtype guarantee — but we round
+    # defensively so this stays correct if the upstream contract changes.
+    # error / abs_error / pct_error are intentionally left as floats for
+    # downstream analysis.
+    detail_csv = detail.copy()
+    detail_csv["predicted_disposals"] = (
+        np.round(detail_csv["predicted_disposals"]).astype(int)
+    )
+    detail_csv.to_csv(detail_path, index=False)
     log.info("wrote %s (%d rows)", detail_path.name, len(detail))
 
     # Diagnostics
