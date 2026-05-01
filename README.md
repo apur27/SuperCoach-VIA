@@ -463,6 +463,56 @@ Claude will give you the exact command. Run it. If it works, you're set up corre
 
 Once Claude Code is set up (see above), you interact with it entirely in plain English — no commands to memorise, no code to write. This section covers how to get the most out of it, and specifically how to use the Scientist agent to improve the prediction model.
 
+---
+
+> ## **STOP. READ THIS FIRST. DO NOT WASTE THE SCIENTIST.**
+>
+> ### **The Scientist is expensive. Use it wisely.**
+>
+> The Scientist agent runs on **Claude Opus** — the most powerful and **most expensive** Claude model that Anthropic ships. Every time you invoke the Scientist, you are spending **a lot more tokens** than a normal Claude conversation would use.
+>
+> If you are on an **entry-level Claude subscription** (Pro, or any plan with a monthly token budget), you have a **finite number of tokens per month**. Burning them on trivial questions to the Scientist is the fastest way to **run out before the end of the month** and find yourself unable to use Claude at all.
+>
+> **The rule is simple:**
+>
+> > **Use the Scientist ONLY when you need it to read your data and your code, and do something analytical with it.**
+> >
+> > **For literally everything else, just talk to plain Claude — or use Google.**
+>
+> Plain Claude (no `@"Scientist (agent)"` prefix) is already extremely capable. It can answer questions, explain code, write small scripts, and chat with you — all on a much cheaper model. Save the Scientist for the heavy lifting it was built for.
+
+### **Good questions for Scientist vs. Don't waste Scientist on this**
+
+| Good questions for Scientist (worth the cost) | Don't waste Scientist on this (use plain Claude or Google) |
+|---|---|
+| Analyse the backtest and improve the model | What is the weather today? |
+| Why is the model consistently under-predicting midfielders? | Who won the 2024 AFL grand final? |
+| Find any data leakage in the prediction pipeline | What does `print()` do in Python? |
+| The backtest shows a bias of -1.3 — find the root cause and fix it | How do I open a CSV file in Excel? |
+| Optimise `prediction.py` without changing the results | What is machine learning? |
+| Which teams is the model most wrong about, and why? | Can you write me a haiku about footy? |
+| Round 1 accuracy is always worse than other rounds — investigate and fix it | What time is it? |
+| Check `prediction.py` for bugs that could cause wrong predictions | How many players are in an AFL team? |
+| Run a statistical analysis on the backtest errors and identify the biggest contributors | Explain what a `for` loop is |
+| Look for feature engineering improvements based on the residuals | What's the capital of Australia? |
+| Compare the last three backtests and tell me whether MAE is genuinely improving or just noise | Can you summarise the README for me? |
+| Investigate why predictions for a specific player are systematically off | Say hello |
+
+### **A simple rule of thumb**
+
+Ask yourself one question before typing `@"Scientist (agent)"`:
+
+> **"Does answering this require Claude to actually open my CSV files, read my Python code, and do real analytical work on it?"**
+>
+> - **Yes** → Use the Scientist. This is what it's for.
+> - **No** → Use plain Claude. Or Google. Or a calculator. Anything cheaper.
+
+If you just want a chat, a definition, a quick code explanation, or general help — **don't @ the Scientist**. Just type your question normally. Plain Claude will handle it for a fraction of the cost.
+
+Treat the Scientist like calling in a senior consultant. You wouldn't pay a consultant $500/hr to tell you what time it is. Same idea here.
+
+---
+
 ### How Claude Code works
 
 Start it from the project folder:
