@@ -23,6 +23,7 @@ No AFL coding knowledge required — if you can open a terminal and run a comman
 - [All-time top 100 ranking](#all-time-top-100-ranking)
 - [Setting up GPU acceleration (optional)](#setting-up-gpu-acceleration-optional)
 - [How the data is organised](#how-the-data-is-organised)
+- [Using Claude and the Scientist agent](#using-claude-and-the-scientist-agent)
 - [Data sources](#data-sources)
 - [Contributing](#contributing)
 - [License](#license)
@@ -336,6 +337,114 @@ Each player has two files in `data/player_data/`:
 **Personal file** (`*_personal_details.csv`):  
 `first_name, last_name, born_date, debut_date, height, weight`
 
+
+## Using Claude and the Scientist agent
+
+This project is designed to be improved over time using [Claude Code](https://claude.ai/code) — an AI coding assistant you run in your terminal. You don't need to understand the code to use it. You just describe what you want in plain English.
+
+### Opening the project in Claude
+
+From the project folder, start Claude Code:
+
+```bash
+cd /home/abhi/git/SuperCoach-VIA
+claude
+```
+
+Then just type what you want. Some examples:
+
+```
+run the backtest for 2026
+what was the accuracy last round?
+why is the model under-predicting midfielders?
+push my changes to main
+```
+
+---
+
+### The Scientist agent
+
+The Scientist is a specialised Claude agent that reads code and data, finds problems, and fixes them. It's the main tool for improving prediction accuracy.
+
+Summon it by typing `@"Scientist (agent)"` at the start of your message, then describe what you want it to do.
+
+#### After a backtest run — improve the model
+
+After running `backtest.py`, hand the results to the Scientist and it will read the logs, find the systematic errors, and fix `prediction.py`:
+
+```
+@"Scientist (agent)" analyse the backtest and improve the prediction model
+```
+
+It will:
+- Read all the backtest CSVs and the log file
+- Find patterns — which teams are consistently wrong, which players are always missed, whether the model over- or under-predicts
+- Make targeted changes to `prediction.py` to fix what it found
+- Tell you what it changed and why
+
+#### Check on a run
+
+If you started a backtest or prediction and aren't sure if it finished:
+
+```
+@"Scientist (agent)" check the status of the last backtest run
+```
+
+#### Investigate a specific problem
+
+```
+@"Scientist (agent)" the model keeps under-predicting high-disposal midfielders — find out why and fix it
+@"Scientist (agent)" look at prediction.py and find anything that could cause wrong results
+@"Scientist (agent)" the backtest for round 1 always has bad accuracy — can you explain why and improve it?
+```
+
+#### Optimise slow code
+
+```
+@"Scientist (agent)" prediction.py is running slowly — find optimisations
+```
+
+---
+
+### Typical improvement loop
+
+This is the recommended workflow for improving prediction accuracy over a season:
+
+```
+1. Refresh data       →  ./refresh_and_rank.sh
+2. Run backtest       →  python backtest.py --start-year 2026 --start-round 1
+3. Ask Scientist      →  @"Scientist (agent)" analyse the backtest and improve the model
+4. Re-run backtest    →  verify MAE dropped
+5. Push to main       →  push the changes to main
+6. Predict next round →  python prediction.py
+```
+
+You can repeat steps 3–5 as many times as you like. Each iteration typically improves MAE by 0.2–0.5 disposals.
+
+---
+
+### Other useful Claude commands
+
+These work without the Scientist agent — just type them directly:
+
+| What you type | What happens |
+|---------------|-------------|
+| `push the changes to main` | Commits everything and pushes to GitHub |
+| `update the readme` | Updates this file based on recent changes |
+| `what does prediction.py do?` | Plain-English explanation of the code |
+| `run the prediction for next round` | Gives you the exact command to run |
+| `the backtest crashed with [error] — fix it` | Diagnoses and fixes the error |
+| `show me the top 10 most over-predicted players` | Reads the backtest CSV and answers |
+
+---
+
+### Tips for getting good results from Claude
+
+- **Be specific about what went wrong.** Instead of "fix the prediction", say "the model predicted Daicos at 18 disposals but he got 34 — why?"
+- **Paste error messages directly.** If a script crashes, copy the full error and paste it into Claude. It will fix it.
+- **Tell it what you care about.** "I care more about getting the top 10 players right than overall accuracy" helps it make better trade-offs.
+- **Ask it to explain first.** Before making big changes, ask "what would you change and why?" — you can then say yes or redirect it.
+- **Push after each session.** Type "push the changes to main" at the end of any session where improvements were made.
 
 ## Data sources
 
