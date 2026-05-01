@@ -8,12 +8,14 @@
 </div>
 <br>
 
+If you're curious about AI and large language models but don't know where to start, this repo is a practical, hands-on way to learn — and you don't need a computer science degree to follow along. All you need is a gaming laptop running Ubuntu, an interest in AFL, and a copy of [Claude Code](https://claude.ai/code). Everything in this project — the prediction model, the backtest framework, the all-time player rankings — was built and improved by having plain-English conversations with AI agents, including a specialised "Scientist" agent that reads data, finds problems, and fixes code on its own. You'll see how to use agents to analyse real AFL data, predict player disposals each week, and continuously improve accuracy by feeding results back into the model. Whether you want to understand how LLMs can write and improve code, how machine learning predictions actually work in practice, or just who the greatest AFL player of all time is — this repo shows you all of it, one conversation at a time.
+
+---
+
 A personal AFL data project that does three things:
 1. **Stores every AFL match and player stat** going back to 1897
 2. **Ranks the greatest players of all time** using a fair, era-adjusted formula
 3. **Predicts how many disposals each player will get** in the next round
-
-No AFL coding knowledge required — if you can open a terminal and run a command, you can use this.
 
 ## Table of Contents
 - [What's in this repo](#whats-in-this-repo)
