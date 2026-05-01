@@ -1,7 +1,7 @@
 ---
 name: "Scientist"
 description: "to optimize and update code"
-model: claude-opus-4-7
+model: opus
 color: purple
 memory: project
 ---
