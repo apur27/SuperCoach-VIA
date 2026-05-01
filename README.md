@@ -25,6 +25,7 @@ A personal AFL data project that does three things:
 - [All-time top 100 ranking](#all-time-top-100-ranking)
 - [Setting up GPU acceleration (optional)](#setting-up-gpu-acceleration-optional)
 - [How the data is organised](#how-the-data-is-organised)
+- [Setting up Claude Code on Ubuntu](#setting-up-claude-code-on-ubuntu)
 - [Using Claude and the Scientist agent](#using-claude-and-the-scientist-agent)
 - [Data sources](#data-sources)
 - [Contributing](#contributing)
@@ -340,113 +341,255 @@ Each player has two files in `data/player_data/`:
 `first_name, last_name, born_date, debut_date, height, weight`
 
 
-## Using Claude and the Scientist agent
+## Setting up Claude Code on Ubuntu
 
-This project is designed to be improved over time using [Claude Code](https://claude.ai/code) — an AI coding assistant you run in your terminal. You don't need to understand the code to use it. You just describe what you want in plain English.
+This section walks you through getting Claude Code running on a fresh Ubuntu laptop — from zero to having an AI agent that can read your AFL data, write code, and improve the prediction model.
 
-### Opening the project in Claude
+### What you need before you start
 
-From the project folder, start Claude Code:
+- An Ubuntu laptop (20.04 or newer) — a gaming laptop works great, specs don't need to be high for Claude itself
+- A Claude subscription — go to [claude.ai](https://claude.ai) and sign up; the **entry level (Pro) plan is enough** for everything in this repo
+- Internet connection
+
+---
+
+### Step 1 — Install Node.js
+
+Claude Code runs on Node.js. Install it via the official NodeSource repository (the version in Ubuntu's default package manager is often too old):
 
 ```bash
-cd /home/abhi/git/SuperCoach-VIA
-claude
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 
-Then just type what you want. Some examples:
-
-```
-run the backtest for 2026
-what was the accuracy last round?
-why is the model under-predicting midfielders?
-push my changes to main
+Verify:
+```bash
+node --version   # should show v20 or higher
+npm --version
 ```
 
 ---
 
-### The Scientist agent
+### Step 2 — Install Claude Code
 
-The Scientist is a specialised Claude agent that reads code and data, finds problems, and fixes them. It's the main tool for improving prediction accuracy.
+Claude Code is installed as a global npm package:
 
-Summon it by typing `@"Scientist (agent)"` at the start of your message, then describe what you want it to do.
+```bash
+npm install -g @anthropic-ai/claude-code
+```
 
-#### After a backtest run — improve the model
+Verify:
+```bash
+claude --version
+```
 
-After running `backtest.py`, hand the results to the Scientist and it will read the logs, find the systematic errors, and fix `prediction.py`:
+---
+
+### Step 3 — Log in to your Claude account
+
+```bash
+claude login
+```
+
+This opens a browser window. Log in with the same account you used to sign up at claude.ai. Once authenticated, your terminal will confirm you're logged in.
+
+---
+
+### Step 4 — Install Python and project dependencies
+
+This repo uses Python 3.12. Set up a virtual environment:
+
+```bash
+sudo apt install -y python3.12 python3.12-venv python3-pip
+
+# Create a virtual environment
+python3.12 -m venv ~/.venv/afl
+source ~/.venv/afl/bin/activate
+
+# Install project dependencies
+cd /path/to/SuperCoach-VIA
+pip install -r requirements.txt
+```
+
+To activate the environment every time you open a terminal, add this to your `~/.bashrc`:
+```bash
+echo 'source ~/.venv/afl/bin/activate' >> ~/.bashrc
+source ~/.bashrc
+```
+
+---
+
+### Step 5 — Open the project in Claude Code
+
+```bash
+cd /path/to/SuperCoach-VIA
+claude
+```
+
+You'll see the Claude Code prompt. You're now inside an AI-powered terminal that understands your entire codebase. Try:
+
+```
+what does this project do?
+```
+
+Claude will read the code and explain it to you in plain English.
+
+---
+
+### Step 6 — Verify everything works end to end
+
+```bash
+# In the Claude Code prompt, type:
+run the prediction for next round
+```
+
+Claude will give you the exact command. Run it. If it works, you're set up correctly.
+
+---
+
+### Troubleshooting common issues
+
+| Problem | Fix |
+|---------|-----|
+| `claude: command not found` | Run `npm install -g @anthropic-ai/claude-code` again; make sure `/usr/bin` is in your PATH |
+| `claude login` doesn't open a browser | Copy the URL it prints and paste it into your browser manually |
+| Python packages fail to install | Make sure your venv is activated: `source ~/.venv/afl/bin/activate` |
+| `ModuleNotFoundError` when running scripts | You're using the wrong Python — use the full venv path: `/path/to/.venv/afl/bin/python prediction.py` |
+| Claude says it can't find files | Make sure you're in the repo directory when you start Claude: `cd SuperCoach-VIA && claude` |
+
+---
+
+## Using Claude and the Scientist agent
+
+Once Claude Code is set up (see above), you interact with it entirely in plain English — no commands to memorise, no code to write. This section covers how to get the most out of it, and specifically how to use the Scientist agent to improve the prediction model.
+
+### How Claude Code works
+
+Start it from the project folder:
+
+```bash
+cd /path/to/SuperCoach-VIA
+claude
+```
+
+You'll see a `>` prompt. Type what you want in plain English. Claude reads every file in the project and can run commands, edit code, and explain what it's doing — all in response to plain-English instructions.
+
+```
+what does this project do?
+run the prediction for next round
+the backtest crashed — fix it
+push my changes to main
+```
+
+Press `Enter` to send. Claude will respond, and if it needs to run a command or edit a file, it will ask for your permission first (or just do it, depending on your settings).
+
+---
+
+### The Scientist agent — your data science expert
+
+The Scientist is a specialised sub-agent built into this project. It has deep expertise in data science methodology — feature engineering, model evaluation, bias detection, statistical testing — and is the main tool for improving prediction accuracy.
+
+**How to invoke it:** type `@"Scientist (agent)"` at the start of your message, then describe the task.
+
+```
+@"Scientist (agent)" [your task here]
+```
+
+That's it. The Scientist will spin up, read the relevant files, do the analysis, and report back. You don't need to tell it where the files are or how the code works — it figures that out itself.
+
+---
+
+### What to ask the Scientist
+
+#### After every backtest — improve the model
+
+This is the most important use. After running `backtest.py`, hand the results to the Scientist:
 
 ```
 @"Scientist (agent)" analyse the backtest and improve the prediction model
 ```
 
-It will:
-- Read all the backtest CSVs and the log file
-- Find patterns — which teams are consistently wrong, which players are always missed, whether the model over- or under-predicts
-- Make targeted changes to `prediction.py` to fix what it found
-- Tell you what it changed and why
+The Scientist will:
+1. Read all the backtest CSVs and the log file
+2. Calculate where the model is systematically wrong — which teams, which players, which disposal ranges
+3. Identify the root cause (e.g. "the model is compressing high-disposal predictions due to the log transform")
+4. Make targeted changes to `prediction.py` to fix what it found
+5. Tell you exactly what it changed and what improvement to expect
 
-#### Check on a run
+You then re-run the backtest to verify the improvement.
 
-If you started a backtest or prediction and aren't sure if it finished:
+#### Check if a run finished
+
+If you started a backtest or prediction run and your laptop restarted or you closed the terminal:
 
 ```
 @"Scientist (agent)" check the status of the last backtest run
 ```
 
+It will look at the output files and logs and tell you exactly what completed, what's missing, and whether you need to re-run anything.
+
 #### Investigate a specific problem
 
 ```
-@"Scientist (agent)" the model keeps under-predicting high-disposal midfielders — find out why and fix it
-@"Scientist (agent)" look at prediction.py and find anything that could cause wrong results
-@"Scientist (agent)" the backtest for round 1 always has bad accuracy — can you explain why and improve it?
+@"Scientist (agent)" the model keeps under-predicting Daicos — find out why and fix it
+@"Scientist (agent)" round 1 accuracy is always much worse than other rounds — why?
+@"Scientist (agent)" look at prediction.py and find any bugs that could cause wrong results
+@"Scientist (agent)" which teams is the model most consistently wrong about?
 ```
 
 #### Optimise slow code
 
 ```
-@"Scientist (agent)" prediction.py is running slowly — find optimisations
+@"Scientist (agent)" prediction.py is running slowly — find optimisations without changing the results
+```
+
+#### Understand the data
+
+```
+@"Scientist (agent)" what does the distribution of disposals look like across positions and teams?
+@"Scientist (agent)" are there any data quality issues in the player CSVs I should know about?
 ```
 
 ---
 
-### Typical improvement loop
-
-This is the recommended workflow for improving prediction accuracy over a season:
+### The improvement loop — how to get better predictions week by week
 
 ```
-1. Refresh data       →  ./refresh_and_rank.sh
-2. Run backtest       →  python backtest.py --start-year 2026 --start-round 1
-3. Ask Scientist      →  @"Scientist (agent)" analyse the backtest and improve the model
-4. Re-run backtest    →  verify MAE dropped
-5. Push to main       →  push the changes to main
-6. Predict next round →  python prediction.py
+1. Refresh data        →  type: refresh the data
+2. Run backtest        →  python backtest.py --start-year 2026 --start-round 1
+3. Invoke Scientist    →  @"Scientist (agent)" analyse the backtest and improve the model
+4. Re-run backtest     →  verify MAE dropped
+5. Push changes        →  type: push the changes to main
+6. Predict next round  →  python prediction.py
 ```
 
-You can repeat steps 3–5 as many times as you like. Each iteration typically improves MAE by 0.2–0.5 disposals.
+Repeat steps 3–5 as many times as you like. Each iteration typically improves MAE by 0.2–0.5 disposals. The improvement compounds — the model that predicted 2026 R8 at MAE 4.1 started at MAE 4.9 after several rounds of Scientist-driven improvements.
 
 ---
 
-### Other useful Claude commands
+### Other useful Claude commands (no Scientist needed)
 
-These work without the Scientist agent — just type them directly:
+These work by just typing them at the Claude prompt:
 
-| What you type | What happens |
-|---------------|-------------|
-| `push the changes to main` | Commits everything and pushes to GitHub |
-| `update the readme` | Updates this file based on recent changes |
-| `what does prediction.py do?` | Plain-English explanation of the code |
-| `run the prediction for next round` | Gives you the exact command to run |
-| `the backtest crashed with [error] — fix it` | Diagnoses and fixes the error |
-| `show me the top 10 most over-predicted players` | Reads the backtest CSV and answers |
+| What you type | What Claude does |
+|---------------|-----------------|
+| `push the changes to main` | Commits all changes and pushes to GitHub |
+| `update the readme` | Updates this file based on what changed |
+| `what does prediction.py do?` | Explains the code in plain English |
+| `the backtest crashed with [paste error] — fix it` | Diagnoses and fixes the error |
+| `show me the top 10 most over-predicted players from the last backtest` | Reads the CSV and answers |
+| `what is the current prediction accuracy?` | Summarises the latest backtest results |
+| `explain why the model under-predicted [player name]` | Looks at their stats and explains |
 
 ---
 
-### Tips for getting good results from Claude
+### Tips for better results
 
-- **Be specific about what went wrong.** Instead of "fix the prediction", say "the model predicted Daicos at 18 disposals but he got 34 — why?"
-- **Paste error messages directly.** If a script crashes, copy the full error and paste it into Claude. It will fix it.
-- **Tell it what you care about.** "I care more about getting the top 10 players right than overall accuracy" helps it make better trade-offs.
-- **Ask it to explain first.** Before making big changes, ask "what would you change and why?" — you can then say yes or redirect it.
-- **Push after each session.** Type "push the changes to main" at the end of any session where improvements were made.
+- **Paste the full error message.** If something crashes, copy everything from the terminal and paste it in. Claude fixes it faster with the full stack trace.
+- **Be specific about what you care about.** "I care more about getting the top 20 players right than overall accuracy" helps the Scientist make better trade-offs.
+- **Ask it to explain before changing.** Type "what would you change and why?" first — you can redirect it before it touches any code.
+- **One session, one push.** At the end of any session where the model improved, type "push the changes to main" so you don't lose the work.
+- **Tell the Scientist what surprised you.** "The model got Pendlebury badly wrong last round — why?" is better than "improve accuracy." Specific questions get specific answers.
 
 ## Data sources
 
