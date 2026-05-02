@@ -1,0 +1,858 @@
+{
+  "eras": [
+    "pre-1965",
+    "1965-1990",
+    "1991-2010",
+    "2011-present"
+  ],
+  "era_stats": {
+    "pre-1965": {
+      "kicks": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "marks": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "handballs": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "disposals": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "goals": {
+        "n_player_games": 248758,
+        "n_with_metric": 70961,
+        "mean_per_game": 1.863,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": null
+      },
+      "behinds": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "hit_outs": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "tackles": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "rebound_50s": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "inside_50s": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "clearances": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "clangers": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "free_kicks_for": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "free_kicks_against": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "brownlow_votes": {
+        "n_player_games": 248758,
+        "n_with_metric": 1247,
+        "mean_per_game": 1.998,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": null
+      },
+      "contested_possessions": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "uncontested_possessions": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "contested_marks": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "marks_inside_50": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "one_percenters": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "bounces": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "goal_assist": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "percentage_of_game_played": {
+        "n_player_games": 248758,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      }
+    },
+    "1965-1990": {
+      "kicks": {
+        "n_player_games": 142760,
+        "n_with_metric": 139698,
+        "mean_per_game": 11.082,
+        "median_per_game": 11.0,
+        "mean_per_100pct_played": null
+      },
+      "marks": {
+        "n_player_games": 142760,
+        "n_with_metric": 127459,
+        "mean_per_game": 3.762,
+        "median_per_game": 3.0,
+        "mean_per_100pct_played": null
+      },
+      "handballs": {
+        "n_player_games": 142760,
+        "n_with_metric": 125251,
+        "mean_per_game": 4.307,
+        "median_per_game": 4.0,
+        "mean_per_100pct_played": null
+      },
+      "disposals": {
+        "n_player_games": 142760,
+        "n_with_metric": 140238,
+        "mean_per_game": 14.887,
+        "median_per_game": 14.0,
+        "mean_per_100pct_played": null
+      },
+      "goals": {
+        "n_player_games": 142760,
+        "n_with_metric": 51394,
+        "mean_per_game": 1.924,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": null
+      },
+      "behinds": {
+        "n_player_games": 142760,
+        "n_with_metric": 51601,
+        "mean_per_game": 1.674,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": null
+      },
+      "hit_outs": {
+        "n_player_games": 142760,
+        "n_with_metric": 25372,
+        "mean_per_game": 6.991,
+        "median_per_game": 3.0,
+        "mean_per_100pct_played": null
+      },
+      "tackles": {
+        "n_player_games": 142760,
+        "n_with_metric": 16666,
+        "mean_per_game": 1.864,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": null
+      },
+      "rebound_50s": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "inside_50s": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "clearances": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "clangers": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "free_kicks_for": {
+        "n_player_games": 142760,
+        "n_with_metric": 108877,
+        "mean_per_game": 2.277,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": null
+      },
+      "free_kicks_against": {
+        "n_player_games": 142760,
+        "n_with_metric": 110762,
+        "mean_per_game": 2.236,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": null
+      },
+      "brownlow_votes": {
+        "n_player_games": 142760,
+        "n_with_metric": 3036,
+        "mean_per_game": 2.0,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": null
+      },
+      "contested_possessions": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "uncontested_possessions": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "contested_marks": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "marks_inside_50": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "one_percenters": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "bounces": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "goal_assist": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      },
+      "percentage_of_game_played": {
+        "n_player_games": 142760,
+        "n_with_metric": 0,
+        "mean_per_game": null,
+        "median_per_game": null,
+        "mean_per_100pct_played": null
+      }
+    },
+    "1991-2010": {
+      "kicks": {
+        "n_player_games": 156549,
+        "n_with_metric": 154617,
+        "mean_per_game": 9.147,
+        "median_per_game": 9.0,
+        "mean_per_100pct_played": 10.894
+      },
+      "marks": {
+        "n_player_games": 156549,
+        "n_with_metric": 145452,
+        "mean_per_game": 4.112,
+        "median_per_game": 4.0,
+        "mean_per_100pct_played": 5.51
+      },
+      "handballs": {
+        "n_player_games": 156549,
+        "n_with_metric": 150327,
+        "mean_per_game": 5.853,
+        "median_per_game": 5.0,
+        "mean_per_100pct_played": 7.981
+      },
+      "disposals": {
+        "n_player_games": 156549,
+        "n_with_metric": 155831,
+        "mean_per_game": 14.722,
+        "median_per_game": 14.0,
+        "mean_per_100pct_played": 18.649
+      },
+      "goals": {
+        "n_player_games": 156549,
+        "n_with_metric": 57149,
+        "mean_per_game": 1.771,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 2.029
+      },
+      "behinds": {
+        "n_player_games": 156549,
+        "n_with_metric": 49229,
+        "mean_per_game": 1.471,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.712
+      },
+      "hit_outs": {
+        "n_player_games": 156549,
+        "n_with_metric": 31609,
+        "mean_per_game": 6.391,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 10.928
+      },
+      "tackles": {
+        "n_player_games": 156549,
+        "n_with_metric": 117664,
+        "mean_per_game": 2.419,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.508
+      },
+      "rebound_50s": {
+        "n_player_games": 156549,
+        "n_with_metric": 65936,
+        "mean_per_game": 2.459,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 2.902
+      },
+      "inside_50s": {
+        "n_player_games": 156549,
+        "n_with_metric": 85082,
+        "mean_per_game": 2.888,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.482
+      },
+      "clearances": {
+        "n_player_games": 156549,
+        "n_with_metric": 65852,
+        "mean_per_game": 2.535,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.114
+      },
+      "clangers": {
+        "n_player_games": 156549,
+        "n_with_metric": 80629,
+        "mean_per_game": 2.228,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 2.953
+      },
+      "free_kicks_for": {
+        "n_player_games": 156549,
+        "n_with_metric": 86474,
+        "mean_per_game": 1.597,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.88
+      },
+      "free_kicks_against": {
+        "n_player_games": 156549,
+        "n_with_metric": 86972,
+        "mean_per_game": 1.585,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.881
+      },
+      "brownlow_votes": {
+        "n_player_games": 156549,
+        "n_with_metric": 10383,
+        "mean_per_game": 2.0,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 2.253
+      },
+      "contested_possessions": {
+        "n_player_games": 156549,
+        "n_with_metric": 95397,
+        "mean_per_game": 5.648,
+        "median_per_game": 5.0,
+        "mean_per_100pct_played": 6.824
+      },
+      "uncontested_possessions": {
+        "n_player_games": 156549,
+        "n_with_metric": 96427,
+        "mean_per_game": 9.24,
+        "median_per_game": 8.0,
+        "mean_per_100pct_played": 11.886
+      },
+      "contested_marks": {
+        "n_player_games": 156549,
+        "n_with_metric": 33756,
+        "mean_per_game": 1.509,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.729
+      },
+      "marks_inside_50": {
+        "n_player_games": 156549,
+        "n_with_metric": 32625,
+        "mean_per_game": 1.821,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 2.178
+      },
+      "one_percenters": {
+        "n_player_games": 156549,
+        "n_with_metric": 72258,
+        "mean_per_game": 2.454,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.151
+      },
+      "bounces": {
+        "n_player_games": 156549,
+        "n_with_metric": 30578,
+        "mean_per_game": 2.088,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 2.56
+      },
+      "goal_assist": {
+        "n_player_games": 156549,
+        "n_with_metric": 19108,
+        "mean_per_game": 1.293,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.587
+      },
+      "percentage_of_game_played": {
+        "n_player_games": 156549,
+        "n_with_metric": 65157,
+        "mean_per_game": 81.828,
+        "median_per_game": 85.0,
+        "mean_per_100pct_played": 81.828
+      }
+    },
+    "2011-present": {
+      "kicks": {
+        "n_player_games": 139853,
+        "n_with_metric": 138645,
+        "mean_per_game": 9.414,
+        "median_per_game": 9.0,
+        "mean_per_100pct_played": 11.628
+      },
+      "marks": {
+        "n_player_games": 139853,
+        "n_with_metric": 132302,
+        "mean_per_game": 4.221,
+        "median_per_game": 4.0,
+        "mean_per_100pct_played": 5.155
+      },
+      "handballs": {
+        "n_player_games": 139853,
+        "n_with_metric": 136972,
+        "mean_per_game": 6.951,
+        "median_per_game": 6.0,
+        "mean_per_100pct_played": 8.656
+      },
+      "disposals": {
+        "n_player_games": 139853,
+        "n_with_metric": 139255,
+        "mean_per_game": 16.21,
+        "median_per_game": 15.0,
+        "mean_per_100pct_played": 20.13
+      },
+      "goals": {
+        "n_player_games": 139853,
+        "n_with_metric": 47741,
+        "mean_per_game": 1.614,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.98
+      },
+      "behinds": {
+        "n_player_games": 139853,
+        "n_with_metric": 40435,
+        "mean_per_game": 1.364,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.684
+      },
+      "hit_outs": {
+        "n_player_games": 139853,
+        "n_with_metric": 19354,
+        "mean_per_game": 12.372,
+        "median_per_game": 6.0,
+        "mean_per_100pct_played": 15.419
+      },
+      "tackles": {
+        "n_player_games": 139853,
+        "n_with_metric": 122527,
+        "mean_per_game": 3.203,
+        "median_per_game": 3.0,
+        "mean_per_100pct_played": 4.007
+      },
+      "rebound_50s": {
+        "n_player_games": 139853,
+        "n_with_metric": 89230,
+        "mean_per_game": 2.549,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.075
+      },
+      "inside_50s": {
+        "n_player_games": 139853,
+        "n_with_metric": 114574,
+        "mean_per_game": 2.794,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.482
+      },
+      "clearances": {
+        "n_player_games": 139853,
+        "n_with_metric": 80325,
+        "mean_per_game": 2.872,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.612
+      },
+      "clangers": {
+        "n_player_games": 139853,
+        "n_with_metric": 121721,
+        "mean_per_game": 2.677,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.321
+      },
+      "free_kicks_for": {
+        "n_player_games": 139853,
+        "n_with_metric": 75297,
+        "mean_per_game": 1.549,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.911
+      },
+      "free_kicks_against": {
+        "n_player_games": 139853,
+        "n_with_metric": 75617,
+        "mean_per_game": 1.539,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.904
+      },
+      "brownlow_votes": {
+        "n_player_games": 139853,
+        "n_with_metric": 8226,
+        "mean_per_game": 2.0,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 2.369
+      },
+      "contested_possessions": {
+        "n_player_games": 139853,
+        "n_with_metric": 137242,
+        "mean_per_game": 6.273,
+        "median_per_game": 6.0,
+        "mean_per_100pct_played": 7.792
+      },
+      "uncontested_possessions": {
+        "n_player_games": 139853,
+        "n_with_metric": 138575,
+        "mean_per_game": 9.908,
+        "median_per_game": 9.0,
+        "mean_per_100pct_played": 12.277
+      },
+      "contested_marks": {
+        "n_player_games": 139853,
+        "n_with_metric": 44998,
+        "mean_per_game": 1.489,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.776
+      },
+      "marks_inside_50": {
+        "n_player_games": 139853,
+        "n_with_metric": 42910,
+        "mean_per_game": 1.666,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 2.036
+      },
+      "one_percenters": {
+        "n_player_games": 139853,
+        "n_with_metric": 105116,
+        "mean_per_game": 2.817,
+        "median_per_game": 2.0,
+        "mean_per_100pct_played": 3.363
+      },
+      "bounces": {
+        "n_player_games": 139853,
+        "n_with_metric": 26267,
+        "mean_per_game": 1.697,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 2.078
+      },
+      "goal_assist": {
+        "n_player_games": 139853,
+        "n_with_metric": 40968,
+        "mean_per_game": 1.291,
+        "median_per_game": 1.0,
+        "mean_per_100pct_played": 1.609
+      },
+      "percentage_of_game_played": {
+        "n_player_games": 139853,
+        "n_with_metric": 139453,
+        "mean_per_game": 80.737,
+        "median_per_game": 83.0,
+        "mean_per_100pct_played": 80.737
+      }
+    }
+  },
+  "team_scoring": {
+    "pre-1965": {
+      "n_team_games": 13116,
+      "n_matches": 6558,
+      "mean_goals": 10.08,
+      "mean_behinds": 12.04,
+      "mean_points": 72.51,
+      "mean_scoring_shots": 22.12,
+      "mean_goal_accuracy": 0.452,
+      "mean_match_total_points": 145.02
+    },
+    "1965-1990": {
+      "n_team_games": 7138,
+      "n_matches": 3569,
+      "mean_goals": 13.85,
+      "mean_behinds": 13.62,
+      "mean_points": 96.75,
+      "mean_scoring_shots": 27.48,
+      "mean_goal_accuracy": 0.5013,
+      "mean_match_total_points": 193.5
+    },
+    "1991-2010": {
+      "n_team_games": 7272,
+      "n_matches": 3636,
+      "mean_goals": 13.92,
+      "mean_behinds": 12.21,
+      "mean_points": 95.73,
+      "mean_scoring_shots": 26.13,
+      "mean_goal_accuracy": 0.5304,
+      "mean_match_total_points": 191.45
+    },
+    "2011-present": {
+      "n_team_games": 6274,
+      "n_matches": 3137,
+      "mean_goals": 12.32,
+      "mean_behinds": 10.99,
+      "mean_points": 84.88,
+      "mean_scoring_shots": 23.3,
+      "mean_goal_accuracy": 0.5266,
+      "mean_match_total_points": 169.77
+    }
+  },
+  "highlights": {
+    "largest_era_shifts": [
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "free_kicks_for",
+        "mean_a": 2.2765,
+        "mean_b": 1.5972,
+        "delta": -0.6793,
+        "cohens_d": -0.5875,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "free_kicks_against",
+        "mean_a": 2.2359,
+        "mean_b": 1.5853,
+        "delta": -0.6506,
+        "cohens_d": -0.5817,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "hit_outs",
+        "mean_a": 6.391,
+        "mean_b": 12.3716,
+        "delta": 5.9806,
+        "cohens_d": 0.5543,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "handballs",
+        "mean_a": 4.3072,
+        "mean_b": 5.8531,
+        "delta": 1.5459,
+        "cohens_d": 0.4563,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "tackles",
+        "mean_a": 2.4193,
+        "mean_b": 3.2028,
+        "delta": 0.7835,
+        "cohens_d": 0.4115,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "tackles",
+        "mean_a": 1.8643,
+        "mean_b": 2.4193,
+        "delta": 0.555,
+        "cohens_d": 0.3968,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "kicks",
+        "mean_a": 11.0823,
+        "mean_b": 9.147,
+        "delta": -1.9353,
+        "cohens_d": -0.3793,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "clangers",
+        "mean_a": 2.2282,
+        "mean_b": 2.6768,
+        "delta": 0.4486,
+        "cohens_d": 0.3074,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "handballs",
+        "mean_a": 5.8531,
+        "mean_b": 6.9515,
+        "delta": 1.0984,
+        "cohens_d": 0.2755,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "bounces",
+        "mean_a": 2.0882,
+        "mean_b": 1.6968,
+        "delta": -0.3913,
+        "cohens_d": -0.271,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1965-1990",
+        "era_b": "1991-2010",
+        "metric": "behinds",
+        "mean_a": 1.6742,
+        "mean_b": 1.4713,
+        "delta": -0.2029,
+        "cohens_d": -0.2201,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "disposals",
+        "mean_a": 14.7221,
+        "mean_b": 16.2101,
+        "delta": 1.488,
+        "cohens_d": 0.209,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "contested_possessions",
+        "mean_a": 5.6479,
+        "mean_b": 6.2729,
+        "delta": 0.625,
+        "cohens_d": 0.1834,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "one_percenters",
+        "mean_a": 2.4537,
+        "mean_b": 2.8169,
+        "delta": 0.3632,
+        "cohens_d": 0.1774,
+        "p_value": 0.0
+      },
+      {
+        "era_a": "1991-2010",
+        "era_b": "2011-present",
+        "metric": "clearances",
+        "mean_a": 2.535,
+        "mean_b": 2.8716,
+        "delta": 0.3366,
+        "cohens_d": 0.1615,
+        "p_value": 0.0
+      }
+    ]
+  }
+}

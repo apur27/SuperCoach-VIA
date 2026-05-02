@@ -23,6 +23,8 @@ A personal AFL data project that does three things:
 - [Predict next week's disposals](#predict-next-weeks-disposals)
 - [Backtest — check how accurate the predictions were](#backtest--check-how-accurate-the-predictions-were)
 - [All-time top 100 ranking](#all-time-top-100-ranking)
+- [How the game has changed — data insights across 125 years](#how-the-game-has-changed--data-insights-across-125-years)
+- [2026 team analysis — what the data says](#2026-team-analysis--what-the-data-says)
 - [For the footy expert — finding the greatest 100 players of all time](#for-the-footy-expert--finding-the-greatest-100-players-of-all-time)
 - [For the coaching staff — building a data-driven game plan](#for-the-coaching-staff--building-a-data-driven-game-plan)
 - [Setting up GPU acceleration (optional)](#setting-up-gpu-acceleration-optional)
@@ -249,6 +251,109 @@ rm -f data/top100/all_time_top_100.csv
 # Full pipeline (refresh all data + re-rank)
 ./refresh_and_rank.sh
 ```
+
+
+## How the game has changed — data insights across 125 years
+
+This repo holds **687,920 player-game records** stretching from 1897 to 2026 and **16,900 matches**. That's a long enough run to see how AFL has actually evolved — not just how it feels different, but how it's measurably different.
+
+The numbers below come from running `era_based_statistical_analysis.py` over every player and every match. Era buckets are deliberate: stats coverage changes with the eras. **Disposals, marks, kicks and handballs were not tracked at all before 1965. Tackles weren't reliably recorded until 1987. Clearances, contested possessions and inside-50s only start appearing in 1998.** Anywhere the cell says "n/a" below, it's because the AFL didn't track that stat yet — not because the value was zero.
+
+### Scoring across the eras
+
+| Per team, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
+|---|---:|---:|---:|---:|
+| Goals | **10.1** | 13.9 | 13.9 | 12.3 |
+| Behinds | 12.0 | 13.6 | 12.2 | **11.0** |
+| Total points | 72.5 | **96.8** | 95.7 | 84.9 |
+| Scoring shots | 22.1 | **27.5** | 26.1 | 23.3 |
+| Goal accuracy | 45.2% | 50.1% | **53.0%** | 52.7% |
+| Match total points | 145 | 193 | 191 | **170** |
+
+A few things jump out that contradict the usual barbershop wisdom:
+
+- **The high-scoring era was the 1980s, not now.** A team-game in 1965–1990 averaged 96.75 points — modern teams average 84.88. That's a 12% drop in per-team scoring from the Hudson/Lockett era to the Daicos era. Total match scoring is down 23 points per game from the peak.
+- **Modern players are NOT more accurate in front of goal in any meaningful way.** Goal accuracy peaked in 1991–2010 at 53.0% and has actually slipped slightly to 52.7% in the modern era. The big jump was much earlier — pre-1965 footballers converted just 45.2% of their scoring shots, which lines up with rough grounds, leather balls that swelled in the rain, and longer drop kicks rather than today's set-shot routines.
+- **Modern teams have fewer scoring shots, not just less accuracy.** Scoring shots per team-game: 27.5 (1965–1990) → 26.1 → 23.3. That's 4 fewer scoring shots per team per game vs the 80s.
+
+### Player workload — the most dramatic change in footy
+
+| Per player, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
+|---|---:|---:|---:|---:|
+| Kicks | n/a | 11.08 | 9.15 | 9.41 |
+| Handballs | n/a | 4.31 | 5.85 | **6.95** |
+| Disposals | n/a | 14.89 | 14.72 | **16.21** |
+| Marks | n/a | 3.76 | 4.11 | 4.22 |
+| Tackles | n/a | 1.86 | 2.42 | **3.20** |
+| Clearances | n/a | n/a | 2.54 | 2.87 |
+| Contested possessions | n/a | n/a | 5.65 | 6.27 |
+
+Read the kicks/handballs row carefully — this is the single biggest shift in how footy is played:
+
+- **Handballs are up 61%** since 1965–1990 (4.31/g → 6.95/g). **Kicks are down 15%** in the same window (11.08/g → 9.41/g). The modern game is a handball game wearing a kicking game's uniform. Players today move the ball more often, but they move it shorter and faster.
+- **Tackles are up 72%** from the 1965–1990 era (1.86/g → 3.20/g). Even just inside the modern stat era, tackles per player jumped 32% from 2.42 (1991–2010) to 3.20 (2011–now). Pressure is the defining tactical innovation of the post-2010 game, and the data is unambiguous about it.
+- **Disposals per player are up about 9%** from the 80s (14.89 → 16.21). Combined with smaller rosters and more interchanges, that means individual ball-winners are doing more.
+- **Contested possessions are up 11%** since 1991–2010 (5.65 → 6.27). The contested-ball revolution that coaches talk about is real and measurable.
+- **Cohen's d for the tackles shift between 1991–2010 and the modern era is +0.41** — a moderate effect size in statistical terms. For context, that's a bigger jump than nearly every other player metric across any era boundary.
+
+### What the numbers don't tell us
+
+A few honest caveats — because nothing about the past 125 years is a controlled experiment.
+
+- **Hit-outs jumped from ~10 per ruckman/game in 2016 to ~17 in 2017** and stayed there. That's almost certainly a recording-method change at AFL Stats, not a sudden ruck revolution. Treat any hit-out comparison crossing 2016/2017 with a grain of salt.
+- **Tackles in 1965–1990** look low (1.86/g) partly because the AFL didn't actually start counting tackles until 1987. The mean is dragged down by 22 years of missing data inside that bucket. The real "old footy" baseline is roughly the 1987–1990 sub-window.
+- **2026 is partial** — only the first 8 rounds — so it's included in the 2011–present bucket but doesn't change the pattern materially.
+- **Statistical tests are reported with a "rough indicator" caveat.** The 687k player-game rows aren't independent (same players appear hundreds of times), so the p-values from the Welch tests in `data/era_significance_tests.csv` should be read alongside the effect sizes (Cohen's d), which are more honest about practical significance.
+
+The full era-by-era breakdown lives in `data/era_stats.csv`, the matches-level scoring numbers in `data/era_team_scoring.csv`, and the year-by-year trends in `data/era_yearly_trends.csv` — all rebuilt by running `era_based_statistical_analysis.py`.
+
+
+## 2026 team analysis — what the data says
+
+Through the first 8 rounds of 2026, all 18 teams have played 7 games. The numbers below are the **team's average output per game** (i.e. summed across the entire 22-player team) compared to the **league average across all 18 teams**. A team being 1+ standard deviations above league average on a stat is genuinely standout.
+
+League averages this year sit at: **367 disposals**, **215 kicks**, **152 handballs**, **53 inside-50s**, **35 clearances**, **128 contested possessions**, **56 tackles**, **44 rebound-50s**, **13 goals** — per team per game.
+
+Caveat upfront: 7 games is a small sample. Form trends across rounds 1–8 are reported but every per-team trend slope has a p-value > 0.10, so don't read too much into them. Strengths/weaknesses below are based on the season-to-date averages, which are more reliable.
+
+### The midfield-heavy contenders
+
+- **Brisbane Lions** are the most ball-dominant team in the comp on the kick: 247.9 kicks/g (league: 215.3, +2.2 SDs) and 117 marks/g (league: 93.9, +2.0 SDs). They also lead the league for clearances at 42.1/g vs the league average of 34.6 — that's the engine room doing its job. The flip side: just 46.1 tackles/g (league: 56.1, **-2.2 SDs**) — for a reigning powerhouse, that's a worryingly low pressure number. Lachie Neale is averaging 31.1 disposals and 7.7 clearances; Will Ashcroft 28.4 disposals.
+- **Greater Western Sydney** are the handball kings of 2026: 181.6 handballs/g (league: 151.7, +1.7 SDs), 256.1 uncontested possessions/g (+1.6 SDs), 399.3 total disposals/g (+1.5 SDs — the most in the league). Clayton Oliver (now a Giant on the data) leads them with 30.9 disposals and 7.1 clearances; Lachie Ash 30.3 disposals.
+- **Collingwood** rely on possession control rather than contest: 113 marks/g (+1.7 SDs) and 254.1 uncontested possessions/g (+1.4 SDs), but they're below average for clearances (28.9/g vs league 34.6, **-1.7 SDs**) and contested possessions (118.7 vs 128.4). Nick Daicos averages 37.0 disposals and 5.8 clearances over his 6 games — a freakish number. Brother Josh adds 29.4.
+- **Carlton** are a contested-ball team: 138.3 contested possessions/g (+1.4 SDs), but it doesn't translate forward — just 8.9 marks-inside-50/g (-1.8 SDs) and 6.3 goal assists (-1.9 SDs). Sam Walsh leads them with 28.7 disposals; Patrick Cripps adds 25.4 disposals, 7.4 clearances and 5.7 tackles.
+
+### The pressure & territory teams
+
+- **Geelong** lead the league for tackling at 63.9/g (+1.7 SDs vs league 56.1) and inside-50s at 57.1/g. Bailey Smith is putting up 32.0 disposals/g; Tom Atkins is racking 7.7 tackles. Jeremy Cameron is the most prolific goalkicker in the comp on a per-game basis at 4.0 goals/g (over 6 games).
+- **Sydney** play the highest-tempo footy in the league: 64.6 inside-50s/g (+2.3 SDs) and 15.9 bounces/g (+2.6 SDs — runners running). The cost is 65.6 clangers/g (+2.6 SDs — the most error-prone team in the league). They share the ball widely; James Rowbottom leads tackles at 7.4/g.
+- **Western Bulldogs** are the spoiling specialists: 51.0 one-percenters/g (+1.6 SDs), and clearances at 38.4/g (+1.2 SDs). The weakness is contested marks — just 6.1/g (**-2.1 SDs**), so they win the ball at ground level but rarely overhead. Marcus Bontempelli (26.6) and Matthew Kennedy (26.3, 7.1 clearances) are the engine.
+- **North Melbourne** are above league average for marks-inside-50 (14.1/g, +0.9 SDs) — but Harry Sheezel's individual disposal output (32.7/g, second only to Daicos) is doing a lot of the work. Tristan Xerri is averaging 8.0 tackles and 7.5 clearances over his 4 games.
+
+### The set-shot specialists
+
+- **Hawthorn** kick the most behinds in the league at 12.4/g (+2.1 SDs) — they create chances but waste them. They lead for hit-outs at 46.7/g (+1.6 SDs — Lloyd Meek effect) and contested marks at 10.7/g (+1.5 SDs). Jack Gunston is kicking 4.0/g.
+- **Fremantle** are a contested-marking team: 10.4 contested marks/g (+1.3 SDs) and 138.6 contested possessions/g (+1.5 SDs). Caleb Serong leads them with 25.7 disposals and 6.4 clearances; Andrew Brayshaw averages 7.0 tackles.
+- **Gold Coast** generate territory — 59 inside-50s/g (+1.1 SDs) and 12.0 goal assists/g (+1.3 SDs) — but lack a marking target: 7.3 contested marks/g (-1.2 SDs). Christian Petracca (now a Sun) averages 26 disposals and 5.8 clearances; Ben King kicking 3.7/g.
+- **Port Adelaide** mark the ball well (108/g, +1.2 SDs) and have 14.7 marks-inside-50/g (+1.2 SDs), but they don't handball (125.6/g, **-1.5 SDs**) and rebound poorly (32.1/g, **-2.6 SDs** — the worst in the league at clearing the defensive 50). Zak Butters runs the show with 30.7 disposals and 6.0 clearances.
+
+### The defensive specialists
+
+- **Adelaide** have the league's strongest rebound game: 43.9 rebound-50s/g (+1.6 SDs) and 47.6 one-percenters/g (+0.95 SDs). Their weakness is at the ruck contest: just 9.3 hit-outs/g (**-2.6 SDs** — by far the lowest in the comp), suggesting they don't have a recognised ruckman. Wayne Milera leads disposals at 25.0/g; Sam Berry has 6.4 tackles and 5.1 clearances.
+- **Melbourne** rely on Max Gawn (44 hit-outs/g, +1.3 SDs as a team) and forward 50 entries (14.6 marks-inside-50/g, +1.1 SDs). The midfield is suspect though — only 346.6 disposals/g (-1.0 SDs) and 204.1 uncontested possessions (-1.3 SDs). Jack Steele (now a Demon) averages 24.9 disposals and 7.3 tackles; Kysaiah Pickett 24.6.
+- **St Kilda** are a kicking team — 232.7 kicks/g (+1.2 SDs) — but tackle below average (53.0 vs 56.1). Jack Sinclair is putting up 30.1 disposals/g.
+
+### The strugglers
+
+- **Richmond's** numbers are concerning across the board: 326.1 disposals/g (-1.9 SDs — second-worst in the league) and 187 kicks/g (-1.9 SDs). Most worryingly, they're averaging just **8.4 goals/g (-2.2 SDs vs league 13.1) — easily the lowest scoring team in the competition through 8 rounds**. Jayden Short leads disposals (25.5) but no Tiger averages more than 25.5 disposals/g.
+- **West Coast** are similarly stalled: 326.7 disposals/g (-1.9 SDs), 9.3 goals/g (-1.8 SDs) and just 8.9 marks-inside-50/g (-1.8 SDs). Harley Reid is the headline — 22.9 disposals and 4.4 clearances/g — but he's pulling a lot of weight alone.
+- **Essendon** tackle below average and have just 30.6 one-percenters/g (-2.4 SDs — easily the league's lowest spoil rate). Their inside-50s are also down (44.9/g, -1.7 SDs). Archie Roberts is an unusual standout at 32.1 disposals/g; Zach Merrett runs at 26.3.
+
+### Form trends — read with caution
+
+The disposal-output slope across rounds 1–8 is negative for **Gold Coast** (-7.0 disposals/g per round, p=0.10), the **Western Bulldogs** (-4.3, p=0.34) and **Richmond** (-4.2, p=0.41) — all suggestive but not statistically significant on 7 data points. Trending positively are **Essendon** (+8.9), **Port Adelaide** (+8.2) and **Sydney** (+4.8). With only 7 games per team in the sample, treat all of these as direction-of-travel hints rather than firm conclusions.
+
+The full per-team table (means and z-scores) lives in `data/era_team_scoring.csv` and can be regenerated by re-running `era_based_statistical_analysis.py`.
 
 
 ## For the footy expert — finding the greatest 100 players of all time
