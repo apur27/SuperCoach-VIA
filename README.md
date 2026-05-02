@@ -310,51 +310,50 @@ The full era-by-era breakdown lives in `data/era_stats.csv`, the matches-level s
 
 ## 2026 team analysis — what the data says
 
-Through the first 8 rounds of 2026, all 18 teams have played 7 games. The numbers below are the **team's average output per game** (i.e. summed across the entire 22-player team) compared to the **league average across all 18 teams**. A team being 1+ standard deviations above league average on a stat is genuinely standout.
+<!-- 2026-TEAM-ANALYSIS-START -->
+Through 8 rounds of the 2026 season, the league averages out at around 367 disposals, 215 kicks, 152 handballs, 56 tackles, 35 clearances and 13 goals per team per game. **Greater Western Sydney** lead the comp for total disposals (399.3/g), with **Brisbane Lions** winning the most clearances (42.1/g) and **Sydney** the most physical side (64.0 tackles/g). **Sydney** are the highest-scoring team at 17.3 goals/g, while **Richmond** prop up the table on both fronts — only 326.1 disposals/g and 8.4 goals/g. At the individual level, **Nick Daicos** (Collingwood) is the leading ball-winner at 37.0 disposals/game. Caveat: this is a small sample — single-season form can swing by round, so treat the rankings below as a snapshot rather than a settled hierarchy.
 
-League averages this year sit at: **367 disposals**, **215 kicks**, **152 handballs**, **53 inside-50s**, **35 clearances**, **128 contested possessions**, **56 tackles**, **44 rebound-50s**, **13 goals** — per team per game.
+### All 18 teams ranked by total disposals — 2026 season-to-date
 
-Caveat upfront: 7 games is a small sample. Form trends across rounds 1–8 are reported but every per-team trend slope has a p-value > 0.10, so don't read too much into them. Strengths/weaknesses below are based on the season-to-date averages, which are more reliable.
+| # | Team | G | Disp/g | Kicks | Handballs | Marks | Goals | Tackles | Clearances | I50s | CP | Form tag |
+| ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
+| 1 | Greater Western Sydney | 7 | 399.3 | 217.7 | 181.6 | 95.0 | 12.3 | 54.3 | 33.3 | 57.4 | 134.4 | ball-winners, territory team |
+| 2 | Sydney | 7 | 392.4 | 212.9 | 179.6 | 82.7 | 17.3 | 64.0 | 37.0 | 64.6 | 138.9 | ball-winners, contested-ball team |
+| 3 | Collingwood | 7 | 387.1 | 224.0 | 163.1 | 113.0 | 11.9 | 55.4 | 28.9 | 53.6 | 118.7 | ball-winners |
+| 4 | Hawthorn | 7 | 383.9 | 230.1 | 153.7 | 106.9 | 15.1 | 59.0 | 36.9 | 55.6 | 129.6 | scoring threat |
+| 5 | North Melbourne | 7 | 380.7 | 221.7 | 159.0 | 101.0 | 14.4 | 58.0 | 37.1 | 51.4 | 128.6 | clearance machine |
+| 6 | St Kilda | 7 | 380.3 | 232.7 | 147.6 | 101.4 | 13.6 | 53.0 | 35.7 | 52.9 | 130.3 | mid-pack |
+| 7 | Fremantle | 7 | 377.7 | 212.9 | 164.9 | 88.1 | 13.1 | 59.9 | 35.9 | 52.9 | 138.6 | contested-ball team, physical unit |
+| 8 | Brisbane Lions | 7 | 377.3 | 247.9 | 129.4 | 117.0 | 14.9 | 46.1 | 42.1 | 57.0 | 131.7 | clearance machine, low pressure |
+| 9 | Geelong | 7 | 371.9 | 225.1 | 146.7 | 96.4 | 13.6 | 63.9 | 34.9 | 57.1 | 132.4 | physical unit |
+| 10 | Western Bulldogs | 7 | 368.6 | 209.1 | 159.4 | 86.1 | 12.9 | 57.9 | 38.4 | 51.0 | 126.9 | clearance machine |
+| 11 | Gold Coast | 7 | 368.0 | 196.0 | 172.0 | 82.0 | 15.3 | 56.1 | 33.4 | 59.0 | 129.6 | scoring threat, territory team |
+| 12 | Carlton | 7 | 365.3 | 208.9 | 156.4 | 83.7 | 11.6 | 59.0 | 36.0 | 49.9 | 138.3 | contested-ball team, struggling in front of goal |
+| 13 | Essendon | 7 | 359.4 | 202.7 | 156.7 | 92.4 | 12.0 | 49.7 | 29.1 | 44.9 | 116.7 | low pressure |
+| 14 | Port Adelaide | 7 | 349.9 | 224.3 | 125.6 | 108.0 | 12.9 | 55.9 | 33.9 | 52.7 | 117.7 | mid-pack |
+| 15 | Melbourne | 7 | 346.6 | 209.6 | 137.0 | 85.9 | 14.9 | 55.1 | 35.0 | 57.4 | 128.0 | territory team |
+| 16 | Adelaide | 7 | 345.4 | 218.1 | 127.3 | 86.9 | 12.7 | 57.0 | 30.7 | 48.4 | 128.4 | starved of the ball, strong rebound |
+| 17 | West Coast | 7 | 326.7 | 194.6 | 132.1 | 82.6 | 9.3 | 52.9 | 32.7 | 46.6 | 123.0 | starved of the ball, struggling in front of goal |
+| 18 | Richmond | 7 | 326.1 | 187.0 | 139.1 | 80.9 | 8.4 | 52.1 | 32.0 | 48.1 | 119.4 | starved of the ball, low pressure |
 
-### The midfield-heavy contenders
+### League leaders by stat category — 2026
 
-- **Brisbane Lions** are the most ball-dominant team in the comp on the kick: 247.9 kicks/g (league: 215.3, +2.2 SDs) and 117 marks/g (league: 93.9, +2.0 SDs). They also lead the league for clearances at 42.1/g vs the league average of 34.6 — that's the engine room doing its job. The flip side: just 46.1 tackles/g (league: 56.1, **-2.2 SDs**) — for a reigning powerhouse, that's a worryingly low pressure number. Lachie Neale is averaging 31.1 disposals and 7.7 clearances; Will Ashcroft 28.4 disposals.
-- **Greater Western Sydney** are the handball kings of 2026: 181.6 handballs/g (league: 151.7, +1.7 SDs), 256.1 uncontested possessions/g (+1.6 SDs), 399.3 total disposals/g (+1.5 SDs — the most in the league). Clayton Oliver (now a Giant on the data) leads them with 30.9 disposals and 7.1 clearances; Lachie Ash 30.3 disposals.
-- **Collingwood** rely on possession control rather than contest: 113 marks/g (+1.7 SDs) and 254.1 uncontested possessions/g (+1.4 SDs), but they're below average for clearances (28.9/g vs league 34.6, **-1.7 SDs**) and contested possessions (118.7 vs 128.4). Nick Daicos averages 37.0 disposals and 5.8 clearances over his 6 games — a freakish number. Brother Josh adds 29.4.
-- **Carlton** are a contested-ball team: 138.3 contested possessions/g (+1.4 SDs), but it doesn't translate forward — just 8.9 marks-inside-50/g (-1.8 SDs) and 6.3 goal assists (-1.9 SDs). Sam Walsh leads them with 28.7 disposals; Patrick Cripps adds 25.4 disposals, 7.4 clearances and 5.7 tackles.
+| Stat | League leader | Their avg/g | League avg/g | Delta vs league |
+| :--- | :--- | ---: | ---: | ---: |
+| Disposals | Greater Western Sydney | 399.3 | 367.0 | +32.3 |
+| Kicks | Brisbane Lions | 247.9 | 215.3 | +32.6 |
+| Handballs | Greater Western Sydney | 181.6 | 151.7 | +29.9 |
+| Marks | Brisbane Lions | 117.0 | 93.9 | +23.1 |
+| Goals | Sydney | 17.3 | 13.1 | +4.2 |
+| Tackles | Sydney | 64.0 | 56.1 | +7.9 |
+| Clearances | Brisbane Lions | 42.1 | 34.6 | +7.5 |
+| Inside-50s | Sydney | 64.6 | 53.4 | +11.2 |
+| Contested possessions | Sydney | 138.9 | 128.4 | +10.5 |
+| Rebound-50s | Adelaide | 43.9 | 39.4 | +4.5 |
+| Hit-outs | Hawthorn | 46.7 | 32.6 | +14.1 |
+| Contested marks | Hawthorn | 10.7 | 8.8 | +1.9 |
 
-### The pressure & territory teams
-
-- **Geelong** lead the league for tackling at 63.9/g (+1.7 SDs vs league 56.1) and inside-50s at 57.1/g. Bailey Smith is putting up 32.0 disposals/g; Tom Atkins is racking 7.7 tackles. Jeremy Cameron is the most prolific goalkicker in the comp on a per-game basis at 4.0 goals/g (over 6 games).
-- **Sydney** play the highest-tempo footy in the league: 64.6 inside-50s/g (+2.3 SDs) and 15.9 bounces/g (+2.6 SDs — runners running). The cost is 65.6 clangers/g (+2.6 SDs — the most error-prone team in the league). They share the ball widely; James Rowbottom leads tackles at 7.4/g.
-- **Western Bulldogs** are the spoiling specialists: 51.0 one-percenters/g (+1.6 SDs), and clearances at 38.4/g (+1.2 SDs). The weakness is contested marks — just 6.1/g (**-2.1 SDs**), so they win the ball at ground level but rarely overhead. Marcus Bontempelli (26.6) and Matthew Kennedy (26.3, 7.1 clearances) are the engine.
-- **North Melbourne** are above league average for marks-inside-50 (14.1/g, +0.9 SDs) — but Harry Sheezel's individual disposal output (32.7/g, second only to Daicos) is doing a lot of the work. Tristan Xerri is averaging 8.0 tackles and 7.5 clearances over his 4 games.
-
-### The set-shot specialists
-
-- **Hawthorn** kick the most behinds in the league at 12.4/g (+2.1 SDs) — they create chances but waste them. They lead for hit-outs at 46.7/g (+1.6 SDs — Lloyd Meek effect) and contested marks at 10.7/g (+1.5 SDs). Jack Gunston is kicking 4.0/g.
-- **Fremantle** are a contested-marking team: 10.4 contested marks/g (+1.3 SDs) and 138.6 contested possessions/g (+1.5 SDs). Caleb Serong leads them with 25.7 disposals and 6.4 clearances; Andrew Brayshaw averages 7.0 tackles.
-- **Gold Coast** generate territory — 59 inside-50s/g (+1.1 SDs) and 12.0 goal assists/g (+1.3 SDs) — but lack a marking target: 7.3 contested marks/g (-1.2 SDs). Christian Petracca (now a Sun) averages 26 disposals and 5.8 clearances; Ben King kicking 3.7/g.
-- **Port Adelaide** mark the ball well (108/g, +1.2 SDs) and have 14.7 marks-inside-50/g (+1.2 SDs), but they don't handball (125.6/g, **-1.5 SDs**) and rebound poorly (32.1/g, **-2.6 SDs** — the worst in the league at clearing the defensive 50). Zak Butters runs the show with 30.7 disposals and 6.0 clearances.
-
-### The defensive specialists
-
-- **Adelaide** have the league's strongest rebound game: 43.9 rebound-50s/g (+1.6 SDs) and 47.6 one-percenters/g (+0.95 SDs). Their weakness is at the ruck contest: just 9.3 hit-outs/g (**-2.6 SDs** — by far the lowest in the comp), suggesting they don't have a recognised ruckman. Wayne Milera leads disposals at 25.0/g; Sam Berry has 6.4 tackles and 5.1 clearances.
-- **Melbourne** rely on Max Gawn (44 hit-outs/g, +1.3 SDs as a team) and forward 50 entries (14.6 marks-inside-50/g, +1.1 SDs). The midfield is suspect though — only 346.6 disposals/g (-1.0 SDs) and 204.1 uncontested possessions (-1.3 SDs). Jack Steele (now a Demon) averages 24.9 disposals and 7.3 tackles; Kysaiah Pickett 24.6.
-- **St Kilda** are a kicking team — 232.7 kicks/g (+1.2 SDs) — but tackle below average (53.0 vs 56.1). Jack Sinclair is putting up 30.1 disposals/g.
-
-### The strugglers
-
-- **Richmond's** numbers are concerning across the board: 326.1 disposals/g (-1.9 SDs — second-worst in the league) and 187 kicks/g (-1.9 SDs). Most worryingly, they're averaging just **8.4 goals/g (-2.2 SDs vs league 13.1) — easily the lowest scoring team in the competition through 8 rounds**. Jayden Short leads disposals (25.5) but no Tiger averages more than 25.5 disposals/g.
-- **West Coast** are similarly stalled: 326.7 disposals/g (-1.9 SDs), 9.3 goals/g (-1.8 SDs) and just 8.9 marks-inside-50/g (-1.8 SDs). Harley Reid is the headline — 22.9 disposals and 4.4 clearances/g — but he's pulling a lot of weight alone.
-- **Essendon** tackle below average and have just 30.6 one-percenters/g (-2.4 SDs — easily the league's lowest spoil rate). Their inside-50s are also down (44.9/g, -1.7 SDs). Archie Roberts is an unusual standout at 32.1 disposals/g; Zach Merrett runs at 26.3.
-
-### Form trends — read with caution
-
-The disposal-output slope across rounds 1–8 is negative for **Gold Coast** (-7.0 disposals/g per round, p=0.10), the **Western Bulldogs** (-4.3, p=0.34) and **Richmond** (-4.2, p=0.41) — all suggestive but not statistically significant on 7 data points. Trending positively are **Essendon** (+8.9), **Port Adelaide** (+8.2) and **Sydney** (+4.8). With only 7 games per team in the sample, treat all of these as direction-of-travel hints rather than firm conclusions.
-
-The full per-team table (means and z-scores) lives in `data/era_team_scoring.csv` and can be regenerated by re-running `era_based_statistical_analysis.py`.
-
+<!-- 2026-TEAM-ANALYSIS-END -->
 
 ## For the footy expert — finding the greatest 100 players of all time
 
