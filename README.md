@@ -919,6 +919,41 @@ Claude will give you the exact command. Run it. If it works, you're set up corre
 
 ---
 
+### Step 7 — Setting the default model (save your token budget)
+
+By default, Claude Code uses whatever model your account is set to — and on most plans that's the most powerful (and most expensive) model available. For day-to-day work in this repo — asking questions, fixing small bugs, pushing to git, updating the README — you don't need that horsepower. The cheaper Sonnet model handles all of it just as well, and burns through your monthly token budget much more slowly.
+
+The Scientist agent is different. It needs the extra brainpower of Opus for proper statistical analysis, so it's already configured to use Opus regardless of your default. Setting Sonnet as your default means your everyday Claude chats are cheap, and only the Scientist costs you the heavy tokens — which is exactly what you want.
+
+To set Sonnet as your default, run this once:
+
+```bash
+# Create or edit ~/.claude/settings.json
+mkdir -p ~/.claude
+cat > ~/.claude/settings.json << 'EOF'
+{
+  "model": "claude-sonnet-4-6"
+}
+EOF
+```
+
+That's it. From now on, every plain Claude session uses Sonnet. **You don't need to do anything special to invoke the Scientist on Opus** — it's already configured in `.claude/agents/Scientist.md` to override the default for that one agent.
+
+To verify which model you're on, type this inside any Claude Code session:
+
+```
+/model
+```
+
+It'll print the current model. You can also use `/model` to switch interactively if you ever want to bump a single session up to Opus without changing the default.
+
+| Task | Model used | How |
+|------|-----------|-----|
+| Everyday Claude (questions, git, README) | Sonnet | Default in `~/.claude/settings.json` |
+| Scientist agent | Opus | Configured in `.claude/agents/Scientist.md` |
+
+---
+
 ### Troubleshooting common issues
 
 | Problem | Fix |
@@ -952,6 +987,8 @@ Once Claude Code is set up (see above), you interact with it entirely in plain E
 > > **For literally everything else, just talk to plain Claude — or use Google.**
 >
 > Plain Claude (no `@"Scientist (agent)"` prefix) is already extremely capable. It can answer questions, explain code, write small scripts, and chat with you — all on a much cheaper model. Save the Scientist for the heavy lifting it was built for.
+>
+> **Tip:** set Sonnet as your default model (see [Step 7 in the setup section](#step-7--setting-the-default-model-save-your-token-budget)) so only the Scientist uses Opus. This is the single biggest thing you can do to make your token budget last the month.
 
 ### **Good questions for Scientist vs. Don't waste Scientist on this**
 
