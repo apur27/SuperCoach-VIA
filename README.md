@@ -353,6 +353,82 @@ Through 8 rounds of the 2026 season, the league averages out at around 367 dispo
 | Hit-outs | Hawthorn | 46.7 | 32.6 | +14.1 |
 | Contested marks | Hawthorn | 10.7 | 8.8 | +1.9 |
 
+### Team-by-team — playing style, strengths and weaknesses
+
+Every paragraph below is generated from the team's actual 2026 stat profile (averages and league ranks across 16 stat categories). The strategy descriptions are derived from rank combinations, not hand-written takes — so they update automatically as the season progresses. Rank 1 = best, rank 18 = worst (for clangers and free kicks against, lower raw values are better, so rank 1 still means the desirable end).
+
+### Greater Western Sydney
+
+After 7 games of 2026, the Greater Western Sydney sit near the top of the league for ball use (1st for disposals) and average 399.3 disposals, 12.3 goals and 54.3 tackles per game. Their stat profile reads as a contest-heavy approach at the stoppages; a high-tempo handball game (45% of disposals by hand); pumping the ball forward with high volume but little control inside 50. They go inside 50 57.4 times a game (3rd in the league), win 134.4 contested possessions (4th) and tilt 45/55 between handball and kick. The strengths jump out clearly: they're 1st for disposals (399.3/g), 1st for handballs (181.6/g), 1st for uncontested possessions (256.1/g). The flip side is harder to ignore: 17th for clangers (61.0/g), 16th for free kicks against (20.9/g), 15th for free kicks for (16.7/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Clayton Oliver**, leading the team in disposals at 30.9/game.
+
+### Sydney
+
+After 7 games of 2026, the Sydney sit near the top of the league for ball use (2nd for disposals) and average 392.4 disposals, 17.3 goals and 64.0 tackles per game. Their stat profile reads as a contested-ball, clearance-first identity; a high-tempo handball game (46% of disposals by hand); dominating territory and connecting cleanly inside 50. They go inside 50 64.6 times a game (1st in the league), win 138.9 contested possessions (1st) and tilt 46/54 between handball and kick. The strengths jump out clearly: they're 1st for goals (17.3/g), 1st for tackles (64.0/g), 1st for inside-50s (64.6/g). The flip side is harder to ignore: 18th for clangers (65.6/g), 15th for marks (82.7/g), 13th for free kicks against (20.6/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Justin Mcinerney**, leading the team in disposals at 25.6/game.
+
+### Collingwood
+
+After 7 games of 2026, the Collingwood sit near the top of the league for ball use (3rd for disposals) and average 387.1 disposals, 11.9 goals and 55.4 tackles per game. Their stat profile reads as a possession-and-control style that shies away from the contest. They go inside 50 53.6 times a game (8th in the league), win 118.7 contested possessions (16th) and tilt 42/58 between handball and kick. The strengths jump out clearly: they're 2nd for marks (113.0/g), 2nd for uncontested possessions (254.1/g), 2nd for clangers (53.6/g). The flip side is harder to ignore: 18th for clearances (28.9/g), 16th for contested possessions (118.7/g), 15th for goals (11.9/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Nick Daicos**, leading the team in disposals at 37.0/game.
+
+### Hawthorn
+
+After 7 games of 2026, the Hawthorn sit near the top of the league for ball use (4th for disposals) and average 383.9 disposals, 15.1 goals and 59.0 tackles per game. Their stat profile reads as a possession-based, uncontested-game template; backed up by elite forward and ground-ball pressure. They go inside 50 55.6 times a game (7th in the league), win 129.6 contested possessions (8th) and tilt 40/60 between handball and kick. The strengths jump out clearly: they're 1st for hit-outs (46.7/g), 1st for contested marks (10.7/g), 3rd for kicks (230.1/g). The flip side is harder to ignore: 11th for rebound-50s (39.6/g), 11th for free kicks for (17.4/g), 10th for handballs (153.7/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Jai Newcombe**, leading the team in disposals at 26.4/game.
+
+### North Melbourne
+
+After 7 games of 2026, the North Melbourne are tracking inside the top half (5th for disposals) and average 380.7 disposals, 14.4 goals and 58.0 tackles per game. Their stat profile reads as a possession-based, uncontested-game template; backed up by elite forward and ground-ball pressure. They go inside 50 51.4 times a game (12th in the league), win 128.6 contested possessions (10th) and tilt 42/58 between handball and kick. The strengths jump out clearly: they're 3rd for clearances (37.1/g), 3rd for uncontested possessions (243.9/g), 3rd for free kicks for (20.4/g). The flip side is harder to ignore: 17th for free kicks against (21.4/g), 13th for hit-outs (28.7/g), 12th for inside-50s (51.4/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Harry Sheezel**, leading the team in disposals at 32.7/game.
+
+### St Kilda
+
+After 7 games of 2026, the St Kilda are tracking inside the top half (6th for disposals) and average 380.3 disposals, 13.6 goals and 53.0 tackles per game. Their stat profile reads as a possession-based, uncontested-game template; with notably soft pressure around the ball. They go inside 50 52.9 times a game (9th in the league), win 130.3 contested possessions (7th) and tilt 39/61 between handball and kick. The strengths jump out clearly: they're 2nd for kicks (232.7/g), 2nd for free kicks against (15.7/g), 4th for free kicks for (20.1/g). The flip side is harder to ignore: 14th for tackles (53.0/g), 11th for handballs (147.6/g), 10th for hit-outs (31.9/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Jack Sinclair**, leading the team in disposals at 30.1/game.
+
+### Fremantle
+
+After 7 games of 2026, the Fremantle are tracking inside the top half (7th for disposals) and average 377.7 disposals, 13.1 goals and 59.9 tackles per game. Their stat profile reads as a contest-heavy approach at the stoppages; backed up by elite forward and ground-ball pressure; frequently absorbing entries and rebounding from defence. They go inside 50 52.9 times a game (9th in the league), win 138.6 contested possessions (2nd) and tilt 44/56 between handball and kick. The strengths jump out clearly: they're 2nd for contested possessions (138.6/g), 3rd for tackles (59.9/g), 3rd for rebound-50s (41.9/g). The flip side is harder to ignore: 18th for free kicks for (16.1/g), 10th for kicks (212.9/g), 10th for marks (88.1/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Caleb Serong**, leading the team in disposals at 25.7/game.
+
+### Brisbane Lions
+
+After 7 games of 2026, the Brisbane Lions are tracking inside the top half (8th for disposals) and average 377.3 disposals, 14.9 goals and 46.1 tackles per game. Their stat profile reads as a contested-ball, clearance-first identity; a kick-first ball movement (66% by foot); dominating territory and connecting cleanly inside 50. They go inside 50 57.0 times a game (6th in the league), win 131.7 contested possessions (6th) and tilt 34/66 between handball and kick. The strengths jump out clearly: they're 1st for kicks (247.9/g), 1st for marks (117.0/g), 1st for clearances (42.1/g). The flip side is harder to ignore: 18th for tackles (46.1/g), 16th for handballs (129.4/g), 16th for rebound-50s (36.6/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Lachie Neale**, leading the team in disposals at 31.1/game.
+
+### Geelong
+
+After 7 games of 2026, the Geelong are floating around the middle of the pack (9th for disposals) and average 371.9 disposals, 13.6 goals and 63.9 tackles per game. Their stat profile reads as a contest-heavy approach at the stoppages; backed up by elite forward and ground-ball pressure. They go inside 50 57.1 times a game (5th in the league), win 132.4 contested possessions (5th) and tilt 39/61 between handball and kick. The strengths jump out clearly: they're 2nd for tackles (63.9/g), 2nd for free kicks for (23.4/g), 4th for kicks (225.1/g). The flip side is harder to ignore: 13th for rebound-50s (37.6/g), 13th for clangers (58.6/g), 12th for handballs (146.7/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Bailey Smith**, leading the team in disposals at 32.0/game.
+
+### Western Bulldogs
+
+After 7 games of 2026, the Western Bulldogs are floating around the middle of the pack (10th for disposals) and average 368.6 disposals, 12.9 goals and 57.9 tackles per game. Their stat profile reads as struggling to win territory and force the issue forward; frequently absorbing entries and rebounding from defence. They go inside 50 51.0 times a game (13th in the league), win 126.9 contested possessions (13th) and tilt 43/57 between handball and kick. The strengths jump out clearly: they're 2nd for clearances (38.4/g), 6th for handballs (159.4/g), 6th for rebound-50s (41.3/g). The flip side is harder to ignore: 18th for contested marks (6.1/g), 13th for kicks (209.1/g), 13th for inside-50s (51.0/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Marcus Bontempelli**, leading the team in disposals at 26.6/game.
+
+### Gold Coast
+
+After 7 games of 2026, the Gold Coast are floating around the middle of the pack (11th for disposals) and average 368.0 disposals, 15.3 goals and 56.1 tackles per game. Their stat profile reads as a high-tempo handball game (47% of disposals by hand). They go inside 50 59.0 times a game (2nd in the league), win 129.6 contested possessions (8th) and tilt 47/53 between handball and kick. The strengths jump out clearly: they're 2nd for goals (15.3/g), 2nd for inside-50s (59.0/g), 3rd for handballs (172.0/g). The flip side is harder to ignore: 18th for free kicks against (22.0/g), 17th for marks (82.0/g), 16th for kicks (196.0/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Christian Petracca**, leading the team in disposals at 26.0/game.
+
+### Carlton
+
+After 7 games of 2026, the Carlton are floating around the middle of the pack (12th for disposals) and average 365.3 disposals, 11.6 goals and 59.0 tackles per game. Their stat profile reads as a contested-ball, clearance-first identity; struggling to win territory and force the issue forward; backed up by elite forward and ground-ball pressure. They go inside 50 49.9 times a game (14th in the league), win 138.3 contested possessions (3rd) and tilt 43/57 between handball and kick. The strengths jump out clearly: they're 2nd for rebound-50s (43.1/g), 3rd for contested possessions (138.3/g), 4th for tackles (59.0/g). The flip side is harder to ignore: 17th for marks inside 50 (8.9/g), 16th for goals (11.6/g), 16th for clangers (60.1/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Sam Walsh**, leading the team in disposals at 28.7/game.
+
+### Essendon
+
+After 7 games of 2026, the Essendon are sitting in the lower third for ball use (13th for disposals) and average 359.4 disposals, 12.0 goals and 49.7 tackles per game. Their stat profile reads as struggling to win territory and force the issue forward; with notably soft pressure around the ball. They go inside 50 44.9 times a game (18th in the league), win 116.7 contested possessions (18th) and tilt 44/56 between handball and kick. The strengths jump out clearly: they're 1st for clangers (52.0/g), 5th for free kicks against (17.4/g), 8th for handballs (156.7/g). The flip side is harder to ignore: 18th for inside-50s (44.9/g), 18th for contested possessions (116.7/g), 17th for tackles (49.7/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Archie Roberts**, leading the team in disposals at 32.1/game.
+
+### Port Adelaide
+
+After 7 games of 2026, the Port Adelaide are sitting in the lower third for ball use (14th for disposals) and average 349.9 disposals, 12.9 goals and 55.9 tackles per game. Their stat profile reads as a kick-first ball movement (64% by foot). They go inside 50 52.7 times a game (11th in the league), win 117.7 contested possessions (17th) and tilt 36/64 between handball and kick. The strengths jump out clearly: they're 2nd for marks inside 50 (14.7/g), 3rd for marks (108.0/g), 5th for kicks (224.3/g). The flip side is harder to ignore: 18th for handballs (125.6/g), 18th for rebound-50s (32.1/g), 17th for contested possessions (117.7/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Zak Butters**, leading the team in disposals at 30.7/game.
+
+### Melbourne
+
+After 7 games of 2026, the Melbourne are sitting in the lower third for ball use (15th for disposals) and average 346.6 disposals, 14.9 goals and 55.1 tackles per game. Their stat profile reads as dominating territory and connecting cleanly inside 50. They go inside 50 57.4 times a game (3rd in the league), win 128.0 contested possessions (12th) and tilt 40/60 between handball and kick. The strengths jump out clearly: they're 1st for free kicks against (14.1/g), 2nd for hit-outs (44.0/g), 3rd for inside-50s (57.4/g). The flip side is harder to ignore: 17th for free kicks for (16.6/g), 16th for uncontested possessions (204.1/g), 16th for rebound-50s (36.6/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Jack Steele**, leading the team in disposals at 24.9/game.
+
+### Adelaide
+
+After 7 games of 2026, the Adelaide are anchored near the bottom of the table (16th for disposals) and average 345.4 disposals, 12.7 goals and 57.0 tackles per game. Their stat profile reads as a kick-first ball movement (63% by foot); struggling to win territory and force the issue forward; frequently absorbing entries and rebounding from defence. They go inside 50 48.4 times a game (15th in the league), win 128.4 contested possessions (11th) and tilt 37/63 between handball and kick. The strengths jump out clearly: they're 1st for rebound-50s (43.9/g), 6th for free kicks against (17.6/g), 8th for kicks (218.1/g). The flip side is harder to ignore: 18th for hit-outs (9.3/g), 17th for handballs (127.3/g), 16th for disposals (345.4/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Wayne Milera**, leading the team in disposals at 25.0/game.
+
+### West Coast
+
+After 7 games of 2026, the West Coast are anchored near the bottom of the table (17th for disposals) and average 326.7 disposals, 9.3 goals and 52.9 tackles per game. Their stat profile reads as struggling to win territory and force the issue forward; with notably soft pressure around the ball. They go inside 50 46.6 times a game (17th in the league), win 123.0 contested possessions (14th) and tilt 40/60 between handball and kick. The strengths jump out clearly: they're 8th for free kicks for (18.7/g), 12th for rebound-50s (38.6/g), 12th for clangers (57.6/g). The flip side is harder to ignore: 18th for uncontested possessions (196.7/g), 17th for disposals (326.7/g), 17th for kicks (194.6/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Harley Reid**, leading the team in disposals at 22.9/game.
+
+### Richmond
+
+After 7 games of 2026, the Richmond are anchored near the bottom of the table (18th for disposals) and average 326.1 disposals, 8.4 goals and 52.1 tackles per game. Their stat profile reads as struggling to win territory and force the issue forward; with notably soft pressure around the ball. They go inside 50 48.1 times a game (16th in the league), win 119.4 contested possessions (15th) and tilt 43/57 between handball and kick. The strengths jump out clearly: they're 5th for free kicks for (19.6/g), 9th for free kicks against (18.7/g), 12th for contested marks (8.4/g). The flip side is harder to ignore: 18th for disposals (326.1/g), 18th for kicks (187.0/g), 18th for marks (80.9/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Jayden Short**, leading the team in disposals at 25.5/game.
+
 <!-- 2026-TEAM-ANALYSIS-END -->
 
 ## For the footy expert — finding the greatest 100 players of all time

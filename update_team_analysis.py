@@ -83,6 +83,8 @@ STAT_COLS = [
     "uncontested_possessions",
     "goal_assist",
     "clangers",
+    "free_kicks_for",
+    "free_kicks_against",
 ]
 
 # Stats reported in the per-team summary table (in order).
@@ -496,6 +498,290 @@ def render_leaders_table(summary: pd.DataFrame, league: Dict[str, float]) -> str
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Per-team rich paragraphs — data-driven prose
+# ---------------------------------------------------------------------------
+# Stats we want a rank for in the per-team paragraphs. Every stat in this list
+# gets a `<stat>_rank` column on the per-team frame; the paragraph generator
+# leans on these to pick out top-3 strengths and bottom-3 weaknesses.
+PARAGRAPH_RANK_STATS = [
+    "disposals",
+    "kicks",
+    "handballs",
+    "marks",
+    "goals",
+    "tackles",
+    "clearances",
+    "inside_50s",
+    "contested_possessions",
+    "uncontested_possessions",
+    "rebound_50s",
+    "hit_outs",
+    "contested_marks",
+    "marks_inside_50",
+    "free_kicks_for",
+]
+# These are "less is better" — rank 1 = fewest, which is the desirable end.
+INVERSE_RANK_STATS = [
+    "clangers",
+    "free_kicks_against",
+]
+
+# Human-readable names for stats — used in the prose so we don't say
+# "marks_inside_50/g" out loud.
+STAT_LABELS = {
+    "disposals": "disposals",
+    "kicks": "kicks",
+    "handballs": "handballs",
+    "marks": "marks",
+    "goals": "goals",
+    "tackles": "tackles",
+    "clearances": "clearances",
+    "inside_50s": "inside-50s",
+    "contested_possessions": "contested possessions",
+    "uncontested_possessions": "uncontested possessions",
+    "rebound_50s": "rebound-50s",
+    "hit_outs": "hit-outs",
+    "contested_marks": "contested marks",
+    "marks_inside_50": "marks inside 50",
+    "free_kicks_for": "free kicks for",
+    "free_kicks_against": "free kicks against",
+    "clangers": "clangers",
+}
+
+
+def ordinal(n: int) -> str:
+    """1 -> 1st, 2 -> 2nd, 3 -> 3rd, 4 -> 4th, ..."""
+    if 10 <= (n % 100) <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def add_paragraph_ranks(summary: pd.DataFrame) -> pd.DataFrame:
+    """Add `<stat>_rank` for every stat used in paragraph generation.
+
+    Higher-is-better stats get rank 1 = highest mean. Lower-is-better stats
+    (clangers, free_kicks_against) get rank 1 = lowest mean.
+    """
+    out = summary.copy()
+    for c in PARAGRAPH_RANK_STATS:
+        if c in out.columns and f"{c}_rank" not in out.columns:
+            out[f"{c}_rank"] = out[c].rank(ascending=False, method="min").astype(int)
+    for c in INVERSE_RANK_STATS:
+        if c in out.columns:
+            out[f"{c}_rank"] = out[c].rank(ascending=True, method="min").astype(int)
+    return out
+
+
+def derive_strategy(row: pd.Series, n_teams: int) -> str:
+    """Infer a one-sentence playing-style description from the stat profile.
+
+    Uses combinations of ranks rather than absolute thresholds so the labels
+    stay sensible across seasons with different scoring environments.
+    """
+    top = 6  # top third
+    bot = n_teams - 5  # bottom third (i.e. >= bot)
+
+    # Compute handball ratio rank approximation from raw cols.
+    hb_ratio = row["handballs"] / max(row["disposals"], 1.0)
+
+    descriptors: List[str] = []
+
+    # Contested vs possession identity
+    cp_rank = row.get("contested_possessions_rank", 99)
+    ucp_rank = row.get("uncontested_possessions_rank", 99)
+    cl_rank = row.get("clearances_rank", 99)
+    if cp_rank <= top and cl_rank <= top:
+        descriptors.append("a contested-ball, clearance-first identity")
+    elif ucp_rank <= top and cp_rank >= bot:
+        descriptors.append("a possession-and-control style that shies away from the contest")
+    elif cp_rank <= top:
+        descriptors.append("a contest-heavy approach at the stoppages")
+    elif ucp_rank <= top:
+        descriptors.append("a possession-based, uncontested-game template")
+
+    # Kicking vs handballing tempo
+    if hb_ratio >= 0.45:
+        descriptors.append(f"a high-tempo handball game ({hb_ratio*100:.0f}% of disposals by hand)")
+    elif hb_ratio <= 0.37:
+        descriptors.append(f"a kick-first ball movement ({(1-hb_ratio)*100:.0f}% by foot)")
+
+    # Territory / inside-50 pressure
+    i50_rank = row.get("inside_50s_rank", 99)
+    mi50_rank = row.get("marks_inside_50_rank", 99)
+    if i50_rank <= top and mi50_rank >= bot:
+        descriptors.append("pumping the ball forward with high volume but little control inside 50")
+    elif i50_rank <= top and mi50_rank <= top:
+        descriptors.append("dominating territory and connecting cleanly inside 50")
+    elif i50_rank >= bot:
+        descriptors.append("struggling to win territory and force the issue forward")
+
+    # Pressure
+    tk_rank = row.get("tackles_rank", 99)
+    if tk_rank <= top:
+        descriptors.append("backed up by elite forward and ground-ball pressure")
+    elif tk_rank >= bot:
+        descriptors.append("with notably soft pressure around the ball")
+
+    # Rebound / defensive lean
+    rb_rank = row.get("rebound_50s_rank", 99)
+    if rb_rank <= top:
+        descriptors.append("frequently absorbing entries and rebounding from defence")
+
+    if not descriptors:
+        return "a balanced, mid-pack profile that doesn't lean strongly toward any one identity"
+    # Keep at most three to avoid run-on sentences.
+    return "; ".join(descriptors[:3])
+
+
+def pick_top_strengths(row: pd.Series, n: int = 3) -> List[Tuple[str, int, float]]:
+    """Return up to `n` (stat, rank, raw_value) tuples for this team's best
+    ranks across PARAGRAPH_RANK_STATS + INVERSE_RANK_STATS."""
+    candidates = []
+    for stat in PARAGRAPH_RANK_STATS + INVERSE_RANK_STATS:
+        rank_col = f"{stat}_rank"
+        if rank_col not in row.index:
+            continue
+        candidates.append((stat, int(row[rank_col]), float(row[stat])))
+    # Strengths = lowest rank numbers (1 = best).
+    candidates.sort(key=lambda t: t[1])
+    return candidates[:n]
+
+
+def pick_top_weaknesses(row: pd.Series, n_teams: int, n: int = 3) -> List[Tuple[str, int, float]]:
+    candidates = []
+    for stat in PARAGRAPH_RANK_STATS + INVERSE_RANK_STATS:
+        rank_col = f"{stat}_rank"
+        if rank_col not in row.index:
+            continue
+        candidates.append((stat, int(row[rank_col]), float(row[stat])))
+    # Weaknesses = highest rank numbers (closer to n_teams = worst).
+    candidates.sort(key=lambda t: -t[1])
+    return candidates[:n]
+
+
+def overall_position_phrase(row: pd.Series, n_teams: int) -> str:
+    """Map disposals_rank to a coarse 'tier' phrase for the opening sentence."""
+    rk = int(row["disposals_rank"])
+    if rk <= 4:
+        return f"sit near the top of the league for ball use ({ordinal(rk)} for disposals)"
+    if rk <= 8:
+        return f"are tracking inside the top half ({ordinal(rk)} for disposals)"
+    if rk <= 12:
+        return f"are floating around the middle of the pack ({ordinal(rk)} for disposals)"
+    if rk <= 15:
+        return f"are sitting in the lower third for ball use ({ordinal(rk)} for disposals)"
+    return f"are anchored near the bottom of the table ({ordinal(rk)} for disposals)"
+
+
+def render_team_paragraph(
+    row: pd.Series,
+    n_teams: int,
+    top_player_name: str,
+    top_player_avg: float,
+) -> str:
+    """5-7 sentence paragraph for one team."""
+    team = row["team"]
+
+    # Sentence 1 — overall position
+    s1 = (
+        f"After {int(row['games_played'])} games of 2026, the {team} "
+        f"{overall_position_phrase(row, n_teams)} and average "
+        f"{fmt_one(row['disposals'])} disposals, {fmt_one(row['goals'])} goals "
+        f"and {fmt_one(row['tackles'])} tackles per game."
+    )
+
+    # Sentences 2-3 — strategy
+    strategy = derive_strategy(row, n_teams)
+    s2 = f"Their stat profile reads as {strategy}."
+    hb_ratio = row["handballs"] / max(row["disposals"], 1.0)
+    s3 = (
+        f"They go inside 50 {fmt_one(row['inside_50s'])} times a game "
+        f"({ordinal(int(row['inside_50s_rank']))} in the league), win "
+        f"{fmt_one(row['contested_possessions'])} contested possessions "
+        f"({ordinal(int(row['contested_possessions_rank']))}) and tilt "
+        f"{hb_ratio*100:.0f}/{(1-hb_ratio)*100:.0f} between handball and kick."
+    )
+
+    # Sentence 4 — strengths
+    strengths = pick_top_strengths(row, n=3)
+    strength_phrases = []
+    for stat, rk, val in strengths:
+        label = STAT_LABELS.get(stat, stat)
+        strength_phrases.append(f"{ordinal(rk)} for {label} ({fmt_one(val)}/g)")
+    s4 = (
+        f"The strengths jump out clearly: they're "
+        + ", ".join(strength_phrases)
+        + "."
+    )
+
+    # Sentence 5 — weaknesses
+    weaknesses = pick_top_weaknesses(row, n_teams, n=3)
+    weak_phrases = []
+    for stat, rk, val in weaknesses:
+        label = STAT_LABELS.get(stat, stat)
+        weak_phrases.append(f"{ordinal(rk)} for {label} ({fmt_one(val)}/g)")
+    s5 = (
+        f"The flip side is harder to ignore: "
+        + ", ".join(weak_phrases)
+        + " — that's where opposition coaches will be drawing up plans."
+    )
+
+    # Sentence 6 — key player
+    if top_player_name:
+        s6 = (
+            f"Key player to watch is **{top_player_name}**, leading the team "
+            f"in disposals at {fmt_one(top_player_avg)}/game."
+        )
+    else:
+        s6 = "No standout individual disposal-getter is yet separating themselves from the pack."
+
+    return " ".join([s1, s2, s3, s4, s5, s6])
+
+
+def generate_team_paragraphs(
+    summary_with_ranks: pd.DataFrame,
+    top_scorers: Dict[str, Tuple[str, float]],
+) -> str:
+    """Build the per-team prose section. One `### Team` heading + paragraph
+    per club, ordered by current disposals rank (best to worst).
+    """
+    n_teams = len(summary_with_ranks)
+    ordered = summary_with_ranks.sort_values("disposals", ascending=False).reset_index(drop=True)
+
+    lines: List[str] = []
+    lines.append(f"### Team-by-team — playing style, strengths and weaknesses")
+    lines.append("")
+    lines.append(
+        "Every paragraph below is generated from the team's actual 2026 stat "
+        "profile (averages and league ranks across 16 stat categories). The "
+        "strategy descriptions are derived from rank combinations, not "
+        "hand-written takes — so they update automatically as the season "
+        "progresses. Rank 1 = best, rank 18 = worst (for clangers and free "
+        "kicks against, lower raw values are better, so rank 1 still means "
+        "the desirable end)."
+    )
+    lines.append("")
+
+    for _, row in ordered.iterrows():
+        team = row["team"]
+        scorer = top_scorers.get(team)
+        if scorer:
+            top_player_name = prettify_player_stem(scorer[0])
+            top_player_avg = scorer[1]
+        else:
+            top_player_name = ""
+            top_player_avg = 0.0
+        lines.append(f"### {team}")
+        lines.append("")
+        lines.append(render_team_paragraph(row, n_teams, top_player_name, top_player_avg))
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 def build_section_body(
     year: int,
     max_round: int,
@@ -507,6 +793,7 @@ def build_section_body(
     intro = render_intro(year, max_round, summary, league, top_scorers)
     table1 = render_summary_table(summary_with_ranks)
     table2 = render_leaders_table(summary, league)
+    paragraphs = generate_team_paragraphs(summary_with_ranks, top_scorers)
 
     body = []
     body.append(intro)
@@ -519,6 +806,7 @@ def build_section_body(
     body.append("")
     body.append(table2)
     body.append("")
+    body.append(paragraphs)
     return "\n".join(body)
 
 
@@ -594,6 +882,8 @@ def main() -> None:
     summary = per_team_summary(team_game)
     league = league_averages(team_game)
     summary_with_ranks = add_ranks(summary, SUMMARY_STATS + ["rebound_50s"])
+    # Add the broader rank set used for the per-team prose paragraphs.
+    summary_with_ranks = add_paragraph_ranks(summary_with_ranks)
     summary_with_ranks["form_tag"] = summary_with_ranks.apply(
         lambda r: form_tag(r, summary_with_ranks), axis=1
     )
