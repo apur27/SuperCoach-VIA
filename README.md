@@ -1,5 +1,5 @@
 # AFL SuperCoach VIA
-![AFL SuperCoach VIA Banner](/assets/readme_banner.png)
+![AFL SuperCoach VIA Banner](/assets/banner.svg)
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/apur27/SuperCoach-VIA">
   <img src="https://img.shields.io/github/contributors/apur27/SuperCoach-VIA">
