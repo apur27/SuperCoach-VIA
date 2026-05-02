@@ -1,10 +1,10 @@
 # AFL SuperCoach VIA
-![AFL Data Analysis Banner Image](/assets/readme_banner.png)
+![AFL SuperCoach VIA Banner](/assets/readme_banner.png)
 <div align="center">
-  <img src="https://img.shields.io/github/last-commit/akareen/AFL-Data-Analysis">
-  <img src="https://img.shields.io/github/contributors/akareen/AFL-Data-Analysis">
-  <img src="https://img.shields.io/github/stars/akareen/AFL-Data-Analysis?style=social">
-  <img src="https://img.shields.io/github/forks/akareen/AFL-Data-Analysis?style=social">
+  <img src="https://img.shields.io/github/last-commit/apur27/SuperCoach-VIA">
+  <img src="https://img.shields.io/github/contributors/apur27/SuperCoach-VIA">
+  <img src="https://img.shields.io/github/stars/apur27/SuperCoach-VIA?style=social">
+  <img src="https://img.shields.io/github/forks/apur27/SuperCoach-VIA?style=social">
 </div>
 <br>
 
