@@ -1,257 +1,369 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="400" viewBox="0 0 1400 400">
   <defs>
+    <!-- Backgrounds -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#060b18"/>
-      <stop offset="60%" style="stop-color:#0a1628"/>
-      <stop offset="100%" style="stop-color:#0d1f3c"/>
+      <stop offset="0%" style="stop-color:#03060f"/>
+      <stop offset="40%" style="stop-color:#060d1e"/>
+      <stop offset="100%" style="stop-color:#080f24"/>
     </linearGradient>
-    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#c8922a"/>
-      <stop offset="50%" style="stop-color:#f5c842"/>
-      <stop offset="100%" style="stop-color:#e8821a"/>
+
+    <!-- Gold / amber -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7a4f00"/>
+      <stop offset="25%" style="stop-color:#f5c842"/>
+      <stop offset="55%" style="stop-color:#fde97a"/>
+      <stop offset="100%" style="stop-color:#c8780a"/>
     </linearGradient>
-    <linearGradient id="blueBar" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#0d2a4a"/>
-      <stop offset="100%" style="stop-color:#1e6fc4"/>
+    <linearGradient id="goldV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fde97a"/>
+      <stop offset="100%" style="stop-color:#7a4f00;stop-opacity:0"/>
     </linearGradient>
-    <linearGradient id="tealBar" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#0a2a2a"/>
-      <stop offset="100%" style="stop-color:#00b894"/>
+
+    <!-- Title glow gradient -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   style="stop-color:#a8c8f8"/>
+      <stop offset="40%"  style="stop-color:#ffffff"/>
+      <stop offset="60%"  style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#a8c8f8"/>
     </linearGradient>
-    <linearGradient id="purpleBar" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#1a0a2e"/>
-      <stop offset="100%" style="stop-color:#6c5ce7"/>
+
+    <!-- Bars -->
+    <linearGradient id="b1" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a1a3a;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#2979ff"/>
     </linearGradient>
-    <linearGradient id="ovalFade" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:0"/>
-      <stop offset="30%" style="stop-color:#0a1628;stop-opacity:1"/>
+    <linearGradient id="b2" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a0a3a;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#7c4dff"/>
     </linearGradient>
-    <linearGradient id="rightFade" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="70%" style="stop-color:#0a1628;stop-opacity:0"/>
-      <stop offset="100%" style="stop-color:#0a1628;stop-opacity:1"/>
+    <linearGradient id="b3" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#001a1a;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#00e5ff"/>
     </linearGradient>
-    <radialGradient id="ovalGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#1e3a6b;stop-opacity:0.3"/>
-      <stop offset="100%" style="stop-color:#1e3a6b;stop-opacity:0"/>
+    <linearGradient id="b4" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#001a0a;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#00e676"/>
+    </linearGradient>
+
+    <!-- Radial glows -->
+    <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a3a7a;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
     </radialGradient>
-    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#f5c842;stop-opacity:0.08"/>
+    <radialGradient id="ovalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#0d2a5a;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="chartGlow" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" style="stop-color:#0a1a40;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="goldSpot" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#f5c842;stop-opacity:0.12"/>
       <stop offset="100%" style="stop-color:#f5c842;stop-opacity:0"/>
     </radialGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+
+    <!-- Fade overlays -->
+    <linearGradient id="fadeL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#060d1e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#060d1e;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="fadeR" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#060d1e;stop-opacity:0"/>
+      <stop offset="100%" style="stop-color:#060d1e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="fadeTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#03060f;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#03060f;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="fadeBot" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#03060f;stop-opacity:0"/>
+      <stop offset="100%" style="stop-color:#03060f;stop-opacity:0.8"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="strongGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow5" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
-      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow12" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <clipPath id="mainClip">
-      <rect width="1200" height="320"/>
-    </clipPath>
+    <filter id="titleBloom" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="18" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="barGlow" x="-30%" y="-10%" width="160%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="clip"><rect width="1400" height="400"/></clipPath>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="320" fill="url(#bg)"/>
+  <!-- ═══ BASE ═══ -->
+  <rect width="1400" height="400" fill="url(#bg)"/>
 
-  <!-- Ambient center glow -->
-  <ellipse cx="600" cy="160" rx="500" ry="200" fill="url(#centerGlow)"/>
+  <!-- Hero ambient glow (centre) -->
+  <ellipse cx="700" cy="200" rx="580" ry="240" fill="url(#heroGlow)"/>
 
-  <!-- Fine dot grid -->
-  <g fill="#ffffff" opacity="0.04" clip-path="url(#mainClip)">
-    <circle cx="50" cy="40" r="1.2"/><circle cx="100" cy="40" r="1.2"/><circle cx="150" cy="40" r="1.2"/>
-    <circle cx="200" cy="40" r="1.2"/><circle cx="250" cy="40" r="1.2"/><circle cx="300" cy="40" r="1.2"/>
-    <circle cx="350" cy="40" r="1.2"/><circle cx="400" cy="40" r="1.2"/><circle cx="450" cy="40" r="1.2"/>
-    <circle cx="500" cy="40" r="1.2"/><circle cx="550" cy="40" r="1.2"/><circle cx="600" cy="40" r="1.2"/>
-    <circle cx="650" cy="40" r="1.2"/><circle cx="700" cy="40" r="1.2"/><circle cx="750" cy="40" r="1.2"/>
-    <circle cx="800" cy="40" r="1.2"/><circle cx="850" cy="40" r="1.2"/><circle cx="900" cy="40" r="1.2"/>
-    <circle cx="950" cy="40" r="1.2"/><circle cx="1000" cy="40" r="1.2"/><circle cx="1050" cy="40" r="1.2"/>
-    <circle cx="1100" cy="40" r="1.2"/><circle cx="1150" cy="40" r="1.2"/>
-    <circle cx="50" cy="90" r="1.2"/><circle cx="100" cy="90" r="1.2"/><circle cx="150" cy="90" r="1.2"/>
-    <circle cx="200" cy="90" r="1.2"/><circle cx="250" cy="90" r="1.2"/><circle cx="300" cy="90" r="1.2"/>
-    <circle cx="350" cy="90" r="1.2"/><circle cx="400" cy="90" r="1.2"/><circle cx="450" cy="90" r="1.2"/>
-    <circle cx="500" cy="90" r="1.2"/><circle cx="550" cy="90" r="1.2"/><circle cx="600" cy="90" r="1.2"/>
-    <circle cx="650" cy="90" r="1.2"/><circle cx="700" cy="90" r="1.2"/><circle cx="750" cy="90" r="1.2"/>
-    <circle cx="800" cy="90" r="1.2"/><circle cx="850" cy="90" r="1.2"/><circle cx="900" cy="90" r="1.2"/>
-    <circle cx="950" cy="90" r="1.2"/><circle cx="1000" cy="90" r="1.2"/><circle cx="1050" cy="90" r="1.2"/>
-    <circle cx="1100" cy="90" r="1.2"/><circle cx="1150" cy="90" r="1.2"/>
-    <circle cx="50" cy="140" r="1.2"/><circle cx="100" cy="140" r="1.2"/><circle cx="150" cy="140" r="1.2"/>
-    <circle cx="200" cy="140" r="1.2"/><circle cx="250" cy="140" r="1.2"/><circle cx="300" cy="140" r="1.2"/>
-    <circle cx="350" cy="140" r="1.2"/><circle cx="400" cy="140" r="1.2"/><circle cx="450" cy="140" r="1.2"/>
-    <circle cx="500" cy="140" r="1.2"/><circle cx="550" cy="140" r="1.2"/><circle cx="600" cy="140" r="1.2"/>
-    <circle cx="650" cy="140" r="1.2"/><circle cx="700" cy="140" r="1.2"/><circle cx="750" cy="140" r="1.2"/>
-    <circle cx="800" cy="140" r="1.2"/><circle cx="850" cy="140" r="1.2"/><circle cx="900" cy="140" r="1.2"/>
-    <circle cx="950" cy="140" r="1.2"/><circle cx="1000" cy="140" r="1.2"/><circle cx="1050" cy="140" r="1.2"/>
-    <circle cx="1100" cy="140" r="1.2"/><circle cx="1150" cy="140" r="1.2"/>
-    <circle cx="50" cy="190" r="1.2"/><circle cx="100" cy="190" r="1.2"/><circle cx="150" cy="190" r="1.2"/>
-    <circle cx="200" cy="190" r="1.2"/><circle cx="250" cy="190" r="1.2"/><circle cx="300" cy="190" r="1.2"/>
-    <circle cx="350" cy="190" r="1.2"/><circle cx="400" cy="190" r="1.2"/><circle cx="450" cy="190" r="1.2"/>
-    <circle cx="500" cy="190" r="1.2"/><circle cx="550" cy="190" r="1.2"/><circle cx="600" cy="190" r="1.2"/>
-    <circle cx="650" cy="190" r="1.2"/><circle cx="700" cy="190" r="1.2"/><circle cx="750" cy="190" r="1.2"/>
-    <circle cx="800" cy="190" r="1.2"/><circle cx="850" cy="190" r="1.2"/><circle cx="900" cy="190" r="1.2"/>
-    <circle cx="950" cy="190" r="1.2"/><circle cx="1000" cy="190" r="1.2"/><circle cx="1050" cy="190" r="1.2"/>
-    <circle cx="1100" cy="190" r="1.2"/><circle cx="1150" cy="190" r="1.2"/>
-    <circle cx="50" cy="240" r="1.2"/><circle cx="100" cy="240" r="1.2"/><circle cx="150" cy="240" r="1.2"/>
-    <circle cx="200" cy="240" r="1.2"/><circle cx="250" cy="240" r="1.2"/><circle cx="300" cy="240" r="1.2"/>
-    <circle cx="350" cy="240" r="1.2"/><circle cx="400" cy="240" r="1.2"/><circle cx="450" cy="240" r="1.2"/>
-    <circle cx="500" cy="240" r="1.2"/><circle cx="550" cy="240" r="1.2"/><circle cx="600" cy="240" r="1.2"/>
-    <circle cx="650" cy="240" r="1.2"/><circle cx="700" cy="240" r="1.2"/><circle cx="750" cy="240" r="1.2"/>
-    <circle cx="800" cy="240" r="1.2"/><circle cx="850" cy="240" r="1.2"/><circle cx="900" cy="240" r="1.2"/>
-    <circle cx="950" cy="240" r="1.2"/><circle cx="1000" cy="240" r="1.2"/><circle cx="1050" cy="240" r="1.2"/>
-    <circle cx="1100" cy="240" r="1.2"/><circle cx="1150" cy="240" r="1.2"/>
-    <circle cx="50" cy="290" r="1.2"/><circle cx="100" cy="290" r="1.2"/><circle cx="150" cy="290" r="1.2"/>
-    <circle cx="200" cy="290" r="1.2"/><circle cx="250" cy="290" r="1.2"/><circle cx="300" cy="290" r="1.2"/>
-    <circle cx="350" cy="290" r="1.2"/><circle cx="400" cy="290" r="1.2"/><circle cx="450" cy="290" r="1.2"/>
-    <circle cx="500" cy="290" r="1.2"/><circle cx="550" cy="290" r="1.2"/><circle cx="600" cy="290" r="1.2"/>
-    <circle cx="650" cy="290" r="1.2"/><circle cx="700" cy="290" r="1.2"/><circle cx="750" cy="290" r="1.2"/>
-    <circle cx="800" cy="290" r="1.2"/><circle cx="850" cy="290" r="1.2"/><circle cx="900" cy="290" r="1.2"/>
-    <circle cx="950" cy="290" r="1.2"/><circle cx="1000" cy="290" r="1.2"/><circle cx="1050" cy="290" r="1.2"/>
-    <circle cx="1100" cy="290" r="1.2"/><circle cx="1150" cy="290" r="1.2"/>
+  <!-- Gold spotlight behind title -->
+  <ellipse cx="700" cy="185" rx="320" ry="160" fill="url(#goldSpot)"/>
+
+  <!-- ═══ BACKGROUND GEOMETRY: hexagonal mesh ═══ -->
+  <g clip-path="url(#clip)" opacity="0.055" stroke="#4a8aff" stroke-width="0.7" fill="none">
+    <!-- Row 1 -->
+    <polygon points="60,10 90,10 105,36 90,62 60,62 45,36"/>
+    <polygon points="120,10 150,10 165,36 150,62 120,62 105,36"/>
+    <polygon points="180,10 210,10 225,36 210,62 180,62 165,36"/>
+    <polygon points="240,10 270,10 285,36 270,62 240,62 225,36"/>
+    <polygon points="300,10 330,10 345,36 330,62 300,62 285,36"/>
+    <polygon points="1070,10 1100,10 1115,36 1100,62 1070,62 1055,36"/>
+    <polygon points="1130,10 1160,10 1175,36 1160,62 1130,62 1115,36"/>
+    <polygon points="1190,10 1220,10 1235,36 1220,62 1190,62 1175,36"/>
+    <polygon points="1250,10 1280,10 1295,36 1280,62 1250,62 1235,36"/>
+    <polygon points="1310,10 1340,10 1355,36 1340,62 1310,62 1295,36"/>
+    <!-- Row 2 (offset) -->
+    <polygon points="30,62 60,62 75,88 60,114 30,114 15,88"/>
+    <polygon points="90,62 120,62 135,88 120,114 90,114 75,88"/>
+    <polygon points="150,62 180,62 195,88 180,114 150,114 135,88"/>
+    <polygon points="210,62 240,62 255,88 240,114 210,114 195,88"/>
+    <polygon points="270,62 300,62 315,88 300,114 270,114 255,88"/>
+    <polygon points="1100,62 1130,62 1145,88 1130,114 1100,114 1085,88"/>
+    <polygon points="1160,62 1190,62 1205,88 1190,114 1160,114 1145,88"/>
+    <polygon points="1220,62 1250,62 1265,88 1250,114 1220,114 1205,88"/>
+    <polygon points="1280,62 1310,62 1325,88 1310,114 1280,114 1265,88"/>
+    <polygon points="1340,62 1370,62 1385,88 1370,114 1340,114 1325,88"/>
+    <!-- Row 3 -->
+    <polygon points="60,114 90,114 105,140 90,166 60,166 45,140"/>
+    <polygon points="120,114 150,114 165,140 150,166 120,166 105,140"/>
+    <polygon points="180,114 210,114 225,140 210,166 180,166 165,140"/>
+    <polygon points="240,114 270,114 285,140 270,166 240,166 225,140"/>
+    <polygon points="1070,114 1100,114 1115,140 1100,166 1070,166 1055,140"/>
+    <polygon points="1130,114 1160,114 1175,140 1160,166 1130,166 1115,140"/>
+    <polygon points="1190,114 1220,114 1235,140 1220,166 1190,166 1175,140"/>
+    <polygon points="1250,114 1280,114 1295,140 1280,166 1250,166 1235,140"/>
+    <polygon points="1310,114 1340,114 1355,140 1340,166 1310,166 1295,140"/>
+    <!-- Bottom rows -->
+    <polygon points="60,270 90,270 105,296 90,322 60,322 45,296"/>
+    <polygon points="120,270 150,270 165,296 150,322 120,322 105,296"/>
+    <polygon points="180,270 210,270 225,296 210,322 180,322 165,296"/>
+    <polygon points="240,270 270,270 285,296 270,322 240,322 225,296"/>
+    <polygon points="1070,270 1100,270 1115,296 1100,322 1070,322 1055,296"/>
+    <polygon points="1130,270 1160,270 1175,296 1160,322 1130,322 1115,296"/>
+    <polygon points="1190,270 1220,270 1235,296 1220,322 1190,322 1175,296"/>
+    <polygon points="1250,270 1280,270 1295,296 1280,322 1250,322 1235,296"/>
+    <polygon points="1310,270 1340,270 1355,296 1340,322 1310,322 1295,296"/>
+    <polygon points="60,322 90,322 105,348 90,374 60,374 45,348"/>
+    <polygon points="120,322 150,322 165,348 150,374 120,374 105,348"/>
+    <polygon points="180,322 210,322 225,348 210,374 180,374 165,348"/>
+    <polygon points="240,322 270,322 285,348 270,374 240,374 225,348"/>
+    <polygon points="1070,322 1100,322 1115,348 1100,374 1070,374 1055,348"/>
+    <polygon points="1130,322 1160,322 1175,348 1160,374 1130,374 1115,348"/>
+    <polygon points="1190,322 1220,322 1235,348 1220,374 1190,374 1175,348"/>
+    <polygon points="1250,322 1280,322 1295,348 1280,374 1250,374 1235,348"/>
   </g>
 
-  <!-- ── LEFT: AFL oval ── -->
-  <g clip-path="url(#mainClip)">
-    <!-- Oval glow background -->
-    <ellipse cx="175" cy="160" rx="145" ry="108" fill="url(#ovalGlow)"/>
-    <!-- Outer oval -->
-    <ellipse cx="175" cy="160" rx="140" ry="104" fill="none" stroke="#1e4a8a" stroke-width="1.5" opacity="0.5"/>
+  <!-- ═══ LEFT: AFL OVAL ═══ -->
+  <g clip-path="url(#clip)">
+    <ellipse cx="200" cy="200" rx="170" ry="130" fill="url(#ovalGlow)"/>
+    <!-- Outer boundary -->
+    <ellipse cx="200" cy="200" rx="168" ry="128" fill="none" stroke="#1e5aaa" stroke-width="1.5" opacity="0.5"/>
     <!-- Inner oval -->
-    <ellipse cx="175" cy="160" rx="105" ry="76" fill="none" stroke="#1e4a8a" stroke-width="1" opacity="0.35"/>
+    <ellipse cx="200" cy="200" rx="125" ry="92"  fill="none" stroke="#1e5aaa" stroke-width="1"   opacity="0.35"/>
     <!-- 50m arcs -->
-    <path d="M 60 130 Q 85 80 175 75 Q 265 80 290 130" fill="none" stroke="#1e4a8a" stroke-width="0.8" opacity="0.3"/>
-    <path d="M 60 190 Q 85 240 175 245 Q 265 240 290 190" fill="none" stroke="#1e4a8a" stroke-width="0.8" opacity="0.3"/>
-    <!-- Centre square -->
-    <rect x="155" y="140" width="40" height="40" fill="none" stroke="#2563b0" stroke-width="1" opacity="0.4"/>
-    <!-- Centre circle -->
-    <circle cx="175" cy="160" r="22" fill="none" stroke="#2e86de" stroke-width="1.5" opacity="0.55" filter="url(#glow)"/>
-    <!-- Centre dot -->
-    <circle cx="175" cy="160" r="3.5" fill="#2e86de" opacity="0.7" filter="url(#glow)"/>
+    <path d="M 58 168 Q 90 90 200 82 Q 310 90 342 168"  fill="none" stroke="#1e5aaa" stroke-width="0.8" opacity="0.3"/>
+    <path d="M 58 232 Q 90 310 200 318 Q 310 310 342 232" fill="none" stroke="#1e5aaa" stroke-width="0.8" opacity="0.3"/>
     <!-- Halfway line -->
-    <line x1="175" y1="56" x2="175" y2="264" stroke="#2563b0" stroke-width="0.8" opacity="0.3"/>
-    <!-- Goal posts left -->
-    <line x1="35" y1="138" x2="35" y2="182" stroke="#3a7bd5" stroke-width="1.5" opacity="0.4"/>
-    <line x1="42" y1="145" x2="42" y2="175" stroke="#3a7bd5" stroke-width="1" opacity="0.3"/>
-    <!-- Goal posts right -->
-    <line x1="315" y1="138" x2="315" y2="182" stroke="#3a7bd5" stroke-width="1.5" opacity="0.4"/>
-    <line x1="308" y1="145" x2="308" y2="175" stroke="#3a7bd5" stroke-width="1" opacity="0.3"/>
-    <!-- Fade overlay so oval bleeds into centre -->
-    <rect x="270" y="0" width="180" height="320" fill="url(#ovalFade)"/>
+    <line x1="200" y1="72" x2="200" y2="328" stroke="#2563b0" stroke-width="0.8" opacity="0.35"/>
+    <!-- Centre square -->
+    <rect x="178" y="178" width="44" height="44" fill="none" stroke="#3a7bd5" stroke-width="1" opacity="0.45"/>
+    <!-- Centre circle with glow -->
+    <circle cx="200" cy="200" r="28"  fill="none" stroke="#2979ff" stroke-width="1.5" opacity="0.6" filter="url(#glow2)"/>
+    <circle cx="200" cy="200" r="4.5" fill="#2979ff" opacity="0.9" filter="url(#glow5)"/>
+    <!-- Goal posts — left -->
+    <line x1="35"  y1="172" x2="35"  y2="228" stroke="#3a7bd5" stroke-width="2"   opacity="0.45"/>
+    <line x1="44"  y1="180" x2="44"  y2="220" stroke="#3a7bd5" stroke-width="1.2" opacity="0.35"/>
+    <line x1="32"  y1="172" x2="47"  y2="172" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
+    <line x1="32"  y1="228" x2="47"  y2="228" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
+    <!-- Goal posts — right -->
+    <line x1="365" y1="172" x2="365" y2="228" stroke="#3a7bd5" stroke-width="2"   opacity="0.45"/>
+    <line x1="356" y1="180" x2="356" y2="220" stroke="#3a7bd5" stroke-width="1.2" opacity="0.35"/>
+    <line x1="353" y1="172" x2="368" y2="172" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
+    <line x1="353" y1="228" x2="368" y2="228" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
+    <!-- Fade edge -->
+    <rect x="300" y="0" width="200" height="400" fill="url(#fadeL)"/>
   </g>
 
-  <!-- ── RIGHT: chart ── -->
-  <g clip-path="url(#mainClip)">
-    <!-- Fade from right edge -->
-    <rect x="820" y="0" width="380" height="320" fill="url(#rightFade)"/>
-    <!-- Axis -->
-    <line x1="848" y1="258" x2="1170" y2="258" stroke="#ffffff12" stroke-width="1"/>
-    <line x1="848" y1="258" x2="848" y2="80" stroke="#ffffff12" stroke-width="1"/>
+  <!-- ═══ RIGHT: CHART ═══ -->
+  <g clip-path="url(#clip)">
+    <rect x="880" y="0" width="520" height="400" fill="url(#chartGlow)" opacity="0.6"/>
+    <!-- Fade right edge -->
+    <rect x="1100" y="0" width="300" height="400" fill="url(#fadeR)"/>
+
+    <!-- Chart axes -->
+    <line x1="910" y1="310" x2="1360" y2="310" stroke="#ffffff10" stroke-width="1"/>
+    <line x1="910" y1="310" x2="910"  y2="80"  stroke="#ffffff10" stroke-width="1"/>
     <!-- Horizontal rules -->
-    <line x1="848" y1="218" x2="1165" y2="218" stroke="#ffffff07" stroke-width="1" stroke-dasharray="3,5"/>
-    <line x1="848" y1="178" x2="1165" y2="178" stroke="#ffffff07" stroke-width="1" stroke-dasharray="3,5"/>
-    <line x1="848" y1="138" x2="1165" y2="138" stroke="#ffffff07" stroke-width="1" stroke-dasharray="3,5"/>
-    <line x1="848" y1="98"  x2="1165" y2="98"  stroke="#ffffff07" stroke-width="1" stroke-dasharray="3,5"/>
+    <line x1="910" y1="270" x2="1355" y2="270" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
+    <line x1="910" y1="230" x2="1355" y2="230" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
+    <line x1="910" y1="190" x2="1355" y2="190" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
+    <line x1="910" y1="150" x2="1355" y2="150" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
+    <line x1="910" y1="110" x2="1355" y2="110" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
 
-    <!-- Bars (8 rounds) -->
-    <rect x="858"  y="168" width="22" height="90"  fill="url(#blueBar)"   rx="2" opacity="0.85"/>
-    <rect x="893"  y="148" width="22" height="110" fill="url(#purpleBar)" rx="2" opacity="0.85"/>
-    <rect x="928"  y="128" width="22" height="130" fill="url(#tealBar)"   rx="2" opacity="0.85"/>
-    <rect x="963"  y="155" width="22" height="103" fill="url(#blueBar)"   rx="2" opacity="0.85"/>
-    <rect x="998"  y="115" width="22" height="143" fill="url(#purpleBar)" rx="2" opacity="0.85"/>
-    <rect x="1033" y="135" width="22" height="123" fill="url(#tealBar)"   rx="2" opacity="0.85"/>
-    <rect x="1068" y="105" width="22" height="153" fill="url(#blueBar)"   rx="2" opacity="0.85"/>
-    <rect x="1103" y="88"  width="22" height="170" fill="url(#tealBar)"   rx="2" opacity="0.95" filter="url(#glow)"/>
+    <!-- Y-axis ticks -->
+    <g font-family="monospace" font-size="9" fill="#ffffff18" text-anchor="end">
+      <text x="904" y="313">0</text>
+      <text x="904" y="273">10</text>
+      <text x="904" y="233">20</text>
+      <text x="904" y="193">30</text>
+      <text x="904" y="153">40</text>
+      <text x="904" y="113">50</text>
+    </g>
 
-    <!-- Bar top highlights -->
-    <rect x="858"  y="168" width="22" height="3" fill="#4a9af5" rx="2" opacity="0.6"/>
-    <rect x="893"  y="148" width="22" height="3" fill="#8b7cf8" rx="2" opacity="0.6"/>
-    <rect x="928"  y="128" width="22" height="3" fill="#00d4aa" rx="2" opacity="0.6"/>
-    <rect x="963"  y="155" width="22" height="3" fill="#4a9af5" rx="2" opacity="0.6"/>
-    <rect x="998"  y="115" width="22" height="3" fill="#8b7cf8" rx="2" opacity="0.6"/>
-    <rect x="1033" y="135" width="22" height="3" fill="#00d4aa" rx="2" opacity="0.6"/>
-    <rect x="1068" y="105" width="22" height="3" fill="#4a9af5" rx="2" opacity="0.6"/>
-    <rect x="1103" y="88"  width="22" height="3" fill="#00d4aa" rx="2" opacity="0.9" filter="url(#glow)"/>
+    <!-- Bars (9 rounds) — glowing columns -->
+    <rect x="923"  y="188" width="28" height="122" fill="url(#b1)" rx="3" opacity="0.9"/>
+    <rect x="966"  y="165" width="28" height="145" fill="url(#b2)" rx="3" opacity="0.9"/>
+    <rect x="1009" y="148" width="28" height="162" fill="url(#b3)" rx="3" opacity="0.9"/>
+    <rect x="1052" y="172" width="28" height="138" fill="url(#b4)" rx="3" opacity="0.9"/>
+    <rect x="1095" y="138" width="28" height="172" fill="url(#b1)" rx="3" opacity="0.9"/>
+    <rect x="1138" y="155" width="28" height="155" fill="url(#b2)" rx="3" opacity="0.9"/>
+    <rect x="1181" y="125" width="28" height="185" fill="url(#b3)" rx="3" opacity="0.9"/>
+    <rect x="1224" y="108" width="28" height="202" fill="url(#b4)" rx="3" opacity="0.9"/>
+    <rect x="1267" y="90"  width="28" height="220" fill="url(#b1)" rx="3" opacity="1" filter="url(#barGlow)"/>
 
-    <!-- Smooth trend curve -->
-    <path d="M 869 163 C 890 143 910 128 939 123 C 958 120 975 148 1009 110 C 1028 92 1055 128 1079 100 C 1095 82 1110 83 1114 83"
-      fill="none" stroke="url(#goldAccent)" stroke-width="2" opacity="0.9" filter="url(#glow)"/>
-    <!-- Trend dots -->
-    <circle cx="869"  cy="163" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="904"  cy="143" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="939"  cy="123" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="974"  cy="150" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="1009" cy="110" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="1044" cy="130" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="1079" cy="100" r="3" fill="#f5c842" opacity="0.9" filter="url(#glow)"/>
-    <circle cx="1114" cy="83"  r="4" fill="#f5c842" opacity="1"   filter="url(#strongGlow)"/>
+    <!-- Bar cap highlights -->
+    <rect x="923"  y="188" width="28" height="4" fill="#4fc3f7" rx="2" opacity="0.7"/>
+    <rect x="966"  y="165" width="28" height="4" fill="#b39ddb" rx="2" opacity="0.7"/>
+    <rect x="1009" y="148" width="28" height="4" fill="#80deea" rx="2" opacity="0.7"/>
+    <rect x="1052" y="172" width="28" height="4" fill="#a5d6a7" rx="2" opacity="0.7"/>
+    <rect x="1095" y="138" width="28" height="4" fill="#4fc3f7" rx="2" opacity="0.7"/>
+    <rect x="1138" y="155" width="28" height="4" fill="#b39ddb" rx="2" opacity="0.7"/>
+    <rect x="1181" y="125" width="28" height="4" fill="#80deea" rx="2" opacity="0.7"/>
+    <rect x="1224" y="108" width="28" height="4" fill="#a5d6a7" rx="2" opacity="0.7"/>
+    <rect x="1267" y="90"  width="28" height="4" fill="#4fc3f7" rx="2" opacity="1" filter="url(#glow2)"/>
+
+    <!-- Prediction trend (smooth bezier) -->
+    <path d="M 937 182 C 955 165 968 158 995 142 C 1018 130 1042 165 1066 132 C 1090 102 1120 148 1152 148 C 1178 115 1210 119 1238 102 C 1258 88 1275 86 1281 85"
+      fill="none" stroke="url(#gold)" stroke-width="2.5" opacity="0.95" filter="url(#glow2)"/>
+
+    <!-- Trend points -->
+    <circle cx="937"  cy="182" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="980"  cy="160" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1023" cy="142" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1066" cy="167" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1109" cy="132" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1152" cy="150" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1195" cy="120" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1238" cy="103" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
+    <circle cx="1281" cy="85"  r="5.5" fill="#f5c842" opacity="1"   filter="url(#glow5)"/>
 
     <!-- Round labels -->
-    <g font-family="monospace" font-size="9" fill="#ffffff30" text-anchor="middle">
-      <text x="869"  y="272">R1</text>
-      <text x="904"  y="272">R2</text>
-      <text x="939"  y="272">R3</text>
-      <text x="974"  y="272">R4</text>
-      <text x="1009" y="272">R5</text>
-      <text x="1044" y="272">R6</text>
-      <text x="1079" y="272">R7</text>
-      <text x="1114" y="272">R8</text>
+    <g font-family="monospace" font-size="9.5" fill="#ffffff25" text-anchor="middle">
+      <text x="937"  y="326">R1</text>
+      <text x="980"  y="326">R2</text>
+      <text x="1023" y="326">R3</text>
+      <text x="1066" y="326">R4</text>
+      <text x="1109" y="326">R5</text>
+      <text x="1152" y="326">R6</text>
+      <text x="1195" y="326">R7</text>
+      <text x="1238" y="326">R8</text>
+      <text x="1281" y="326">R9</text>
     </g>
-    <text x="1008" y="290" font-family="monospace" font-size="9.5" fill="#ffffff22" text-anchor="middle" letter-spacing="2">DISPOSALS PREDICTED</text>
+
+    <!-- Chart legend -->
+    <rect x="910" y="340" width="10" height="3" fill="url(#gold)" rx="1.5"/>
+    <text x="926" y="343" font-family="monospace" font-size="9" fill="#ffffff30">predicted disposals trend</text>
   </g>
 
-  <!-- ── CENTRE: text ── -->
+  <!-- ═══ TOP / BOTTOM VIGNETTES ═══ -->
+  <rect x="0" y="0"   width="1400" height="80"  fill="url(#fadeTop)"/>
+  <rect x="0" y="320" width="1400" height="80"  fill="url(#fadeBot)"/>
+  <rect x="0" y="0"   width="400"  height="400" fill="url(#fadeL)" opacity="0.4"/>
 
-  <!-- Eyebrow label -->
-  <text x="600" y="82" font-family="'Courier New', monospace" font-size="10.5" fill="#f5c842"
-    text-anchor="middle" letter-spacing="4" opacity="0.85">AFL · DATA SCIENCE · AI AGENTS</text>
+  <!-- ═══ CENTRE TEXT ═══ -->
 
-  <!-- Main title -->
-  <text x="600" y="148" font-family="Arial Black, 'Arial Bold', sans-serif" font-size="48" font-weight="900"
-    fill="white" text-anchor="middle" letter-spacing="0" filter="url(#subtleGlow)" opacity="0.97">AFL SuperCoach VIA</text>
+  <!-- Eyebrow -->
+  <text x="700" y="106" font-family="'Courier New', monospace" font-size="11"
+    fill="#f5c842" text-anchor="middle" letter-spacing="6" opacity="0.8" filter="url(#glow2)">
+    AFL  ·  DATA SCIENCE  ·  AI AGENTS  ·  1897–2026
+  </text>
 
-  <!-- Gold underline -->
-  <rect x="350" y="158" width="500" height="2.5" fill="url(#goldAccent)" rx="1.5" opacity="0.9"/>
+  <!-- Main title — bloom layer -->
+  <text x="700" y="190" font-family="Arial Black, 'Impact', sans-serif" font-size="66" font-weight="900"
+    fill="white" text-anchor="middle" opacity="0.18" filter="url(#titleBloom)">AFL SuperCoach VIA</text>
+  <!-- Main title — sharp layer -->
+  <text x="700" y="190" font-family="Arial Black, 'Impact', sans-serif" font-size="66" font-weight="900"
+    fill="url(#titleGrad)" text-anchor="middle" letter-spacing="1">AFL SuperCoach VIA</text>
+
+  <!-- Gold rule under title -->
+  <rect x="280" y="202" width="840" height="2" fill="url(#gold)" rx="1" opacity="0.7"/>
+  <!-- Bright centre cap on rule -->
+  <rect x="610" y="201" width="180" height="4" fill="url(#gold)" rx="2" filter="url(#glow2)"/>
 
   <!-- Subtitle -->
-  <text x="600" y="190" font-family="Arial, sans-serif" font-size="13.5" fill="#7eadd4"
-    text-anchor="middle" letter-spacing="3.5" font-weight="300">PREDICTIONS  ·  RANKINGS  ·  COACHING ANALYTICS</text>
+  <text x="700" y="234" font-family="Arial, Helvetica, sans-serif" font-size="14"
+    fill="#6a9ac4" text-anchor="middle" letter-spacing="5" font-weight="300">
+    PREDICTIONS  ·  ALL-TIME RANKINGS  ·  COACHING ANALYTICS
+  </text>
 
-  <!-- Stats row -->
+  <!-- ─── Stats row ─── -->
+  <!-- Outer border line -->
+  <rect x="290" y="260" width="820" height="72" fill="none" stroke="#ffffff08" stroke-width="1" rx="6"/>
+  <!-- Inner fill -->
+  <rect x="291" y="261" width="818" height="70" fill="#ffffff03" rx="5"/>
+
+  <!-- Dividers -->
+  <line x1="495" y1="268" x2="495" y2="324" stroke="#ffffff12" stroke-width="1"/>
+  <line x1="700" y1="268" x2="700" y2="324" stroke="#ffffff12" stroke-width="1"/>
+  <line x1="905" y1="268" x2="905" y2="324" stroke="#ffffff12" stroke-width="1"/>
+
   <g font-family="Arial, sans-serif" text-anchor="middle">
-    <!-- Dividers -->
-    <line x1="460" y1="210" x2="460" y2="252" stroke="#ffffff12" stroke-width="1"/>
-    <line x1="600" y1="210" x2="600" y2="252" stroke="#ffffff12" stroke-width="1"/>
-    <line x1="740" y1="210" x2="740" y2="252" stroke="#ffffff12" stroke-width="1"/>
+    <!-- Stat 1: Players -->
+    <text x="393" y="302" font-size="34" font-weight="800" fill="#2979ff" filter="url(#glow5)" letter-spacing="-1">5,700<tspan font-size="20" dy="-6" dx="1">+</tspan></text>
+    <text x="393" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">PLAYERS PROFILED</text>
 
-    <!-- Stat 1 -->
-    <text x="400" y="238" font-size="30" font-weight="700" fill="#1e90ff" filter="url(#glow)" letter-spacing="-1">5,700<tspan font-size="18" dy="-4">+</tspan></text>
-    <text x="400" y="254" font-size="9.5" fill="#4a7090" letter-spacing="2.5">PLAYERS</text>
+    <!-- Stat 2: Years -->
+    <text x="598" y="302" font-size="34" font-weight="800" fill="#f5c842" filter="url(#glow5)" letter-spacing="-1">125</text>
+    <text x="598" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">YEARS OF DATA</text>
 
-    <!-- Stat 2 -->
-    <text x="530" y="238" font-size="30" font-weight="700" fill="#f5c842" filter="url(#glow)" letter-spacing="-1">125</text>
-    <text x="530" y="254" font-size="9.5" fill="#4a7090" letter-spacing="2.5">YRS OF DATA</text>
+    <!-- Stat 3: Accuracy -->
+    <text x="803" y="302" font-size="34" font-weight="800" fill="#00e5ff" filter="url(#glow5)" letter-spacing="-1">94<tspan font-size="20" dy="-6" dx="1">%</tspan></text>
+    <text x="803" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">WITHIN 10 DISPOSALS</text>
 
-    <!-- Stat 3 -->
-    <text x="670" y="238" font-size="30" font-weight="700" fill="#00d4aa" filter="url(#glow)" letter-spacing="-1">94<tspan font-size="18" dy="-4">%</tspan></text>
-    <text x="670" y="254" font-size="9.5" fill="#4a7090" letter-spacing="2.5">WITHIN 10</text>
-
-    <!-- Stat 4 -->
-    <text x="800" y="238" font-size="30" font-weight="700" fill="#a78bfa" filter="url(#glow)" letter-spacing="-1">4.1</text>
-    <text x="800" y="254" font-size="9.5" fill="#4a7090" letter-spacing="2.5">AVG ERROR</text>
+    <!-- Stat 4: MAE -->
+    <text x="1008" y="302" font-size="34" font-weight="800" fill="#00e676" filter="url(#glow5)" letter-spacing="-1">4.1</text>
+    <text x="1008" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">AVG DISPOSAL ERROR</text>
   </g>
 
-  <!-- Bottom built-with line -->
-  <text x="600" y="294" font-family="'Courier New', monospace" font-size="10" fill="#ffffff18"
-    text-anchor="middle" letter-spacing="2">Built with Claude Code · Scientist Agent (Opus) · LightGBM GPU · 1897–2026</text>
+  <!-- ─── Footer ─── -->
+  <text x="700" y="366" font-family="'Courier New', monospace" font-size="10"
+    fill="#ffffff15" text-anchor="middle" letter-spacing="2.5">
+    Built with Claude Code  ·  Scientist Agent (Opus)  ·  LightGBM GPU  ·  Python 3.12
+  </text>
 
-  <!-- Corner accents -->
-  <rect x="0" y="0" width="3" height="60" fill="url(#goldAccent)" opacity="0.6"/>
-  <rect x="0" y="0" width="60" height="3" fill="url(#goldAccent)" opacity="0.6"/>
-  <rect x="1197" y="0" width="3" height="60" fill="url(#goldAccent)" opacity="0.6"/>
-  <rect x="1140" y="0" width="60" height="3" fill="url(#goldAccent)" opacity="0.6"/>
-  <rect x="0" y="317" width="60" height="3" fill="url(#goldAccent)" opacity="0.3"/>
-  <rect x="1140" y="317" width="60" height="3" fill="url(#goldAccent)" opacity="0.3"/>
+  <!-- ═══ CORNER ACCENT BRACKETS ═══ -->
+  <!-- Top-left -->
+  <path d="M 0 50 L 0 8 L 8 0 L 60 0" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.7"/>
+  <!-- Top-right -->
+  <path d="M 1340 0 L 1392 0 L 1400 8 L 1400 50" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.7"/>
+  <!-- Bottom-left -->
+  <path d="M 0 350 L 0 392 L 8 400 L 60 400" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.4"/>
+  <!-- Bottom-right -->
+  <path d="M 1340 400 L 1392 400 L 1400 392 L 1400 350" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.4"/>
+
+  <!-- Corner accent dots -->
+  <circle cx="8"    cy="8"   r="3" fill="#f5c842" opacity="0.7" filter="url(#glow2)"/>
+  <circle cx="1392" cy="8"   r="3" fill="#f5c842" opacity="0.7" filter="url(#glow2)"/>
+  <circle cx="8"    cy="392" r="3" fill="#f5c842" opacity="0.4"/>
+  <circle cx="1392" cy="392" r="3" fill="#f5c842" opacity="0.4"/>
+
+  <!-- Top edge accent line -->
+  <rect x="0" y="0" width="1400" height="2" fill="url(#gold)" opacity="0.35"/>
+  <!-- Bottom edge line -->
+  <rect x="0" y="398" width="1400" height="2" fill="url(#gold)" opacity="0.2"/>
 </svg>
