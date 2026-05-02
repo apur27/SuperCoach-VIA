@@ -932,7 +932,7 @@ To set Sonnet as your default, run this once:
 mkdir -p ~/.claude
 cat > ~/.claude/settings.json << 'EOF'
 {
-  "model": "claude-sonnet-4-6"
+  "model": "sonnet"
 }
 EOF
 ```
