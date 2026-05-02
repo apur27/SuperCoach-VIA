@@ -444,7 +444,7 @@ You're an assistant coach, performance analyst, or fitness staff member at Richm
 
 You already know what your eyes tell you from the last three weeks of vision. You've got the GPS reports, the contested-ball numbers from the last game, the medical list. What you don't always have on tap is **130 years of structured match and player data**, sliced however you want, with a footy-literate analyst who'll work through the night without asking for a coffee.
 
-That's what this repo plus a Claude Code session gives you. Every Richmond–West Coast result ever played, every disposal Tim Kelly has ever logged, every game Harley Reid has been kept under 18 touches in, every clearance Elliot Yeo has won when his side has played away from Perth — all queryable in plain English. The Scientist agent on top of that does the heavier lifting: opponent-split regressions, form-curve analysis, matchup history, sensitivity tests on which factors actually move the needle.
+That's what this repo plus a Claude Code session gives you. Every Richmond–West Coast result ever played, every disposal Elliot Yeo has ever logged, every game Harley Reid has been kept under 18 touches in, every clearance Yeo has won when his side has played away from Perth — all queryable in plain English. The Scientist agent on top of that does the heavier lifting: opponent-split regressions, form-curve analysis, matchup history, sensitivity tests on which factors actually move the needle.
 
 This section is for the staff member who knows the game inside out but wants the numbers to back the call before walking into the Tuesday review meeting.
 
@@ -516,7 +516,7 @@ Rank West Coast's current top 8 ball-winners by 2026 average disposals. For each
 ```
 
 ```
-Tim Kelly — give me a complete profile. Average disposals, contested possessions, clearances and goals this season. His best and worst opponents historically. Any pattern in how often he plays inside vs as a wingman based on his disposal-to-tackle ratio.
+Elliot Yeo — give me a complete profile. Average disposals, contested possessions, clearances and goals this season. His best and worst opponents historically. Any pattern in how often he plays inside vs as a wingman based on his disposal-to-tackle ratio.
 ```
 
 ```
@@ -572,11 +572,11 @@ For Richmond's current top 22, give me each player's last 5 rounds — disposals
 ```
 
 ```
-Dustin Martin's record against West Coast — every game he's played them, his disposals, goals, and votes. Is he historically a strong performer against this opposition or below par?
+Tim Taranto's record against West Coast — every game he's played them, his disposals, goals, and votes. Is he historically a strong performer against this opposition or below par?
 ```
 
 ```
-Shai Bolton — show me his games this year split by where he's played (forward vs midfield, proxy with his CBA proxy of disposal-to-goal ratio). Where has he been most damaging?
+Noah Cumberland — show me his games this year split by where he's played (forward vs midfield, proxy with his CBA proxy of disposal-to-goal ratio). Where has he been most damaging?
 ```
 
 ```
@@ -598,7 +598,7 @@ This is where you get value out of the heavier model. The plain-Claude steps abo
 > **Cost reminder:** the Scientist runs on Claude Opus and burns tokens hard. Read the [STOP. READ THIS FIRST.](#stop-read-this-first-do-not-waste-the-scientist) section above. Don't @ Scientist for "what's Harley Reid's average" — use it for the questions where the answer changes a coaching call.
 
 ```
-@"Scientist (agent)" we're considering tagging Tim Kelly with Marlion Pickett. Look at every game in the last 3 seasons where Kelly was matched against a similar-profile inside midfielder (use age, contested possessions per game, and tackles per game to define similar). Tell me — does tagging actually suppress his output, or does West Coast just shift his role and someone else gains the ball? Give me the answer with proper uncertainty, not a point estimate.
+@"Scientist (agent)" we're considering tagging Elliot Yeo with Marlion Pickett. Look at every game in the last 3 seasons where Yeo was matched against a similar-profile inside midfielder (use age, contested possessions per game, and tackles per game to define similar). Tell me — does tagging actually suppress his output, or does West Coast just shift his role and someone else gains the ball? Give me the answer with proper uncertainty, not a point estimate.
 ```
 
 ```
@@ -648,7 +648,7 @@ Twenty prompts you can paste straight into Claude. Some are plain-Claude jobs; t
 **On stopping their ball-winners**
 
 - "How does Harley Reid's disposal count change when he plays against physical, high-tackle midfield opponents versus more outside types? Use opponent average tackles per game as the split."
-- "Tim Kelly's clearance count by venue — is he genuinely better at Optus Stadium than on the road, or is that just opponent-quality noise?" **(Scientist)**
+- "Elliot Yeo's clearance count by venue — is he genuinely better at Optus Stadium than on the road, or is that just opponent-quality noise?" **(Scientist)**
 - "What's the optimal tagging target for us — of West Coast's top 5 ball-winners, who has the biggest impact on West Coast's winning margin when they have a big game?" **(Scientist)**
 
 **On their structural patterns**
@@ -667,8 +667,8 @@ Twenty prompts you can paste straight into Claude. Some are plain-Claude jobs; t
 **On our players**
 
 - "Which Richmond players have historically performed best against West Coast — by votes per game, by goals, by disposals?"
-- "Dustin Martin's last 8 games against West Coast — disposals, goals, Brownlow votes. Is he a known West Coast killer or has his record been overstated?"
-- "Shai Bolton at the MCG vs at the smaller grounds — is there a meaningful split in his goals or disposal count?"
+- "Tim Taranto's last 8 games against West Coast — disposals, goals, Brownlow votes. Is he a known West Coast performer or has his record been overstated?"
+- "Rhyan Mansell at the MCG vs at the smaller grounds — is there a meaningful split in his goals or disposal count?"
 - "Predict Richmond's top 5 disposal-getters for this round using prediction.py and tell me how confident the model is in each prediction."
 
 **On matchups**
@@ -679,7 +679,7 @@ Twenty prompts you can paste straight into Claude. Some are plain-Claude jobs; t
 **On meta-questions**
 
 - "If we win the clearance count by 5+, what does history say about Richmond's win rate against West Coast? Watch out for confounding with general form."
-- "What's the smallest margin West Coast has lost by when they had Tim Kelly with 30+ disposals? Are they losable when he plays well?"
+- "What's the smallest margin West Coast has lost by when they had Elliot Yeo with 30+ disposals? Are they losable when he plays well?"
 - "Backtest the prediction model on the last 3 Richmond–West Coast games — how accurate was it for the West Coast squad? That tells us how much to trust this round's projections."
 - "Run a sensitivity check on this whole brief — which of our findings would change if we excluded the COVID-era 2020–2021 seasons from the historical comparisons?" **(Scientist)**
 
@@ -695,7 +695,7 @@ When you walk into the meeting with this brief, lead with what the dataset can a
 | How does West Coast travel? | **Yes** — venue splits go back decades |
 | Which Richmond player matches up best on Harley Reid? | **Partially** — the data tells you about output suppression; it can't tell you whether your player physically holds up over four quarters |
 | Where on the ground does Reid win his ball? | **No** — no spatial data |
-| Is Tim Kelly running at 95% of his peak high-speed metres? | **No** — no GPS data, ask the fitness staff |
+| Is Elliot Yeo running at 95% of his peak high-speed metres? | **No** — no GPS data, ask the fitness staff |
 | What's our pressure rating in the forward 50 last week? | **No** — no video-tag data |
 | What's the predicted margin? | **Indirectly** — we have disposal predictions, not score predictions; build it bottom-up if needed and own the uncertainty |
 | Will this play in wet weather? | **Sometimes** — historical match-day weather is patchy and inconsistent before 2010 |
@@ -713,7 +713,7 @@ Same rule as the rest of the repo: plain Claude handles 80% of this work cheaper
 | Pull Harley Reid's last 5 games | Test whether tagging Harley Reid actually suppresses his output or just shifts West Coast's structure |
 | Show me Richmond's record at Optus Stadium | Run a sensitivity check on whether the home-ground effect is real or driven by opponent quality |
 | List West Coast's top 5 ball-winners this season | Build a matchup model and tell me which 1–2 individual matchups the game probably hinges on |
-| Average disposals per quarter for Tim Kelly | Test whether Kelly's per-quarter pattern is statistically meaningful or within normal player variance |
+| Average disposals per quarter for Elliot Yeo | Test whether Yeo's per-quarter pattern is statistically meaningful or within normal player variance |
 | What was the score in the last Richmond–West Coast game | Across all Richmond–West Coast games, what's the strongest predictor of a Richmond win that survives controlling for general team form? |
 
 If the answer to "would I make a coaching call on the back of this number?" is yes, use the Scientist. If you're just orienting yourself or pulling raw stats, plain Claude is the right tool.
