@@ -63,8 +63,9 @@ from __future__ import annotations
 
 import glob
 import os
+import re
 import sys
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -646,40 +647,746 @@ def chart_team_style_scatter(current_year: int = None) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Chart A — All-time top 10 horizontal bar
+# ---------------------------------------------------------------------------
+TOP_LEVEL_TOP100 = os.path.join(REPO_ROOT, "all_time_top_100.csv")
+TOP100_INTERNAL = os.path.join(DATA_DIR, "top100", "all_time_top_100.csv")
+
+POSITION_COLORS = {
+    "key_forward": GOLD,
+    "forward_mid": TEAL,
+    "midfielder": SKY,
+    "backline": "#9b5de5",
+}
+
+
+def _career_position_for_player(player_stem: str) -> str:
+    """Look up career goals/game for a player file stem to assign a position
+    bucket. Mirrors `_career_position_group` in top_players_comprehensive.py.
+
+    Returns one of {'key_forward', 'forward_mid', 'midfielder', 'backline'}.
+    Falls back to 'midfielder' if the file is unreadable.
+    """
+    path = os.path.join(PLAYER_DATA_DIR, f"{player_stem}_performance_details.csv")
+    if not os.path.exists(path):
+        return "midfielder"
+    try:
+        df = pd.read_csv(path, low_memory=False, usecols=lambda c: c in {"goals"})
+        if df.empty or "goals" not in df.columns:
+            return "midfielder"
+        goals = pd.to_numeric(df["goals"], errors="coerce").fillna(0.0)
+        n_games = len(goals)
+        if n_games == 0:
+            return "midfielder"
+        gpg = float(goals.sum()) / float(n_games)
+    except Exception:
+        return "midfielder"
+    if gpg >= 3.0:
+        return "key_forward"
+    if gpg >= 0.80:
+        return "forward_mid"
+    if gpg >= 0.30:
+        return "midfielder"
+    return "backline"
+
+
+def _player_name_to_stem(name: str) -> Optional[str]:
+    """Resolve `Wayne Carey` -> `carey_wayne_<dob>` by globbing the player_data
+    directory. If multiple matches, prefer the one with the most rows.
+    """
+    parts = name.strip().split()
+    if len(parts) < 2:
+        return None
+    last = parts[-1].lower()
+    first = " ".join(parts[:-1]).lower().replace(" ", "_")
+    # Pattern: <last>_<first>_<digits>_performance_details.csv
+    pattern = os.path.join(PLAYER_DATA_DIR, f"{last}_{first}_*_performance_details.csv")
+    matches = sorted(glob.glob(pattern))
+    if not matches:
+        # Try first/last swap (some files may invert).
+        pattern2 = os.path.join(PLAYER_DATA_DIR, f"{first}_{last}_*_performance_details.csv")
+        matches = sorted(glob.glob(pattern2))
+    if not matches:
+        return None
+    if len(matches) == 1:
+        return os.path.basename(matches[0]).replace("_performance_details.csv", "")
+    # Multiple: pick longest file (most rows, likely the canonical career).
+    best = max(matches, key=lambda p: os.path.getsize(p))
+    return os.path.basename(best).replace("_performance_details.csv", "")
+
+
+def _load_internal_top100() -> pd.DataFrame:
+    """Internal CSV has player_stem + score; preferred for the bar chart since
+    the score is already canonical."""
+    if os.path.exists(TOP100_INTERNAL):
+        df = pd.read_csv(TOP100_INTERNAL)
+        df = df.rename(columns={"player": "stem"})
+        df["rank"] = np.arange(1, len(df) + 1)
+        return df
+    sys.exit(f"missing {TOP100_INTERNAL} — run top_players_comprehensive.py first")
+
+
+def _load_top_level_top100() -> pd.DataFrame:
+    """Top-level formatted CSV has display name + serial. Used to map stem ->
+    pretty name when both files are available; falls back to stem-prettify."""
+    if not os.path.exists(TOP_LEVEL_TOP100):
+        return pd.DataFrame()
+    try:
+        df = pd.read_csv(TOP_LEVEL_TOP100)
+        # Columns are typically "Serial Number","Player Name","Footy Teams","Comment"
+        if "Serial Number" in df.columns and "Player Name" in df.columns:
+            df = df.rename(columns={"Serial Number": "rank", "Player Name": "name"})
+            df["rank"] = pd.to_numeric(df["rank"], errors="coerce").astype("Int64")
+            return df[["rank", "name"]]
+    except Exception:
+        pass
+    return pd.DataFrame()
+
+
+def _stem_to_pretty(stem: str) -> str:
+    parts = stem.split("_")
+    if parts and parts[-1].isdigit():
+        parts = parts[:-1]
+    if len(parts) >= 2:
+        last, first = parts[0], parts[1]
+        return f"{first.title()} {last.title()}"
+    return stem.replace("_", " ").title()
+
+
+def chart_top10_alltime() -> str:
+    """Horizontal bar chart of the all-time top 10. Bars coloured by career
+    position group, annotated with the score, ordered with #1 at the bottom
+    so the longest bar is most prominent."""
+    _apply_dark_style()
+    internal = _load_internal_top100()
+    top10 = internal.head(10).copy()
+
+    # Pretty names from the top-level CSV when available; fallback to stem.
+    pretty = _load_top_level_top100()
+    name_by_rank: Dict[int, str] = {}
+    if not pretty.empty:
+        for _, r in pretty.iterrows():
+            try:
+                name_by_rank[int(r["rank"])] = str(r["name"])
+            except (TypeError, ValueError):
+                continue
+
+    top10["name"] = [
+        name_by_rank.get(int(r), _stem_to_pretty(s))
+        for r, s in zip(top10["rank"], top10["stem"])
+    ]
+    top10["pos"] = [_career_position_for_player(s) for s in top10["stem"]]
+    top10["color"] = [POSITION_COLORS.get(p, SKY) for p in top10["pos"]]
+
+    # Reverse order: rank 10 at top, rank 1 at bottom.
+    plot_df = top10.sort_values("rank", ascending=False).reset_index(drop=True)
+
+    out = os.path.join(ASSETS_DIR, "top10_alltime.png")
+    fig, ax = plt.subplots(figsize=(11, 6.5))
+    y_pos = np.arange(len(plot_df))
+    bars = ax.barh(y_pos, plot_df["all_time_score"].values,
+                   color=plot_df["color"].tolist(),
+                   edgecolor=BG, linewidth=1.0, alpha=0.95)
+
+    for i, (bar, val, name, rk) in enumerate(zip(
+            bars, plot_df["all_time_score"].values, plot_df["name"].values,
+            plot_df["rank"].values)):
+        ax.text(val + 0.01, bar.get_y() + bar.get_height() / 2,
+                f" {val:.2f}", va="center", ha="left",
+                color="white", fontsize=10, fontweight="bold")
+
+    labels = [f"#{int(r)}  {n}" for r, n in zip(plot_df["rank"], plot_df["name"])]
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(labels, color="white", fontsize=11)
+    ax.set_xlabel("All-time score (composite of best-8 seasons + bonuses)",
+                  color="white", fontsize=11)
+    ax.set_title("All-Time Top 10 AFL/VFL Players",
+                 color="white", fontsize=15, pad=14, fontweight="bold")
+    ax.grid(True, axis="x", ls=":", lw=0.8, alpha=0.30)
+    ax.set_axisbelow(True)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("bottom", "left"):
+        ax.spines[spine].set_color(GRID)
+    ax.tick_params(colors="white")
+
+    # Legend explaining the position colours actually present in the top 10.
+    present = [p for p in ("key_forward", "forward_mid", "midfielder", "backline")
+               if p in set(plot_df["pos"])]
+    legend_handles = [
+        plt.Rectangle((0, 0), 1, 1, color=POSITION_COLORS[p],
+                      label={"key_forward": "Key forward (≥3 g/g)",
+                             "forward_mid": "Forward-mid (0.8–2.99 g/g)",
+                             "midfielder": "Midfielder (0.3–0.79 g/g)",
+                             "backline": "Defender / ruck (<0.3 g/g)"}[p])
+        for p in present
+    ]
+    # Place legend outside the plotting area to the right so it never
+    # collides with score labels.
+    leg = ax.legend(handles=legend_handles, loc="upper left",
+                    bbox_to_anchor=(1.005, 1.0),
+                    frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
+                    framealpha=0.95, fontsize=10, borderpad=0.8,
+                    labelspacing=1.0)
+    for text in leg.get_texts():
+        text.set_color("white")
+
+    # Modest headroom on the x-axis for the inline score labels.
+    ax.set_xlim(0, float(plot_df["all_time_score"].max()) * 1.10)
+
+    fig.text(0.99, 0.015,
+             "Source: data/top100/all_time_top_100.csv  |  position bucket from career goals/game",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout(rect=[0, 0.05, 0.82, 1])
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Chart B — Avg team score by decade
+# ---------------------------------------------------------------------------
+def chart_scoring_by_decade() -> str:
+    """Grouped bar chart of avg team score per decade, 1900s–2020s.
+    Colour ramp from dark blue (oldest decade) to bright gold (latest), with
+    the peak decade annotated."""
+    _apply_dark_style()
+    df = _avg_team_score_per_year(1900, 2025)
+    if df.empty:
+        sys.exit("no match data found for decade chart")
+
+    df["decade"] = (df["year"] // 10) * 10
+    decade_means = (
+        df.groupby("decade")
+        .apply(lambda g: float((g["avg_team_score"] * g["n_matches"]).sum() / g["n_matches"].sum()))
+        .reset_index(name="avg_team_score")
+    )
+    decade_means["decade_label"] = decade_means["decade"].astype(int).astype(str) + "s"
+    # Order decades chronologically (already sorted via groupby).
+    decade_means = decade_means.sort_values("decade").reset_index(drop=True)
+
+    # Colour ramp: dark blue -> bright gold across the decades.
+    n = len(decade_means)
+    cmap = plt.get_cmap("YlOrBr")
+    # Skip the very pale start of the ramp by sampling 0.30 .. 1.0.
+    colors = [cmap(0.30 + 0.70 * (i / max(1, n - 1))) for i in range(n)]
+
+    out = os.path.join(ASSETS_DIR, "scoring_by_decade.png")
+    fig, ax = plt.subplots(figsize=(12, 5.5))
+    bars = ax.bar(np.arange(n), decade_means["avg_team_score"].values,
+                  color=colors, edgecolor=BG, linewidth=1.2, alpha=0.95)
+
+    for bar, v in zip(bars, decade_means["avg_team_score"].values):
+        ax.text(bar.get_x() + bar.get_width() / 2, v + 1.2,
+                f"{v:.1f}", ha="center", va="bottom",
+                color="white", fontsize=9.5, fontweight="bold")
+
+    peak_idx = int(np.argmax(decade_means["avg_team_score"].values))
+    peak_lbl = decade_means.iloc[peak_idx]["decade_label"]
+    peak_val = decade_means.iloc[peak_idx]["avg_team_score"]
+    ax.annotate(
+        f"Peak: {peak_lbl} ({peak_val:.1f} pts/g)",
+        xy=(peak_idx, peak_val),
+        xytext=(peak_idx, peak_val + 14),
+        ha="center", color="white", fontsize=11, fontweight="bold",
+        arrowprops=dict(arrowstyle="->", color=GOLD, lw=1.4),
+        bbox=dict(boxstyle="round,pad=0.4", fc=PANEL_BG, ec=GOLD, lw=1.0, alpha=0.95),
+    )
+
+    ax.set_xticks(np.arange(n))
+    ax.set_xticklabels(decade_means["decade_label"], color="white")
+    ax.set_ylabel("Average team score per game", color="white")
+    ax.set_title("Average Team Score by Decade (1900s–2020s)",
+                 color="white", pad=14, fontsize=14, fontweight="bold")
+    ax.grid(True, axis="y", ls=":", lw=0.8, alpha=0.30)
+    ax.set_axisbelow(True)
+    ax.tick_params(colors="white")
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("bottom", "left"):
+        ax.spines[spine].set_color(GRID)
+    # Headroom for the annotation arrow.
+    ymax = float(decade_means["avg_team_score"].max())
+    ax.set_ylim(0, ymax * 1.20)
+
+    fig.text(0.99, 0.015,
+             "Source: data/matches/  |  match-weighted decade mean of (goals*6 + behinds) per team",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout(rect=[0, 0.05, 1, 1])
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Chart C — Goals vs disposals scatter (current season)
+# ---------------------------------------------------------------------------
+def chart_team_goals_disposals(year: int = None) -> str:
+    """Scatter: x = avg disposals/g, y = avg goals/g for all 18 teams in `year`.
+    Dot size = avg tackles/g. Quadrants split at league medians with labels."""
+    _apply_dark_style()
+    if year is None:
+        year = _detect_current_year()
+
+    stats = ["disposals", "goals", "tackles"]
+    games = _load_team_year_player_games([year])
+    team_game = _aggregate_team_game(games, stats)
+    team_means = team_game.groupby("team", as_index=False)[stats].mean()
+    if team_means.empty:
+        sys.exit(f"no team data for {year}")
+
+    out = os.path.join(ASSETS_DIR, f"team_{year}_goals_disposals.png")
+    fig, ax = plt.subplots(figsize=(13, 8.5))
+
+    x = team_means["disposals"].values
+    y = team_means["goals"].values
+    s = team_means["tackles"].values
+    teams = team_means["team"].tolist()
+
+    x_med = float(np.median(x))
+    y_med = float(np.median(y))
+
+    # Pad axis ranges so quadrant labels and the size legend don't collide
+    # with team dots near the corners.
+    rx = x.max() - x.min()
+    ry = y.max() - y.min()
+    ax.set_xlim(x.min() - rx * 0.10, x.max() + rx * 0.12)
+    ax.set_ylim(y.min() - ry * 0.18, y.max() + ry * 0.18)
+
+    ax.axvline(x_med, color=SOFT_GREY, lw=1.0, ls="--", alpha=0.5)
+    ax.axhline(y_med, color=SOFT_GREY, lw=1.0, ls="--", alpha=0.5)
+
+    # Quadrant labels — placed near the four corners using axes coords (so
+    # they sit clear of the actual data range).
+    quadrants = [
+        (0.99, 0.97, "right", "top",    "High disposal + clinical"),
+        (0.01, 0.97, "left",  "top",    "Low disposal + clinical"),
+        (0.99, 0.03, "right", "bottom", "High disposal + struggling"),
+        (0.01, 0.03, "left",  "bottom", "Low disposal + struggling"),
+    ]
+    for qx, qy, ha, va, label in quadrants:
+        ax.text(qx, qy, label, ha=ha, va=va, color=SOFT_GREY,
+                fontsize=10, fontstyle="italic", alpha=0.85,
+                transform=ax.transAxes,
+                bbox=dict(boxstyle="round,pad=0.3", fc=PANEL_BG, ec=GRID, lw=0.8, alpha=0.7))
+
+    # Dot size: scale tackles to a readable circle area.
+    s_min, s_max = float(np.min(s)), float(np.max(s))
+    s_rng = max(s_max - s_min, 1e-6)
+    sizes = 80 + ((s - s_min) / s_rng) * 520
+
+    ax.scatter(x, y, s=sizes, c=GOLD, edgecolors="white", linewidths=1.0,
+               alpha=0.85, zorder=3)
+
+    label_offset_x = rx * 0.012
+    for xi, yi, name in zip(x, y, teams):
+        ax.annotate(name, (xi + label_offset_x, yi),
+                    color="white", fontsize=9, ha="left", va="center", alpha=0.95)
+
+    ax.set_xlabel("Average disposals per game", color="white", fontsize=12)
+    ax.set_ylabel("Average goals per game", color="white", fontsize=12)
+    ax.set_title(f"{year} Season: Efficiency vs Ball Use",
+                 color="white", pad=14, fontsize=14, fontweight="bold")
+    ax.grid(True, ls=":", lw=0.8, alpha=0.30)
+    ax.set_axisbelow(True)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("bottom", "left"):
+        ax.spines[spine].set_color(GRID)
+
+    # Legend explaining dot size — placed outside the data area, pinned to
+    # the figure right edge so it never overlaps team dots.
+    handles = [
+        plt.scatter([], [], s=80,  c=GOLD, edgecolors="white", linewidths=1.0,
+                    alpha=0.85, label=f"Low tackles/g (~{s_min:.0f})"),
+        plt.scatter([], [], s=300, c=GOLD, edgecolors="white", linewidths=1.0,
+                    alpha=0.85, label="Mid tackles/g"),
+        plt.scatter([], [], s=600, c=GOLD, edgecolors="white", linewidths=1.0,
+                    alpha=0.85, label=f"High tackles/g (~{s_max:.0f})"),
+    ]
+    leg = ax.legend(handles=handles, loc="upper left",
+                    bbox_to_anchor=(1.005, 1.0), frameon=True,
+                    facecolor=PANEL_BG, edgecolor=GRID, framealpha=0.95,
+                    fontsize=9, title="Dot size = tackles/g", title_fontsize=10,
+                    borderpad=1.0, labelspacing=1.4, handletextpad=1.0)
+    leg.get_title().set_color("white")
+    for text in leg.get_texts():
+        text.set_color("white")
+
+    fig.text(0.99, 0.015,
+             f"Source: data/player_data/ year={year}  |  dashed lines = league median",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout(rect=[0, 0.04, 0.86, 1])
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Chart D — Tackles + clearances dual-axis line
+# ---------------------------------------------------------------------------
+def chart_era_tackles_clearances() -> str:
+    """Dual-axis line chart: tackles per player per game (1987-) on the
+    left axis, clearances per player per game (1998-) on the right.
+    Built off `data/era_yearly_trends.csv`."""
+    _apply_dark_style()
+    f = os.path.join(DATA_DIR, "era_yearly_trends.csv")
+    if not os.path.exists(f):
+        sys.exit(f"missing {f} — run era_based_statistical_analysis.py first")
+    df = pd.read_csv(f)
+    df["year"] = pd.to_numeric(df["year"], errors="coerce")
+    df = df.dropna(subset=["year"])
+    df["year"] = df["year"].astype(int)
+    df = df[(df["year"] >= 1987) & (df["year"] <= 2025)].sort_values("year")
+
+    tackles_df = df.dropna(subset=["tackles"])[["year", "tackles"]]
+    clearances_df = df.dropna(subset=["clearances"])[["year", "clearances"]]
+
+    out = os.path.join(ASSETS_DIR, "era_tackles_clearances.png")
+    fig, ax1 = plt.subplots(figsize=(12, 5.5))
+
+    ax1.plot(tackles_df["year"], tackles_df["tackles"],
+             color=GOLD, lw=2.6, marker="o", markersize=4,
+             markeredgecolor=BG, label="Tackles / player / game")
+    ax1.set_xlabel("Year", color="white")
+    ax1.set_ylabel("Tackles per player per game", color=GOLD)
+    ax1.tick_params(axis="y", colors=GOLD)
+    ax1.tick_params(axis="x", colors="white")
+    ax1.grid(True, ls=":", lw=0.8, alpha=0.30)
+    ax1.set_axisbelow(True)
+    for spine in ("top",):
+        ax1.spines[spine].set_visible(False)
+    ax1.spines["left"].set_color(GOLD)
+    ax1.spines["bottom"].set_color(GRID)
+
+    ax2 = ax1.twinx()
+    ax2.plot(clearances_df["year"], clearances_df["clearances"],
+             color=TEAL, lw=2.6, marker="s", markersize=4,
+             markeredgecolor=BG, label="Clearances / player / game")
+    ax2.set_ylabel("Clearances per player per game", color=TEAL)
+    ax2.tick_params(axis="y", colors=TEAL)
+    for spine in ("top",):
+        ax2.spines[spine].set_visible(False)
+    ax2.spines["right"].set_color(TEAL)
+
+    ax1.set_title(
+        "The Intensification of AFL — Tackles & Clearances Over Time",
+        color="white", pad=14, fontsize=14, fontweight="bold")
+
+    # Combined legend (both axes).
+    h1, l1 = ax1.get_legend_handles_labels()
+    h2, l2 = ax2.get_legend_handles_labels()
+    leg = ax1.legend(h1 + h2, l1 + l2, loc="upper left",
+                     frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
+                     framealpha=0.9, fontsize=10)
+    for text in leg.get_texts():
+        text.set_color("white")
+
+    fig.text(0.99, 0.02,
+             "Source: data/era_yearly_trends.csv  |  tackles tracked from 1987, clearances from 1998",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout()
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Chart E — Top 100 position breakdown (donut + bar)
+# ---------------------------------------------------------------------------
+def chart_top100_position_breakdown() -> str:
+    """Two-panel: (left) donut of top 100 by position group, (right) bar of
+    avg `all_time_score` by position group."""
+    _apply_dark_style()
+    internal = _load_internal_top100()
+    internal["pos"] = [_career_position_for_player(s) for s in internal["stem"]]
+
+    order = ["key_forward", "forward_mid", "midfielder", "backline"]
+    label_map = {
+        "key_forward": "Key forwards",
+        "forward_mid": "Forward-mids",
+        "midfielder": "Midfielders",
+        "backline": "Defenders / rucks",
+    }
+
+    counts = internal["pos"].value_counts().reindex(order).fillna(0).astype(int)
+    avgs = internal.groupby("pos")["all_time_score"].mean().reindex(order).fillna(0.0)
+
+    # Drop empty categories so the donut isn't littered with 0-slices.
+    keep = counts > 0
+    plot_order = [p for p, k in zip(order, keep) if k]
+    plot_counts = counts[keep].values
+    plot_avgs = avgs[keep].values
+    plot_labels = [label_map[p] for p in plot_order]
+    plot_colors = [POSITION_COLORS[p] for p in plot_order]
+
+    out = os.path.join(ASSETS_DIR, "top100_position_breakdown.png")
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6),
+                             gridspec_kw={"width_ratios": [1.05, 1.0]})
+
+    # Donut.
+    ax_d = axes[0]
+    wedges, _texts, _autotexts = ax_d.pie(
+        plot_counts,
+        labels=None,
+        colors=plot_colors,
+        startangle=90,
+        wedgeprops=dict(width=0.40, edgecolor=BG, linewidth=2),
+        autopct=lambda v: f"{v:.0f}%" if v >= 4 else "",
+        pctdistance=0.80,
+        textprops=dict(color="white", fontsize=11, fontweight="bold"),
+    )
+    # Centre text — total count.
+    ax_d.text(0, 0, f"{int(plot_counts.sum())}\nplayers",
+              ha="center", va="center", color="white", fontsize=15,
+              fontweight="bold")
+    ax_d.set_title("Top 100 by position group", color="white", pad=12,
+                   fontsize=13, fontweight="bold")
+
+    # Legend with raw counts beside each label.
+    legend_labels = [f"{lbl} (n={c})" for lbl, c in zip(plot_labels, plot_counts)]
+    leg = ax_d.legend(wedges, legend_labels, loc="center left",
+                      bbox_to_anchor=(-0.15, -0.05),
+                      frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
+                      framealpha=0.9, fontsize=10)
+    for text in leg.get_texts():
+        text.set_color("white")
+
+    # Bar (avg score by position).
+    ax_b = axes[1]
+    y_pos = np.arange(len(plot_labels))
+    bars = ax_b.barh(y_pos, plot_avgs, color=plot_colors,
+                     edgecolor=BG, linewidth=1.2, alpha=0.95)
+    for bar, v in zip(bars, plot_avgs):
+        ax_b.text(v + 0.015, bar.get_y() + bar.get_height() / 2,
+                  f"{v:.2f}", va="center", ha="left",
+                  color="white", fontsize=10, fontweight="bold")
+    ax_b.set_yticks(y_pos)
+    ax_b.set_yticklabels(plot_labels, color="white", fontsize=11)
+    ax_b.invert_yaxis()
+    ax_b.set_xlabel("Average all-time score", color="white", fontsize=11)
+    ax_b.set_title("Average score by position group", color="white", pad=12,
+                   fontsize=13, fontweight="bold")
+    ax_b.grid(True, axis="x", ls=":", lw=0.8, alpha=0.30)
+    ax_b.set_axisbelow(True)
+    for spine in ("top", "right"):
+        ax_b.spines[spine].set_visible(False)
+    for spine in ("bottom", "left"):
+        ax_b.spines[spine].set_color(GRID)
+    ax_b.tick_params(colors="white")
+
+    fig.suptitle("Top 100 — Position Breakdown",
+                 color="white", fontsize=15, fontweight="bold", y=0.995)
+    fig.text(0.99, 0.02,
+             "Source: data/top100/all_time_top_100.csv  |  position bucket from career goals/game",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout(rect=[0, 0.04, 1, 0.96])
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Chart F — Round-by-round form trend (current season)
+# ---------------------------------------------------------------------------
+def chart_team_form_trend(year: int = None) -> str:
+    """Line chart of each team's rolling-3 disposals/g across rounds 1..N for
+    the current season. Top-3 teams (by season disposal avg) highlighted in
+    gold/teal/sky, bottom-3 in red shades, the rest greyed out."""
+    _apply_dark_style()
+    if year is None:
+        year = _detect_current_year()
+
+    stats = ["disposals"]
+    games = _load_team_year_player_games([year])
+    team_game = _aggregate_team_game(games, stats)
+    if team_game.empty:
+        sys.exit(f"no team data for {year}")
+    # Round numeric where possible; drop finals labels (non-numeric).
+    team_game["round_num"] = pd.to_numeric(team_game["round_str"], errors="coerce")
+    team_game = team_game.dropna(subset=["round_num"]).copy()
+    team_game["round_num"] = team_game["round_num"].astype(int)
+
+    # Per (team, round) mean disposals (each cell is already a team-game sum,
+    # so the mean across opponents in that round just collapses double-up
+    # rounds where a team had a bye-week-replacement).
+    by_round = (
+        team_game.groupby(["team", "round_num"], as_index=False)["disposals"].mean()
+        .sort_values(["team", "round_num"])
+    )
+
+    # Season averages — used to pick top-3 and bottom-3.
+    season_avg = (
+        by_round.groupby("team", as_index=False)["disposals"].mean()
+        .sort_values("disposals", ascending=False)
+        .reset_index(drop=True)
+    )
+    n_teams = len(season_avg)
+    top3 = season_avg.head(3)["team"].tolist()
+    bottom3 = season_avg.tail(3)["team"].tolist()
+    mid = [t for t in season_avg["team"] if t not in top3 + bottom3]
+
+    top_colors = [GOLD, TEAL, SKY]
+    bottom_colors = ["#ef476f", "#f08080", "#ffb4a2"]
+
+    max_round = int(by_round["round_num"].max())
+    out = os.path.join(ASSETS_DIR, f"team_form_trend_{year}.png")
+    fig, ax = plt.subplots(figsize=(13, 7.5))
+
+    # Mid teams — light grey, thin lines.
+    for t in mid:
+        d = by_round[by_round["team"] == t]
+        if d.empty:
+            continue
+        # Rolling-3 with min_periods=1 so early rounds still plot.
+        smooth = d["disposals"].rolling(3, min_periods=1).mean().values
+        ax.plot(d["round_num"], smooth, color="#444c56", lw=1.2, alpha=0.55)
+
+    # Top 3.
+    for color, t in zip(top_colors, top3):
+        d = by_round[by_round["team"] == t]
+        if d.empty:
+            continue
+        smooth = d["disposals"].rolling(3, min_periods=1).mean().values
+        ax.plot(d["round_num"], smooth, color=color, lw=2.6,
+                marker="o", markersize=5, markeredgecolor=BG,
+                label=f"{t}", zorder=5)
+        # Label at end of line.
+        ax.annotate(t, (d["round_num"].iloc[-1], smooth[-1]),
+                    xytext=(6, 0), textcoords="offset points",
+                    color=color, fontsize=10, fontweight="bold",
+                    va="center", ha="left")
+
+    # Bottom 3.
+    for color, t in zip(bottom_colors, bottom3):
+        d = by_round[by_round["team"] == t]
+        if d.empty:
+            continue
+        smooth = d["disposals"].rolling(3, min_periods=1).mean().values
+        ax.plot(d["round_num"], smooth, color=color, lw=2.4,
+                marker="o", markersize=5, markeredgecolor=BG,
+                linestyle="--", label=f"{t}", zorder=4)
+        ax.annotate(t, (d["round_num"].iloc[-1], smooth[-1]),
+                    xytext=(6, 0), textcoords="offset points",
+                    color=color, fontsize=10, fontweight="bold",
+                    va="center", ha="left")
+
+    ax.set_xlabel("Round", color="white", fontsize=12)
+    ax.set_ylabel("Disposals per game (3-round rolling avg)", color="white", fontsize=12)
+    ax.set_title(f"{year} Disposal Trends — Rounds 1–{max_round}",
+                 color="white", pad=14, fontsize=14, fontweight="bold")
+    ax.set_xticks(range(1, max_round + 1))
+    ax.grid(True, ls=":", lw=0.8, alpha=0.30)
+    ax.set_axisbelow(True)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("bottom", "left"):
+        ax.spines[spine].set_color(GRID)
+    ax.tick_params(colors="white")
+    # Give the right side a bit of headroom for the team-name labels.
+    ax.set_xlim(0.7, max_round + 1.6)
+
+    leg = ax.legend(loc="lower left", frameon=True, facecolor=PANEL_BG,
+                    edgecolor=GRID, framealpha=0.9, fontsize=9,
+                    title="Highlighted: top 3 (solid) + bottom 3 (dashed)",
+                    title_fontsize=9)
+    leg.get_title().set_color("white")
+    for text in leg.get_texts():
+        text.set_color("white")
+
+    fig.text(0.99, 0.02,
+             f"Source: data/player_data/ year={year}  |  rolling-3 mean of round-by-round disposals/g",
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=8, alpha=0.7)
+    fig.tight_layout()
+    fig.savefig(out, dpi=150)
+    plt.close(fig)
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Public entry points
 # ---------------------------------------------------------------------------
 def regenerate_team_charts(year: int = None) -> List[str]:
-    """Regenerate the three charts that depend on the latest season's data.
-    Called by update_team_analysis.py after refreshing the README."""
+    """Regenerate the season-dependent team charts.
+
+    Called by update_team_analysis.py after refreshing the README.
+    Returns a list of paths actually written; charts that fail are logged
+    and skipped rather than aborting the rest.
+    """
     _ensure_dir(ASSETS_DIR)
     if year is None:
         year = _detect_current_year()
-    paths = [
-        chart_team_radar(year),
-        chart_team_heatmap(year),
-        chart_team_style_scatter(year),
+    targets = [
+        ("team_radar",            lambda: chart_team_radar(year)),
+        ("team_heatmap",          lambda: chart_team_heatmap(year)),
+        ("team_style_scatter",    lambda: chart_team_style_scatter(year)),
+        ("team_goals_disposals",  lambda: chart_team_goals_disposals(year)),
+        ("team_form_trend",       lambda: chart_team_form_trend(year)),
     ]
-    return paths
+    out: List[str] = []
+    for name, fn in targets:
+        try:
+            out.append(fn())
+        except SystemExit as e:
+            print(f"[charts] skipped {name}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"[charts] {name} failed: {e}", file=sys.stderr)
+    return out
 
 
 def regenerate_static_charts() -> List[str]:
-    """Regenerate the two charts that depend only on era stats / match files."""
+    """Regenerate the charts that depend only on era stats / match files."""
     _ensure_dir(ASSETS_DIR)
-    return [
-        chart_era_scoring_trends(),
-        chart_era_stat_evolution(),
+    targets = [
+        ("era_scoring_trends",    chart_era_scoring_trends),
+        ("era_stat_evolution",    chart_era_stat_evolution),
+        ("scoring_by_decade",     chart_scoring_by_decade),
+        ("era_tackles_clearances", chart_era_tackles_clearances),
     ]
+    out: List[str] = []
+    for name, fn in targets:
+        try:
+            out.append(fn())
+        except SystemExit as e:
+            print(f"[charts] skipped {name}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"[charts] {name} failed: {e}", file=sys.stderr)
+    return out
+
+
+def regenerate_top100_charts() -> List[str]:
+    """Regenerate the charts that depend on the all-time top 100 ranking."""
+    _ensure_dir(ASSETS_DIR)
+    targets = [
+        ("top10_alltime",             chart_top10_alltime),
+        ("top100_position_breakdown", chart_top100_position_breakdown),
+    ]
+    out: List[str] = []
+    for name, fn in targets:
+        try:
+            out.append(fn())
+        except SystemExit as e:
+            print(f"[charts] skipped {name}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"[charts] {name} failed: {e}", file=sys.stderr)
+    return out
 
 
 def main() -> None:
     _ensure_dir(ASSETS_DIR)
-    print(f"[1/5] era scoring trends     -> {chart_era_scoring_trends()}")
-    print(f"[2/5] era stat evolution     -> {chart_era_stat_evolution()}")
+    print(f"[1/11] era scoring trends      -> {chart_era_scoring_trends()}")
+    print(f"[2/11] era stat evolution      -> {chart_era_stat_evolution()}")
+    print(f"[3/11] scoring by decade       -> {chart_scoring_by_decade()}")
+    print(f"[4/11] era tackles+clearances  -> {chart_era_tackles_clearances()}")
     year = _detect_current_year()
-    print(f"      detected current year = {year}")
-    print(f"[3/5] {year} top-6 radar       -> {chart_team_radar(year)}")
-    print(f"[4/5] {year} rank heatmap      -> {chart_team_heatmap(year)}")
-    print(f"[5/5] 5-year style scatter   -> {chart_team_style_scatter(year)}")
+    print(f"       detected current year = {year}")
+    print(f"[5/11] {year} top-6 radar        -> {chart_team_radar(year)}")
+    print(f"[6/11] {year} rank heatmap       -> {chart_team_heatmap(year)}")
+    print(f"[7/11] 5-year style scatter    -> {chart_team_style_scatter(year)}")
+    print(f"[8/11] {year} goals vs disposals -> {chart_team_goals_disposals(year)}")
+    print(f"[9/11] {year} form trend          -> {chart_team_form_trend(year)}")
+    print(f"[10/11] all-time top 10        -> {chart_top10_alltime()}")
+    print(f"[11/11] top 100 positions      -> {chart_top100_position_breakdown()}")
 
 
 if __name__ == "__main__":

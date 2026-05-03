@@ -155,6 +155,10 @@ The numbers below come from running `era_based_statistical_analysis.py` over eve
 
 ![AFL team scoring 1965 to 2025](assets/charts/era_scoring_trends.png)
 
+<!-- SCORING-DECADE-CHART-START -->
+![Average team score by decade, 1900s to 2020s](assets/charts/scoring_by_decade.png)
+<!-- SCORING-DECADE-CHART-END -->
+
 | Per team, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
 |---|---:|---:|---:|---:|
 | Goals | **10.1** | 13.9 | 13.9 | 12.3 |
@@ -173,6 +177,10 @@ A few things jump out that contradict the usual barbershop wisdom:
 #### Player workload — the most dramatic change in footy
 
 ![Per-player stat evolution by era](assets/charts/era_stat_evolution.png)
+
+<!-- TACKLES-CLEARANCES-CHART-START -->
+![Tackles and clearances per player per game over time](assets/charts/era_tackles_clearances.png)
+<!-- TACKLES-CLEARANCES-CHART-END -->
 
 | Per player, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
 |---|---:|---:|---:|---:|
@@ -248,6 +256,10 @@ Through 8 rounds of the 2026 season, the league averages out at around 367 dispo
 | Hit-outs | Hawthorn | 46.7 | 32.6 | +14.1 |
 | Contested marks | Hawthorn | 10.7 | 8.8 | +1.9 |
 
+<!-- GOALS-DISPOSALS-CHART-START -->
+![2026 season — goals vs disposals scatter](assets/charts/team_2026_goals_disposals.png)
+<!-- GOALS-DISPOSALS-CHART-END -->
+
 #### Visual snapshot — top-6 radar and league-wide rank heatmap
 
 The radar chart below picks out the top six disposal teams of the 2026 season-to-date and plots them against the six core dimensions, normalised to a 0-1 scale relative to all 18 sides — a value of 1.0 on an axis means that team is the league best on that stat. The heatmap underneath shows every team's rank across eight key stats (1 = league best in green, 18 = worst in red), with rows ordered by disposals rank.
@@ -255,6 +267,10 @@ The radar chart below picks out the top six disposal teams of the 2026 season-to
 ![Top 6 teams radar — 2026](assets/charts/team_2026_radar.png)
 
 ![Team rank heatmap — 2026](assets/charts/team_2026_heatmap.png)
+
+<!-- FORM-TREND-CHART-START -->
+![2026 disposal form trend by round](assets/charts/team_form_trend_2026.png)
+<!-- FORM-TREND-CHART-END -->
 
 #### Team-by-team — playing style, strengths and weaknesses
 
@@ -425,6 +441,10 @@ If you live and breathe footy — you can rattle off Lockett's goals tally, you'
 This repo gives you something you can't get anywhere else: a ranking formula you can actually **change, challenge, and re-run yourself** — without writing a single line of code. You just talk to an AI agent (Claude) in plain English, the same way you'd argue at the pub. You ask "why is Carey ranked above Matthews?" and it tells you. You say "I reckon goals should count for more — show me what happens" and it changes the formula and re-runs it.
 
 You don't need to know what Python is. You don't need to understand machine learning. You just need to be opinionated about footy.
+
+<!-- TOP10-CHART-START -->
+![All-time top 10 AFL/VFL players](assets/charts/top10_alltime.png)
+<!-- TOP10-CHART-END -->
 
 ---
 
@@ -973,6 +993,10 @@ Open `backtest_run_*.log` in any text editor. Things to look for:
 ### All-time top 100 ranking algorithm
 
 The file `all_time_top_100.csv` ranks the 100 greatest VFL/AFL players of all time. The ranking is updated whenever you run `./refresh_and_rank.sh`.
+
+<!-- POSITION-BREAKDOWN-CHART-START -->
+![Top 100 position breakdown — donut and average score](assets/charts/top100_position_breakdown.png)
+<!-- POSITION-BREAKDOWN-CHART-END -->
 
 #### The problem it solves
 

@@ -17,9 +17,9 @@ echo "=========================================="
 "$PYTHON" top_players_comprehensive.py
 
 echo "=========================================="
-echo "[3/3] Updating 2026 team analysis in README..."
+echo "[3/3] Refreshing README charts and analysis..."
 echo "=========================================="
-"$PYTHON" update_team_analysis.py
+"$PYTHON" refresh_readme.py
 
 echo "=========================================="
 echo "Pipeline completed successfully at $(date '+%Y-%m-%d %H:%M:%S')"
