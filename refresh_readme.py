@@ -53,6 +53,8 @@ import traceback
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
+import pandas as pd
+
 REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
 
 
@@ -168,6 +170,23 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         if brownlow_body:
             new_readme = uta.replace_brownlow_predictor_section(
                 new_readme, year, brownlow_body
+            )
+
+        # Player performance stats explainer block — leaderboards,
+        # distributions and per-game correlation drivers for each of the
+        # AFL stats commonly tracked for performance prediction. Generates
+        # assets/charts/player_stat_leaders_<year>.png alongside the prose.
+        try:
+            matches_for_stats = uta.load_match_results(year)
+        except Exception as e:
+            matches_for_stats = pd.DataFrame()
+            print(f"  [warn] stat-leaders matches load: {e}", file=sys.stderr)
+        stat_body = uta.generate_stat_leaders_section(
+            games, matches_for_stats, year, max_round,
+        )
+        if stat_body:
+            new_readme = uta.replace_stat_leaders_section(
+                new_readme, year, stat_body,
             )
 
         if new_readme != readme_text:

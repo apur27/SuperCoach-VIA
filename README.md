@@ -33,6 +33,7 @@ A personal AFL data project that does three things:
   - [2026 season — live team analysis](#2026-season--live-team-analysis)
   - [2026 finals pathway — what each team needs](#2026-finals-pathway--what-each-team-needs)
   - [2026 Brownlow Medal predictor](#2026-brownlow-medal-predictor)
+  - [2026 player performance stats — what to look for and what the data says](#2026-player-performance-stats--what-to-look-for-and-what-the-data-says)
   - [Team playing styles — 5 years of data (2021–2025)](#team-playing-styles--5-years-of-data-20212025)
   - [For the footy expert — finding the greatest 100 players of all time](#for-the-footy-expert--finding-the-greatest-100-players-of-all-time)
   - [For the coaching staff — building a data-driven game plan](#for-the-coaching-staff--building-a-data-driven-game-plan)
@@ -472,6 +473,341 @@ The **Brownlow Medal** is the AFL's individual award for the "fairest and best" 
 
 On the proxy, **Nick Daicos** (Collingwood) leads the field — built on 37.0 disposals/g across 6 games. The composite score (+2.58) sits 0.12 clear of second place. **Clayton Oliver** (Greater Western Sydney) is the closest challenger at +2.47, with 30.9 disposals/g and 7.1 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
 <!-- 2026-BROWNLOW-PREDICTOR-END -->
+
+### 2026 player performance stats — what to look for and what the data says
+
+<!-- 2026-STAT-LEADERS-START -->
+This section is a guide to the AFL performance statistics that fans, analysts and SuperCoach players track most closely — what each stat measures, who is leading it in 2026, what the league-wide distribution looks like, and which other stats most reliably predict it. All numbers are computed live from `data/player_data/` for 2026 (rounds 1-8, **460 eligible players** with >=3 games, **2742 player-games** included). Correlations are Pearson r on the per-game frame; with several thousand player-games, p-values are universally tiny — read the magnitude of r, not the significance star.
+
+![2026 AFL statistical leaders](assets/charts/player_stat_leaders_2026.png)
+
+#### Disposal-based stats — volume and quality of ball use
+
+##### Disposals per game
+
+**What it measures.** Total kicks plus handballs in a game — the single broadest measure of how often a player has the ball. **Why it matters.** It is the headline SuperCoach scoring stat and the prediction target this repo's main model is built around. Volume midfielders and rebounding defenders dominate this leaderboard.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Nick Daicos | Collingwood | 37.0 |
+| 2 | Harry Sheezel | North Melbourne | 32.7 |
+| 3 | Archie Roberts | Essendon | 32.1 |
+| 4 | Bailey Smith | Geelong | 32.0 |
+| 5 | Lachie Neale | Brisbane Lions | 31.1 |
+
+League distribution (eligible players, season-to-date): mean **15.85**, std 5.93, p10 8.75 / p50 15.00 / p90 24.40, max 37.00.
+
+Top per-game correlates: `effective_disposals` (r = +0.97 *(mechanically related)*), `uncontested_possessions` (r = +0.88), `kicks` (r = +0.83).
+
+##### Kicks per game
+
+**What it measures.** Just the kicked disposals. **Why it matters.** Kicks tend to come from outside-midfielders, half-backs and tall rebounders — players who clear the ball by foot rather than shovel it into a contest. A player who kicks much more than they handball is usually playing a distributor / launch role.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Archie Roberts | Essendon | 22.4 |
+| 2 | Bailey Smith | Geelong | 21.4 |
+| 3 | Jack Sinclair | St Kilda | 21.0 |
+| 4 | Lachie Ash | Greater Western Sydney | 20.7 |
+| 5 | Jayden Short | Richmond | 20.5 |
+
+League distribution (eligible players, season-to-date): mean **9.28**, std 3.75, p10 4.75 / p50 8.83 / p90 14.51, max 22.43.
+
+Top per-game correlates: `disposals` (r = +0.83), `effective_disposals` (r = +0.81), `uncontested_possessions` (r = +0.79).
+
+##### Handballs per game
+
+**What it measures.** The hand-passed half of disposals. **Why it matters.** Handball volume tracks contest involvement — a player wins the ball at a stoppage, then handballs out to a runner. Inside-mids and clearance specialists tend to lead this stat.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Clayton Oliver | Greater Western Sydney | 20.7 |
+| 2 | Ryley Sanders | Western Bulldogs | 17.5 |
+| 3 | Lachie Neale | Brisbane Lions | 16.6 |
+| 4 | Nick Daicos | Collingwood | 16.5 |
+| 5 | Harry Sheezel | North Melbourne | 16.0 |
+
+League distribution (eligible players, season-to-date): mean **6.56**, std 3.29, p10 3.00 / p50 6.00 / p90 11.43, max 20.71.
+
+Top per-game correlates: `disposals` (r = +0.77), `effective_disposals` (r = +0.75), `contested_possessions` (r = +0.65).
+
+##### Effective disposals per game (disposals − clangers)
+
+**What it measures.** Disposals that did not result in a clanger, computed here as `max(disposals - clangers, 0)` because the raw data does not carry a true effective-disposal column. **Why it matters.** It is a defensible proxy for disposal *quality* — high-volume ball-users who don't turn it over. The same proxy is used in the Brownlow predictor on this page.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Nick Daicos | Collingwood | 32.7 |
+| 2 | Archie Roberts | Essendon | 29.0 |
+| 3 | Lachie Neale | Brisbane Lions | 28.9 |
+| 4 | Harry Sheezel | North Melbourne | 28.7 |
+| 5 | Jack Sinclair | St Kilda | 28.1 |
+
+League distribution (eligible players, season-to-date): mean **13.35**, std 5.54, p10 6.56 / p50 12.71 / p90 21.18, max 32.67.
+
+Top per-game correlates: `disposals` (r = +0.97 *(mechanically related)*), `uncontested_possessions` (r = +0.87), `kicks` (r = +0.81).
+
+#### Scoring stats — goals, behinds and conversion
+
+##### Goals per game
+
+**What it measures.** Goals kicked. **Why it matters.** Forwards live and die by this stat. It is volatile game-to-game (a single missed shot can halve your score), so multi-game averages and shot-source context (marks-inside-50, contested marks) matter more than any one game.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Jack Gunston | Hawthorn | 4.00 |
+| 2 | Ben King | Gold Coast | 3.71 |
+| 3 | Jeremy Cameron | Geelong | 3.33 |
+| 4 | Nick Larkey | North Melbourne | 3.00 |
+| 5 | Aaron Naughton | Western Bulldogs | 2.71 |
+
+League distribution (eligible players, season-to-date): mean **0.56**, std 0.66, p10 0.00 / p50 0.33 / p90 1.50, max 4.00.
+
+Top per-game correlates: `marks_inside_50` (r = +0.68), `behinds` (r = +0.32), `rebound_50s` (r = -0.31).
+
+**Goal conversion rate.** Defined as `goals / (goals + behinds)`, season-to-date, for players with >=2 goals total. League distribution (n=259): mean **62.8%**, std 19.0pp, p10 40% / p50 60% / p90 100%.
+
+| Rank | Player | Team | G | B | Conversion |
+|---|---|---|---|---|---|
+| 1 | Jordan Dawson | Adelaide | 6 | 0 | 100.0% |
+| 2 | Sam Durham | Essendon | 5 | 0 | 100.0% |
+| 3 | Isaac Cumming | Adelaide | 4 | 0 | 100.0% |
+| 4 | James Jordon | Sydney | 4 | 0 | 100.0% |
+| 5 | Lachie Weller | Gold Coast | 4 | 0 | 100.0% |
+
+##### Behinds per game
+
+**What it measures.** Minor scores — shots that hit the post or go through the smaller posts. **Why it matters.** Rarely predicted alone — it is too noisy. Best read alongside goals to compute **conversion rate** (`goals / (goals + behinds)`), the cleanest available signal of forward accuracy.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Jake Waterman | West Coast | 2.86 |
+| 2 | Tom Lynch | Richmond | 2.67 |
+| 3 | Jack Gunston | Hawthorn | 2.67 |
+| 4 | Nate Caddy | Essendon | 2.17 |
+| 5 | Mitch Georgiades | Port Adelaide | 2.14 |
+
+League distribution (eligible players, season-to-date): mean **0.42**, std 0.47, p10 0.00 / p50 0.29 / p90 1.00, max 2.86.
+
+Top per-game correlates: `marks_inside_50` (r = +0.54), `goals` (r = +0.32), `rebound_50s` (r = -0.25).
+
+#### Contested and ground-ball stats — the inside game
+
+##### Contested possessions per game
+
+**What it measures.** Wins of the ball under physical pressure — ground-balls, taps, and contested marks. **Why it matters.** This is the cleanest stat for separating a midfielder's *contest* role from an outside ball-user's *spread* role. It correlates strongly with clearances and tackles.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Tristan Xerri | North Melbourne | 17.50 |
+| 2 | Patrick Cripps | Carlton | 15.57 |
+| 3 | Max Gawn | Melbourne | 15.57 |
+| 4 | Clayton Oliver | Greater Western Sydney | 14.86 |
+| 5 | Lachie Neale | Brisbane Lions | 13.43 |
+
+League distribution (eligible players, season-to-date): mean **5.59**, std 2.54, p10 3.00 / p50 5.00 / p90 9.34, max 17.50.
+
+Top per-game correlates: `clearances` (r = +0.73), `handballs` (r = +0.65), `disposals` (r = +0.58).
+
+##### Clearances per game
+
+**What it measures.** Disposals that move the ball clear of a stoppage (a centre-bounce or boundary throw-in). **Why it matters.** Stoppage dominance is one of the few team-level wins a midfield can manufacture. Top clearance players are almost always the inside-mid fulcrums of their team.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Jai Newcombe | Hawthorn | 7.86 |
+| 2 | Lachie Neale | Brisbane Lions | 7.71 |
+| 3 | Tristan Xerri | North Melbourne | 7.50 |
+| 4 | Patrick Cripps | Carlton | 7.43 |
+| 5 | Matthew Kennedy | Western Bulldogs | 7.14 |
+
+League distribution (eligible players, season-to-date): mean **1.51**, std 1.72, p10 0.00 / p50 0.83 / p90 4.25, max 7.86.
+
+Top per-game correlates: `contested_possessions` (r = +0.73), `handballs` (r = +0.55), `disposals` (r = +0.48).
+
+##### Tackles per game
+
+**What it measures.** Pressure acts that physically stop a ball-carrier. **Why it matters.** Defensive midfield work — the unsung currency of forward-half pressure and turnover football. It correlates with clearances (you tackle the same opponent you compete against) but tells a different story.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Tristan Xerri | North Melbourne | 8.00 |
+| 2 | Tom Atkins | Geelong | 7.71 |
+| 3 | James Rowbottom | Sydney | 7.43 |
+| 4 | Jack Steele | Melbourne | 7.29 |
+| 5 | Andrew Brayshaw | Fremantle | 7.00 |
+
+League distribution (eligible players, season-to-date): mean **2.46**, std 1.41, p10 1.00 / p50 2.14 / p90 4.40, max 8.00.
+
+Top per-game correlates: `clearances` (r = +0.40), `contested_possessions` (r = +0.37), `handballs` (r = +0.30).
+
+##### Hit-outs per game (ruckmen only)
+
+**What it measures.** Wins by a ruckman at a ruck contest (the tap from a centre bounce or stoppage). **Why it matters.** Ruckman-only stat — the distribution is bimodal: ~1 player per team registers double-digits, everyone else is 0. Always read this leaderboard as "top ruckmen", not "top players".
+
+**Bimodal distribution warning.** 88% of eligible 2026 players average less than 1 hit-out per game — they are not ruckmen. The league mean below is dragged down by all the zeros; the meaningful comparison is between ruckmen, where the top of the distribution sits in the 25-35 range.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Jarrod Witts | Gold Coast | 35.7 |
+| 2 | Brodie Grundy | Sydney | 35.0 |
+| 3 | Max Gawn | Melbourne | 33.1 |
+| 4 | Nick Madden | Greater Western Sydney | 28.7 |
+| 5 | Jordon Sweet | Port Adelaide | 28.5 |
+
+League distribution (eligible players, season-to-date): mean **1.53**, std 5.39, p10 0.00 / p50 0.00 / p90 2.31, max 35.71.
+
+Top per-game correlates: `clearances` (r = +0.25), `uncontested_possessions` (r = -0.24), `free_kicks_for` (r = +0.21).
+
+#### Territory stats — moving the ball forward
+
+##### Inside 50s per game
+
+**What it measures.** Disposals or carries that move the ball into the team's attacking 50m arc. **Why it matters.** Territory currency — the precondition for goals. Wing/half-forward players who launch attacks lead this stat. It correlates with kicks and disposals because most inside-50s are foot-delivered.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Nick Daicos | Collingwood | 8.33 |
+| 2 | Bailey Smith | Geelong | 7.57 |
+| 3 | Chad Warner | Sydney | 6.71 |
+| 4 | Toby Greene | Greater Western Sydney | 6.43 |
+| 5 | Marcus Bontempelli | Western Bulldogs | 6.43 |
+
+League distribution (eligible players, season-to-date): mean **2.30**, std 1.36, p10 0.67 / p50 2.15 / p90 4.00, max 8.33.
+
+Top per-game correlates: `disposals` (r = +0.52), `effective_disposals` (r = +0.49), `kicks` (r = +0.48).
+
+##### Marks per game
+
+**What it measures.** Total uncontested + contested marks taken. **Why it matters.** Aerial dominance and intercept defence. Loose-half-back roles dominate the total-marks leaderboard because they sit behind the play and fly under kicks. Tall forwards lead a separate, narrower stat — marks inside 50.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Callum Wilkie | St Kilda | 12.1 |
+| 2 | Aliir Aliir | Port Adelaide | 9.4 |
+| 3 | Dan Houston | Collingwood | 8.6 |
+| 4 | Jayden Short | Richmond | 8.5 |
+| 5 | Lachie Ash | Greater Western Sydney | 8.4 |
+
+League distribution (eligible players, season-to-date): mean **4.05**, std 1.72, p10 2.00 / p50 3.86 / p90 6.43, max 12.14.
+
+Top per-game correlates: `kicks` (r = +0.59), `uncontested_possessions` (r = +0.54), `effective_disposals` (r = +0.44).
+
+##### Marks inside 50 per game
+
+**What it measures.** Marks taken inside the attacking 50m arc — i.e. marks that turn directly into shots on goal. **Why it matters.** This is the strongest single predictor of a forward's goal output. It is what separates a deep-forward role from a high-half-forward role, and the correlation with goals is the highest of any stat in this section.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Jack Gunston | Hawthorn | 4.67 |
+| 2 | Mitch Georgiades | Port Adelaide | 4.29 |
+| 3 | Jeremy Cameron | Geelong | 3.50 |
+| 4 | Jye Amiss | Fremantle | 3.43 |
+| 5 | Charlie Curnow | Sydney | 3.29 |
+
+League distribution (eligible players, season-to-date): mean **0.53**, std 0.75, p10 0.00 / p50 0.29 / p90 1.67, max 4.67.
+
+Top per-game correlates: `goals` (r = +0.68), `behinds` (r = +0.54), `contested_marks` (r = +0.36).
+
+#### Discipline stats — errors and free kicks
+
+##### Clangers per game
+
+**What it measures.** Errors — missed targets, fumbles, free kicks given away by the ball-carrier. **Why it matters.** Clangers are the friction term on disposal volume — a high-disposal player who also leads in clangers is being asked to play through traffic, not necessarily playing badly. The correlation with frees-against is mechanical: many clangers *are* frees-against.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Matt Rowell | Gold Coast | 6.75 |
+| 2 | Harley Reid | West Coast | 6.29 |
+| 3 | Brodie Grundy | Sydney | 6.14 |
+| 4 | Jacob Hopper | Richmond | 6.00 |
+| 5 | Toby Greene | Greater Western Sydney | 5.86 |
+
+League distribution (eligible players, season-to-date): mean **2.50**, std 1.01, p10 1.33 / p50 2.37 / p90 3.71, max 6.75.
+
+Top per-game correlates: `free_kicks_against` (r = +0.63 *(mechanically related)*), `contested_possessions` (r = +0.34), `disposals` (r = +0.32).
+
+##### Free kicks for per game
+
+**What it measures.** Free kicks paid to the player. **Why it matters.** A weak isolated signal — frees-for tracks contest involvement (rucks especially) more than skill. Best used as a tiebreaker rather than a standalone metric.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Tristan Xerri | North Melbourne | 3.50 |
+| 2 | Max Gawn | Melbourne | 3.14 |
+| 3 | Bailey Williams | West Coast | 3.00 |
+| 4 | Tim English | Western Bulldogs | 2.75 |
+| 5 | Darcy Cameron | Collingwood | 2.71 |
+
+League distribution (eligible players, season-to-date): mean **0.82**, std 0.53, p10 0.29 / p50 0.71 / p90 1.50, max 3.50.
+
+Top per-game correlates: `contested_possessions` (r = +0.42), `clearances` (r = +0.29), `tackles` (r = +0.24).
+
+##### Free kicks against per game
+
+**What it measures.** Free kicks paid against the player. **Why it matters.** Discipline / aggression marker, with the caveat that ruck contest infringements inflate the number for ruckmen. Reads like a clanger when it correlates with them.
+
+| Rank | Player | Team | Per game |
+|---|---|---|---|
+| 1 | Brodie Grundy | Sydney | 3.00 |
+| 2 | Matt Rowell | Gold Coast | 3.00 |
+| 3 | Jack Graham | West Coast | 3.00 |
+| 4 | Liam Baker | West Coast | 2.50 |
+| 5 | Sam Draper | Brisbane Lions | 2.50 |
+
+League distribution (eligible players, season-to-date): mean **0.83**, std 0.51, p10 0.25 / p50 0.75 / p90 1.50, max 3.00.
+
+Top per-game correlates: `clangers` (r = +0.63 *(mechanically related)*), `hit_outs` (r = +0.16), `clearances` (r = +0.16).
+
+#### Team-level stats — what the scoreboard says
+
+Team-level stats use `data/matches/matches_2026.csv` rather than per-player aggregates. Total team score is `goals × 6 + behinds`; margin is the team's score minus the opponent's. A first-quarter score is a useful early-momentum signal — strong starters tend to keep the lead.
+
+##### Total team score per game
+
+| Rank | Team | Avg score | Avg margin | Avg Q1 |
+|---|---|---|---|---|
+| 1 | Sydney | 116.3 | +51.0 | 29.3 |
+| 2 | Hawthorn | 105.1 | +20.7 | 31.3 |
+| 3 | Gold Coast | 103.3 | +13.0 | 26.7 |
+| 4 | Brisbane Lions | 102.7 | +16.3 | 20.3 |
+| 5 | Melbourne | 99.6 | +2.7 | 17.0 |
+
+League distribution of per-game team scores: mean **90.4**, std 26.0, p10 60 / p50 90 / p90 126, min 35 / max 163.
+
+##### Winning margin
+
+| Rank | Team | Avg margin | Avg score |
+|---|---|---|---|
+| 1 | Sydney | +51.0 | 116.3 |
+| 2 | Fremantle | +25.1 | 92.0 |
+| 3 | Hawthorn | +20.7 | 105.1 |
+| 4 | Brisbane Lions | +16.3 | 102.7 |
+| 5 | North Melbourne | +13.3 | 96.9 |
+
+League distribution of margins (signed, per team-game): mean ~0 by construction, std 44.7, p10 -58 / p50 0 / p90 58.
+
+##### First-quarter score
+
+| Rank | Team | Avg Q1 score | Avg full-game score |
+|---|---|---|---|
+| 1 | Hawthorn | 31.3 | 105.1 |
+| 2 | Sydney | 29.3 | 116.3 |
+| 3 | North Melbourne | 27.6 | 96.9 |
+| 4 | Carlton | 26.9 | 80.7 |
+| 5 | Gold Coast | 26.7 | 103.3 |
+
+League distribution of Q1 scores: mean **22.4**, std 12.1, p10 8 / p50 21 / p90 40.
+
+#### Going deeper with this repo's models
+
+For the stats above, three artefacts in this repo will help you form your own view rather than just reading a leaderboard:
+
+1. The **disposal prediction model** (`prediction.py` / `prediction_cpu.py`) forecasts a player's next-round disposal count using rolling form, opponent context and venue effects. Run it with `--player surname_first --rounds 1` to see how uncertainty is quantified for any of the leaders shown above.
+2. The **backtest framework** (`backtest.py`) replays a season round-by-round so you can see how the model performed on real, out-of-sample games — the honest way to judge whether a leaderboard ranking will continue to hold.
+3. The **Brownlow proxy section** above is the same per-game stat structure used here, weighted into a single composite. If you want a quick "who's having the best year overall" answer rather than per-stat leaders, that table is the one to look at.
+<!-- 2026-STAT-LEADERS-END -->
+
 
 
 ### Team playing styles — 5 years of data (2021–2025)
