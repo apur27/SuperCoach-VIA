@@ -10,6 +10,8 @@
 
 If you're curious about AI and large language models but don't know where to start, this repo is a practical, hands-on way to learn — and you don't need a computer science degree to follow along. All you need is a gaming laptop running Ubuntu, an interest in AFL, a copy of [Claude Code](https://claude.ai/code), and a Claude subscription — the entry level plan is plenty for everything in this repo. Everything in this project — the prediction model, the backtest framework, the all-time player rankings — was built and improved by having plain-English conversations with AI agents, including a specialised "Scientist" agent that reads data, finds problems, and fixes code on its own. You'll see how to use agents to analyse real AFL data, predict player disposals each week, and continuously improve accuracy by feeding results back into the model. Whether you want to understand how LLMs can write and improve code, how machine learning predictions actually work in practice, or just who the greatest AFL player of all time is — this repo shows you all of it, one conversation at a time.
 
+> **GPU required for most scripts.** The prediction engine, backtester, ranking pipeline and era analysis all use GPU-accelerated libraries (LightGBM CUDA, cuDF). On a CPU-only machine these scripts will either fail to import or run 10–30× slower — a single prediction round can take 2+ hours instead of ~5 minutes. If you don't have an NVIDIA GPU, read [Setting up GPU acceleration](#setting-up-gpu-acceleration-optional) before running anything beyond the basic data fetch. A CPU fallback (`prediction_cpu.py`) exists for predictions only.
+
 ---
 
 A personal AFL data project that does three things:
@@ -89,6 +91,8 @@ That's it. You're ready to run predictions. To pull the latest match and player 
 
 Run this command and it will automatically figure out the current year and the next round that hasn't been played yet, then generate predictions for every player:
 
+> **Needs GPU.** See [GPU setup](#setting-up-gpu-acceleration-optional) if you haven't configured CUDA yet — CPU-only runs are 10–30× slower.
+
 ```bash
 /home/abhi/sourceCode/python/coding/.venv/bin/python prediction.py
 ```
@@ -120,6 +124,8 @@ The result is saved to `data/prediction/next_round_N_prediction_<timestamp>.csv`
 
 A backtest replays past rounds as if you were predicting them at the time, so you can see how accurate the model has been on data it's never seen.
 
+> **Needs GPU.** See [GPU setup](#setting-up-gpu-acceleration-optional) if you haven't configured CUDA yet — CPU-only runs are 10–30× slower.
+
 ```bash
 /home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 1
 ```
@@ -131,6 +137,8 @@ Output lands in `data/prediction/backtest/`. For the full command reference, fil
 ### Refresh data and rankings
 
 To pull the latest match and player data and recalculate the all-time top 100 ranking + 2026 team analysis in one command:
+
+> **Needs GPU.** See [GPU setup](#setting-up-gpu-acceleration-optional) if you haven't configured CUDA yet — CPU-only runs are 10–30× slower.
 
 ```bash
 ./refresh_and_rank.sh
@@ -1046,6 +1054,8 @@ A backtest replays past rounds as if you were predicting them at the time — it
 
 #### Run the backtest
 
+> **Needs GPU.** See [GPU setup](#setting-up-gpu-acceleration-optional) if you haven't configured CUDA yet — CPU-only runs are 10–30× slower.
+
 ```bash
 # Check all 2026 rounds played so far
 /home/abhi/sourceCode/python/coding/.venv/bin/python backtest.py --start-year 2026 --start-round 1
@@ -1165,6 +1175,8 @@ Final score = average of best 8 seasons × (1 + career bonus) + peak bonus
 The best player from each decade (1900s, 1910s … 2020s) is guaranteed a spot. This ensures the list isn't dominated by recent players just because the data is richer.
 
 #### Re-run the rankings
+
+> **Needs GPU.** See [GPU setup](#setting-up-gpu-acceleration-optional) if you haven't configured CUDA yet — CPU-only runs are 10–30× slower.
 
 ```bash
 # Quick re-run (uses cached data, ~5–10 min)
