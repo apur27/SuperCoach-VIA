@@ -1,369 +1,385 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="400" viewBox="0 0 1400 400">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="600" viewBox="0 0 1400 600">
   <defs>
     <!-- Backgrounds -->
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#03060f"/>
-      <stop offset="40%" style="stop-color:#060d1e"/>
-      <stop offset="100%" style="stop-color:#080f24"/>
-    </linearGradient>
-
-    <!-- Gold / amber -->
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#7a4f00"/>
-      <stop offset="25%" style="stop-color:#f5c842"/>
-      <stop offset="55%" style="stop-color:#fde97a"/>
-      <stop offset="100%" style="stop-color:#c8780a"/>
-    </linearGradient>
-    <linearGradient id="goldV" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#fde97a"/>
-      <stop offset="100%" style="stop-color:#7a4f00;stop-opacity:0"/>
-    </linearGradient>
-
-    <!-- Title glow gradient -->
-    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   style="stop-color:#a8c8f8"/>
-      <stop offset="40%"  style="stop-color:#ffffff"/>
-      <stop offset="60%"  style="stop-color:#ffffff"/>
-      <stop offset="100%" style="stop-color:#a8c8f8"/>
-    </linearGradient>
-
-    <!-- Bars -->
-    <linearGradient id="b1" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#0a1a3a;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#2979ff"/>
-    </linearGradient>
-    <linearGradient id="b2" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#1a0a3a;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#7c4dff"/>
-    </linearGradient>
-    <linearGradient id="b3" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#001a1a;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#00e5ff"/>
-    </linearGradient>
-    <linearGradient id="b4" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" style="stop-color:#001a0a;stop-opacity:0.4"/>
-      <stop offset="100%" style="stop-color:#00e676"/>
-    </linearGradient>
-
-    <!-- Radial glows -->
-    <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#1a3a7a;stop-opacity:0.5"/>
-      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
-    </radialGradient>
-    <radialGradient id="ovalGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#0d2a5a;stop-opacity:0.6"/>
-      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
-    </radialGradient>
-    <radialGradient id="chartGlow" cx="50%" cy="80%" r="60%">
-      <stop offset="0%" style="stop-color:#0a1a40;stop-opacity:0.7"/>
-      <stop offset="100%" style="stop-color:#000000;stop-opacity:0"/>
-    </radialGradient>
-    <radialGradient id="goldSpot" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#f5c842;stop-opacity:0.12"/>
-      <stop offset="100%" style="stop-color:#f5c842;stop-opacity:0"/>
+    <radialGradient id="bgRadial" cx="50%" cy="50%" r="65%">
+      <stop offset="0%"  style="stop-color:#161b22"/>
+      <stop offset="100%" style="stop-color:#0d1117"/>
     </radialGradient>
 
-    <!-- Fade overlays -->
-    <linearGradient id="fadeL" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#060d1e;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#060d1e;stop-opacity:0"/>
-    </linearGradient>
-    <linearGradient id="fadeR" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#060d1e;stop-opacity:0"/>
-      <stop offset="100%" style="stop-color:#060d1e;stop-opacity:1"/>
-    </linearGradient>
-    <linearGradient id="fadeTop" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#03060f;stop-opacity:0.7"/>
-      <stop offset="100%" style="stop-color:#03060f;stop-opacity:0"/>
-    </linearGradient>
-    <linearGradient id="fadeBot" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#03060f;stop-opacity:0"/>
-      <stop offset="100%" style="stop-color:#03060f;stop-opacity:0.8"/>
-    </linearGradient>
-
-    <!-- Filters -->
-    <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow5" x="-60%" y="-60%" width="220%" height="220%">
+    <!-- Subtle title bloom -->
+    <filter id="titleBloom" x="-20%" y="-60%" width="140%" height="220%">
       <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="glow12" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="14" result="b"/>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="titleBloom" x="-20%" y="-60%" width="140%" height="220%">
-      <feGaussianBlur stdDeviation="18" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="barGlow" x="-30%" y="-10%" width="160%" height="120%">
-      <feGaussianBlur stdDeviation="4" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <clipPath id="clip"><rect width="1400" height="400"/></clipPath>
+
+    <!-- Bar gradient (gold) -->
+    <linearGradient id="goldBar" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%"   style="stop-color:#a8841a"/>
+      <stop offset="100%" style="stop-color:#f4c430"/>
+    </linearGradient>
+    <linearGradient id="tealBar" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%"   style="stop-color:#1a8a82"/>
+      <stop offset="100%" style="stop-color:#2ec4b6"/>
+    </linearGradient>
+
+    <clipPath id="clip"><rect width="1400" height="600"/></clipPath>
   </defs>
 
   <!-- ═══ BASE ═══ -->
-  <rect width="1400" height="400" fill="url(#bg)"/>
+  <rect width="1400" height="600" fill="#0d1117"/>
+  <rect width="1400" height="600" fill="url(#bgRadial)"/>
 
-  <!-- Hero ambient glow (centre) -->
-  <ellipse cx="700" cy="200" rx="580" ry="240" fill="url(#heroGlow)"/>
-
-  <!-- Gold spotlight behind title -->
-  <ellipse cx="700" cy="185" rx="320" ry="160" fill="url(#goldSpot)"/>
-
-  <!-- ═══ BACKGROUND GEOMETRY: hexagonal mesh ═══ -->
-  <g clip-path="url(#clip)" opacity="0.055" stroke="#4a8aff" stroke-width="0.7" fill="none">
-    <!-- Row 1 -->
-    <polygon points="60,10 90,10 105,36 90,62 60,62 45,36"/>
-    <polygon points="120,10 150,10 165,36 150,62 120,62 105,36"/>
-    <polygon points="180,10 210,10 225,36 210,62 180,62 165,36"/>
-    <polygon points="240,10 270,10 285,36 270,62 240,62 225,36"/>
-    <polygon points="300,10 330,10 345,36 330,62 300,62 285,36"/>
-    <polygon points="1070,10 1100,10 1115,36 1100,62 1070,62 1055,36"/>
-    <polygon points="1130,10 1160,10 1175,36 1160,62 1130,62 1115,36"/>
-    <polygon points="1190,10 1220,10 1235,36 1220,62 1190,62 1175,36"/>
-    <polygon points="1250,10 1280,10 1295,36 1280,62 1250,62 1235,36"/>
-    <polygon points="1310,10 1340,10 1355,36 1340,62 1310,62 1295,36"/>
-    <!-- Row 2 (offset) -->
-    <polygon points="30,62 60,62 75,88 60,114 30,114 15,88"/>
-    <polygon points="90,62 120,62 135,88 120,114 90,114 75,88"/>
-    <polygon points="150,62 180,62 195,88 180,114 150,114 135,88"/>
-    <polygon points="210,62 240,62 255,88 240,114 210,114 195,88"/>
-    <polygon points="270,62 300,62 315,88 300,114 270,114 255,88"/>
-    <polygon points="1100,62 1130,62 1145,88 1130,114 1100,114 1085,88"/>
-    <polygon points="1160,62 1190,62 1205,88 1190,114 1160,114 1145,88"/>
-    <polygon points="1220,62 1250,62 1265,88 1250,114 1220,114 1205,88"/>
-    <polygon points="1280,62 1310,62 1325,88 1310,114 1280,114 1265,88"/>
-    <polygon points="1340,62 1370,62 1385,88 1370,114 1340,114 1325,88"/>
-    <!-- Row 3 -->
-    <polygon points="60,114 90,114 105,140 90,166 60,166 45,140"/>
-    <polygon points="120,114 150,114 165,140 150,166 120,166 105,140"/>
-    <polygon points="180,114 210,114 225,140 210,166 180,166 165,140"/>
-    <polygon points="240,114 270,114 285,140 270,166 240,166 225,140"/>
-    <polygon points="1070,114 1100,114 1115,140 1100,166 1070,166 1055,140"/>
-    <polygon points="1130,114 1160,114 1175,140 1160,166 1130,166 1115,140"/>
-    <polygon points="1190,114 1220,114 1235,140 1220,166 1190,166 1175,140"/>
-    <polygon points="1250,114 1280,114 1295,140 1280,166 1250,166 1235,140"/>
-    <polygon points="1310,114 1340,114 1355,140 1340,166 1310,166 1295,140"/>
-    <!-- Bottom rows -->
-    <polygon points="60,270 90,270 105,296 90,322 60,322 45,296"/>
-    <polygon points="120,270 150,270 165,296 150,322 120,322 105,296"/>
-    <polygon points="180,270 210,270 225,296 210,322 180,322 165,296"/>
-    <polygon points="240,270 270,270 285,296 270,322 240,322 225,296"/>
-    <polygon points="1070,270 1100,270 1115,296 1100,322 1070,322 1055,296"/>
-    <polygon points="1130,270 1160,270 1175,296 1160,322 1130,322 1115,296"/>
-    <polygon points="1190,270 1220,270 1235,296 1220,322 1190,322 1175,296"/>
-    <polygon points="1250,270 1280,270 1295,296 1280,322 1250,322 1235,296"/>
-    <polygon points="1310,270 1340,270 1355,296 1340,322 1310,322 1295,296"/>
-    <polygon points="60,322 90,322 105,348 90,374 60,374 45,348"/>
-    <polygon points="120,322 150,322 165,348 150,374 120,374 105,348"/>
-    <polygon points="180,322 210,322 225,348 210,374 180,374 165,348"/>
-    <polygon points="240,322 270,322 285,348 270,374 240,374 225,348"/>
-    <polygon points="1070,322 1100,322 1115,348 1100,374 1070,374 1055,348"/>
-    <polygon points="1130,322 1160,322 1175,348 1160,374 1130,374 1115,348"/>
-    <polygon points="1190,322 1220,322 1235,348 1220,374 1190,374 1175,348"/>
-    <polygon points="1250,322 1280,322 1295,348 1280,374 1250,374 1235,348"/>
+  <!-- ═══ HEXAGONAL MESH ═══ -->
+  <g clip-path="url(#clip)" opacity="0.075" stroke="#4a8aff" stroke-width="0.6" fill="none">
+    <!-- Generated grid: hex width 30, hex height 26, two rows offset -->
+    <!-- Row y=0..52 -->
+    <g>
+      <polygon points="30,0 60,0 75,26 60,52 30,52 15,26"/>
+      <polygon points="90,0 120,0 135,26 120,52 90,52 75,26"/>
+      <polygon points="150,0 180,0 195,26 180,52 150,52 135,26"/>
+      <polygon points="210,0 240,0 255,26 240,52 210,52 195,26"/>
+      <polygon points="270,0 300,0 315,26 300,52 270,52 255,26"/>
+      <polygon points="330,0 360,0 375,26 360,52 330,52 315,26"/>
+      <polygon points="390,0 420,0 435,26 420,52 390,52 375,26"/>
+      <polygon points="450,0 480,0 495,26 480,52 450,52 435,26"/>
+      <polygon points="510,0 540,0 555,26 540,52 510,52 495,26"/>
+      <polygon points="570,0 600,0 615,26 600,52 570,52 555,26"/>
+      <polygon points="630,0 660,0 675,26 660,52 630,52 615,26"/>
+      <polygon points="690,0 720,0 735,26 720,52 690,52 675,26"/>
+      <polygon points="750,0 780,0 795,26 780,52 750,52 735,26"/>
+      <polygon points="810,0 840,0 855,26 840,52 810,52 795,26"/>
+      <polygon points="870,0 900,0 915,26 900,52 870,52 855,26"/>
+      <polygon points="930,0 960,0 975,26 960,52 930,52 915,26"/>
+      <polygon points="990,0 1020,0 1035,26 1020,52 990,52 975,26"/>
+      <polygon points="1050,0 1080,0 1095,26 1080,52 1050,52 1035,26"/>
+      <polygon points="1110,0 1140,0 1155,26 1140,52 1110,52 1095,26"/>
+      <polygon points="1170,0 1200,0 1215,26 1200,52 1170,52 1155,26"/>
+      <polygon points="1230,0 1260,0 1275,26 1260,52 1230,52 1215,26"/>
+      <polygon points="1290,0 1320,0 1335,26 1320,52 1290,52 1275,26"/>
+      <polygon points="1350,0 1380,0 1395,26 1380,52 1350,52 1335,26"/>
+    </g>
+    <!-- Row y=52..104 (offset) -->
+    <g>
+      <polygon points="60,52 90,52 105,78 90,104 60,104 45,78"/>
+      <polygon points="120,52 150,52 165,78 150,104 120,104 105,78"/>
+      <polygon points="180,52 210,52 225,78 210,104 180,104 165,78"/>
+      <polygon points="240,52 270,52 285,78 270,104 240,104 225,78"/>
+      <polygon points="300,52 330,52 345,78 330,104 300,104 285,78"/>
+      <polygon points="360,52 390,52 405,78 390,104 360,104 345,78"/>
+      <polygon points="420,52 450,52 465,78 450,104 420,104 405,78"/>
+      <polygon points="480,52 510,52 525,78 510,104 480,104 465,78"/>
+      <polygon points="540,52 570,52 585,78 570,104 540,104 525,78"/>
+      <polygon points="600,52 630,52 645,78 630,104 600,104 585,78"/>
+      <polygon points="660,52 690,52 705,78 690,104 660,104 645,78"/>
+      <polygon points="720,52 750,52 765,78 750,104 720,104 705,78"/>
+      <polygon points="780,52 810,52 825,78 810,104 780,104 765,78"/>
+      <polygon points="840,52 870,52 885,78 870,104 840,104 825,78"/>
+      <polygon points="900,52 930,52 945,78 930,104 900,104 885,78"/>
+      <polygon points="960,52 990,52 1005,78 990,104 960,104 945,78"/>
+      <polygon points="1020,52 1050,52 1065,78 1050,104 1020,104 1005,78"/>
+      <polygon points="1080,52 1110,52 1125,78 1110,104 1080,104 1065,78"/>
+      <polygon points="1140,52 1170,52 1185,78 1170,104 1140,104 1125,78"/>
+      <polygon points="1200,52 1230,52 1245,78 1230,104 1200,104 1185,78"/>
+      <polygon points="1260,52 1290,52 1305,78 1290,104 1260,104 1245,78"/>
+      <polygon points="1320,52 1350,52 1365,78 1350,104 1320,104 1305,78"/>
+    </g>
+    <!-- Row y=104..156 -->
+    <g>
+      <polygon points="30,104 60,104 75,130 60,156 30,156 15,130"/>
+      <polygon points="90,104 120,104 135,130 120,156 90,156 75,130"/>
+      <polygon points="150,104 180,104 195,130 180,156 150,156 135,130"/>
+      <polygon points="210,104 240,104 255,130 240,156 210,156 195,130"/>
+      <polygon points="270,104 300,104 315,130 300,156 270,156 255,130"/>
+      <polygon points="330,104 360,104 375,130 360,156 330,156 315,130"/>
+      <polygon points="390,104 420,104 435,130 420,156 390,156 375,130"/>
+      <polygon points="450,104 480,104 495,130 480,156 450,156 435,130"/>
+      <polygon points="510,104 540,104 555,130 540,156 510,156 495,130"/>
+      <polygon points="570,104 600,104 615,130 600,156 570,156 555,130"/>
+      <polygon points="630,104 660,104 675,130 660,156 630,156 615,130"/>
+      <polygon points="690,104 720,104 735,130 720,156 690,156 675,130"/>
+      <polygon points="750,104 780,104 795,130 780,156 750,156 735,130"/>
+      <polygon points="810,104 840,104 855,130 840,156 810,156 795,130"/>
+      <polygon points="870,104 900,104 915,130 900,156 870,156 855,130"/>
+      <polygon points="930,104 960,104 975,130 960,156 930,156 915,130"/>
+      <polygon points="990,104 1020,104 1035,130 1020,156 990,156 975,130"/>
+      <polygon points="1050,104 1080,104 1095,130 1080,156 1050,156 1035,130"/>
+      <polygon points="1110,104 1140,104 1155,130 1140,156 1110,156 1095,130"/>
+      <polygon points="1170,104 1200,104 1215,130 1200,156 1170,156 1155,130"/>
+      <polygon points="1230,104 1260,104 1275,130 1260,156 1230,156 1215,130"/>
+      <polygon points="1290,104 1320,104 1335,130 1320,156 1290,156 1275,130"/>
+      <polygon points="1350,104 1380,104 1395,130 1380,156 1350,156 1335,130"/>
+    </g>
+    <!-- Row y=156..208 -->
+    <g>
+      <polygon points="60,156 90,156 105,182 90,208 60,208 45,182"/>
+      <polygon points="120,156 150,156 165,182 150,208 120,208 105,182"/>
+      <polygon points="1260,156 1290,156 1305,182 1290,208 1260,208 1245,182"/>
+      <polygon points="1320,156 1350,156 1365,182 1350,208 1320,208 1305,182"/>
+    </g>
+    <!-- Bottom rows: 416..468, 468..520, 520..572 -->
+    <g>
+      <polygon points="60,416 90,416 105,442 90,468 60,468 45,442"/>
+      <polygon points="120,416 150,416 165,442 150,468 120,468 105,442"/>
+      <polygon points="1260,416 1290,416 1305,442 1290,468 1260,468 1245,442"/>
+      <polygon points="1320,416 1350,416 1365,442 1350,468 1320,468 1305,442"/>
+    </g>
+    <g>
+      <polygon points="30,468 60,468 75,494 60,520 30,520 15,494"/>
+      <polygon points="90,468 120,468 135,494 120,520 90,520 75,494"/>
+      <polygon points="150,468 180,468 195,494 180,520 150,520 135,494"/>
+      <polygon points="210,468 240,468 255,494 240,520 210,520 195,494"/>
+      <polygon points="270,468 300,468 315,494 300,520 270,520 255,494"/>
+      <polygon points="330,468 360,468 375,494 360,520 330,520 315,494"/>
+      <polygon points="1050,468 1080,468 1095,494 1080,520 1050,520 1035,494"/>
+      <polygon points="1110,468 1140,468 1155,494 1140,520 1110,520 1095,494"/>
+      <polygon points="1170,468 1200,468 1215,494 1200,520 1170,520 1155,494"/>
+      <polygon points="1230,468 1260,468 1275,494 1260,520 1230,520 1215,494"/>
+      <polygon points="1290,468 1320,468 1335,494 1320,520 1290,520 1275,494"/>
+      <polygon points="1350,468 1380,468 1395,494 1380,520 1350,520 1335,494"/>
+    </g>
+    <g>
+      <polygon points="60,520 90,520 105,546 90,572 60,572 45,546"/>
+      <polygon points="120,520 150,520 165,546 150,572 120,572 105,546"/>
+      <polygon points="180,520 210,520 225,546 210,572 180,572 165,546"/>
+      <polygon points="240,520 270,520 285,546 270,572 240,572 225,546"/>
+      <polygon points="300,520 330,520 345,546 330,572 300,572 285,546"/>
+      <polygon points="1020,520 1050,520 1065,546 1050,572 1020,572 1005,546"/>
+      <polygon points="1080,520 1110,520 1125,546 1110,572 1080,572 1065,546"/>
+      <polygon points="1140,520 1170,520 1185,546 1170,572 1140,572 1125,546"/>
+      <polygon points="1200,520 1230,520 1245,546 1230,572 1200,572 1185,546"/>
+      <polygon points="1260,520 1290,520 1305,546 1290,572 1260,572 1245,546"/>
+      <polygon points="1320,520 1350,520 1365,546 1350,572 1320,572 1305,546"/>
+    </g>
   </g>
 
-  <!-- ═══ LEFT: AFL OVAL ═══ -->
-  <g clip-path="url(#clip)">
-    <ellipse cx="200" cy="200" rx="170" ry="130" fill="url(#ovalGlow)"/>
-    <!-- Outer boundary -->
-    <ellipse cx="200" cy="200" rx="168" ry="128" fill="none" stroke="#1e5aaa" stroke-width="1.5" opacity="0.5"/>
-    <!-- Inner oval -->
-    <ellipse cx="200" cy="200" rx="125" ry="92"  fill="none" stroke="#1e5aaa" stroke-width="1"   opacity="0.35"/>
-    <!-- 50m arcs -->
-    <path d="M 58 168 Q 90 90 200 82 Q 310 90 342 168"  fill="none" stroke="#1e5aaa" stroke-width="0.8" opacity="0.3"/>
-    <path d="M 58 232 Q 90 310 200 318 Q 310 310 342 232" fill="none" stroke="#1e5aaa" stroke-width="0.8" opacity="0.3"/>
-    <!-- Halfway line -->
-    <line x1="200" y1="72" x2="200" y2="328" stroke="#2563b0" stroke-width="0.8" opacity="0.35"/>
+  <!-- ═══ TITLE BLOCK (centred top) ═══ -->
+  <!-- Top horizontal rule -->
+  <line x1="450" y1="78" x2="950" y2="78" stroke="#f4c430" stroke-width="1" opacity="0.6"/>
+  <!-- Title -->
+  <text x="700" y="138" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="800"
+        fill="#ffffff" text-anchor="middle" filter="url(#titleBloom)" letter-spacing="1">SuperCoach VIA</text>
+  <!-- Subtitle -->
+  <text x="700" y="170" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="500"
+        fill="#2ec4b6" text-anchor="middle" letter-spacing="2">AFL Data Analytics  ·  Prediction  ·  AI-Powered Insights</text>
+  <!-- Tertiary line -->
+  <text x="700" y="194" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400"
+        fill="#8b949e" text-anchor="middle" letter-spacing="1.5">Powered by LightGBM  ·  Claude AI  ·  Real AFL Data</text>
+  <!-- Bottom horizontal rule -->
+  <line x1="450" y1="210" x2="950" y2="210" stroke="#f4c430" stroke-width="1" opacity="0.6"/>
+
+  <!-- ═══ VERTICAL SEPARATORS ═══ -->
+  <line x1="466" y1="240" x2="466" y2="560" stroke="#30363d" stroke-width="1"/>
+  <line x1="934" y1="240" x2="934" y2="560" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ═══ LEFT PANEL: AFL OVAL (centre x=233, centre y=400) ═══ -->
+  <g>
+    <!-- Outer oval (boundary) -->
+    <ellipse cx="233" cy="400" rx="130" ry="90" fill="#2d5a27" stroke="#ffffff" stroke-width="2"/>
+    <!-- Inner 50m arcs (dashed white) -->
+    <path d="M 113 372 Q 145 322 233 318 Q 321 322 353 372"
+          fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
+    <path d="M 113 428 Q 145 478 233 482 Q 321 478 353 428"
+          fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
     <!-- Centre square -->
-    <rect x="178" y="178" width="44" height="44" fill="none" stroke="#3a7bd5" stroke-width="1" opacity="0.45"/>
-    <!-- Centre circle with glow -->
-    <circle cx="200" cy="200" r="28"  fill="none" stroke="#2979ff" stroke-width="1.5" opacity="0.6" filter="url(#glow2)"/>
-    <circle cx="200" cy="200" r="4.5" fill="#2979ff" opacity="0.9" filter="url(#glow5)"/>
-    <!-- Goal posts — left -->
-    <line x1="35"  y1="172" x2="35"  y2="228" stroke="#3a7bd5" stroke-width="2"   opacity="0.45"/>
-    <line x1="44"  y1="180" x2="44"  y2="220" stroke="#3a7bd5" stroke-width="1.2" opacity="0.35"/>
-    <line x1="32"  y1="172" x2="47"  y2="172" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
-    <line x1="32"  y1="228" x2="47"  y2="228" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
-    <!-- Goal posts — right -->
-    <line x1="365" y1="172" x2="365" y2="228" stroke="#3a7bd5" stroke-width="2"   opacity="0.45"/>
-    <line x1="356" y1="180" x2="356" y2="220" stroke="#3a7bd5" stroke-width="1.2" opacity="0.35"/>
-    <line x1="353" y1="172" x2="368" y2="172" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
-    <line x1="353" y1="228" x2="368" y2="228" stroke="#3a7bd5" stroke-width="1"   opacity="0.3"/>
-    <!-- Fade edge -->
-    <rect x="300" y="0" width="200" height="400" fill="url(#fadeL)"/>
+    <rect x="193" y="360" width="80" height="80" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.8"/>
+    <!-- Centre circle -->
+    <circle cx="233" cy="400" r="35" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+    <!-- Centre bounce dot -->
+    <circle cx="233" cy="400" r="3" fill="#ffffff"/>
+    <!-- Goal squares (small white rectangles at each end) -->
+    <rect x="103" y="388" width="14" height="24" fill="none" stroke="#ffffff" stroke-width="1"/>
+    <rect x="349" y="388" width="14" height="24" fill="none" stroke="#ffffff" stroke-width="1"/>
+    <!-- Goal posts left (4 posts) -->
+    <line x1="98"  y1="380" x2="98"  y2="410" stroke="#f4c430" stroke-width="2"/>
+    <line x1="105" y1="385" x2="105" y2="415" stroke="#f4c430" stroke-width="1.6"/>
+    <line x1="112" y1="385" x2="112" y2="415" stroke="#f4c430" stroke-width="1.6"/>
+    <line x1="119" y1="380" x2="119" y2="410" stroke="#f4c430" stroke-width="2"/>
+    <!-- Goal posts right (4 posts) -->
+    <line x1="349" y1="380" x2="349" y2="410" stroke="#f4c430" stroke-width="2"/>
+    <line x1="356" y1="385" x2="356" y2="415" stroke="#f4c430" stroke-width="1.6"/>
+    <line x1="363" y1="385" x2="363" y2="415" stroke="#f4c430" stroke-width="1.6"/>
+    <line x1="370" y1="380" x2="370" y2="410" stroke="#f4c430" stroke-width="2"/>
+    <!-- Panel label -->
+    <text x="233" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+          fill="#f4c430" text-anchor="middle" letter-spacing="3">THE FIELD</text>
+    <text x="233" y="290" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400"
+          fill="#8b949e" text-anchor="middle" letter-spacing="1">AFL · 18 clubs · 1897–2026</text>
   </g>
 
-  <!-- ═══ RIGHT: CHART ═══ -->
-  <g clip-path="url(#clip)">
-    <rect x="880" y="0" width="520" height="400" fill="url(#chartGlow)" opacity="0.6"/>
-    <!-- Fade right edge -->
-    <rect x="1100" y="0" width="300" height="400" fill="url(#fadeR)"/>
+  <!-- ═══ CENTRE PANEL: BAR CHART (chart area x=506..894, baseline y=520, top y=290) ═══ -->
+  <g>
+    <!-- Panel label -->
+    <text x="700" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+          fill="#f4c430" text-anchor="middle" letter-spacing="3">RECENT FORM · 10 ROUNDS</text>
 
-    <!-- Chart axes -->
-    <line x1="910" y1="310" x2="1360" y2="310" stroke="#ffffff10" stroke-width="1"/>
-    <line x1="910" y1="310" x2="910"  y2="80"  stroke="#ffffff10" stroke-width="1"/>
-    <!-- Horizontal rules -->
-    <line x1="910" y1="270" x2="1355" y2="270" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
-    <line x1="910" y1="230" x2="1355" y2="230" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
-    <line x1="910" y1="190" x2="1355" y2="190" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
-    <line x1="910" y1="150" x2="1355" y2="150" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
-    <line x1="910" y1="110" x2="1355" y2="110" stroke="#ffffff07" stroke-width="1" stroke-dasharray="4,6"/>
+    <!-- Y-axis label (rotated) -->
+    <text x="478" y="405" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="500"
+          fill="#8b949e" text-anchor="middle" letter-spacing="1.5"
+          transform="rotate(-90 478 405)">Disposals / game</text>
 
-    <!-- Y-axis ticks -->
-    <g font-family="monospace" font-size="9" fill="#ffffff18" text-anchor="end">
-      <text x="904" y="313">0</text>
-      <text x="904" y="273">10</text>
-      <text x="904" y="233">20</text>
-      <text x="904" y="193">30</text>
-      <text x="904" y="153">40</text>
-      <text x="904" y="113">50</text>
+    <!-- Y-axis -->
+    <line x1="506" y1="290" x2="506" y2="520" stroke="#30363d" stroke-width="1"/>
+    <!-- X-axis -->
+    <line x1="506" y1="520" x2="894" y2="520" stroke="#30363d" stroke-width="1"/>
+
+    <!-- Y-axis ticks + dashed gridlines -->
+    <g font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#8b949e" text-anchor="end">
+      <line x1="506" y1="520" x2="894" y2="520" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
+      <text x="500" y="523">0</text>
+      <line x1="506" y1="463" x2="894" y2="463" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
+      <text x="500" y="466">10</text>
+      <line x1="506" y1="405" x2="894" y2="405" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
+      <text x="500" y="408">20</text>
+      <line x1="506" y1="348" x2="894" y2="348" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
+      <text x="500" y="351">30</text>
+      <line x1="506" y1="290" x2="894" y2="290" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
+      <text x="500" y="293">40</text>
     </g>
 
-    <!-- Bars (9 rounds) — glowing columns -->
-    <rect x="923"  y="188" width="28" height="122" fill="url(#b1)" rx="3" opacity="0.9"/>
-    <rect x="966"  y="165" width="28" height="145" fill="url(#b2)" rx="3" opacity="0.9"/>
-    <rect x="1009" y="148" width="28" height="162" fill="url(#b3)" rx="3" opacity="0.9"/>
-    <rect x="1052" y="172" width="28" height="138" fill="url(#b4)" rx="3" opacity="0.9"/>
-    <rect x="1095" y="138" width="28" height="172" fill="url(#b1)" rx="3" opacity="0.9"/>
-    <rect x="1138" y="155" width="28" height="155" fill="url(#b2)" rx="3" opacity="0.9"/>
-    <rect x="1181" y="125" width="28" height="185" fill="url(#b3)" rx="3" opacity="0.9"/>
-    <rect x="1224" y="108" width="28" height="202" fill="url(#b4)" rx="3" opacity="0.9"/>
-    <rect x="1267" y="90"  width="28" height="220" fill="url(#b1)" rx="3" opacity="1" filter="url(#barGlow)"/>
+    <!-- Bars: 10 rounds. Scale: y = 520 - (value * 5.75); width=24, gap=14, start=520
+         Round values: 24, 27, 22, 29, 31, 28, 33, 30, 35, 38
+         x positions (start at 520, step 38):
+         R1=520, R2=558, R3=596, R4=634, R5=672, R6=710, R7=748, R8=786, R9=824, R10=862
+         Tallest = R10 (38) -> teal
+    -->
+    <!-- R1 24 -> y=520-138=382, h=138 -->
+    <rect x="520" y="382" width="24" height="138" fill="url(#goldBar)" rx="2"/>
+    <!-- R2 27 -> y=520-155.25=364.75, h=155.25 -->
+    <rect x="558" y="365" width="24" height="155" fill="url(#goldBar)" rx="2"/>
+    <!-- R3 22 -> y=520-126.5=393.5, h=126.5 -->
+    <rect x="596" y="394" width="24" height="126" fill="url(#goldBar)" rx="2"/>
+    <!-- R4 29 -> y=520-166.75=353.25, h=166.75 -->
+    <rect x="634" y="353" width="24" height="167" fill="url(#goldBar)" rx="2"/>
+    <!-- R5 31 -> y=520-178.25=341.75 -->
+    <rect x="672" y="342" width="24" height="178" fill="url(#goldBar)" rx="2"/>
+    <!-- R6 28 -> y=520-161=359 -->
+    <rect x="710" y="359" width="24" height="161" fill="url(#goldBar)" rx="2"/>
+    <!-- R7 33 -> y=520-189.75=330.25 -->
+    <rect x="748" y="330" width="24" height="190" fill="url(#goldBar)" rx="2"/>
+    <!-- R8 30 -> y=520-172.5=347.5 -->
+    <rect x="786" y="348" width="24" height="172" fill="url(#goldBar)" rx="2"/>
+    <!-- R9 35 -> y=520-201.25=318.75 -->
+    <rect x="824" y="319" width="24" height="201" fill="url(#goldBar)" rx="2"/>
+    <!-- R10 38 (tallest) -> y=520-218.5=301.5; teal highlight -->
+    <rect x="862" y="302" width="24" height="218" fill="url(#tealBar)" rx="2" filter="url(#softGlow)"/>
 
-    <!-- Bar cap highlights -->
-    <rect x="923"  y="188" width="28" height="4" fill="#4fc3f7" rx="2" opacity="0.7"/>
-    <rect x="966"  y="165" width="28" height="4" fill="#b39ddb" rx="2" opacity="0.7"/>
-    <rect x="1009" y="148" width="28" height="4" fill="#80deea" rx="2" opacity="0.7"/>
-    <rect x="1052" y="172" width="28" height="4" fill="#a5d6a7" rx="2" opacity="0.7"/>
-    <rect x="1095" y="138" width="28" height="4" fill="#4fc3f7" rx="2" opacity="0.7"/>
-    <rect x="1138" y="155" width="28" height="4" fill="#b39ddb" rx="2" opacity="0.7"/>
-    <rect x="1181" y="125" width="28" height="4" fill="#80deea" rx="2" opacity="0.7"/>
-    <rect x="1224" y="108" width="28" height="4" fill="#a5d6a7" rx="2" opacity="0.7"/>
-    <rect x="1267" y="90"  width="28" height="4" fill="#4fc3f7" rx="2" opacity="1" filter="url(#glow2)"/>
+    <!-- Bezier trend line through bar tops (centre x = bar_x + 12) -->
+    <!-- Points: (532,382)(570,365)(608,394)(646,353)(684,342)(722,359)(760,330)(798,348)(836,319)(874,302) -->
+    <path d="M 532 382
+             C 545 372, 558 358, 570 365
+             S 595 400, 608 394
+             S 633 346, 646 353
+             S 671 335, 684 342
+             S 709 365, 722 359
+             S 747 322, 760 330
+             S 785 354, 798 348
+             S 823 312, 836 319
+             S 861 295, 874 302"
+          fill="none" stroke="#4cc9f0" stroke-width="2.2" opacity="0.95" filter="url(#softGlow)"/>
 
-    <!-- Prediction trend (smooth bezier) -->
-    <path d="M 937 182 C 955 165 968 158 995 142 C 1018 130 1042 165 1066 132 C 1090 102 1120 148 1152 148 C 1178 115 1210 119 1238 102 C 1258 88 1275 86 1281 85"
-      fill="none" stroke="url(#gold)" stroke-width="2.5" opacity="0.95" filter="url(#glow2)"/>
+    <!-- Trend point markers -->
+    <g fill="#4cc9f0">
+      <circle cx="532" cy="382" r="2.5"/>
+      <circle cx="570" cy="365" r="2.5"/>
+      <circle cx="608" cy="394" r="2.5"/>
+      <circle cx="646" cy="353" r="2.5"/>
+      <circle cx="684" cy="342" r="2.5"/>
+      <circle cx="722" cy="359" r="2.5"/>
+      <circle cx="760" cy="330" r="2.5"/>
+      <circle cx="798" cy="348" r="2.5"/>
+      <circle cx="836" cy="319" r="2.5"/>
+      <circle cx="874" cy="302" r="3.5" fill="#2ec4b6" filter="url(#softGlow)"/>
+    </g>
 
-    <!-- Trend points -->
-    <circle cx="937"  cy="182" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="980"  cy="160" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1023" cy="142" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1066" cy="167" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1109" cy="132" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1152" cy="150" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1195" cy="120" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1238" cy="103" r="4"   fill="#f5c842" opacity="0.9" filter="url(#glow2)"/>
-    <circle cx="1281" cy="85"  r="5.5" fill="#f5c842" opacity="1"   filter="url(#glow5)"/>
+    <!-- TRENDING ↑ annotation near peak -->
+    <g>
+      <rect x="788" y="262" width="92" height="22" rx="4"
+            fill="#0d1117" stroke="#2ec4b6" stroke-width="1" opacity="0.95"/>
+      <text x="834" y="277" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
+            fill="#2ec4b6" text-anchor="middle" letter-spacing="1.5">TRENDING ↑</text>
+      <!-- Connector to peak -->
+      <line x1="834" y1="284" x2="874" y2="298" stroke="#2ec4b6" stroke-width="1" opacity="0.7"/>
+    </g>
 
     <!-- Round labels -->
-    <g font-family="monospace" font-size="9.5" fill="#ffffff25" text-anchor="middle">
-      <text x="937"  y="326">R1</text>
-      <text x="980"  y="326">R2</text>
-      <text x="1023" y="326">R3</text>
-      <text x="1066" y="326">R4</text>
-      <text x="1109" y="326">R5</text>
-      <text x="1152" y="326">R6</text>
-      <text x="1195" y="326">R7</text>
-      <text x="1238" y="326">R8</text>
-      <text x="1281" y="326">R9</text>
+    <g font-family="'Segoe UI', Arial, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">
+      <text x="532" y="538">Rd1</text>
+      <text x="570" y="538">Rd2</text>
+      <text x="608" y="538">Rd3</text>
+      <text x="646" y="538">Rd4</text>
+      <text x="684" y="538">Rd5</text>
+      <text x="722" y="538">Rd6</text>
+      <text x="760" y="538">Rd7</text>
+      <text x="798" y="538">Rd8</text>
+      <text x="836" y="538">Rd9</text>
+      <text x="874" y="538" fill="#2ec4b6" font-weight="700">Rd10</text>
     </g>
-
-    <!-- Chart legend -->
-    <rect x="910" y="340" width="10" height="3" fill="url(#gold)" rx="1.5"/>
-    <text x="926" y="343" font-family="monospace" font-size="9" fill="#ffffff30">predicted disposals trend</text>
   </g>
 
-  <!-- ═══ TOP / BOTTOM VIGNETTES ═══ -->
-  <rect x="0" y="0"   width="1400" height="80"  fill="url(#fadeTop)"/>
-  <rect x="0" y="320" width="1400" height="80"  fill="url(#fadeBot)"/>
-  <rect x="0" y="0"   width="400"  height="400" fill="url(#fadeL)" opacity="0.4"/>
+  <!-- ═══ RIGHT PANEL: STATS (5 boxes, x=950..1390, vertically centred) ═══ -->
+  <g>
+    <!-- Panel label -->
+    <text x="1170" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+          fill="#f4c430" text-anchor="middle" letter-spacing="3">SEASON SNAPSHOT</text>
 
-  <!-- ═══ CENTRE TEXT ═══ -->
-
-  <!-- Eyebrow -->
-  <text x="700" y="106" font-family="'Courier New', monospace" font-size="11"
-    fill="#f5c842" text-anchor="middle" letter-spacing="6" opacity="0.8" filter="url(#glow2)">
-    AFL  ·  DATA SCIENCE  ·  AI AGENTS  ·  1897–2026
-  </text>
-
-  <!-- Main title — bloom layer -->
-  <text x="700" y="190" font-family="Arial Black, 'Impact', sans-serif" font-size="66" font-weight="900"
-    fill="white" text-anchor="middle" opacity="0.18" filter="url(#titleBloom)">AFL SuperCoach VIA</text>
-  <!-- Main title — sharp layer -->
-  <text x="700" y="190" font-family="Arial Black, 'Impact', sans-serif" font-size="66" font-weight="900"
-    fill="url(#titleGrad)" text-anchor="middle" letter-spacing="1">AFL SuperCoach VIA</text>
-
-  <!-- Gold rule under title -->
-  <rect x="280" y="202" width="840" height="2" fill="url(#gold)" rx="1" opacity="0.7"/>
-  <!-- Bright centre cap on rule -->
-  <rect x="610" y="201" width="180" height="4" fill="url(#gold)" rx="2" filter="url(#glow2)"/>
-
-  <!-- Subtitle -->
-  <text x="700" y="234" font-family="Arial, Helvetica, sans-serif" font-size="14"
-    fill="#6a9ac4" text-anchor="middle" letter-spacing="5" font-weight="300">
-    PREDICTIONS  ·  ALL-TIME RANKINGS  ·  COACHING ANALYTICS
-  </text>
-
-  <!-- ─── Stats row ─── -->
-  <!-- Outer border line -->
-  <rect x="290" y="260" width="820" height="72" fill="none" stroke="#ffffff08" stroke-width="1" rx="6"/>
-  <!-- Inner fill -->
-  <rect x="291" y="261" width="818" height="70" fill="#ffffff03" rx="5"/>
-
-  <!-- Dividers -->
-  <line x1="495" y1="268" x2="495" y2="324" stroke="#ffffff12" stroke-width="1"/>
-  <line x1="700" y1="268" x2="700" y2="324" stroke="#ffffff12" stroke-width="1"/>
-  <line x1="905" y1="268" x2="905" y2="324" stroke="#ffffff12" stroke-width="1"/>
-
-  <g font-family="Arial, sans-serif" text-anchor="middle">
-    <!-- Stat 1: Players -->
-    <text x="393" y="302" font-size="34" font-weight="800" fill="#2979ff" filter="url(#glow5)" letter-spacing="-1">5,700<tspan font-size="20" dy="-6" dx="1">+</tspan></text>
-    <text x="393" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">PLAYERS PROFILED</text>
-
-    <!-- Stat 2: Years -->
-    <text x="598" y="302" font-size="34" font-weight="800" fill="#f5c842" filter="url(#glow5)" letter-spacing="-1">125</text>
-    <text x="598" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">YEARS OF DATA</text>
-
-    <!-- Stat 3: Accuracy -->
-    <text x="803" y="302" font-size="34" font-weight="800" fill="#00e5ff" filter="url(#glow5)" letter-spacing="-1">94<tspan font-size="20" dy="-6" dx="1">%</tspan></text>
-    <text x="803" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">WITHIN 10 DISPOSALS</text>
-
-    <!-- Stat 4: MAE -->
-    <text x="1008" y="302" font-size="34" font-weight="800" fill="#00e676" filter="url(#glow5)" letter-spacing="-1">4.1</text>
-    <text x="1008" y="320" font-size="9.5" fill="#3a6090" letter-spacing="3.5" font-weight="400">AVG DISPOSAL ERROR</text>
+    <!-- 5 stat boxes: y centres 305, 360, 415, 470, 525  (55px stride) -->
+    <!-- Box 1: AVG DISP -->
+    <g>
+      <text x="970" y="312" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+            fill="#f4c430" letter-spacing="2.5">AVG DISP</text>
+      <text x="1370" y="316" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
+            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">32.4</text>
+      <rect x="970" y="328" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
+    </g>
+    <!-- Box 2: AVG GOALS -->
+    <g>
+      <text x="970" y="367" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+            fill="#f4c430" letter-spacing="2.5">AVG GOALS</text>
+      <text x="1370" y="371" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
+            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">1.2</text>
+      <rect x="970" y="383" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
+    </g>
+    <!-- Box 3: CLEARANCES -->
+    <g>
+      <text x="970" y="422" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+            fill="#f4c430" letter-spacing="2.5">CLEARANCES</text>
+      <text x="1370" y="426" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
+            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">6.8</text>
+      <rect x="970" y="438" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
+    </g>
+    <!-- Box 4: TACKLES -->
+    <g>
+      <text x="970" y="477" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+            fill="#f4c430" letter-spacing="2.5">TACKLES</text>
+      <text x="1370" y="481" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
+            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">5.1</text>
+      <rect x="970" y="493" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
+    </g>
+    <!-- Box 5: FORM RTG -->
+    <g>
+      <text x="970" y="532" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
+            fill="#f4c430" letter-spacing="2.5">FORM RTG</text>
+      <text x="1370" y="536" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
+            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">8.7<tspan font-size="16" fill="#8b949e" dx="2">/10</tspan></text>
+      <rect x="970" y="548" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
+    </g>
   </g>
 
-  <!-- ─── Footer ─── -->
-  <text x="700" y="366" font-family="'Courier New', monospace" font-size="10"
-    fill="#ffffff15" text-anchor="middle" letter-spacing="2.5">
-    Built with Claude Code  ·  Scientist Agent (Opus)  ·  LightGBM GPU  ·  Python 3.12
-  </text>
+  <!-- ═══ EST. 1897 (bottom-right) ═══ -->
+  <text x="1380" y="585" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="500"
+        fill="#8b949e" text-anchor="end" letter-spacing="2">EST. 1897</text>
 
-  <!-- ═══ CORNER ACCENT BRACKETS ═══ -->
+  <!-- ═══ CORNER L-BRACKETS (gold, 3px, 40px arms) ═══ -->
   <!-- Top-left -->
-  <path d="M 0 50 L 0 8 L 8 0 L 60 0" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.7"/>
+  <path d="M 0 40 L 0 0 L 40 0" fill="none" stroke="#f4c430" stroke-width="3"/>
   <!-- Top-right -->
-  <path d="M 1340 0 L 1392 0 L 1400 8 L 1400 50" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.7"/>
+  <path d="M 1360 0 L 1400 0 L 1400 40" fill="none" stroke="#f4c430" stroke-width="3"/>
   <!-- Bottom-left -->
-  <path d="M 0 350 L 0 392 L 8 400 L 60 400" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.4"/>
+  <path d="M 0 560 L 0 600 L 40 600" fill="none" stroke="#f4c430" stroke-width="3"/>
   <!-- Bottom-right -->
-  <path d="M 1340 400 L 1392 400 L 1400 392 L 1400 350" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.4"/>
-
-  <!-- Corner accent dots -->
-  <circle cx="8"    cy="8"   r="3" fill="#f5c842" opacity="0.7" filter="url(#glow2)"/>
-  <circle cx="1392" cy="8"   r="3" fill="#f5c842" opacity="0.7" filter="url(#glow2)"/>
-  <circle cx="8"    cy="392" r="3" fill="#f5c842" opacity="0.4"/>
-  <circle cx="1392" cy="392" r="3" fill="#f5c842" opacity="0.4"/>
-
-  <!-- Top edge accent line -->
-  <rect x="0" y="0" width="1400" height="2" fill="url(#gold)" opacity="0.35"/>
-  <!-- Bottom edge line -->
-  <rect x="0" y="398" width="1400" height="2" fill="url(#gold)" opacity="0.2"/>
+  <path d="M 1360 600 L 1400 600 L 1400 560" fill="none" stroke="#f4c430" stroke-width="3"/>
 </svg>
