@@ -1937,13 +1937,13 @@ Newman was also an extraordinary footballer — a dashing half-forward flanker r
 
 **Defining moment:** Newman's career was defined not by one game but by a choice — choosing to return to football after losing a kidney, and then backing that choice with a decade of elite performance across **213 games and three VFL premierships** **[historical record]**.
 
-#### 2. Dustin Martin — Richmond, 2010–2024 (Grand Final courage)
+#### 2. Jonathan Brown — Brisbane Lions, 2000–2014
 
-Three Norm Smith Medals **[historical record]** is unprecedented in any sport's history. The 2017 Grand Final stands alone: Richmond entered as underdogs to Adelaide and Martin played a game that defies normal positional analysis — 29 disposals, 8 clearances, 2 goals, and the famous **"don't argue" fend-off on Brodie Smith** in the third quarter that became the iconic image of the decade **[historical record]**.
+Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a career-threatening eye injury that left him legally blind in one eye after a brutal clash in 2009. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
 
-What made Martin courageous in that game was the willingness to take on the contest in moments when everyone else hesitated. The Tigers had not won a flag for **37 years** **[historical record]**, and the weight of that drought sat on his back from the first bounce. He carried it.
+What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which stripped vision from his right eye — he returned and played five more seasons of elite football, kicking 737 career goals. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
 
-His later Grand Finals (2019, 2020) repeated the pattern. He was the only player in league history with three Norm Smith Medals before he turned 30.
+**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanent vision loss. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play blind in one eye, no one else had an excuse.
 
 #### 3. Gary Ablett Sr — Hawthorn / Geelong, 1982–1996
 
@@ -1977,13 +1977,13 @@ Lloyd's torn pectoral story is the canonical *playing-through-injury* story in m
 
 The injury never fully healed and affected the rest of his career. He kicked **926 career goals** **[historical record]** anyway. His captaincy in the late 2000s carried the same standard.
 
-#### 8. Jonathan Brown — Brisbane Lions, 2000–2014
+#### 8. Dustin Martin — Richmond, 2010–2024 (Grand Final courage)
 
-Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a career-threatening eye injury that left him legally blind in one eye after a brutal clash in 2009. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
+Three Norm Smith Medals **[historical record]** is unprecedented in any sport's history. The 2017 Grand Final stands alone: Richmond entered as underdogs to Adelaide and Martin played a game that defies normal positional analysis — 29 disposals, 8 clearances, 2 goals, and the famous **"don't argue" fend-off on Brodie Smith** in the third quarter that became the iconic image of the decade **[historical record]**.
 
-What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which stripped vision from his right eye — he returned and played five more seasons of elite football, kicking 737 career goals. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
+What made Martin courageous in that game was the willingness to take on the contest in moments when everyone else hesitated. The Tigers had not won a flag for **37 years** **[historical record]**, and the weight of that drought sat on his back from the first bounce. He carried it.
 
-**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanent vision loss. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play blind in one eye, no one else had an excuse.
+His later Grand Finals (2019, 2020) repeated the pattern. He was the only player in league history with three Norm Smith Medals before he turned 30.
 
 #### 9. Michael Voss — Brisbane Lions, 1992–2006
 
