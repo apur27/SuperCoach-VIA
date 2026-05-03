@@ -8,9 +8,9 @@
 </div>
 <br>
 
-If you're curious about AI and large language models but don't know where to start, this repo is a practical, hands-on way to learn — and you don't need a computer science degree to follow along. All you need is a gaming laptop running Ubuntu, an interest in AFL, a copy of [Claude Code](https://claude.ai/code), and a Claude subscription — the entry level plan is plenty for everything in this repo. Everything in this project — the prediction model, the backtest framework, the all-time player rankings — was built and improved by having plain-English conversations with AI agents, including a specialised "Scientist" agent that reads data, finds problems, and fixes code on its own. You'll see how to use agents to analyse real AFL data, predict player disposals each week, and continuously improve accuracy by feeding results back into the model. Whether you want to understand how LLMs can write and improve code, how machine learning predictions actually work in practice, or just who the greatest AFL player of all time is — this repo shows you all of it, one conversation at a time.
+If you love footy and you're curious about AI but don't know where to start, this repo is a practical, hands-on way to learn — and you don't need a computer science degree to follow along. All you need is a laptop running Ubuntu (a free Linux operating system), an interest in AFL, a copy of [Claude Code](https://claude.ai/code) (a tool that lets you chat with Claude AI inside a terminal window), and a Claude subscription — the entry-level plan is plenty for everything in this repo. Everything in this project — the disposal prediction model, the backtest framework that grades it, the all-time player rankings — was built and improved by having plain-English conversations with AI agents, including a specialised "Scientist" agent that reads data, finds problems, and fixes code on its own. You'll see how to use these agents to analyse real AFL data, predict each player's disposals (kicks + handballs) each week, and continuously improve accuracy by feeding results back into the model. Whether you want to understand how AI can write and improve code, how computer-driven predictions actually work in practice, or just who the greatest AFL player of all time is — this repo shows you all of it, one conversation at a time.
 
-> **GPU required for most scripts.** The prediction engine, backtester, ranking pipeline and era analysis all use GPU-accelerated libraries (LightGBM CUDA, cuDF). On a CPU-only machine these scripts will either fail to import or run 10–30× slower — a single prediction round can take 2+ hours instead of ~5 minutes. If you don't have an NVIDIA GPU, read [Setting up GPU acceleration](#setting-up-gpu-acceleration-optional) before running anything beyond the basic data fetch. A CPU fallback (`prediction_cpu.py`) exists for predictions only.
+> **A faster computer helps, but isn't essential.** Most of the heavy-lifting scripts (the prediction engine, the backtester, the all-time rankings, the era analysis) are designed to use a **GPU** (the graphics card in your computer — originally built for video games, but it's also very fast at the kind of maths used in machine learning). On a normal laptop without a dedicated NVIDIA graphics card, those scripts will run roughly 10 to 30 times slower — a single round of predictions can take 2+ hours instead of about 5 minutes. If you don't have an NVIDIA GPU, read [Setting up GPU acceleration](#setting-up-gpu-acceleration-optional) before running anything beyond the basic data fetch. A CPU-only fallback (`prediction_cpu.py`) exists for the predictions, so you can still use the project on any laptop — just more slowly.
 
 ---
 
@@ -19,8 +19,22 @@ A personal AFL data project that does three things:
 2. **Ranks the greatest players of all time** using a fair, era-adjusted formula
 3. **Predicts how many disposals each player will get** in the next round
 
+## Who is this for?
+
+| I am… | What I get from this repo |
+|---|---|
+| **A footy fan** who wants to understand their team better | The AFL insights section — live team stats, finals pathway, who's playing well |
+| **A SuperCoach player** wanting a data edge | The disposal prediction model tells you who is likely to rack up this week |
+| **Curious about AI** and want to see it applied to sport | The Claude AI agents section walks you through using AI to ask questions about the data |
+| **A developer or data scientist** | Full pipeline docs, model code, backtest framework, GPU setup |
+
+You don't need to write any code to use most of this. The AFL Insights section of this README updates automatically every week — just read it.
+
+> **What is SuperCoach?** SuperCoach is Australia's most popular AFL fantasy competition — you pick a squad of real AFL players and score points based on their actual in-game statistics each week. Disposals (kicks + handballs) are the biggest scoring category, which is why this project focuses on predicting them. Think of it as the AFL version of fantasy football.
+
 ## Table of Contents
 
+- [Who is this for?](#who-is-this-for)
 - [Introduction](#introduction)
   - [What's in this repo](#whats-in-this-repo)
 - [Quick start](#quick-start)
@@ -48,6 +62,7 @@ A personal AFL data project that does three things:
   - [Setting up GPU acceleration (optional)](#setting-up-gpu-acceleration-optional)
   - [How the data is organised](#how-the-data-is-organised)
   - [Data sources](#data-sources)
+  - [Glossary](#glossary)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -69,11 +84,23 @@ This is the project at a glance — what's in the repo and how to find your way 
 
 **Who is this section for?** Anyone who just wants to get the project running and start using it — predict next round, run a backtest, or refresh the data — without first wading through methodology or AFL analysis.
 
-New here? These three commands are all you need. Clone the repo, run `prediction.py` for next week's disposal projections, and `./refresh_and_rank.sh` to refresh data and rebuild the all-time top 100.
+New here? These three commands are all you need. Download a copy of the project (a "repo" is just a project folder hosted on GitHub), run `prediction.py` for next week's disposal projections, and `./refresh_and_rank.sh` to refresh data and rebuild the all-time top 100.
+
+#### New to the terminal? Start here
+
+If you've never used a **terminal** before, don't stress — it's just a text window where you type instructions to your computer instead of clicking buttons. Everything in the Quick Start below is typed into that one window.
+
+**To open a terminal on Ubuntu**, press `Ctrl+Alt+T` on your keyboard, or click the apps button (the grid of dots) in the dock and search for *Terminal*. A black or dark-grey window will pop up with a blinking cursor — that's it.
+
+From there, every line of code shown in a grey box below is something you copy, paste into the terminal, and then press **Enter** to run. That's the whole interaction. The computer reads each line, does the work, and prints the result back to the same window.
+
+If anything you see below looks intimidating — long URLs, words like `pip` or `npm`, lots of slashes — that's normal. You only need to copy-paste a handful of commands and the hard parts (downloading code, installing libraries, picking the right version) are handled automatically. The full step-by-step setup, with explanations of what each step does, lives in the [Getting started](#getting-started) and [Setting up Claude Code on Ubuntu](#setting-up-claude-code-on-ubuntu) sections further down — start there if you want a slower walk-through.
 
 ### Getting started
 
 #### 1. Download the repo
+
+This downloads the whole project to a new folder on your laptop called `SuperCoach-VIA` and then moves your terminal into it.
 
 ```bash
 git clone https://github.com/apur27/SuperCoach-VIA.git
@@ -81,6 +108,8 @@ cd SuperCoach-VIA
 ```
 
 #### 2. Install dependencies
+
+"Dependencies" are the extra software libraries the scripts in this project use to do their work — things like `pandas` for spreadsheets and `LightGBM` for the prediction model. The single `pip install` command below downloads and sets them all up automatically.
 
 ```bash
 pip install -r requirements.txt
@@ -145,7 +174,18 @@ To pull the latest match and player data and recalculate the all-time top 100 ra
 ./refresh_and_rank.sh
 ```
 
-What it runs end-to-end:
+#### What does this script actually do?
+
+Think of `refresh_and_rank.sh` as the **"update everything" button** for the whole project. One command, four big jobs, and when it finishes the README and every chart you see in this file have been re-built from scratch with the latest numbers.
+
+1. **It downloads the latest match and player data from the internet** — match results, every player's stats line, fresh from AFL Tables.
+2. **It recalculates the all-time top 100 player rankings** — re-scores every player from 1897 onwards using the current ranking formula and writes the updated `all_time_top_100.csv`.
+3. **It rebuilds all the 2026 team analysis, finals pathway, Brownlow predictor and stat leaders** — every paragraph in the AFL Insights section is regenerated from the freshest data.
+4. **It regenerates all the charts and updates this README** — the auto-marker sections in the file (team analysis, finals pathway, Brownlow predictor, stat leaders, 5-year profiles) are overwritten with the new content. You don't edit those by hand; they belong to this script.
+
+The full run takes roughly **10 to 15 minutes on a GPU**, and longer without one. It's the right thing to run after each round of footy is played. You can also have it run automatically every week — see the troubleshooting section under [Setting up Claude Code on Ubuntu](#setting-up-claude-code-on-ubuntu) for one way to do that on a schedule.
+
+What it actually executes, end-to-end:
 1. `refresh_data.py` — scrape the latest match and player results from AFL Tables
 2. `top_players_comprehensive.py` — recompute and write `all_time_top_100.csv`
 3. `update_team_analysis.py` — regenerate the 2026 team analysis section + 5-year team-style profiles + the embedded charts in this README
@@ -1374,6 +1414,16 @@ Understand or improve the model. Plain-English notes on how predictions work, th
 
 ### How predictions work
 
+#### What does the model actually do? (in plain English)
+
+Imagine you had to guess how many disposals (kicks + handballs) Nick Daicos will rack up next Saturday. As a footy fan, you'd think about a few things — how he's been going lately, which team he's playing, where the game is, whether he came back from a soft-tissue niggle. The prediction model in this repo does exactly that, just with a lot more games and a lot more numbers in front of it.
+
+It takes a player's history — their disposal counts in recent rounds, their season-to-date averages, the opponent's defensive style, the venue, and so on — and uses **machine learning** to guess what they'll do this week. "Machine learning" sounds fancy, but at its heart it just means: the computer looks at *thousands* of past games where we know what happened, finds patterns far too subtle for a human to spot by eye (e.g. "midfielders coming off a 6-day break, playing a slow-tempo opponent at the MCG, with this much recent form, tend to land within this disposal range"), and then applies those patterns to predict the next one.
+
+What you see when you run the model is a number per player. If the prediction says **"Daicos: 34"**, that means the model expects him to get roughly 34 disposals — not exactly 34, but somewhere close. The model is graded by how far off it is on average. Right now, it's off by about 4 disposals per player, which is much better than guessing or a coin flip — but football is football. Players get tagged, get injured mid-game, or just have an off day. **No prediction is a sure thing.** Treat the numbers as a smart starting point, not a guarantee.
+
+#### Under the hood
+
 The model looks at each player's recent form — their disposals over the last 5 rounds, their average this season, how long since they last played — and uses that to estimate what they'll get next week. It tries two different machine learning approaches, picks the one that performed better in testing, then applies a final correction to remove any systematic over- or under-prediction.
 
 **Accuracy from the 2026 season (rounds 1–8):**
@@ -1741,6 +1791,24 @@ Treat the Scientist like calling in a senior consultant. You wouldn't pay a cons
 
 ---
 
+#### First time using Claude? Here's exactly what to do
+
+Never spoken to an AI before? Here is the shortest possible path from "zero" to "asking Claude a question about footy data". You only need to do steps 1 to 4 once.
+
+1. Go to [claude.ai](https://claude.ai) and create a free account (the entry-level subscription is enough for most tasks in this repo).
+2. Open a terminal on your laptop (press `Ctrl+Alt+T` on Ubuntu, or search "Terminal" in your apps).
+3. Navigate to this folder: type `cd ~/git/SuperCoach-VIA` and press Enter. (`cd` stands for "change directory" — it tells the terminal which folder to work in.)
+4. Start Claude Code by typing `claude` and pressing Enter. The first time only, it'll ask you to log in via your browser — follow the link it prints.
+5. You'll see a `>` prompt. **Type your question in plain English** — no special syntax — and press Enter. For example:
+   - *"Who are the top 5 disposal getters in 2026 and what does the data say about their Brownlow chances?"*
+   - *"My favourite team is Hawthorn. What do their stats say about their chances of making the grand final?"*
+   - *"I play SuperCoach. Which players should I trade in this week based on the prediction model?"*
+6. Claude will read the data files in this project and answer you — no coding needed. If it wants to run a script or change a file, it'll tell you what it's about to do first.
+
+That's the whole loop. Open a terminal, type `claude`, ask a question. From there, the rest of this section is about making the most of it (and not burning your token budget on the Scientist).
+
+---
+
 #### How Claude Code works
 
 Start it from the project folder:
@@ -1969,6 +2037,34 @@ Each player has two files in `data/player_data/`:
 
 - Match results and player stats: [AFL Tables](https://afltables.com/afl/afl_index.html)
 - Historical betting odds: [AusSportsBetting](https://www.aussportsbetting.com/data/historical-afl-results-and-odds-data/)
+
+### Glossary
+
+A quick plain-English reference for the footy and tech terms used in this README. If something here didn't make sense above, this is the place to look it up.
+
+**Footy stats**
+
+- **Disposal** — a kick or handball; the main currency of AFL statistics, and the thing this project's prediction model is built around.
+- **Contested possession** — winning the ball when an opponent is trying to take it from you; a sign of physicality and willingness to compete at ground level.
+- **Clearance** — getting the ball away from a stoppage (a ball-up or boundary throw-in); a key indicator of midfield dominance.
+- **Inside 50** — moving the ball into your forward 50-metre arc; more inside 50s = more scoring opportunities.
+- **Hitout** — a ruckman tapping the ball at a ruck contest. Not all hitouts are useful, which is why "hitouts to advantage" matters in modern analysis.
+- **Clanger** — a mistake: a turnover, a dropped mark, an errant kick. Lower is better.
+- **Brownlow Medal** — the AFL's individual award for the "fairest and best" player, voted on by on-field umpires using a 3-2-1 system per game.
+- **SuperCoach** — Australia's most popular AFL fantasy competition. You pick a squad of real AFL players and score points based on their actual in-game stats each week. Disposals are the biggest scoring category.
+
+**Tech and AI**
+
+- **LightGBM** — a fast machine-learning library (the kind of maths the computer uses to find patterns); this project uses it to predict disposals.
+- **Machine learning** — letting a computer find patterns in lots of past data and then use those patterns to make a guess about a new situation. No, it isn't sentient.
+- **z-score** — a number that says how many "standard steps" above or below average something is; a z-score of +2 means "much better than average".
+- **Walk-forward backtest** — testing a prediction model by simulating how it would have performed in the past, round by round, without using future data to cheat. The honest way to grade a model.
+- **GPU** — the graphics card in a computer; originally built for video games, but also very fast at the kind of maths machine learning needs. Running without a GPU is like doing your tax return by hand instead of with a calculator — possible, just much slower.
+- **CLI / terminal** — the text window where you type commands. Looks old-fashioned, but it's the fastest way to run data pipelines.
+- **Python** — the programming language all the scripts in this project are written in. You don't need to know Python to use this project.
+- **venv** — short for "virtual environment". It's a Python self-contained box of software libraries so this project doesn't mess with anything else on your laptop.
+- **Claude / Claude Code** — Claude is Anthropic's AI assistant; Claude Code is the version that runs in your terminal so it can read your files, edit code, and run commands on your behalf.
+- **Scientist agent** — a specialised version of Claude built into this project that runs on the most powerful (and most expensive) Claude model. Use it sparingly — see the warning above the Scientist examples.
 
 ### Contributing
 
