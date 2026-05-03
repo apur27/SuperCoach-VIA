@@ -69,6 +69,8 @@ REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
 PLAYER_DATA_DIR = os.path.join(REPO_ROOT, "data", "player_data")
 MATCHES_DIR = os.path.join(REPO_ROOT, "data", "matches")
 README_PATH = os.path.join(REPO_ROOT, "docs", "afl-insights.md")
+SEASON_PATH = os.path.join(REPO_ROOT, "docs", "afl-season-2026.md")
+TEAM_PROFILES_PATH = os.path.join(REPO_ROOT, "docs", "afl-team-profiles.md")
 HALL_OF_FAME_PATH = os.path.join(REPO_ROOT, "docs", "hall-of-fame-top100.md")
 TOP100_CSV = os.path.join(REPO_ROOT, "all_time_top_100.csv")
 TOP100_SCORES_CSV = os.path.join(REPO_ROOT, "data", "top100", "all_time_top_100.csv")
@@ -3953,21 +3955,35 @@ def main() -> None:
     print("[4/9] Looking up leading per-team disposal getters...")
     top_scorers = per_team_top_disposal_player(games, year)
 
-    print("[5/9] Rendering current-season markdown and updating docs/afl-insights.md...")
+    # Decide which file holds the four season-specific blocks. After the
+    # docs split, they live in docs/afl-season-2026.md (SEASON_PATH); if that
+    # file is missing we fall back to the legacy docs/afl-insights.md.
+    season_target = SEASON_PATH if os.path.exists(SEASON_PATH) else README_PATH
+    print(f"[5/9] Rendering current-season markdown and updating {os.path.relpath(season_target, REPO_ROOT)}...")
     body = build_section_body(year, max_round, summary_with_ranks, summary, league, top_scorers)
 
-    with open(README_PATH, "r", encoding="utf-8") as f:
-        readme_text = f.read()
-    new_readme = replace_section(readme_text, year, body)
+    with open(season_target, "r", encoding="utf-8") as f:
+        season_text = f.read()
+    new_season = replace_section(season_text, year, body)
 
     print("[6/9] Building 5-year team playing-style profiles...")
     five_year_body, year_window = generate_5year_profiles(year)
-    new_readme = replace_5year_section(new_readme, year, year_window, five_year_body)
+    # 5-year profiles have their own home (docs/afl-team-profiles.md). If
+    # that file is missing we fall back to writing them into season_target.
+    if os.path.exists(TEAM_PROFILES_PATH):
+        with open(TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
+            profiles_text = f.read()
+        new_profiles = replace_5year_section(profiles_text, year, year_window, five_year_body)
+        if new_profiles != profiles_text:
+            with open(TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
+                f.write(new_profiles)
+    else:
+        new_season = replace_5year_section(new_season, year, year_window, five_year_body)
 
     print("[7/9] Building finals pathway section from match results + ranks...")
     pathway_body, _ladder = generate_finals_pathway(year, max_round, summary_with_ranks)
     if pathway_body:
-        new_readme = replace_finals_pathway_section(new_readme, year, pathway_body)
+        new_season = replace_finals_pathway_section(new_season, year, pathway_body)
     if not _ladder.empty:
         chart_path = generate_finals_pathway_chart(_ladder, year, max_round)
         if chart_path:
@@ -3976,17 +3992,17 @@ def main() -> None:
     print("[8/10] Building Brownlow Medal vote-proxy section...")
     brownlow_body, _brownlow_table = generate_brownlow_predictor(games, year, max_round)
     if brownlow_body:
-        new_readme = replace_brownlow_predictor_section(new_readme, year, brownlow_body)
+        new_season = replace_brownlow_predictor_section(new_season, year, brownlow_body)
 
     print("[9/10] Building player performance stats section...")
     matches_for_stats = load_match_results(year)
     stat_body = generate_stat_leaders_section(games, matches_for_stats, year, max_round)
     if stat_body:
-        new_readme = replace_stat_leaders_section(new_readme, year, stat_body)
+        new_season = replace_stat_leaders_section(new_season, year, stat_body)
 
-    if new_readme != readme_text:
-        with open(README_PATH, "w", encoding="utf-8") as f:
-            f.write(new_readme)
+    if new_season != season_text:
+        with open(season_target, "w", encoding="utf-8") as f:
+            f.write(new_season)
 
     print("[10/11] Regenerating data-visualisation charts (radar, heatmap, scatter)...")
     regenerate_charts(year)

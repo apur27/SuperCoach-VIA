@@ -9,23 +9,36 @@ of `refresh_and_rank.sh`, AFTER the upstream data has been refreshed and the
 all-time top 100 has been recalculated, so this script only has to render
 outputs from already-fresh inputs.
 
-The marker-driven sections live in `docs/afl-insights.md` (team analysis,
-finals pathway, Brownlow predictor, stat leaders, 5-year team profiles) and
-`docs/hall-of-fame-top100.md` (all-time top 100 table). Both file paths are
-imported from `update_team_analysis` (uta.README_PATH and uta.HALL_OF_FAME_PATH)
-so this script tracks them automatically.
+After the docs split, the marker-driven sections live in three files:
+
+  - `docs/afl-season-2026.md`     team analysis, finals pathway, Brownlow
+                                  predictor, stat leaders (4 marker pairs)
+  - `docs/afl-team-profiles.md`   5-year team playing-style profiles
+                                  (1 marker pair: 5YEAR-TEAM-PROFILES)
+  - `docs/hall-of-fame-top100.md` all-time top 100 table + chart
+                                  (1 marker pair: ALL-TIME-TOP100)
+
+All three paths are imported from `update_team_analysis` (uta.SEASON_PATH,
+uta.TEAM_PROFILES_PATH, uta.HALL_OF_FAME_PATH) so this script tracks them
+automatically. Legacy fallback to `uta.README_PATH` (docs/afl-insights.md)
+is preserved for backwards compatibility if the split files are missing.
 
 What it does (in order):
 
-  Step 1  Era / historical charts  (era_scoring_trends, era_stat_evolution,
-                                    scoring_by_decade, era_tackles_clearances)
-  Step 2  Top-100 charts           (top10_alltime, top100_position_breakdown)
-  Step 3  Current-season team text + 6 charts via update_team_analysis.main()
-          (radar, heatmap, 5-year scatter, goals-vs-disposals, form trend +
-          rewrites the YEAR-TEAM-ANALYSIS / 5YEAR-TEAM-PROFILES sections of
-          docs/afl-insights.md so the goals-disposals and form-trend chart
-          markers are inserted/refreshed inside that block)
-  Step 4  Print a summary — what was updated, current round, current date.
+  Step 1   Era / historical charts  (era_scoring_trends, era_stat_evolution,
+                                     scoring_by_decade, era_tackles_clearances)
+  Step 2   Top-100 charts           (top10_alltime, top100_position_breakdown)
+  Step 2b  Top-100 markdown         (rewrites ALL-TIME-TOP100 block in
+                                     docs/hall-of-fame-top100.md after
+                                     top_players_comprehensive.py rewrote
+                                     all_time_top_100.csv)
+  Step 3   Current-season team text + 6 charts via update_team_analysis.main()
+           (radar, heatmap, 5-year scatter, goals-vs-disposals, form trend +
+           rewrites the YEAR-TEAM-ANALYSIS / FINALS-PATHWAY /
+           BROWNLOW-PREDICTOR / STAT-LEADERS blocks of
+           docs/afl-season-2026.md and the 5YEAR-TEAM-PROFILES block of
+           docs/afl-team-profiles.md)
+  Step 4   Print a summary — what was updated, current round, current date.
 
 Usage:
 
@@ -49,7 +62,8 @@ Design notes
   works season-over-season without code changes.
 * No data is mutated — only assets/charts/*.png and the dynamic doc blocks
   (between the marker pairs documented in the header) inside
-  docs/afl-insights.md and docs/hall-of-fame-top100.md.
+  docs/afl-season-2026.md, docs/afl-team-profiles.md, and
+  docs/hall-of-fame-top100.md.
 """
 from __future__ import annotations
 
@@ -90,6 +104,38 @@ def _step_top100_charts() -> Tuple[List[str], List[str]]:
         return paths, []
     except Exception as e:
         return [], [f"regenerate_top100_charts: {e}\n{traceback.format_exc()}"]
+
+
+def _step_top100_markdown() -> Tuple[List[str], List[str]]:
+    """Regenerate the ALL-TIME-TOP100 markdown section in
+    docs/hall-of-fame-top100.md from the freshly-rewritten all_time_top_100.csv.
+
+    top_players_comprehensive.py upstream owns the CSV; this step re-renders
+    the markdown table inside the marker pair so the Hall-of-Fame doc stays
+    in lock-step with the canonical CSV.
+    """
+    try:
+        import update_team_analysis as uta
+    except Exception as e:
+        return [], [f"could not import update_team_analysis: {e}"]
+    try:
+        chart_path = uta.generate_top100_chart()
+        body = uta.generate_top100_section()
+        if not body:
+            return [], ["generate_top100_section returned empty — CSV missing?"]
+        with open(uta.HALL_OF_FAME_PATH, "r", encoding="utf-8") as f:
+            hof_text = f.read()
+        new_hof = uta.replace_top100_section(hof_text, body)
+        written: List[str] = []
+        if new_hof != hof_text:
+            with open(uta.HALL_OF_FAME_PATH, "w", encoding="utf-8") as f:
+                f.write(new_hof)
+            written.append(uta.HALL_OF_FAME_PATH)
+        if chart_path:
+            written.append(chart_path)
+        return written, []
+    except Exception as e:
+        return [], [f"top100 markdown: {e}\n{traceback.format_exc()}"]
 
 
 def _detect_year() -> Optional[int]:
@@ -142,23 +188,46 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         top_scorers = uta.per_team_top_disposal_player(games, year)
         body = uta.build_section_body(year, max_round, summary_with_ranks, summary, league, top_scorers)
 
-        with open(uta.README_PATH, "r", encoding="utf-8") as f:
-            readme_text = f.read()
-        new_readme = uta.replace_section(readme_text, year, body)
+        # The four season-specific blocks (team analysis, finals pathway,
+        # Brownlow, stat leaders) live in docs/afl-season-2026.md after the
+        # docs split. Fall back to the legacy docs/afl-insights.md if the
+        # season file isn't there yet.
+        season_target = uta.SEASON_PATH if os.path.exists(uta.SEASON_PATH) else uta.README_PATH
+        info["season_target"] = season_target
+        with open(season_target, "r", encoding="utf-8") as f:
+            season_text = f.read()
+        new_season = uta.replace_section(season_text, year, body)
 
         five_year_body, year_window = uta.generate_5year_profiles(year)
         info["window"] = (int(year_window[0]), int(year_window[-1]))
-        new_readme = uta.replace_5year_section(new_readme, year, year_window, five_year_body)
+        # 5-year profiles have their own home (docs/afl-team-profiles.md). If
+        # absent, fall back to writing into the season target — preserves the
+        # pre-split behaviour where everything lived in one file.
+        if os.path.exists(uta.TEAM_PROFILES_PATH):
+            with open(uta.TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
+                profiles_text = f.read()
+            new_profiles = uta.replace_5year_section(
+                profiles_text, year, year_window, five_year_body
+            )
+            if new_profiles != profiles_text:
+                with open(uta.TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
+                    f.write(new_profiles)
+            info["profiles_target"] = uta.TEAM_PROFILES_PATH
+        else:
+            new_season = uta.replace_5year_section(
+                new_season, year, year_window, five_year_body
+            )
+            info["profiles_target"] = season_target
 
         # Finals pathway block — uses the live ladder from matches_<year>.csv
         # paired with the same summary_with_ranks shown in the team analysis
         # section above. If matches data is missing the helper returns an
-        # empty body and we leave the AFL-insights file untouched.
+        # empty body and we leave the season file untouched.
         pathway_body, _ladder = uta.generate_finals_pathway(
             year, max_round, summary_with_ranks
         )
         if pathway_body:
-            new_readme = uta.replace_finals_pathway_section(new_readme, year, pathway_body)
+            new_season = uta.replace_finals_pathway_section(new_season, year, pathway_body)
         # Regenerate the finals-pathway chart alongside the text.
         if not _ladder.empty:
             try:
@@ -175,8 +244,8 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, year, max_round
         )
         if brownlow_body:
-            new_readme = uta.replace_brownlow_predictor_section(
-                new_readme, year, brownlow_body
+            new_season = uta.replace_brownlow_predictor_section(
+                new_season, year, brownlow_body
             )
 
         # Player performance stats explainer block — leaderboards,
@@ -192,13 +261,13 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, matches_for_stats, year, max_round,
         )
         if stat_body:
-            new_readme = uta.replace_stat_leaders_section(
-                new_readme, year, stat_body,
+            new_season = uta.replace_stat_leaders_section(
+                new_season, year, stat_body,
             )
 
-        if new_readme != readme_text:
-            with open(uta.README_PATH, "w", encoding="utf-8") as f:
-                f.write(new_readme)
+        if new_season != season_text:
+            with open(season_target, "w", encoding="utf-8") as f:
+                f.write(new_season)
 
         # Regenerate the season-specific charts (radar, heatmap, scatter,
         # goals-disposals, form-trend). The extended regenerate_team_charts
@@ -217,6 +286,7 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
     started = time.time()
     static_paths: List[str] = []
     top100_paths: List[str] = []
+    top100_md_paths: List[str] = []
     team_info: Dict[str, object] = {}
     errors: List[str] = []
 
@@ -242,9 +312,19 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
             print(f"  [error] {e}", file=sys.stderr)
         errors.extend(errs)
 
+        print("=========================================")
+        print("[Step 2b] All-time top-100 markdown section (docs/hall-of-fame-top100.md)")
+        print("=========================================")
+        top100_md_paths, errs = _step_top100_markdown()
+        for p in top100_md_paths:
+            print(f"  wrote {os.path.relpath(p, REPO_ROOT)}")
+        for e in errs:
+            print(f"  [error] {e}", file=sys.stderr)
+        errors.extend(errs)
+
     if not skip_team:
         print("=========================================")
-        print("[Step 3] Current-season team analysis + charts + afl-insights.md block")
+        print("[Step 3] Current-season team analysis + charts + afl-season-2026.md / afl-team-profiles.md blocks")
         print("=========================================")
         team_info, errs = _step_team_analysis()
         for e in errs:
@@ -268,6 +348,7 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
         print(f"  5-year window     : {window[0]}-{window[1]}")
     print(f"  static charts     : {len(static_paths)} written")
     print(f"  top-100 charts    : {len(top100_paths)} written")
+    print(f"  top-100 markdown  : {len(top100_md_paths)} written")
     print(f"  team-analysis run : "
           f"{'OK' if not skip_team and 'year' in team_info else ('SKIPPED' if skip_team else 'FAILED')}")
     if errors:
@@ -280,6 +361,7 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
         "window": window,
         "static_paths": static_paths,
         "top100_paths": top100_paths,
+        "top100_md_paths": top100_md_paths,
         "team_info": team_info,
         "errors": errors,
         "elapsed_s": elapsed,
