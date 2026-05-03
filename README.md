@@ -1905,13 +1905,15 @@ Jeans' philosophy was *match-up coaching*. He was the first coach to formally st
 
 His defining moment is the **1966 St Kilda premiership** — the only flag the Saints have ever won. He coached a club with no premiership history into a one-point Grand Final win, and St Kilda has chased that moment for sixty years since.
 
-#### 9. John Longmire — Sydney, 2011–present
+#### 9. John Longmire — Sydney, 2011–2024
 
-Sydney under Longmire **2011–2026: 226–134–3 from 363 games (62.7% win rate)** **[data]** — among the highest sustained win rates of any current coach. One premiership (**2012**) **[historical record]** and four Grand Final appearances over a 15-year tenure.
+Sydney under Longmire **2011–2024: 208–122–3 from 333 games (62.5% win rate)** **[data]** — among the highest sustained win rates of any coach in the modern era. One premiership (**2012**) **[historical record]** and four Grand Final appearances over a 14-year tenure.
 
-Longmire's signature is *cultural durability*. The Sydney "Bloods" identity — contested ball, hard tackling, no individual stars above the team — was inherited from Paul Roos and refined by Longmire into the most durable cultural identity in the modern league. He has had to manage the salary cap concession era, the post-Buddy era, and multiple generational handovers — and through all of it the Swans have remained competitive, year after year, in a way that even more-decorated clubs have not.
+Longmire's signature was *cultural durability*. The Sydney "Bloods" identity — contested ball, hard tackling, no individual stars above the team — was inherited from Paul Roos and refined by Longmire into the most durable cultural identity in the modern league. He had to manage the salary cap concession era, the post-Buddy era, and multiple generational handovers — and through all of it the Swans remained competitive, year after year, in a way that even more-decorated clubs did not.
 
-His defining moment is **the 2012 Grand Final** — won against Hawthorn at the peak of the Hawks' dynasty, in a contest that everyone outside Sydney expected the Hawks to win comfortably. Longmire's defensive structure on Cyril Rioli and Lance Franklin in that game is studied as a coaching set-piece masterclass.
+His defining moment was **the 2012 Grand Final** — won against Hawthorn at the peak of the Hawks' dynasty, in a contest that everyone outside Sydney expected the Hawks to win comfortably. Longmire's defensive structure on Cyril Rioli and Lance Franklin in that game is studied as a coaching set-piece masterclass.
+
+Longmire stepped down after the 2024 season after 14 years in charge, handing over to Dean Cox.
 
 #### 10. Denis Pagan — North Melbourne / Carlton, 1993–2007
 
@@ -1975,7 +1977,15 @@ Lloyd's torn pectoral story is the canonical *playing-through-injury* story in m
 
 The injury never fully healed and affected the rest of his career. He kicked **926 career goals** **[historical record]** anyway. His captaincy in the late 2000s carried the same standard.
 
-#### 8. Michael Voss — Brisbane Lions, 1992–2006
+#### 8. Jonathan Brown — Brisbane Lions, 2000–2014
+
+Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a career-threatening eye injury that left him legally blind in one eye after a brutal clash in 2009. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
+
+What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which stripped vision from his right eye — he returned and played five more seasons of elite football, kicking 737 career goals. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
+
+**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanent vision loss. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play blind in one eye, no one else had an excuse.
+
+#### 9. Michael Voss — Brisbane Lions, 1992–2006
 
 **Six knee reconstructions** **[historical record]**. The standard career-ending number is one. Voss had six and played **289 games**, captained the **2001–2003 three-peat**, and won a Brownlow Medal (1996) **[historical record]**.
 
@@ -1983,37 +1993,37 @@ What made him courageous was not only the willingness to come back, but the will
 
 His teammates at Brisbane during the three-peat have said for twenty years that you simply could not slack a contest with Voss as captain — he was the on-ground enforcer of competitive standards that produced the dynasty.
 
-#### 9. Cameron Ling — Geelong, 2000–2011
+#### 10. Cameron Ling — Geelong, 2000–2011
 
 Ling's courage was *tactical*. He was assigned the hardest tagging job in the league — week after week, on Chris Judd, Gary Ablett Jr, Sam Mitchell, Joel Selwood (in scratch matches), or whoever the opposition's most dangerous midfielder was — and never asked for relief. His 2011 Grand Final tag on Sam Mitchell, in which Mitchell was held to 17 disposals, was the structural foundation of Geelong's third premiership of the era **[historical record]**.
 
 Tagging is the least glamorous job in footy. Ling did it for over a decade, never wavered, and captained the **2011 premiership** as the on-ground leader of a side full of glamour names.
 
-#### 10. Shane Crawford — Hawthorn, 1993–2008
+#### 11. Shane Crawford — Hawthorn, 1993–2008
 
 Crawford's courage was *durability* across a long stretch of irrelevance. The Hawks **finished outside the eight in seven of his 16 seasons** **[historical record]**, and yet his standard never dropped. Brownlow Medal **1999** **[historical record]**.
 
 The famous "Crawford lap" — in the 2008 Grand Final, his last game, he ran a victory lap of the MCG with the cup at age 33 having played his entire career for one premiership — is one of the great courage-rewarded moments in the modern game.
 
-#### 11. Barry Hall — St Kilda / Sydney / Western Bulldogs, 1996–2011
+#### 12. Barry Hall — St Kilda / Sydney / Western Bulldogs, 1996–2011
 
 "Big Bad Bazza." Hall's courage was the *willingness to be the villain*. He was a centre half-forward who fought when fighting was needed (sometimes when it wasn't), kicked **746 career goals** **[historical record]**, and was the on-ground enforcer of the **2005 Sydney premiership** **[historical record]** — the Swans' first flag in **72 years**.
 
 His role was to absorb opposition aggression so that the smaller players did not have to. He did the dirty work of the team in the most literal sense, and the **2005 Grand Final** (a 4-point win over West Coast in one of the great defensive contests of the modern era) does not happen without him.
 
-#### 12. Mark Harvey — Essendon / Fremantle (player), 1981–1996
+#### 13. Mark Harvey — Essendon / Fremantle (player), 1981–1996
 
 Harvey was a centre half-back at Essendon through the **1984, 1985, and 1993 premierships** **[historical record]**. His courage was the *positional courage* of the centre half-back — the player whose job is to stand under high balls, mark in front of bigger forwards, and absorb the shoulder of opposition centre half-forwards every contest.
 
 He played the position at a time when the rules favoured bigger forwards, and won the contests anyway. **Three premierships and 219 games** **[historical record]** at one of the toughest positions on the ground.
 
-#### 13. Brent "Boomer" Harvey — North Melbourne, 1996–2016
+#### 14. Brent "Boomer" Harvey — North Melbourne, 1996–2016
 
 **432 games — the all-time record** **[historical record]**, surpassing Tuck. Harvey was a 175cm small forward in a league of 188cm key-position players, and his career stretched from the back end of the Carey-captaincy era through to the Goldstein-Ziebell modern Kangaroos.
 
 His courage was the courage of *small-bodied longevity*. Most small forwards' careers end at 28 because the cumulative body damage catches up. Harvey played until **38** **[historical record]** at the same level. He was small, fast, and exposed to constant heavy contact, and he refused to break.
 
-#### 14. Tony Lockett — St Kilda / Sydney, 1983–2002
+#### 15. Tony Lockett — St Kilda / Sydney, 1983–2002
 
 **1,360 career goals — the all-time record** **[historical record]**. Lockett's courage was *physical*. He was a 192cm full-forward in an era when full-forwards were genuinely fought for — opposition full-backs spoiled with elbows, used the body, and kept up running battles for four quarters.
 
@@ -2021,45 +2031,37 @@ Lockett took the contact and kicked the goals anyway. The **1999 Sydney goal** t
 
 He played at full-back when he had to. He took 8-bounce leads when the team needed structure. He was, at his peak, the most physically intimidating player in the game, and he used that intimidation to create space for teammates.
 
-#### 15. Shaun Burgoyne — Port Adelaide / Hawthorn, 2002–2021
+#### 16. Shaun Burgoyne — Port Adelaide / Hawthorn, 2002–2021
 
 **18 seasons, 407 games, four premierships** **[historical record]**. Burgoyne's courage was *layered*: physical (he played as a half-back into his 19th season at AFL pace), social (he was an Indigenous senior leader through one of the most difficult cultural decades in the league), and competitive (he played his best football in finals, year after year).
 
 The 2015 Grand Final, the third in Hawthorn's three-peat, saw Burgoyne — at age 32, supposedly past his prime — produce one of the great half-back performances in Grand Final history, with **23 disposals at 95% efficiency** in a 46-point win **[historical record]**.
 
-#### 16. Chris Judd — West Coast / Carlton, 2002–2015
+#### 17. Chris Judd — West Coast / Carlton, 2002–2015
 
 Judd's courage was *competitive*. The 2004 Grand Final, in which a 21-year-old Judd was the on-ground leader of the West Coast forward thrust against Brisbane, was a young player taking on a three-peat champion side and winning **[historical record]**. The 2006 Grand Final, against Sydney, in which Judd's late-game running goal in the final quarter was the difference, is among the great clutch performances of the modern era.
 
 His move to Carlton in 2008 — leaving a premiership club to take on a struggling rebuild — was itself a piece of competitive courage. He won the **2010 Brownlow** at Carlton **[historical record]** in his second-best season, a player taking on a culture-rebuild project at age 27.
 
-#### 17. Matthew Scarlett — Geelong, 1997–2012
+#### 18. Matthew Scarlett — Geelong, 1997–2012
 
 Scarlett's courage was *positional*. He played full-back in the modern era — when the rules and structure made full-back the most exposed position on the ground — and he played it at a level no one had reached before. **Six All-Australian selections** **[historical record]** at full-back is unmatched in the modern era.
 
 The 2009 Grand Final tackle/spoil sequence, in which Scarlett soaked up Nick Riewoldt's lead in the goal-square, won the contest, and turned defence into the attacking play that produced the match-winning goal, is the most-studied piece of full-back footage in the modern game.
 
-#### 18. Sam Mitchell — Hawthorn / West Coast, 2002–2017
+#### 19. Sam Mitchell — Hawthorn / West Coast, 2002–2017
 
 Mitchell's courage was *contested-ball relentlessness*. He was a small midfielder (180cm, 84kg) in an era of 190cm bigger-bodied mids, and he won contested ball at the highest rate of any player in his decade. **Four Hawthorn premierships and the 2012 Brownlow Medal** **[historical record]**.
 
 His willingness to go in head-first against bigger bodies, week after week, for fifteen years, is the defining contested-ball career of the modern era. He never adjusted his style to the rules changes around the head-high contact rule — he kept attacking the ball and trusted that the umpires would protect him.
 
-#### 19. Jason Dunstall — Hawthorn, 1985–1998
+#### 20. Jason Dunstall — Hawthorn, 1985–1998
 
 **1,254 career goals from 269 games** **[historical record]** — a career goal-per-game rate higher than any forward in the modern era. Dunstall's courage was *aerial*. He was a centre half-forward who took the most exposed marks on the ground — high balls under packs, contested marks against multiple defenders, and pack-crashing leads — for over a decade.
 
 He played the **1989 Grand Final** with a fractured cheekbone and kicked **6 goals** **[historical record]**. Hawthorn won by 6 points in one of the most physically brutal Grand Finals of the modern era.
 
 His career was built on *taking the high ball when the contest could break the wrong way*, and being prepared to keep doing it the next week regardless of how the previous one had ended.
-
-#### 20. Lenny Hayes — St Kilda, 1999–2014
-
-Hayes' courage was *contested-ball, return-from-injury, and refusal-to-leave-the-coalface* — three forms in the same career. He played **270 games** for St Kilda **[historical record]**, won three best-and-fairests, and was the on-ground midfield engine for the Saints' 2009 and 2010 Grand Final sides. After a full knee reconstruction in 2007 cost him most of a season, he came back as the same player — head-over-the-ball, first to every contest, willing to give up the body in clearances when bigger mids were measuring the contest.
-
-The defining moment is the **2010 Grand Final draw against Collingwood**. Hayes had **31 disposals, 11 tackles, and a goal** **[historical record]** in a contested-ball performance that pushed him to within a vote of the Norm Smith Medal — which he received the runner-up votes for despite the eventual replay loss. In the replay the following week, after a full week of being the most-watched player in the league, he produced **23 disposals and 8 tackles** in a side that had nothing left in the legs. He never won a premiership; he never stopped competing as if he were about to.
-
-His captaincy through the back end of his career, on a club that slid back into the lower half of the ladder almost immediately after the 2010 Grand Finals, was the courage of staying — declining trade interest from contenders and finishing his career at the club that drafted him. The 2014 retirement was the end of one of the most universally respected contested-ball careers of the modern era.
 
 ---
 
