@@ -4,7 +4,8 @@ update_team_analysis.py
 =======================
 
 Generate the "<YEAR> team analysis" section in README.md from the latest
-season's player-game data.
+season's player-game data, plus a "5-year team playing styles" section
+covering the five seasons immediately prior to the current year.
 
 What it does
 ------------
@@ -15,9 +16,13 @@ What it does
 4. Computes per-team season-to-date averages, the league average across all
    18 teams, and per-team rank for the key stats
 5. Builds an intro paragraph + summary table + leaders table in markdown
-6. Writes the section into README.md between the markers
+6. Writes the current-season section into README.md between the markers
        <!-- YEAR-TEAM-ANALYSIS-START -->
        <!-- YEAR-TEAM-ANALYSIS-END -->
+7. Builds the 5-year team playing-styles section (for the five seasons
+   immediately prior to the current year) and writes it between
+       <!-- 5YEAR-TEAM-PROFILES-START -->
+       <!-- 5YEAR-TEAM-PROFILES-END -->
 
 The script is self-contained — no module imports beyond the venv stdlib +
 pandas/numpy. Run with:
@@ -547,6 +552,11 @@ STAT_LABELS = {
     "free_kicks_for": "free kicks for",
     "free_kicks_against": "free kicks against",
     "clangers": "clangers",
+    # Derived ratios — used in the 5-year profile prose. Spell them out so
+    # the README never shows raw column names like `marks_per_inside50`.
+    "handball_ratio": "handball share of disposals",
+    "marks_per_inside50": "marks-per-inside-50 conversion",
+    "tackle_rate": "tackles-per-disposal pressure",
 }
 
 
@@ -811,6 +821,672 @@ def build_section_body(
 
 
 # ---------------------------------------------------------------------------
+# 5-year team playing-style profiles
+# ---------------------------------------------------------------------------
+# These functions build the "Team playing styles — 5 years of data" section.
+# Methodology:
+#   - Window = the five seasons immediately prior to the current detected year
+#     (e.g. current=2026 → 2021..2025).
+#   - For each team-year we compute per-game means of the core stats (the team
+#     being summed across all its players in the game first, then averaged
+#     across that team's games in the year).
+#   - The 5-year profile is the simple mean of the five yearly means — this
+#     stops a long season biasing a short one.
+#   - Trends are linear-regression slopes fitted to the 5 yearly means; the
+#     reported relative change is slope * (year_max - year_min) / mean,
+#     i.e. the implied total change across the window as a fraction of mean.
+#   - Percentile ranks are over the 18 teams in the window.
+#   - Brisbane Lions, GWS and Gold Coast all have full coverage from 2021,
+#     so no historical-name remapping is needed for the 2021-2025 window.
+#     If the window ever extended back past their entry years, those teams
+#     would simply have fewer than 5 seasons and we'd flag it.
+# ---------------------------------------------------------------------------
+
+# Per-game stats we average per team-year.
+PROFILE_CORE_STATS = [
+    "kicks", "handballs", "disposals", "marks", "goals", "tackles", "clearances",
+    "inside_50s", "rebound_50s", "contested_possessions", "uncontested_possessions",
+    "clangers", "free_kicks_for", "free_kicks_against", "hit_outs",
+    "marks_inside_50", "contested_marks",
+]
+
+# Stats we rank as "higher is better" on the 5-year profile.
+PROFILE_HIGH_GOOD = [
+    "kicks", "handballs", "disposals", "marks", "goals", "tackles", "clearances",
+    "inside_50s", "rebound_50s", "contested_possessions", "uncontested_possessions",
+    "hit_outs", "marks_inside_50", "contested_marks",
+    "handball_ratio", "marks_per_inside50", "tackle_rate", "free_kicks_for",
+]
+# Stats where lower raw values are "better" / cleaner.
+PROFILE_LOW_GOOD = ["clangers", "free_kicks_against"]
+
+
+def load_window_games(years: List[int]) -> pd.DataFrame:
+    """Load player-game rows restricted to the supplied year window."""
+    pattern = os.path.join(PLAYER_DATA_DIR, "*_performance_details.csv")
+    files = sorted(glob.glob(pattern))
+    if not files:
+        sys.exit(f"No player files found in {PLAYER_DATA_DIR}")
+
+    load_cols = ["team", "year", "round", "opponent"] + PROFILE_CORE_STATS
+    frames: List[pd.DataFrame] = []
+    bad = 0
+    for path in files:
+        try:
+            df = pd.read_csv(path, low_memory=False, usecols=lambda c: c in load_cols)
+            if df.empty or "year" not in df.columns:
+                continue
+            df["year"] = pd.to_numeric(df["year"], errors="coerce")
+            df = df.dropna(subset=["year"])
+            df["year"] = df["year"].astype(int)
+            df = df[df["year"].isin(years)]
+            if df.empty:
+                continue
+            frames.append(df)
+        except Exception:
+            bad += 1
+    if bad:
+        print(f"[warn] {bad} files unreadable in 5-year load", file=sys.stderr)
+    if not frames:
+        sys.exit("No 5-year window data found")
+    games = pd.concat(frames, ignore_index=True)
+    return games
+
+
+def aggregate_window_team_game(games: pd.DataFrame) -> pd.DataFrame:
+    """Sum player stats to (team, year, round, opponent) team-game level."""
+    g = games.copy()
+    for c in PROFILE_CORE_STATS:
+        if c not in g.columns:
+            g[c] = 0.0
+        g[c] = pd.to_numeric(g[c], errors="coerce").fillna(0.0)
+    g["round_str"] = g["round"].astype(str)
+    return g.groupby(
+        ["team", "year", "round_str", "opponent"], as_index=False
+    )[PROFILE_CORE_STATS].sum()
+
+
+def per_team_year_means(team_game: pd.DataFrame) -> pd.DataFrame:
+    """One row per (team, year) with per-game means of every stat plus
+    the derived ratios (handball_ratio, marks_per_inside50, tackle_rate)."""
+    means = team_game.groupby(["team", "year"], as_index=False)[PROFILE_CORE_STATS].mean()
+    means["handball_ratio"] = means["handballs"] / means["disposals"].replace(0, np.nan)
+    means["marks_per_inside50"] = means["marks_inside_50"] / means["inside_50s"].replace(0, np.nan)
+    means["tackle_rate"] = means["tackles"] / means["disposals"].replace(0, np.nan)
+    games_per_year = team_game.groupby(["team", "year"]).size().rename("games").reset_index()
+    means = means.merge(games_per_year, on=["team", "year"])
+    return means
+
+
+def build_5year_profile(per_year: pd.DataFrame) -> pd.DataFrame:
+    """Mean across years per team, plus per-team season count."""
+    metric_cols = [c for c in per_year.columns if c not in ("team", "year", "games")]
+    profile = per_year.groupby("team")[metric_cols].mean().reset_index()
+    seasons = per_year.groupby("team")["year"].nunique().rename("seasons").reset_index()
+    profile = profile.merge(seasons, on="team")
+    return profile
+
+
+def compute_trend_changes(per_year: pd.DataFrame, years: List[int]) -> pd.DataFrame:
+    """Linear-fit slope across the 5 yearly means. Returns one row per team
+    with `<stat>_rel_change` = implied total change across window / mean."""
+    metric_cols = [c for c in per_year.columns if c not in ("team", "year", "games")]
+    rows: List[Dict[str, float]] = []
+    span = years[-1] - years[0] if len(years) > 1 else 1
+    for team, sub in per_year.groupby("team"):
+        sub = sub.sort_values("year")
+        out: Dict[str, float] = {"team": team}
+        x = sub["year"].astype(float).values
+        for c in metric_cols:
+            y = sub[c].astype(float).values
+            mask = ~np.isnan(y)
+            if mask.sum() < 3:
+                out[f"{c}_rel_change"] = np.nan
+                continue
+            slope = np.polyfit(x[mask], y[mask], 1)[0]
+            mean_y = float(np.nanmean(y))
+            out[f"{c}_rel_change"] = float(slope * span / mean_y) if mean_y > 0 else np.nan
+        rows.append(out)
+    return pd.DataFrame(rows)
+
+
+def add_profile_ranks(profile: pd.DataFrame) -> pd.DataFrame:
+    """Rank-of-18 plus 0..100 percentile for each PROFILE_HIGH_GOOD /
+    PROFILE_LOW_GOOD stat. Rank 1 = desirable end."""
+    out = profile.copy()
+    n = len(out)
+    for s in PROFILE_HIGH_GOOD:
+        if s in out.columns:
+            out[f"{s}_rank"] = out[s].rank(ascending=False, method="min").astype(int)
+            out[f"{s}_pct"] = ((n - out[f"{s}_rank"]) / max(n - 1, 1)) * 100.0
+    for s in PROFILE_LOW_GOOD:
+        if s in out.columns:
+            out[f"{s}_rank"] = out[s].rank(ascending=True, method="min").astype(int)
+            out[f"{s}_pct"] = ((n - out[f"{s}_rank"]) / max(n - 1, 1)) * 100.0
+    return out
+
+
+def _trend_word(rel_change: float, threshold: float = 0.05) -> str:
+    """Classify a trend slope into rising / falling / stable. The default
+    threshold of 5% relative change across the window is the boundary
+    between 'stable' and 'evolving'."""
+    if pd.isna(rel_change):
+        return "stable"
+    if rel_change >= threshold:
+        return "rising"
+    if rel_change <= -threshold:
+        return "falling"
+    return "stable"
+
+
+def _trend_phrase(team_row: pd.Series, stat: str, label: str) -> str:
+    """Convert a stat trend into a readable clause."""
+    rel = team_row.get(f"{stat}_rel_change", np.nan)
+    word = _trend_word(rel)
+    if word == "stable":
+        return f"their {label} have stayed flat"
+    pct = abs(rel) * 100
+    direction = "climbed" if word == "rising" else "fallen"
+    return f"their {label} have {direction} ~{pct:.0f}% across the window"
+
+
+def _style_drift(team_row: pd.Series) -> float:
+    """How much the team's profile has shifted across the window — sum of
+    |rel_change| across six identity stats. Higher = bigger evolution."""
+    keys = [
+        "disposals_rel_change", "tackles_rel_change", "inside_50s_rel_change",
+        "contested_possessions_rel_change", "handball_ratio_rel_change",
+        "marks_per_inside50_rel_change",
+    ]
+    vals = [abs(team_row[k]) for k in keys if k in team_row and not pd.isna(team_row[k])]
+    return float(sum(vals)) if vals else 0.0
+
+
+def _hb_descriptor(rank: int, ratio: float) -> str:
+    """Describe ball-movement style from handball ratio rank/value."""
+    pct_kick = (1 - ratio) * 100
+    pct_hb = ratio * 100
+    if rank <= 4:
+        return f"a high-tempo, handball-heavy build-up ({pct_hb:.0f}% by hand — {ordinal(rank)} in the league)"
+    if rank >= 15:
+        return f"a kick-first, territory-via-foot template ({pct_kick:.0f}% by foot — {ordinal(19 - rank)}-most kick-dominant)"
+    return f"a roughly balanced {pct_hb:.0f}/{pct_kick:.0f} handball-to-kick split"
+
+
+def _territory_descriptor(i50_rank: int, rb_rank: int, net: float) -> str:
+    """Describe territory approach from i50 vs rebound profile."""
+    if i50_rank <= 5 and net >= 14:
+        return (
+            f"a relentlessly forward-territory game (+{net:.1f} net 50-entries per game)"
+        )
+    if rb_rank <= 4 and i50_rank >= 12:
+        return f"a defensive-rebound posture, soaking up entries and breaking out (rebound-50s ranked {ordinal(rb_rank)})"
+    if i50_rank <= 6:
+        return f"strong territorial dominance ({ordinal(i50_rank)} for inside-50s)"
+    if i50_rank >= 14:
+        return f"a struggle to win territory ({ordinal(i50_rank)} for inside-50s)"
+    return f"a mid-pack territory profile ({ordinal(i50_rank)} for inside-50s)"
+
+
+def _contest_descriptor(cp_rank: int, ucp_rank: int, tk_rank: int) -> str:
+    """Describe contest intensity from CP / UCP / tackles."""
+    if cp_rank <= 5 and tk_rank <= 6:
+        return f"a contested-ball, high-pressure identity ({ordinal(cp_rank)} for contested possessions, {ordinal(tk_rank)} for tackles)"
+    if cp_rank <= 5 and tk_rank >= 13:
+        return f"a contested-ball game without the tackle pressure to match ({ordinal(cp_rank)} for CP, only {ordinal(tk_rank)} for tackles)"
+    if ucp_rank <= 5 and cp_rank >= 13:
+        return f"a possession-and-spread template that avoids the contest ({ordinal(ucp_rank)} for uncontested possessions, {ordinal(cp_rank)} for CP)"
+    if tk_rank <= 4:
+        return f"genuine ground-ball pressure ({ordinal(tk_rank)} for tackles)"
+    if tk_rank >= 15:
+        return f"notably soft pressure around the ball ({ordinal(tk_rank)} for tackles)"
+    return f"a balanced contest profile ({ordinal(cp_rank)} for CP, {ordinal(tk_rank)} for tackles)"
+
+
+def _security_descriptor(cl_rank: int, fk_rank: int) -> str:
+    """Describe ball security from clangers + free-kicks-against ranks
+    (rank 1 = cleanest in both)."""
+    if cl_rank <= 4 and fk_rank <= 6:
+        return "ball security is a real strength — among the cleanest sides for both clangers and frees against"
+    if cl_rank >= 15 or fk_rank >= 15:
+        return "ball security is a clear vulnerability — sitting in the bottom four for clangers or frees conceded"
+    return "ball security sits roughly mid-pack"
+
+
+def _forward_descriptor(mi50_rank: int, ratio: float, i50_rank: int, goals: float) -> str:
+    """Describe forward efficiency."""
+    if mi50_rank <= 4 and i50_rank <= 8:
+        return (
+            f"genuine forward-half efficiency (1-in-{(1/ratio):.1f} of their entries hit a target inside 50, "
+            f"and they average {goals:.1f} goals/g)"
+        )
+    if mi50_rank <= 4:
+        return f"a clinical use of the few entries they win (1-in-{(1/ratio):.1f} entries marked, {ordinal(mi50_rank)} in the league)"
+    if mi50_rank >= 14:
+        return (
+            f"a volume-over-precision forward template — only 1-in-{(1/ratio):.1f} entries are marked inside 50 "
+            f"({ordinal(mi50_rank)} for connection)"
+        )
+    return f"mid-pack forward efficiency ({ordinal(mi50_rank)} for marks-per-inside-50)"
+
+
+def _opening_clause(team: str, profile_row: pd.Series) -> str:
+    """Build the opening identity sentence based on the team's strongest
+    rank — the stat that most defines them in the data."""
+    # Pick the dimension where the team is most extreme (highest or lowest
+    # rank across a curated identity set).
+    # Each tuple is (stat_col, descriptor_phrase). The descriptor is meant
+    # to slot into the sentence "{Team} have built their identity around a
+    # {descriptor} game", so it has to read naturally as an adjective phrase.
+    identity_stats = [
+        ("contested_possessions", "contested-ball"),
+        ("uncontested_possessions", "possession-and-control"),
+        ("tackles", "ground-ball pressure"),
+        ("inside_50s", "territory-dominant"),
+        ("rebound_50s", "rebound-and-counter"),
+        ("clearances", "stoppage-dominant"),
+        ("marks", "mark-and-control"),
+        ("hit_outs", "ruck-led"),
+        ("handball_ratio", "handball-driven"),
+        ("marks_per_inside50", "clinical forward-50"),
+        ("clangers", "clean-ball-use"),
+    ]
+    extreme = None
+    extreme_score = 0.0
+    for stat, label in identity_stats:
+        rk_col = f"{stat}_rank"
+        if rk_col not in profile_row.index:
+            continue
+        rk = int(profile_row[rk_col])
+        # extremity = max(distance from middle) — top or bottom of the league
+        score = max(10 - rk, rk - 9)
+        if score > extreme_score:
+            extreme_score = score
+            extreme = (stat, label, rk)
+    if not extreme:
+        return f"{team} have built their identity around a fairly balanced 5-year profile"
+    stat, label, rk = extreme
+    if rk <= 4:
+        return f"{team} have built their identity around a {label} game — ranked {ordinal(rk)} of 18 across the last five seasons"
+    if rk >= 15:
+        from_bottom = 19 - rk
+        from_bottom_word = {1: "least", 2: "second-least", 3: "third-least", 4: "fourth-least"}.get(from_bottom, f"{ordinal(from_bottom)}-least")
+        return f"{_possessive(team)} 5-year profile is defined by what they don't do — the {from_bottom_word} {label} side in the competition"
+    return f"{team} have built their identity around their {label} game ({ordinal(rk)} of 18 over the last five seasons)"
+
+
+def _possessive(team: str) -> str:
+    """Form the possessive of a team name, handling teams that end in `s`
+    (e.g. Western Bulldogs → Western Bulldogs', not Bulldogs's)."""
+    if team.endswith("s"):
+        return team + "'"
+    return team + "'s"
+
+
+def _ceiling_clause(profile_row: pd.Series) -> str:
+    """Write the closing 'ceiling and vulnerability' line from the rank
+    extremes.
+
+    A bottom-ranked stat is only called a 'vulnerability' if it's a stat
+    where being low is genuinely bad (low tackles, low contested possessions,
+    high clangers). For stats like 'low handballs' or 'low uncontested
+    possessions' that simply reflect a kick-and-pressure style choice, we
+    frame it as a deliberate trade-off rather than a flaw.
+    """
+    # Stats where being bottom-ranked is unambiguously a problem at AFL level.
+    # Anything not in this set is treated as a stylistic trade-off if low.
+    GENUINE_WEAKNESS_STATS = {
+        # Stats where a bottom-of-league rank is genuinely bad — not just a
+        # by-product of the team's style. Notable exclusions: handballs (kick-
+        # first sides will be low by design), uncontested_possessions (pressure
+        # sides will be low by design), rebound_50s (territory-dominant sides
+        # will be low by design), hit_outs (a team can deprioritise rucks).
+        "disposals", "kicks", "marks", "goals", "tackles", "clearances",
+        "inside_50s", "contested_possessions", "marks_inside_50",
+        "marks_per_inside50", "contested_marks", "free_kicks_for",
+        "clangers", "free_kicks_against",
+    }
+    strengths = []
+    weak_genuine = []
+    weak_stylistic = []
+    candidates = PROFILE_HIGH_GOOD + PROFILE_LOW_GOOD
+    for s in candidates:
+        rk = profile_row.get(f"{s}_rank")
+        if rk is None or pd.isna(rk):
+            continue
+        rk = int(rk)
+        if rk <= 4:
+            strengths.append((s, rk))
+        elif rk >= 15:
+            if s in GENUINE_WEAKNESS_STATS:
+                weak_genuine.append((s, rk))
+            else:
+                weak_stylistic.append((s, rk))
+    strengths.sort(key=lambda t: t[1])
+    weak_genuine.sort(key=lambda t: -t[1])
+    weak_stylistic.sort(key=lambda t: -t[1])
+
+    str_phrase = ""
+    if strengths:
+        s_label = STAT_LABELS.get(strengths[0][0], strengths[0][0])
+        str_phrase = f"the ceiling is anchored to their {s_label} ({ordinal(strengths[0][1])} of 18)"
+
+    if str_phrase and weak_genuine:
+        w_label = STAT_LABELS.get(weak_genuine[0][0], weak_genuine[0][0])
+        weak_phrase = f"the vulnerability is their {w_label} ({ordinal(weak_genuine[0][1])} of 18)"
+        return f"In short, {str_phrase}, while {weak_phrase} — and that gap is what every opposition gameplan targets."
+    if str_phrase and weak_stylistic:
+        w_label = STAT_LABELS.get(weak_stylistic[0][0], weak_stylistic[0][0])
+        return (
+            f"In short, {str_phrase}; the low {w_label} ({ordinal(weak_stylistic[0][1])} of 18) "
+            "is the deliberate trade-off that comes with that style."
+        )
+    if str_phrase:
+        return f"In short, {str_phrase} — that's the foundation everything else is built on."
+    if weak_genuine:
+        w_label = STAT_LABELS.get(weak_genuine[0][0], weak_genuine[0][0])
+        return f"In short, the {w_label} number ({ordinal(weak_genuine[0][1])} of 18) is the obvious priority to close."
+    return (
+        "The profile is balanced enough that no single dimension is doing the heavy lifting — "
+        "a hallmark of a settled, well-coached side without a transcendent strength."
+    )
+
+
+def render_5year_team_paragraph(profile_row: pd.Series, year_window: List[int]) -> str:
+    """Compose 5-8 sentences for one team using the 5-year stat profile."""
+    team = profile_row["team"]
+    seasons = int(profile_row["seasons"])
+    seasons_note = ""
+    if seasons < len(year_window):
+        seasons_note = (
+            f" (note: {seasons}/{len(year_window)} seasons of data — partial coverage)"
+        )
+
+    # Numbers we'll lean on.
+    disp = profile_row["disposals"]
+    kicks = profile_row["kicks"]
+    hbs = profile_row["handballs"]
+    marks = profile_row["marks"]
+    goals = profile_row["goals"]
+    tackles = profile_row["tackles"]
+    clearances = profile_row["clearances"]
+    i50 = profile_row["inside_50s"]
+    rb = profile_row["rebound_50s"]
+    cp = profile_row["contested_possessions"]
+    ucp = profile_row["uncontested_possessions"]
+    clangers = profile_row["clangers"]
+    fka = profile_row["free_kicks_against"]
+    hit_outs = profile_row["hit_outs"]
+    hb_ratio = profile_row["handball_ratio"]
+    mi50_ratio = profile_row["marks_per_inside50"]
+    contested_marks = profile_row["contested_marks"]
+    marks_inside_50 = profile_row["marks_inside_50"]
+
+    hb_rank = int(profile_row["handball_ratio_rank"])
+    i50_rank = int(profile_row["inside_50s_rank"])
+    rb_rank = int(profile_row["rebound_50s_rank"])
+    cp_rank = int(profile_row["contested_possessions_rank"])
+    ucp_rank = int(profile_row["uncontested_possessions_rank"])
+    tk_rank = int(profile_row["tackles_rank"])
+    cl_rank = int(profile_row["clangers_rank"])
+    fk_rank = int(profile_row["free_kicks_against_rank"])
+    mi50_rank = int(profile_row["marks_per_inside50_rank"])
+    cm_rank = int(profile_row["contested_marks_rank"])
+    ho_rank = int(profile_row["hit_outs_rank"])
+    cl_rank_clear = int(profile_row["clearances_rank"])
+    goals_rank = int(profile_row["goals_rank"])
+
+    drift = _style_drift(profile_row)
+    drift_word = "evolving" if drift >= 0.40 else ("settled" if drift <= 0.25 else "gradually shifting")
+
+    # Sentence 1 — identity opener
+    s1 = _opening_clause(team, profile_row) + seasons_note + "."
+
+    # Sentence 2 — quantified core (disposals + ball-movement style + tackles)
+    s2 = (
+        f"Across {year_window[0]}–{year_window[-1]} they averaged {disp:.1f} disposals, "
+        f"{tackles:.1f} tackles and {clearances:.1f} clearances per game, with "
+        + _hb_descriptor(hb_rank, hb_ratio)
+        + "."
+    )
+
+    # Sentence 3 — territory + contest synthesis
+    net_50s = i50 - rb
+    s3 = (
+        "On territory and contest, they show "
+        + _territory_descriptor(i50_rank, rb_rank, net_50s)
+        + " combined with "
+        + _contest_descriptor(cp_rank, ucp_rank, tk_rank)
+        + "."
+    )
+
+    # Sentence 4 — forward efficiency + ball security
+    s4 = (
+        "Forward of centre, "
+        + _forward_descriptor(mi50_rank, mi50_ratio, i50_rank, goals)
+        + ", and "
+        + _security_descriptor(cl_rank, fk_rank)
+        + "."
+    )
+
+    # Sentence 5 — trend / evolution
+    notable_trends = []
+    for stat, label in [
+        ("disposals", "ball use"),
+        ("tackles", "tackle pressure"),
+        ("inside_50s", "forward entries"),
+        ("contested_possessions", "contested-ball winning"),
+        ("handball_ratio", "handball share"),
+        ("marks_per_inside50", "forward connection"),
+    ]:
+        rel = profile_row.get(f"{stat}_rel_change", np.nan)
+        if not pd.isna(rel) and abs(rel) >= 0.07:
+            notable_trends.append((label, rel))
+    notable_trends.sort(key=lambda t: -abs(t[1]))
+    if notable_trends and drift >= 0.30:
+        clauses = []
+        for label, rel in notable_trends[:2]:
+            arrow = "climbed" if rel > 0 else "fallen"
+            clauses.append(f"{label} has {arrow} ~{abs(rel)*100:.0f}% across the five-year window")
+        s5 = (
+            f"The profile is {drift_word} rather than locked in: "
+            + " and ".join(clauses)
+            + "."
+        )
+    elif drift < 0.20:
+        s5 = (
+            "The profile is unusually settled — none of the six identity stats has shifted "
+            f"more than ~{int(drift * 100 / 6)}% across five seasons, suggesting a tightly held "
+            "list and game-plan."
+        )
+    else:
+        s5 = (
+            f"The 5-year profile is {drift_word} — modest year-on-year movement but no wholesale "
+            "re-tooling of the game plan."
+        )
+
+    # Sentence 6 — defining characteristic
+    # Pick the team's most extreme single rank (highest deviation from middle).
+    GENUINE_WEAKNESS_STATS = {
+        # Stats where a bottom-of-league rank is genuinely bad — not just a
+        # by-product of the team's style. Notable exclusions: handballs (kick-
+        # first sides will be low by design), uncontested_possessions (pressure
+        # sides will be low by design), rebound_50s (territory-dominant sides
+        # will be low by design), hit_outs (a team can deprioritise rucks).
+        "disposals", "kicks", "marks", "goals", "tackles", "clearances",
+        "inside_50s", "contested_possessions", "marks_inside_50",
+        "marks_per_inside50", "contested_marks", "free_kicks_for",
+        "clangers", "free_kicks_against",
+    }
+    extreme_picks = []
+    for s in PROFILE_HIGH_GOOD + PROFILE_LOW_GOOD:
+        rk_col = f"{s}_rank"
+        if rk_col not in profile_row.index:
+            continue
+        rk = int(profile_row[rk_col])
+        score = max(10 - rk, rk - 9)
+        extreme_picks.append((s, rk, score, float(profile_row[s])))
+    extreme_picks.sort(key=lambda t: -t[2])
+    top_extreme = extreme_picks[0] if extreme_picks else None
+    if top_extreme:
+        s_name, s_rk, _, s_val = top_extreme
+        s_label = STAT_LABELS.get(s_name, s_name)
+        # Format the value sensibly — ratios are 0..1, so quote them as %.
+        if s_name in ("handball_ratio", "marks_per_inside50", "tackle_rate"):
+            val_str = f"{s_val * 100:.1f}%"
+        else:
+            val_str = f"{s_val:.1f}/g"
+        if s_rk <= 4:
+            s6 = (
+                f"What sets them apart from the field is their {s_label} "
+                f"({val_str}, {ordinal(s_rk)} of 18) — a true outlier rather than mid-pack noise."
+            )
+        elif s_rk >= 15 and s_name in GENUINE_WEAKNESS_STATS:
+            s6 = (
+                f"What separates them from the rest of the competition is the floor under "
+                f"their {s_label} ({val_str}, {ordinal(s_rk)} of 18) — a structural issue, not a single bad year."
+            )
+        elif s_rk >= 15:
+            # Stylistic trade-off — frame as a deliberate choice rather than a flaw.
+            s6 = (
+                f"What sets them apart is how far they sit from the league norm in {s_label} "
+                f"({val_str}, {ordinal(s_rk)} of 18) — that gap is the signature of their style, not a fault line."
+            )
+        else:
+            s6 = (
+                f"Their most distinctive number is {s_label} at {val_str} ({ordinal(s_rk)} of 18)."
+            )
+    else:
+        s6 = "No single stat stands out as a defining outlier — they are a true mid-pack profile."
+
+    # Sentence 7 — ceiling / vulnerability close
+    s7 = _ceiling_clause(profile_row)
+
+    return " ".join([s1, s2, s3, s4, s5, s6, s7])
+
+
+def render_5year_section(profile: pd.DataFrame, years: List[int], current_year: int) -> str:
+    """Build the full 5-year team-profiles section markdown.
+
+    Sections are ordered alphabetically by team for stable output.
+    """
+    intro_lines = [
+        f"The profiles below summarise each team's {years[0]}–{years[-1]} statistical "
+        "fingerprint — five full seasons of per-game averages aggregated across every "
+        f"player who pulled on the jumper. They reflect coaching philosophy and list "
+        "system more than any single season's results, smoothing out the noise of a "
+        f"hot run or a flat year. If you want to understand *why* a team plays the "
+        f"way it does in {current_year}, this is the better baseline than the season-to-date "
+        "snapshot above — it is what the data says they are at their core.",
+        "",
+        "Each paragraph leans on the actual numbers (per-game averages, league ranks "
+        "across 18 teams, and 5-year linear trends), so the descriptions update "
+        "automatically when the window rolls forward.",
+    ]
+
+    body_lines: List[str] = []
+    body_lines.extend(intro_lines)
+    body_lines.append("")
+
+    for _, row in profile.sort_values("team").iterrows():
+        body_lines.append(f"### {row['team']}")
+        body_lines.append("")
+        body_lines.append(render_5year_team_paragraph(row, years))
+        body_lines.append("")
+    return "\n".join(body_lines).rstrip()
+
+
+def replace_5year_section(readme_text: str, current_year: int, years: List[int], body: str) -> str:
+    """Insert / replace the 5-year team-profiles section.
+
+    Looks for the markers `<!-- 5YEAR-TEAM-PROFILES-START -->` /
+    `<!-- 5YEAR-TEAM-PROFILES-END -->`. If absent, inserts the section
+    immediately after the current-year team-analysis section's END marker.
+
+    Also adds a TOC entry if missing.
+    """
+    start_marker = "<!-- 5YEAR-TEAM-PROFILES-START -->"
+    end_marker = "<!-- 5YEAR-TEAM-PROFILES-END -->"
+    section_header = f"## Team playing styles — 5 years of data ({years[0]}–{years[-1]})"
+    toc_entry = f"- [Team playing styles — 5 years of data ({years[0]}–{years[-1]})](#team-playing-styles--5-years-of-data-{years[0]}{years[-1]})"
+
+    if start_marker in readme_text and end_marker in readme_text:
+        before, rest = readme_text.split(start_marker, 1)
+        _, after = rest.split(end_marker, 1)
+        # Refresh the human-readable header line in case the year window rolls.
+        # The header is the line immediately before start_marker; we leave the
+        # surrounding markdown structure untouched and only replace between markers.
+        new_text = (
+            before
+            + start_marker
+            + "\n"
+            + body
+            + "\n"
+            + end_marker
+            + after
+        )
+    else:
+        # Insert after the current-year section's END marker.
+        anchor = f"<!-- {current_year}-TEAM-ANALYSIS-END -->"
+        idx = readme_text.find(anchor)
+        if idx == -1:
+            sys.exit(
+                f"Could not find anchor '{anchor}' to insert 5-year section. "
+                "Run the script after the current-year section is in place, "
+                "or add the markers manually."
+            )
+        insert_at = idx + len(anchor)
+        new_section = (
+            "\n\n"
+            + section_header
+            + "\n\n"
+            + start_marker
+            + "\n"
+            + body
+            + "\n"
+            + end_marker
+            + "\n"
+        )
+        new_text = readme_text[:insert_at] + new_section + readme_text[insert_at:]
+
+    # TOC entry — add if missing. Place it directly after the current-year
+    # team-analysis TOC entry so the order matches the body order.
+    if toc_entry not in new_text:
+        prev_toc = f"- [{current_year} team analysis"
+        toc_idx = new_text.find(prev_toc)
+        if toc_idx != -1:
+            line_end = new_text.find("\n", toc_idx)
+            if line_end != -1:
+                new_text = (
+                    new_text[: line_end + 1]
+                    + toc_entry
+                    + "\n"
+                    + new_text[line_end + 1 :]
+                )
+
+    return new_text
+
+
+def generate_5year_profiles(current_year: int) -> Tuple[str, List[int]]:
+    """Top-level entry point. Returns (markdown_body, year_window) for the
+    five seasons immediately prior to `current_year`. Designed to be wired
+    into the same refresh pipeline as the current-year analysis."""
+    years = list(range(current_year - 5, current_year))
+    print(f"      5-year window: {years[0]}..{years[-1]}")
+    games = load_window_games(years)
+    print(f"      loaded {len(games):,} player-game rows in window")
+    team_game = aggregate_window_team_game(games)
+    per_year = per_team_year_means(team_game)
+    profile = build_5year_profile(per_year)
+    trends = compute_trend_changes(per_year, years)
+    profile = profile.merge(trends, on="team", how="left")
+    profile = add_profile_ranks(profile)
+    print(f"      profile teams: {len(profile)} (expected 18)")
+    body = render_5year_section(profile, years, current_year)
+    return body, years
+
+
+# ---------------------------------------------------------------------------
 # README write
 # ---------------------------------------------------------------------------
 def replace_section(readme_text: str, year: int, body: str) -> str:
@@ -867,18 +1543,18 @@ def replace_section(readme_text: str, year: int, body: str) -> str:
 # Main
 # ---------------------------------------------------------------------------
 def main() -> None:
-    print("[1/5] Loading player game data...")
+    print("[1/6] Loading player game data...")
     games = load_all_player_games()
     year = detect_current_year(games)
     print(f"      detected current year = {year}")
 
-    print("[2/5] Aggregating to team-game level...")
+    print("[2/6] Aggregating to team-game level...")
     team_game = build_team_game_table(games, year)
     max_round = detect_max_round(team_game)
     n_teams = team_game["team"].nunique()
     print(f"      year={year}, rounds={max_round}, teams={n_teams}, team-games={len(team_game)}")
 
-    print("[3/5] Per-team season averages and ranks...")
+    print("[3/6] Per-team season averages and ranks...")
     summary = per_team_summary(team_game)
     league = league_averages(team_game)
     summary_with_ranks = add_ranks(summary, SUMMARY_STATS + ["rebound_50s"])
@@ -888,21 +1564,29 @@ def main() -> None:
         lambda r: form_tag(r, summary_with_ranks), axis=1
     )
 
-    print("[4/5] Looking up leading per-team disposal getters...")
+    print("[4/6] Looking up leading per-team disposal getters...")
     top_scorers = per_team_top_disposal_player(games, year)
 
-    print("[5/5] Rendering markdown and updating README.md...")
+    print("[5/6] Rendering current-season markdown and updating README.md...")
     body = build_section_body(year, max_round, summary_with_ranks, summary, league, top_scorers)
 
     with open(README_PATH, "r", encoding="utf-8") as f:
         readme_text = f.read()
     new_readme = replace_section(readme_text, year, body)
+
+    print("[6/6] Building 5-year team playing-style profiles...")
+    five_year_body, year_window = generate_5year_profiles(year)
+    new_readme = replace_5year_section(new_readme, year, year_window, five_year_body)
+
     if new_readme != readme_text:
         with open(README_PATH, "w", encoding="utf-8") as f:
             f.write(new_readme)
 
     today = datetime.now().strftime("%Y-%m-%d")
-    print(f"✓ {year} team analysis updated — Round {max_round}, {n_teams} teams, {today}")
+    print(
+        f"✓ {year} team analysis updated — Round {max_round}, {n_teams} teams, "
+        f"5-year window {year_window[0]}-{year_window[-1]}, {today}"
+    )
 
 
 if __name__ == "__main__":
