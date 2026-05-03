@@ -1927,11 +1927,13 @@ His defining moment is the **1996 Grand Final** — North Melbourne's first flag
 
 There are several different forms of courage in football. There is the *physical* courage of the player who runs back into a flooded pack with the flight of the ball; there is the *mental* courage of the player who returns from a season-ending injury and plays the same way again; there is the *social* courage of the player who stands up against racism or homophobia at personal cost; and there is the *competitive* courage of the player who keeps trying when the contest is lost. The twenty below all displayed at least one of these, and several of them displayed all four.
 
-#### 1. Jack Viney — Melbourne, 2013–present
+#### 1. Sam Newman — Geelong, 1964–1980
 
-Viney's particular form of courage is *physical*, and it has cost him body parts. He has played through multiple foot reconstructions, broken jaws, broken ribs, and a notorious 2014 incident in which he was charged with rough conduct for running through a pack at full pace and was eventually cleared — the league explicitly acknowledged that the play he made was not only legal but *necessary*, and that any player who pulled out of it would not deserve to wear an AFL jumper.
+Sam Newman's courage story is one of the most extraordinary in Australian football history. In 1969, Newman suffered a catastrophic kidney injury that required the removal of a kidney — an operation that would have ended most careers. He was 21 years old. Told by doctors that returning to elite football would be dangerous, Newman did exactly that, returning to play over a decade more of top-level VFL football and going on to win three premierships with Geelong **[historical record]**. He played on with a single kidney through the full physical brutality of VFL-era football — an era with no interchange, minimal protective equipment, and no limits on physical contact. Every game he played after 1969 was an act of defiance against medical advice and physical reality.
 
-The Melbourne 2021 premiership — the club's first in **57 years** **[historical record]** — was won by a midfield in which Viney was the on-ground physical anchor. His half-back tackle on Bayley Fritsch in the third quarter, which directly led to Fritsch's match-sealing goal, is one of the most-replayed defensive plays of the modern era.
+Newman was also an extraordinary footballer — a dashing half-forward flanker renowned for skill, dash and entertainment. He was named in **Geelong's Team of the Century** **[historical record]** and polled four All-Australian selections. But his legacy of physical courage — playing 150+ games of elite football with one kidney in a contact sport — stands alone in the game's history. There is no comparable story in the modern era.
+
+**Defining moment:** Newman's career was defined not by one game but by a choice — choosing to return to football after losing a kidney, and then backing that choice with a decade of elite performance across **213 games and three VFL premierships** **[historical record]**.
 
 #### 2. Dustin Martin — Richmond, 2010–2024 (Grand Final courage)
 
