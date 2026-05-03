@@ -3,7 +3,8 @@
 generate_readme_charts.py
 =========================
 
-Generate the five data-visualisation charts that are embedded in README.md.
+Generate the five data-visualisation charts that are embedded in
+docs/afl-insights.md (and a couple in docs/hall-of-fame-top100.md).
 
 Charts produced (all PNG, dark theme, 150 DPI, saved to assets/charts/):
 
@@ -32,8 +33,8 @@ Functions are split into:
   * `chart_team_heatmap`         } regenerated each time
   * `chart_team_style_scatter`   } update_team_analysis.py runs.
 
-`update_team_analysis.py` calls `regenerate_team_charts()` after refreshing the
-README so the team-specific charts always match the latest data.
+`update_team_analysis.py` calls `regenerate_team_charts()` after refreshing
+docs/afl-insights.md so the team-specific charts always match the latest data.
 
 Run standalone:
 
@@ -398,8 +399,8 @@ def chart_team_radar(year: int = None) -> str:
     league min/max so the smallest team in each axis sits at 0 and the
     largest at 1.
 
-    Top-6 = teams with highest disposals/game, matching the README summary
-    table ordering.
+    Top-6 = teams with highest disposals/game, matching the afl-insights.md
+    summary table ordering.
     """
     _apply_dark_style()
     if year is None:
@@ -1309,7 +1310,7 @@ def chart_team_form_trend(year: int = None) -> str:
 def regenerate_team_charts(year: int = None) -> List[str]:
     """Regenerate the season-dependent team charts.
 
-    Called by update_team_analysis.py after refreshing the README.
+    Called by update_team_analysis.py after refreshing docs/afl-insights.md.
     Returns a list of paths actually written; charts that fail are logged
     and skipped rather than aborting the rest.
     """

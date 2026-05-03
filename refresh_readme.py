@@ -3,11 +3,17 @@
 refresh_readme.py
 =================
 
-Master entry point for refreshing every dynamic piece of README.md in one
-shot. Designed to run at the very end of `refresh_and_rank.sh`, AFTER the
-upstream data has been refreshed and the all-time top 100 has been
-recalculated, so this script only has to render outputs from already-fresh
-inputs.
+Master entry point for refreshing every dynamic piece of the docs (live AFL
+insights + Hall of Fame top-100) in one shot. Designed to run at the very end
+of `refresh_and_rank.sh`, AFTER the upstream data has been refreshed and the
+all-time top 100 has been recalculated, so this script only has to render
+outputs from already-fresh inputs.
+
+The marker-driven sections live in `docs/afl-insights.md` (team analysis,
+finals pathway, Brownlow predictor, stat leaders, 5-year team profiles) and
+`docs/hall-of-fame-top100.md` (all-time top 100 table). Both file paths are
+imported from `update_team_analysis` (uta.README_PATH and uta.HALL_OF_FAME_PATH)
+so this script tracks them automatically.
 
 What it does (in order):
 
@@ -17,8 +23,8 @@ What it does (in order):
   Step 3  Current-season team text + 6 charts via update_team_analysis.main()
           (radar, heatmap, 5-year scatter, goals-vs-disposals, form trend +
           rewrites the YEAR-TEAM-ANALYSIS / 5YEAR-TEAM-PROFILES sections of
-          README.md so the goals-disposals and form-trend chart markers are
-          inserted/refreshed inside that block)
+          docs/afl-insights.md so the goals-disposals and form-trend chart
+          markers are inserted/refreshed inside that block)
   Step 4  Print a summary — what was updated, current round, current date.
 
 Usage:
@@ -34,15 +40,16 @@ The script is also importable as a module:
 Design notes
 ------------
 * Idempotent — running twice with the same source data produces byte-identical
-  PNGs and the same README content.
+  PNGs and the same doc-block content.
 * Missing-data resilient — every chart group is wrapped in try/except so a
   failure in (say) the form-trend chart does not abort the era-history charts.
   Failures are logged but the script keeps going and reports them in the
   summary.
 * Auto-detects the current year from the most recent player-game data so it
   works season-over-season without code changes.
-* No data is mutated — only assets/charts/*.png and the dynamic README
-  blocks (between the marker pairs documented in the header).
+* No data is mutated — only assets/charts/*.png and the dynamic doc blocks
+  (between the marker pairs documented in the header) inside
+  docs/afl-insights.md and docs/hall-of-fame-top100.md.
 """
 from __future__ import annotations
 
@@ -97,10 +104,10 @@ def _detect_year() -> Optional[int]:
 
 def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
     """Run the full update_team_analysis pipeline — refreshes the
-    YEAR-TEAM-ANALYSIS + 5YEAR-TEAM-PROFILES blocks in README.md, regenerates
-    radar/heatmap/scatter/goals-disposals/form-trend charts, and emits the
-    GOALS-DISPOSALS-CHART and FORM-TREND-CHART markers inside the team
-    analysis block.
+    YEAR-TEAM-ANALYSIS + 5YEAR-TEAM-PROFILES blocks in docs/afl-insights.md,
+    regenerates radar/heatmap/scatter/goals-disposals/form-trend charts, and
+    emits the GOALS-DISPOSALS-CHART and FORM-TREND-CHART markers inside the
+    team analysis block.
 
     Returns (info_dict, error_messages). info_dict carries the year, max_round,
     n_teams + 5-year window picked up by the script when available.
@@ -146,7 +153,7 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         # Finals pathway block — uses the live ladder from matches_<year>.csv
         # paired with the same summary_with_ranks shown in the team analysis
         # section above. If matches data is missing the helper returns an
-        # empty body and we leave the README untouched.
+        # empty body and we leave the AFL-insights file untouched.
         pathway_body, _ladder = uta.generate_finals_pathway(
             year, max_round, summary_with_ranks
         )
@@ -237,7 +244,7 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
 
     if not skip_team:
         print("=========================================")
-        print("[Step 3] Current-season team analysis + charts + README block")
+        print("[Step 3] Current-season team analysis + charts + afl-insights.md block")
         print("=========================================")
         team_info, errs = _step_team_analysis()
         for e in errs:
