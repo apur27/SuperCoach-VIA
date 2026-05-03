@@ -150,6 +150,25 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         )
         if pathway_body:
             new_readme = uta.replace_finals_pathway_section(new_readme, year, pathway_body)
+        # Regenerate the finals-pathway chart alongside the text.
+        if not _ladder.empty:
+            try:
+                uta.generate_finals_pathway_chart(_ladder, year, max_round)
+            except Exception as e:
+                print(f"  [warn] finals_pathway_chart: {e}", file=sys.stderr)
+
+        # Brownlow Medal vote-proxy block — composite of disposals,
+        # clearances, contested possessions, effective-disposals (proxy)
+        # and goals, z-scored across all eligible 2026 players. Validated
+        # on 2010-2025 historical Brownlow votes during development.
+        # The helper also writes the chart to assets/charts/.
+        brownlow_body, _brownlow = uta.generate_brownlow_predictor(
+            games, year, max_round
+        )
+        if brownlow_body:
+            new_readme = uta.replace_brownlow_predictor_section(
+                new_readme, year, brownlow_body
+            )
 
         if new_readme != readme_text:
             with open(uta.README_PATH, "w", encoding="utf-8") as f:

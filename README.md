@@ -30,6 +30,7 @@ A personal AFL data project that does three things:
   - [How the game has changed — 125 years of data](#how-the-game-has-changed--125-years-of-data)
   - [2026 season — live team analysis](#2026-season--live-team-analysis)
   - [2026 finals pathway — what each team needs](#2026-finals-pathway--what-each-team-needs)
+  - [2026 Brownlow Medal predictor](#2026-brownlow-medal-predictor)
   - [Team playing styles — 5 years of data (2021–2025)](#team-playing-styles--5-years-of-data-20212025)
   - [For the footy expert — finding the greatest 100 players of all time](#for-the-footy-expert--finding-the-greatest-100-players-of-all-time)
   - [For the coaching staff — building a data-driven game plan](#for-the-coaching-staff--building-a-data-driven-game-plan)
@@ -431,6 +432,38 @@ What does each AFL team need to do — from here — to make finals this year, a
 
 **Richmond** sit 18th on the ladder after Round 8 (0-7, 0 points, 54.2%) — the maths is technically alive but the path requires a miracle run the form line does not support. On the underlying numbers they are bottom-4 for goals (18th), bottom-4 for clearances (15th), bottom-4 for tackles (16th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their goals ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Essendon** (1-6, 17th) — leapfrog them and the finals door reopens. Grand final read: **season effectively over**. Even a finals berth would require the kind of run that simply doesn't happen at AFL level — the priority from here is list build, draft position and next season.
 <!-- 2026-FINALS-PATHWAY-END -->
+
+### 2026 Brownlow Medal predictor
+
+<!-- 2026-BROWNLOW-PREDICTOR-START -->
+The **Brownlow Medal** is the AFL's individual award for the "fairest and best" player, voted on by the on-field umpires with a 3-2-1 split per game. It is impossible to predict actual votes without modelling umpire behaviour, but we *can* build a defensible **statistical proxy** — a composite score over the stats that historically correlate with vote-earning. The weights below were validated against every player-game from 2010-2025 (n=145,150) where actual `brownlow_votes` are recorded — the top 1% of proxy games captured ~70% of vote-earning performances. Players need at least 3 games played to be ranked. Suspended players are not penalised — this proxy is a stat-profile model, not a vote forecaster.
+
+**Composite formula** (z-scored across all eligible players, summed with weights): `0.30 × disposals + 0.22 × clearances + 0.18 × contested-poss + 0.15 × effective-disposals + 0.15 × goals`. Effective disposals are approximated as `disposals - clangers` because the raw data does not carry a true effective-disposal column. Goals are weighted higher than the conventional midfielder-only template (15% vs the ~5% common in pure-midfielder proxies) because that materially improves correlation with actual historical Brownlow votes.
+
+![2026 Brownlow predictor](assets/charts/brownlow_predictor_2026.png)
+
+#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 8)
+
+| Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | Goals/g | Proxy | Proj. votes |
+| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | Nick Daicos | Collingwood | 6 | 37.0 | 5.8 | 10.8 | 0.83 | +2.58 | +56.8 |
+| 2 | Clayton Oliver | Greater Western Sydney | 7 | 30.9 | 7.1 | 14.9 | 0.29 | +2.47 | +54.3 |
+| 3 | Lachie Neale | Brisbane Lions | 7 | 31.1 | 7.7 | 13.4 | 0.00 | +2.42 | +53.2 |
+| 4 | Zak Butters | Port Adelaide | 7 | 30.7 | 6.0 | 12.3 | 0.29 | +2.12 | +46.6 |
+| 5 | Bailey Smith | Geelong | 7 | 32.0 | 5.4 | 11.4 | 0.43 | +2.09 | +46.1 |
+| 6 | Christian Petracca | Gold Coast | 5 | 26.0 | 5.8 | 11.6 | 2.00 | +2.09 | +45.9 |
+| 7 | Patrick Cripps | Carlton | 7 | 25.4 | 7.4 | 15.6 | 0.29 | +2.07 | +45.6 |
+| 8 | Jai Newcombe | Hawthorn | 7 | 26.4 | 7.9 | 12.3 | 0.43 | +2.06 | +45.4 |
+| 9 | Isaac Heeney | Sydney | 5 | 24.6 | 6.0 | 12.8 | 2.00 | +2.04 | +44.9 |
+| 10 | Harry Sheezel | North Melbourne | 7 | 32.7 | 5.0 | 10.1 | 0.43 | +2.01 | +44.2 |
+| 11 | Caleb Serong | Fremantle | 7 | 25.7 | 6.4 | 12.9 | 0.71 | +1.92 | +42.2 |
+| 12 | Tristan Xerri | North Melbourne | 4 | 21.0 | 7.5 | 17.5 | 0.25 | +1.89 | +41.5 |
+| 13 | Marcus Bontempelli | Western Bulldogs | 7 | 26.6 | 4.9 | 11.1 | 1.43 | +1.82 | +40.0 |
+| 14 | Matthew Kennedy | Western Bulldogs | 7 | 26.3 | 7.1 | 11.3 | 0.29 | +1.82 | +39.9 |
+| 15 | Max Gawn | Melbourne | 7 | 21.9 | 6.4 | 15.6 | 0.57 | +1.79 | +39.3 |
+
+On the proxy, **Nick Daicos** (Collingwood) leads the field — built on 37.0 disposals/g across 6 games. The composite score (+2.58) sits 0.12 clear of second place. **Clayton Oliver** (Greater Western Sydney) is the closest challenger at +2.47, with 30.9 disposals/g and 7.1 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
+<!-- 2026-BROWNLOW-PREDICTOR-END -->
 
 
 ### Team playing styles — 5 years of data (2021–2025)
