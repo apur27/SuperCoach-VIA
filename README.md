@@ -262,6 +262,8 @@ The numbers below come from running `era_based_statistical_analysis.py` over eve
 
 ### Scoring across the eras
 
+![AFL team scoring 1965 to 2025](assets/charts/era_scoring_trends.png)
+
 | Per team, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
 |---|---:|---:|---:|---:|
 | Goals | **10.1** | 13.9 | 13.9 | 12.3 |
@@ -278,6 +280,8 @@ A few things jump out that contradict the usual barbershop wisdom:
 - **Modern teams have fewer scoring shots, not just less accuracy.** Scoring shots per team-game: 27.5 (1965–1990) → 26.1 → 23.3. That's 4 fewer scoring shots per team per game vs the 80s.
 
 ### Player workload — the most dramatic change in footy
+
+![Per-player stat evolution by era](assets/charts/era_stat_evolution.png)
 
 | Per player, per game | pre-1965 | 1965–1990 | 1991–2010 | 2011–now |
 |---|---:|---:|---:|---:|
@@ -353,6 +357,14 @@ Through 8 rounds of the 2026 season, the league averages out at around 367 dispo
 | Rebound-50s | Adelaide | 43.9 | 39.4 | +4.5 |
 | Hit-outs | Hawthorn | 46.7 | 32.6 | +14.1 |
 | Contested marks | Hawthorn | 10.7 | 8.8 | +1.9 |
+
+### Visual snapshot — top-6 radar and league-wide rank heatmap
+
+The radar chart below picks out the top six disposal teams of the 2026 season-to-date and plots them against the six core dimensions, normalised to a 0-1 scale relative to all 18 sides — a value of 1.0 on an axis means that team is the league best on that stat. The heatmap underneath shows every team's rank across eight key stats (1 = league best in green, 18 = worst in red), with rows ordered by disposals rank.
+
+![Top 6 teams radar — 2026](assets/charts/team_2026_radar.png)
+
+![Team rank heatmap — 2026](assets/charts/team_2026_heatmap.png)
 
 ### Team-by-team — playing style, strengths and weaknesses
 
@@ -438,6 +450,10 @@ After 7 games of 2026, the Richmond are anchored near the bottom of the table (1
 The profiles below summarise each team's 2021–2025 statistical fingerprint — five full seasons of per-game averages aggregated across every player who pulled on the jumper. They reflect coaching philosophy and list system more than any single season's results, smoothing out the noise of a hot run or a flat year. If you want to understand *why* a team plays the way it does in 2026, this is the better baseline than the season-to-date snapshot above — it is what the data says they are at their core.
 
 Each paragraph leans on the actual numbers (per-game averages, league ranks across 18 teams, and 5-year linear trends), so the descriptions update automatically when the window rolls forward.
+
+![5-year team playing styles scatter — 2021-2025](assets/charts/team_2026_style_scatter.png)
+
+The scatter above places each club on two axes that capture the most visible part of a team's identity — handball ratio (% of disposals by hand) on the X and tackles per game on the Y. The dashed lines mark the league median, splitting the field into four loose archetypes: top-right teams move the ball by handball *and* hunt with tackle pressure; top-left sides trust their kicking but still bring the heat; bottom-right are handball teams that spread rather than tackle; bottom-left are kick-and-spread possession sides.
 
 ### Adelaide
 
