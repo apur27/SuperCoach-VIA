@@ -18,10 +18,10 @@ After the docs split, the marker-driven sections live in three files:
   - `docs/hall-of-fame-top100.md` all-time top 100 table + chart
                                   (1 marker pair: ALL-TIME-TOP100)
 
-All three paths are imported from `update_team_analysis` (uta.SEASON_PATH,
+All three paths are imported from `update_team_analysis` (uta.README_PATH,
 uta.TEAM_PROFILES_PATH, uta.HALL_OF_FAME_PATH) so this script tracks them
-automatically. Legacy fallback to `uta.README_PATH` (docs/afl-insights.md)
-is preserved for backwards compatibility if the split files are missing.
+automatically. README_PATH points at docs/afl-season-2026.md after the
+docs split.
 
 What it does (in order):
 
@@ -150,7 +150,8 @@ def _detect_year() -> Optional[int]:
 
 def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
     """Run the full update_team_analysis pipeline — refreshes the
-    YEAR-TEAM-ANALYSIS + 5YEAR-TEAM-PROFILES blocks in docs/afl-insights.md,
+    YEAR-TEAM-ANALYSIS block in docs/afl-season-2026.md and the
+    5YEAR-TEAM-PROFILES block in docs/afl-team-profiles.md,
     regenerates radar/heatmap/scatter/goals-disposals/form-trend charts, and
     emits the GOALS-DISPOSALS-CHART and FORM-TREND-CHART markers inside the
     team analysis block.
@@ -190,34 +191,23 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
 
         # The four season-specific blocks (team analysis, finals pathway,
         # Brownlow, stat leaders) live in docs/afl-season-2026.md after the
-        # docs split. Fall back to the legacy docs/afl-insights.md if the
-        # season file isn't there yet.
-        season_target = uta.SEASON_PATH if os.path.exists(uta.SEASON_PATH) else uta.README_PATH
-        info["season_target"] = season_target
-        with open(season_target, "r", encoding="utf-8") as f:
-            season_text = f.read()
-        new_season = uta.replace_section(season_text, year, body)
+        # docs split — uta.README_PATH points there.
+        with open(uta.README_PATH, "r", encoding="utf-8") as f:
+            readme_text = f.read()
+        new_readme = uta.replace_section(readme_text, year, body)
 
         five_year_body, year_window = uta.generate_5year_profiles(year)
         info["window"] = (int(year_window[0]), int(year_window[-1]))
-        # 5-year profiles have their own home (docs/afl-team-profiles.md). If
-        # absent, fall back to writing into the season target — preserves the
-        # pre-split behaviour where everything lived in one file.
-        if os.path.exists(uta.TEAM_PROFILES_PATH):
-            with open(uta.TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
-                profiles_text = f.read()
-            new_profiles = uta.replace_5year_section(
-                profiles_text, year, year_window, five_year_body
-            )
-            if new_profiles != profiles_text:
-                with open(uta.TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
-                    f.write(new_profiles)
-            info["profiles_target"] = uta.TEAM_PROFILES_PATH
-        else:
-            new_season = uta.replace_5year_section(
-                new_season, year, year_window, five_year_body
-            )
-            info["profiles_target"] = season_target
+        # 5-year profiles live in docs/afl-team-profiles.md and are
+        # read/written separately from the four season blocks above.
+        with open(uta.TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
+            profiles_text = f.read()
+        new_profiles = uta.replace_5year_section(
+            profiles_text, year, year_window, five_year_body
+        )
+        if new_profiles != profiles_text:
+            with open(uta.TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
+                f.write(new_profiles)
 
         # Finals pathway block — uses the live ladder from matches_<year>.csv
         # paired with the same summary_with_ranks shown in the team analysis
@@ -227,7 +217,7 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             year, max_round, summary_with_ranks
         )
         if pathway_body:
-            new_season = uta.replace_finals_pathway_section(new_season, year, pathway_body)
+            new_readme = uta.replace_finals_pathway_section(new_readme, year, pathway_body)
         # Regenerate the finals-pathway chart alongside the text.
         if not _ladder.empty:
             try:
@@ -244,8 +234,8 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, year, max_round
         )
         if brownlow_body:
-            new_season = uta.replace_brownlow_predictor_section(
-                new_season, year, brownlow_body
+            new_readme = uta.replace_brownlow_predictor_section(
+                new_readme, year, brownlow_body
             )
 
         # Player performance stats explainer block — leaderboards,
@@ -261,13 +251,13 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, matches_for_stats, year, max_round,
         )
         if stat_body:
-            new_season = uta.replace_stat_leaders_section(
-                new_season, year, stat_body,
+            new_readme = uta.replace_stat_leaders_section(
+                new_readme, year, stat_body,
             )
 
-        if new_season != season_text:
-            with open(season_target, "w", encoding="utf-8") as f:
-                f.write(new_season)
+        if new_readme != readme_text:
+            with open(uta.README_PATH, "w", encoding="utf-8") as f:
+                f.write(new_readme)
 
         # Regenerate the season-specific charts (radar, heatmap, scatter,
         # goals-disposals, form-trend). The extended regenerate_team_charts

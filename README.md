@@ -56,8 +56,13 @@ You don't need to write any code to use most of this. The [AFL insights page](do
 - [Running predictions & backtests](docs/usage.md) — predict next round, backtest, refresh data
 - [Troubleshooting](docs/troubleshooting.md) — common errors and fixes
 
-### AFL insights & data
-- [Live 2026 season analysis](docs/afl-insights.md) — current team profiles, finals pathway, Brownlow predictor, 125-year trends
+### AFL insights & live data
+- [AFL insights hub](docs/afl-insights.md)
+  - [2026 live season data](docs/afl-season-2026.md) *(auto-updates)*
+  - [5-year team profiles](docs/afl-team-profiles.md) *(auto-updates)*
+  - [AFL history — 125 years](docs/afl-history.md)
+  - [For the footy expert](docs/footy-expert-guide.md)
+  - [For the coaching staff](docs/coaching-guide.md)
 - [AFL Hall of Fame](docs/hall-of-fame.md) — all-time top 100, captains, coaches, courageous players
 
 ### Technical guides
