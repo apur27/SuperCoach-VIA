@@ -141,6 +141,16 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         info["window"] = (int(year_window[0]), int(year_window[-1]))
         new_readme = uta.replace_5year_section(new_readme, year, year_window, five_year_body)
 
+        # Finals pathway block — uses the live ladder from matches_<year>.csv
+        # paired with the same summary_with_ranks shown in the team analysis
+        # section above. If matches data is missing the helper returns an
+        # empty body and we leave the README untouched.
+        pathway_body, _ladder = uta.generate_finals_pathway(
+            year, max_round, summary_with_ranks
+        )
+        if pathway_body:
+            new_readme = uta.replace_finals_pathway_section(new_readme, year, pathway_body)
+
         if new_readme != readme_text:
             with open(uta.README_PATH, "w", encoding="utf-8") as f:
                 f.write(new_readme)

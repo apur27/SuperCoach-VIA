@@ -29,6 +29,7 @@ A personal AFL data project that does three things:
 - [AFL insights](#afl-insights)
   - [How the game has changed — 125 years of data](#how-the-game-has-changed--125-years-of-data)
   - [2026 season — live team analysis](#2026-season--live-team-analysis)
+  - [2026 finals pathway — what each team needs](#2026-finals-pathway--what-each-team-needs)
   - [Team playing styles — 5 years of data (2021–2025)](#team-playing-styles--5-years-of-data-20212025)
   - [For the footy expert — finding the greatest 100 players of all time](#for-the-footy-expert--finding-the-greatest-100-players-of-all-time)
   - [For the coaching staff — building a data-driven game plan](#for-the-coaching-staff--building-a-data-driven-game-plan)
@@ -349,6 +350,88 @@ After 7 games of 2026, the West Coast are anchored near the bottom of the table 
 After 7 games of 2026, the Richmond are anchored near the bottom of the table (18th for disposals) and average 326.1 disposals, 8.4 goals and 52.1 tackles per game. Their stat profile reads as struggling to win territory and force the issue forward; with notably soft pressure around the ball. They go inside 50 48.1 times a game (16th in the league), win 119.4 contested possessions (15th) and tilt 43/57 between handball and kick. The strengths jump out clearly: they're 5th for free kicks for (19.6/g), 9th for free kicks against (18.7/g), 12th for contested marks (8.4/g). The flip side is harder to ignore: 18th for disposals (326.1/g), 18th for kicks (187.0/g), 18th for marks (80.9/g) — that's where opposition coaches will be drawing up plans. Key player to watch is **Jayden Short**, leading the team in disposals at 25.5/game.
 
 <!-- 2026-TEAM-ANALYSIS-END -->
+
+### 2026 finals pathway — what each team needs
+
+<!-- 2026-FINALS-PATHWAY-START -->
+What does each AFL team need to do — from here — to make finals this year, and what would have to go right for them to play in the grand final? After Round 8 of the 2026 season, every side has played 7 games with roughly 15 games left in the home-and-away. The paragraphs below combine the actual 2026 ladder (wins, losses, percentage) with the team's stat profile across 16 categories to write an honest, data-driven mid-season assessment for each club. The grand-final read at the end of each paragraph maps to one of: **contender** (top-4, elite stat profile), **live chance** (top-8 with weapons), **chance** (top-8 without breadth), **long shot** (9-12), **mathematically alive** (13-16) or **season effectively over** (17-18) — the cut-offs are deliberately blunt.
+
+![2026 AFL Finals Pathway ladder chart](assets/charts/finals_pathway_2026.png)
+
+
+#### 1st — Sydney
+
+**Sydney** sit 1st on the ladder after Round 8 (6-1, 24 points, 178.1%) — their job is to hold the double-chance, not chase it — every win from here is locking in a top-4 finish, not scrambling for one. On the underlying numbers they are top-4 for goals (1st), top-4 for clearances (4th), top-4 for tackles (1st) — that's the stat fingerprint behind the ladder position. From here, the one thing they must keep doing is their goals (1st of 18) — that is the engine of the run. For finals positioning, their nearest finals rival is **Fremantle** (6-1, 2nd) — the team most likely to bump them out if they slip. Grand final read: **contender**. They have the ladder buffer and the stat profile of a side built to play deep in September — 5 of the five core categories sit top-5, which is what every recent premier has had at this point of the year.
+
+#### 2nd — Fremantle
+
+**Fremantle** sit 2nd on the ladder after Round 8 (6-1, 24 points, 137.6%) — their job is to hold the double-chance, not chase it — every win from here is locking in a top-4 finish, not scrambling for one. On the underlying numbers they are top-4 for tackles (3rd), top-4 for contested possessions (2nd) — that's the stat fingerprint behind the ladder position. From here, the one thing they must keep doing is their contested possessions (2nd of 18) — that is the engine of the run. For finals positioning, their nearest finals rival is **Hawthorn** (6-1, 3rd) — the team most likely to bump them out if they slip. Grand final read: **live chance**. The ladder position is right and the stat profile has real weapons, but they will need to either climb a rung or two further or peak at the right time — flag-winners from outside the top four are the historical exception, not the rule.
+
+#### 3rd — Hawthorn
+
+**Hawthorn** sit 3rd on the ladder after Round 8 (6-1, 24 points, 124.5%) — their job is to hold the double-chance, not chase it — every win from here is locking in a top-4 finish, not scrambling for one. On the underlying numbers they are top-4 for goals (3rd), top-4 for tackles (4th) — that's the stat fingerprint behind the ladder position. From here, the one thing they must keep doing is their goals (3rd of 18) — that is the engine of the run. For finals positioning, their nearest finals rival is **Melbourne** (5-2, 4th) — the team most likely to bump them out if they slip. Grand final read: **contender**. They have the ladder buffer and the stat profile of a side built to play deep in September — 3 of the five core categories sit top-5, which is what every recent premier has had at this point of the year.
+
+#### 4th — Melbourne
+
+**Melbourne** sit 4th on the ladder after Round 8 (5-2, 20 points, 102.8%) — their job is to hold the double-chance, not chase it — every win from here is locking in a top-4 finish, not scrambling for one. On the underlying numbers they are top-4 for goals (4th), top-4 for inside-50s (3rd) — that's the stat fingerprint behind the ladder position. From here, the one thing they must keep doing is their inside-50s (3rd of 18) — that is the engine of the run. For finals positioning, their nearest finals rival is **Brisbane Lions** (4-3, 5th) — the team most likely to bump them out if they slip. Grand final read: **live chance**. The ladder position is right and the stat profile has real weapons, but they will need to either climb a rung or two further or peak at the right time — flag-winners from outside the top four are the historical exception, not the rule.
+
+#### 5th — Brisbane Lions
+
+**Brisbane Lions** sit 5th on the ladder after Round 8 (4-3, 16 points, 118.8%) — they need roughly 8 wins from their remaining 15 games to lock the eight in, which their form line is comfortably on track to do. On the underlying numbers they are top-4 for goals (4th), top-4 for clearances (1st), bottom-4 for tackles (18th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their tackles ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, their nearest finals rival is **North Melbourne** (4-3, 6th) — the team most likely to bump them out if they slip. Grand final read: **live chance**. The ladder position is right and the stat profile has real weapons, but they will need to either climb a rung or two further or peak at the right time — flag-winners from outside the top four are the historical exception, not the rule.
+
+#### 6th — North Melbourne
+
+**North Melbourne** sit 6th on the ladder after Round 8 (4-3, 16 points, 115.9%) — they need roughly 8 wins from their remaining 15 games to lock the eight in, which their form line is comfortably on track to do. On the underlying numbers they are top-4 for clearances (3rd) — that's the stat fingerprint behind the ladder position. From here, no single stat screams crisis, but they need every part of their game to lift a notch to be a serious finals threat. For finals positioning, their nearest finals rival is **Gold Coast** (4-3, 7th) — the team most likely to bump them out if they slip. Grand final read: **chance, not a contender**. Sitting inside the eight is the easy bit; the stat profile doesn't yet have the breadth to beat top-4 sides three weeks running, which is what the path demands once finals arrive.
+
+#### 7th — Gold Coast
+
+**Gold Coast** sit 7th on the ladder after Round 8 (4-3, 16 points, 114.4%) — they need roughly 8 wins from their remaining 15 games to lock the eight in, which their form line is comfortably on track to do. On the underlying numbers they are top-4 for goals (2nd), top-4 for inside-50s (2nd) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their marks ranking (17th of 18) — every finals-tier opponent will target it. For finals positioning, their nearest finals rival is **Collingwood** (4-3, 8th) — the team most likely to bump them out if they slip. Grand final read: **live chance**. The ladder position is right and the stat profile has real weapons, but they will need to either climb a rung or two further or peak at the right time — flag-winners from outside the top four are the historical exception, not the rule.
+
+#### 8th — Collingwood
+
+**Collingwood** sit 8th on the ladder after Round 8 (4-3, 16 points, 110.2%) — they need roughly 8 wins from their remaining 15 games to lock the eight in, which their form line is comfortably on track to do. On the underlying numbers they are bottom-4 for goals (15th), bottom-4 for clearances (18th), bottom-4 for contested possessions (16th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their clearances ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, their nearest finals rival is **Geelong** (4-3, 9th) — the team most likely to bump them out if they slip. Grand final read: **chance, not a contender**. Sitting inside the eight is the easy bit; the stat profile doesn't yet have the breadth to beat top-4 sides three weeks running, which is what the path demands once finals arrive.
+
+#### 9th — Geelong
+
+**Geelong** sit 9th on the ladder after Round 8 (4-3, 16 points, 108.6%) — ~8 wins from 15 games gets them back in — very doable on paper, but with no margin for a flat patch. On the underlying numbers they are top-4 for tackles (2nd) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their rebound-50s ranking (13th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Collingwood** (4-3, 8th) — leapfrog them and the finals door reopens. Grand final read: **realistically out of premiership contention**. Even if they sneak into the eight from here, finishing 7th or 8th means winning four straight against teams who finished above them — that's not how flags get won.
+
+#### 10th — Western Bulldogs
+
+**Western Bulldogs** sit 10th on the ladder after Round 8 (4-3, 16 points, 91.8%) — ~8 wins from 15 games gets them back in — very doable on paper, but with no margin for a flat patch. On the underlying numbers they are top-4 for clearances (2nd) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their contested possessions ranking (13th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Geelong** (4-3, 9th) — leapfrog them and the finals door reopens. Grand final read: **realistically out of premiership contention**. Even if they sneak into the eight from here, finishing 7th or 8th means winning four straight against teams who finished above them — that's not how flags get won.
+
+#### 11th — Port Adelaide
+
+**Port Adelaide** sit 11th on the ladder after Round 8 (3-4, 12 points, 112.5%) — ~9 wins from 15 games gets them back in — very doable on paper, but with no margin for a flat patch. On the underlying numbers they are bottom-4 for contested possessions (17th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their rebound-50s ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Western Bulldogs** (4-3, 10th) — leapfrog them and the finals door reopens. Grand final read: **realistically out of premiership contention**. Even if they sneak into the eight from here, finishing 7th or 8th means winning four straight against teams who finished above them — that's not how flags get won.
+
+#### 12th — St Kilda
+
+**St Kilda** sit 12th on the ladder after Round 8 (3-4, 12 points, 110.1%) — ~9 wins from 15 games gets them back in — very doable on paper, but with no margin for a flat patch. On the underlying numbers they sit broadly mid-pack across the core stat lines, which is consistent with their ladder position and means the form line is honest. From here, the one thing they have to fix is their tackles ranking (14th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Port Adelaide** (3-4, 11th) — leapfrog them and the finals door reopens. Grand final read: **realistically out of premiership contention**. Even if they sneak into the eight from here, finishing 7th or 8th means winning four straight against teams who finished above them — that's not how flags get won.
+
+#### 13th — Adelaide
+
+**Adelaide** sit 13th on the ladder after Round 8 (3-4, 12 points, 96.1%) — they would need to win ~9 of their remaining 15 games to claim a finals spot, which would require a near-perfect run from here. On the underlying numbers they are bottom-4 for clearances (16th), bottom-4 for inside-50s (15th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their clearances ranking (16th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **St Kilda** (3-4, 12th) — leapfrog them and the finals door reopens. Grand final read: **no realistic path**. The maths technically still works — win out and percentage helps — but the form line and stat profile are pointing the other way, and no team has come from this deep at this point of the year to win a flag in the modern era.
+
+#### 14th — Greater Western Sydney
+
+**Greater Western Sydney** sit 14th on the ladder after Round 8 (3-4, 12 points, 89.8%) — they would need to win ~9 of their remaining 15 games to claim a finals spot, which would require a near-perfect run from here. On the underlying numbers they are top-4 for inside-50s (3rd), top-4 for contested possessions (4th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their goals ranking (13th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Adelaide** (3-4, 13th) — leapfrog them and the finals door reopens. Grand final read: **no realistic path**. The maths technically still works — win out and percentage helps — but the form line and stat profile are pointing the other way, and no team has come from this deep at this point of the year to win a flag in the modern era.
+
+#### 15th — West Coast
+
+**West Coast** sit 15th on the ladder after Round 8 (2-5, 8 points, 55.8%) — they would need to win ~10 of their remaining 15 games to claim a finals spot, which would require a near-perfect run from here. On the underlying numbers they are bottom-4 for goals (17th), bottom-4 for tackles (15th), bottom-4 for inside-50s (17th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their goals ranking (17th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Greater Western Sydney** (3-4, 14th) — leapfrog them and the finals door reopens. Grand final read: **no realistic path**. The maths technically still works — win out and percentage helps — but the form line and stat profile are pointing the other way, and no team has come from this deep at this point of the year to win a flag in the modern era.
+
+#### 16th — Carlton
+
+**Carlton** sit 16th on the ladder after Round 8 (1-6, 4 points, 80.3%) — they would need to win ~11 of their remaining 15 games to claim a finals spot, which would require a near-perfect run from here. On the underlying numbers they are bottom-4 for goals (16th), top-4 for tackles (4th), top-4 for contested possessions (3rd) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their marks inside 50 ranking (17th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **West Coast** (2-5, 15th) — leapfrog them and the finals door reopens. Grand final read: **no realistic path**. The maths technically still works — win out and percentage helps — but the form line and stat profile are pointing the other way, and no team has come from this deep at this point of the year to win a flag in the modern era.
+
+#### 17th — Essendon
+
+**Essendon** sit 17th on the ladder after Round 8 (1-6, 4 points, 72.9%) — the maths is technically alive but the path requires a miracle run the form line does not support. On the underlying numbers they are bottom-4 for clearances (17th), bottom-4 for tackles (17th), bottom-4 for inside-50s (18th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their contested possessions ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Carlton** (1-6, 16th) — leapfrog them and the finals door reopens. Grand final read: **season effectively over**. Even a finals berth would require the kind of run that simply doesn't happen at AFL level — the priority from here is list build, draft position and next season.
+
+#### 18th — Richmond
+
+**Richmond** sit 18th on the ladder after Round 8 (0-7, 0 points, 54.2%) — the maths is technically alive but the path requires a miracle run the form line does not support. On the underlying numbers they are bottom-4 for goals (18th), bottom-4 for clearances (15th), bottom-4 for tackles (16th) — that's the stat fingerprint behind the ladder position. From here, the one thing they have to fix is their goals ranking (18th of 18) — every finals-tier opponent will target it. For finals positioning, the side blocking their road back in is **Essendon** (1-6, 17th) — leapfrog them and the finals door reopens. Grand final read: **season effectively over**. Even a finals berth would require the kind of run that simply doesn't happen at AFL level — the priority from here is list build, draft position and next season.
+<!-- 2026-FINALS-PATHWAY-END -->
+
 
 ### Team playing styles — 5 years of data (2021–2025)
 

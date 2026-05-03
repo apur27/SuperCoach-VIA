@@ -66,7 +66,12 @@ import pandas as pd
 # ---------------------------------------------------------------------------
 REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
 PLAYER_DATA_DIR = os.path.join(REPO_ROOT, "data", "player_data")
+MATCHES_DIR = os.path.join(REPO_ROOT, "data", "matches")
 README_PATH = os.path.join(REPO_ROOT, "README.md")
+
+# AFL home-and-away season length (each team plays this many games in total).
+# Used by the finals-pathway section to compute games remaining.
+HOME_AND_AWAY_GAMES = 22
 
 # Stats we will load from the per-player CSVs and aggregate to team-game level.
 STAT_COLS = [
@@ -1547,6 +1552,688 @@ def generate_5year_profiles(current_year: int) -> Tuple[str, List[int]]:
 
 
 # ---------------------------------------------------------------------------
+# Finals pathway — per-team mid-season finals + flag analysis
+# ---------------------------------------------------------------------------
+# Methodology:
+#   - Load matches_<YEAR>.csv (one row per match) and compute the ladder by
+#     points (4 per win / 2 per draw / 0 per loss) and percentage
+#     (points-for / points-against * 100). Matches the AFL official ladder.
+#   - Combine ladder position with the per-team stat profile already computed
+#     for the season-analysis section to write a 5-7 sentence paragraph per
+#     team. The stat ranks come from `summary_with_ranks` so we share the
+#     exact same numbers shown in the rest of the section.
+#   - The grand-final probability tier uses simple cut-offs: top-4 + 3+
+#     elite stat ranks = "contender", top-8 = "chance", ladder 9-12 = "long
+#     shot for finals", ladder 13+ = "no realistic path".
+#   - The paragraph generator is data-driven only — no hand-written takes —
+#     so it updates automatically when the ladder shifts each round.
+
+
+def load_match_results(year: int) -> pd.DataFrame:
+    """Load completed matches for a single year. Returns a DataFrame with
+    one row per match plus computed final scores. Excludes any rows where
+    the score columns are blank (treated as future fixture)."""
+    path = os.path.join(MATCHES_DIR, f"matches_{year}.csv")
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    needed = [
+        "round_num", "team_1_team_name", "team_2_team_name",
+        "team_1_final_goals", "team_1_final_behinds",
+        "team_2_final_goals", "team_2_final_behinds",
+    ]
+    for c in needed:
+        if c not in df.columns:
+            return pd.DataFrame()
+    df = df.dropna(subset=[
+        "team_1_final_goals", "team_1_final_behinds",
+        "team_2_final_goals", "team_2_final_behinds",
+    ]).copy()
+    if df.empty:
+        return df
+    for c in [
+        "team_1_final_goals", "team_1_final_behinds",
+        "team_2_final_goals", "team_2_final_behinds",
+    ]:
+        df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
+    df["team_1_score"] = df["team_1_final_goals"] * 6 + df["team_1_final_behinds"]
+    df["team_2_score"] = df["team_2_final_goals"] * 6 + df["team_2_final_behinds"]
+    return df
+
+
+def compute_ladder(matches: pd.DataFrame) -> pd.DataFrame:
+    """Compute the ladder from completed matches. Returns one row per team
+    with: team, played, W, L, D, pts, points_for, points_against, percentage,
+    position (1 = top of ladder)."""
+    rows: Dict[str, Dict[str, float]] = {}
+
+    def _ensure(team: str) -> None:
+        if team not in rows:
+            rows[team] = {
+                "team": team, "played": 0, "W": 0, "L": 0, "D": 0,
+                "pts": 0, "points_for": 0, "points_against": 0,
+            }
+
+    for _, m in matches.iterrows():
+        t1, t2 = m["team_1_team_name"], m["team_2_team_name"]
+        s1, s2 = float(m["team_1_score"]), float(m["team_2_score"])
+        _ensure(t1)
+        _ensure(t2)
+        rows[t1]["played"] += 1
+        rows[t2]["played"] += 1
+        rows[t1]["points_for"] += s1
+        rows[t1]["points_against"] += s2
+        rows[t2]["points_for"] += s2
+        rows[t2]["points_against"] += s1
+        if s1 > s2:
+            rows[t1]["W"] += 1
+            rows[t1]["pts"] += 4
+            rows[t2]["L"] += 1
+        elif s2 > s1:
+            rows[t2]["W"] += 1
+            rows[t2]["pts"] += 4
+            rows[t1]["L"] += 1
+        else:
+            rows[t1]["D"] += 1
+            rows[t2]["D"] += 1
+            rows[t1]["pts"] += 2
+            rows[t2]["pts"] += 2
+
+    ladder = pd.DataFrame(list(rows.values()))
+    if ladder.empty:
+        return ladder
+    ladder["percentage"] = ladder.apply(
+        lambda r: (r["points_for"] / r["points_against"] * 100.0)
+        if r["points_against"] > 0 else 0.0,
+        axis=1,
+    )
+    ladder = ladder.sort_values(
+        ["pts", "percentage"], ascending=[False, False]
+    ).reset_index(drop=True)
+    ladder["position"] = ladder.index + 1
+    return ladder
+
+
+def _gf_probability_tier(ladder_pos: int, elite_count: int, weak_count: int) -> str:
+    """Map (ladder position, elite stat rank count, weak stat rank count) to
+    a coarse grand-final tier. Cut-offs are deliberately simple:
+      - top-4 with 3+ elite ranks → 'contender'
+      - top-8 → 'live chance' or 'chance'
+      - 9-12 → 'long shot'
+      - 13-16 → 'mathematically alive but unlikely'
+      - 17-18 → 'season effectively over'
+    `elite_count` is how many of (goals, clearances, tackles, inside_50s,
+    contested_possessions) the team ranks top-5 in. `weak_count` is how many
+    they rank bottom-5 in.
+    """
+    if ladder_pos <= 4 and elite_count >= 3:
+        return "contender"
+    if ladder_pos <= 4:
+        return "live chance"
+    if ladder_pos <= 8 and elite_count >= 2:
+        return "live chance"
+    if ladder_pos <= 8:
+        return "chance"
+    if ladder_pos <= 12:
+        return "long shot for finals"
+    if ladder_pos <= 16:
+        return "mathematically alive but unlikely"
+    return "season effectively over"
+
+
+def _wins_word(n: int) -> str:
+    """'1 win' / '2 wins' / '0 wins'. Avoids the '1 wins' grammar miss."""
+    return f"{n} win" if n == 1 else f"{n} wins"
+
+
+def _path_to_finals(ladder_pos: int, wins_now: int, games_remaining: int) -> str:
+    """A short clause describing the finals path. We assume ~12 wins is the
+    classic AFL '8th-place line' — teams below that need a strong finish to
+    push back into the eight. The clause is written so it follows directly
+    after a clause like 'their job from here is to ...'."""
+    target_wins = 12  # heuristic — historic average for 8th place
+    needed = max(target_wins - wins_now, 0)
+    w = _wins_word(wins_now)
+    n_word = _wins_word(needed)
+    if ladder_pos <= 4:
+        return (
+            "their job is to hold the double-chance, not chase it — "
+            "every win from here is locking in a top-4 finish, not scrambling for one"
+        )
+    if ladder_pos <= 8:
+        return (
+            f"they need roughly {n_word} from their remaining {games_remaining} "
+            "games to lock the eight in, which their form line is comfortably on track to do"
+        )
+    if ladder_pos <= 12:
+        if needed <= games_remaining - 3:
+            return (
+                f"~{n_word} from {games_remaining} games gets them back in — "
+                "very doable on paper, but with no margin for a flat patch"
+            )
+        return (
+            f"they need ~{needed} of their remaining {games_remaining} games "
+            "to push into the eight — tough, but not impossible"
+        )
+    if ladder_pos <= 16:
+        return (
+            f"they would need to win ~{needed} of their remaining "
+            f"{games_remaining} games to claim a finals spot, which would "
+            "require a near-perfect run from here"
+        )
+    return (
+        "the maths is technically alive but the path requires a miracle run "
+        "the form line does not support"
+    )
+
+
+def _consolidate_or_fix(stat_row: pd.Series, ladder_pos: int) -> Tuple[str, List[str]]:
+    """Pick the ONE thing this team must fix or maintain. Returns (clause,
+    threat_areas) where threat_areas is a list of stat names worth flagging
+    as the biggest leakage points.
+
+    The logic:
+      * Top-4 sides: the priority is to maintain whichever offensive engine
+        is driving them (goals if rank<=4 else clearances if rank<=4 else
+        contested-poss).
+      * Top-5-8 sides: the priority is whichever GENUINE weakness sits in
+        the bottom 6 — that's the slice opposition coaches will exploit in
+        September.
+      * 9-12: priority is the same — the worst genuine weakness.
+      * 13-18: the priority is wholesale, so we name the two worst weak
+        ranks and frame it as 'every part of the structure'.
+    """
+    elite_set = ["goals", "clearances", "contested_possessions",
+                 "inside_50s", "tackles", "marks_inside_50"]
+    elite_ranks = [
+        (s, int(stat_row.get(f"{s}_rank", 99)))
+        for s in elite_set
+        if f"{s}_rank" in stat_row.index
+    ]
+    elite_strengths = sorted([(s, r) for s, r in elite_ranks if r <= 4],
+                             key=lambda t: t[1])
+    elite_weak_set = ["goals", "clearances", "contested_possessions",
+                      "inside_50s", "tackles", "marks_inside_50",
+                      "marks", "rebound_50s"]
+    weak_ranks = [
+        (s, int(stat_row.get(f"{s}_rank", -1)))
+        for s in elite_weak_set
+        if f"{s}_rank" in stat_row.index
+    ]
+    weak_areas = sorted([(s, r) for s, r in weak_ranks if r >= 13],
+                        key=lambda t: -t[1])
+
+    nice = STAT_LABELS
+
+    if ladder_pos <= 4:
+        if elite_strengths:
+            s, r = elite_strengths[0]
+            label = nice.get(s, s)
+            clause = (
+                f"the one thing they must keep doing is their {label} "
+                f"({ordinal(r)} of 18) — that is the engine of the run"
+            )
+        else:
+            clause = (
+                "the one thing they must keep doing is winning ugly games — "
+                "their stat profile isn't elite anywhere, so the buffer is "
+                "scoreboard form, not structure"
+            )
+        return clause, [s for s, _ in weak_areas[:1]]
+
+    if weak_areas:
+        s, r = weak_areas[0]
+        label = nice.get(s, s)
+        clause = (
+            f"the one thing they have to fix is their {label} ranking "
+            f"({ordinal(r)} of 18) — every finals-tier opponent will target it"
+        )
+        return clause, [s for s, _ in weak_areas[:2]]
+
+    return (
+        "no single stat screams crisis, but they need every part of their "
+        "game to lift a notch to be a serious finals threat"
+    ), []
+
+
+def _biggest_rival(team: str, ladder: pd.DataFrame) -> str:
+    """Identify the team's nearest finals rival — the closest team on the
+    ladder that is on the opposite side of the 8th-place line, or the
+    closest team on percentage if they're already in/around the same
+    position."""
+    row = ladder[ladder["team"] == team].iloc[0]
+    pos = int(row["position"])
+    pts = float(row["pts"])
+
+    if pos <= 8:
+        # Threat = team just outside the eight pressing them
+        below = ladder[ladder["position"] > pos].sort_values("position")
+        if not below.empty:
+            target = below.iloc[0]
+            return (
+                f"their nearest finals rival is **{target['team']}** "
+                f"({int(target['W'])}-{int(target['L'])}, "
+                f"{ordinal(int(target['position']))}) — the team most likely "
+                "to bump them out if they slip"
+            )
+        return "no realistic challenger immediately below them on the ladder"
+
+    # Out of the eight — threat is the team just above them in the eight
+    above = ladder[ladder["position"] < pos].sort_values("position", ascending=False)
+    if not above.empty:
+        target = above.iloc[0]
+        return (
+            f"the side blocking their road back in is **{target['team']}** "
+            f"({int(target['W'])}-{int(target['L'])}, "
+            f"{ordinal(int(target['position']))}) — leapfrog them and the "
+            "finals door reopens"
+        )
+    return "no team immediately above them on the ladder"
+
+
+def render_finals_pathway_paragraph(
+    ladder_row: pd.Series,
+    stat_row: pd.Series,
+    ladder: pd.DataFrame,
+    games_remaining: int,
+) -> str:
+    """5-7 sentence paragraph on this team's finals + grand final pathway."""
+    team = ladder_row["team"]
+    pos = int(ladder_row["position"])
+    wins = int(ladder_row["W"])
+    losses = int(ladder_row["L"])
+    draws = int(ladder_row["D"])
+    pct = float(ladder_row["percentage"])
+    pts = int(ladder_row["pts"])
+
+    elite_set = ["goals", "clearances", "tackles", "inside_50s", "contested_possessions"]
+    elite_count = sum(
+        1 for s in elite_set
+        if f"{s}_rank" in stat_row.index and int(stat_row[f"{s}_rank"]) <= 5
+    )
+    weak_count = sum(
+        1 for s in elite_set
+        if f"{s}_rank" in stat_row.index and int(stat_row[f"{s}_rank"]) >= 14
+    )
+
+    tier = _gf_probability_tier(pos, elite_count, weak_count)
+    path_clause = _path_to_finals(pos, wins, games_remaining)
+    fix_clause, _flag_stats = _consolidate_or_fix(stat_row, pos)
+    rival_clause = _biggest_rival(team, ladder)
+
+    record_str = f"{wins}-{losses}" + (f"-{draws}" if draws else "")
+    s1 = (
+        f"**{team}** sit {ordinal(pos)} on the ladder after Round 8 "
+        f"({record_str}, {pts} points, {pct:.1f}%) — {path_clause}."
+    )
+
+    # Stat profile sentence — concise read of what's working / not.
+    stat_phrases = []
+    for s in elite_set:
+        rk_col = f"{s}_rank"
+        if rk_col not in stat_row.index:
+            continue
+        rk = int(stat_row[rk_col])
+        if rk <= 4:
+            stat_phrases.append(f"top-4 for {STAT_LABELS.get(s, s)} ({ordinal(rk)})")
+        elif rk >= 15:
+            stat_phrases.append(f"bottom-4 for {STAT_LABELS.get(s, s)} ({ordinal(rk)})")
+    if stat_phrases:
+        s2 = (
+            "On the underlying numbers they are "
+            + ", ".join(stat_phrases[:3])
+            + " — that's the stat fingerprint behind the ladder position."
+        )
+    else:
+        s2 = (
+            "On the underlying numbers they sit broadly mid-pack across the "
+            "core stat lines, which is consistent with their ladder position "
+            "and means the form line is honest."
+        )
+
+    s3 = f"From here, {fix_clause}."
+
+    s4 = f"For finals positioning, {rival_clause}."
+
+    # Grand final assessment — honest, sometimes blunt
+    if tier == "contender":
+        s5 = (
+            f"Grand final read: **contender**. They have the ladder buffer and "
+            f"the stat profile of a side built to play deep in September — "
+            f"{elite_count} of the five core categories sit top-5, which is "
+            "what every recent premier has had at this point of the year."
+        )
+    elif tier == "live chance":
+        s5 = (
+            f"Grand final read: **live chance**. The ladder position is right "
+            "and the stat profile has real weapons, but they will need to either "
+            "climb a rung or two further or peak at the right time — flag-winners "
+            "from outside the top four are the historical exception, not the rule."
+        )
+    elif tier == "chance":
+        s5 = (
+            f"Grand final read: **chance, not a contender**. Sitting inside the "
+            "eight is the easy bit; the stat profile doesn't yet have the breadth "
+            "to beat top-4 sides three weeks running, which is what the path "
+            "demands once finals arrive."
+        )
+    elif tier == "long shot for finals":
+        s5 = (
+            f"Grand final read: **realistically out of premiership contention**. "
+            "Even if they sneak into the eight from here, finishing 7th or 8th "
+            "means winning four straight against teams who finished above them — "
+            "that's not how flags get won."
+        )
+    elif tier == "mathematically alive but unlikely":
+        s5 = (
+            f"Grand final read: **no realistic path**. The maths technically still "
+            "works — win out and percentage helps — but the form line and stat "
+            "profile are pointing the other way, and no team has come from this "
+            "deep at this point of the year to win a flag in the modern era."
+        )
+    else:
+        s5 = (
+            f"Grand final read: **season effectively over**. Even a finals berth "
+            "would require the kind of run that simply doesn't happen at AFL "
+            "level — the priority from here is list build, draft position and "
+            "next season."
+        )
+
+    return " ".join([s1, s2, s3, s4, s5])
+
+
+def build_finals_pathway_body(
+    year: int, max_round: int,
+    ladder: pd.DataFrame, summary_with_ranks: pd.DataFrame,
+    games_remaining: int,
+) -> str:
+    """Assemble the full markdown body for the finals pathway section."""
+    if ladder.empty:
+        return (
+            "_Finals pathway section needs match results to render — no completed "
+            f"games found for {year} yet._"
+        )
+
+    intro = (
+        f"What does each AFL team need to do — from here — to make finals this "
+        f"year, and what would have to go right for them to play in the grand "
+        f"final? After Round {max_round} of the {year} season, every side has "
+        f"played 7 games with roughly {games_remaining} games left in the "
+        f"home-and-away. The paragraphs below combine the actual {year} "
+        f"ladder (wins, losses, percentage) with the team's stat profile across "
+        "16 categories to write an honest, data-driven mid-season assessment "
+        "for each club. The grand-final read at the end of each paragraph maps "
+        "to one of: **contender** (top-4, elite stat profile), **live chance** "
+        "(top-8 with weapons), **chance** (top-8 without breadth), **long shot** "
+        "(9-12), **mathematically alive** (13-16) or **season effectively "
+        "over** (17-18) — the cut-offs are deliberately blunt."
+    )
+
+    chart_ref = (
+        f"\n![{year} AFL Finals Pathway ladder chart]"
+        f"(assets/charts/finals_pathway_{year}.png)\n"
+    )
+    body_lines: List[str] = [intro, chart_ref, ""]
+
+    # Order paragraphs by ladder position (1..18) so the strongest sides appear
+    # first — easier to read top-to-bottom as a "what's the season look like".
+    sm = summary_with_ranks.set_index("team")
+    for _, lr in ladder.sort_values("position").iterrows():
+        team = lr["team"]
+        if team not in sm.index:
+            # Defensive — every team in matches should also be in summary,
+            # but skip cleanly if not.
+            continue
+        stat_row = sm.loc[team]
+        body_lines.append(f"#### {ordinal(int(lr['position']))} — {team}")
+        body_lines.append("")
+        body_lines.append(
+            render_finals_pathway_paragraph(lr, stat_row, ladder, games_remaining)
+        )
+        body_lines.append("")
+
+    return "\n".join(body_lines).rstrip()
+
+
+def replace_finals_pathway_section(
+    readme_text: str, year: int, body: str,
+) -> str:
+    """Insert / replace the finals pathway section between the markers
+    `<!-- {year}-FINALS-PATHWAY-START -->` / `<!-- {year}-FINALS-PATHWAY-END -->`.
+
+    If the markers are missing, insert the section immediately after the
+    current-year team analysis section's END marker (and before the 5-year
+    profiles block, which sits between its own marker pair).
+    Also adds a TOC entry if missing.
+    """
+    start_marker = f"<!-- {year}-FINALS-PATHWAY-START -->"
+    end_marker = f"<!-- {year}-FINALS-PATHWAY-END -->"
+    section_header = f"### {year} finals pathway — what each team needs"
+    # GitHub anchor convention: lowercase, replace spaces with `-`, em-dash
+    # collapses to `--` like other auto-generated anchors in this file.
+    toc_entry = (
+        f"  - [{year} finals pathway — what each team needs]"
+        f"(#{year}-finals-pathway--what-each-team-needs)"
+    )
+
+    if start_marker in readme_text and end_marker in readme_text:
+        before, rest = readme_text.split(start_marker, 1)
+        _, after = rest.split(end_marker, 1)
+        new_text = (
+            before + start_marker + "\n" + body + "\n" + end_marker + after
+        )
+    else:
+        anchor = f"<!-- {year}-TEAM-ANALYSIS-END -->"
+        idx = readme_text.find(anchor)
+        if idx == -1:
+            sys.exit(
+                f"Could not find anchor '{anchor}' to insert finals-pathway "
+                "section. Run after the current-year team analysis is in place."
+            )
+        insert_at = idx + len(anchor)
+        new_section = (
+            "\n\n"
+            + section_header
+            + "\n\n"
+            + start_marker
+            + "\n"
+            + body
+            + "\n"
+            + end_marker
+            + "\n"
+        )
+        new_text = readme_text[:insert_at] + new_section + readme_text[insert_at:]
+
+    # TOC entry — place directly after the year team-analysis TOC entry.
+    if toc_entry not in new_text:
+        prev_toc = f"- [{year} season — live team analysis"
+        toc_idx = new_text.find(prev_toc)
+        if toc_idx != -1:
+            line_end = new_text.find("\n", toc_idx)
+            if line_end != -1:
+                new_text = (
+                    new_text[: line_end + 1]
+                    + toc_entry
+                    + "\n"
+                    + new_text[line_end + 1 :]
+                )
+
+    return new_text
+
+
+def generate_finals_pathway(
+    year: int, max_round: int, summary_with_ranks: pd.DataFrame,
+) -> Tuple[str, pd.DataFrame]:
+    """Top-level entry point. Returns (markdown_body, ladder_df).
+
+    Reads `data/matches/matches_<year>.csv`, computes the live ladder, then
+    pairs each team's row with its season-to-date stat ranks from
+    `summary_with_ranks` to render a paragraph per team. Designed to be
+    wired into the same refresh pipeline as the season analysis."""
+    matches = load_match_results(year)
+    if matches.empty:
+        print(f"      [warn] no matches found for {year} — skipping pathway")
+        return "", pd.DataFrame()
+    ladder = compute_ladder(matches)
+    games_played_each = int(ladder["played"].max()) if not ladder.empty else 0
+    games_remaining = max(HOME_AND_AWAY_GAMES - games_played_each, 0)
+    print(
+        f"      ladder: {len(ladder)} teams, "
+        f"{games_played_each} games played, "
+        f"{games_remaining} games remaining"
+    )
+    body = build_finals_pathway_body(
+        year, max_round, ladder, summary_with_ranks, games_remaining,
+    )
+    return body, ladder
+
+
+def generate_finals_pathway_chart(ladder: pd.DataFrame, year: int, max_round: int) -> str:
+    """Create a horizontal ladder-progress chart for the finals pathway section.
+
+    Each team gets a stacked bar: wins (solid) + losses (dimmer) + remaining games
+    (hollow outline).  Teams are colour-coded by finals status.  Returns the saved
+    chart path, or empty string on failure.
+    """
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        import matplotlib.patches as mpatches
+    except Exception as exc:  # pragma: no cover
+        print(f"[chart] skipped finals pathway chart — {exc}", file=sys.stderr)
+        return ""
+
+    if ladder.empty:
+        return ""
+
+    BG = "#0d1117"
+    GRID = "#30363d"
+    GOLD = "#f4c430"
+    TEAL = "#2ec4b6"
+    TOTAL_GAMES = HOME_AND_AWAY_GAMES  # 22
+
+    plt.rcParams.update({
+        "figure.facecolor": BG, "axes.facecolor": BG,
+        "axes.edgecolor": GRID, "axes.labelcolor": "white",
+        "xtick.color": "white", "ytick.color": "white",
+        "grid.color": GRID, "text.color": "white",
+        "font.family": "monospace", "savefig.facecolor": BG, "savefig.edgecolor": BG,
+    })
+
+    def _bar_color(pos: int) -> str:
+        if pos <= 4:
+            return GOLD
+        if pos <= 8:
+            return TEAL
+        if pos <= 12:
+            return "#f77f00"
+        return "#e63946"
+
+    def _gf_label(pos: int, wins: int, losses: int) -> str:
+        if pos <= 4:
+            return "CONTENDER"
+        if pos <= 8:
+            return "LIVE CHANCE"
+        if pos <= 12:
+            return "LONG SHOT"
+        if pos <= 16:
+            return "SLIM CHANCE"
+        return "SEASON OVER"
+
+    ladder_sorted = ladder.sort_values("position").reset_index(drop=True)
+    n = len(ladder_sorted)
+
+    fig, ax = plt.subplots(figsize=(14, n * 0.52 + 1.5))
+    fig.patch.set_facecolor(BG)
+    ax.set_facecolor(BG)
+
+    y_positions = range(n - 1, -1, -1)  # top of chart = 1st place
+
+    for i, (_, row) in enumerate(ladder_sorted.iterrows()):
+        y = list(y_positions)[i]
+        pos = int(row["position"])
+        wins = int(row["W"])
+        losses = int(row["L"])
+        draws = int(row.get("D", 0))
+        played = int(row["played"])
+        remaining = max(TOTAL_GAMES - played, 0)
+        color = _bar_color(pos)
+
+        # wins bar
+        ax.barh(y, wins, color=color, height=0.55, alpha=0.9, zorder=3)
+        # losses bar
+        ax.barh(y, losses, left=wins, color=color, height=0.55, alpha=0.28, zorder=3)
+        # remaining bar (outline only)
+        ax.barh(y, remaining, left=wins + losses + draws, color=GRID,
+                height=0.55, alpha=0.5, zorder=2)
+
+        # Win count label inside bar
+        if wins > 0:
+            ax.text(wins / 2, y, f"{wins}W", va="center", ha="center",
+                    fontsize=7.5, color=BG, fontweight="bold", zorder=5)
+
+        # GF tier label on right
+        label = _gf_label(pos, wins, losses)
+        label_color = color
+        ax.text(TOTAL_GAMES + 0.4, y, label, va="center", ha="left",
+                fontsize=7, color=label_color, fontweight="bold", zorder=5)
+
+        # Percentage label
+        pct = float(row["percentage"])
+        ax.text(TOTAL_GAMES + 6.8, y, f"{pct:.0f}%", va="center", ha="left",
+                fontsize=7, color="white", alpha=0.75, zorder=5)
+
+    # Y-axis labels: position + team name
+    team_labels = [
+        f"{int(r['position']):2d}. {r['team']}" for _, r in ladder_sorted.iterrows()
+    ]
+    ax.set_yticks(list(y_positions))
+    ax.set_yticklabels(team_labels, fontsize=8.5)
+
+    # Vertical line: ~wins needed for finals (approx 11 wins from 22)
+    wins_for_finals = 11
+    ax.axvline(wins_for_finals, color=GOLD, lw=1.2, linestyle="--", alpha=0.6, zorder=1)
+    ax.text(wins_for_finals + 0.1, -0.7, "~finals threshold", fontsize=7,
+            color=GOLD, alpha=0.8, ha="left")
+
+    # Divider between 8th and 9th
+    cutoff_y = n - 8 - 0.5
+    ax.axhline(cutoff_y, color=TEAL, lw=1.5, linestyle="-", alpha=0.5, zorder=1)
+    ax.text(TOTAL_GAMES + 0.3, cutoff_y + 0.1, "← finals line", fontsize=7,
+            color=TEAL, alpha=0.8)
+
+    ax.set_xlim(0, TOTAL_GAMES + 11)
+    ax.set_xlabel("Games (wins | losses | remaining)", labelpad=8)
+    ax.set_title(
+        f"2026 AFL Finals Pathway — after Round {max_round}",
+        fontsize=13, color="white", pad=14, fontweight="bold",
+    )
+    ax.grid(axis="x", alpha=0.2, zorder=0)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    # Legend
+    patches = [
+        mpatches.Patch(color=GOLD, label="Top 4 — double chance"),
+        mpatches.Patch(color=TEAL, label="5th–8th — finals"),
+        mpatches.Patch(color="#f77f00", label="9th–12th — fringe"),
+        mpatches.Patch(color="#e63946", label="13th+ — season over"),
+    ]
+    ax.legend(handles=patches, loc="lower right", fontsize=7.5,
+              facecolor=BG, edgecolor=GRID, labelcolor="white",
+              framealpha=0.9)
+
+    chart_dir = os.path.join(REPO_ROOT, "assets", "charts")
+    os.makedirs(chart_dir, exist_ok=True)
+    out_path = os.path.join(chart_dir, f"finals_pathway_{year}.png")
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.close()
+    return out_path
+
+
+# ---------------------------------------------------------------------------
 # README write
 # ---------------------------------------------------------------------------
 def replace_section(readme_text: str, year: int, body: str) -> str:
@@ -1663,15 +2350,24 @@ def main() -> None:
         readme_text = f.read()
     new_readme = replace_section(readme_text, year, body)
 
-    print("[6/6] Building 5-year team playing-style profiles...")
+    print("[6/8] Building 5-year team playing-style profiles...")
     five_year_body, year_window = generate_5year_profiles(year)
     new_readme = replace_5year_section(new_readme, year, year_window, five_year_body)
+
+    print("[7/8] Building finals pathway section from match results + ranks...")
+    pathway_body, _ladder = generate_finals_pathway(year, max_round, summary_with_ranks)
+    if pathway_body:
+        new_readme = replace_finals_pathway_section(new_readme, year, pathway_body)
+    if not _ladder.empty:
+        chart_path = generate_finals_pathway_chart(_ladder, year, max_round)
+        if chart_path:
+            print(f"      regenerated {os.path.basename(chart_path)}")
 
     if new_readme != readme_text:
         with open(README_PATH, "w", encoding="utf-8") as f:
             f.write(new_readme)
 
-    print("[7/7] Regenerating data-visualisation charts (radar, heatmap, scatter)...")
+    print("[8/8] Regenerating data-visualisation charts (radar, heatmap, scatter)...")
     regenerate_charts(year)
 
     today = datetime.now().strftime("%Y-%m-%d")
