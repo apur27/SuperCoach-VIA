@@ -48,18 +48,18 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 31 | Craig Bradley | Carlton | 375 | 247 | 8,776 | 144 | 1.993 |
 | 32 | Matthew Lloyd | Essendon | 270 | 926 | 3,522 | 97 | 1.986 |
 | 33 | Jack Riewoldt | Richmond | 347 | 787 | 4,108 | 62 | 1.985 |
-| 34 | Patrick Dangerfield | Adelaide - Geelong | 360 | 366 | 8,225 | 251 | 1.978 |
+| 34 | Patrick Dangerfield | Adelaide - Geelong | 361 | 367 | 8,236 | 251 | 1.978 |
 | 35 | Jimmy Freake | Fitzroy | 174 | 442 | — | — | 1.975 |
 | 36 | Tom Hawkins | Geelong | 359 | 796 | 4,382 | 73 | 1.973 |
 | 37 | Wayne Schimmelbusch | North Melbourne | 306 | 354 | 5,950 | 8 | 1.971 |
 | 38 | Bill Goggin | Geelong | 248 | 279 | 3,614 | — | 1.969 |
 | 39 | Harry Vallence | Carlton | 204 | 722 | — | 15 | 1.944 |
 | 40 | Ron Barassi | Melbourne - Carlton | 254 | 330 | 1,130 | — | 1.936 |
-| 41 | Lachie Neale | Fremantle - Brisbane Lions | 299 | 135 | 8,210 | 209 | 1.935 |
+| 41 | Lachie Neale | Fremantle - Brisbane Lions | 300 | 136 | 8,237 | 209 | 1.935 |
 | 42 | Stephen Kernahan | Carlton | 251 | 738 | 3,578 | 67 | 1.934 |
 | 43 | John Peck | Hawthorn | 213 | 475 | 334 | — | 1.925 |
 | 44 | Terry Daniher | South Melbourne - Essendon | 313 | 469 | 5,278 | 34 | 1.916 |
-| 45 | Luke Parker | Sydney - North Melbourne | 322 | 227 | 7,490 | 152 | 1.895 |
+| 45 | Luke Parker | Sydney - North Melbourne | 323 | 227 | 7,509 | 152 | 1.895 |
 | 46 | Keith Forbes | Essendon - North Melbourne - Fitzroy | 187 | 475 | — | 24 | 1.893 |
 | 47 | Bill Mohr | St Kilda | 195 | 735 | — | 15 | 1.892 |
 | 48 | Norm Smith | Melbourne - Fitzroy | 227 | 572 | — | — | 1.891 |
@@ -67,7 +67,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 50 | Stewart Loewe | St Kilda | 321 | 594 | 4,859 | 126 | 1.876 |
 | 51 | Chris Grant | Footscray - Western Bulldogs | 341 | 554 | 5,014 | 112 | 1.874 |
 | 52 | Percy Martini | Geelong - Richmond | 159 | 355 | — | — | 1.860 |
-| 53 | Marcus Bontempelli | Western Bulldogs | 265 | 263 | 6,413 | 191 | 1.854 |
+| 53 | Marcus Bontempelli | Western Bulldogs | 266 | 265 | 6,446 | 191 | 1.854 |
 | 54 | Mark Ricciuto | Adelaide | 312 | 292 | 6,569 | 146 | 1.844 |
 | 55 | Nathan Buckley | Brisbane Bears - Collingwood | 280 | 284 | 6,887 | 178 | 1.843 |
 | 56 | Arthur Olliver | Footscray | 272 | 354 | — | — | 1.842 |
@@ -106,15 +106,15 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 89 | Peter Bedford | South Melbourne - Carlton | 186 | 329 | 3,978 | — | 1.703 |
 | 90 | Jason Akermanis | Brisbane Bears - Brisbane Lions - Western Bulldogs | 325 | 421 | 5,868 | 107 | 1.703 |
 | 91 | Travis Boak | Port Adelaide | 387 | 215 | 8,976 | 174 | 1.702 |
-| 92 | Patrick Cripps | Carlton | 237 | 129 | 6,065 | 189 | 1.697 |
-| 93 | Josh Kennedy | Hawthorn - Sydney | 290 | 157 | 7,372 | 146 | 1.696 |
-| 94 | Nicky Winmar | St Kilda - Western Bulldogs | 251 | 317 | 4,996 | 82 | 1.695 |
+| 92 | Josh Kennedy | Hawthorn - Sydney | 290 | 157 | 7,372 | 146 | 1.696 |
+| 93 | Nicky Winmar | St Kilda - Western Bulldogs | 251 | 317 | 4,996 | 82 | 1.695 |
+| 94 | Patrick Cripps | Carlton | 238 | 130 | 6,079 | 189 | 1.690 |
 | 95 | Peter McKenna | Collingwood - Carlton | 191 | 874 | 2,244 | — | 1.682 |
 | 96 | Alby Morrison | Footscray | 224 | 369 | — | 17 | 1.676 |
 | 97 | Scott Lucas | Essendon | 270 | 471 | 4,036 | 58 | 1.671 |
 | 98 | Richard Osborne | Fitzroy - Sydney - Footscray - Collingwood | 283 | 574 | 3,838 | 51 | 1.670 |
-| 99 | Darren Jarman | Hawthorn - Adelaide | 230 | 386 | 4,307 | 95 | 1.666 |
-| 100 | Dane Swan | Collingwood | 258 | 211 | 6,928 | 186 | 1.665 |
+| 99 | Jeremy Cameron | Greater Western Sydney - Geelong | 284 | 754 | 3,814 | 105 | 1.667 |
+| 100 | Darren Jarman | Hawthorn - Adelaide | 230 | 386 | 4,307 | 95 | 1.666 |
 
 > **Reading the score**: Higher = better. Scores are dimensionless composite z-scores normalised by era. The gap between #1 Kevin Bartlett (2.729) and #100 spans roughly 1.5 standard deviations — every player on this list is a statistical outlier across the full 130-year history of the game.
 
