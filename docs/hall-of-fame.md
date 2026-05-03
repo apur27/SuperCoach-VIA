@@ -307,7 +307,7 @@ His defining moment is the **1996 Grand Final** — North Melbourne's first flag
 
 ### Top 20 most courageous AFL players of all time
 
-There are several different forms of courage in football. There is the *physical* courage of the player who runs back into a flooded pack with the flight of the ball; there is the *mental* courage of the player who returns from a season-ending injury and plays the same way again; there is the *social* courage of the player who stands up against racism or homophobia at personal cost; and there is the *competitive* courage of the player who keeps trying when the contest is lost. The twenty below all displayed at least one of these, and several of them displayed all four.
+There are several different forms of courage in football. There is the *physical* courage of the player who runs back into a flooded pack with the flight of the ball; there is the *mental* courage of the player who returns from a season-ending injury and plays the same way again; and there is the *competitive* courage of the player who keeps trying when the contest is lost. The twenty below all displayed at least one of these, and several of them displayed all three.
 
 #### 1. Sam Newman — Geelong, 1964–1980
 
