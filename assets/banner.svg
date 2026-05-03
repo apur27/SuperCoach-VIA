@@ -1,385 +1,371 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="600" viewBox="0 0 1400 600">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" width="1400" height="900" role="img" aria-label="SuperCoach VIA - AFL Data Analytics, Prediction, AI-Powered Insights">
   <defs>
-    <!-- Backgrounds -->
-    <radialGradient id="bgRadial" cx="50%" cy="50%" r="65%">
-      <stop offset="0%"  style="stop-color:#161b22"/>
-      <stop offset="100%" style="stop-color:#0d1117"/>
+    <!-- Background radial glow -->
+    <radialGradient id="bgRadial" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#1a2030"/>
+      <stop offset="100%" stop-color="#0d1117"/>
     </radialGradient>
 
-    <!-- Subtle title bloom -->
-    <filter id="titleBloom" x="-20%" y="-60%" width="140%" height="220%">
-      <feGaussianBlur stdDeviation="6" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="2" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
+    <!-- Title gradient: gold -> white -> gold -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f4c430"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f4c430"/>
+    </linearGradient>
 
-    <!-- Bar gradient (gold) -->
+    <!-- Bar gradients -->
     <linearGradient id="goldBar" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%"   style="stop-color:#a8841a"/>
-      <stop offset="100%" style="stop-color:#f4c430"/>
+      <stop offset="0%" stop-color="#a8841a"/>
+      <stop offset="100%" stop-color="#f4c430"/>
     </linearGradient>
     <linearGradient id="tealBar" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%"   style="stop-color:#1a8a82"/>
-      <stop offset="100%" style="stop-color:#2ec4b6"/>
+      <stop offset="0%" stop-color="#1a8a82"/>
+      <stop offset="100%" stop-color="#2ec4b6"/>
     </linearGradient>
 
-    <clipPath id="clip"><rect width="1400" height="600"/></clipPath>
+    <!-- Edge gradient: transparent -> gold -> transparent -->
+    <linearGradient id="edgeAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f4c430" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#f4c430" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#f4c430" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Hex pattern: hex edge ~22px. Pattern tile 38.105 wide, 66 tall (sqrt(3)*22) -->
+    <pattern id="hexMesh" width="38.105" height="66" patternUnits="userSpaceOnUse">
+      <path d="M 19.0525 0 L 38.105 11 L 38.105 33 L 19.0525 44 L 0 33 L 0 11 Z"
+            fill="none" stroke="#4a8aff" stroke-opacity="0.065" stroke-width="1"/>
+      <path d="M 0 33 L 19.0525 44 L 19.0525 66" fill="none" stroke="#4a8aff" stroke-opacity="0.065" stroke-width="1"/>
+      <path d="M 38.105 33 L 19.0525 44" fill="none" stroke="#4a8aff" stroke-opacity="0.065" stroke-width="1"/>
+    </pattern>
+
+    <!-- Filters -->
+    <filter id="titleBloom" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
 
-  <!-- ═══ BASE ═══ -->
-  <rect width="1400" height="600" fill="#0d1117"/>
-  <rect width="1400" height="600" fill="url(#bgRadial)"/>
+  <!-- ====== BACKGROUND ====== -->
+  <rect width="1400" height="900" fill="#0d1117"/>
+  <rect width="1400" height="900" fill="url(#bgRadial)"/>
+  <rect width="1400" height="900" fill="url(#hexMesh)"/>
 
-  <!-- ═══ HEXAGONAL MESH ═══ -->
-  <g clip-path="url(#clip)" opacity="0.075" stroke="#4a8aff" stroke-width="0.6" fill="none">
-    <!-- Generated grid: hex width 30, hex height 26, two rows offset -->
-    <!-- Row y=0..52 -->
-    <g>
-      <polygon points="30,0 60,0 75,26 60,52 30,52 15,26"/>
-      <polygon points="90,0 120,0 135,26 120,52 90,52 75,26"/>
-      <polygon points="150,0 180,0 195,26 180,52 150,52 135,26"/>
-      <polygon points="210,0 240,0 255,26 240,52 210,52 195,26"/>
-      <polygon points="270,0 300,0 315,26 300,52 270,52 255,26"/>
-      <polygon points="330,0 360,0 375,26 360,52 330,52 315,26"/>
-      <polygon points="390,0 420,0 435,26 420,52 390,52 375,26"/>
-      <polygon points="450,0 480,0 495,26 480,52 450,52 435,26"/>
-      <polygon points="510,0 540,0 555,26 540,52 510,52 495,26"/>
-      <polygon points="570,0 600,0 615,26 600,52 570,52 555,26"/>
-      <polygon points="630,0 660,0 675,26 660,52 630,52 615,26"/>
-      <polygon points="690,0 720,0 735,26 720,52 690,52 675,26"/>
-      <polygon points="750,0 780,0 795,26 780,52 750,52 735,26"/>
-      <polygon points="810,0 840,0 855,26 840,52 810,52 795,26"/>
-      <polygon points="870,0 900,0 915,26 900,52 870,52 855,26"/>
-      <polygon points="930,0 960,0 975,26 960,52 930,52 915,26"/>
-      <polygon points="990,0 1020,0 1035,26 1020,52 990,52 975,26"/>
-      <polygon points="1050,0 1080,0 1095,26 1080,52 1050,52 1035,26"/>
-      <polygon points="1110,0 1140,0 1155,26 1140,52 1110,52 1095,26"/>
-      <polygon points="1170,0 1200,0 1215,26 1200,52 1170,52 1155,26"/>
-      <polygon points="1230,0 1260,0 1275,26 1260,52 1230,52 1215,26"/>
-      <polygon points="1290,0 1320,0 1335,26 1320,52 1290,52 1275,26"/>
-      <polygon points="1350,0 1380,0 1395,26 1380,52 1350,52 1335,26"/>
-    </g>
-    <!-- Row y=52..104 (offset) -->
-    <g>
-      <polygon points="60,52 90,52 105,78 90,104 60,104 45,78"/>
-      <polygon points="120,52 150,52 165,78 150,104 120,104 105,78"/>
-      <polygon points="180,52 210,52 225,78 210,104 180,104 165,78"/>
-      <polygon points="240,52 270,52 285,78 270,104 240,104 225,78"/>
-      <polygon points="300,52 330,52 345,78 330,104 300,104 285,78"/>
-      <polygon points="360,52 390,52 405,78 390,104 360,104 345,78"/>
-      <polygon points="420,52 450,52 465,78 450,104 420,104 405,78"/>
-      <polygon points="480,52 510,52 525,78 510,104 480,104 465,78"/>
-      <polygon points="540,52 570,52 585,78 570,104 540,104 525,78"/>
-      <polygon points="600,52 630,52 645,78 630,104 600,104 585,78"/>
-      <polygon points="660,52 690,52 705,78 690,104 660,104 645,78"/>
-      <polygon points="720,52 750,52 765,78 750,104 720,104 705,78"/>
-      <polygon points="780,52 810,52 825,78 810,104 780,104 765,78"/>
-      <polygon points="840,52 870,52 885,78 870,104 840,104 825,78"/>
-      <polygon points="900,52 930,52 945,78 930,104 900,104 885,78"/>
-      <polygon points="960,52 990,52 1005,78 990,104 960,104 945,78"/>
-      <polygon points="1020,52 1050,52 1065,78 1050,104 1020,104 1005,78"/>
-      <polygon points="1080,52 1110,52 1125,78 1110,104 1080,104 1065,78"/>
-      <polygon points="1140,52 1170,52 1185,78 1170,104 1140,104 1125,78"/>
-      <polygon points="1200,52 1230,52 1245,78 1230,104 1200,104 1185,78"/>
-      <polygon points="1260,52 1290,52 1305,78 1290,104 1260,104 1245,78"/>
-      <polygon points="1320,52 1350,52 1365,78 1350,104 1320,104 1305,78"/>
-    </g>
-    <!-- Row y=104..156 -->
-    <g>
-      <polygon points="30,104 60,104 75,130 60,156 30,156 15,130"/>
-      <polygon points="90,104 120,104 135,130 120,156 90,156 75,130"/>
-      <polygon points="150,104 180,104 195,130 180,156 150,156 135,130"/>
-      <polygon points="210,104 240,104 255,130 240,156 210,156 195,130"/>
-      <polygon points="270,104 300,104 315,130 300,156 270,156 255,130"/>
-      <polygon points="330,104 360,104 375,130 360,156 330,156 315,130"/>
-      <polygon points="390,104 420,104 435,130 420,156 390,156 375,130"/>
-      <polygon points="450,104 480,104 495,130 480,156 450,156 435,130"/>
-      <polygon points="510,104 540,104 555,130 540,156 510,156 495,130"/>
-      <polygon points="570,104 600,104 615,130 600,156 570,156 555,130"/>
-      <polygon points="630,104 660,104 675,130 660,156 630,156 615,130"/>
-      <polygon points="690,104 720,104 735,130 720,156 690,156 675,130"/>
-      <polygon points="750,104 780,104 795,130 780,156 750,156 735,130"/>
-      <polygon points="810,104 840,104 855,130 840,156 810,156 795,130"/>
-      <polygon points="870,104 900,104 915,130 900,156 870,156 855,130"/>
-      <polygon points="930,104 960,104 975,130 960,156 930,156 915,130"/>
-      <polygon points="990,104 1020,104 1035,130 1020,156 990,156 975,130"/>
-      <polygon points="1050,104 1080,104 1095,130 1080,156 1050,156 1035,130"/>
-      <polygon points="1110,104 1140,104 1155,130 1140,156 1110,156 1095,130"/>
-      <polygon points="1170,104 1200,104 1215,130 1200,156 1170,156 1155,130"/>
-      <polygon points="1230,104 1260,104 1275,130 1260,156 1230,156 1215,130"/>
-      <polygon points="1290,104 1320,104 1335,130 1320,156 1290,156 1275,130"/>
-      <polygon points="1350,104 1380,104 1395,130 1380,156 1350,156 1335,130"/>
-    </g>
-    <!-- Row y=156..208 -->
-    <g>
-      <polygon points="60,156 90,156 105,182 90,208 60,208 45,182"/>
-      <polygon points="120,156 150,156 165,182 150,208 120,208 105,182"/>
-      <polygon points="1260,156 1290,156 1305,182 1290,208 1260,208 1245,182"/>
-      <polygon points="1320,156 1350,156 1365,182 1350,208 1320,208 1305,182"/>
-    </g>
-    <!-- Bottom rows: 416..468, 468..520, 520..572 -->
-    <g>
-      <polygon points="60,416 90,416 105,442 90,468 60,468 45,442"/>
-      <polygon points="120,416 150,416 165,442 150,468 120,468 105,442"/>
-      <polygon points="1260,416 1290,416 1305,442 1290,468 1260,468 1245,442"/>
-      <polygon points="1320,416 1350,416 1365,442 1350,468 1320,468 1305,442"/>
-    </g>
-    <g>
-      <polygon points="30,468 60,468 75,494 60,520 30,520 15,494"/>
-      <polygon points="90,468 120,468 135,494 120,520 90,520 75,494"/>
-      <polygon points="150,468 180,468 195,494 180,520 150,520 135,494"/>
-      <polygon points="210,468 240,468 255,494 240,520 210,520 195,494"/>
-      <polygon points="270,468 300,468 315,494 300,520 270,520 255,494"/>
-      <polygon points="330,468 360,468 375,494 360,520 330,520 315,494"/>
-      <polygon points="1050,468 1080,468 1095,494 1080,520 1050,520 1035,494"/>
-      <polygon points="1110,468 1140,468 1155,494 1140,520 1110,520 1095,494"/>
-      <polygon points="1170,468 1200,468 1215,494 1200,520 1170,520 1155,494"/>
-      <polygon points="1230,468 1260,468 1275,494 1260,520 1230,520 1215,494"/>
-      <polygon points="1290,468 1320,468 1335,494 1320,520 1290,520 1275,494"/>
-      <polygon points="1350,468 1380,468 1395,494 1380,520 1350,520 1335,494"/>
-    </g>
-    <g>
-      <polygon points="60,520 90,520 105,546 90,572 60,572 45,546"/>
-      <polygon points="120,520 150,520 165,546 150,572 120,572 105,546"/>
-      <polygon points="180,520 210,520 225,546 210,572 180,572 165,546"/>
-      <polygon points="240,520 270,520 285,546 270,572 240,572 225,546"/>
-      <polygon points="300,520 330,520 345,546 330,572 300,572 285,546"/>
-      <polygon points="1020,520 1050,520 1065,546 1050,572 1020,572 1005,546"/>
-      <polygon points="1080,520 1110,520 1125,546 1110,572 1080,572 1065,546"/>
-      <polygon points="1140,520 1170,520 1185,546 1170,572 1140,572 1125,546"/>
-      <polygon points="1200,520 1230,520 1245,546 1230,572 1200,572 1185,546"/>
-      <polygon points="1260,520 1290,520 1305,546 1290,572 1260,572 1245,546"/>
-      <polygon points="1320,520 1350,520 1365,546 1350,572 1320,572 1305,546"/>
-    </g>
-  </g>
+  <!-- Top + bottom edge accent bars -->
+  <rect x="0" y="0" width="1400" height="3" fill="url(#edgeAccent)"/>
+  <rect x="0" y="897" width="1400" height="3" fill="url(#edgeAccent)"/>
 
-  <!-- ═══ TITLE BLOCK (centred top) ═══ -->
-  <!-- Top horizontal rule -->
-  <line x1="450" y1="78" x2="950" y2="78" stroke="#f4c430" stroke-width="1" opacity="0.6"/>
-  <!-- Title -->
-  <text x="700" y="138" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="800"
-        fill="#ffffff" text-anchor="middle" filter="url(#titleBloom)" letter-spacing="1">SuperCoach VIA</text>
+  <!-- ====== TITLE BLOCK (y=0 to y=240) ====== -->
+  <line x1="300" y1="50" x2="1100" y2="50" stroke="#f4c430" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Decorative diamond glyphs flanking the title -->
+  <text x="280" y="138" fill="#f4c430" font-family="Georgia, serif" font-size="18" opacity="0.8" text-anchor="middle">&#9670;</text>
+  <text x="1120" y="138" fill="#f4c430" font-family="Georgia, serif" font-size="18" opacity="0.8" text-anchor="middle">&#9670;</text>
+
+  <!-- Main title with gradient + bloom -->
+  <text x="700" y="138" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="68" font-weight="900"
+        letter-spacing="6"
+        fill="url(#titleGrad)"
+        filter="url(#titleBloom)">SUPERCOACH VIA</text>
+
   <!-- Subtitle -->
-  <text x="700" y="170" font-family="'Segoe UI', Arial, sans-serif" font-size="18" font-weight="500"
-        fill="#2ec4b6" text-anchor="middle" letter-spacing="2">AFL Data Analytics  ·  Prediction  ·  AI-Powered Insights</text>
-  <!-- Tertiary line -->
-  <text x="700" y="194" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400"
-        fill="#8b949e" text-anchor="middle" letter-spacing="1.5">Powered by LightGBM  ·  Claude AI  ·  Real AFL Data</text>
-  <!-- Bottom horizontal rule -->
-  <line x1="450" y1="210" x2="950" y2="210" stroke="#f4c430" stroke-width="1" opacity="0.6"/>
+  <text x="700" y="178" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="20" font-weight="500"
+        letter-spacing="3"
+        fill="#2ec4b6">AFL Data Analytics  &#183;  Prediction  &#183;  AI-Powered Insights</text>
 
-  <!-- ═══ VERTICAL SEPARATORS ═══ -->
-  <line x1="466" y1="240" x2="466" y2="560" stroke="#30363d" stroke-width="1"/>
-  <line x1="934" y1="240" x2="934" y2="560" stroke="#30363d" stroke-width="1"/>
+  <!-- Tertiary -->
+  <text x="700" y="208" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="14"
+        letter-spacing="2"
+        fill="#8b949e">Powered by LightGBM  &#183;  Claude AI  &#183;  Historical data since 1897</text>
 
-  <!-- ═══ LEFT PANEL: AFL OVAL (centre x=233, centre y=400) ═══ -->
-  <g>
-    <!-- Outer oval (boundary) -->
-    <ellipse cx="233" cy="400" rx="130" ry="90" fill="#2d5a27" stroke="#ffffff" stroke-width="2"/>
-    <!-- Inner 50m arcs (dashed white) -->
-    <path d="M 113 372 Q 145 322 233 318 Q 321 322 353 372"
-          fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
-    <path d="M 113 428 Q 145 478 233 482 Q 321 478 353 428"
-          fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
-    <!-- Centre square -->
-    <rect x="193" y="360" width="80" height="80" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.8"/>
-    <!-- Centre circle -->
-    <circle cx="233" cy="400" r="35" fill="none" stroke="#ffffff" stroke-width="1.5"/>
-    <!-- Centre bounce dot -->
-    <circle cx="233" cy="400" r="3" fill="#ffffff"/>
-    <!-- Goal squares (small white rectangles at each end) -->
-    <rect x="103" y="388" width="14" height="24" fill="none" stroke="#ffffff" stroke-width="1"/>
-    <rect x="349" y="388" width="14" height="24" fill="none" stroke="#ffffff" stroke-width="1"/>
-    <!-- Goal posts left (4 posts) -->
-    <line x1="98"  y1="380" x2="98"  y2="410" stroke="#f4c430" stroke-width="2"/>
-    <line x1="105" y1="385" x2="105" y2="415" stroke="#f4c430" stroke-width="1.6"/>
-    <line x1="112" y1="385" x2="112" y2="415" stroke="#f4c430" stroke-width="1.6"/>
-    <line x1="119" y1="380" x2="119" y2="410" stroke="#f4c430" stroke-width="2"/>
-    <!-- Goal posts right (4 posts) -->
-    <line x1="349" y1="380" x2="349" y2="410" stroke="#f4c430" stroke-width="2"/>
-    <line x1="356" y1="385" x2="356" y2="415" stroke="#f4c430" stroke-width="1.6"/>
-    <line x1="363" y1="385" x2="363" y2="415" stroke="#f4c430" stroke-width="1.6"/>
-    <line x1="370" y1="380" x2="370" y2="410" stroke="#f4c430" stroke-width="2"/>
-    <!-- Panel label -->
-    <text x="233" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-          fill="#f4c430" text-anchor="middle" letter-spacing="3">THE FIELD</text>
-    <text x="233" y="290" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400"
-          fill="#8b949e" text-anchor="middle" letter-spacing="1">AFL · 18 clubs · 1897–2026</text>
+  <line x1="300" y1="225" x2="1100" y2="225" stroke="#f4c430" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- ====== PANEL SEPARATORS ====== -->
+  <line x1="466" y1="250" x2="466" y2="870" stroke="#30363d" stroke-width="1"/>
+  <line x1="934" y1="250" x2="934" y2="870" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ============================================================ -->
+  <!-- LEFT PANEL: AFL OVAL                                           -->
+  <!-- ============================================================ -->
+
+  <!-- Headings -->
+  <text x="233" y="270" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="12" font-weight="700" letter-spacing="4" fill="#f4c430">THE FIELD</text>
+  <text x="233" y="290" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="13" fill="#8b949e">AFL  &#183;  18 clubs  &#183;  1897&#8211;2026</text>
+
+  <!-- Outer oval -->
+  <ellipse cx="233" cy="555" rx="155" ry="115" fill="#2d5a27" stroke="#ffffff" stroke-width="2.5"/>
+
+  <!-- Grass texture: mowing stripes (concentric ovals) -->
+  <ellipse cx="233" cy="555" rx="120" ry="85" fill="none" stroke="#325f28" stroke-width="6" opacity="0.4"/>
+  <ellipse cx="233" cy="555" rx="75" ry="50" fill="none" stroke="#325f28" stroke-width="6" opacity="0.4"/>
+
+  <!-- 50m arcs (dashed white). Top + bottom -->
+  <path d="M 158 510 A 90 70 0 0 1 308 510"
+        fill="none" stroke="#ffffff" stroke-width="1.4"
+        stroke-dasharray="4 4" opacity="0.75"/>
+  <path d="M 158 600 A 90 70 0 0 0 308 600"
+        fill="none" stroke="#ffffff" stroke-width="1.4"
+        stroke-dasharray="4 4" opacity="0.75"/>
+
+  <!-- Centre square 100x100 -->
+  <rect x="183" y="505" width="100" height="100" fill="none" stroke="#ffffff" stroke-width="1.4" opacity="0.85"/>
+
+  <!-- Centre circle r=42 -->
+  <circle cx="233" cy="555" r="42" fill="none" stroke="#ffffff" stroke-width="1.8"/>
+
+  <!-- Centre dot r=4 -->
+  <circle cx="233" cy="555" r="4" fill="#ffffff"/>
+
+  <!-- Goal squares (top end and bottom end) -->
+  <rect x="218" y="438" width="30" height="14" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="218" y="658" width="30" height="14" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+
+  <!-- Goal posts: 4 per end -->
+  <line x1="216" y1="405" x2="216" y2="445" stroke="#f4c430" stroke-width="2.5"/>
+  <line x1="226" y1="405" x2="226" y2="445" stroke="#f4c430" stroke-width="2"/>
+  <line x1="240" y1="405" x2="240" y2="445" stroke="#f4c430" stroke-width="2"/>
+  <line x1="250" y1="405" x2="250" y2="445" stroke="#f4c430" stroke-width="2.5"/>
+  <line x1="216" y1="665" x2="216" y2="705" stroke="#f4c430" stroke-width="2.5"/>
+  <line x1="226" y1="665" x2="226" y2="705" stroke="#f4c430" stroke-width="2"/>
+  <line x1="240" y1="665" x2="240" y2="705" stroke="#f4c430" stroke-width="2"/>
+  <line x1="250" y1="665" x2="250" y2="705" stroke="#f4c430" stroke-width="2.5"/>
+
+  <!-- Kick-in dashes near each goal square -->
+  <line x1="200" y1="455" x2="266" y2="455" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"/>
+  <line x1="200" y1="655" x2="266" y2="655" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"/>
+
+  <!-- Mini bar chart: TOP DISPOSAL GETTERS 2026 -->
+  <text x="233" y="700" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="10" font-weight="700" letter-spacing="2" fill="#f4c430">TOP DISPOSAL GETTERS 2026</text>
+
+  <!-- Row 1: Nick Daicos 37.0 -->
+  <text x="70" y="728" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#ffffff">Nick Daicos</text>
+  <rect x="180" y="720" width="180" height="10" fill="#f4c430" opacity="0.95"/>
+  <text x="404" y="728" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#2ec4b6" font-weight="700">37.0</text>
+
+  <!-- Row 2: Bailey Smith 32.0 -->
+  <text x="70" y="756" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#ffffff">Bailey Smith</text>
+  <rect x="180" y="748" width="155.7" height="10" fill="#f4c430" opacity="0.95"/>
+  <text x="404" y="756" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#2ec4b6" font-weight="700">32.0</text>
+
+  <!-- Row 3: Lachie Neale 31.1 -->
+  <text x="70" y="784" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#ffffff">Lachie Neale</text>
+  <rect x="180" y="776" width="151.4" height="10" fill="#f4c430" opacity="0.95"/>
+  <text x="404" y="784" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#2ec4b6" font-weight="700">31.1</text>
+
+  <!-- Row 4: Clayton Oliver 30.9 -->
+  <text x="70" y="812" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#ffffff">Clayton Oliver</text>
+  <rect x="180" y="804" width="150.4" height="10" fill="#f4c430" opacity="0.95"/>
+  <text x="404" y="812" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#2ec4b6" font-weight="700">30.9</text>
+
+  <!-- Row 5: Zak Butters 30.7 -->
+  <text x="70" y="840" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#ffffff">Zak Butters</text>
+  <rect x="180" y="832" width="149.4" height="10" fill="#f4c430" opacity="0.95"/>
+  <text x="404" y="840" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#2ec4b6" font-weight="700">30.7</text>
+
+  <!-- ============================================================ -->
+  <!-- CENTRE PANEL: BAR CHART + ACCURACY                             -->
+  <!-- ============================================================ -->
+
+  <text x="700" y="270" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="12" font-weight="700" letter-spacing="4" fill="#f4c430">FORM TRAJECTORY</text>
+  <text x="700" y="288" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="11" fill="#8b949e">Disposals per game  &#183;  Last 12 rounds</text>
+
+  <!-- Y-axis label rotated -->
+  <text x="0" y="0" transform="translate(488, 455) rotate(-90)"
+        text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="11" fill="#8b949e" letter-spacing="1">Disposals / game</text>
+
+  <!-- Y-axis grid lines -->
+  <line x1="506" y1="620" x2="894" y2="620" stroke="#30363d" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="506" y1="565" x2="894" y2="565" stroke="#30363d" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="506" y1="510" x2="894" y2="510" stroke="#30363d" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="506" y1="455" x2="894" y2="455" stroke="#30363d" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="506" y1="400" x2="894" y2="400" stroke="#30363d" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <text x="500" y="624" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#8b949e">0</text>
+  <text x="500" y="569" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#8b949e">10</text>
+  <text x="500" y="514" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#8b949e">20</text>
+  <text x="500" y="459" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#8b949e">30</text>
+  <text x="500" y="404" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" fill="#8b949e">40</text>
+
+  <!-- Baseline -->
+  <line x1="506" y1="620" x2="894" y2="620" stroke="#8b949e" stroke-width="1.2" opacity="0.7"/>
+
+  <!-- Bars: Round 1..12, values 23,26,21,28,30,27,32,29,34,31,36,39 -->
+  <rect x="516" y="493.5" width="24" height="126.5" fill="url(#goldBar)"/>
+  <rect x="543" y="477" width="24" height="143" fill="url(#goldBar)"/>
+  <rect x="570" y="504.5" width="24" height="115.5" fill="url(#goldBar)"/>
+  <rect x="597" y="466" width="24" height="154" fill="url(#goldBar)"/>
+  <rect x="624" y="455" width="24" height="165" fill="url(#goldBar)"/>
+  <rect x="651" y="471.5" width="24" height="148.5" fill="url(#goldBar)"/>
+  <rect x="678" y="444" width="24" height="176" fill="url(#goldBar)"/>
+  <rect x="705" y="460.5" width="24" height="159.5" fill="url(#goldBar)"/>
+  <rect x="732" y="433" width="24" height="187" fill="url(#goldBar)"/>
+  <rect x="759" y="449.5" width="24" height="170.5" fill="url(#goldBar)"/>
+  <rect x="786" y="422" width="24" height="198" fill="url(#goldBar)"/>
+  <rect x="813" y="405.5" width="24" height="214.5" fill="url(#tealBar)" filter="url(#softGlow)"/>
+
+  <!-- X-axis labels -->
+  <text x="528" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd1</text>
+  <text x="555" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd2</text>
+  <text x="582" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd3</text>
+  <text x="609" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd4</text>
+  <text x="636" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd5</text>
+  <text x="663" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd6</text>
+  <text x="690" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd7</text>
+  <text x="717" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd8</text>
+  <text x="744" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd9</text>
+  <text x="771" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd10</text>
+  <text x="798" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#8b949e">Rd11</text>
+  <text x="825" y="638" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="700" fill="#2ec4b6">Rd12</text>
+
+  <!-- Bezier trend line through bar-top midpoints -->
+  <path d="M 528 493.5
+           C 540 482, 545 470, 555 477
+           S 575 510, 582 504.5
+           S 600 460, 609 466
+           S 630 450, 636 455
+           S 658 478, 663 471.5
+           S 685 440, 690 444
+           S 712 465, 717 460.5
+           S 740 430, 744 433
+           S 768 452, 771 449.5
+           S 792 418, 798 422
+           S 820 402, 825 405.5"
+        fill="none" stroke="#4cc9f0" stroke-width="2.5" filter="url(#softGlow)" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Trend point circles -->
+  <circle cx="528" cy="493.5" r="2.5" fill="#4cc9f0"/>
+  <circle cx="555" cy="477" r="2.5" fill="#4cc9f0"/>
+  <circle cx="582" cy="504.5" r="2.5" fill="#4cc9f0"/>
+  <circle cx="609" cy="466" r="2.5" fill="#4cc9f0"/>
+  <circle cx="636" cy="455" r="2.5" fill="#4cc9f0"/>
+  <circle cx="663" cy="471.5" r="2.5" fill="#4cc9f0"/>
+  <circle cx="690" cy="444" r="2.5" fill="#4cc9f0"/>
+  <circle cx="717" cy="460.5" r="2.5" fill="#4cc9f0"/>
+  <circle cx="744" cy="433" r="2.5" fill="#4cc9f0"/>
+  <circle cx="771" cy="449.5" r="2.5" fill="#4cc9f0"/>
+  <circle cx="798" cy="422" r="2.5" fill="#4cc9f0"/>
+  <circle cx="825" cy="405.5" r="4" fill="#2ec4b6" filter="url(#softGlow)"/>
+
+  <!-- TRENDING ↑ badge -->
+  <g transform="translate(740, 380)">
+    <rect x="0" y="0" width="78" height="20" rx="3" ry="3" fill="#161b22" stroke="#2ec4b6" stroke-width="1"/>
+    <text x="39" y="14" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#2ec4b6" letter-spacing="1.5">TRENDING &#8593;</text>
   </g>
 
-  <!-- ═══ CENTRE PANEL: BAR CHART (chart area x=506..894, baseline y=520, top y=290) ═══ -->
-  <g>
-    <!-- Panel label -->
-    <text x="700" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-          fill="#f4c430" text-anchor="middle" letter-spacing="3">RECENT FORM · 10 ROUNDS</text>
+  <!-- SEASON ACCURACY -->
+  <text x="700" y="685" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="11" font-weight="700" letter-spacing="3" fill="#f4c430">SEASON ACCURACY</text>
+  <line x1="540" y1="700" x2="860" y2="700" stroke="#30363d" stroke-width="1"/>
 
-    <!-- Y-axis label (rotated) -->
-    <text x="478" y="405" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="500"
-          fill="#8b949e" text-anchor="middle" letter-spacing="1.5"
-          transform="rotate(-90 478 405)">Disposals / game</text>
+  <!-- AVG ERROR -->
+  <text x="544" y="735" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" letter-spacing="1.5" fill="#8b949e">AVG ERROR</text>
+  <text x="544" y="775" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">4.3 disp</text>
+  <line x1="490" y1="790" x2="598" y2="790" stroke="#2ec4b6" stroke-width="1.5" opacity="0.6"/>
 
-    <!-- Y-axis -->
-    <line x1="506" y1="290" x2="506" y2="520" stroke="#30363d" stroke-width="1"/>
-    <!-- X-axis -->
-    <line x1="506" y1="520" x2="894" y2="520" stroke="#30363d" stroke-width="1"/>
+  <!-- WITHIN ±5 -->
+  <text x="700" y="735" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" letter-spacing="1.5" fill="#8b949e">WITHIN &#177;5</text>
+  <text x="700" y="775" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">68%</text>
+  <line x1="646" y1="790" x2="754" y2="790" stroke="#2ec4b6" stroke-width="1.5" opacity="0.6"/>
 
-    <!-- Y-axis ticks + dashed gridlines -->
-    <g font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#8b949e" text-anchor="end">
-      <line x1="506" y1="520" x2="894" y2="520" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
-      <text x="500" y="523">0</text>
-      <line x1="506" y1="463" x2="894" y2="463" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
-      <text x="500" y="466">10</text>
-      <line x1="506" y1="405" x2="894" y2="405" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
-      <text x="500" y="408">20</text>
-      <line x1="506" y1="348" x2="894" y2="348" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
-      <text x="500" y="351">30</text>
-      <line x1="506" y1="290" x2="894" y2="290" stroke="#30363d" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.5"/>
-      <text x="500" y="293">40</text>
-    </g>
+  <!-- WITHIN ±10 -->
+  <text x="856" y="735" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="10" letter-spacing="1.5" fill="#8b949e">WITHIN &#177;10</text>
+  <text x="856" y="775" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">93%</text>
+  <line x1="802" y1="790" x2="910" y2="790" stroke="#2ec4b6" stroke-width="1.5" opacity="0.6"/>
 
-    <!-- Bars: 10 rounds. Scale: y = 520 - (value * 5.75); width=24, gap=14, start=520
-         Round values: 24, 27, 22, 29, 31, 28, 33, 30, 35, 38
-         x positions (start at 520, step 38):
-         R1=520, R2=558, R3=596, R4=634, R5=672, R6=710, R7=748, R8=786, R9=824, R10=862
-         Tallest = R10 (38) -> teal
-    -->
-    <!-- R1 24 -> y=520-138=382, h=138 -->
-    <rect x="520" y="382" width="24" height="138" fill="url(#goldBar)" rx="2"/>
-    <!-- R2 27 -> y=520-155.25=364.75, h=155.25 -->
-    <rect x="558" y="365" width="24" height="155" fill="url(#goldBar)" rx="2"/>
-    <!-- R3 22 -> y=520-126.5=393.5, h=126.5 -->
-    <rect x="596" y="394" width="24" height="126" fill="url(#goldBar)" rx="2"/>
-    <!-- R4 29 -> y=520-166.75=353.25, h=166.75 -->
-    <rect x="634" y="353" width="24" height="167" fill="url(#goldBar)" rx="2"/>
-    <!-- R5 31 -> y=520-178.25=341.75 -->
-    <rect x="672" y="342" width="24" height="178" fill="url(#goldBar)" rx="2"/>
-    <!-- R6 28 -> y=520-161=359 -->
-    <rect x="710" y="359" width="24" height="161" fill="url(#goldBar)" rx="2"/>
-    <!-- R7 33 -> y=520-189.75=330.25 -->
-    <rect x="748" y="330" width="24" height="190" fill="url(#goldBar)" rx="2"/>
-    <!-- R8 30 -> y=520-172.5=347.5 -->
-    <rect x="786" y="348" width="24" height="172" fill="url(#goldBar)" rx="2"/>
-    <!-- R9 35 -> y=520-201.25=318.75 -->
-    <rect x="824" y="319" width="24" height="201" fill="url(#goldBar)" rx="2"/>
-    <!-- R10 38 (tallest) -> y=520-218.5=301.5; teal highlight -->
-    <rect x="862" y="302" width="24" height="218" fill="url(#tealBar)" rx="2" filter="url(#softGlow)"/>
+  <!-- Footnote -->
+  <text x="700" y="830" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="10" fill="#8b949e" letter-spacing="1">Backtested  &#183;  LightGBM  &#183;  2024&#8211;2026 holdout</text>
 
-    <!-- Bezier trend line through bar tops (centre x = bar_x + 12) -->
-    <!-- Points: (532,382)(570,365)(608,394)(646,353)(684,342)(722,359)(760,330)(798,348)(836,319)(874,302) -->
-    <path d="M 532 382
-             C 545 372, 558 358, 570 365
-             S 595 400, 608 394
-             S 633 346, 646 353
-             S 671 335, 684 342
-             S 709 365, 722 359
-             S 747 322, 760 330
-             S 785 354, 798 348
-             S 823 312, 836 319
-             S 861 295, 874 302"
-          fill="none" stroke="#4cc9f0" stroke-width="2.2" opacity="0.95" filter="url(#softGlow)"/>
+  <!-- ============================================================ -->
+  <!-- RIGHT PANEL: STATS BOXES                                       -->
+  <!-- ============================================================ -->
 
-    <!-- Trend point markers -->
-    <g fill="#4cc9f0">
-      <circle cx="532" cy="382" r="2.5"/>
-      <circle cx="570" cy="365" r="2.5"/>
-      <circle cx="608" cy="394" r="2.5"/>
-      <circle cx="646" cy="353" r="2.5"/>
-      <circle cx="684" cy="342" r="2.5"/>
-      <circle cx="722" cy="359" r="2.5"/>
-      <circle cx="760" cy="330" r="2.5"/>
-      <circle cx="798" cy="348" r="2.5"/>
-      <circle cx="836" cy="319" r="2.5"/>
-      <circle cx="874" cy="302" r="3.5" fill="#2ec4b6" filter="url(#softGlow)"/>
-    </g>
+  <text x="1167" y="270" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="12" font-weight="700" letter-spacing="3" fill="#f4c430">SEASON SNAPSHOT</text>
+  <text x="1167" y="288" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="11" fill="#8b949e">Per-game averages  &#183;  2026</text>
 
-    <!-- TRENDING ↑ annotation near peak -->
-    <g>
-      <rect x="788" y="262" width="92" height="22" rx="4"
-            fill="#0d1117" stroke="#2ec4b6" stroke-width="1" opacity="0.95"/>
-      <text x="834" y="277" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="700"
-            fill="#2ec4b6" text-anchor="middle" letter-spacing="1.5">TRENDING ↑</text>
-      <!-- Connector to peak -->
-      <line x1="834" y1="284" x2="874" y2="298" stroke="#2ec4b6" stroke-width="1" opacity="0.7"/>
-    </g>
+  <!-- 1: AVG DISP 32.4 -->
+  <text x="954" y="324" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">AVG DISP</text>
+  <text x="1385" y="346" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">32.4</text>
+  <line x1="954" y1="365" x2="1344" y2="365" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
 
-    <!-- Round labels -->
-    <g font-family="'Segoe UI', Arial, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">
-      <text x="532" y="538">Rd1</text>
-      <text x="570" y="538">Rd2</text>
-      <text x="608" y="538">Rd3</text>
-      <text x="646" y="538">Rd4</text>
-      <text x="684" y="538">Rd5</text>
-      <text x="722" y="538">Rd6</text>
-      <text x="760" y="538">Rd7</text>
-      <text x="798" y="538">Rd8</text>
-      <text x="836" y="538">Rd9</text>
-      <text x="874" y="538" fill="#2ec4b6" font-weight="700">Rd10</text>
-    </g>
-  </g>
+  <!-- 2: AVG GOALS 1.2 -->
+  <text x="954" y="404" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">AVG GOALS</text>
+  <text x="1385" y="426" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">1.2</text>
+  <line x1="954" y1="445" x2="1344" y2="445" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
 
-  <!-- ═══ RIGHT PANEL: STATS (5 boxes, x=950..1390, vertically centred) ═══ -->
-  <g>
-    <!-- Panel label -->
-    <text x="1170" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-          fill="#f4c430" text-anchor="middle" letter-spacing="3">SEASON SNAPSHOT</text>
+  <!-- 3: CLEARANCES 6.8 -->
+  <text x="954" y="484" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">CLEARANCES</text>
+  <text x="1385" y="506" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">6.8</text>
+  <line x1="954" y1="525" x2="1344" y2="525" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
 
-    <!-- 5 stat boxes: y centres 305, 360, 415, 470, 525  (55px stride) -->
-    <!-- Box 1: AVG DISP -->
-    <g>
-      <text x="970" y="312" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-            fill="#f4c430" letter-spacing="2.5">AVG DISP</text>
-      <text x="1370" y="316" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
-            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">32.4</text>
-      <rect x="970" y="328" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
-    </g>
-    <!-- Box 2: AVG GOALS -->
-    <g>
-      <text x="970" y="367" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-            fill="#f4c430" letter-spacing="2.5">AVG GOALS</text>
-      <text x="1370" y="371" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
-            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">1.2</text>
-      <rect x="970" y="383" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
-    </g>
-    <!-- Box 3: CLEARANCES -->
-    <g>
-      <text x="970" y="422" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-            fill="#f4c430" letter-spacing="2.5">CLEARANCES</text>
-      <text x="1370" y="426" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
-            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">6.8</text>
-      <rect x="970" y="438" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
-    </g>
-    <!-- Box 4: TACKLES -->
-    <g>
-      <text x="970" y="477" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-            fill="#f4c430" letter-spacing="2.5">TACKLES</text>
-      <text x="1370" y="481" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
-            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">5.1</text>
-      <rect x="970" y="493" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
-    </g>
-    <!-- Box 5: FORM RTG -->
-    <g>
-      <text x="970" y="532" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600"
-            fill="#f4c430" letter-spacing="2.5">FORM RTG</text>
-      <text x="1370" y="536" font-family="'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800"
-            fill="#ffffff" text-anchor="end" letter-spacing="-0.5">8.7<tspan font-size="16" fill="#8b949e" dx="2">/10</tspan></text>
-      <rect x="970" y="548" width="400" height="2" fill="#2ec4b6" opacity="0.85"/>
-    </g>
-  </g>
+  <!-- 4: TACKLES 5.1 -->
+  <text x="954" y="564" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">TACKLES</text>
+  <text x="1385" y="586" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">5.1</text>
+  <line x1="954" y1="605" x2="1344" y2="605" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
 
-  <!-- ═══ EST. 1897 (bottom-right) ═══ -->
-  <text x="1380" y="585" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="500"
-        fill="#8b949e" text-anchor="end" letter-spacing="2">EST. 1897</text>
+  <!-- 5: INSIDE 50s 8.3 -->
+  <text x="954" y="644" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">INSIDE 50s</text>
+  <text x="1385" y="666" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">8.3</text>
+  <line x1="954" y1="685" x2="1344" y2="685" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
 
-  <!-- ═══ CORNER L-BRACKETS (gold, 3px, 40px arms) ═══ -->
-  <!-- Top-left -->
-  <path d="M 0 40 L 0 0 L 40 0" fill="none" stroke="#f4c430" stroke-width="3"/>
-  <!-- Top-right -->
-  <path d="M 1360 0 L 1400 0 L 1400 40" fill="none" stroke="#f4c430" stroke-width="3"/>
-  <!-- Bottom-left -->
-  <path d="M 0 560 L 0 600 L 40 600" fill="none" stroke="#f4c430" stroke-width="3"/>
-  <!-- Bottom-right -->
-  <path d="M 1360 600 L 1400 600 L 1400 560" fill="none" stroke="#f4c430" stroke-width="3"/>
+  <!-- 6: BROWNLOW PTS 2.6 -->
+  <text x="954" y="724" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">BROWNLOW PTS</text>
+  <text x="1385" y="746" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">2.6</text>
+  <line x1="954" y1="765" x2="1344" y2="765" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
+
+  <!-- 7: FORM RTG 8.7/10 -->
+  <text x="954" y="804" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#f4c430">FORM RTG</text>
+  <text x="1385" y="826" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">8.7<tspan font-size="18" fill="#8b949e" font-weight="600">/10</tspan></text>
+  <line x1="954" y1="845" x2="1344" y2="845" stroke="#2ec4b6" stroke-width="2" opacity="0.9"/>
+
+  <!-- EST. 1897 footer -->
+  <text x="1385" y="875" text-anchor="end"
+        font-family="Helvetica Neue, Arial, sans-serif"
+        font-size="12" letter-spacing="3" fill="#8b949e">EST. 1897</text>
+
+  <!-- ============================================================ -->
+  <!-- CORNER L-BRACKETS (gold)                                       -->
+  <!-- ============================================================ -->
+  <path d="M 20 70 L 20 20 L 70 20" fill="none" stroke="#f4c430" stroke-width="3.5" stroke-linecap="square"/>
+  <path d="M 1330 20 L 1380 20 L 1380 70" fill="none" stroke="#f4c430" stroke-width="3.5" stroke-linecap="square"/>
+  <path d="M 20 830 L 20 880 L 70 880" fill="none" stroke="#f4c430" stroke-width="3.5" stroke-linecap="square"/>
+  <path d="M 1330 880 L 1380 880 L 1380 830" fill="none" stroke="#f4c430" stroke-width="3.5" stroke-linecap="square"/>
+
+  <!-- Diamond glyphs at top + bottom horizontal-edge midpoints -->
+  <text x="700" y="17" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#f4c430" opacity="0.6">&#9670;</text>
+  <text x="700" y="893" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#f4c430" opacity="0.6">&#9670;</text>
 </svg>
