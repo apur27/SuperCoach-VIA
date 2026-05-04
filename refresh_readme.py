@@ -148,13 +148,28 @@ def _detect_year() -> Optional[int]:
         return None
 
 
+def _replace_in_file(path: str, replace_fn, *args) -> bool:
+    """Read `path`, apply `replace_fn(text, *args)`, write back if changed.
+    Returns True if the file was actually rewritten. Skips silently when
+    the path is missing — callers log this as a warning if they care."""
+    if not os.path.exists(path):
+        return False
+    with open(path, "r", encoding="utf-8") as f:
+        text = f.read()
+    new_text = replace_fn(text, *args)
+    if new_text != text:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(new_text)
+        return True
+    return False
+
+
 def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
-    """Run the full update_team_analysis pipeline — refreshes the
-    YEAR-TEAM-ANALYSIS block in docs/afl-season-2026.md and the
-    5YEAR-TEAM-PROFILES block in docs/afl-team-profiles.md,
-    regenerates radar/heatmap/scatter/goals-disposals/form-trend charts, and
-    emits the GOALS-DISPOSALS-CHART and FORM-TREND-CHART markers inside the
-    team analysis block.
+    """Run the full update_team_analysis pipeline — refreshes the per-section
+    blocks in docs/afl-team-analysis-2026.md, docs/afl-finals-2026.md,
+    docs/afl-brownlow-2026.md, docs/afl-stat-leaders-2026.md plus the
+    5YEAR-TEAM-PROFILES block in docs/afl-team-profiles.md, and regenerates
+    radar/heatmap/scatter/goals-disposals/form-trend charts.
 
     Returns (info_dict, error_messages). info_dict carries the year, max_round,
     n_teams + 5-year window picked up by the script when available.
@@ -189,25 +204,18 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         top_scorers = uta.per_team_top_disposal_player(games, year)
         body = uta.build_section_body(year, max_round, summary_with_ranks, summary, league, top_scorers)
 
-        # The four season-specific blocks (team analysis, finals pathway,
-        # Brownlow, stat leaders) live in docs/afl-season-2026.md after the
-        # docs split — uta.README_PATH points there.
-        with open(uta.README_PATH, "r", encoding="utf-8") as f:
-            readme_text = f.read()
-        new_readme = uta.replace_section(readme_text, year, body)
+        # The four primary season blocks now live in their own files after
+        # the docs split — each has an os.path.exists() guard so a missing
+        # file logs a warning instead of crashing.
+        _replace_in_file(uta.TEAM_ANALYSIS_PATH, uta.replace_section, year, body)
 
         five_year_body, year_window = uta.generate_5year_profiles(year)
         info["window"] = (int(year_window[0]), int(year_window[-1]))
-        # 5-year profiles live in docs/afl-team-profiles.md and are
-        # read/written separately from the four season blocks above.
-        with open(uta.TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
-            profiles_text = f.read()
-        new_profiles = uta.replace_5year_section(
-            profiles_text, year, year_window, five_year_body
+        # 5-year profiles live in docs/afl-team-profiles.md.
+        _replace_in_file(
+            uta.TEAM_PROFILES_PATH, uta.replace_5year_section,
+            year, year_window, five_year_body,
         )
-        if new_profiles != profiles_text:
-            with open(uta.TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
-                f.write(new_profiles)
 
         # Finals pathway block — uses the live ladder from matches_<year>.csv
         # paired with the same summary_with_ranks shown in the team analysis
@@ -217,7 +225,10 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             year, max_round, summary_with_ranks
         )
         if pathway_body:
-            new_readme = uta.replace_finals_pathway_section(new_readme, year, pathway_body)
+            _replace_in_file(
+                uta.FINALS_PATH, uta.replace_finals_pathway_section,
+                year, pathway_body,
+            )
         # Regenerate the finals-pathway chart alongside the text.
         if not _ladder.empty:
             try:
@@ -234,8 +245,9 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, year, max_round
         )
         if brownlow_body:
-            new_readme = uta.replace_brownlow_predictor_section(
-                new_readme, year, brownlow_body
+            _replace_in_file(
+                uta.BROWNLOW_PATH, uta.replace_brownlow_predictor_section,
+                year, brownlow_body,
             )
 
         # Player performance stats explainer block — leaderboards,
@@ -251,13 +263,10 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
             games, matches_for_stats, year, max_round,
         )
         if stat_body:
-            new_readme = uta.replace_stat_leaders_section(
-                new_readme, year, stat_body,
+            _replace_in_file(
+                uta.STAT_LEADERS_PATH, uta.replace_stat_leaders_section,
+                year, stat_body,
             )
-
-        if new_readme != readme_text:
-            with open(uta.README_PATH, "w", encoding="utf-8") as f:
-                f.write(new_readme)
 
         # Regenerate the season-specific charts (radar, heatmap, scatter,
         # goals-disposals, form-trend). The extended regenerate_team_charts
@@ -267,6 +276,42 @@ def _step_team_analysis() -> Tuple[Dict[str, object], List[str]]:
         return info, []
     except Exception as e:
         return info, [f"team analysis: {e}\n{traceback.format_exc()}"]
+
+
+def _step_predictions_and_backtest() -> Tuple[List[str], List[str]]:
+    """Refresh the next-round predictions and backtest doc sections.
+
+    These read whatever the most recent CSV under data/prediction/ /
+    data/prediction/backtest/ happens to be (picked by mtime). They are
+    independent of the player-game data load above, so a failure in one
+    does not block the other.
+    """
+    written: List[str] = []
+    errors: List[str] = []
+    try:
+        import update_team_analysis as uta
+        games = uta.load_all_player_games()
+        year = uta.detect_current_year(games)
+    except Exception as e:
+        return [], [f"could not load data: {e}"]
+
+    for fn, path, replace_fn in [
+        (uta.generate_predictions_section, uta.PREDICTIONS_PATH, uta.replace_predictions_section),
+        (uta.generate_backtest_section,    uta.BACKTEST_PATH,    uta.replace_backtest_section),
+    ]:
+        try:
+            body = fn(year)
+            if body and os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    text = f.read()
+                new_text = replace_fn(text, year, body)
+                if new_text != text:
+                    with open(path, "w", encoding="utf-8") as f:
+                        f.write(new_text)
+                    written.append(path)
+        except Exception as e:
+            errors.append(f"{fn.__name__}: {e}\n{traceback.format_exc()}")
+    return written, errors
 
 
 def refresh_all(skip_static: bool = False, skip_top100: bool = False,
@@ -314,7 +359,17 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
 
     if not skip_team:
         print("=========================================")
-        print("[Step 3] Current-season team analysis + charts + afl-season-2026.md / afl-team-profiles.md blocks")
+        print("[Step 2c] Next-round predictions + backtest results doc sections")
+        print("=========================================")
+        pred_bt_paths, errs = _step_predictions_and_backtest()
+        for p in pred_bt_paths:
+            print(f"  wrote {os.path.relpath(p, REPO_ROOT)}")
+        for e in errs:
+            print(f"  [error] {e}", file=sys.stderr)
+        errors.extend(errs)
+
+        print("=========================================")
+        print("[Step 3] Current-season team analysis + charts + per-section docs/afl-*-2026.md / afl-team-profiles.md blocks")
         print("=========================================")
         team_info, errs = _step_team_analysis()
         for e in errs:

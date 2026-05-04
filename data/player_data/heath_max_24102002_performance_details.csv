@@ -1,7 +1,8 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-St Kilda,2025,1,Sydney,19,L,42,3.0,1.0,5,8,1.0,,10,6.0,1.0,1.0,3.0,7,2.0,5.0,,7,2,,,3.0,,,78,2025-07-05
-St Kilda,2025,2,Geelong,20,L,42,3.0,2.0,4,7,,1.0,15,2.0,,1.0,2.0,1,1.0,,,6,1,2.0,1.0,2.0,,,81,2025-07-12
-St Kilda,2025,3,North Melbourne,22,W,42,6.0,4.0,4,10,2.0,2.0,9,1.0,,1.0,,4,4.0,,,8,3,2.0,2.0,1.0,,,79,2025-07-26
-St Kilda,2025,4↓,Richmond,23,W,42,,,2,2,,,1,1.0,,,,1,,,,1,1,,,,,1.0,30,2025-08-02
-Melbourne,2026,5,Brisbane Lions,7,W,27,2.0,,2,4,,1.0,8,,,1.0,,1,,1.0,,1,4,,,,,,27,2026-04-12
-Melbourne,2026,6,Richmond,8,W,27,3,1,5,8,,1,26,,1,1,2,,1,,,5,3,1,,,,1,50,2026-04-19
+St Kilda,2025,1,Sydney,19,L,42,3.0,1.0,5,8,1.0,,10,6.0,1.0,1.0,3.0,7.0,2.0,5.0,,7,2,,,3.0,,,78,2025-07-05
+St Kilda,2025,2,Geelong,20,L,42,3.0,2.0,4,7,,1.0,15,2.0,,1.0,2.0,1.0,1.0,,,6,1,2.0,1.0,2.0,,,81,2025-07-12
+St Kilda,2025,3,North Melbourne,22,W,42,6.0,4.0,4,10,2.0,2.0,9,1.0,,1.0,,4.0,4.0,,,8,3,2.0,2.0,1.0,,,79,2025-07-26
+St Kilda,2025,4↓,Richmond,23,W,42,,,2,2,,,1,1.0,,,,1.0,,,,1,1,,,,,1.0,30,2025-08-02
+Melbourne,2026,5,Brisbane Lions,7,W,27,2.0,,2,4,,1.0,8,,,1.0,,1.0,,1.0,,1,4,,,,,,27,2026-04-12
+Melbourne,2026,6,Richmond,8,W,27,3.0,1.0,5,8,,1.0,26,,1.0,1.0,2.0,,1.0,,,5,3,1.0,,,,1.0,50,2026-04-19
+Melbourne,2026,7,Sydney,9,L,27,4,2,4,8,1,,16,2,,3,3,4,3,3,,8,1,1,,1,,,46,2026-04-26

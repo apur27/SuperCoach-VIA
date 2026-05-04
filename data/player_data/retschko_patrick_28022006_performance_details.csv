@@ -1,3 +1,4 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Richmond,2026,1,North Melbourne,7,L,33,9,6,4,13,,,,3,3,2,,,,,,1,12,,,1,2,,87,2026-04-12
-Richmond,2026,2,Melbourne,8,L,33,15,4,11,26,,,,3,3,4,1,2,,,,6,19,1,,,1,,80,2026-04-19
+Richmond,2026,1,North Melbourne,7,L,33,9,6,4,13,,,,3,3,2,,,,,,1,12,,,1.0,2,,87,2026-04-12
+Richmond,2026,2,Melbourne,8,L,33,15,4,11,26,,,,3,3,4,1.0,2.0,,,,6,19,1.0,,,1,,80,2026-04-19
+Richmond,2026,3,West Coast,9,W,33,6,2,3,9,,,,5,3,2,1,1,1,,,2,8,,,,4,1,93,2026-04-26
