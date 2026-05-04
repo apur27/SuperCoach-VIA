@@ -8,8 +8,8 @@ Before writing any player stat into a document — games played, goals, Brownlow
 
 | Stat type | Location |
 |-----------|----------|
-| Per-player per-game stats | `data/player_data/<PlayerName>.csv` |
-| Match results and team scores | `data/matches/<year>/` |
+| Per-player per-game stats | `data/player_data/<surname>_<firstname>_<DDMMYYYY>_performance_details.csv` |
+| Match results and team scores | `data/matches/matches_<year>.csv` |
 | All-time aggregated rankings | `all_time_top_100.csv` and `data/top100/all_time_top_100.csv` |
 
 ### How to verify a specific player
@@ -20,8 +20,8 @@ import pandas as pd, glob, os
 VENV_PYTHON = "/home/abhi/sourceCode/python/coding/.venv/bin/python"
 PLAYER_DIR = "data/player_data"
 
-# Find a player's file (partial name match)
-files = glob.glob(f"{PLAYER_DIR}/*Newman*.csv")
+# Find a player's performance file (partial name match — files are named surname_firstname_DDMMYYYY_performance_details.csv)
+files = glob.glob(f"{PLAYER_DIR}/*newman*performance*.csv")
 if files:
     df = pd.read_csv(files[0])
     print(f"Games: {len(df)}")
