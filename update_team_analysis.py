@@ -2159,7 +2159,7 @@ def generate_finals_pathway_chart(ladder: pd.DataFrame, year: int, max_round: in
     ladder_sorted = ladder.sort_values("position").reset_index(drop=True)
     n = len(ladder_sorted)
 
-    fig, ax = plt.subplots(figsize=(14, n * 0.52 + 1.5))
+    fig, ax = plt.subplots(figsize=(15, n * 0.62 + 2))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
 
@@ -2186,43 +2186,43 @@ def generate_finals_pathway_chart(ladder: pd.DataFrame, year: int, max_round: in
         # Win count label inside bar
         if wins > 0:
             ax.text(wins / 2, y, f"{wins}W", va="center", ha="center",
-                    fontsize=7.5, color=BG, fontweight="bold", zorder=5)
+                    fontsize=11, color=BG, fontweight="bold", zorder=5)
 
         # GF tier label on right
         label = _gf_label(pos, wins, losses)
         label_color = color
         ax.text(TOTAL_GAMES + 0.4, y, label, va="center", ha="left",
-                fontsize=7, color=label_color, fontweight="bold", zorder=5)
+                fontsize=11, color=label_color, fontweight="bold", zorder=5)
 
         # Percentage label
         pct = float(row["percentage"])
         ax.text(TOTAL_GAMES + 6.8, y, f"{pct:.0f}%", va="center", ha="left",
-                fontsize=7, color="white", alpha=0.75, zorder=5)
+                fontsize=11, color="white", alpha=0.75, zorder=5)
 
     # Y-axis labels: position + team name
     team_labels = [
         f"{int(r['position']):2d}. {r['team']}" for _, r in ladder_sorted.iterrows()
     ]
     ax.set_yticks(list(y_positions))
-    ax.set_yticklabels(team_labels, fontsize=8.5)
+    ax.set_yticklabels(team_labels, fontsize=12)
 
     # Vertical line: ~wins needed for finals (approx 11 wins from 22)
     wins_for_finals = 11
     ax.axvline(wins_for_finals, color=GOLD, lw=1.2, linestyle="--", alpha=0.6, zorder=1)
-    ax.text(wins_for_finals + 0.1, -0.7, "~finals threshold", fontsize=7,
+    ax.text(wins_for_finals + 0.1, -0.7, "~finals threshold", fontsize=11,
             color=GOLD, alpha=0.8, ha="left")
 
     # Divider between 8th and 9th
     cutoff_y = n - 8 - 0.5
     ax.axhline(cutoff_y, color=TEAL, lw=1.5, linestyle="-", alpha=0.5, zorder=1)
-    ax.text(TOTAL_GAMES + 0.3, cutoff_y + 0.1, "← finals line", fontsize=7,
+    ax.text(TOTAL_GAMES + 0.3, cutoff_y + 0.1, "← finals line", fontsize=11,
             color=TEAL, alpha=0.8)
 
     ax.set_xlim(0, TOTAL_GAMES + 11)
     ax.set_xlabel("Games (wins | losses | remaining)", labelpad=8)
     ax.set_title(
         f"2026 AFL Finals Pathway — after Round {max_round}",
-        fontsize=13, color="white", pad=14, fontweight="bold",
+        fontsize=15, color="white", pad=14, fontweight="bold",
     )
     ax.grid(axis="x", alpha=0.2, zorder=0)
     ax.spines["top"].set_visible(False)
@@ -2235,7 +2235,7 @@ def generate_finals_pathway_chart(ladder: pd.DataFrame, year: int, max_round: in
         mpatches.Patch(color="#f77f00", label="9th–12th — fringe"),
         mpatches.Patch(color="#e63946", label="13th+ — season over"),
     ]
-    ax.legend(handles=patches, loc="lower right", fontsize=7.5,
+    ax.legend(handles=patches, loc="lower right", fontsize=11,
               facecolor=BG, edgecolor=GRID, labelcolor="white",
               framealpha=0.9)
 
@@ -2243,7 +2243,7 @@ def generate_finals_pathway_chart(ladder: pd.DataFrame, year: int, max_round: in
     os.makedirs(chart_dir, exist_ok=True)
     out_path = os.path.join(chart_dir, f"finals_pathway_{year}.png")
     plt.tight_layout()
-    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.savefig(out_path, dpi=180, bbox_inches="tight")
     plt.close()
     return out_path
 
@@ -2502,7 +2502,7 @@ def generate_brownlow_chart(
     top = top_players.head(15).copy()
     n = len(top)
 
-    fig, ax = plt.subplots(figsize=(13, max(n * 0.55 + 1.5, 6)))
+    fig, ax = plt.subplots(figsize=(14, max(n * 0.65 + 2, 8)))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
 
@@ -2535,7 +2535,7 @@ def generate_brownlow_chart(
         ax.text(
             x_end - 0.05, y, annot,
             va="center", ha="right",
-            fontsize=7.5, color=BG, fontweight="bold", zorder=5,
+            fontsize=11, color=BG, fontweight="bold", zorder=5,
         )
 
     # Y-tick labels: "1. Player Name (TEAM)"
@@ -2544,12 +2544,12 @@ def generate_brownlow_chart(
         for _, r in top.iterrows()
     ]
     ax.set_yticks(y_positions)
-    ax.set_yticklabels(labels, fontsize=9)
+    ax.set_yticklabels(labels, fontsize=12)
 
     ax.set_xlabel("Brownlow vote proxy (z-score composite, per game)", labelpad=8)
     ax.set_title(
         f"{year} Brownlow Medal — vote proxy rankings (after Round {max_round})",
-        fontsize=13, color="white", pad=18, fontweight="bold",
+        fontsize=15, color="white", pad=18, fontweight="bold",
     )
     # Subtitle as a second text element directly under the title.
     ax.text(
@@ -2558,7 +2558,7 @@ def generate_brownlow_chart(
         "· 15% effective disposals · 15% goals",
         transform=ax.transAxes,
         ha="center", va="bottom",
-        fontsize=8.5, color="#c9d1d9", style="italic",
+        fontsize=12, color="#c9d1d9", style="italic",
     )
 
     ax.grid(axis="x", alpha=0.2, zorder=0)
@@ -2569,7 +2569,7 @@ def generate_brownlow_chart(
     os.makedirs(chart_dir, exist_ok=True)
     out_path = os.path.join(chart_dir, f"brownlow_predictor_{year}.png")
     plt.tight_layout()
-    plt.savefig(out_path, dpi=150, bbox_inches="tight")
+    plt.savefig(out_path, dpi=180, bbox_inches="tight")
     plt.close()
     return out_path
 
@@ -3091,7 +3091,7 @@ def generate_stat_leaders_chart(
     fig, axes = plt.subplots(4, 4, figsize=(18, 18), facecolor=BG)
     fig.suptitle(
         f"{year} AFL — per-game statistical leaders (after Round {max_round})",
-        color=TEXT, fontsize=18, fontweight="bold", y=0.995,
+        color=TEXT, fontsize=19, fontweight="bold", y=0.995,
     )
 
     for ax, (title, fn, fmt, color) in zip(axes.flat, specs):
@@ -3100,7 +3100,7 @@ def generate_stat_leaders_chart(
             ax.set_facecolor(BG)
             ax.text(0.5, 0.5, "(no data)", ha="center", va="center",
                     color=SUBTLE, transform=ax.transAxes)
-            ax.set_title(title, color=GOLD, fontsize=11, fontweight="bold",
+            ax.set_title(title, color=GOLD, fontsize=14, fontweight="bold",
                          pad=8, loc="left")
             ax.set_xticks([])
             ax.set_yticks([])
@@ -3118,13 +3118,13 @@ def generate_stat_leaders_chart(
         ax.spines["right"].set_visible(False)
         ax.grid(axis="x", color=GRID, alpha=0.4, linestyle="-", linewidth=0.5)
         ax.set_axisbelow(True)
-        ax.set_title(title, color=GOLD, fontsize=11, fontweight="bold",
+        ax.set_title(title, color=GOLD, fontsize=14, fontweight="bold",
                      pad=8, loc="left")
         xmax = max(values) if values else 1.0
         for bar, v in zip(bars, values):
             ax.text(v + xmax * 0.02, bar.get_y() + bar.get_height() / 2,
                     fmt.format(v), va="center", ha="left",
-                    color=TEXT, fontsize=9, fontweight="bold")
+                    color=TEXT, fontsize=12, fontweight="bold")
         ax.set_xlim(0, xmax * 1.25)
 
     fig.text(
@@ -3132,14 +3132,14 @@ def generate_stat_leaders_chart(
         "Per-game season averages, players with >=3 games. Hit-outs is a "
         "ruckman-only stat (most field players are 0). "
         f"Source: data/player_data/ + data/matches/matches_{year}.csv",
-        ha="center", color=SUBTLE, fontsize=9, fontstyle="italic",
+        ha="center", color=SUBTLE, fontsize=12, fontstyle="italic",
     )
     plt.tight_layout(rect=[0, 0.012, 1, 0.985])
     chart_dir = os.path.join(REPO_ROOT, "assets", "charts")
     os.makedirs(chart_dir, exist_ok=True)
     out_path = os.path.join(chart_dir, f"player_stat_leaders_{year}.png")
     try:
-        plt.savefig(out_path, dpi=150, facecolor=BG, bbox_inches="tight")
+        plt.savefig(out_path, dpi=180, facecolor=BG, bbox_inches="tight")
     except Exception as exc:
         print(f"[chart] failed to save stat-leaders chart — {exc}", file=sys.stderr)
         plt.close(fig)
@@ -3809,7 +3809,7 @@ def generate_predictions_section(year: int) -> str:
 
         chart_top = df.head(20).copy()
         n = len(chart_top)
-        fig, ax = plt.subplots(figsize=(13, max(n * 0.42 + 1.5, 6)))
+        fig, ax = plt.subplots(figsize=(14, max(n * 0.52 + 2, 8)))
         fig.patch.set_facecolor(BG)
         ax.set_facecolor(BG)
         y_positions = list(range(n - 1, -1, -1))
@@ -3821,19 +3821,19 @@ def generate_predictions_section(year: int) -> str:
             ax.text(
                 score - 0.3, y, f"{score:.1f}",
                 va="center", ha="right",
-                fontsize=8, color=BG, fontweight="bold", zorder=5,
+                fontsize=11, color=BG, fontweight="bold", zorder=5,
             )
         labels = [
             f"{int(r['rank']):2d}. {r['player']} ({r['team']})"
             for _, r in chart_top.iterrows()
         ]
         ax.set_yticks(y_positions)
-        ax.set_yticklabels(labels, fontsize=9)
+        ax.set_yticklabels(labels, fontsize=12)
         round_label = f"Round {round_num}" if round_num >= 0 else "next round"
         ax.set_xlabel("Predicted disposals", labelpad=8)
         ax.set_title(
             f"Predicted disposal leaders — {round_label}, {year}",
-            fontsize=13, color="white", pad=14, fontweight="bold",
+            fontsize=15, color="white", pad=14, fontweight="bold",
         )
         ax.grid(axis="x", alpha=0.2, zorder=0)
         ax.spines["top"].set_visible(False)
@@ -3842,7 +3842,7 @@ def generate_predictions_section(year: int) -> str:
         os.makedirs(chart_dir, exist_ok=True)
         out_path = os.path.join(chart_dir, f"predictions_next_round_{year}.png")
         plt.tight_layout()
-        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.savefig(out_path, dpi=180, bbox_inches="tight")
         plt.close()
         chart_rel = os.path.relpath(out_path, os.path.join(REPO_ROOT, "docs"))
     except Exception as exc:
@@ -4103,7 +4103,7 @@ def generate_backtest_section(year: int) -> str:
             "font.family": "monospace",
             "savefig.facecolor": BG, "savefig.edgecolor": BG,
         })
-        fig, ax = plt.subplots(figsize=(11, 5.5))
+        fig, ax = plt.subplots(figsize=(13, 7))
         fig.patch.set_facecolor(BG)
         ax.set_facecolor(BG)
 
@@ -4114,7 +4114,7 @@ def generate_backtest_section(year: int) -> str:
             ax.text(
                 xi, mv + 0.08, f"{mv:.2f}",
                 ha="center", va="bottom",
-                fontsize=8, color="white", zorder=5,
+                fontsize=11, color="white", zorder=5,
             )
         ax.set_xlabel("Round", labelpad=8)
         ax.set_ylabel("MAE (disposals)", color=GOLD, labelpad=8)
@@ -4135,7 +4135,7 @@ def generate_backtest_section(year: int) -> str:
             ax2.text(
                 xi, pv + 0.7, f"{pv:.0f}%",
                 ha="center", va="bottom",
-                fontsize=8, color=TEAL, zorder=5,
+                fontsize=11, color=TEAL, zorder=5,
             )
         ax2.set_ylabel("% of players within 5 disposals", color=TEAL, labelpad=10)
         ax2.tick_params(axis="y", colors=TEAL)
@@ -4146,7 +4146,7 @@ def generate_backtest_section(year: int) -> str:
 
         ax.set_title(
             f"Prediction accuracy by round — {year} season",
-            fontsize=13, color="white", pad=14, fontweight="bold",
+            fontsize=15, color="white", pad=14, fontweight="bold",
         )
         # Combined legend
         h1, l1 = ax.get_legend_handles_labels()
@@ -4154,13 +4154,13 @@ def generate_backtest_section(year: int) -> str:
         ax.legend(
             h1 + h2, l1 + l2,
             loc="lower right", frameon=True, facecolor=BG,
-            edgecolor=GRID, labelcolor="white", fontsize=9,
+            edgecolor=GRID, labelcolor="white", fontsize=12,
         )
         chart_dir = os.path.join(REPO_ROOT, "assets", "charts")
         os.makedirs(chart_dir, exist_ok=True)
         out_path = os.path.join(chart_dir, f"backtest_accuracy_{year}.png")
         plt.tight_layout()
-        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.savefig(out_path, dpi=180, bbox_inches="tight")
         plt.close()
         chart_rel = os.path.relpath(out_path, os.path.join(REPO_ROOT, "docs"))
     except Exception as exc:
@@ -4412,7 +4412,7 @@ def generate_top100_chart() -> str:
     GRID = "#30363d"
     TEXT = "#e6edf3"
 
-    fig, ax = plt.subplots(figsize=(10, 6), facecolor=BG)
+    fig, ax = plt.subplots(figsize=(13, 8), facecolor=BG)
     ax.set_facecolor(BG)
 
     colours = [GOLD] * 3 + [TEAL] * 4 + [SKY] * 3
@@ -4421,19 +4421,19 @@ def generate_top100_chart() -> str:
     for i, (bar, score) in enumerate(zip(bars, top10_scores)):
         ax.text(
             bar.get_width() - 0.02, i, f"{score:.3f}",
-            va="center", ha="right", color=BG, fontsize=9, fontweight="bold",
+            va="center", ha="right", color=BG, fontsize=12, fontweight="bold",
         )
 
     ax.set_yticks(range(len(names)))
     ax.set_yticklabels(
         [f"#{i + 1}  {n}" for i, n in enumerate(names)],
-        color=TEXT, fontsize=10,
+        color=TEXT, fontsize=13,
     )
     ax.invert_yaxis()
-    ax.set_xlabel("Era-normalised composite score", color=TEXT, fontsize=10)
+    ax.set_xlabel("Era-normalised composite score", color=TEXT, fontsize=13)
     ax.set_title(
         "Top 10 AFL players of all time — era-normalised composite ranking",
-        color=GOLD, fontsize=12, fontweight="bold", pad=14,
+        color=GOLD, fontsize=14, fontweight="bold", pad=14,
     )
 
     ax.tick_params(axis="x", colors=TEXT)
@@ -4454,12 +4454,12 @@ def generate_top100_chart() -> str:
     ]
     ax.legend(
         handles=legend_elements, loc="lower right",
-        facecolor="#161b22", edgecolor=GRID, labelcolor=TEXT, fontsize=8,
+        facecolor="#161b22", edgecolor=GRID, labelcolor=TEXT, fontsize=11,
     )
 
     os.makedirs(CHARTS_DIR, exist_ok=True)
     chart_path = os.path.join(CHARTS_DIR, "top10_alltime_hall.png")
-    fig.savefig(chart_path, dpi=150, bbox_inches="tight", facecolor=BG)
+    fig.savefig(chart_path, dpi=180, bbox_inches="tight", facecolor=BG)
     plt.close(fig)
     return chart_path
 
