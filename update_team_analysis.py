@@ -3760,18 +3760,13 @@ def generate_predictions_section(year: int) -> str:
     round_num: int = -1
     gen_date: str = ""
     try:
-        # Strip "next_round_" prefix and "_prediction_..." suffix
         stem = base.replace("next_round_", "")
         round_str, _rest = stem.split("_prediction_", 1)
         round_num = int(round_str)
-        # Pull YYYYMMDD out of the timestamp portion
-        ts = _rest.split("_", 1)[0]
-        if len(ts) == 8 and ts.isdigit():
-            gen_date = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
     except Exception:
-        # Fall back to mtime if filename parsing fails
         round_num = -1
-        gen_date = datetime.fromtimestamp(os.path.getmtime(latest)).strftime("%Y-%m-%d")
+    # Always use today as the "generated" date — the CSV may be days old
+    gen_date = datetime.now().strftime("%Y-%m-%d")
 
     try:
         df = pd.read_csv(latest)

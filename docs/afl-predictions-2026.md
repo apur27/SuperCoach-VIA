@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-PREDICTIONS-START -->
-Predicted disposal leaders for Round 9 — generated 2026-04-30.
+Predicted disposal leaders for Round 9 — generated 2026-05-04.
 
 ![Predicted disposal leaders — Round 9, 2026](../assets/charts/predictions_next_round_2026.png)
 
