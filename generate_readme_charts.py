@@ -168,7 +168,7 @@ def chart_era_scoring_trends() -> str:
         sys.exit("no match data found for scoring trend chart")
 
     out = os.path.join(ASSETS_DIR, "era_scoring_trends.png")
-    fig, ax = plt.subplots(figsize=(18.2, 8.5))
+    fig, ax = plt.subplots(figsize=(14, 6.5))
 
     ax.plot(df["year"], df["avg_team_score"],
             color=GOLD, lw=2.4, marker="o", markersize=3.5,
@@ -196,7 +196,7 @@ def chart_era_scoring_trends() -> str:
             f"1980s/90s peak\n~{peak_row['avg_team_score']:.0f} pts/g ({int(peak_row['year'])})",
             xy=(peak_row["year"], peak_row["avg_team_score"]),
             xytext=(peak_row["year"] - 2, peak_row["avg_team_score"] + 12),
-            color="white", fontsize=32, ha="center",
+            color="white", fontsize=16, ha="center",
             arrowprops=dict(arrowstyle="->", color=SOFT_GREY, lw=1.0, alpha=0.8),
             bbox=dict(boxstyle="round,pad=0.4", fc=PANEL_BG, ec=GOLD, lw=1.0, alpha=0.95),
         )
@@ -208,14 +208,14 @@ def chart_era_scoring_trends() -> str:
             f"Modern decline\n~{modern_row['avg_team_score']:.0f} pts/g ({int(modern_row['year'])})",
             xy=(modern_row["year"], modern_row["avg_team_score"]),
             xytext=(modern_row["year"] - 14, modern_row["avg_team_score"] - 18),
-            color="white", fontsize=32, ha="center",
+            color="white", fontsize=16, ha="center",
             arrowprops=dict(arrowstyle="->", color=SOFT_GREY, lw=1.0, alpha=0.8),
             bbox=dict(boxstyle="round,pad=0.4", fc=PANEL_BG, ec=TEAL, lw=1.0, alpha=0.95),
         )
 
     fig.text(0.99, 0.02,
              "Source: data/matches/  |  points = goals*6 + behinds, averaged across both teams per match",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -255,7 +255,7 @@ def chart_era_stat_evolution() -> str:
     pv = _load_era_stats()
     out = os.path.join(ASSETS_DIR, "era_stat_evolution.png")
 
-    fig, ax = plt.subplots(figsize=(18.2, 8.5))
+    fig, ax = plt.subplots(figsize=(14, 6.5))
     n_groups = len(ERAS)
     n_stats = len(ERA_STATS_OF_INTEREST)
     bar_w = 0.8 / n_stats
@@ -275,11 +275,11 @@ def chart_era_stat_evolution() -> str:
             if v > 0:
                 ax.text(bar.get_x() + bar.get_width() / 2, v + 0.25,
                         f"{v:.1f}", ha="center", va="bottom",
-                        color="white", fontsize=30, alpha=0.9)
+                        color="white", fontsize=15, alpha=0.9)
             else:
                 ax.text(bar.get_x() + bar.get_width() / 2, 0.4,
                         "n/a", ha="center", va="bottom",
-                        color=SOFT_GREY, fontsize=28, style="italic")
+                        color=SOFT_GREY, fontsize=14, style="italic")
 
     ax.set_xticks(x)
     ax.set_xticklabels(ERAS, color="white")
@@ -301,7 +301,7 @@ def chart_era_stat_evolution() -> str:
 
     fig.text(0.99, 0.02,
              "Source: data/era_stats.csv  |  'n/a' = stat not tracked in that era",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -429,7 +429,7 @@ def chart_team_radar(year: int = None) -> str:
 
     # 13x10 canvas with manual axis placement so the title sits clear of the
     # top "Disposals" label and the legend has room for full team names.
-    fig = plt.figure(figsize=(16.9, 13), facecolor=BG)
+    fig = plt.figure(figsize=(13, 10), facecolor=BG)
     # Polar axes positioned to leave room for: title (top), legend (right),
     # and source caption (bottom). [left, bottom, width, height] in 0..1.
     ax = fig.add_axes([0.04, 0.08, 0.55, 0.78], polar=True)
@@ -439,10 +439,10 @@ def chart_team_radar(year: int = None) -> str:
 
     # Dim grid + labels — pad labels out so they sit clear of the polygon.
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels([lbl for _, lbl in RADAR_DIMENSIONS], color="white", fontsize=36)
+    ax.set_xticklabels([lbl for _, lbl in RADAR_DIMENSIONS], color="white", fontsize=18)
     ax.tick_params(axis="x", pad=18)
     ax.set_yticks([0.25, 0.5, 0.75, 1.0])
-    ax.set_yticklabels(["25%", "50%", "75%", "100%"], color=SOFT_GREY, fontsize=28)
+    ax.set_yticklabels(["25%", "50%", "75%", "100%"], color=SOFT_GREY, fontsize=14)
     ax.set_ylim(0, 1.05)
     ax.spines["polar"].set_color(GRID)
     ax.grid(color=GRID, alpha=0.5, lw=0.8)
@@ -461,22 +461,22 @@ def chart_team_radar(year: int = None) -> str:
     # above the polar axes (which top out at y ≈ 0.86).
     fig.text(0.5, 0.955,
              f"Top 6 teams of {year} — radar across 6 stat dimensions",
-             color="white", fontsize=46, fontweight="bold", ha="center")
+             color="white", fontsize=23, fontweight="bold", ha="center")
     fig.text(0.5, 0.918,
              "Normalised 0-1 vs all 18 teams (1.0 = league best on that axis)",
-             color=SOFT_GREY, fontsize=36, ha="center")
+             color=SOFT_GREY, fontsize=18, ha="center")
 
     leg = ax.legend(loc="center left", bbox_to_anchor=(1.18, 0.5),
                     frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
-                    labelcolor="white", framealpha=0.9, fontsize=36,
-                    title="Team (top 6 by disposals)", title_fontsize=40)
+                    labelcolor="white", framealpha=0.9, fontsize=18,
+                    title="Team (top 6 by disposals)", title_fontsize=20)
     leg.get_title().set_color("white")
     for text in leg.get_texts():
         text.set_color("white")
 
     fig.text(0.99, 0.02,
              f"Source: data/player_data/ year={year}  |  top-6 by disposals/g",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=30, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=15, alpha=0.7)
     fig.savefig(out, dpi=180, facecolor=BG, edgecolor=BG)
     plt.close(fig)
     return out
@@ -520,7 +520,7 @@ def chart_team_heatmap(year: int = None) -> str:
     matrix = ranks[stats].values  # rows=teams, cols=stats
 
     out = os.path.join(ASSETS_DIR, f"team_{year}_heatmap.png")
-    fig, ax = plt.subplots(figsize=(18.2, 9.1))
+    fig, ax = plt.subplots(figsize=(14, 7))
 
     cmap = plt.get_cmap("RdYlGn_r")
     # Invert so rank 1 -> low colour value (green), rank 18 -> high (red).
@@ -529,9 +529,9 @@ def chart_team_heatmap(year: int = None) -> str:
 
     ax.set_xticks(range(len(stats)))
     ax.set_xticklabels([lbl for _, lbl in HEATMAP_STATS],
-                       rotation=20, ha="right", color="white", fontsize=36)
+                       rotation=20, ha="right", color="white", fontsize=18)
     ax.set_yticks(range(len(teams)))
-    ax.set_yticklabels(teams, color="white", fontsize=32)
+    ax.set_yticklabels(teams, color="white", fontsize=16)
 
     # Rank text in each cell. White on dark cells, black on light.
     for i in range(matrix.shape[0]):
@@ -540,10 +540,10 @@ def chart_team_heatmap(year: int = None) -> str:
             # Mid-range ranks get black text, extremes get white for contrast.
             txt_col = "black" if 5 < rk < 14 else "white"
             ax.text(j, i, str(rk), ha="center", va="center",
-                    color=txt_col, fontsize=32, fontweight="bold")
+                    color=txt_col, fontsize=16, fontweight="bold")
 
     ax.set_title(f"{year} season-to-date — team rank by stat (1 = league best, 18 = worst)",
-                 color="white", pad=14, fontsize=40, fontweight="bold")
+                 color="white", pad=14, fontsize=20, fontweight="bold")
     ax.tick_params(colors="white")
     for spine in ax.spines.values():
         spine.set_color(GRID)
@@ -556,7 +556,7 @@ def chart_team_heatmap(year: int = None) -> str:
 
     fig.text(0.99, 0.01,
              f"Source: data/player_data/ year={year}  |  rows sorted by disposals/g rank",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -588,7 +588,7 @@ def chart_team_style_scatter(current_year: int = None) -> str:
     profile = profile.dropna(subset=["hb_ratio_pct"])
 
     out = os.path.join(ASSETS_DIR, f"team_{current_year}_style_scatter.png")
-    fig, ax = plt.subplots(figsize=(13, 10.4))
+    fig, ax = plt.subplots(figsize=(10, 8))
 
     x = profile["hb_ratio_pct"].values
     y = profile["tackles"].values
@@ -612,7 +612,7 @@ def chart_team_style_scatter(current_year: int = None) -> str:
     ]
     for qx, qy, ha, va, label in quadrants:
         ax.text(qx, qy, label, ha=ha, va=va, color=SOFT_GREY,
-                fontsize=32, fontstyle="italic", alpha=0.8,
+                fontsize=16, fontstyle="italic", alpha=0.8,
                 bbox=dict(boxstyle="round,pad=0.3", fc=PANEL_BG, ec=GRID, lw=0.8, alpha=0.6))
 
     ax.scatter(x, y, s=160, c=GOLD, edgecolors="white", linewidths=1.0,
@@ -622,15 +622,15 @@ def chart_team_style_scatter(current_year: int = None) -> str:
     label_offset_x = (x.max() - x.min()) * 0.012
     for xi, yi, name in zip(x, y, teams):
         ax.annotate(name, (xi + label_offset_x, yi),
-                    color="white", fontsize=30, ha="left", va="center",
+                    color="white", fontsize=15, ha="left", va="center",
                     alpha=0.95)
 
-    ax.set_xlabel("Handball ratio (% of disposals by hand)", color="white", fontsize=36)
-    ax.set_ylabel("Tackles per game", color="white", fontsize=36)
+    ax.set_xlabel("Handball ratio (% of disposals by hand)", color="white", fontsize=18)
+    ax.set_ylabel("Tackles per game", color="white", fontsize=18)
     ax.set_title(
         f"Team playing styles, {years[0]}-{years[-1]} 5-year average\n"
         "Handball-vs-kick build-up x ground-ball pressure",
-        color="white", pad=14, fontsize=40, fontweight="bold")
+        color="white", pad=14, fontsize=20, fontweight="bold")
     ax.grid(True, ls=":", lw=0.8, alpha=0.30)
     ax.set_axisbelow(True)
     for spine in ("top", "right"):
@@ -640,7 +640,7 @@ def chart_team_style_scatter(current_year: int = None) -> str:
 
     fig.text(0.99, 0.02,
              f"Source: data/player_data/ years={years[0]}-{years[-1]}  |  dashed lines = league median",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -783,7 +783,7 @@ def chart_top10_alltime() -> str:
     plot_df = top10.sort_values("rank", ascending=False).reset_index(drop=True)
 
     out = os.path.join(ASSETS_DIR, "top10_alltime.png")
-    fig, ax = plt.subplots(figsize=(16.9, 10.4))
+    fig, ax = plt.subplots(figsize=(13, 8))
     y_pos = np.arange(len(plot_df))
     bars = ax.barh(y_pos, plot_df["all_time_score"].values,
                    color=plot_df["color"].tolist(),
@@ -794,15 +794,15 @@ def chart_top10_alltime() -> str:
             plot_df["rank"].values)):
         ax.text(val + 0.01, bar.get_y() + bar.get_height() / 2,
                 f" {val:.2f}", va="center", ha="left",
-                color="white", fontsize=32, fontweight="bold")
+                color="white", fontsize=16, fontweight="bold")
 
     labels = [f"#{int(r)}  {n}" for r, n in zip(plot_df["rank"], plot_df["name"])]
     ax.set_yticks(y_pos)
-    ax.set_yticklabels(labels, color="white", fontsize=36)
+    ax.set_yticklabels(labels, color="white", fontsize=18)
     ax.set_xlabel("All-time score (composite of best-8 seasons + bonuses)",
-                  color="white", fontsize=36)
+                  color="white", fontsize=18)
     ax.set_title("All-Time Top 10 AFL/VFL Players",
-                 color="white", fontsize=42, pad=14, fontweight="bold")
+                 color="white", fontsize=21, pad=14, fontweight="bold")
     ax.grid(True, axis="x", ls=":", lw=0.8, alpha=0.30)
     ax.set_axisbelow(True)
     for spine in ("top", "right"):
@@ -827,7 +827,7 @@ def chart_top10_alltime() -> str:
     leg = ax.legend(handles=legend_handles, loc="upper left",
                     bbox_to_anchor=(1.005, 1.0),
                     frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
-                    framealpha=0.95, fontsize=32, borderpad=0.8,
+                    framealpha=0.95, fontsize=16, borderpad=0.8,
                     labelspacing=1.0)
     for text in leg.get_texts():
         text.set_color("white")
@@ -837,7 +837,7 @@ def chart_top10_alltime() -> str:
 
     fig.text(0.99, 0.015,
              "Source: data/top100/all_time_top_100.csv  |  position bucket from career goals/game",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout(rect=[0, 0.05, 0.82, 1])
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -873,14 +873,14 @@ def chart_scoring_by_decade() -> str:
     colors = [cmap(0.30 + 0.70 * (i / max(1, n - 1))) for i in range(n)]
 
     out = os.path.join(ASSETS_DIR, "scoring_by_decade.png")
-    fig, ax = plt.subplots(figsize=(18.2, 8.5))
+    fig, ax = plt.subplots(figsize=(14, 6.5))
     bars = ax.bar(np.arange(n), decade_means["avg_team_score"].values,
                   color=colors, edgecolor=BG, linewidth=1.2, alpha=0.95)
 
     for bar, v in zip(bars, decade_means["avg_team_score"].values):
         ax.text(bar.get_x() + bar.get_width() / 2, v + 1.2,
                 f"{v:.1f}", ha="center", va="bottom",
-                color="white", fontsize=30, fontweight="bold")
+                color="white", fontsize=15, fontweight="bold")
 
     peak_idx = int(np.argmax(decade_means["avg_team_score"].values))
     peak_lbl = decade_means.iloc[peak_idx]["decade_label"]
@@ -889,7 +889,7 @@ def chart_scoring_by_decade() -> str:
         f"Peak: {peak_lbl} ({peak_val:.1f} pts/g)",
         xy=(peak_idx, peak_val),
         xytext=(peak_idx, peak_val + 14),
-        ha="center", color="white", fontsize=36, fontweight="bold",
+        ha="center", color="white", fontsize=18, fontweight="bold",
         arrowprops=dict(arrowstyle="->", color=GOLD, lw=1.4),
         bbox=dict(boxstyle="round,pad=0.4", fc=PANEL_BG, ec=GOLD, lw=1.0, alpha=0.95),
     )
@@ -898,7 +898,7 @@ def chart_scoring_by_decade() -> str:
     ax.set_xticklabels(decade_means["decade_label"], color="white")
     ax.set_ylabel("Average team score per game", color="white")
     ax.set_title("Average Team Score by Decade (1900s–2020s)",
-                 color="white", pad=14, fontsize=40, fontweight="bold")
+                 color="white", pad=14, fontsize=20, fontweight="bold")
     ax.grid(True, axis="y", ls=":", lw=0.8, alpha=0.30)
     ax.set_axisbelow(True)
     ax.tick_params(colors="white")
@@ -912,7 +912,7 @@ def chart_scoring_by_decade() -> str:
 
     fig.text(0.99, 0.015,
              "Source: data/matches/  |  match-weighted decade mean of (goals*6 + behinds) per team",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout(rect=[0, 0.05, 1, 1])
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -937,7 +937,7 @@ def chart_team_goals_disposals(year: int = None) -> str:
         sys.exit(f"no team data for {year}")
 
     out = os.path.join(ASSETS_DIR, f"team_{year}_goals_disposals.png")
-    fig, ax = plt.subplots(figsize=(16.9, 11.1))
+    fig, ax = plt.subplots(figsize=(13, 8.5))
 
     x = team_means["disposals"].values
     y = team_means["goals"].values
@@ -967,7 +967,7 @@ def chart_team_goals_disposals(year: int = None) -> str:
     ]
     for qx, qy, ha, va, label in quadrants:
         ax.text(qx, qy, label, ha=ha, va=va, color=SOFT_GREY,
-                fontsize=32, fontstyle="italic", alpha=0.85,
+                fontsize=16, fontstyle="italic", alpha=0.85,
                 transform=ax.transAxes,
                 bbox=dict(boxstyle="round,pad=0.3", fc=PANEL_BG, ec=GRID, lw=0.8, alpha=0.7))
 
@@ -982,12 +982,12 @@ def chart_team_goals_disposals(year: int = None) -> str:
     label_offset_x = rx * 0.012
     for xi, yi, name in zip(x, y, teams):
         ax.annotate(name, (xi + label_offset_x, yi),
-                    color="white", fontsize=30, ha="left", va="center", alpha=0.95)
+                    color="white", fontsize=15, ha="left", va="center", alpha=0.95)
 
-    ax.set_xlabel("Average disposals per game", color="white", fontsize=36)
-    ax.set_ylabel("Average goals per game", color="white", fontsize=36)
+    ax.set_xlabel("Average disposals per game", color="white", fontsize=18)
+    ax.set_ylabel("Average goals per game", color="white", fontsize=18)
     ax.set_title(f"{year} Season: Efficiency vs Ball Use",
-                 color="white", pad=14, fontsize=40, fontweight="bold")
+                 color="white", pad=14, fontsize=20, fontweight="bold")
     ax.grid(True, ls=":", lw=0.8, alpha=0.30)
     ax.set_axisbelow(True)
     for spine in ("top", "right"):
@@ -1008,7 +1008,7 @@ def chart_team_goals_disposals(year: int = None) -> str:
     leg = ax.legend(handles=handles, loc="upper left",
                     bbox_to_anchor=(1.005, 1.0), frameon=True,
                     facecolor=PANEL_BG, edgecolor=GRID, framealpha=0.95,
-                    fontsize=30, title="Dot size = tackles/g", title_fontsize=38,
+                    fontsize=15, title="Dot size = tackles/g", title_fontsize=19,
                     borderpad=1.0, labelspacing=1.4, handletextpad=1.0)
     leg.get_title().set_color("white")
     for text in leg.get_texts():
@@ -1016,7 +1016,7 @@ def chart_team_goals_disposals(year: int = None) -> str:
 
     fig.text(0.99, 0.015,
              f"Source: data/player_data/ year={year}  |  dashed lines = league median",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout(rect=[0, 0.04, 0.86, 1])
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -1044,7 +1044,7 @@ def chart_era_tackles_clearances() -> str:
     clearances_df = df.dropna(subset=["clearances"])[["year", "clearances"]]
 
     out = os.path.join(ASSETS_DIR, "era_tackles_clearances.png")
-    fig, ax1 = plt.subplots(figsize=(18.2, 8.5))
+    fig, ax1 = plt.subplots(figsize=(14, 6.5))
 
     ax1.plot(tackles_df["year"], tackles_df["tackles"],
              color=GOLD, lw=2.6, marker="o", markersize=4,
@@ -1072,20 +1072,20 @@ def chart_era_tackles_clearances() -> str:
 
     ax1.set_title(
         "The Intensification of AFL — Tackles & Clearances Over Time",
-        color="white", pad=14, fontsize=40, fontweight="bold")
+        color="white", pad=14, fontsize=20, fontweight="bold")
 
     # Combined legend (both axes).
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     leg = ax1.legend(h1 + h2, l1 + l2, loc="upper left",
                      frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
-                     framealpha=0.9, fontsize=32)
+                     framealpha=0.9, fontsize=16)
     for text in leg.get_texts():
         text.set_color("white")
 
     fig.text(0.99, 0.02,
              "Source: data/era_yearly_trends.csv  |  tackles tracked from 1987, clearances from 1998",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -1122,7 +1122,7 @@ def chart_top100_position_breakdown() -> str:
     plot_colors = [POSITION_COLORS[p] for p in plot_order]
 
     out = os.path.join(ASSETS_DIR, "top100_position_breakdown.png")
-    fig, axes = plt.subplots(1, 2, figsize=(18.2, 7.8),
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6),
                              gridspec_kw={"width_ratios": [1.05, 1.0]})
 
     # Donut.
@@ -1135,21 +1135,21 @@ def chart_top100_position_breakdown() -> str:
         wedgeprops=dict(width=0.40, edgecolor=BG, linewidth=2),
         autopct=lambda v: f"{v:.0f}%" if v >= 4 else "",
         pctdistance=0.80,
-        textprops=dict(color="white", fontsize=36, fontweight="bold"),
+        textprops=dict(color="white", fontsize=18, fontweight="bold"),
     )
     # Centre text — total count.
     ax_d.text(0, 0, f"{int(plot_counts.sum())}\nplayers",
-              ha="center", va="center", color="white", fontsize=42,
+              ha="center", va="center", color="white", fontsize=21,
               fontweight="bold")
     ax_d.set_title("Top 100 by position group", color="white", pad=12,
-                   fontsize=38, fontweight="bold")
+                   fontsize=19, fontweight="bold")
 
     # Legend with raw counts beside each label.
     legend_labels = [f"{lbl} (n={c})" for lbl, c in zip(plot_labels, plot_counts)]
     leg = ax_d.legend(wedges, legend_labels, loc="center left",
                       bbox_to_anchor=(-0.15, -0.05),
                       frameon=True, facecolor=PANEL_BG, edgecolor=GRID,
-                      framealpha=0.9, fontsize=32)
+                      framealpha=0.9, fontsize=16)
     for text in leg.get_texts():
         text.set_color("white")
 
@@ -1161,13 +1161,13 @@ def chart_top100_position_breakdown() -> str:
     for bar, v in zip(bars, plot_avgs):
         ax_b.text(v + 0.015, bar.get_y() + bar.get_height() / 2,
                   f"{v:.2f}", va="center", ha="left",
-                  color="white", fontsize=32, fontweight="bold")
+                  color="white", fontsize=16, fontweight="bold")
     ax_b.set_yticks(y_pos)
-    ax_b.set_yticklabels(plot_labels, color="white", fontsize=36)
+    ax_b.set_yticklabels(plot_labels, color="white", fontsize=18)
     ax_b.invert_yaxis()
-    ax_b.set_xlabel("Average all-time score", color="white", fontsize=36)
+    ax_b.set_xlabel("Average all-time score", color="white", fontsize=18)
     ax_b.set_title("Average score by position group", color="white", pad=12,
-                   fontsize=38, fontweight="bold")
+                   fontsize=19, fontweight="bold")
     ax_b.grid(True, axis="x", ls=":", lw=0.8, alpha=0.30)
     ax_b.set_axisbelow(True)
     for spine in ("top", "right"):
@@ -1177,10 +1177,10 @@ def chart_top100_position_breakdown() -> str:
     ax_b.tick_params(colors="white")
 
     fig.suptitle("Top 100 — Position Breakdown",
-                 color="white", fontsize=42, fontweight="bold", y=0.995)
+                 color="white", fontsize=21, fontweight="bold", y=0.995)
     fig.text(0.99, 0.02,
              "Source: data/top100/all_time_top_100.csv  |  position bucket from career goals/game",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout(rect=[0, 0.04, 1, 0.96])
     fig.savefig(out, dpi=180)
     plt.close(fig)
@@ -1232,7 +1232,7 @@ def chart_team_form_trend(year: int = None) -> str:
 
     max_round = int(by_round["round_num"].max())
     out = os.path.join(ASSETS_DIR, f"team_form_trend_{year}.png")
-    fig, ax = plt.subplots(figsize=(16.9, 9.8))
+    fig, ax = plt.subplots(figsize=(13, 7.5))
 
     # Mid teams — light grey, thin lines.
     for t in mid:
@@ -1255,7 +1255,7 @@ def chart_team_form_trend(year: int = None) -> str:
         # Label at end of line.
         ax.annotate(t, (d["round_num"].iloc[-1], smooth[-1]),
                     xytext=(6, 0), textcoords="offset points",
-                    color=color, fontsize=32, fontweight="bold",
+                    color=color, fontsize=16, fontweight="bold",
                     va="center", ha="left")
 
     # Bottom 3.
@@ -1269,13 +1269,13 @@ def chart_team_form_trend(year: int = None) -> str:
                 linestyle="--", label=f"{t}", zorder=4)
         ax.annotate(t, (d["round_num"].iloc[-1], smooth[-1]),
                     xytext=(6, 0), textcoords="offset points",
-                    color=color, fontsize=32, fontweight="bold",
+                    color=color, fontsize=16, fontweight="bold",
                     va="center", ha="left")
 
-    ax.set_xlabel("Round", color="white", fontsize=36)
-    ax.set_ylabel("Disposals per game (3-round rolling avg)", color="white", fontsize=36)
+    ax.set_xlabel("Round", color="white", fontsize=18)
+    ax.set_ylabel("Disposals per game (3-round rolling avg)", color="white", fontsize=18)
     ax.set_title(f"{year} Disposal Trends — Rounds 1–{max_round}",
-                 color="white", pad=14, fontsize=40, fontweight="bold")
+                 color="white", pad=14, fontsize=20, fontweight="bold")
     ax.set_xticks(range(1, max_round + 1))
     ax.grid(True, ls=":", lw=0.8, alpha=0.30)
     ax.set_axisbelow(True)
@@ -1288,16 +1288,16 @@ def chart_team_form_trend(year: int = None) -> str:
     ax.set_xlim(0.7, max_round + 1.6)
 
     leg = ax.legend(loc="lower left", frameon=True, facecolor=PANEL_BG,
-                    edgecolor=GRID, framealpha=0.9, fontsize=30,
+                    edgecolor=GRID, framealpha=0.9, fontsize=15,
                     title="Highlighted: top 3 (solid) + bottom 3 (dashed)",
-                    title_fontsize=36)
+                    title_fontsize=18)
     leg.get_title().set_color("white")
     for text in leg.get_texts():
         text.set_color("white")
 
     fig.text(0.99, 0.02,
              f"Source: data/player_data/ year={year}  |  rolling-3 mean of round-by-round disposals/g",
-             ha="right", va="bottom", color=SOFT_GREY, fontsize=28, alpha=0.7)
+             ha="right", va="bottom", color=SOFT_GREY, fontsize=14, alpha=0.7)
     fig.tight_layout()
     fig.savefig(out, dpi=180)
     plt.close(fig)
