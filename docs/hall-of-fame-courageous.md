@@ -8,19 +8,19 @@ There are several different forms of courage in football. There is the *physical
 
 ## 1. Sam Newman — Geelong, 1964–1980
 
-Sam Newman's courage story is one of the most extraordinary in Australian football history. In 1969, Newman suffered a catastrophic kidney injury that required the removal of a kidney — an operation that would have ended most careers. He was 21 years old. Told by doctors that returning to elite football would be dangerous, Newman did exactly that, returning to play over a decade more of top-level VFL football and going on to win three premierships with Geelong **[historical record]**. He played on with a single kidney through the full physical brutality of VFL-era football — an era with no interchange, minimal protective equipment, and no limits on physical contact. Every game he played after 1969 was an act of defiance against medical advice and physical reality.
+Sam Newman's courage story is one of the most extraordinary in Australian football history. In the **1967 first semi-final against Collingwood**, Newman suffered a catastrophic kidney injury that required surgery in which surgeons removed part of a kidney — an operation that would have ended most careers. Told by doctors that returning to elite football would be dangerous, Newman did exactly that, returning to play over a decade more of top-level VFL football and ultimately becoming the **first Geelong player to reach 300 senior VFL games** **[historical record]**. He played on through the full physical brutality of VFL-era football — an era with no interchange, minimal protective equipment, and no limits on physical contact. Every game he played after 1967 was an act of defiance against medical advice and physical reality.
 
-Newman was also an extraordinary footballer — a dashing half-forward flanker renowned for skill, dash and entertainment. He was named in **Geelong's Team of the Century** **[historical record]** and polled four All-Australian selections. But his legacy of physical courage — playing 150+ games of elite football with one kidney in a contact sport — stands alone in the game's history. There is no comparable story in the modern era.
+Newman was also an extraordinary footballer — a dashing centreman and ruckman renowned for skill, dash and entertainment. He was named in **Geelong's Team of the Century** **[historical record]** and earned **All-Australian selection in 1969** **[historical record]**. He never won a premiership — Geelong's prior flag came in 1963 and the next not until 2007, long after Newman retired — but his legacy of physical courage stands alone in the game's history. There is no comparable story in the modern era.
 
-**Defining moment:** Newman's career was defined not by one game but by a choice — choosing to return to football after losing a kidney, and then backing that choice with a decade of elite performance across **213 games and three VFL premierships** **[historical record]**.
+**Defining moment:** Newman's career was defined not by one game but by a choice — choosing to return to football after losing part of a kidney, and then backing that choice with a decade-plus of elite performance across **300 senior games for Geelong** **[historical record]**.
 
 ## 2. Jonathan Brown — Brisbane Lions, 2000–2014
 
-Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a career-threatening eye injury that left him legally blind in one eye after a brutal clash in 2009. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
+Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a serious eye injury in 2009 that required surgery and left him with permanently impaired vision in that eye. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
 
-What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which stripped vision from his right eye — he returned and played five more seasons of elite football, kicking 737 career goals. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
+What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which left him with permanently impaired vision in that eye — he returned and played on at elite level, finishing his career with **594 goals** **[historical record]**. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
 
-**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanent vision loss. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play blind in one eye, no one else had an excuse.
+**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanently impaired vision. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play on with one eye compromised, no one else had an excuse.
 
 ## 3. Gary Ablett Sr — Hawthorn / Geelong, 1982–1996
 
@@ -44,9 +44,9 @@ His significance to a generation of younger Indigenous players cannot be oversta
 
 ## 6. John Platten — Hawthorn, 1986–1997
 
-The 1988 Grand Final remains the most replayed concussion-courage moment in league history. **Platten was knocked unconscious early in the second quarter** of the 1988 Grand Final against Melbourne **[historical record]**, was assessed by the trainers, and — in an era before HIA protocols existed — returned to the field within two minutes, played out the game, kicked a goal, and Hawthorn won by 96 points.
+The 1989 Grand Final remains the most replayed concussion-courage moment in league history. **Platten was knocked unconscious early in the 1989 Grand Final** **[historical record]**, was assessed by the trainers, and — in an era before HIA protocols existed — returned to the field, played on, and Hawthorn won the flag.
 
-We would, correctly, not allow this to happen today. But understood as a piece of historical evidence about the standard of competitive courage in the 1980s, it is unmatched. Platten won three Hawthorn best and fairests **[historical record]** and was a small-bodied midfielder in a league of 95kg ruck-rovers.
+We would, correctly, not allow this to happen today. But understood as a piece of historical evidence about the standard of competitive courage in the 1980s, it is unmatched. Platten won three Hawthorn best and fairests **[historical record]** and was a small-bodied midfielder in a league of 95kg ruck-rovers. By his own later count, he played through roughly **36 concussions** across his career.
 
 ## 7. Matthew Lloyd — Essendon, 1995–2009
 
@@ -64,7 +64,7 @@ His later Grand Finals (2019, 2020) repeated the pattern. He was the only player
 
 ## 9. Michael Voss — Brisbane Lions, 1992–2006
 
-**Six knee reconstructions** **[historical record]**. The standard career-ending number is one. Voss had six and played **289 games**, captained the **2001–2003 three-peat**, and won a Brownlow Medal (1996) **[historical record]**.
+**Multiple surgeries and chronic knee problems** that repeatedly threatened his career — including a major reconstruction circa 1997–1998. The standard career-ending number is one serious knee injury; Voss kept coming back from more, and played **289 games**, captained the **2001–2003 three-peat**, and won a Brownlow Medal (1996) **[historical record]**.
 
 What made him courageous was not only the willingness to come back, but the willingness to play exactly the same way each time. He was a contested-ball midfielder who attacked the ball with his head — every contest, knee-or-no-knee. He never adjusted his style to protect the joint.
 
