@@ -11,42 +11,29 @@
 ![Data](https://img.shields.io/badge/data-2026%20season%20round%208-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-⭐ **If this helped your SuperCoach team this week, please star the repo** — it helps other footy fans find it.
+⭐ **If this project is useful to you, please star the repo.**
 
-> **⚡ TL;DR — I just want this week's predictions (no reading required)**
->
-> 1. Open Terminal → paste these 4 lines one by one:
->    ```bash
->    git clone https://github.com/apur27/SuperCoach-VIA.git
->    cd SuperCoach-VIA
->    pip install -r requirements.txt
->    python prediction_cpu.py   # works on any laptop — or prediction.py if you have a GPU
->    ```
-> 2. Open the file `data/prediction/next_round_*_prediction_*.csv` in Excel or Google Sheets.
-> 3. Done — you now have predicted disposals for every player this week.
->
-> Takes roughly 5–10 minutes on a normal laptop. Full details in [the docs](docs/).
+## What this is
 
-<br>
+An applied data science and AI project using Australian rules football as the domain. The game has been played since 1897, which means 125+ years of structured match data — enough to do something genuinely interesting with machine learning, statistical modelling, and large language models.
 
-A personal AFL data project that does three things:
-1. **Stores every AFL match and player stat** going back to 1897
-2. **Ranks the greatest players of all time** using a fair, era-adjusted formula
-3. **Predicts how many disposals each player will get** in the next round
+Three problems drive the work:
+
+1. **Prediction** — Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? The answer, with a gradient-boosted ensemble trained on rolling form, opponent, venue and context features, is: often yes.
+2. **Historical ranking** — How do you compare players across eras when the game itself has changed radically? Era-normalised z-scoring gives a principled answer, not just a pub argument.
+3. **Natural language over structured data** — Claude (via the Scientist agent) can answer questions about the dataset in plain English, write and run its own analysis code, and update the docs automatically. This is what "AI applied to sport" looks like in practice.
+
+The entire pipeline — data scrape → feature engineering → model training → prediction → backtest → doc generation — runs from a single shell script and updates this repo every week.
 
 ## Who is this for?
 
 | I am… | Start here |
 |---|---|
-| **A footy fan** who wants to understand their team better | [Live AFL insights](docs/afl-insights.md) — current-season team profiles, finals pathway, who's playing well |
+| **A data scientist or ML engineer** | [How predictions work](docs/prediction-model.md) — the model, feature engineering, walk-forward backtest |
+| **Curious about AI applied to sport** | [Using Claude and the Scientist agent](docs/scientist-agent.md) — LLMs writing and running analysis code over live data |
+| **A footy fan** who wants to understand their team | [Live AFL insights](docs/afl-insights.md) — current-season team profiles, finals pathway, stat leaders |
 | **A SuperCoach player** wanting a data edge | [Running predictions & backtests](docs/usage.md) — produces this week's predicted disposals CSV |
-| **Curious about AI applied to sport** | [Using Claude and the Scientist agent](docs/scientist-agent.md) — plain-English questions over your data |
-| **A developer or data scientist** | [How predictions work](docs/prediction-model.md) and [Technical reference](docs/technical-reference.md) |
 | **New to all of this** on Ubuntu | [Installation & first-time setup](docs/installation.md) — Git, GitHub, Python, end to end |
-
-You don't need to write any code to use most of this. The [AFL insights page](docs/afl-insights.md) updates automatically every week — just read it.
-
-> **What is SuperCoach?** SuperCoach is Australia's most popular AFL fantasy competition — you pick a squad of real AFL players and score points based on their actual in-game statistics each week. Disposals (kicks + handballs) are the biggest scoring category, which is why this project focuses on predicting them.
 
 ## Table of Contents
 
