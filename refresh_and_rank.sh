@@ -7,28 +7,53 @@ REPO_ROOT=/home/abhi/git/SuperCoach-VIA
 cd "$REPO_ROOT"
 
 echo "=========================================="
-echo "[1/4] Refreshing match and player data..."
+echo "[1/6] Refreshing match and player data..."
 echo "=========================================="
 "$PYTHON" refresh_data.py
 
 echo "=========================================="
-echo "[2/4] Recalculating and formatting top 100..."
+echo "[2/6] Recalculating and formatting top 100..."
 echo "=========================================="
 "$PYTHON" top_players_comprehensive.py
 
 echo "=========================================="
-echo "[3/4] Refreshing README charts and analysis..."
+echo "[3/6] Predicting next round disposals..."
 echo "=========================================="
+# Auto-detects the current year and next round from latest player data.
+# Writes: data/prediction/next_round_<N>_prediction_<timestamp>.csv
+"$PYTHON" prediction.py
+
+echo "=========================================="
+echo "[4/6] Backtesting prediction accuracy (last round)..."
+echo "=========================================="
+# Walk-forward backtest covering all played rounds of the current season.
+# --end-round auto picks the most recently completed round automatically.
+# Writes: data/prediction/backtest/backtest_summary_<timestamp>.csv
+#         data/prediction/backtest/backtest_by_team_<timestamp>.csv
+#         data/prediction/backtest/backtest_by_position_<timestamp>.csv
+"$PYTHON" backtest.py --start-year 2026 --start-round 1 --end-year 2026 --end-round auto
+
+echo "=========================================="
+echo "[5/6] Refreshing docs, charts and analysis..."
+echo "=========================================="
+# Picks up the fresh prediction and backtest CSVs written in steps 3 and 4
+# and embeds them into docs/afl-predictions-2026.md and docs/afl-backtest-2026.md.
 "$PYTHON" refresh_readme.py
 
 echo "=========================================="
-echo "[4/4] Committing and pushing updated docs..."
+echo "[6/6] Committing and pushing updated docs..."
 echo "=========================================="
 # Stage every doc / chart / CSV that the pipeline regenerates. The list is
 # deliberate — `git add .` would risk pulling in scratch CSVs sitting in
 # data/prediction/ that we don't want auto-committed.
 git add \
     docs/afl-season-2026.md \
+    docs/afl-team-analysis-2026.md \
+    docs/afl-finals-2026.md \
+    docs/afl-brownlow-2026.md \
+    docs/afl-stat-leaders-2026.md \
+    docs/afl-predictions-2026.md \
+    docs/afl-backtest-2026.md \
     docs/afl-team-profiles.md \
     docs/afl-insights.md \
     docs/hall-of-fame-top100.md \
@@ -41,7 +66,7 @@ if git diff --cached --quiet; then
     echo "No doc changes to commit."
 else
     TODAY=$(date '+%Y-%m-%d')
-    git commit -m "Auto-update: refresh AFL insights and top-100 rankings (${TODAY})"
+    git commit -m "Auto-update: refresh AFL insights, predictions and backtest (${TODAY})"
     git push origin main
     echo "Pushed to origin/main"
 fi

@@ -69,9 +69,18 @@ import pandas as pd
 REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
 PLAYER_DATA_DIR = os.path.join(REPO_ROOT, "data", "player_data")
 MATCHES_DIR = os.path.join(REPO_ROOT, "data", "matches")
-README_PATH = os.path.join(REPO_ROOT, "docs", "afl-season-2026.md")
-TEAM_PROFILES_PATH = os.path.join(REPO_ROOT, "docs", "afl-team-profiles.md")
-HALL_OF_FAME_PATH = os.path.join(REPO_ROOT, "docs", "hall-of-fame-top100.md")
+TEAM_ANALYSIS_PATH  = os.path.join(REPO_ROOT, "docs", "afl-team-analysis-2026.md")
+FINALS_PATH         = os.path.join(REPO_ROOT, "docs", "afl-finals-2026.md")
+BROWNLOW_PATH       = os.path.join(REPO_ROOT, "docs", "afl-brownlow-2026.md")
+STAT_LEADERS_PATH   = os.path.join(REPO_ROOT, "docs", "afl-stat-leaders-2026.md")
+PREDICTIONS_PATH    = os.path.join(REPO_ROOT, "docs", "afl-predictions-2026.md")
+BACKTEST_PATH       = os.path.join(REPO_ROOT, "docs", "afl-backtest-2026.md")
+# Backward-compat alias — refresh_readme.py and other callers historically
+# referenced uta.README_PATH; it now points at the team-analysis file (the
+# "primary" season block) so old call sites keep working.
+README_PATH         = TEAM_ANALYSIS_PATH
+TEAM_PROFILES_PATH  = os.path.join(REPO_ROOT, "docs", "afl-team-profiles.md")
+HALL_OF_FAME_PATH   = os.path.join(REPO_ROOT, "docs", "hall-of-fame-top100.md")
 TOP100_CSV = os.path.join(REPO_ROOT, "all_time_top_100.csv")
 TOP100_SCORES_CSV = os.path.join(REPO_ROOT, "data", "top100", "all_time_top_100.csv")
 CHARTS_DIR = os.path.join(REPO_ROOT, "assets", "charts")
@@ -3716,6 +3725,383 @@ def replace_section(readme_text: str, year: int, body: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Next-round predictions section
+# ---------------------------------------------------------------------------
+# Reads the most-recent `data/prediction/next_round_<R>_prediction_*.csv`
+# (picked by file mtime) and renders:
+#   - a one-line intro with the round number + generation date
+#   - a horizontal bar chart of the top-20 predicted players, dark-themed
+#   - a markdown table of the top-30
+#   - a footer pointing at the prediction model
+# The CSVs come from `prediction.py` / `prediction_cpu.py` and are checked
+# in to the repo, so the section refreshes whenever a new prediction CSV
+# lands. Returns "" if no prediction CSV is available so the caller can
+# leave the file untouched rather than blanking the section.
+# ---------------------------------------------------------------------------
+def generate_predictions_section(year: int) -> str:
+    """Render the markdown body for the next-round predictions section.
+
+    Looks at `data/prediction/next_round_*_prediction_*.csv`, picks the most
+    recent file by mtime, renders an intro, generates a chart and a top-30
+    table. Returns the markdown body (no surrounding markers — the caller
+    handles that). Returns "" if no usable CSV is found.
+    """
+    pred_dir = os.path.join(REPO_ROOT, "data", "prediction")
+    pattern = os.path.join(pred_dir, "next_round_*_prediction_*.csv")
+    candidates = [p for p in glob.glob(pattern) if os.path.isfile(p)]
+    if not candidates:
+        return ""
+    # Pick the most recent file by mtime — the prediction script names
+    # rounds in the filename so we recover the round number from the
+    # basename rather than from CSV contents.
+    latest = max(candidates, key=os.path.getmtime)
+    base = os.path.basename(latest)
+    # Filename pattern: next_round_<R>_prediction_<YYYYMMDD>_<HHMM>.csv
+    round_num: int = -1
+    gen_date: str = ""
+    try:
+        # Strip "next_round_" prefix and "_prediction_..." suffix
+        stem = base.replace("next_round_", "")
+        round_str, _rest = stem.split("_prediction_", 1)
+        round_num = int(round_str)
+        # Pull YYYYMMDD out of the timestamp portion
+        ts = _rest.split("_", 1)[0]
+        if len(ts) == 8 and ts.isdigit():
+            gen_date = f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}"
+    except Exception:
+        # Fall back to mtime if filename parsing fails
+        round_num = -1
+        gen_date = datetime.fromtimestamp(os.path.getmtime(latest)).strftime("%Y-%m-%d")
+
+    try:
+        df = pd.read_csv(latest)
+    except Exception as exc:
+        print(f"[predictions] could not read {base}: {exc}", file=sys.stderr)
+        return ""
+    needed = {"player", "team", "predicted_disposals"}
+    if not needed.issubset(df.columns):
+        print(
+            f"[predictions] {base} missing columns "
+            f"(have {list(df.columns)})", file=sys.stderr,
+        )
+        return ""
+    df = df.dropna(subset=["player", "team", "predicted_disposals"]).copy()
+    if df.empty:
+        return ""
+    df = df.sort_values("predicted_disposals", ascending=False).reset_index(drop=True)
+    df["rank"] = df.index + 1
+
+    # Build chart
+    chart_rel = ""
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        BG = "#0d1117"
+        GRID = "#30363d"
+        GOLD = "#f4c430"
+        TEAL = "#2ec4b6"
+
+        plt.rcParams.update({
+            "figure.facecolor": BG, "axes.facecolor": BG,
+            "axes.edgecolor": GRID, "axes.labelcolor": "white",
+            "xtick.color": "white", "ytick.color": "white",
+            "grid.color": GRID, "text.color": "white",
+            "font.family": "monospace",
+            "savefig.facecolor": BG, "savefig.edgecolor": BG,
+        })
+
+        chart_top = df.head(20).copy()
+        n = len(chart_top)
+        fig, ax = plt.subplots(figsize=(13, max(n * 0.42 + 1.5, 6)))
+        fig.patch.set_facecolor(BG)
+        ax.set_facecolor(BG)
+        y_positions = list(range(n - 1, -1, -1))
+        for i, (_, row) in enumerate(chart_top.iterrows()):
+            y = y_positions[i]
+            score = float(row["predicted_disposals"])
+            color = GOLD if int(row["rank"]) <= 10 else TEAL
+            ax.barh(y, score, color=color, height=0.66, alpha=0.92, zorder=3)
+            ax.text(
+                score - 0.3, y, f"{score:.1f}",
+                va="center", ha="right",
+                fontsize=8, color=BG, fontweight="bold", zorder=5,
+            )
+        labels = [
+            f"{int(r['rank']):2d}. {r['player']} ({r['team']})"
+            for _, r in chart_top.iterrows()
+        ]
+        ax.set_yticks(y_positions)
+        ax.set_yticklabels(labels, fontsize=9)
+        round_label = f"Round {round_num}" if round_num >= 0 else "next round"
+        ax.set_xlabel("Predicted disposals", labelpad=8)
+        ax.set_title(
+            f"Predicted disposal leaders — {round_label}, {year}",
+            fontsize=13, color="white", pad=14, fontweight="bold",
+        )
+        ax.grid(axis="x", alpha=0.2, zorder=0)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        chart_dir = os.path.join(REPO_ROOT, "assets", "charts")
+        os.makedirs(chart_dir, exist_ok=True)
+        out_path = os.path.join(chart_dir, f"predictions_next_round_{year}.png")
+        plt.tight_layout()
+        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.close()
+        chart_rel = os.path.relpath(out_path, os.path.join(REPO_ROOT, "docs"))
+    except Exception as exc:
+        print(f"[predictions] chart skipped — {exc}", file=sys.stderr)
+        chart_rel = ""
+
+    # Build table
+    table_top = df.head(30)
+    rows: List[str] = [
+        "| Rank | Player | Team | Predicted disposals |",
+        "|------|--------|------|--------------------:|",
+    ]
+    for _, r in table_top.iterrows():
+        rows.append(
+            f"| {int(r['rank'])} | {r['player']} | {r['team']} | "
+            f"{float(r['predicted_disposals']):.1f} |"
+        )
+    table_md = "\n".join(rows)
+
+    # Assemble body
+    round_label = f"Round {round_num}" if round_num >= 0 else "next round"
+    intro = f"Predicted disposal leaders for {round_label} — generated {gen_date}."
+    parts: List[str] = [intro]
+    if chart_rel:
+        # chart_rel is from docs/ root; emit `../assets/charts/...`
+        parts.append("")
+        parts.append(f"![Predicted disposal leaders — {round_label}, {year}]({chart_rel})")
+    parts.append("")
+    parts.append(f"#### Top 30 predicted disposal leaders — {round_label}, {year}")
+    parts.append("")
+    parts.append(table_md)
+    parts.append("")
+    parts.append(
+        "Predictions from LightGBM+HGB ensemble trained on historical "
+        "player-game data. Requires GPU to generate — see "
+        "[docs/technical-reference.md](technical-reference.md)."
+    )
+    return "\n".join(parts)
+
+
+def replace_predictions_section(readme_text: str, year: int, body: str) -> str:
+    """Replace content between the 2026-PREDICTIONS markers."""
+    start_marker = f"<!-- {year}-PREDICTIONS-START -->"
+    end_marker = f"<!-- {year}-PREDICTIONS-END -->"
+    if start_marker in readme_text and end_marker in readme_text:
+        before, rest = readme_text.split(start_marker, 1)
+        _, after = rest.split(end_marker, 1)
+        return (
+            before + start_marker + "\n" + body + "\n" + end_marker + after
+        )
+    print(
+        f"[predictions] markers not found in target file — skipping",
+        file=sys.stderr,
+    )
+    return readme_text
+
+
+# ---------------------------------------------------------------------------
+# Backtest results section
+# ---------------------------------------------------------------------------
+# Reads the most-recent `data/prediction/backtest/backtest_summary_*.csv`
+# and renders:
+#   - one-line intro with the number of rounds
+#   - a dual-axis bar+line chart (MAE bars, % within 5 line)
+#   - a per-round summary table
+#   - an overall summary line and a footer
+# Like the predictions helper, returns "" when no summary CSV is on disk.
+# ---------------------------------------------------------------------------
+def generate_backtest_section(year: int) -> str:
+    """Render the markdown body for the backtest-results section.
+
+    Picks the most recent `backtest_summary_*.csv` by mtime, builds a
+    chart + summary table, and returns the markdown body. Returns "" if
+    no summary CSV is present.
+    """
+    bt_dir = os.path.join(REPO_ROOT, "data", "prediction", "backtest")
+    pattern = os.path.join(bt_dir, "backtest_summary_*.csv")
+    candidates = [p for p in glob.glob(pattern) if os.path.isfile(p)]
+    if not candidates:
+        return ""
+    latest = max(candidates, key=os.path.getmtime)
+    try:
+        df = pd.read_csv(latest)
+    except Exception as exc:
+        print(f"[backtest] could not read {os.path.basename(latest)}: {exc}", file=sys.stderr)
+        return ""
+    needed = {
+        "round", "year", "n_players", "mae", "rmse",
+        "pct_within_5", "pct_within_10",
+    }
+    if not needed.issubset(df.columns):
+        print(
+            f"[backtest] {os.path.basename(latest)} missing columns "
+            f"(have {list(df.columns)})", file=sys.stderr,
+        )
+        return ""
+    # Filter to the target year so cross-year summaries don't blend in
+    df = df[df["year"] == year].copy()
+    if df.empty:
+        return ""
+    df = df.sort_values("round").reset_index(drop=True)
+    n_rounds = len(df)
+
+    # Chart
+    chart_rel = ""
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        BG = "#0d1117"
+        GRID = "#30363d"
+        GOLD = "#f4c430"
+        TEAL = "#2ec4b6"
+
+        plt.rcParams.update({
+            "figure.facecolor": BG, "axes.facecolor": BG,
+            "axes.edgecolor": GRID, "axes.labelcolor": "white",
+            "xtick.color": "white", "ytick.color": "white",
+            "grid.color": GRID, "text.color": "white",
+            "font.family": "monospace",
+            "savefig.facecolor": BG, "savefig.edgecolor": BG,
+        })
+        fig, ax = plt.subplots(figsize=(11, 5.5))
+        fig.patch.set_facecolor(BG)
+        ax.set_facecolor(BG)
+
+        x = df["round"].astype(int).tolist()
+        mae_vals = df["mae"].astype(float).tolist()
+        ax.bar(x, mae_vals, color=GOLD, alpha=0.85, zorder=3, label="MAE (disposals)")
+        for xi, mv in zip(x, mae_vals):
+            ax.text(
+                xi, mv + 0.08, f"{mv:.2f}",
+                ha="center", va="bottom",
+                fontsize=8, color="white", zorder=5,
+            )
+        ax.set_xlabel("Round", labelpad=8)
+        ax.set_ylabel("MAE (disposals)", color=GOLD, labelpad=8)
+        ax.tick_params(axis="y", colors=GOLD)
+        ax.set_xticks(x)
+        ax.grid(axis="y", alpha=0.2, zorder=0)
+        ax.spines["top"].set_visible(False)
+
+        ax2 = ax.twinx()
+        ax2.set_facecolor(BG)
+        pct_vals = df["pct_within_5"].astype(float).tolist()
+        ax2.plot(
+            x, pct_vals,
+            color=TEAL, lw=2.2, marker="o", markersize=7, zorder=4,
+            label="% within 5 disposals",
+        )
+        for xi, pv in zip(x, pct_vals):
+            ax2.text(
+                xi, pv + 0.7, f"{pv:.0f}%",
+                ha="center", va="bottom",
+                fontsize=8, color=TEAL, zorder=5,
+            )
+        ax2.set_ylabel("% of players within 5 disposals", color=TEAL, labelpad=10)
+        ax2.tick_params(axis="y", colors=TEAL)
+        ax2.spines["top"].set_visible(False)
+        # Pad the secondary axis so labels don't run off the top
+        cur_lo, cur_hi = ax2.get_ylim()
+        ax2.set_ylim(cur_lo, cur_hi + 6)
+
+        ax.set_title(
+            f"Prediction accuracy by round — {year} season",
+            fontsize=13, color="white", pad=14, fontweight="bold",
+        )
+        # Combined legend
+        h1, l1 = ax.get_legend_handles_labels()
+        h2, l2 = ax2.get_legend_handles_labels()
+        ax.legend(
+            h1 + h2, l1 + l2,
+            loc="lower right", frameon=True, facecolor=BG,
+            edgecolor=GRID, labelcolor="white", fontsize=9,
+        )
+        chart_dir = os.path.join(REPO_ROOT, "assets", "charts")
+        os.makedirs(chart_dir, exist_ok=True)
+        out_path = os.path.join(chart_dir, f"backtest_accuracy_{year}.png")
+        plt.tight_layout()
+        plt.savefig(out_path, dpi=150, bbox_inches="tight")
+        plt.close()
+        chart_rel = os.path.relpath(out_path, os.path.join(REPO_ROOT, "docs"))
+    except Exception as exc:
+        print(f"[backtest] chart skipped — {exc}", file=sys.stderr)
+        chart_rel = ""
+
+    # Per-round summary table
+    rows: List[str] = [
+        "| Round | Players | MAE | RMSE | Within 5 disp | Within 10 disp |",
+        "|------:|--------:|----:|-----:|--------------:|---------------:|",
+    ]
+    for _, r in df.iterrows():
+        rows.append(
+            f"| {int(r['round'])} | {int(r['n_players'])} | "
+            f"{float(r['mae']):.2f} | {float(r['rmse']):.2f} | "
+            f"{float(r['pct_within_5']):.1f}% | "
+            f"{float(r['pct_within_10']):.1f}% |"
+        )
+    table_md = "\n".join(rows)
+
+    # Overall summary numbers — simple unweighted mean across rounds, which
+    # is the appropriate "all rounds equally" view; weighting by n_players
+    # is a defensible alternative but matches the per-round table here.
+    overall_mae = df["mae"].mean()
+    overall_pct5 = df["pct_within_5"].mean()
+    overall_pct10 = df["pct_within_10"].mean()
+
+    parts: List[str] = []
+    parts.append(
+        f"Model accuracy across {n_rounds} rounds of the {year} season."
+    )
+    if chart_rel:
+        parts.append("")
+        parts.append(
+            f"![Prediction accuracy by round — {year} season]({chart_rel})"
+        )
+    parts.append("")
+    parts.append(f"#### Per-round backtest summary — {year}")
+    parts.append("")
+    parts.append(table_md)
+    parts.append("")
+    parts.append(
+        f"**Overall (mean across {n_rounds} rounds):** MAE "
+        f"{overall_mae:.2f} disposals · "
+        f"{overall_pct5:.1f}% of predictions within 5 disposals · "
+        f"{overall_pct10:.1f}% within 10."
+    )
+    parts.append("")
+    parts.append(
+        "Full backtest CSVs in `data/prediction/backtest/` — run "
+        "`backtest.py` to regenerate."
+    )
+    return "\n".join(parts)
+
+
+def replace_backtest_section(readme_text: str, year: int, body: str) -> str:
+    """Replace content between the 2026-BACKTEST markers."""
+    start_marker = f"<!-- {year}-BACKTEST-START -->"
+    end_marker = f"<!-- {year}-BACKTEST-END -->"
+    if start_marker in readme_text and end_marker in readme_text:
+        before, rest = readme_text.split(start_marker, 1)
+        _, after = rest.split(end_marker, 1)
+        return (
+            before + start_marker + "\n" + body + "\n" + end_marker + after
+        )
+    print(
+        f"[backtest] markers not found in target file — skipping",
+        file=sys.stderr,
+    )
+    return readme_text
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 def regenerate_charts(year: int) -> None:
@@ -3931,18 +4317,18 @@ def replace_top100_section(hof_text: str, body: str) -> str:
 
 
 def main() -> None:
-    print("[1/9] Loading player game data...")
+    print("[1/14] Loading player game data...")
     games = load_all_player_games()
     year = detect_current_year(games)
     print(f"      detected current year = {year}")
 
-    print("[2/9] Aggregating to team-game level...")
+    print("[2/14] Aggregating to team-game level...")
     team_game = build_team_game_table(games, year)
     max_round = detect_max_round(team_game)
     n_teams = team_game["team"].nunique()
     print(f"      year={year}, rounds={max_round}, teams={n_teams}, team-games={len(team_game)}")
 
-    print("[3/9] Per-team season averages and ranks...")
+    print("[3/14] Per-team season averages and ranks...")
     summary = per_team_summary(team_game)
     league = league_averages(team_game)
     summary_with_ranks = add_ranks(summary, SUMMARY_STATS + ["rebound_50s"])
@@ -3952,55 +4338,100 @@ def main() -> None:
         lambda r: form_tag(r, summary_with_ranks), axis=1
     )
 
-    print("[4/9] Looking up leading per-team disposal getters...")
+    print("[4/14] Looking up leading per-team disposal getters...")
     top_scorers = per_team_top_disposal_player(games, year)
 
-    print("[5/9] Rendering current-season markdown and updating docs/afl-season-2026.md...")
+    # Each marker pair now lives in its own docs/afl-*-2026.md file after
+    # the season-page split. Each block below reads its target file,
+    # replaces the marker contents, and writes back. We guard each write
+    # with os.path.exists() so a missing destination file (e.g. during a
+    # transition or rename) prints a warning rather than crashing.
+
+    print("[5/14] Rendering team analysis section into docs/afl-team-analysis-2026.md...")
     body = build_section_body(year, max_round, summary_with_ranks, summary, league, top_scorers)
+    if os.path.exists(TEAM_ANALYSIS_PATH):
+        with open(TEAM_ANALYSIS_PATH, "r", encoding="utf-8") as f:
+            ta_text = f.read()
+        new_ta = replace_section(ta_text, year, body)
+        if new_ta != ta_text:
+            with open(TEAM_ANALYSIS_PATH, "w", encoding="utf-8") as f:
+                f.write(new_ta)
+    else:
+        print(f"      [warn] {TEAM_ANALYSIS_PATH} missing — skipped", file=sys.stderr)
 
-    with open(README_PATH, "r", encoding="utf-8") as f:
-        readme_text = f.read()
-    new_readme = replace_section(readme_text, year, body)
-
-    print("[6/9] Building 5-year team playing-style profiles...")
+    print("[6/14] Building 5-year team playing-style profiles...")
     five_year_body, year_window = generate_5year_profiles(year)
     # 5-year profiles live in docs/afl-team-profiles.md and are read/written
-    # independently of the four 2026-season blocks above.
-    with open(TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
-        profiles_text = f.read()
-    new_profiles = replace_5year_section(profiles_text, year, year_window, five_year_body)
-    if new_profiles != profiles_text:
-        with open(TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
-            f.write(new_profiles)
+    # independently of the per-section 2026 blocks.
+    if os.path.exists(TEAM_PROFILES_PATH):
+        with open(TEAM_PROFILES_PATH, "r", encoding="utf-8") as f:
+            profiles_text = f.read()
+        new_profiles = replace_5year_section(profiles_text, year, year_window, five_year_body)
+        if new_profiles != profiles_text:
+            with open(TEAM_PROFILES_PATH, "w", encoding="utf-8") as f:
+                f.write(new_profiles)
+    else:
+        print(f"      [warn] {TEAM_PROFILES_PATH} missing — skipped", file=sys.stderr)
 
-    print("[7/9] Building finals pathway section from match results + ranks...")
+    print("[7/14] Building finals pathway section into docs/afl-finals-2026.md...")
     pathway_body, _ladder = generate_finals_pathway(year, max_round, summary_with_ranks)
-    if pathway_body:
-        new_readme = replace_finals_pathway_section(new_readme, year, pathway_body)
+    if pathway_body and os.path.exists(FINALS_PATH):
+        with open(FINALS_PATH, "r", encoding="utf-8") as f:
+            fp_text = f.read()
+        new_fp = replace_finals_pathway_section(fp_text, year, pathway_body)
+        if new_fp != fp_text:
+            with open(FINALS_PATH, "w", encoding="utf-8") as f:
+                f.write(new_fp)
     if not _ladder.empty:
         chart_path = generate_finals_pathway_chart(_ladder, year, max_round)
         if chart_path:
             print(f"      regenerated {os.path.basename(chart_path)}")
 
-    print("[8/10] Building Brownlow Medal vote-proxy section...")
+    print("[8/14] Building Brownlow Medal vote-proxy section into docs/afl-brownlow-2026.md...")
     brownlow_body, _brownlow_table = generate_brownlow_predictor(games, year, max_round)
-    if brownlow_body:
-        new_readme = replace_brownlow_predictor_section(new_readme, year, brownlow_body)
+    if brownlow_body and os.path.exists(BROWNLOW_PATH):
+        with open(BROWNLOW_PATH, "r", encoding="utf-8") as f:
+            br_text = f.read()
+        new_br = replace_brownlow_predictor_section(br_text, year, brownlow_body)
+        if new_br != br_text:
+            with open(BROWNLOW_PATH, "w", encoding="utf-8") as f:
+                f.write(new_br)
 
-    print("[9/10] Building player performance stats section...")
+    print("[9/14] Building player performance stats section into docs/afl-stat-leaders-2026.md...")
     matches_for_stats = load_match_results(year)
     stat_body = generate_stat_leaders_section(games, matches_for_stats, year, max_round)
-    if stat_body:
-        new_readme = replace_stat_leaders_section(new_readme, year, stat_body)
+    if stat_body and os.path.exists(STAT_LEADERS_PATH):
+        with open(STAT_LEADERS_PATH, "r", encoding="utf-8") as f:
+            sl_text = f.read()
+        new_sl = replace_stat_leaders_section(sl_text, year, stat_body)
+        if new_sl != sl_text:
+            with open(STAT_LEADERS_PATH, "w", encoding="utf-8") as f:
+                f.write(new_sl)
 
-    if new_readme != readme_text:
-        with open(README_PATH, "w", encoding="utf-8") as f:
-            f.write(new_readme)
-
-    print("[10/11] Regenerating data-visualisation charts (radar, heatmap, scatter)...")
+    print("[10/14] Regenerating data-visualisation charts (radar, heatmap, scatter)...")
     regenerate_charts(year)
 
-    print("[11/11] Updating all-time top-100 Hall of Fame section...")
+    print("[11/14] Building next-round predictions section into docs/afl-predictions-2026.md...")
+    pred_body = generate_predictions_section(year)
+    if pred_body and os.path.exists(PREDICTIONS_PATH):
+        with open(PREDICTIONS_PATH, "r", encoding="utf-8") as f:
+            pred_text = f.read()
+        new_pred = replace_predictions_section(pred_text, year, pred_body)
+        if new_pred != pred_text:
+            with open(PREDICTIONS_PATH, "w", encoding="utf-8") as f:
+                f.write(new_pred)
+
+    print("[12/14] Building backtest results section into docs/afl-backtest-2026.md...")
+    backtest_body = generate_backtest_section(year)
+    if backtest_body and os.path.exists(BACKTEST_PATH):
+        with open(BACKTEST_PATH, "r", encoding="utf-8") as f:
+            bt_text = f.read()
+        new_bt = replace_backtest_section(bt_text, year, backtest_body)
+        if new_bt != bt_text:
+            with open(BACKTEST_PATH, "w", encoding="utf-8") as f:
+                f.write(new_bt)
+
+    print("[13/14] Updating all-time top-100 Hall of Fame section...")
     top100_chart = generate_top100_chart()
     if top100_chart:
         print(f"      regenerated {os.path.basename(top100_chart)}")
@@ -4014,6 +4445,7 @@ def main() -> None:
                 f.write(new_hof)
 
     today = datetime.now().strftime("%Y-%m-%d")
+    print("[14/14] Done.")
     print(
         f"✓ {year} team analysis updated — Round {max_round}, {n_teams} teams, "
         f"5-year window {year_window[0]}-{year_window[-1]}, {today}"
