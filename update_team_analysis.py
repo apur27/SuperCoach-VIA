@@ -3916,12 +3916,149 @@ def replace_predictions_section(readme_text: str, year: int, body: str) -> str:
 #   - an overall summary line and a footer
 # Like the predictions helper, returns "" when no summary CSV is on disk.
 # ---------------------------------------------------------------------------
+def _format_player_name(raw: str) -> str:
+    """Convert source CSV "Surname First" → "First Surname" for display.
+
+    Splits on the LAST space so multi-word surnames like
+    "Wanganeen-Milera Nasiah" become "Nasiah Wanganeen-Milera". If the
+    name has no space (or is empty), it's returned unchanged.
+    """
+    if not isinstance(raw, str):
+        return ""
+    s = raw.strip()
+    if " " not in s:
+        return s
+    surname, first = s.rsplit(" ", 1)
+    return f"{first} {surname}"
+
+
+def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
+    """Aggregate per-player prediction-vs-actual deviation across all rounds.
+
+    Loads every `prediction_vs_actual_round_*_<year>_*.csv` in `bt_dir`,
+    deduplicates by (player, round) keeping the most-recent run (latest
+    timestamp embedded in the filename), then aggregates by player+team.
+
+    Returns a DataFrame with columns:
+        player, team, avg_actual, avg_predicted, avg_error,
+        avg_abs_error, rounds_tracked
+    sorted by avg_actual descending. Empty if no files.
+
+    Sign convention (matches source CSVs): error = predicted - actual.
+    Positive avg_error means the model over-predicted; negative means
+    under-predicted.
+    """
+    pattern = os.path.join(bt_dir, f"prediction_vs_actual_round_*_{year}_*.csv")
+    files = sorted([p for p in glob.glob(pattern) if os.path.isfile(p)])
+    if not files:
+        return pd.DataFrame()
+
+    frames: List[pd.DataFrame] = []
+    for f in files:
+        # Filename: prediction_vs_actual_round_<R>_<YEAR>_<TS>.csv
+        # Pull the run-timestamp suffix so we can prefer the latest run
+        # for any duplicated (player, round) rows.
+        base = os.path.basename(f)
+        ts = base.rsplit("_", 1)[-1].replace(".csv", "")
+        try:
+            sub = pd.read_csv(f)
+        except Exception as exc:
+            print(f"[backtest] skip {base}: {exc}", file=sys.stderr)
+            continue
+        needed = {
+            "player", "team", "round", "year",
+            "predicted_disposals", "actual_disposals", "error", "abs_error",
+        }
+        if not needed.issubset(sub.columns):
+            continue
+        sub["_run_ts"] = ts
+        frames.append(sub)
+    if not frames:
+        return pd.DataFrame()
+
+    raw = pd.concat(frames, ignore_index=True)
+    # Deduplicate by (player, round) keeping the run with the latest
+    # timestamp — that's the most recent regeneration for that round.
+    raw = (
+        raw.sort_values("_run_ts")
+           .drop_duplicates(subset=["player", "round"], keep="last")
+           .drop(columns=["_run_ts"])
+    )
+
+    grouped = raw.groupby(["player", "team"], dropna=False).agg(
+        avg_actual=("actual_disposals", "mean"),
+        avg_predicted=("predicted_disposals", "mean"),
+        avg_error=("error", "mean"),
+        avg_abs_error=("abs_error", "mean"),
+        rounds_tracked=("round", "nunique"),
+    ).reset_index()
+
+    grouped = grouped.sort_values(
+        "avg_actual", ascending=False,
+    ).reset_index(drop=True)
+    return grouped
+
+
+def _render_top30_table(top30: pd.DataFrame) -> str:
+    """Render the top-30 disposal-leader deviation table as markdown."""
+    if top30.empty:
+        return ""
+    header = [
+        "| # | Player | Team | Avg actual disposals | Avg predicted | Avg error | Rounds |",
+        "|--:|--------|------|---------------------:|--------------:|----------:|-------:|",
+    ]
+    body: List[str] = []
+    for i, r in top30.iterrows():
+        rank = i + 1
+        player_disp = _format_player_name(str(r["player"]))
+        team = str(r["team"])
+        avg_actual = float(r["avg_actual"])
+        avg_pred = float(r["avg_predicted"])
+        avg_err = float(r["avg_error"])
+        avg_abs = float(r["avg_abs_error"])
+        rounds = int(r["rounds_tracked"])
+
+        # Sign convention: error = predicted - actual.
+        # Positive = over-predicted (we said too high) → ↑
+        # Negative = under-predicted (we said too low) → ↓
+        if avg_err >= 0:
+            err_str = f"+{avg_err:.1f} ↑"
+        else:
+            # Use the en-dash (−) per the spec for negative numbers
+            err_str = f"−{abs(avg_err):.1f} ↓"
+
+        # Bold the row when the model was significantly off on average
+        if avg_abs > 6:
+            player_cell = f"**{player_disp}**"
+            team_cell = f"**{team}**"
+            actual_cell = f"**{avg_actual:.1f}**"
+            pred_cell = f"**{avg_pred:.1f}**"
+            err_cell = f"**{err_str}**"
+            rounds_cell = f"**{rounds}**"
+            rank_cell = f"**{rank}**"
+        else:
+            player_cell = player_disp
+            team_cell = team
+            actual_cell = f"{avg_actual:.1f}"
+            pred_cell = f"{avg_pred:.1f}"
+            err_cell = err_str
+            rounds_cell = f"{rounds}"
+            rank_cell = f"{rank}"
+
+        body.append(
+            f"| {rank_cell} | {player_cell} | {team_cell} | "
+            f"{actual_cell} | {pred_cell} | {err_cell} | {rounds_cell} |"
+        )
+    return "\n".join(header + body)
+
+
 def generate_backtest_section(year: int) -> str:
     """Render the markdown body for the backtest-results section.
 
     Picks the most recent `backtest_summary_*.csv` by mtime, builds a
-    chart + summary table, and returns the markdown body. Returns "" if
-    no summary CSV is present.
+    chart + summary table + plain-English glossary + top-30 player
+    deviation table, and returns the markdown body. Returns "" if no
+    summary CSV is present.
     """
     bt_dir = os.path.join(REPO_ROOT, "data", "prediction", "backtest")
     pattern = os.path.join(bt_dir, "backtest_summary_*.csv")
@@ -4056,15 +4193,83 @@ def generate_backtest_section(year: int) -> str:
     overall_pct5 = df["pct_within_5"].mean()
     overall_pct10 = df["pct_within_10"].mean()
 
+    today_str = datetime.now().strftime("%Y-%m-%d")
+
     parts: List[str] = []
     parts.append(
-        f"Model accuracy across {n_rounds} rounds of the {year} season."
+        f"*Last updated: {today_str} · {n_rounds} rounds backtested "
+        f"· auto-generated*"
     )
+    parts.append("")
+    parts.append("### What is a backtest?")
+    parts.append("")
+    parts.append(
+        "Before we trust our predictions for next week, we need to check "
+        "how well the model has done on rounds that are already finished "
+        "— rounds where we know the real answer. A backtest does "
+        "exactly that: for each completed round, the model is trained on "
+        "all data **before** that round, then asked to predict it. We "
+        "then compare prediction to reality."
+    )
+    parts.append("")
+    parts.append(
+        "This is the honest test. The model never gets to see the round "
+        "it's predicting."
+    )
+    parts.append("")
+    parts.append("### What the numbers mean (in plain English)")
+    parts.append("")
+    parts.append(
+        "| Term | What it actually means | Good or bad? |"
+    )
+    parts.append(
+        "|------|----------------------|--------------|"
+    )
+    parts.append(
+        "| **MAE** (Mean Absolute Error) | On average, our predictions were off "
+        "by this many disposals. If MAE = 4.1, we were within ±4 disposals "
+        "on a typical player. | Lower = better |"
+    )
+    parts.append(
+        "| **RMSE** (Root Mean Square Error) | Similar to MAE but punishes big "
+        "blunders harder — if we say 30 and the player gets 10, RMSE "
+        "notices that more than MAE does. | Lower = better |"
+    )
+    parts.append(
+        "| **Median error** | The middle prediction error — half of "
+        "players were predicted better than this, half worse. More robust than "
+        "MAE because it ignores extreme outliers. | Lower = better |"
+    )
+    parts.append(
+        "| **Bias** | Whether the model systematically over- or under-predicts. "
+        "A bias of −0.7 means we tend to predict 0.7 disposals too high. A "
+        "bias near 0 is ideal. | Near 0 = better |"
+    )
+    parts.append(
+        "| **Within 5 disposals** | The % of predictions that landed within 5 "
+        "of the actual number (e.g. predicted 24, actual was 22 — that "
+        "counts). This is the most intuitive accuracy measure for SuperCoach. "
+        "| Higher = better |"
+    )
+    parts.append(
+        "| **Within 10 disposals** | Same but with a wider 10-disposal window. "
+        "This is nearly always above 90%. | Higher = better |"
+    )
+    parts.append("")
+    parts.append(
+        "**Rule of thumb:** an MAE around 4–5 disposals is competitive "
+        "for AFL prediction — the game has too many random events "
+        "(injuries, umpire decisions, tactic changes) for any model to do "
+        "much better. \"Within 5 disposals\" above 65% is good; above 70% "
+        "is strong."
+    )
+    parts.append("")
     if chart_rel:
-        parts.append("")
         parts.append(
-            f"![Prediction accuracy by round — {year} season]({chart_rel})"
+            f"![Prediction accuracy by round]({chart_rel})"
         )
+        parts.append("")
+    parts.append("### Round-by-round accuracy")
     parts.append("")
     parts.append(f"#### Per-round backtest summary — {year}")
     parts.append("")
@@ -4077,6 +4282,42 @@ def generate_backtest_section(year: int) -> str:
         f"{overall_pct10:.1f}% within 10."
     )
     parts.append("")
+    parts.append(
+        "> **What to look for:** MAE should stay flat or improve as the "
+        "season progresses — the model gets more data per player each "
+        "round. A spike in Round 1 (MAE ~4.9) is normal because many "
+        "players have no 2026 history yet. If MAE rises sharply mid-season, "
+        "it usually means an unusual game week (byes, interstate travel, "
+        "weather)."
+    )
+    parts.append("")
+
+    # Top-30 high-disposal players deviation table
+    deviations = _load_top30_player_deviation(year, bt_dir)
+    if not deviations.empty:
+        top30 = deviations.head(30).reset_index(drop=True)
+        top30_md = _render_top30_table(top30)
+        if top30_md:
+            parts.append(
+                "### How accurate were predictions for the top 30 "
+                "disposal players?"
+            )
+            parts.append("")
+            parts.append(top30_md)
+            parts.append("")
+            parts.append(
+                "> **Reading this table:** \"Avg error\" tells you whether "
+                "the model systematically misjudges a player. A large "
+                "positive error (↑) means we over-predicted — "
+                "the player gets fewer disposals than expected. A large "
+                "negative error (↓) means we under-predicted — "
+                "they consistently beat the model. Players with errors "
+                "above ±6 (bolded) are worth investigating — "
+                "they may have changed role, had an injury, or are "
+                "operating in a way the model hasn't caught up with yet."
+            )
+            parts.append("")
+
     parts.append(
         "Full backtest CSVs in `data/prediction/backtest/` — run "
         "`backtest.py` to regenerate."
