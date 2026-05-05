@@ -53,6 +53,7 @@ The entire pipeline — data scrape → feature engineering → model training �
     - [Next round predictions](docs/afl-predictions-2026.md) *(auto-updates)*
     - [Backtest results](docs/afl-backtest-2026.md) *(auto-updates)*
   - [5-year team profiles](docs/afl-team-profiles.md) *(auto-updates)*
+  - [Coaches strategy corner](docs/coaches-strategy-corner/README.md) — match-by-match tactical briefs built from the data
   - [AFL history — 125 years](docs/afl-history.md)
   - [For the footy expert](docs/footy-expert-guide.md)
   - [For the coaching staff](docs/coaching-guide.md)
