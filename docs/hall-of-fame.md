@@ -14,5 +14,6 @@ The game has produced extraordinary people. The pages below are about the ones w
 - **[Top 30 AFL captains of all time](hall-of-fame-captains.md)** — Barassi, Whitten, Skilton, Dyer through to Bontempelli and Cripps.
 - **[Top 10 AFL coaches of all time](hall-of-fame-coaches.md)** — McHale, Barassi, Malthouse, Sheedy, Clarkson and the rest.
 - **[Top 20 most courageous AFL players of all time](hall-of-fame-courageous.md)** — physical, mental, competitive courage from Sam Newman to Jason Dunstall.
+- **[Great AFL careers cut short](hall-of-fame-careers-cut-short.md)** — players stopped early by injury, illness, war, or circumstance, from Bruce Sloss to Tom Boyd.
 
 Each page has its own back-link to this hub and to the main README.
