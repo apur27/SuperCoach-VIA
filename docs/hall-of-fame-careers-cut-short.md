@@ -14,7 +14,7 @@ Stats marked **[data]** are computed from the player performance files in this r
 
 Jim Stynes' career is one of the most extraordinary in the league's history, and his death is one of the saddest. An Irishman recruited as part of Ron Barassi's Irish experiment, Stynes arrived at Melbourne in 1984 having never played the game. By 1991 he was a Brownlow Medallist — the first and only Irish-born player ever to win one **[historical record]** — polling **25 votes in 1991** **[data]** to take the medal in a controversial finish. He played **264 senior games for Melbourne across 1987–1998** **[data]** and kicked **130 goals** **[data]** as a ruckman, which understates his hit-out and ruck-craft impact in an era before hit-outs were comprehensively counted.
 
-Stynes' on-field record is only half the story. He set what is still the **all-time record for consecutive games played — 244 in a row** **[historical record]**, a record built on a refusal to miss a week regardless of injury or illness. After retiring he became Melbourne's president, oversaw the saving of a financially broken football club, and founded the Reach Foundation to support at-risk youth.
+Stynes' on-field record is only half the story. He set the **record for consecutive games played — 244 in a row, a mark that stood for 27 years until Jack Crisp surpassed it in 2025** **[historical record]**, a record built on a refusal to miss a week regardless of injury or illness. After retiring he became Melbourne's president, oversaw the saving of a financially broken football club, and founded the Reach Foundation to support at-risk youth.
 
 In 2009, at age 43, Stynes was diagnosed with metastatic cancer. He fought it publicly for three years, continuing to lead the football club throughout, and **died in March 2012 at age 45** **[historical record]**. The career was not cut short on the field — he completed his playing days — but the post-football life he had clearly built towards, the decades of advocacy and leadership and family, was. His state funeral at St Paul's Cathedral and the Melbourne Cricket Ground tribute service drew tens of thousands. The "what if" with Stynes is not "what if he had played longer" — it is what the next thirty years of his impact on the game and on Australian society would have looked like.
 
@@ -42,9 +42,9 @@ The full population of players whose careers were ended or shortened by repeated
 
 ## 5. Jack Trengove — Melbourne / Port Adelaide, 2010–2018
 
-Trengove was the No. 2 pick in the 2009 draft, debuted as an 18-year-old in 2010, and was named Melbourne co-captain at age **20 in 2011** **[historical record]** — one of the youngest captains in league history. He played **89 senior games across nine years (2010–2018)** **[data]**, with **18 games in 2010, 19 in 2011, 22 in 2012, and 20 in 2013** **[data]** before a Lisfranc injury — a midfoot fracture-dislocation that is among the worst possible injuries for a running footballer — derailed everything.
+Trengove was the No. 2 pick in the 2009 draft, debuted as an 18-year-old in 2010, and was named Melbourne co-captain at age **20 in 2012** **[historical record]** — one of the youngest captains in league history. He played **89 senior games across nine years (2010–2018)** **[data]**, with **18 games in 2010, 19 in 2011, 22 in 2012, and 20 in 2013** **[data]** before a navicular bone injury — a stress fracture in the navicular bone of the left foot, among the worst possible injuries for a running footballer — derailed everything.
 
-The numbers tell the story bluntly. From 2014 onwards Trengove played **2 games in 2014, 0 in 2015, 3 in 2016, 2 in 2017, and 3 final games at Port Adelaide in 2018** **[data]**. The Lisfranc never fully healed. He attempted comeback after comeback, including a move to Port Adelaide for a fresh start, and the foot kept failing.
+The numbers tell the story bluntly. From 2014 onwards Trengove played **2 games in 2014, 0 in 2015, 3 in 2016, 2 in 2017, and 3 final games at Port Adelaide in 2018** **[data]**. The navicular fracture never fully healed. He attempted comeback after comeback, including a move to Port Adelaide for a fresh start, and the foot kept failing.
 
 The "what if" with Trengove is a 250-game midfielder with multiple All-Australian selections and a long captaincy tenure. He had every attribute — competitive courage, ball-winning ability, leadership at 20 — and the foot stopped him cold. He retired at 27.
 
@@ -80,7 +80,7 @@ Sylvia was the No. 3 pick of the 2003 draft and looked, through his early 20s, l
 
 The career unravelled in 2013 and 2014. He was delisted by Melbourne, picked up by Fremantle, played **6 games in 2014** **[data]**, and was delisted again. He retired at 29. He had been a top-three draft pick on a struggling Melbourne side that drained generations of talent.
 
-In **March 2024, Colin Sylvia died at age 38** **[historical record]**. His post-football years were difficult. The "what if" with Sylvia is a 250-game midfielder at a properly-functioning club; the "what was" is a player who carried, for a decade, the weight of a rebuild that was never going to come together.
+On **28 October 2018, Colin Sylvia died at age 32** **[historical record]** in a car accident near Mildura, Victoria. His post-football years were difficult. The "what if" with Sylvia is a 250-game midfielder at a properly-functioning club; the "what was" is a player who carried, for a decade, the weight of a rebuild that was never going to come together.
 
 ## 10. Nathan Bock — Adelaide / Gold Coast, 2004–2013
 
@@ -98,13 +98,13 @@ Then chronic soft-tissue injuries — calf, hamstring, plantar fascia — set in
 
 The "what if" with Hannebery is a 300-game career with a best-and-fairest at a second club. The "what was" was a Sydney premiership and four years at St Kilda spent trying to get fit.
 
-## 12. Angus Monfries — Essendon / Port Adelaide, 2005–2017 (lost season)
+## 12. Angus Monfries — Essendon / Port Adelaide, 2005–2017 (lost 2016 season)
 
 Monfries played **211 senior games across 13 years (2005–2017)** **[data]** — **150 for Essendon, 61 for Port Adelaide** **[data]** — and kicked **248 goals** **[data]** as a small forward. His career as a games-played number is not, by any objective measure, "cut short."
 
-He is on this page because of **2014 — the season he lost entirely to the Essendon supplements suspension** **[historical record]**. Monfries, having moved to Port Adelaide, was banned for the entire 2014 season as part of the WADA/ASADA finding against the 34 current and former Essendon players. The Port Adelaide team he was suspended from finished one kick from a Grand Final. He returned in 2015, played **out the rest of his career**, and retired in 2017.
+He is on this page because of **2016 — the season he lost entirely to the Essendon supplements suspension** **[historical record]**. Monfries, having moved to Port Adelaide, was banned for the entire 2016 season after the Court of Arbitration for Sport ruling in January 2016 against the 34 current and former Essendon players. He returned in 2017, played **out the rest of his career**, and retired that year.
 
-The "what if" with Monfries is the missing 2014 season at the precise peak of his career — and the broader question of what the Essendon 2012–2013 supplements era took from the players who were not given a choice about whether to participate. He represents the supplements-saga generation as a whole — Jobe Watson, Dyson Heppell, Brent Stanton, and the others — whose careers all carry a 12-month gap nobody can fully account for.
+The "what if" with Monfries is the missing 2016 season at the precise peak of his career — and the broader question of what the Essendon 2012–2013 supplements era took from the players who were not given a choice about whether to participate. He represents the supplements-saga generation as a whole — Jobe Watson, Dyson Heppell, Brent Stanton, and the others — whose careers all carry a 12-month gap nobody can fully account for.
 
 ## 13. Derek Kickett — Essendon / North Melbourne / Sydney, 1989–1996
 
