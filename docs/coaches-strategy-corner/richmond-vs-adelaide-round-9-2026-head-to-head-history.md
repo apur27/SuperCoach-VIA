@@ -1,6 +1,8 @@
 # Richmond vs Adelaide — Round 9 2026: Head-to-head history
 
 > [← Back to main brief](richmond-vs-adelaide-round-9-2026.md) | [← Coaches Strategy Corner](README.md)
+>
+> **Status: pre-match.** The Round 9 fixture (10 May 2026, M.C.G.) is upcoming — not yet played. All head-to-head numbers below cover completed historical meetings only.
 
 The full 35-year ledger between Richmond and Adelaide, with the venue, era, and recent-form patterns separated out. All numbers reproduced from `data/matches/matches_*.csv` **[data]**.
 
@@ -84,7 +86,7 @@ The Round 17 vision should anchor the Tuesday review. What it shows:
 
 - Adelaide's contested-ball game is most dangerous when Richmond's midfield is out-pressured. In 2025 Round 17, Richmond's tackle count was reportedly under 50 — the same area where Richmond is currently 16/18 in 2026.
 - The Richmond response in 2025 was to chase the game with style — long bombs forward, which Adelaide rebounded into transition goals. Adelaide's rebound-50 rank is 2/18 in 2026 (41.8/g) — the same pattern is structurally in place.
-- The 2025 thumping was not a one-off; it was Adelaide's identity meeting a Richmond side that didn't have the contested-ball volume to slow it. The same identity meets a Richmond 2026 side at the same MCG. Read the Round 9 game as the 2025 R17 problem with one structural fix available — the ruck.
+- The 2025 thumping was not a one-off; it was Adelaide's identity meeting a Richmond side that didn't have the contested-ball volume to slow it. The same identity meets a Richmond 2026 side at the same MCG. Read the upcoming Round 9 game as the 2025 R17 problem with one structural fix available — the ruck.
 
 ---
 
@@ -132,9 +134,9 @@ Across 35 years (1991+):
 | Home (Adelaide Oval / Football Park) | 433 | 62.4% | +16.0 |
 | Road | 378 | 39.4% | –7.0 |
 
-Across the entire SA-club era, Adelaide are demonstrably a home-state club. The road-form gap is ~23 percentage points and has been consistent for three decades. The 2026 sample so far supports the pattern: 2026 home games to Round 9 — 2W–2L; 2026 road games — 1W–2L (R4 Geelong L, R8 Brisbane L –52, R2 MCG vs Collingwood W +14).
+Across the entire SA-club era, Adelaide are demonstrably a home-state club. The road-form gap is ~23 percentage points and has been consistent for three decades. The 2026 sample so far supports the pattern: completed 2026 home games — 2W–2L; completed 2026 road games — 1W–2L (R4 Geelong L, R8 Brisbane L –52, R2 MCG vs Collingwood W +14).
 
-The Round 9 fixture at the MCG is the second leg of a back-to-back interstate block (Adelaide R8 was at the Gabba, Adelaide R9 was at home for a recovery game vs Port). Richmond plays its second consecutive Melbourne game.
+The upcoming Round 9 fixture at the MCG places Adelaide on the road again after a home recovery game vs Port Adelaide; their most recent road trip (the round before) was the Gabba beating against Brisbane. Richmond plays its second consecutive Melbourne game off the back of a road win at Optus Stadium.
 
 ---
 

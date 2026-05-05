@@ -1,6 +1,8 @@
 # Richmond vs Adelaide — Round 9 2026: Player matchup guide
 
 > [← Back to main brief](richmond-vs-adelaide-round-9-2026.md) | [← Coaches Strategy Corner](README.md)
+>
+> **Status: pre-match.** The match (10 May 2026, M.C.G.) has not yet been played. All player averages below are computed from completed games as of the most recently played round; matchup recommendations are forward-looking.
 
 The five priority matchups, then the full Adelaide threat list with neutralisation plans, then Richmond's match-winners. All numbers are 2026 averages over completed rounds **[data]**. Trend = linear slope of disposals/round; CV = std/mean of disposals (lower = more consistent).
 

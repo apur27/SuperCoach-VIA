@@ -2,7 +2,7 @@
 
 > [← Back to AFL insights](../afl-insights.md) | [← Back to main README](../../README.md)
 
-Pre-game tactical briefs built end-to-end from the SuperCoach-VIA dataset. Every recommendation in here is grounded in a number — a per-game average, a head-to-head record, a venue split, a 2026 form curve.
+Pre-match tactical briefs built end-to-end from the SuperCoach-VIA dataset. Every brief is forward-looking — written for an upcoming fixture, before the bounce. Every recommendation is grounded in a number from completed matches: a per-game average, a head-to-head record, a venue split, a 2026 form curve.
 
 This is what happens when you point an AI agent and a footy-literate analyst at 130 years of structured match data and ask: **how do we beat them on Saturday?**
 
@@ -26,13 +26,15 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 ## Available briefs
 
-| Match | Round | Venue | Date | Brief |
+| Match | Round | Venue | Date (scheduled) | Brief |
 |-------|-------|-------|------|-------|
-| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) · [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
+| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm (upcoming) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) · [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
 
 ## Methodology in one paragraph
 
-Every brief draws from `data/matches/matches_*.csv` (130 seasons of results, quarter-by-quarter), `data/player_data/*_performance_details.csv` (per-game player box scores), and `data/lineups/team_lineups_*.csv` (round-by-round selected sides). League ranks are computed across all 18 teams from 2026 round-level aggregates. H2H records cover every meeting on the books. Venue records filter the matches table by venue string. Player consistency is the coefficient of variation (std/mean) of disposals — lower is steadier. Player trend is the linear slope of disposals across rounds. Where a number is unreliable (small sample, missing column for that era), it is flagged or excluded. The data ends with completed Round 9 results.
+Every brief draws from `data/matches/matches_*.csv` (130 seasons of results, quarter-by-quarter), `data/player_data/*_performance_details.csv` (per-game player box scores), and `data/lineups/team_lineups_*.csv` (round-by-round selected sides). League ranks are computed across all 18 teams from 2026 round-level aggregates. H2H records cover every meeting on the books. Venue records filter the matches table by venue string. Player consistency is the coefficient of variation (std/mean) of disposals — lower is steadier. Player trend is the linear slope of disposals across rounds. Where a number is unreliable (small sample, missing column for that era), it is flagged or excluded.
+
+The 2026 form numbers in each brief are computed from results that have already been played as of the date the brief was written — that is, from the most recently completed round backwards. Anything about the upcoming match itself (predicted matchups, recommended structures, expected pressure points) is forward-looking by definition. Recommendations are not retrospectives.
 
 ## How a brief is structured
 

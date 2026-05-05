@@ -3,6 +3,8 @@
 > [← Back to Coaches Strategy Corner](README.md) | [← AFL insights](../afl-insights.md)
 >
 > Companion docs: [Player-by-player matchup guide](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [Head-to-head history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md)
+>
+> **Status: pre-match brief.** This match is scheduled for 10 May 2026, 3:15pm at the M.C.G. and has **not yet been played**. All form numbers in this document are drawn from completed matches through the most recently played round. Tactical recommendations and predicted matchups are forward-looking.
 
 ---
 
@@ -14,7 +16,7 @@ Three things win this game.
 2. **Win the contested-ball war by accepting their volume and beating their pressure.** Adelaide rank 4th of 18 for tackles (59.5/g) and 7th for contested possessions (130.1/g) **[data]**. They will hunt; they will sting. The counter is *clean handball release under pressure* — not playing keepings-off, but moving the ball one tackle ahead. Richmond's contested-ball share (CP/disposal = 0.371) already exceeds the league average of 0.350 **[data]**. The win-able battle is at the second-receiver, not the first contest.
 3. **Attack the Adelaide ruck and the Adelaide forward arc.** Adelaide are 18th of 18 for hit-outs (8.8/g — a stunning 24-hit-out gap to the league average of 32.8) **[data]**. They are running a no-recognised-ruck split between Riley Thilthorpe (3.3 HO/g) and Finnbar Maley (7.0 HO/g). Samson Ryan averaged 16.3 HO/g in his three games this year **[data]**. If Ryan plays, this is a structural mismatch worth 5–8 stoppage clearances. Forward of centre, Adelaide concede inside-50 marks at the 14th rate and trail 13.3 league-avg goals/g (Adelaide 12.5; Richmond 9.2) **[data]** — but their territorial defence is real (rebound-50s rank 2nd of 18). The lever is *quality of entry*, not volume.
 
-The tape Adelaide will be watching from Round 8 is the Brisbane game at the Gabba: 22 goals 11 (127), Adelaide held to 11.9 (75), CPs 111 conceded **[data]**. That game showed Adelaide's interstate pressure floor. Round 9 is the second leg of that travel block.
+The most recent tape Adelaide will be watching is the Round 8 Brisbane game at the Gabba: 22 goals 11 (127), Adelaide held to 11.9 (75), CPs 111 conceded **[data]**. That game showed Adelaide's interstate pressure floor. The upcoming MCG fixture is the second leg of that travel block.
 
 ---
 
@@ -22,9 +24,9 @@ The tape Adelaide will be watching from Round 8 is the Brisbane game at the Gabb
 
 ### Their identity and game style
 
-Through eight games Adelaide are **4–4 with a –3.0 average margin** **[data]** — a middling record built on a familiar 5-year identity that the coaching staff have leaned into rather than re-tooled. The 2021–2025 profile flagged contested-ball pressure as their #1-ranked trait and a structurally low marking floor (18th of 18 for marks) **[historical record]**. The 2026 numbers are consistent: tackle-heavy, contested-ball oriented, vulnerable forward of centre, and dangerous on the rebound counter.
+Through eight completed games Adelaide are **4–4 with a –3.0 average margin** **[data]** — a middling record built on a familiar 5-year identity that the coaching staff have leaned into rather than re-tooled. The 2021–2025 profile flagged contested-ball pressure as their #1-ranked trait and a structurally low marking floor (18th of 18 for marks) **[historical record]**. The 2026 numbers are consistent: tackle-heavy, contested-ball oriented, vulnerable forward of centre, and dangerous on the rebound counter.
 
-What is *new* in 2026 is the ruck. Reilly O'Brien is not in the rotation through Round 9 (no hit-out totals in his player file). The rest of the side is recognisable — Wayne Milera, Jordan Dawson, Rory Laird, Sam Berry, Josh Worrell — and they are all averaging top-6 disposals of the squad **[data]**.
+What is *new* in 2026 is the ruck. Reilly O'Brien is not in the rotation through the most recently completed round (no hit-out totals in his player file). The rest of the side is recognisable — Wayne Milera, Jordan Dawson, Rory Laird, Sam Berry, Josh Worrell — and they are all averaging top-6 disposals of the squad **[data]**.
 
 ### Stat profile vs league average
 
@@ -44,7 +46,7 @@ What is *new* in 2026 is the ruck. Reilly O'Brien is not in the rotation through
 | One-percenters | 45.8 | 42.4 | 6/18 | Real defensive desperation |
 | Clangers | 55.8 | 57.2 | 12/18 | Slightly cleaner than league |
 
-Source: aggregated from `data/player_data/*_performance_details.csv`, 2026 season, summed by team-game then averaged across 8 games **[data]**.
+Source: aggregated from `data/player_data/*_performance_details.csv`, 2026 season, summed by team-game then averaged across the eight completed games to date **[data]**.
 
 The story this table tells: a low-volume, high-pressure side that defends with rebound and tackle, doesn't score heavily, gets dominated at the ruck contest, and is one Sam Berry shoulder strain from a structural problem.
 
@@ -83,7 +85,7 @@ These are the gaps the data identifies, paired with the round-level evidence.
 
 ### Your 2026 identity
 
-Eight rounds in, **Richmond are 1–7 with a –43.5 average margin** **[data]**. The losses are heavy (worst margin –75 vs North Melbourne in Round 7) but the line is moving. The Round 9 win at Optus Stadium against West Coast (99–88) **[data]** snapped a seven-game losing run and produced the season's best contested-possession game (141 CPs, only the second-best of West Coast's pressure to break it) **[data]**.
+Through the most recent completed round, **Richmond are 1–7 with a –43.5 average margin** across eight games played **[data]**. The losses are heavy (worst margin –75 vs North Melbourne in Round 7) but the line is moving. The most recent win — at Optus Stadium against West Coast (99–88) **[data]** — snapped a seven-game losing run and produced the season's best contested-possession game (141 CPs, only the second-best of West Coast's pressure to break it) **[data]**.
 
 The 5-year identity (2021–2025) the dataset baselines you against: defensive-rebound posture, low tackle pressure (18/18 historically), bottom-four for clangers and frees against, but mid-pack for inside-50 conversion (7th) and top-three for rebound-50s **[historical record]**. The 2026 version is harder-edged on the contest (CP rank 15, but CP/disposal share 0.371 vs league 0.350 **[data]**) and softer on the perimeter (disposals last in the league).
 
@@ -195,7 +197,7 @@ Three of last five Richmond wins, but the most recent (and the only one at the M
 
 **The number**: Adelaide CPs 130.1/g (7/18), Richmond CPs 122.1/g (15/18). Adelaide tackle rate 59.5 (4/18), Richmond 51.8 (16/18) **[data]**.
 
-**Read**: A pure ground-ball war, Richmond loses by ~10 a game. The Round 9 vs West Coast game proved it can be flipped (141 CPs, season high) but only because Richmond went man-on-man at the contest and accepted faster ball movement.
+**Read**: A pure ground-ball war, Richmond loses by ~10 a game. The most recent West Coast win proved it can be flipped (141 CPs, season high) but only because Richmond went man-on-man at the contest and accepted faster ball movement.
 
 **The plan**:
 - Match Sam Berry with a senior body — Jack Ross is the natural fit (5.1 tk/g, 11.9 CP/g, +0.83 trend) **[data]**.
@@ -249,7 +251,7 @@ Three of last five Richmond wins, but the most recent (and the only one at the M
 
 **The plan**:
 - **Kick-ins**: Adelaide's rebound-50 rank (2/18) is partly built on transitioning kick-ins. Richmond mark inside 50 only 10.9/g (15/18) — meaning Adelaide will get a kick-in around 7–10 times per game. Set the kick-in zone deep, force the long kick, intercept with Vlastuin or Broad in the corridor.
-- **Stoppage forward 50s**: Throw the numbers in. Richmond won 13 of 24 stoppages within forward 50 across the West Coast win in Round 9 — score-from-stoppage was their highest-yielding chain.
+- **Stoppage forward 50s**: Throw the numbers in. Richmond won 13 of 24 stoppages within forward 50 across the recent West Coast win — score-from-stoppage was their highest-yielding chain.
 - **Set shots from outside 50**: Richmond's accuracy says no. Take 30m shots; pass on 50m+ unless they are dead centre.
 - **Boundary throw-ins inside attacking 50**: Adelaide's tap-ruck rotation cannot match Ryan. This is the single highest-leverage set play of the day.
 
@@ -302,8 +304,8 @@ If three or more of those break the wrong way, the brief at quarter-time changes
 
 ## Caveats & methodology notes
 
-- **Data window**: 2026 form is 8 games (Rounds 2–9). All numbers stable on a per-game basis but the sample is small enough that one outlier (e.g. Adelaide's 167-CP game vs Carlton, or Richmond's 280-disposal game vs North Melbourne) influences league rank by 1–2 places.
-- **Round labelling**: This brief is built for the next Richmond–Adelaide fixture at the MCG dated 10 May 2026 within the source dataset. Round 9 in the dataset spans 30 April – 3 May 2026; Adelaide and Richmond did not meet in that window. The brief assumes a Round 10-or-similar bye-affected fixture under the Round 9 label as supplied.
+- **Data window**: 2026 form is the eight completed games per club at the time of writing. All numbers stable on a per-game basis but the sample is small enough that one outlier (e.g. Adelaide's 167-CP game vs Carlton, or Richmond's 280-disposal game vs North Melbourne) influences league rank by 1–2 places.
+- **Pre-match status**: This brief is built for the upcoming Richmond–Adelaide fixture at the M.C.G. on 10 May 2026, 3:15pm. The match has not yet been played. The two clubs did not meet in the most recently completed round, so the form numbers carry over directly into the pre-match read. Anything stated about the match itself (predicted matchups, recommended structures, expected pressure points) is forward-looking; only the form, identity, and head-to-head numbers are grounded in completed results.
 - **Position data is not in the dataset**. Player roles (mid/forward/back) are inferred from stat profiles. A player with high marks_inside_50 and goals is treated as a forward; a player with high tackles, contested possessions and clearances is a midfielder. This is honest inference, not authoritative position.
 - **No GPS, no spatial data, no pressure tags**. Recommendations about where on the ground to attack, kick length, or defensive zone setup are inferred from box-score patterns. Video department remains the source of truth.
 - **No injury or availability overlay**. Selection assumptions (Ryan, Dawson, Lynch availability) need to be confirmed from the medical and team list.
