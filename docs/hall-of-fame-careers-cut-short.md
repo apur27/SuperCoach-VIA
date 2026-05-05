@@ -130,7 +130,7 @@ Lonergan returned in 2008 and played a further **193 senior games for Geelong** 
 
 He is on this page because the original career *was* cut short — at 22, in a hospital bed, with a priest. The career he did play afterwards was a second one, on a different body, with different limits. The "what if" of the original career is impossible to answer; the courage of the second career is documented in three premierships and a Grand Final win over Collingwood. He is the rare case of a player whose career was cut short and then somehow restarted.
 
-## 16. Brian Taylor / Peter Knights / Trent Cotchin's contemporaries — the knee generation
+## 16. Brian Taylor, Peter Knights and the pre-arthroscopy era — when a knee ended everything
 
 Through the 1980s and 1990s, before sports medicine had refined ACL reconstruction into a routine 12-month layoff, knee injuries cut short careers in numbers that are difficult for modern fans to appreciate. **Peter Knights** (Hawthorn, 1969–1985), one of the great half-back flankers of the 1970s, had his career cut short by chronic knee problems before he could reach the games tally his peak suggested **[historical record]**. **Brian Taylor** (Richmond / Collingwood, 1980–1990) had his career ended by knee injury in his late 20s **[historical record]** despite having kicked 100+ goals in two seasons (1985 and 1986) and been a key player in the late-80s Collingwood sides.
 
