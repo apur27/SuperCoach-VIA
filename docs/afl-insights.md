@@ -13,3 +13,4 @@ Live season data, historical analysis, and guides for footy fans and coaches.
 | [AFL history — 125 years of data](afl-history.md) | Scoring trends, player workload evolution, era analysis |
 | [For the footy expert](footy-expert-guide.md) | Challenging the all-time top-100 ranking, using Claude for deeper questions |
 | [For the coaching staff](coaching-guide.md) | Data-driven game planning workflow with Claude and Scientist |
+| [Coaches Strategy Corner](coaches-strategy-corner/README.md) | Pre-game tactical briefs grounded entirely in the dataset |
