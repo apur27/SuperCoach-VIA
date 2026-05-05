@@ -54,7 +54,7 @@ What made Hawthorn's dynasty an actual dynasty rather than a long good run was t
 
 Of all the entries on this page, the Clarkson coaching tree is the most influential dynasty of the modern AFL — not because of the four Hawthorn flags themselves, but because of where his lieutenants went next.
 
-**Alastair Clarkson** coached Hawthorn from 2005 to 2021 and won four premierships: **2008** (Hawthorn def. Geelong), **2013** (def. Fremantle), **2014** (def. Sydney), and **2015** (def. West Coast) **[data]**. The 2013–2015 three-peat is the only modern-era three-in-a-row, and it was won with a tactical system — "Clarko's Cluster" — that fundamentally changed how the league defended the contested ball. The Cluster was a defensive overload at the contest that funnelled opposition handball into low-percentage corridors, then exploded forward via fast outside runners. Every team in the league now runs a version of it.
+**Alastair Clarkson** coached Hawthorn from 2005 to 2021 and won four premierships: **2008** (Hawthorn def. Geelong), **2013** (def. Fremantle), **2014** (def. Sydney), and **2015** (def. West Coast) **[data]**. The 2013–2015 three-peat is the second modern-era three-in-a-row, after Brisbane's 2001–2003 run, and it was won with a tactical system — "Clarko's Cluster" — that fundamentally changed how the league defended the contested ball. The Cluster was a defensive overload at the contest that funnelled opposition handball into low-percentage corridors, then exploded forward via fast outside runners. Every team in the league now runs a version of it.
 
 The four flags would put Clarkson among the great coaches on his own. What makes him a *dynasty* is the lieutenants:
 
@@ -162,7 +162,7 @@ Adelaide have not won a flag since. The club has had several near-misses (2017 G
 
 Already covered above as the trunk of the Clarkson coaching tree, the four-flag Hawthorn dynasty deserves its own entry as a player-and-list achievement separate from the coaching tree.
 
-Four premierships in eight years (2008, 2013, 2014, 2015) **[data]**, including the 2013–2015 three-peat — the only modern AFL three-in-a-row before Brisbane 2001–2003 had set the template a decade earlier. The 2008 flag, won in Clarkson's fourth season as senior coach when the Hawks were still considered a developing list, was the structural breakthrough; the 2013–2015 three-peat was the dynasty proper.
+Four premierships in eight years (2008, 2013, 2014, 2015) **[data]**, including the 2013–2015 three-peat — only the second modern AFL three-in-a-row, after Brisbane 2001–2003 had set the template a decade earlier. The 2008 flag, won in Clarkson's fourth season as senior coach when the Hawks were still considered a developing list, was the structural breakthrough; the 2013–2015 three-peat was the dynasty proper.
 
 The list was built around two on-field generations. **Sam Mitchell**, **Luke Hodge**, **Jordan Lewis** and **Lance Franklin** were the 2008 generation. Mitchell won the 2012 Brownlow, played **two flags at Hawthorn** before moving to West Coast for his final years, and was the contested-ball spine of all four premierships. Hodge captained 2013, 2014, and 2015. Lewis played in all four flags. Franklin played in 2008 and 2013 before leaving for Sydney at the end of 2013 (his Hawthorn career: 182 games, including the start of the second wave) **[data]**.
 
