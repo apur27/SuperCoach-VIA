@@ -74,6 +74,8 @@ This is not a commercial project. It is not affiliated with any gambling service
 
 It started, honestly, as competitive edge. I have been playing SuperCoach with the same group for over a decade, and this repo exists in no small part because of the arguments about who the better player really was. Somewhere along the line a Sunday-night lineup tweak turned into feature engineering, then into a backtest framework, then into this.
 
+But this repo is also a return gift. To the friends and colleagues who got me up to speed on this game — who explained what a clearance was, why ruck craft matters, how to read a scoreline — and who introduced me to SuperCoach in the first place. You did not have to, and you did. This is, in part, a thank you back.
+
 A specific and heartfelt thank you goes to the families, coaches and community of Cranbourne Junior Football Club, who welcomed my son and trained him in the right spirit of the game. The coaches who give their time freely on cold mornings, the families who stand on the boundary in the rain — these are the people who actually make the game what it is. AFL doesn't exist without them, and a polished dataset of senior careers means very little without remembering where every one of those players came from.
 
 I also believe AFL is one of the things that can make Australia genuinely multicultural. Sport breaks boundaries in a way that policy never quite manages to. A new Australian turning up at a junior football club and being welcomed onto a team is not a small thing — it is one of the more honest forms of belonging this country has to offer.
