@@ -28,7 +28,10 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 | Match | Round | Venue | Date (scheduled) | Brief |
 |-------|-------|-------|------|-------|
-| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm (upcoming) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) · [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
+| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm (upcoming) | **[Executive summary](richmond-vs-adelaide-round-9-2026-executive-summary.md)** · [Tactical brief](richmond-vs-adelaide-round-9-2026.md) · [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
+
+![2026 stat profile preview](../../assets/charts/strategy/team_stat_comparison_2026.png)
+*Sample chart: Richmond vs Adelaide stat profile, 2026. Used in the latest brief.*
 
 ## Methodology in one paragraph
 

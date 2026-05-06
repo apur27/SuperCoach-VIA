@@ -22,6 +22,8 @@ The five priority matchups, then the full Adelaide threat list with neutralisati
 | Disposal CV | 0.19 | 0.19 |
 | Trend | **+0.83** | +0.62 |
 
+Source: 2026 player files **[data]**.
+
 **Read**: This is the single most important matchup in the game. Berry is Adelaide's tackle leader AND contested-poss leader — remove him from the contest and Adelaide's pressure profile goes from 4/18 to mid-pack. Ross is Richmond's clearance leader (5.1/g) and his disposal trend is positive. He has the engine to follow Berry into all three phases.
 
 **Plan**: Body Berry first — accept he wins the first contest, beat him to the second. Berry is durable but has *never* in 2026 had to chase a runner with Ross's spread. Ross can sit on him at centre bounces, then get to the next stoppage as the receive.
@@ -36,7 +38,7 @@ The five priority matchups, then the full Adelaide threat list with neutralisati
 | Disposals/g | 22.3 | **24.6** |
 | Contested poss/g | **12.0** | 8.4 |
 | Tackles/g | **6.2** | 4.6 |
-| Clearances/g | 5.8 | 4.5 |
+| Clearances/g | 5.8 | 3.6 |
 | Goals/g | 0.50 | 1.20 |
 | Disposal CV | 0.30 | **0.11** |
 | Trend | **–2.91** | +0.95 |
@@ -55,10 +57,11 @@ The five priority matchups, then the full Adelaide threat list with neutralisati
 | Goals/g (per game played) | 0.14 | **1.57** |
 | Goals total | 1 | 11 |
 | Goals max in a game | — | 5 |
-| Disposals/g | 14.3 | 11.2 |
-| Marks/g | 4.3 | 5.2 |
-| Marks inside 50/g | — | 2.2 |
-| Trend | +0.54 | –1.72 |
+| Disposals/g | 14.3 | 9.6 **[data]** |
+| Marks/g | 3.7 | 4.4 |
+| Trend (disp/round) | +0.54 | **–2.10** |
+
+Source: 2026 player files **[data]**.
 
 **Read**: Walker is the goalkicker. 11 goals from 7 games (1.57 g/g), max-game 5. He is the player most likely to win the game by himself. Vlastuin is the body for the contest — experienced, slow-of-foot but heavy. Walker, late-career, is also slow.
 
@@ -71,13 +74,15 @@ The five priority matchups, then the full Adelaide threat list with neutralisati
 | | Ryan (Richmond) | Thilthorpe (Ade fwd/r) | Maley (Ade fwd/r) |
 |---|---:|---:|---:|
 | Games 2026 | 3 | 8 | 5 |
-| Hit-outs/g | **16.3** | 3.3 | 7.0 |
-| Combined Adelaide HO/g | — | **8.8 (18/18)** | — |
-| Marks/g | — | 5.4 | 2.0 |
-| Goals/g | — | 1.62 | 1.00 |
-| Marks inside 50/g | — | high | 2.0 |
+| Hit-outs/g | **16.3** | 1.2 | 5.6 |
+| Adelaide team HO/g | — | **8.8 (18/18)** | — |
+| Marks/g | 1.7 | 5.4 | 3.0 |
+| Goals/g (total) | 0.0 (0) | 1.62 (13) | 0.60 (3) |
+| Disposals/g | 8.3 | 12.9 | 7.0 |
 
-**Read**: Adelaide does not have a recognised AFL ruckman in this rotation. Thilthorpe is a forward who gives 3 minutes a quarter at the contest; Maley is a depth tall doing the same. Their combined hit-out total is 8.8/g — *the single worst in the league by 24 hit-outs to the league average* **[data]**. Ryan, when he plays, averages 16.3 hit-outs across just 3 games this year.
+Source: 2026 player files **[data]**.
+
+**Read**: Adelaide does not have a recognised AFL ruckman in this rotation. Thilthorpe is a forward who pinch-rucks; Maley is a depth tall who shoulders most of the ruck minutes. Their team's combined hit-out total is 8.8/g — *the single worst in the league by 24 hit-outs to the league average* **[data]**. Ryan averages 16.3 hit-outs across his 3 games this year.
 
 **Plan**: This is not a matchup, it is a mismatch. Ryan to dominate centre bounces, throw-ins, and forward 50 stoppages. The downstream effect is that Thilthorpe spends more minutes at the contest and fewer minutes in the goal square — taking him out of his marks-and-goals role. **One stat to win this game: hit-outs +15 or better.**
 
@@ -116,7 +121,7 @@ Plan: Hard tag with Ross. Restrict to under 9 CPs and 5 tackles.
 
 ### Jordan Dawson — captain, midfielder
 
-24.6 disp/g, 8.4 CP/g, 4.6 tk/g, 4.5 cl/g, **CV 0.11 (most consistent ball-winner)**, +0.95 trend, 6 goals in 5 games (1.20 g/g).
+24.6 disp/g, 8.4 CP/g, 4.6 tk/g, 3.6 cl/g, **CV 0.11 (most consistent ball-winner)**, +0.95 trend, 6 goals in 5 games (1.20 g/g) **[data]**.
 
 The flag-bearer. Long left foot launching from wing. Six goals across five games is significant production from a midfielder.
 
@@ -126,7 +131,7 @@ Plan: Taranto senior matchup. Cut his time on the long kick. Force the handball.
 
 25.5 disp/g, 5.8 m/g, 6.6 CP/g, +0.10 trend, CV 0.21.
 
-Connector. Doesn't tackle (2.8/g), doesn't go to the contest. Pure ball-mover.
+Connector. Doesn't tackle (2.1/g), doesn't go to the contest. Pure ball-mover **[data]**.
 
 Plan: Pressure the receive. Hugo Ralphsmith. Don't double-team Berry by leaving Milera free.
 
@@ -140,7 +145,7 @@ Plan: Don't bomb to him. Short kicks across half-forward to retain. Go around, n
 
 ### Rory Laird — uncontested distributor
 
-23.0 disp/g, **7.2 m/g (squad-high marks)**, 5.0 CP/g, +0.03 trend.
+23.0 disp/g, **6.0 m/g** (Worrell leads marks at 6.4), 5.0 CP/g, +0.03 trend **[data]**.
 
 The veteran outside accumulator. Plays through midfield/half-back; high mark count is launching-pad accumulation.
 
@@ -148,7 +153,7 @@ Plan: Forward press; cut his uncontested receives in the back half. He is a chai
 
 ### Riley Thilthorpe — key forward / pinch-hit ruck
 
-12.9 disp/g, 5.4 m/g, **13 goals (squad top), 1.62 g/g**, 6.4 CP/g, **3.3 HO/g**.
+12.9 disp/g, 5.4 m/g, **13 goals (squad top), 1.62 g/g**, 6.4 CP/g, **1.2 HO/g** **[data]**.
 
 Dual-role — when he ruckings, Walker becomes the only contested forward target. When he forwards, he is the contested mark in the goal square.
 
@@ -156,7 +161,7 @@ Plan: When he is forward, Tom Brown senior body on him. When he goes ruck, immed
 
 ### Taylor Walker — goalkicker
 
-11.2 disp/g (only 7 games of contact ball), **11 goals from 7 games (1.57 g/g)**, max 5, 5.2 m/g, 2.2 marks inside 50/g, trend –1.72.
+9.6 disp/g (7 games), **11 goals from 7 games (1.57 g/g)**, max 5 (R7 vs St Kilda), 4.4 m/g, **trend –2.10** **[data]**.
 
 The danger man. Goal-kicker with experience and a feel for the contest in front. The 5-goal game (Round 7 vs St Kilda at home) already in 2026 means his ceiling is intact, but the trend is negative — he is not building, just finishing.
 
@@ -168,7 +173,7 @@ Plan: Vlastuin on him with strong front position. Don't let the inside-50 entry 
 
 Running half-forward. Explosive in transition. CP rank for a forward is unusually high — he is competing inside.
 
-Plan: Match a runner. Sam Banks (19.6 d/g, +1.4 mid-game role) or Tyler Sonsie. Limit his reception time.
+Plan: Match a runner. Sam Banks (16.3 d/g across 6 games, trend –3.54) or Tyler Sonsie. Limit his reception time.
 
 ### Izak Rankine — small forward
 
@@ -222,13 +227,13 @@ The CP-and-tackle ceiling, but the trend says he is in a form dip.
 
 Maximise: Define his role narrowly. Senior matchup on Dawson at stoppages, then off the field. Don't ask him to play 75% game time at this trend.
 
-### Dion Prestia — improving veteran
+### Dion Prestia — senior body, mixed form
 
-21.3 disp/g, 4.0 tk/g, 2.8 cl/g, **+1.83 trend (squad-best of regulars)**, CV 0.20.
+18.3 disp/g across 7 games, 3.4 tk/g, 2.4 cl/g, trend **–1.14** disp/round, CV 0.49 **[data]**.
 
-The improving senior body. Goals/g 0.1 — but his inside-50 entries (3.7/g) are quality.
+The senior body. Game log shows 18, 16, 24, 20, 22, 28 across his 6 played rounds (R3–R8) with R9 missed — actual game-on-game progression is *upward* (the late-game trend), but his round-9 absence drags the slope read in our model.
 
-Maximise: Wing-half-forward role; let him push forward as the third midfielder at stoppages. He is the late-quarter asset.
+Maximise: Wing-half-forward role; third midfielder at stoppages. Late-quarter asset when his recent form holds.
 
 ### Jacob Hopper — hard ball winner
 
@@ -270,15 +275,15 @@ Maximise: Set inside-50 chains for Campbell as the front-marker target. He doesn
 
 ### Mykelti Lefau — depth small
 
-16.0 disp/g approx, **8 goals from 7 games (1.14 g/g)**, 3.8 tk/g, max 4 goals.
+6.7 disp/g, **8 goals from 7 games (1.14 g/g)**, 3.3 tk/g, max 4 goals (R6 vs GWS) **[data]**.
 
-Forward press contributor. Four-goal upside game already in the bank.
+Forward press contributor with low possession volume — pure finisher. Four-goal upside game already in the bank.
 
 Maximise: Forward press defender + finisher. Should match up with Rachele or Rankine.
 
 ### Tom Lynch — contested mark target
 
-15.0 disp/g approx (4 games), **3.7 m_i50/g**, 4 goals in 4 games (1.00 g/g).
+9.5 disp/g across 4 games, **2.75 m_i50/g**, 4 goals in 4 games (1.00 g/g) **[data]**.
 
 If he is fit, he is the contested-mark target inside 50. 4-game sample makes the average noisy but the role is clear.
 
@@ -298,7 +303,7 @@ The single biggest selection decision of the week. See main brief.
 
 ### Noah Balta — defender / pinch forward
 
-7 games, 4 goals (0.57 g/g), 3 max, 6.0 CP/g, 2.5 m_i50/g.
+7 games, 4 goals (0.57 g/g), 3 max, 6.0 CP/g, 0.7 m_i50/g, 5.4 m/g **[data]**.
 
 Versatile big body. Default is intercept defender; can swing forward if Lynch struggles.
 
@@ -306,7 +311,7 @@ Maximise: Defensive role first. Forward swing only at three-quarter time if marg
 
 ### Nick Vlastuin — the Walker stopper
 
-14.3 disp/g, 4.3 m/g, 4.7 CP/g, +0.54 trend, 1.0 goal in 7 games.
+14.3 disp/g, 3.7 m/g, 4.7 CP/g, +0.54 trend, 1.0 goal in 7 games **[data]**.
 
 Senior key defender. Walker matchup. Already covered as priority.
 
