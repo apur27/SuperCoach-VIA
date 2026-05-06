@@ -26,12 +26,13 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 ## Available briefs
 
-| Match | Round | Venue | Date (scheduled) | Brief |
-|-------|-------|-------|------|-------|
-| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm (upcoming) | **[Executive summary](richmond-vs-adelaide-round-9-2026-executive-summary.md)** · [Tactical brief](richmond-vs-adelaide-round-9-2026.md) · [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
+| Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs |
+|-------|-------|-------|------------------|-------------------|------------|-----------------|
+| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
 
-![2026 stat profile preview](../../assets/charts/strategy/team_stat_comparison_2026.png)
-*Sample chart: Richmond vs Adelaide stat profile, 2026. Used in the latest brief.*
+### How this section works
+
+Each brief is built from the repo's historical match, lineup, and player-performance data — see the methodology paragraph below for the underlying sources. Charts referenced inside a brief live under `assets/charts/strategy/<match-slug>/` (one folder per fixture, so briefs do not collide with each other). When a new fixture is added, a row is appended to the table above; nothing else on this page needs to change. If you only have a minute, the **Executive summary** column is the right place to start — every fuller doc is one click away from there.
 
 ## Methodology in one paragraph
 
