@@ -67,3 +67,17 @@ The entire pipeline — data scrape → feature engineering → model training �
 
 ### About
 - [Roadmap & contributing](docs/roadmap.md)
+
+## Why this repo exists
+
+This is not a commercial project. It is not affiliated with any gambling service, and nothing here is intended to encourage betting of any kind. The motivation is the game itself — the patterns inside it, the history it carries, and the people it brings together.
+
+It started as a side project to get a small data edge in the SuperCoach fantasy league I have been playing for more than ten years with friends. Friendly competition, basically — the kind that gets quietly out of hand in the best possible way. Somewhere along the line a Sunday-night lineup tweak turned into feature engineering, then into a backtest framework, then into this.
+
+Over time it became something larger than a side project. It became a kind of return gift to the people who have made the game meaningful to me — the friends in that league who have played alongside and against me for over a decade, season after season, draft after draft. A lot of what is in this repo exists because of arguments and trash talk we have had on group chats about who the better player really was.
+
+A specific and heartfelt thank you goes to the families, coaches and community of Cranbourne Junior Football Club, who welcomed my son and trained him in the right spirit of the game. The coaches who give their time freely on cold mornings, the families who stand on the boundary in the rain — these are the people who actually make the game what it is. AFL doesn't exist without them, and a polished dataset of senior careers means very little without remembering where every one of those players came from.
+
+I also believe AFL is one of the things that can make Australia genuinely multicultural. Sport breaks boundaries in a way that policy never quite manages to. A new Australian turning up at a junior football club and being welcomed onto a team is not a small thing — it is one of the more honest forms of belonging this country has to offer.
+
+And finally, this work is an homage to the giants of the game — past, present and future. To the players whose careers are quietly recorded in the rows of this dataset, who gave everything on the field, and who made generations of fans care deeply about something together. The numbers in here are theirs. The rest of us are just keeping the ledger.
