@@ -8,22 +8,22 @@
 </div>
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Data](https://img.shields.io/badge/data-2026%20season%20round%208-green)
+![Data](https://img.shields.io/badge/data-2026%20season%20round%209-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ⭐ **If this project is useful to you, please star the repo.**
 
 ## What this is
 
-An applied data science and AI project using Australian rules football as the domain. The game has been played since 1897, which means 125+ years of structured match data — enough to do something genuinely interesting with machine learning, statistical modelling, and large language models.
+Australian rules football, used as the domain for an applied data science and AI project. The game has been played since 1897, which gives 125+ years of structured match data — enough surface area to do something genuinely interesting with machine learning, statistical modelling, and large language models.
 
 Three problems drive the work:
 
-1. **Prediction** — Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? The answer, with a gradient-boosted ensemble trained on rolling form, opponent, venue and context features, is: often yes.
+1. **Prediction** — Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? With a gradient-boosted ensemble trained on rolling form, opponent, venue and context features, the answer is: often yes.
 2. **Historical ranking** — How do you compare players across eras when the game itself has changed radically? Era-normalised z-scoring gives a principled answer, not just a pub argument.
-3. **Natural language over structured data** — Claude (via the Scientist agent) can answer questions about the dataset in plain English, write and run its own analysis code, and update the docs automatically. This is what "AI applied to sport" looks like in practice.
+3. **Natural language over structured data** — Claude (via the Scientist agent) can answer questions about the dataset in plain English, write and run its own analysis code, and refresh the docs automatically. This is what "AI applied to sport" looks like in practice.
 
-The entire pipeline — data scrape → feature engineering → model training → prediction → backtest → doc generation — runs from a single shell script and updates this repo every week.
+The full pipeline — data scrape, feature engineering, model training, prediction, backtest, doc generation — runs from a single shell script and updates this repo every week.
 
 ## Who is this for?
 
@@ -57,7 +57,7 @@ The entire pipeline — data scrape → feature engineering → model training �
   - [AFL history — 125 years](docs/afl-history.md)
   - [For the footy expert](docs/footy-expert-guide.md)
   - [For the coaching staff](docs/coaching-guide.md)
-- [AFL Hall of Fame](docs/hall-of-fame.md) — all-time top 100, captains, coaches, courageous players
+- [AFL Hall of Fame](docs/hall-of-fame.md) — all-time top 100, statistical leaders, captains, coaches, courageous players, careers cut short, and the great dynasties
 
 ### Technical guides
 - [Claude Code setup on Ubuntu](docs/claude-code-setup.md) — install Node.js, Claude Code, Python venv, default model
@@ -78,6 +78,6 @@ But this repo is also a return gift. To the friends and colleagues who got me up
 
 A specific and heartfelt thank you goes to the families, coaches and community of Cranbourne Junior Football Club, who welcomed my son and trained him in the right spirit of the game. The coaches who give their time freely on cold mornings, the families who stand on the boundary in the rain — these are the people who actually make the game what it is. AFL doesn't exist without them, and a polished dataset of senior careers means very little without remembering where every one of those players came from.
 
-I also believe AFL is one of the things that can make Australia genuinely multicultural. Sport breaks boundaries in a way that policy never quite manages to. A new Australian turning up at a junior football club and being welcomed onto a team is not a small thing — it is one of the more honest forms of belonging this country has to offer.
+It is also why I think AFL is one of the things that can make Australia genuinely multicultural. Sport breaks boundaries in a way that policy never quite manages to. A new Australian turning up at a junior football club and being welcomed onto a team is not a small thing — it is one of the more honest forms of belonging this country has to offer.
 
 And finally, this work is an homage to the giants of the game — past, present and future. To the players whose careers are quietly recorded in the rows of this dataset, who gave everything on the field, and who made generations of fans care deeply about something together. The numbers in here are theirs. The rest of us are just keeping the ledger.
