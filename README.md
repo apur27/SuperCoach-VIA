@@ -17,13 +17,18 @@
 
 Australian rules football, used as the domain for an applied data science and AI project. The game has been played since 1897, which gives 125+ years of structured match data — enough surface area to do something genuinely interesting with machine learning, statistical modelling, and large language models.
 
-Three problems drive the work:
+The repo runs a full, weekly-refreshed pipeline: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation — all from a single shell script. Three problems drive the work.
 
-1. **Prediction** — Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? With a gradient-boosted ensemble trained on rolling form, opponent, venue and context features, the answer is: often yes.
-2. **Historical ranking** — How do you compare players across eras when the game itself has changed radically? Era-normalised z-scoring gives a principled answer, not just a pub argument.
-3. **Natural language over structured data** — Claude (via the Scientist agent) can answer questions about the dataset in plain English, write and run its own analysis code, and refresh the docs automatically. This is what "AI applied to sport" looks like in practice.
+### The prediction problem
+Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? The current pipeline trains a tuned `LightGBM` / `HistGradientBoosting` / `RandomForest` ensemble on rolling-form, opponent, venue, and context features, with `GroupKFold` (player-grouped) cross-validation to prevent leakage and a post-hoc out-of-fold calibration to correct top-end compression. Latest 2026 backtest (8 rounds, ~2,900 player-round predictions): **MAE ≈ 4.1 disposals, 68% within 5, 94% within 10**.
 
-The full pipeline — data scrape, feature engineering, model training, prediction, backtest, doc generation — runs from a single shell script and updates this repo every week.
+### The historical ranking problem
+How do you compare players across eras when the game itself has changed radically — different stats recorded, different rules, different season lengths? The all-time top-100 is built from per-year, position-stratified within-cohort z-scores, capped and shrunk by era completeness, then aggregated using a rank-based formula with a season-count career bonus. It is era-fair by construction rather than by quota.
+
+### AI applied to sport
+Claude — via the Scientist agent in this repo — does not just answer questions about the dataset. It reads the actual code, writes and runs Python analysis, regenerates charts, updates the auto-generated documentation sections, and commits the result. The pattern is "natural language as a thin wrapper over structured data" — and the agent is held to inspect-before-transform, baseline-first, leakage-aware practice via its system prompt.
+
+> Full technical detail → **[How it works: data science deep-dive](docs/data-science.md)** — the dataset, model, backtest, ranking algorithm, current accuracy, and roadmap, written in three layers from layperson to ML practitioner.
 
 ## Who is this for?
 
@@ -62,6 +67,7 @@ The full pipeline — data scrape, feature engineering, model training, predicti
 ### Technical guides
 - [Claude Code setup on Ubuntu](docs/claude-code-setup.md) — install Node.js, Claude Code, Python venv, default model
 - [Using the Scientist agent](docs/scientist-agent.md) — when plain Claude vs the Scientist, the improvement loop
+- [How it works: data science deep-dive](docs/data-science.md) — full technical reference: dataset, model, backtest, ranking, accuracy, roadmap
 - [How predictions work](docs/prediction-model.md) — the model, the backtest framework, the all-time-100 algorithm
 - [Technical reference](docs/technical-reference.md) — GPU setup, data layout, scripts
 
