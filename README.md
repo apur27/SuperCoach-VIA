@@ -69,6 +69,7 @@ Claude — via the Scientist agent in this repo — does not just answer questio
 - [Using the Scientist agent](docs/scientist-agent.md) — when plain Claude vs the Scientist, the improvement loop
 - [How it works: data science deep-dive](docs/data-science.md) — full technical reference: dataset, model, backtest, ranking, accuracy, roadmap
 - [How predictions work](docs/prediction-model.md) — the model, the backtest framework, the all-time-100 algorithm
+- [AI system architecture](docs/ai-architecture.md) — RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [Technical reference](docs/technical-reference.md) — GPU setup, data layout, scripts
 
 ### About
