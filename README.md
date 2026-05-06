@@ -3,8 +3,8 @@
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/apur27/SuperCoach-VIA">
   <img src="https://img.shields.io/github/contributors/apur27/SuperCoach-VIA">
-  <img src="https://img.shields.io/github/stars/apur27/SuperCoach-VIA?style=social">
-  <img src="https://img.shields.io/github/forks/apur27/SuperCoach-VIA?style=social">
+  <img src="https://img.shields.io/github/stars/apur27/SuperCoach-VIA?style=flat-square">
+  <img src="https://img.shields.io/github/forks/apur27/SuperCoach-VIA?style=flat-square">
 </div>
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
