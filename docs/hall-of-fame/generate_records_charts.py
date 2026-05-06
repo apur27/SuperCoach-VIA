@@ -129,7 +129,7 @@ def _bar_chart(
     ax.legend(
         handles=legend_elements,
         title="Debut era",
-        loc="lower right",
+        loc="upper right",
         fontsize=11,
         title_fontsize=12,
         facecolor=BG,
