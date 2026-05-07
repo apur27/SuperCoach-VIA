@@ -16,11 +16,11 @@ Newman was also an extraordinary footballer — a dashing centreman and ruckman 
 
 ## 2. Jonathan Brown — Brisbane Lions, 2000–2014
 
-Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his 256-game career with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a serious eye injury in 2009 that required surgery and left him with permanently impaired vision in that eye. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
+Jonathan Brown is the definitive example of modern-era physical courage in AFL football. During his **256-game** career **[historical record]** with the Brisbane Lions, Brown suffered multiple facial fractures, serious concussions, and a catastrophic facial injury in **round 1, 2011** **[historical record]** — when Fremantle's Mitch Clark's knee struck Brown's face — that fractured bones around his eye, required reconstructive surgery, and raised real concerns about his long-term vision. Each time, he came back. He was the physical centrepiece of Brisbane's three-peat premiership dynasty (2001–2003), a period when his willingness to attack the ball in packs and absorb punishment set the tone for the entire team's culture.
 
-What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After the 2009 eye injury — which left him with permanently impaired vision in that eye — he returned and played on at elite level, finishing his career with **594 goals** **[historical record]**. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
+What makes Brown's courage exceptional is not just the injuries themselves but his refusal to change his style. He was a high-marking, hard-running full-forward who chose to attack every ball at full pace despite knowing the physical cost. After missing seven weeks following the 2011 facial injury, he returned and played on at elite level, finishing his career with **594 goals** **[historical record]**. He was an All-Australian captain and was named in the Brisbane Lions' Team of the Century.
 
-**Defining moment of courage:** The 2009 season when Brown returned from the eye injury that had left him with permanently impaired vision. His first game back, he went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play on with one eye compromised, no one else had an excuse.
+**Defining moment of courage:** The 2011 season when Brown returned in round 9, after the round 1 facial reconstruction surgery, and went straight back to his aggressive, head-high marking style. His teammates later said it changed the entire dressing room's attitude to pain and adversity — if Brown was willing to play on after that injury, no one else had an excuse.
 
 ## 3. Gary Ablett Sr — Hawthorn / Geelong, 1982–1996
 
@@ -38,7 +38,7 @@ What made his availability courageous, rather than just durable, was that he pla
 
 ## 5. Andrew McLeod — Adelaide, 1995–2010
 
-McLeod's courage was *social*. He was an Indigenous player from the Tiwi Islands in an era when the league's treatment of Indigenous players was, charitably, inconsistent. He played **340 games and won two Norm Smith Medals (1997, 1998)** **[historical record]** and was an All-Australian in five different seasons.
+McLeod's courage was *social*. He was an Indigenous player **[historical record — unverified in data]** in an era when the league's treatment of Indigenous players was, charitably, inconsistent. He played **340 games and won two Norm Smith Medals (1997, 1998)** **[historical record]** and was an All-Australian in five different seasons.
 
 His significance to a generation of younger Indigenous players cannot be overstated: he was the first Indigenous superstar at Adelaide, played the game with extraordinary creativity, and refused to engage with racism on opposition terms. Younger Indigenous players from the early 2000s — Buddy Franklin, Cyril Rioli, Eddie Betts — have all named McLeod as the player who showed them it was possible.
 
@@ -56,7 +56,7 @@ The injury never fully healed and affected the rest of his career. He kicked **9
 
 ## 8. Dustin Martin — Richmond, 2010–2024 (Grand Final courage)
 
-Three Norm Smith Medals **[historical record]** is unprecedented in any sport's history. The 2017 Grand Final stands alone: Richmond entered as underdogs to Adelaide and Martin played a game that defies normal positional analysis — 29 disposals, 8 clearances, 2 goals, and the famous **"don't argue" fend-off on Brodie Smith** in the third quarter that became the iconic image of the decade **[historical record]**.
+Three Norm Smith Medals **[historical record]** is unprecedented in any sport's history. The 2017 Grand Final stands alone: Richmond entered as underdogs to Adelaide and Martin played a game that defies normal positional analysis — **29 disposals, 6 clearances, 2 goals** **[historical record]**, and the famous **"don't argue" fend-off on Brodie Smith** in the third quarter that became the iconic image of the decade **[historical record]**.
 
 What made Martin courageous in that game was the willingness to take on the contest in moments when everyone else hesitated. The Tigers had not won a flag for **37 years** **[historical record]**, and the weight of that drought sat on his back from the first bounce. He carried it.
 
@@ -72,7 +72,7 @@ His teammates at Brisbane during the three-peat have said for twenty years that 
 
 ## 10. Cameron Ling — Geelong, 2000–2011
 
-Ling's courage was *tactical*. He was assigned the hardest tagging job in the league — week after week, on Chris Judd, Gary Ablett Jr, Sam Mitchell, Joel Selwood (in scratch matches), or whoever the opposition's most dangerous midfielder was — and never asked for relief. His 2011 Grand Final tag on Sam Mitchell, in which Mitchell was held to 17 disposals, was the structural foundation of Geelong's third premiership of the era **[historical record]**.
+Ling's courage was *tactical*. He was assigned the hardest tagging job in the league — week after week, on Chris Judd, Gary Ablett Jr, Sam Mitchell, or whoever the opposition's most dangerous midfielder was — and never asked for relief. His 2011 Grand Final tag on Dane Swan — in which Swan was held to **20 disposals** **[historical record]**, well below his usual output — was the structural foundation of Geelong's third premiership of the era. Geelong beat Collingwood by 38 points.
 
 Tagging is the least glamorous job in footy. Ling did it for over a decade, never wavered, and captained the **2011 premiership** as the on-ground leader of a side full of glamour names.
 
@@ -88,11 +88,11 @@ The famous "Crawford lap" — in the 2008 Grand Final, his last game, he ran a v
 
 His role was to absorb opposition aggression so that the smaller players did not have to. He did the dirty work of the team in the most literal sense, and the **2005 Grand Final** (a 4-point win over West Coast in one of the great defensive contests of the modern era) does not happen without him.
 
-## 13. Mark Harvey — Essendon / Fremantle (player), 1981–1996
+## 13. Mark Harvey — Essendon, 1984–1997
 
 Harvey was a centre half-back at Essendon through the **1984, 1985, and 1993 premierships** **[historical record]**. His courage was the *positional courage* of the centre half-back — the player whose job is to stand under high balls, mark in front of bigger forwards, and absorb the shoulder of opposition centre half-forwards every contest.
 
-He played the position at a time when the rules favoured bigger forwards, and won the contests anyway. **Three premierships and 219 games** **[historical record]** at one of the toughest positions on the ground.
+He played the position at a time when the rules favoured bigger forwards, and won the contests anyway. **Three premierships and 206 games** **[historical record]** at one of the toughest positions on the ground.
 
 ## 14. Brent "Boomer" Harvey — North Melbourne, 1996–2016
 
@@ -110,9 +110,9 @@ He played at full-back when he had to. He took 8-bounce leads when the team need
 
 ## 16. Shaun Burgoyne — Port Adelaide / Hawthorn, 2002–2021
 
-**18 seasons, 407 games, four premierships** **[historical record]**. Burgoyne's courage was *layered*: physical (he played as a half-back into his 19th season at AFL pace), social (he was an Indigenous senior leader through one of the most difficult cultural decades in the league), and competitive (he played his best football in finals, year after year).
+**20 seasons, 407 games, four premierships (2004, 2013, 2014, 2015)** **[historical record]**. Burgoyne's courage was *layered*: physical (he played as a half-back into his 20th season at AFL pace), social (he was an Indigenous senior leader through one of the most difficult cultural decades in the league), and competitive (he played his best football in finals, year after year).
 
-The 2015 Grand Final, the third in Hawthorn's three-peat, saw Burgoyne — at age 32, supposedly past his prime — produce one of the great half-back performances in Grand Final history, with **23 disposals at 95% efficiency** in a 46-point win **[historical record]**.
+The 2015 Grand Final, the third in Hawthorn's three-peat, saw Burgoyne — at age 32, supposedly past his prime — produce one of the great half-back performances in Grand Final history, with **26 disposals (13 kicks, 13 handballs) and 8 marks** in a 46-point win over West Coast **[historical record]**.
 
 ## 17. Chris Judd — West Coast / Carlton, 2002–2015
 
@@ -120,7 +120,7 @@ Judd's courage was *competitive*. The 2004 Grand Final, in which a 21-year-old J
 
 His move to Carlton in 2008 — leaving a premiership club to take on a struggling rebuild — was itself a piece of competitive courage. He won the **2010 Brownlow** at Carlton **[historical record]** in his second-best season, a player taking on a culture-rebuild project at age 27.
 
-## 18. Matthew Scarlett — Geelong, 1997–2012
+## 18. Matthew Scarlett — Geelong, 1998–2012
 
 Scarlett's courage was *positional*. He played full-back in the modern era — when the rules and structure made full-back the most exposed position on the ground — and he played it at a level no one had reached before. **Six All-Australian selections** **[historical record]** at full-back is unmatched in the modern era.
 
@@ -136,7 +136,7 @@ His willingness to go in head-first against bigger bodies, week after week, for 
 
 **1,254 career goals from 269 games** **[historical record]** — a career goal-per-game rate higher than any forward in the modern era. Dunstall's courage was *aerial*. He was a centre half-forward who took the most exposed marks on the ground — high balls under packs, contested marks against multiple defenders, and pack-crashing leads — for over a decade.
 
-He played the **1989 Grand Final** with a fractured cheekbone and kicked **6 goals** **[historical record]**. Hawthorn won by 6 points in one of the most physically brutal Grand Finals of the modern era.
+He played the **1989 Grand Final** with a fractured cheekbone and kicked **4 goals** **[historical record]**. Hawthorn won by 6 points in one of the most physically brutal Grand Finals of the modern era.
 
 His career was built on *taking the high ball when the contest could break the wrong way*, and being prepared to keep doing it the next week regardless of how the previous one had ended.
 
