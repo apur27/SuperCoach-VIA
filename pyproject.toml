@@ -1,0 +1,57 @@
+[project]
+name = "supercoach-via"
+version = "0.1.0"
+description = "AFL data science: disposal predictions, era-normalised rankings, AI-assisted insights"
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+license = {text = "MIT"}
+
+dependencies = [
+    "pandas==2.2.3",
+    "numpy==1.26.4",
+    "scikit-learn==1.6.1",
+    "lightgbm==4.6.0",
+    "matplotlib==3.10.1",
+    "seaborn==0.13.2",
+    "scipy==1.15.2",
+    "optuna==4.2.1",
+    "requests==2.32.3",
+    "beautifulsoup4==4.13.3",
+    "lxml==5.3.2",
+    "tqdm==4.67.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4.4",
+    "pre-commit>=3.7",
+]
+
+[project.scripts]
+supercoach-predict    = "supercoach.models.predict:main"
+supercoach-backtest   = "supercoach.backtest.run:main"
+supercoach-refresh    = "supercoach.reporting.refresh_readme:main"
+supercoach-rank       = "supercoach.ranking.top_players:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/supercoach"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

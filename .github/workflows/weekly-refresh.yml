@@ -1,0 +1,47 @@
+name: Weekly pipeline refresh
+
+on:
+  schedule:
+    - cron: '0 22 * * 1'   # Mon 22:00 UTC = Tue morning AEST
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh data
+        run: python refresh_data.py
+
+      - name: Rebuild top 100
+        run: python top_players_comprehensive.py
+
+      - name: Predict next round
+        run: python prediction_cpu.py
+
+      - name: Backtest
+        run: python backtest.py --start-year 2026 --start-round 1 --end-year 2026 --end-round auto
+
+      - name: Refresh docs
+        run: python refresh_readme.py
+
+      - name: Commit regenerated docs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update: weekly pipeline refresh"
+          file_pattern: |
+            docs/*.md
+            assets/charts/*.png
+            all_time_top_100.csv
+            data/top100/all_time_top_100.csv

@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [feature/phase2, main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Lint
+        run: ruff check . --select E,F,W,I,UP --ignore E501
+
+      - name: Check formatting
+        run: ruff format --check .
