@@ -75,6 +75,24 @@ Claude — via the Scientist agent in this repo — does not just answer questio
 ### About
 - [Roadmap & contributing](docs/roadmap.md)
 
+## What's coming — Phase 2
+
+The project works well for one operator on one machine. Phase 2 makes it work for anyone, on any machine, with visible failures when something breaks.
+
+Work is underway on the `feature/phase2` branch. The plan in order of priority:
+
+| Rung | What | Why it matters |
+|------|------|----------------|
+| 1 ✅ | `pyproject.toml`, pinned deps, `src/supercoach/` package layout, GitHub Actions CI, first tests | Anyone can clone and reproduce the environment exactly |
+| 2 | Ruff linting, mypy type checking, pre-commit hooks, expanded test suite | Catch bugs before they reach the data |
+| 3 | Replace `refresh_and_rank.sh` local cron with a GitHub Actions scheduled pipeline | No more hardcoded local paths — failures are visible, not silent |
+| 4 | Pandera schema contracts at every data boundary | When AFL Tables renames a column, the pipeline fails loudly on row one rather than silently corrupting a feature |
+| 5 | DVC for large data files, MLflow for model experiment tracking | Clean git history; traceable model versions |
+| 6 | Scientist agent hardening — tool allowlist, PR-only mode, golden-task eval harness | Safe to give the agent more autonomy |
+| 7 | Optional Streamlit/FastAPI frontend | Predictions browsable in a web UI without touching a CSV |
+
+The modernisation is sequenced so each rung unblocks the next. Rung 1 is complete; Rungs 2 and 3 are the next weekend of work.
+
 ## Why this repo exists
 
 This is not a commercial project. It is not affiliated with any gambling service, and nothing here is intended to encourage betting of any kind. The motivation is the game itself — the patterns inside it, the history it carries, and the people it brings together.
