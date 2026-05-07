@@ -9,7 +9,7 @@
 
 ### What is a backtest?
 
-Before we trust our predictions for next week, we need to check how well the model has done on rounds that are already finished — rounds where we know the real answer. A backtest does exactly that: for each completed round, the model is trained on all data **before** that round, then asked to predict it. We then compare prediction to reality.
+Before we trust our predictions for next week, we need to check how well the model has done on rounds that are already finished - rounds where we know the real answer. A backtest does exactly that: for each completed round, the model is trained on all data **before** that round, then asked to predict it. We then compare prediction to reality.
 
 This is the honest test. The model never gets to see the round it's predicting.
 
@@ -18,19 +18,19 @@ This is the honest test. The model never gets to see the round it's predicting.
 | Term | What it actually means | Good or bad? |
 |------|----------------------|--------------|
 | **MAE** (Mean Absolute Error) | On average, our predictions were off by this many disposals. If MAE = 4.1, we were within ±4 disposals on a typical player. | Lower = better |
-| **RMSE** (Root Mean Square Error) | Similar to MAE but punishes big blunders harder — if we say 30 and the player gets 10, RMSE notices that more than MAE does. | Lower = better |
-| **Median error** | The middle prediction error — half of players were predicted better than this, half worse. More robust than MAE because it ignores extreme outliers. | Lower = better |
+| **RMSE** (Root Mean Square Error) | Similar to MAE but punishes big blunders harder - if we say 30 and the player gets 10, RMSE notices that more than MAE does. | Lower = better |
+| **Median error** | The middle prediction error - half of players were predicted better than this, half worse. More robust than MAE because it ignores extreme outliers. | Lower = better |
 | **Bias** | Whether the model systematically over- or under-predicts. A bias of −0.7 means we tend to predict 0.7 disposals too high. A bias near 0 is ideal. | Near 0 = better |
-| **Within 5 disposals** | The % of predictions that landed within 5 of the actual number (e.g. predicted 24, actual was 22 — that counts). This is the most intuitive accuracy measure for SuperCoach. | Higher = better |
+| **Within 5 disposals** | The % of predictions that landed within 5 of the actual number (e.g. predicted 24, actual was 22 - that counts). This is the most intuitive accuracy measure for SuperCoach. | Higher = better |
 | **Within 10 disposals** | Same but with a wider 10-disposal window. This is nearly always above 90%. | Higher = better |
 
-**Rule of thumb:** an MAE around 4–5 disposals is competitive for AFL prediction — the game has too many random events (injuries, umpire decisions, tactic changes) for any model to do much better. "Within 5 disposals" above 65% is good; above 70% is strong.
+**Rule of thumb:** an MAE around 4–5 disposals is competitive for AFL prediction - the game has too many random events (injuries, umpire decisions, tactic changes) for any model to do much better. "Within 5 disposals" above 65% is good; above 70% is strong.
 
 ![Prediction accuracy by round](../assets/charts/backtest_accuracy_2026.png)
 
 ### Round-by-round accuracy
 
-#### Per-round backtest summary — 2026
+#### Per-round backtest summary - 2026
 
 | Round | Players | MAE | RMSE | Within 5 disp | Within 10 disp |
 |------:|--------:|----:|-----:|--------------:|---------------:|
@@ -45,7 +45,7 @@ This is the honest test. The model never gets to see the round it's predicting.
 
 **Overall (mean across 8 rounds):** MAE 4.14 disposals · 68.1% of predictions within 5 disposals · 94.2% within 10.
 
-> **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
+> **What to look for:** MAE should stay flat or improve as the season progresses - the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
 
 ### How accurate were predictions for the top 30 disposal players?
 
@@ -82,9 +82,9 @@ This is the honest test. The model never gets to see the round it's predicting.
 | 29 | Caleb Daniel | North Melbourne | 25.4 | 22.7 | −2.7 ↓ | 7 |
 | 30 | Patrick Cripps | Carlton | 25.4 | 21.7 | −3.8 ↓ | 7 |
 
-> **Reading this table:** "Avg error" tells you whether the model systematically misjudges a player. A large positive error (↑) means we over-predicted — the player gets fewer disposals than expected. A large negative error (↓) means we under-predicted — they consistently beat the model. Players with errors above ±6 (bolded) are worth investigating — they may have changed role, had an injury, or are operating in a way the model hasn't caught up with yet.
+> **Reading this table:** "Avg error" tells you whether the model systematically misjudges a player. A large positive error (↑) means we over-predicted - the player gets fewer disposals than expected. A large negative error (↓) means we under-predicted - they consistently beat the model. Players with errors above ±6 (bolded) are worth investigating - they may have changed role, had an injury, or are operating in a way the model hasn't caught up with yet.
 
-Full backtest CSVs in `data/prediction/backtest/` — run `backtest.py` to regenerate.
+Full backtest CSVs in `data/prediction/backtest/` - run `backtest.py` to regenerate.
 <!-- 2026-BACKTEST-END -->
 
 ---

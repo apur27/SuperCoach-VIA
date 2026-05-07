@@ -4,15 +4,15 @@
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
-*Last refreshed: 2026-05-04 — every number verified by re-aggregating 13,321 player career files in `data/player_data/`.*
+*Last refreshed: 2026-05-04 - every number verified by re-aggregating 13,321 player career files in `data/player_data/`.*
 
-The [top 100 list](hall-of-fame-top100.md) is era-normalised: it asks who was furthest above the standard of their own era. This page asks the simpler, blunter question — **who has the biggest career numbers, full stop.** No z-scores, no era adjustments. Just the raw ledger.
+The [top 100 list](hall-of-fame-top100.md) is era-normalised: it asks who was furthest above the standard of their own era. This page asks the simpler, blunter question - **who has the biggest career numbers, full stop.** No z-scores, no era adjustments. Just the raw ledger.
 
-The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals are immovable, but his all-time top 100 ranking sits behind Bartlett, Matthews, Quinlan and others whose careers were less concentrated in one stat line. Scott Pendlebury sits #19 on the era-normalised list yet leads four separate raw-volume categories on this page — disposals, tackles, goal assists, and handballs. Both stories are true. This page tells the volume story.
+The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals are immovable, but his all-time top 100 ranking sits behind Bartlett, Matthews, Quinlan and others whose careers were less concentrated in one stat line. Scott Pendlebury sits #19 on the era-normalised list yet leads four separate raw-volume categories on this page - disposals, tackles, goal assists, and handballs. Both stories are true. This page tells the volume story.
 
-Every total below is computed by summing each player's per-game records across every season recorded in this project's database. Stats not recorded in a player's era show up as zero — see [data coverage notes](#notes-on-data-coverage) at the bottom of the page.
+Every total below is computed by summing each player's per-game records across every season recorded in this project's database. Stats not recorded in a player's era show up as zero - see [data coverage notes](#notes-on-data-coverage) at the bottom of the page.
 
-![Wall of records — #1 in every major category](../assets/charts/hall/alltime_stat_categories_leaders.png)
+![Wall of records - #1 in every major category](../assets/charts/hall/alltime_stat_categories_leaders.png)
 
 ---
 
@@ -43,7 +43,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Stephen Kernahan | Carlton | 1986-1997 | 251 | 738 | 2.94 |
 | 20 | Bill Mohr | St Kilda | 1929-1941 | 195 | 735 | 3.77 |
 
-**[data]** Lockett's 1,360 is the all-time record and has stood since his 2002 retirement. The top six are the only members of the 1,000-goal club — three forwards from the supercharged 1980s/early-90s (Lockett, Dunstall, Ablett snr), one Depression-era full-forward (Coventry), one 1960s-70s spearhead (Wade), and one modern outlier (Franklin, the only post-2000 entrant). Per-game scoring rate has compressed sharply: the top of the list averages over four goals per game; everyone post-2000 sits below 3.5. Modern defences, zone structures, and lower-scoring matches have made the 1,000-goal milestone almost unreachable — Hawkins finished his career at 796, the closest a 21st-century forward has come outside Franklin.
+**[data]** Lockett's 1,360 is the all-time record and has stood since his 2002 retirement. The top six are the only members of the 1,000-goal club - three forwards from the supercharged 1980s/early-90s (Lockett, Dunstall, Ablett snr), one Depression-era full-forward (Coventry), one 1960s-70s spearhead (Wade), and one modern outlier (Franklin, the only post-2000 entrant). Per-game scoring rate has compressed sharply: the top of the list averages over four goals per game; everyone post-2000 sits below 3.5. Modern defences, zone structures, and lower-scoring matches have made the 1,000-goal milestone almost unreachable - Hawkins finished his career at 796, the closest a 21st-century forward has come outside Franklin.
 
 ## Career games played
 
@@ -72,7 +72,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Gary Ablett (jnr) | Geelong - Gold Coast | 2002-2020 | 357 | 1.00 |
 | 20 | Paul Roos | Fitzroy - Sydney | 1982-1998 | 356 | 1.00 |
 
-**[data]** Brent Harvey's 432 is the all-time games record. Pendlebury at 428 (and still active in 2026) sits four games behind and looks likely to break it — the live race that adds quiet drama to every Magpies fixture. Note who is missing: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
+**[data]** Brent Harvey's 432 is the all-time games record. Pendlebury at 428 (and still active in 2026) sits four games behind and looks likely to break it - the live race that adds quiet drama to every Magpies fixture. Note who is missing: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
 
 ## Career disposals
 
@@ -101,7 +101,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Simon Black | Brisbane Lions | 1998-2013 | 322 | 7,580 | 23.54 |
 | 20 | Luke Parker | North Melbourne - Sydney | 2011-2026 | 323 | 7,509 | 23.25 |
 
-**[data]** Pendlebury is the first player to clear 10,000 career disposals. The list is dominated by the modern ball-magnets — Sam Mitchell, Lachie Neale, Selwood, Ablett — but the inclusion of Bartlett at #4 and Robert Harvey at #2 shows that the elite-volume midfielder is not a 2010s invention. Note that handball was not consistently logged before the early 1960s, so figures for pre-WWII players (Coventry, Titus, Pratt) understate their true ball-getting; this is one of the reasons era-normalisation is so important elsewhere on the site.
+**[data]** Pendlebury is the first player to clear 10,000 career disposals. The list is dominated by the modern ball-magnets - Sam Mitchell, Lachie Neale, Selwood, Ablett - but the inclusion of Bartlett at #4 and Robert Harvey at #2 shows that the elite-volume midfielder is not a 2010s invention. Note that handball was not consistently logged before the early 1960s, so figures for pre-WWII players (Coventry, Titus, Pratt) understate their true ball-getting; this is one of the reasons era-normalisation is so important elsewhere on the site.
 
 ## Career marks
 
@@ -128,7 +128,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Barry Hall | St Kilda - Sydney - Western Bulldogs | 1996-2011 | 289 | 1,897 | 6.56 |
 | 20 | David Cloke | Centre Half-Forward (Collingwood - Richmond) | 1974-1991 | 333 | 1,882 | 5.65 |
 
-**[data]** Nick Riewoldt's 2,944 marks is the canonical record. Dempsey, the 1975 Brownlow Medallist, sits 38 marks behind despite being primarily a ruckman — his per-game rate of 8.83 is actually the highest in the top 20. The list weights heavily towards key forwards (Riewoldt, Loewe, Richardson, Salmon, Hawkins) and tall defenders (Roos, Goddard, Cloke), with Brad Johnson the most prolific true wingman.
+**[data]** Nick Riewoldt's 2,944 marks is the canonical record. Dempsey, the 1975 Brownlow Medallist, sits 38 marks behind despite being primarily a ruckman - his per-game rate of 8.83 is actually the highest in the top 20. The list weights heavily towards key forwards (Riewoldt, Loewe, Richardson, Salmon, Hawkins) and tall defenders (Roos, Goddard, Cloke), with Brad Johnson the most prolific true wingman.
 
 ## Career tackles
 
@@ -157,7 +157,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Scott Thompson | Adelaide - Melbourne | 2001-2017 | 308 | 1,409 | 4.57 |
 | 20 | Rory Sloane | Adelaide | 2009-2023 | 255 | 1,397 | 5.48 |
 
-**[data]** Pendlebury again — first player past 2,000 career tackles is a question of when, not if. **[historical record — partial data]** Tackles were not officially recorded league-wide until 1987, so this list necessarily understates the great defensive midfielders of earlier generations (Skilton, Greg Williams's predecessors at Carlton, Tony Shaw's hard-running brigade). Per-game rate is the more revealing column: Jack Steele's 7.23/game in his career-to-date is the highest sustained tackle rate ever recorded, ahead of Priddis's 6.79.
+**[data]** Pendlebury again - first player past 2,000 career tackles is a question of when, not if. **[historical record - partial data]** Tackles were not officially recorded league-wide until 1987, so this list necessarily understates the great defensive midfielders of earlier generations (Skilton, Greg Williams's predecessors at Carlton, Tony Shaw's hard-running brigade). Per-game rate is the more revealing column: Jack Steele's 7.23/game in his career-to-date is the highest sustained tackle rate ever recorded, ahead of Priddis's 6.79.
 
 ## Career contested possessions
 
@@ -184,7 +184,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Clayton Oliver | Greater Western Sydney - Melbourne | 2016-2026 | 213 | 3,136 | 14.72 |
 | 20 | Callan Ward | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 3,134 | 9.58 |
 
-**[data]** Contested possessions only appear in the database from 1998, when the official AFL stat dictionary started capturing them — so this is fundamentally a post-2000 list. Dangerfield's 4,604 is an outlier at the top: his per-game rate of 12.75 sustained over 361 games is the volume-times-quality combination almost no one else has matched. Patrick Cripps's 14.51/game (highest of any active 200+ game player) and Clayton Oliver's 14.72 mark them as the next-generation contested kings.
+**[data]** Contested possessions only appear in the database from 1998, when the official AFL stat dictionary started capturing them - so this is fundamentally a post-2000 list. Dangerfield's 4,604 is an outlier at the top: his per-game rate of 12.75 sustained over 361 games is the volume-times-quality combination almost no one else has matched. Patrick Cripps's 14.51/game (highest of any active 200+ game player) and Clayton Oliver's 14.72 mark them as the next-generation contested kings.
 
 ## Career clearances
 
@@ -211,7 +211,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Ollie Wines | Port Adelaide | 2013-2026 | 278 | 1,407 | 5.06 |
 | 20 | Marcus Bontempelli | Western Bulldogs | 2014-2026 | 266 | 1,396 | 5.25 |
 
-**[data]** Same caveat as contested possessions: clearances only enter the official record in 1998. Lachie Neale's 1,923 in 300 games leads outright, but Cripps's per-game rate of 7.08 is the highest sustained clearance dominance ever measured — he is on track to overhaul Neale and potentially everyone else if his body holds. The list reads like the modern midfielder's roll of honour: every name except Pendlebury, Boak, Mundy, and Ward is either a Brownlow Medallist or has finished top-3 in the count.
+**[data]** Same caveat as contested possessions: clearances only enter the official record in 1998. Lachie Neale's 1,923 in 300 games leads outright, but Cripps's per-game rate of 7.08 is the highest sustained clearance dominance ever measured - he is on track to overhaul Neale and potentially everyone else if his body holds. The list reads like the modern midfielder's roll of honour: every name except Pendlebury, Boak, Mundy, and Ward is either a Brownlow Medallist or has finished top-3 in the count.
 
 ## Career hit-outs
 
@@ -238,7 +238,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Toby Nankervis | Richmond - Sydney | 2015-2026 | 181 | 4,680 | 25.86 |
 | 20 | Stefan Martin | Brisbane Lions - Melbourne - Western Bulldogs | 2008-2022 | 203 | 4,661 | 22.96 |
 
-**[data]** Goldstein's 10,597 is the all-time mark and unlikely to be challenged any time soon — the next active ruckman is Gawn at 8,481, still 2,100 hit-outs short. **[historical record — partial data]** Hit-out counts pre-2017 use a different recording standard than the modern era — the post-2017 numbers tend to be slightly higher because of how contested taps are now logged. Nineties and 2000s ruck legends like Cox, Dempsey, Justin Madden, and Simon Madden are all materially understated by raw totals; their per-game rates of 17-23 reflect both the era's slower pace and the older recording convention.
+**[data]** Goldstein's 10,597 is the all-time mark and unlikely to be challenged any time soon - the next active ruckman is Gawn at 8,481, still 2,100 hit-outs short. **[historical record - partial data]** Hit-out counts pre-2017 use a different recording standard than the modern era - the post-2017 numbers tend to be slightly higher because of how contested taps are now logged. Nineties and 2000s ruck legends like Cox, Dempsey, Justin Madden, and Simon Madden are all materially understated by raw totals; their per-game rates of 17-23 reflect both the era's slower pace and the older recording convention.
 
 ## Career Brownlow votes
 
@@ -265,7 +265,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Travis Boak | Port Adelaide | 2007-2025 | 387 | 174 | 0.45 |
 | 20 | Adam Goodes | Sydney | 1999-2015 | 372 | 163 | 0.44 |
 
-**[data]** Gary Ablett junior's 262 is the all-time Brownlow vote count, ahead of Dangerfield's 251 and rising — Dangerfield is the live #2 with two seasons potentially still to play. **[historical record — partial data]** The pre-1981 5-4-3-2-1 voting system means Dyer, Reynolds, Whitten and the other early greats accumulated counts that are not directly comparable; the project database normalises to the modern 3-2-1 scale, so raw totals from before 1981 sit lower than they would on AFL.com.au's headline figures. Per-game vote rate is the most revealing column here: Cripps at 0.79/game and Fyfe at 0.77/game lead the era despite shorter careers.
+**[data]** Gary Ablett junior's 262 is the all-time Brownlow vote count, ahead of Dangerfield's 251 and rising - Dangerfield is the live #2 with two seasons potentially still to play. **[historical record - partial data]** The pre-1981 5-4-3-2-1 voting system means Dyer, Reynolds, Whitten and the other early greats accumulated counts that are not directly comparable; the project database normalises to the modern 3-2-1 scale, so raw totals from before 1981 sit lower than they would on AFL.com.au's headline figures. Per-game vote rate is the most revealing column here: Cripps at 0.79/game and Fyfe at 0.77/game lead the era despite shorter careers.
 
 ## Career goal assists
 
@@ -292,7 +292,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Shane Edwards | Richmond | 2007-2022 | 303 | 211 | 0.70 |
 | 20 | Adam Goodes | Sydney | 1999-2015 | 372 | 210 | 0.56 |
 
-**[data]** Goal assists are the modern stat that captures what older generations called "field generalship": the pass before the goal. Pendlebury's 325 leads, but Eddie Betts's 318 in 350 games — many delivered as the small-forward Houdini who set up teammates with no-look handballs from impossible angles — is the most artistic line on the page. Robbie Gray's 0.97 assists/game is the highest sustained rate in the top 20. Goal assists were not recorded systematically before about 1999, so this list is effectively a post-2000 ranking.
+**[data]** Goal assists are the modern stat that captures what older generations called "field generalship": the pass before the goal. Pendlebury's 325 leads, but Eddie Betts's 318 in 350 games - many delivered as the small-forward Houdini who set up teammates with no-look handballs from impossible angles - is the most artistic line on the page. Robbie Gray's 0.97 assists/game is the highest sustained rate in the top 20. Goal assists were not recorded systematically before about 1999, so this list is effectively a post-2000 ranking.
 
 ## Career kicks and handballs
 
@@ -303,13 +303,13 @@ These two are the components of disposals, useful for separating the ball-users 
 | Kicks | Kevin Bartlett (Richmond, 1965-1983) | 8,293 | 20.58 |
 | Handballs | Scott Pendlebury (Collingwood, 2006- ) | 5,451 | 12.74 |
 
-**[data]** Bartlett's career kick tally would still rank #1 today even if you froze the leaderboard — he averaged over 20 kicks per game in an era when 12-15 was elite. Pendlebury's handball total reflects a different era of the game: modern midfielders distribute by hand at far higher rates than their 1970s predecessors. The two records together explain why Pendlebury appears at #1 in disposals despite Bartlett still leading the kicks-only board.
+**[data]** Bartlett's career kick tally would still rank #1 today even if you froze the leaderboard - he averaged over 20 kicks per game in an era when 12-15 was elite. Pendlebury's handball total reflects a different era of the game: modern midfielders distribute by hand at far higher rates than their 1970s predecessors. The two records together explain why Pendlebury appears at #1 in disposals despite Bartlett still leading the kicks-only board.
 
 ---
 
 ## Single-season records
 
-The biggest individual seasons in each major category. These are pure peak-output numbers — what the best season anyone has ever had looks like.
+The biggest individual seasons in each major category. These are pure peak-output numbers - what the best season anyone has ever had looks like.
 
 ### Goals (single season)
 
@@ -326,7 +326,7 @@ The biggest individual seasons in each major category. These are pure peak-outpu
 | 9 | Gordon Coventry | 1929 | Collingwood | 124 |
 | 10 | Ron Todd | 1939 | Collingwood | 121 |
 
-The 150-goal season is the holy grail of forward play. Hudson hit 150 in 1971 in 22 home-and-away games, equalling Pratt's 1934 record. No player has cleared 150 since the home-and-away expansion to 22 games — Dunstall came closest with 145 in 1992. The fact that the top four all happened before 1993 says everything about the difference between the high-scoring decades and the modern game.
+The 150-goal season is the holy grail of forward play. Hudson hit 150 in 1971 in 22 home-and-away games, equalling Pratt's 1934 record. No player has cleared 150 since the home-and-away expansion to 22 games - Dunstall came closest with 145 in 1992. The fact that the top four all happened before 1993 says everything about the difference between the high-scoring decades and the modern game.
 
 ### Disposals (single season)
 
@@ -388,7 +388,7 @@ The 150-goal season is the holy grail of forward play. Hudson hit 150 in 1971 in
 | 9 | Robert Harvey | 1998 | St Kilda | 32 |
 | 10 | Lachie Neale | 2020 | Brisbane Lions - Fremantle | 31 |
 
-**[data]** Cripps's 45 votes in 2024 is verifiable in the per-game data (a string of 3-vote games unmatched in modern times) and stands as the all-time 3-2-1 record. Wines and Martin share the second-highest mark of the modern era at 36, with Daicos's 38 in 2024 (in his second season) the highest tally never to win the medal — Cripps polled higher.
+**[data]** Cripps's 45 votes in 2024 is verifiable in the per-game data (a string of 3-vote games unmatched in modern times) and stands as the all-time 3-2-1 record. Wines and Martin share the second-highest mark of the modern era at 36, with Daicos's 38 in 2024 (in his second season) the highest tally never to win the medal - Cripps polled higher.
 
 ### Hit-outs (single season)
 
@@ -400,7 +400,7 @@ The 150-goal season is the holy grail of forward play. Hudson hit 150 in 1971 in
 | 4 | Jarrod Witts | 2019 | Collingwood - Gold Coast | 1,007 |
 | 5 | Aaron Sandilands | 2015 | Fremantle | 998 |
 
-**[historical record — partial data]** Hit-out totals before 2017 use the older recording convention; post-2017 the AFL changed how contested ruck taps are logged. Direct comparisons between Gawn's 2018 (1,119) and (e.g.) Dempsey's 1979 (952) are meaningful only at the rough-order-of-magnitude level.
+**[historical record - partial data]** Hit-out totals before 2017 use the older recording convention; post-2017 the AFL changed how contested ruck taps are logged. Direct comparisons between Gawn's 2018 (1,119) and (e.g.) Dempsey's 1979 (952) are meaningful only at the rough-order-of-magnitude level.
 
 ### Contested possessions (single season)
 
@@ -422,7 +422,7 @@ The 150-goal season is the holy grail of forward play. Hudson hit 150 in 1971 in
 | 4 | Patrick Cripps | 2024 | Carlton | 193 |
 | 5 | Matt Rowell | 2025 | Gold Coast | 190 |
 
-Brett Ratten's 1999 figure of 265 is an outlier of the early-tracking era — clearances were defined more loosely in the late 1990s than they are today, and 1999 was the first full season the stat was recorded league-wide. Treat as a methodology artefact rather than a like-for-like record.
+Brett Ratten's 1999 figure of 265 is an outlier of the early-tracking era - clearances were defined more loosely in the late 1990s than they are today, and 1999 was the first full season the stat was recorded league-wide. Treat as a methodology artefact rather than a like-for-like record.
 
 ---
 
@@ -430,14 +430,14 @@ Brett Ratten's 1999 figure of 265 is an outlier of the early-tracking era — cl
 
 Honest disclosure of where the underlying records have gaps:
 
-- **Pre-1965 player files** generally include goals, behinds, kicks, marks (for some clubs), and games, but **handballs, tackles, hit-outs, contested possessions, clearances, inside 50s, and goal assists are largely absent**. So a player like Coventry, Pratt, Dyer, or Whitten will appear correctly in the goals leaderboard but never in the disposal/tackle/contested-poss boards — even though they would obviously rank highly if the data existed.
+- **Pre-1965 player files** generally include goals, behinds, kicks, marks (for some clubs), and games, but **handballs, tackles, hit-outs, contested possessions, clearances, inside 50s, and goal assists are largely absent**. So a player like Coventry, Pratt, Dyer, or Whitten will appear correctly in the goals leaderboard but never in the disposal/tackle/contested-poss boards - even though they would obviously rank highly if the data existed.
 - **Tackles** were not officially logged league-wide until 1987. Robert DiPierdomenico, Dermott Brereton, Tony Shaw and other 1980s tacklers appear with deflated career totals.
 - **Hit-outs** changed recording convention around 2017; pre-2017 totals are slightly understated.
 - **Contested possessions, clearances, and goal assists** appear in the database from 1998-1999 onwards. These three lists are effectively post-2000 leaderboards.
 - **Brownlow votes** in this database are stored on the modern 3-2-1 scale; pre-1981 5-4-3-2-1 totals are rescaled to be comparable, so totals here will look smaller than the AFL's headline numbers for early-era greats like Reynolds and Whitten.
 - **Goal totals** are reliable back to 1897 for VFL/AFL clubs, the most complete century-spanning stat in the database. Goals records are the only ones on this page that span the full history of the game without major caveat.
 
-Cross-link: the [era-normalised top 100](hall-of-fame-top100.md) is designed precisely to handle these data-coverage holes — it works in standardised z-scores within each era, so the absence of a stat for a 1930s player is no longer a penalty. If you want to compare Coventry to Lockett to Hawkins on equal terms, that page is where to look.
+Cross-link: the [era-normalised top 100](hall-of-fame-top100.md) is designed precisely to handle these data-coverage holes - it works in standardised z-scores within each era, so the absence of a stat for a 1930s player is no longer a penalty. If you want to compare Coventry to Lockett to Hawkins on equal terms, that page is where to look.
 
 ---
 
