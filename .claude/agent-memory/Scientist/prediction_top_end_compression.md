@@ -14,6 +14,6 @@ The 2026 R1-R8 backtest of `prediction.py` revealed two compounding sources of t
 **How to apply:** When evaluating a future change to `prediction.py`,
 - Train on raw disposals (do NOT re-introduce log1p).
 - Keep LGBM at `objective='regression'` (L2/mean), not `regression_l1`.
-- Calibration is fit per-run via OOF predictions in `_fit_calibration()`, applied at `predict_current_season_disposals()`. Calibration is bounded to slope in [0.5, 2.0] and |intercept| <= 20 — outside, falls back to identity.
+- Calibration is fit per-run via OOF predictions in `_fit_calibration()`, applied at `predict_current_season_disposals()`. Calibration is bounded to slope in [0.5, 2.0] and |intercept| <= 20 - outside, falls back to identity.
 - The clip is now [1, 55]. Realistic disposal range is observed up to ~50; lower bound 1 because 0 implies DNP which is upstream-modelled.
 - If max prediction reverts to <30 in a future backtest, suspect either compression returning (transform/loss) or calibration failing the bounds check (look for "Calibration out of bounds" warning).

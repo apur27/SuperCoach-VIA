@@ -1,8 +1,8 @@
-# Richmond vs Adelaide — Round 9 2026: Head-to-head history
+# Richmond vs Adelaide - Round 9 2026: Head-to-head history
 
 > [← Back to main brief](richmond-vs-adelaide-round-9-2026.md) | [← Coaches Strategy Corner](README.md)
 >
-> **Status: pre-match.** The Round 9 fixture (10 May 2026, M.C.G.) is upcoming — not yet played. All head-to-head numbers below cover completed historical meetings only.
+> **Status: pre-match.** The Round 9 fixture (10 May 2026, M.C.G.) is upcoming - not yet played. All head-to-head numbers below cover completed historical meetings only.
 
 The full 35-year ledger between Richmond and Adelaide, with the venue, era, and recent-form patterns separated out. All numbers reproduced from `data/matches/matches_*.csv` **[data]**.
 
@@ -35,7 +35,7 @@ Richmond's first H2H win came in **1994 R15** at Football Park (90–83). From 1
 | 2011–2020 | 12 | 6 | 6 | –2.2 **[data]** |
 | 2021–2025 | 5 | 3 | 2 | –3.8 **[data]** |
 
-The 1997–2010 block is where Adelaide's ledger advantage came from. The 2021–2025 era — broadly the modern Adelaide list — is R3–A2 in Richmond's favour. The 2025 R17 thumping (Richmond 54 – Adelaide 122) is the outlier that drags the period margin into negative.
+The 1997–2010 block is where Adelaide's ledger advantage came from. The 2021–2025 era - broadly the modern Adelaide list - is R3–A2 in Richmond's favour. The 2025 R17 thumping (Richmond 54 – Adelaide 122) is the outlier that drags the period margin into negative.
 
 ---
 
@@ -62,9 +62,9 @@ The 1997–2010 block is where Adelaide's ledger advantage came from. The 2021�
 **Richmond MCG wins** average margin: **+34.4** **[data]**.
 **Adelaide MCG wins** average margin: **+64.7** **[data]**.
 
-The asymmetry is striking: Richmond's MCG wins are workmanlike — the +34.4 average is built across 1995, 1996, 1997, 2010, 2013, 2017, 2018. Adelaide's MCG wins are blowouts — three of the six are by 50+ (1992 –110, 1993 –94, 2008 –50, 2025 –68). Adelaide either flattens Richmond at the MCG or doesn't win the game.
+The asymmetry is striking: Richmond's MCG wins are workmanlike - the +34.4 average is built across 1995, 1996, 1997, 2010, 2013, 2017, 2018. Adelaide's MCG wins are blowouts - three of the six are by 50+ (1992 –110, 1993 –94, 2008 –50, 2025 –68). Adelaide either flattens Richmond at the MCG or doesn't win the game.
 
-**The 2017 game listed above is the AFL Grand Final** — Richmond's 48-point premiership win, not a preliminary final. That game is the historical high point of this fixture.
+**The 2017 game listed above is the AFL Grand Final** - Richmond's 48-point premiership win, not a preliminary final. That game is the historical high point of this fixture.
 
 **Strip the early Crows era (1991–1993, three Adelaide wins by 81 average margin) and the MCG record from 1995 onwards is Richmond 7 – Adelaide 3** **[data]**.
 
@@ -72,7 +72,7 @@ The 2025 R17 result is the most recent MCG reference and the freshest data Adela
 
 ---
 
-## Last 10 meetings — the modern picture
+## Last 10 meetings - the modern picture
 
 ![Last 10 H2H meetings](../../assets/charts/strategy/h2h_recent_results.png)
 
@@ -92,9 +92,9 @@ The 2025 R17 thumping is the only data point at the MCG and is a 68-point loss. 
 
 The Round 17 vision should anchor the Tuesday review. What it shows:
 
-- Adelaide's contested-ball game is most dangerous when Richmond's midfield is out-pressured. In 2025 Round 17, Richmond's tackle count was reportedly under 50 — the same area where Richmond is currently 16/18 in 2026.
-- The Richmond response in 2025 was to chase the game with style — long bombs forward, which Adelaide rebounded into transition goals. Adelaide's rebound-50 rank is 2/18 in 2026 (41.8/g) — the same pattern is structurally in place.
-- The 2025 thumping was not a one-off; it was Adelaide's identity meeting a Richmond side that didn't have the contested-ball volume to slow it. The same identity meets a Richmond 2026 side at the same MCG. Read the upcoming Round 9 game as the 2025 R17 problem with one structural fix available — the ruck.
+- Adelaide's contested-ball game is most dangerous when Richmond's midfield is out-pressured. In 2025 Round 17, Richmond's tackle count was reportedly under 50 - the same area where Richmond is currently 16/18 in 2026.
+- The Richmond response in 2025 was to chase the game with style - long bombs forward, which Adelaide rebounded into transition goals. Adelaide's rebound-50 rank is 2/18 in 2026 (41.8/g) - the same pattern is structurally in place.
+- The 2025 thumping was not a one-off; it was Adelaide's identity meeting a Richmond side that didn't have the contested-ball volume to slow it. The same identity meets a Richmond 2026 side at the same MCG. Read the upcoming Round 9 game as the 2025 R17 problem with one structural fix available - the ruck.
 
 ---
 
@@ -123,7 +123,7 @@ The recent 9-game MCG sample (2022–2026 R2):
 | 2025 | R17 | Richmond | 122–54 | **W +68** |
 | 2026 | R2 | Collingwood | 93–79 | **W +14** |
 
-3W–6L across 9 games. Two of the three wins are blowouts (61, 68); the recent Round 2 win was a respectable +14. Pattern: Adelaide either has a great day at the MCG or loses by single digits in a tight game — they rarely have a comfortable, ground-out road victory at the venue.
+3W–6L across 9 games. Two of the three wins are blowouts (61, 68); the recent Round 2 win was a respectable +14. Pattern: Adelaide either has a great day at the MCG or loses by single digits in a tight game - they rarely have a comfortable, ground-out road victory at the venue.
 
 A close game at the MCG favours Richmond historically.
 
@@ -145,7 +145,7 @@ Across 35 years (1991+):
 | Home (Adelaide Oval / Football Park) | 433 | 62.4% | +16.0 |
 | Road | 378 | 39.4% | –7.0 |
 
-Across the entire SA-club era, Adelaide are demonstrably a home-state club. The road-form gap is ~23 percentage points and has been consistent for three decades. The 2026 sample so far supports the pattern: completed 2026 home games — **3W–2L** (all at Adelaide Oval, R3 vs WB L, R5 vs Fremantle L, R6 vs Carlton W +28, R7 vs St Kilda W +1, R9 vs Port +1); completed 2026 road games — **1W–2L** (R2 MCG vs Collingwood W +14, R4 Kardinia Park vs Geelong L –8, R8 Gabba vs Brisbane L –52) **[data]**.
+Across the entire SA-club era, Adelaide are demonstrably a home-state club. The road-form gap is ~23 percentage points and has been consistent for three decades. The 2026 sample so far supports the pattern: completed 2026 home games - **3W–2L** (all at Adelaide Oval, R3 vs WB L, R5 vs Fremantle L, R6 vs Carlton W +28, R7 vs St Kilda W +1, R9 vs Port +1); completed 2026 road games - **1W–2L** (R2 MCG vs Collingwood W +14, R4 Kardinia Park vs Geelong L –8, R8 Gabba vs Brisbane L –52) **[data]**.
 
 The upcoming Round 9 fixture at the MCG places Adelaide on the road again after their R9 home win vs Port Adelaide; their most recent road trip (R8) was the Gabba beating by Brisbane. Richmond plays its second consecutive Melbourne game off the back of a road win at Optus Stadium.
 

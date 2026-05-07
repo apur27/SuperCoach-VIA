@@ -8,17 +8,17 @@
 
 This page walks from zero to having Claude Code running, talking to your repo. Allow ~20 minutes for the first run-through.
 
-This section walks you through getting Claude Code running on a fresh Ubuntu laptop — from zero to having an AI agent that can read your AFL data, write code, and improve the prediction model.
+This section walks you through getting Claude Code running on a fresh Ubuntu laptop - from zero to having an AI agent that can read your AFL data, write code, and improve the prediction model.
 
 ## What you need before you start
 
-- An Ubuntu laptop (20.04 or newer) — a gaming laptop works great, specs don't need to be high for Claude itself
-- A Claude subscription — go to [claude.ai](https://claude.ai) and sign up; the **entry level (Pro) plan is enough** for everything in this repo
+- An Ubuntu laptop (20.04 or newer) - a gaming laptop works great, specs don't need to be high for Claude itself
+- A Claude subscription - go to [claude.ai](https://claude.ai) and sign up; the **entry level (Pro) plan is enough** for everything in this repo
 - Internet connection
 
 ---
 
-## Step 1 — Install Node.js
+## Step 1 - Install Node.js
 
 Claude Code runs on Node.js. Install it via the official NodeSource repository (the version in Ubuntu's default package manager is often too old):
 
@@ -35,7 +35,7 @@ npm --version
 
 ---
 
-## Step 2 — Install Claude Code
+## Step 2 - Install Claude Code
 
 Claude Code is installed as a global npm package:
 
@@ -50,7 +50,7 @@ claude --version
 
 ---
 
-## Step 3 — Log in to your Claude account
+## Step 3 - Log in to your Claude account
 
 ```bash
 claude login
@@ -60,7 +60,7 @@ This opens a browser window. Log in with the same account you used to sign up at
 
 ---
 
-## Step 4 — Install Python and project dependencies
+## Step 4 - Install Python and project dependencies
 
 This repo uses Python 3.12. Set up a virtual environment:
 
@@ -84,7 +84,7 @@ source ~/.bashrc
 
 ---
 
-## Step 5 — Open the project in Claude Code
+## Step 5 - Open the project in Claude Code
 
 ```bash
 cd /path/to/SuperCoach-VIA
@@ -101,7 +101,7 @@ Claude will read the code and explain it to you in plain English.
 
 ---
 
-## Step 6 — Verify everything works end to end
+## Step 6 - Verify everything works end to end
 
 ```bash
 # In the Claude Code prompt, type:
@@ -112,11 +112,11 @@ Claude will give you the exact command. Run it. If it works, you're set up corre
 
 ---
 
-## Step 7 — Setting the default model (save your token budget)
+## Step 7 - Setting the default model (save your token budget)
 
-By default, Claude Code uses whatever model your account is set to — and on most plans that's the most powerful (and most expensive) model available. For day-to-day work in this repo — asking questions, fixing small bugs, pushing to git, updating the README — you don't need that horsepower. The cheaper Sonnet model handles all of it just as well, and burns through your monthly token budget much more slowly.
+By default, Claude Code uses whatever model your account is set to - and on most plans that's the most powerful (and most expensive) model available. For day-to-day work in this repo - asking questions, fixing small bugs, pushing to git, updating the README - you don't need that horsepower. The cheaper Sonnet model handles all of it just as well, and burns through your monthly token budget much more slowly.
 
-The Scientist agent is different. It needs the extra brainpower of Opus for proper statistical analysis, so it's already configured to use Opus regardless of your default. Setting Sonnet as your default means your everyday Claude chats are cheap, and only the Scientist costs you the heavy tokens — which is exactly what you want.
+The Scientist agent is different. It needs the extra brainpower of Opus for proper statistical analysis, so it's already configured to use Opus regardless of your default. Setting Sonnet as your default means your everyday Claude chats are cheap, and only the Scientist costs you the heavy tokens - which is exactly what you want.
 
 To set Sonnet as your default, run this once:
 
@@ -130,7 +130,7 @@ cat > ~/.claude/settings.json << 'EOF'
 EOF
 ```
 
-That's it. From now on, every plain Claude session uses Sonnet. **You don't need to do anything special to invoke the Scientist on Opus** — it's already configured in `.claude/agents/Scientist.md` to override the default for that one agent.
+That's it. From now on, every plain Claude session uses Sonnet. **You don't need to do anything special to invoke the Scientist on Opus** - it's already configured in `.claude/agents/Scientist.md` to override the default for that one agent.
 
 To verify which model you're on, type this inside any Claude Code session:
 
@@ -154,7 +154,7 @@ It'll print the current model. You can also use `/model` to switch interactively
 | `claude: command not found` | Run `npm install -g @anthropic-ai/claude-code` again; make sure `/usr/bin` is in your PATH |
 | `claude login` doesn't open a browser | Copy the URL it prints and paste it into your browser manually |
 | Python packages fail to install | Make sure your venv is activated: `source ~/.venv/afl/bin/activate` |
-| `ModuleNotFoundError` when running scripts | You're using the wrong Python — use the full venv path: `/path/to/.venv/afl/bin/python prediction.py` |
+| `ModuleNotFoundError` when running scripts | You're using the wrong Python - use the full venv path: `/path/to/.venv/afl/bin/python prediction.py` |
 | Claude says it can't find files | Make sure you're in the repo directory when you start Claude: `cd SuperCoach-VIA && claude` |
 
 ---

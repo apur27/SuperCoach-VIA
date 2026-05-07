@@ -5,11 +5,11 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-PREDICTIONS-START -->
-Predicted disposal leaders for Round 9 — generated 2026-05-04.
+Predicted disposal leaders for Round 9 - generated 2026-05-04.
 
-![Predicted disposal leaders — Round 9, 2026](../assets/charts/predictions_next_round_2026.png)
+![Predicted disposal leaders - Round 9, 2026](../assets/charts/predictions_next_round_2026.png)
 
-#### Top 30 predicted disposal leaders — Round 9, 2026
+#### Top 30 predicted disposal leaders - Round 9, 2026
 
 | Rank | Player | Team | Predicted disposals |
 |------|--------|------|--------------------:|
@@ -44,7 +44,7 @@ Predicted disposal leaders for Round 9 — generated 2026-05-04.
 | 29 | Newcombe Jai | Hawthorn | 24.4 |
 | 30 | Worrell Josh | Adelaide | 24.3 |
 
-Predictions from LightGBM+HGB ensemble trained on historical player-game data. Requires GPU to generate — see [docs/technical-reference.md](technical-reference.md).
+Predictions from LightGBM+HGB ensemble trained on historical player-game data. Requires GPU to generate - see [docs/technical-reference.md](technical-reference.md).
 <!-- 2026-PREDICTIONS-END -->
 
 ---
