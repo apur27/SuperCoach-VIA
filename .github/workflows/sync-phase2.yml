@@ -1,0 +1,33 @@
+name: Sync main into feature/phase2
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'   # daily at 02:00 UTC
+  workflow_dispatch:        # allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge main into feature/phase2
+        run: |
+          git checkout feature/phase2
+          git merge origin/main --no-edit || {
+            echo "Merge conflict detected — please resolve manually"
+            exit 1
+          }
+          git push origin feature/phase2
