@@ -27,6 +27,8 @@ Got an idea, found a bug, or want to help build the web dashboard?
 
 Not a developer? That's fine - opening an issue with a feature request or a question is just as valuable.
 
+For collaboration enquiries, reach out directly to **Abhishek Purohit** at [careerabhi@gmail.com](mailto:careerabhi@gmail.com).
+
 ## License
 
 MIT License - see the [LICENSE](../LICENSE) file.
