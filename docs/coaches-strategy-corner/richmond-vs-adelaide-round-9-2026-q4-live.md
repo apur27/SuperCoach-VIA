@@ -169,4 +169,68 @@ If Richmond somehow produce a 4-goal burst in 10 minutes - which would require b
 
 ---
 
-*Data: FanFooty live feed, Q4 12:38, 2026-05-10. Goals corrected from commentary; col15 flagged as unreliable.*
+## Update 4 - Q4 17:05 | 2026-05-10
+
+**Score: Richmond 9.6.60 - Adelaide 11.13.79 (Adelaide +19)**
+
+### Scientist read: Richmond won the Q4 AF battle, lost the scoreboard war - and Toby Murray was the closer
+
+Time-on remaining is ~2-3 minutes. Final scoreboard is essentially set: Adelaide by 19, with the scoreline closer than the day's flow has earned Richmond. Lynch's 7:11 mark-and-goal ("to stop the rot") trimmed the deficit from +23 to +17 briefly, but Toby Murray's 2:46 free-kick goal pushed it back out. The game has run out of runway.
+
+The headline finding: Richmond won Q4 AF 212-203, but the scoreline says Adelaide held them off and even extended slightly. This is the conversion problem made literal. A team that wins quarters on the stat sheet but cannot put scoreboard pressure on a lazy junk-time defence cannot beat Adelaide on this fixture.
+
+**Quarter-by-quarter AF - final reckoning:**
+
+| Quarter | Richmond AF | Adelaide AF | Delta |
+|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 |
+| Q2 | 409 | 382 | **RI +27** |
+| Q3 | 238 | 543 | AD **+305** |
+| Q4 (17:05) | 212 | 203 | **RI +9** |
+| **Total** | **1274** | **1546** | **AD +272** |
+
+Three quarters were essentially level or Richmond's. One quarter (Q3) decided the match. The 305-point Q3 differential is one of the largest single-quarter AF blowouts I have seen against Richmond in recent memory, and it is the entire structural story of this game.
+
+**Q4 AF leaders - the surge that didn't translate:**
+
+| Player | Team | Q4 AF | Total AF | Disposals | Tackles | Marks |
+|---|---|---|---|---|---|---|
+| Toby Murray | AD | 39 | 65 | 8 | 6 | 2 |
+| James Peatling | AD | 25 | 82 | 16 | 5 | 6 |
+| Noah Balta | RI | 25 | 77 | 14 | 1 | 6 |
+| Jack Ross | RI | 20 | 90 | 25 | 6 | 4 |
+| Jonty Faull | RI | 19 | 42 | 11 | 1 | 3 |
+| Jacob Hopper | RI | 18 | 69 | 22 | 2 | 3 |
+| Tom Lynch | RI | 16 | 64 | 12 | 1 | 3 |
+| Seth Campbell | RI | 15 | 43 | 10 | 0 | 4 |
+| Jordan Dawson | AD | 15 | 122 | 26 | 4 | 11 |
+| Izak Rankine | AD | 13 | 135 | 30 | 6 | 8 |
+
+Five of the top six Q4 AF performers are Richmond. The Tigers had midfield dominance, defensive intercepts (Balta 25 Q4 AF off 6 marks), and a Lynch contested-mark contribution (16 Q4 AF, the brief's prediction finally landing). What they did not have: a forward line capable of converting Q4 inside-50 entries into goals at a rate that would close 23 points.
+
+**The Toby Murray story (corrected):**
+
+Murray's 39 Q4 AF is the highest single-quarter AF on the field today. It came from 6 tackles, 3 hit-outs, 8 disposals, and free kicks. He kicked 1 goal in Q4 (the 2:46 set shot, per commentary) and missed 2 set shots (4:05 and 1:14). Update 1's claim of "6 junk-time goals" was always wrong - he had 1 confirmed goal across the whole game. What he actually did was win contested possession and tackles in junk time when Adelaide were managing the clock. That is a real performance, not garbage. He is Adelaide's third-best player today behind Rankine and Dawson by Q4 work-rate.
+
+**Win-condition audit (final):**
+
+| Win condition | Predicted | Actual | Verdict |
+|---|---|---|---|
+| Lynch contested weapon | 2+ marks, 1+ goal | 3 marks, 2 goals (1 in Q4), 64 AF | **HIT** - direction right, magnitude understated late |
+| Taranto clearances | Win clearances | 25 disposals, 78 AF, 4 tackles | **PARTIAL** - touched the ball but did not break game open |
+| Hit-out advantage | RI +15 (Ryan-conditional) | RI 17, AD 34 = AD +17 | **MISS** - Ryan absent inverted the prediction |
+| Rankine suppression | Must contain | 30 disp, 135 AF, 8 marks, 6 tackles | **MISS** - uncontained |
+| Dawson consistency (CV 0.11) | 21-28 disposals | 26 disp, 122 AF, 11 marks | **HIT** - within band, high end |
+| Tackle gap | AD +8 | AD 54, RI 35 = AD +19 | **MISS** - magnitude double the forecast |
+
+**The structural reading:**
+
+Richmond's Q4 fightback had real shape - Ross winning the ball, Balta intercepting, Lynch finally being supplied, Hopper running both ways. None of it produced enough scoreboard pressure because Adelaide's defensive structure (Borlase, Michalanney, Curtin) held on contested entries and Murray/Peatling rolled the clock by winning ground-ball at the other end. The model was right that Lynch could be a contested weapon. The model was wrong about how much hit-out access Richmond would get without Ryan, and it understated Adelaide's ability to slow the game in Q4 even when not actively scoring.
+
+**Final 2-3 minutes:**
+
+Adelaide are clock-managing. Murray has been collecting frees, Peatling has been winning stoppages. Richmond would need 3+ goals from junk time against a team that is no longer turning the ball over. The probability is functionally zero. The interest is now in what Q4 told us about Richmond's ceiling: when supplied and interested, the midfield is real. The forward line, without Lynch having space, is not.
+
+---
+
+*Data: FanFooty live feed, Q4 17:05, 2026-05-10. AF quarter splits computed from per-quarter `af_qN` columns (per-quarter, not cumulative - confirmed via player-level reconciliation: Q1+Q2+Q3+Q4 = total AF for spot-checked players). Goals attributed via commentary only; col15 remains unreliable.*
