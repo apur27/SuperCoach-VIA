@@ -28,10 +28,10 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 | Player | Pick / acquisition | Position | Role |
 |---|---|---|---|
+| Jordan Dawson | Trade (Sydney, 2021) | Mid / half-back / captain | Two-way mid, leadership, transition kick |
 | Riley Thilthorpe | Early first round (approx. pick 2, 2020) | Key forward | Lead-up target, secondary marking option |
 | Izak Rankine | Top-3 pick (Gold Coast 2018, traded to Adelaide 2022) | Small forward / mid | Goalsneak, half-forward creator |
 | Wayne Milera | Mid-first round (2015) | Half-back / wing | Rebound user, transition kick |
-| Jake Soligo | Mid-round draftee | Inside mid | Stoppage worker, contested-ball |
 
 **List vulnerabilities:** Ruck depth behind Reilly O'Brien is thin, and the second key forward beside Thilthorpe is unsettled - if Thilthorpe goes down the forward line loses its structural anchor. Outside speed remains a question mark relative to top-eight clubs.
 
@@ -54,9 +54,9 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Charlie Cameron | Trade (Adelaide, 2017) | Small forward | Goalsneak, leading pattern |
 | Harris Andrews | Pick 61 (2014, mid-round steal) | Key back | Intercept marker, defensive general |
 
-**List vulnerabilities:** The midfield core is ageing - Neale, Lyons, Dunkley are all on the back nine of their primes. If the next-tier midfielder doesn't emerge in the next 12-24 months, the contested-ball edge that defines the side will narrow. Ruck depth behind Witts is a known concern.
+**List vulnerabilities:** The midfield core is ageing - Neale, Lyons, Dunkley are all on the back nine of their primes. If the next-tier midfielder doesn't emerge in the next 12-24 months, the contested-ball edge that defines the side will narrow. Ruck has been addressed by trading in Sam Draper from Essendon, easing the depth-behind-Witts concern that flagged in 2024-2025.
 
-**Tactical identity explained by list:** List shape forces a kick-first, mark-heavy game (1st in the league for kicks at 252.5/g, 1st for marks at 122.8/g, 1st for clearances at 41.0/g). With elite contested midfielders, two genuine intercept defenders, and McCluggage/Ashcroft as outside class, Brisbane can dictate tempo by foot. The flip side - 18th for tackles - is also a list call: the personnel are built for ball-winning, not pressure, so the system asks them to control rather than chase.
+**Tactical identity explained by list:** List shape forces a kick-first, mark-heavy game (1st in the league for kicks at 252.5/g, 1st for marks at 122.8/g, 1st for clearances at 41.0/g). With elite contested midfielders, two genuine intercept defenders, McCluggage/Ashcroft as outside class, and Oscar Allen now in as a third tall forward (in via trade from West Coast), Brisbane can dictate tempo by foot and finish chains with three marking targets inside 50. The flip side - 18th for tackles - is a list call: the personnel are built for ball-winning, not pressure, so the system asks them to control rather than chase.
 
 **2026 outlook:** Open premiership window with one or two seasons before the midfield core needs reinforcing.
 
@@ -72,14 +72,14 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|---|
 | Patrick Cripps | Pick 13 (2013) | Inside mid / captain | Contested-ball engine, leadership |
 | Sam Walsh | Pick 1 (2018) | Mid / wing | Outside runner, two-way mid |
-| Charlie Curnow | Pick 12 (2015) | Key forward | Coleman-tier marking forward |
-| Harry McKay | Pick 10 (2015) | Key forward | Tall target, secondary marking option |
+| Harry McKay | Pick 10 (2015) | Key forward | Lead tall, primary marking option |
+| Adam Cerra | Trade (Fremantle, 2021) | Outside mid / wing | Ball user, transition kick |
 
-**List vulnerabilities:** Forward-50 connection (16th for goals at 11.2/g, 17th for marks-inside-50) - having two elite key forwards doesn't matter if the entries are poor. Wing depth and second-tier midfield depth behind Cripps/Walsh are real concerns; if either misses, the contested-ball edge collapses. Key back depth behind Weitering is thin.
+**List vulnerabilities:** Forward-50 connection (16th for goals at 11.2/g, 17th for marks-inside-50) - the structural picture got worse with Charlie Curnow's departure to Sydney, leaving McKay as the lone elite-tier marking target with Mitch McGovern and Will Hayward (in via trade from Adelaide) supporting in mediums roles. Wing depth and second-tier midfield depth behind Cripps/Walsh are real concerns; if either misses, the contested-ball edge collapses. Key back depth behind Weitering is thin.
 
-**Tactical identity explained by list:** The list is built for contested-ball dominance (3rd for contested possessions in 2026 at 134.2/g) but starves itself for forward-50 quality. Two elite key forwards means the list has been constructed top-down: win the ball, kick it long, let Curnow/McKay clean up. When that connection breaks down - because the entries are rushed or the second efforts don't arrive - the team becomes a midfield-only proposition. That is the structural cost of going so heavy on key forwards in list construction.
+**Tactical identity explained by list:** The list is still built for contested-ball dominance (3rd for contested possessions in 2026 at 134.2/g) but the forward-50 architecture has thinned with Curnow gone - the team now has one genuine key forward where the prior identity assumed two. The natural game stays the same (win the ball, kick it long) but the conversion ceiling is lower than the 2023-2024 list shape. Recruiting a second contested-marking tall is now the most explicit list call to make.
 
-**2026 outlook:** Mid-window - the spine is in its prime, but the supporting cast hasn't yet caught up to the top-end talent.
+**2026 outlook:** Mid-window with a rebalancing task - Curnow's departure shifts the list from "two elite key forwards" to "one elite key forward plus mediums," and the trade-period response in late 2026 will define whether the window stays open.
 
 ---
 
@@ -113,11 +113,11 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Player | Pick / acquisition | Position | Role |
 |---|---|---|---|
 | Zach Merrett | Pick 26 (2013, mid-round find) | Inside mid / captain | Ball-winner, leadership |
-| Sam Draper | Mid-round / category-B rookie pathway | Ruck | First ruck, contest |
-| Nic Martin | Mid-late draft (2021) | Wing / forward | Outside runner, scoring threat |
+| Darcy Parish | Pick 5 (2015) | Inside mid | Contested-ball, stoppage |
 | Archie Roberts | Recent first-round pick | Mid / half-back | Transition mid, ball-winner |
+| Ben McKay | Trade (North Melbourne, 2023) | Key back | Intercept marker, lockdown |
 
-**List vulnerabilities:** Forward 50 - genuine key-forward marking is the longest-running structural weakness on the list. Inside-50 territory and contested ball both rank 18th in 2026 - that's a list signature, not a one-week aberration. Defensive depth behind the leading intercept is also a concern.
+**List vulnerabilities:** Forward 50 - genuine key-forward marking is the longest-running structural weakness on the list. Ruck stocks have thinned further with Sam Draper's departure to Brisbane in late 2025 - Nick Bryan and Todd Goldstein's successor plan is now an open question. Inside-50 territory and contested ball both rank 18th in 2026 - that's a list signature, not a one-week aberration. Defensive depth behind the leading intercept is also a concern.
 
 **Tactical identity explained by list:** The list is built to use the ball but not to win it (18th for inside-50s and contested possessions in 2026). With midfielders who are users-and-runners rather than contest-winners, and a forward line that lacks a settled tall, Essendon's natural game is short-kick possession through half-back. When pressure rises and they need to win the ball back at stoppage, the list construction shows - they don't have the bodies. The remedy is a list call (a contested-ball mid, a contested-marking forward), not a tactical one.
 
@@ -177,14 +177,14 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|---|
 | Matt Rowell | Pick 1 (2019) | Inside mid | Contested-ball engine |
 | Noah Anderson | Pick 2 (2019) | Mid / wing | Two-way mid, leadership |
+| Christian Petracca | Trade (Melbourne, 2025) | Mid / forward | Power forward, second-up mid |
 | Ben King | Pick 6 (2018) | Key forward | Leading tall, scoreboard impact |
-| Touk Miller | Pick 29 (2014, mid-round find) | Inside mid | Two-way mid, contested-ball |
 
-**List vulnerabilities:** Key back depth behind Collins is one injury from crisis. Outside class (genuine wingers and creative half-backs) has been the slowest part of the list to fill. The forward line is built around one tall (King) plus a rotating mediums cast.
+**List vulnerabilities:** Key back depth behind Collins is one injury from crisis. The forward-50 marking-tall question that flagged in 2024-2025 has been addressed at scale - Jamarra Ugle-Hagan (in via trade from Western Bulldogs) now stands alongside King, and Petracca brings second-up forward weight. Outside class on the wing remains a question mark relative to top-four clubs.
 
-**Tactical identity explained by list:** The list is built for territory and ball movement (2nd for inside-50s at 58.9/g, 3rd for handballs at 170.4/g, 4th for hit-outs in 2026). With Rowell/Anderson as the midfield core, a strong tap ruck, and a fast-handball offensive shape, Gold Coast's natural game is to win the centre clearance and run the ball forward at speed. The structural weakness is set-piece marking inside 50 - the list does not yet have the contested-marking depth to hold up entries against good defensive sides.
+**Tactical identity explained by list:** The list is built for territory and ball movement (2nd for inside-50s at 58.9/g, 3rd for handballs at 170.4/g, 4th for hit-outs in 2026), and the 2025-26 trade window has reshaped the forward third decisively - King, Ugle-Hagan, and Petracca give the side three genuine marking-tall options where prior years had one. With Rowell/Anderson/Petracca as the midfield core, Daniel Rioli (in via trade from Richmond) added as a small-forward pressure piece, and a strong tap ruck, Gold Coast's natural game is to win the centre clearance, run the ball forward at speed, and now also hold up entries with a settled tall structure. The list has gone from "speed-and-clearance" to "speed, clearance, and marks-inside-50" inside two trade periods.
 
-**2026 outlook:** Rising window - the list has finally caught up to its draft investment and is moving from "developing" to "contending."
+**2026 outlook:** Window now genuinely open - the trade-period acquisitions of Petracca, Ugle-Hagan, and Rioli have moved the list from "rising" to "contending." A finals fixture in 2026 would be the first real test of whether the new top-end talent gels into a settled premiership-ready spine.
 
 ---
 
@@ -198,14 +198,14 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|---|
 | Toby Greene | Pick 11 (2011, expansion-era draft) | Forward / captain | Goalsneak, leadership, X-factor |
 | Lachie Whitfield | Pick 1 (2012) | Half-back / wing | Rebound user, transition kick |
-| Tom Green | Pick 10 (2019) | Inside mid | Contested-ball, stoppage |
-| Sam Taylor | Pick 28 (2017, mid-round find) | Key back | Intercept defender, lockdown |
+| Clayton Oliver | Trade (Melbourne, 2025) | Inside mid | Contested-ball engine, ball-winner |
+| Finn Callaghan | Pick 3 (2021) | Inside / outside mid | Two-way mid, scoring threat |
 
-**List vulnerabilities:** Ruck position - Briggs/Flynn have been functional rather than dominant for several seasons, and the position remains the structural soft spot. Second key forward beside Greene/Hogan is unsettled. Mature-age leadership has thinned with the loss of foundational players.
+**List vulnerabilities:** Ruck position - Briggs has been functional rather than dominant for several seasons, and the position remains the structural soft spot. Second key forward beside Greene/Hogan is unsettled, though Jake Stringer's arrival via trade adds a versatile second-up forward option. Mature-age leadership has thinned with the loss of foundational players. Tom Green and Sam Taylor remain on the list and are top-tier when fit, but their 2026 availability has been intermittent.
 
-**Tactical identity explained by list:** The list profile produces a possession-heavy, rebound-strong template (2nd for disposals at 395.8/g, 1st for rebound-50s at 42.4/g, 1st for uncontested possessions in 2026). With Whitfield/Coniglio/Kelly as outside class and Green/Hopper as inside contest, GWS can play a control-the-ball game from half-back. The forward line, built around small-and-medium creators rather than two genuine talls, is what stops the side from converting their possession dominance into top-three goal-scoring.
+**Tactical identity explained by list:** The list profile produces a possession-heavy, rebound-strong template (2nd for disposals at 395.8/g, 1st for rebound-50s at 42.4/g, 1st for uncontested possessions in 2026). With Whitfield/Coniglio as outside class and Oliver (in via trade from Melbourne) and Callaghan as inside contest, GWS can play a control-the-ball game from half-back with a renewed contested-ball edge. The forward line, built around small-and-medium creators (Greene, Hogan, Stringer, Daniels) rather than two genuine talls, is what still stops the side from converting their possession dominance into top-three goal-scoring.
 
-**2026 outlook:** Sustained contention - the list is in a long peak phase rather than a single-season window.
+**2026 outlook:** Sustained contention with new contested-ball weight - the Oliver acquisition addresses the inside-mid succession that was a 2024-2025 question mark, and the list now has a long peak phase rather than a single-season window.
 
 ---
 
@@ -232,20 +232,20 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 ### Melbourne
 
-**List identity:** A list built around a 2021 premiership core that has been retained rather than refreshed. The spine is settled and elite, but the supporting cast has thinned through retirements and trade losses, leaving the list more top-heavy than at the peak.
+**List identity:** A list built around a 2021 premiership core that has been broken up rather than refreshed - Petracca (now Gold Coast) and Oliver (now GWS) both departed via trade, taking the elite-midfield identity with them. The current list is anchored by Gawn in the ruck, Pickett as the forward-line creator, and a recently-acquired Jack Steele as a contested-ball reinforcement, with the supporting cast still thinning.
 
 **Tier 1 players and draft pedigree:**
 
 | Player | Pick / acquisition | Position | Role |
 |---|---|---|---|
 | Max Gawn | Pick 34 (2009, mid-round find) | Ruck / captain | All-Australian ruck, leadership |
-| Christian Petracca | Pick 2 (2014, traded to Gold Coast 2026) | Mid / forward | Power forward, second-up mid - now departed |
-| Clayton Oliver | Pick 4 (2015, traded to GWS 2026) | Inside mid | Contested-ball engine - now departed |
 | Kysaiah Pickett | Pick 12 (2019) | Small forward / mid | Goalsneak, X-factor |
+| Jack Steele | Trade (St Kilda, 2025) | Inside mid | Contested-ball, two-way mid |
+| Bayley Fritsch | Mid-round draftee (2017) | Forward | Set-shot finisher, leading pattern |
 
-**List vulnerabilities:** The midfield depth has been hollowed by recent trade losses - the once-elite Oliver/Petracca/Viney trio is now Viney plus reinforcements. Key-back depth and key-forward stocks remain mid-tier. The "elite midfield" identity that defined the 2021-2024 list now needs to be rebuilt.
+**List vulnerabilities:** The midfield depth has been hollowed by the Petracca-and-Oliver trade losses - the once-elite Oliver/Petracca/Viney trio is gone, and Steele's arrival from St Kilda only partially backfills it. Key-back depth and key-forward stocks remain mid-tier. The "elite midfield" identity that defined the 2021-2024 list now needs to be rebuilt from the ground up rather than topped up.
 
-**Tactical identity explained by list:** The list profile in 2026 still produces strong territory and contest numbers (3rd for goals at 15.1/g, 4th for inside-50s, 3rd for hit-outs in 2026) but the disposal volume has dropped sharply (15th) - a direct consequence of losing the league's best ball-winner. With Gawn still dominant in the ruck and Pickett/Fritsch as the forward-line creators, the side now has to score from territory rather than from possession dominance. The list construction now demands a fundamentally different game style than the one that won 2021.
+**Tactical identity explained by list:** The list profile in 2026 still produces strong territory and contest numbers (3rd for goals at 15.1/g, 4th for inside-50s, 3rd for hit-outs in 2026) but the disposal volume has dropped sharply (15th) - a direct consequence of losing the league's best ball-winner. With Gawn still dominant in the ruck, Pickett/Fritsch as the forward-line creators, and Steele added at the contest, the side now has to score from territory rather than from possession dominance. The list construction now demands a fundamentally different game style than the one that won 2021.
 
 **2026 outlook:** Transition - the premiership core has been broken up, the next list iteration is still being built, and a clear premiership-window timeline is on hold.
 
@@ -306,7 +306,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Jayden Short | Pick 67 (2014, mid-round find) | Half-back | Rebound user, transition kick |
 | Sam Lalor | Pick 1 (2024) | Inside mid | Contested-ball engine - top-tier prospect |
 
-**List vulnerabilities:** Almost everywhere. Key forward depth is the most acute - the forward line lacks a settled tall, which is structurally why the team is 18th for goals in 2026. Mature-age leadership has thinned with the premiership-era retirements. Ruck stocks are mid-tier at best. Outside class on the wing remains a concern.
+**List vulnerabilities:** Almost everywhere. Key forward depth is the most acute - the forward line lacks a settled tall (Tom Lynch is on the list but past peak), which is structurally why the team is 18th for goals in 2026. The small-forward pressure unit also thinned with Daniel Rioli's departure to Gold Coast in late 2025. Mature-age leadership has thinned with the premiership-era retirements. Ruck stocks are mid-tier at best. Outside class on the wing remains a concern.
 
 **Tactical identity explained by list:** The list profile is bottom-tier for ball use (18th for disposals, 18th for kicks, 18th for marks in 2026) - this is a rebuild list playing rebuild football. Without a settled key forward, inside-50 entries are 17th in the league, and without a dominant ruck, the contested ball is mid-tier (15th). The tactical identity is forced rather than chosen: hold the ball when you have it, defend in numbers when you don't, and accept that scoring will be limited until the list has the personnel.
 
@@ -327,9 +327,9 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Nasiah Wanganeen-Milera | Pick 11 (2020) | Half-back / mid | Outside class, rebound |
 | Max King | Pick 4 (2018) | Key forward | Leading tall, scoreboard |
 
-**List vulnerabilities:** Inside midfield depth and contested-ball winning - the list does not have an elite contested-mid, which is why the contest stats sit mid-tier despite the personnel quality elsewhere. Forward depth beside King is a chronic structural concern; ruck depth behind Marshall is thin.
+**List vulnerabilities:** Inside midfield depth and contested-ball winning have got worse with Jack Steele's departure to Melbourne in late 2025 - the list now relies on Mitch Owens, Marcus Windhager, and Jack Macrae (in via trade from Bulldogs) to anchor the contest, and none has been a 30-disposal contested-ball player at Steele's level. Forward depth beside King is a chronic structural concern; the addition of Tom De Koning (in via trade from Carlton) gives the side a second tall and ruck-relief option but does not solve the inside-midfield gap. Ruck depth behind Marshall is thin.
 
-**Tactical identity explained by list:** The list shape produces a possession-strong, low-pressure template (2nd for kicks at 232.9/g, 2nd for free kicks against in 2026) but with mid-tier contested numbers and 15th-ranked tackles. Without a contested-ball superstar inside, St Kilda's natural game is to control the ball through half-back, hit Sinclair/Wanganeen-Milera in transition, and feed King leading patterns. The structural ceiling is set by the lack of an elite midfielder - the list can compete but rarely dominates the centre square.
+**Tactical identity explained by list:** The list shape produces a possession-strong, low-pressure template (2nd for kicks at 232.9/g, 2nd for free kicks against in 2026) but with mid-tier contested numbers and 15th-ranked tackles. Without a contested-ball superstar inside (Steele's role now gone), St Kilda's natural game is to control the ball through half-back, hit Sinclair/Wanganeen-Milera in transition, and feed King leading patterns. The structural ceiling is set by the lack of an elite midfielder - the list can compete but rarely dominates the centre square.
 
 **2026 outlook:** Mid-cycle - the list is competitive but is one or two top-end acquisitions from genuine contention; without them, the ceiling is finals participation rather than a premiership window.
 
@@ -346,11 +346,11 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Isaac Heeney | Academy (pick 18 equivalent, 2014) | Mid / forward | Power forward, second-up mid |
 | Errol Gulden | Academy (mid-round equivalent, 2020) | Mid / wing | Outside class, transition kick |
 | Chad Warner | Pick 39 (2019, mid-round find) | Mid / forward | Two-way mid, scoring threat |
-| Nick Blakey | Father-son / academy (2018) | Half-back | Rebound user, transition |
+| Charlie Curnow | Trade (Carlton, 2025) | Key forward | Coleman-tier marking forward |
 
-**List vulnerabilities:** Key forward depth behind Hayward/Amartey is mid-tier rather than elite, and the list has leaned heavily on Heeney as a forward-line generator rather than playing him purely through midfield. Ruck depth behind Grundy is a known structural concern when his form fluctuates.
+**List vulnerabilities:** The list has leaned heavily on Heeney as a forward-line generator rather than playing him purely through midfield - Curnow's arrival from Carlton in late 2025 directly addresses the marking-tall question and frees Heeney to play more midfield. Ruck depth behind Grundy is a known structural concern when his form fluctuates. Nick Blakey's role at half-back remains load-bearing; depth behind him on the rebound side is mid-tier.
 
-**Tactical identity explained by list:** The list profile in 2026 is the league's most dominant by raw numbers (1st for disposals at 396.5/g, 1st for goals at 17.5/g, 1st for tackles at 63.6/g, 1st for inside-50s at 64.4/g, 1st for contested possessions). With three elite midfielders, an academy-built half-back unit, and a forward line led by Heeney's versatility, Sydney's list shape forces the most complete tactical identity in the competition - they win the ball, they run it forward, they apply pressure, and they score. The 18th-ranked clangers count is the only meaningful weakness in the profile, and it is a function of taking risks rather than a structural flaw.
+**Tactical identity explained by list:** The list profile in 2026 is the league's most dominant by raw numbers (1st for disposals at 396.5/g, 1st for goals at 17.5/g, 1st for tackles at 63.6/g, 1st for inside-50s at 64.4/g, 1st for contested possessions). With three elite midfielders, an academy-built half-back unit, and Curnow now anchoring a forward line that already had Heeney's versatility, Sydney's list shape forces the most complete tactical identity in the competition - they win the ball, they run it forward, they apply pressure, and they score with a genuine Coleman-tier finisher. The 18th-ranked clangers count is the only meaningful weakness in the profile, and it is a function of taking risks rather than a structural flaw.
 
 **2026 outlook:** Open premiership window - the list is at peak and the next 12-18 months are the centre of the contention phase.
 
@@ -369,7 +369,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Aaron Naughton | Pick 9 (2017) | Key forward | Leading tall, contested marker |
 | Tom Liberatore | Pick 40 (2010, father-son) | Inside mid | Contested-ball, stoppage |
 
-**List vulnerabilities:** Key-back depth and intercept marking has been a structural concern for several seasons. Outside class on the wing is mid-tier rather than elite. Forward depth beyond Naughton has been the slowest part of the list to settle and rotates between specialists.
+**List vulnerabilities:** Key-back depth and intercept marking has been a structural concern for several seasons. Outside class on the wing is mid-tier rather than elite. Forward depth beyond Naughton has thinned further with Jamarra Ugle-Hagan's departure to Gold Coast in late 2025 - Sam Darcy and Rory Lobb now carry the second-tall load, and the list's tall-forward redundancy is the lowest it has been in five years.
 
 **Tactical identity explained by list:** The list shape produces a contested-ball, clearance-first identity (2nd for clearances at 38.2/g, 4th for rebound-50s in 2026) with low marking depth (18th for contested marks at 5.8/g). With Bontempelli, Liberatore, and Macrae as the inside core and English giving the centre bounce a tap-down advantage, the Bulldogs' natural game is "win the ball, run it forward, score from chains rather than set marks." The 18th-ranked contested-marks count is what stops them from being a top-three side: the list has the midfield to dominate the ball, but not the marking forwards to convert dominance into the highest-tier scoring.
 
@@ -388,11 +388,11 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Harley Reid | Pick 1 (2023) | Mid / forward | Generational prospect, X-factor |
 | Elliot Yeo | Pick 30 (2010, traded from Brisbane 2013) | Mid / half-back | Two-way mid, leadership |
 | Reuben Ginbey | Recent first-round pick | Mid / half-back | Two-way mid |
-| Oscar Allen | Pick 21 (2017) | Key forward | Leading tall, marking option |
+| Liam Baker | Trade (Richmond, 2024) | Half-back / wing | Pressure runner, transition kick |
 
-**List vulnerabilities:** Almost everywhere - this is a list mid-rebuild. Inside midfield depth behind Reid/Yeo is thin, key back depth has been hollowed by retirements, and the forward line beside Allen lacks a settled second tall. Ruck stocks have not been a strength since Naitanui. Mature-age leadership is the thinnest in the competition.
+**List vulnerabilities:** Almost everywhere - this is a list mid-rebuild, and the loss of Oscar Allen to Brisbane has stripped the forward line of its only settled marking tall, leaving Jake Waterman and Jack Williams as the leading options. Inside midfield depth behind Reid/Yeo is thin, key back depth has been hollowed by retirements, and the forward line lacks any settled tall. Ruck stocks have not been a strength since Naitanui. Mature-age leadership is the thinnest in the competition.
 
-**Tactical identity explained by list:** The list profile is bottom-tier across the board (17th for disposals at 329.6/g, 17th for goals at 9.8/g, 18th for marks-inside-50 in 2026). Without a dominant ruck, without depth at key positions, and with the mature-leadership tier still being rebuilt, West Coast's tactical identity is forced - they cannot dictate tempo, cannot consistently win the ball, and rely heavily on Reid creating contests on his own. The list construction demands patience: until two more drafts deliver, the tactical ceiling is set by the talent gap, not by coaching.
+**Tactical identity explained by list:** The list profile is bottom-tier across the board (17th for disposals at 329.6/g, 17th for goals at 9.8/g, 18th for marks-inside-50 in 2026). Without a dominant ruck, without a settled key forward after Allen's departure, and with the mature-leadership tier still being rebuilt, West Coast's tactical identity is forced - they cannot dictate tempo, cannot consistently win the ball, and rely heavily on Reid creating contests on his own. The list construction demands patience: until two more drafts deliver, the tactical ceiling is set by the talent gap, not by coaching.
 
 **2026 outlook:** Early rebuild - the list is two to three drafts and one or two trade-period upgrades away from being competitive again.
 
@@ -417,6 +417,7 @@ A handful of patterns repeat across the 18 sections above and are worth naming a
 ## Caveats and what this document is not
 
 - **Draft pick numbers are best-effort from football knowledge.** Where the specific pick number is uncertain, the document hedges ("approximately pick N", "mid-round find", "early first round"). The repo's CSV data does not carry draft-pedigree fields, so this is the limit of what can be verified here.
+- **Player-club allocations are verified against `afltables.com/afl/stats/2026.html` as of mid-2026.** A player not appearing in a club's 2026 stats table either means they have left that club or they have not yet played a game in 2026 (injury, suspension, omission); the doc treats afltables as authoritative for "playing for this club in 2026" but does not assume absence equals departure.
 - **No injury-list overlay.** Players currently injured or unavailable are not flagged - the list-construction read assumes all named players are fit.
 - **The 2026 stat anchors are season-to-date and small-sample.** The leading-disposal and identity tags come from `docs/afl-team-analysis-2026.md` after 8 rounds played; they are honest but they are not yet settled hierarchies.
 - **This is a list lens, not a tactical brief.** Match-day adjustments, opposition-specific match-ups, and weekly game-planning sit in the per-match docs in `docs/coaches-strategy-corner/`, not here.
