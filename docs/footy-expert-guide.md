@@ -16,6 +16,20 @@ You don't need to know what Python is. You don't need to understand machine lear
 
 ---
 
+## The FootyStrategy agent - tactical brainstorming
+
+If you are a footy expert who wants to go beyond the numbers into the coaching decisions, the **FootyStrategy agent** is built for you. It thinks like an AFL head coach or senior analyst and is invoked with `@"FootyStrategy (agent)"` in a Claude Code session.
+
+Use it to:
+- Interpret what a structural data anomaly means tactically ("why did Adelaide's tackle count double from Q2 to Q3?")
+- Analyse any club's list by draft pick pedigree ("show me where Brisbane's elite talent came from - top-5 pick, father-son, trade?")
+- Map list vulnerabilities ("which Adelaide position is one injury away from a crisis?")
+- Build a game-plan blueprint based on what the data revealed ("what should Richmond change structurally for the next Adelaide game?")
+
+**Worked example:** The [Richmond vs Adelaide R9 strategic brainstorm](coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md) documents a full Scientist + FootyStrategy session covering three decisive moments, five things the brief got right, three structural blind spots, and six tactical themes.
+
+---
+
 ### What the ranking is actually doing (in footy terms)
 
 The hardest problem in ranking all-time greats is that **you can't just add up stats**. Tony Lockett kicked 1,360 goals - but in his era, contested possessions weren't even tracked. Haydn Bunton Sr. won three Brownlows in the 1930s when the only stats kept were goals and behinds. Compare that to Patrick Cripps, who has 20+ different stats logged every single game.

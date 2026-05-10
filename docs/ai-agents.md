@@ -15,6 +15,30 @@ This entire project is built and maintained using Claude. The two pages below co
 
 > **Cost reminder:** the Scientist agent runs on **Claude Opus** and burns tokens fast. Plain Claude (no `@"Scientist (agent)"` prefix) handles 80% of work for a fraction of the cost. Read the [STOP. READ THIS FIRST.](scientist-agent.md#stop-read-this-first-do-not-waste-the-scientist) section before invoking the Scientist.
 
+## FootyStrategy agent
+
+The FootyStrategy agent is a tactical AFL brainstorming specialist. Where the Scientist reads data and runs analysis, FootyStrategy answers the question the numbers raise but cannot answer: *what does a coach actually do about this?*
+
+**Invoke with:** `@"FootyStrategy (agent)"` in a Claude Code session.
+
+**What it does:**
+- Tactical pattern analysis: zone defences, tagging conventions, ruck-rotation, half-time structural resets
+- List-construction analysis: evaluates each AFL team's list by quality tier and draft pick pedigree (pick 1, father-son, rookie, trade, etc.)
+- Cross-team vulnerability mapping: where is a team one injury away from crisis? How does list depth explain tactical identity?
+- Post-match brainstorm: converts data anomalies into coaching questions and answers them from football knowledge
+
+**Best used:**
+- After a Scientist post-match analysis to interpret structural findings tactically
+- When planning matchup zones against an upcoming opponent
+- When you want to know why a team plays the way it does (list-driven tactical identity)
+- To generate the "what does the opposition coach actually do at half-time" scenarios the data can't surface
+
+**Worked examples:**
+- Tactical brainstorm with Scientist: [Richmond vs Adelaide R9 full-time verdict](coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md) - see the "Strategic brainstorm - Scientist x FootyStrategy" section
+- All-18-club list analysis: [AFL 2026 team list analysis](coaches-strategy-corner/afl-2026-team-list-analysis.md)
+
+**Data limitations:** Same as Scientist - no GPS, no video, no positional data. FootyStrategy brings football knowledge, not additional data sources.
+
 ## Related
 
 - [How this repo uses Claude](how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance, multi-agent orchestration (portfolio/showcase doc)

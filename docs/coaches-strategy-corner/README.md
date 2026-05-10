@@ -34,6 +34,12 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 From Round 9, briefs are now supplemented with **in-game live reads** pulled directly from the FanFooty live feed (`fanfooty.com.au/live/<gameid>.txt`) using `scripts/fetch_live_match.py`. A live read compares pre-game predictions against in-game reality - who was right, who was wrong, and what the second half should look like. Snapshots are saved to `data/live_snapshots/` for reproducibility. Live reads can be generated at any point during a game: half-time, end of Q3, or whenever a tactical shift warrants a fresh look.
 
+### FootyStrategy - tactical brainstorm layer
+
+After each live read, the **FootyStrategy agent** provides a tactical interpretation of what the data shows - converting structural anomalies (Q3 AF collapses, positional resets, tackle-interaction effects) into coaching-language answers. FootyStrategy is invoked with `@"FootyStrategy (agent)"` and works alongside Scientist: Scientist reads the numbers, FootyStrategy answers "what does a coach actually do about this?" The post-match brainstorm for Richmond vs Adelaide R9 is the worked example - see the [full-time verdict](richmond-vs-adelaide-round-9-2026-full-time-verdict.md).
+
+For list-construction analysis of each club (who their Tier 1 players are, what draft pick they were, how list depth explains their tactical identity), see the [AFL 2026 team list analysis](afl-2026-team-list-analysis.md).
+
 ## How to run a live match analysis
 
 End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pipeline. All commands assume the repo root as the working directory and use the project venv: `/home/abhi/sourceCode/python/coding/.venv/bin/python`.

@@ -209,6 +209,16 @@ These work by just typing them at the Claude prompt:
 
 ---
 
+## Related: FootyStrategy agent
+
+For questions that require football tactical knowledge rather than (or in addition to) data analysis, use the **FootyStrategy agent**:
+
+```
+@"FootyStrategy (agent)" [your tactical question]
+```
+
+FootyStrategy complements Scientist: where Scientist answers "what does the data show", FootyStrategy answers "what does a coach do about it." See [coaching-guide.md](coaching-guide.md#leveraging-the-footystrategy-agent) for the full workflow and example prompts.
+
 ## Related
 
 - [Claude Code setup on Ubuntu](claude-code-setup.md)
