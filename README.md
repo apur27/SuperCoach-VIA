@@ -120,6 +120,7 @@ The same packaging happens automatically on a Sunday-night schedule via [.github
 - [Using the Scientist agent](docs/scientist-agent.md) - when plain Claude vs the Scientist, the improvement loop
 - [How predictions work](docs/prediction-model.md) - the model, the backtest framework, the all-time-100 algorithm
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
+- [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance framework, multi-agent orchestration
 - [Technical reference](docs/technical-reference.md) - GPU setup, data layout, scripts
 - [Model report card](docs/model-report-card.md) - hit/miss methodology and weekly accuracy log
 
