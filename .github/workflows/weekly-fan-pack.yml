@@ -1,0 +1,152 @@
+name: Weekly fan pack
+
+# Generates the weekly "fan pack" - latest predictions CSV plus auto-updated
+# fan-friendly docs - and uploads them as a GitHub Release artifact.
+#
+# Runs every Sunday at 23:00 UTC (Monday 09:00 AEST - well after the typical
+# Sunday afternoon final-game) so the bundle reflects post-round data once the
+# operator has refreshed and pushed. Also runnable manually via the Actions tab.
+#
+# This is intentionally a low-blast-radius workflow: it does NOT retrain the
+# model or scrape data (that still happens on the operator's local machine via
+# refresh_and_rank.sh). It packages whatever is already committed at HEAD into
+# a downloadable bundle for fans who don't clone the repo.
+
+on:
+  schedule:
+    - cron: '0 23 * * 0'   # Sundays at 23:00 UTC (Monday 09:00 AEST)
+  workflow_dispatch:        # allow manual trigger
+    inputs:
+      release_tag:
+        description: 'Release tag (default: weekly-YYYY-MM-DD)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write   # needed to create a release
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python (matches local venv)
+        # Matches the local venv at /home/abhi/sourceCode/python/coding/.venv
+        # (Python 3.10+). Used by any prediction or packaging step that needs it.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies (best-effort)
+        # Best-effort: if requirements.txt is partial, the prediction step is
+        # skipped below. We do not block the artifact step on a clean install.
+        continue-on-error: true
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+
+      - name: Run prediction script (if wired)
+        # Dry scaffold: invoke prediction.py only if it accepts a non-interactive
+        # entrypoint AND the necessary data is checked into the repo. This is a
+        # documented hook for when the full automation is wired - today the
+        # canonical workflow is the operator running refresh_and_rank.sh
+        # locally. We do NOT block the bundle on this step.
+        continue-on-error: true
+        run: |
+          if [ -f prediction.py ]; then
+            echo "Found prediction.py - dry-run hook (not invoked in scaffold)."
+            # Future: python prediction.py --next-round --no-interactive
+          else
+            echo "No prediction.py at repo root - skipping."
+          fi
+
+      - name: Compute release tag
+        id: tag
+        run: |
+          if [ -n "${{ inputs.release_tag }}" ]; then
+            echo "tag=${{ inputs.release_tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=weekly-$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Find the latest prediction CSV
+        id: latest_csv
+        run: |
+          set -euo pipefail
+          # Pick the most recent next_round_*_prediction_*.csv
+          latest=$(ls -1t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -n 1 || true)
+          if [ -z "$latest" ]; then
+            echo "No prediction CSV found in data/prediction/" >&2
+            exit 1
+          fi
+          echo "Latest prediction CSV: $latest"
+          echo "path=$latest" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$latest")" >> "$GITHUB_OUTPUT"
+
+      - name: Build the fan pack
+        run: |
+          set -euo pipefail
+          mkdir -p fan-pack
+          cp "${{ steps.latest_csv.outputs.path }}" fan-pack/latest-prediction.csv
+          cp -f docs/afl-predictions-2026.md fan-pack/predictions.md  || true
+          cp -f docs/afl-stat-leaders-2026.md fan-pack/stat-leaders.md || true
+          cp -f docs/afl-backtest-2026.md fan-pack/backtest.md         || true
+          cp -f docs/glossary.md fan-pack/glossary.md                   || true
+          cp -f docs/how-to-use-this-for-supercoach.md fan-pack/how-to-use.md || true
+          cp -f templates/google-sheets-template.md fan-pack/google-sheets-template.md || true
+          # Build a README for the bundle
+          cat > fan-pack/README.txt <<EOF
+          SuperCoach VIA - Weekly fan pack
+          Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          Source: https://github.com/${GITHUB_REPOSITORY}
+
+          Files:
+          - latest-prediction.csv      Predicted disposals for the next round
+          - predictions.md             Top 30 predicted disposal leaders, formatted
+          - stat-leaders.md            Current 2026 season stat leaders
+          - backtest.md                How accurate the model has been so far
+          - glossary.md                Footy and data terms
+          - how-to-use.md              Honest guide to what predictions are good for
+          - google-sheets-template.md  How to turn the CSV into a 5-tab dashboard
+
+          See the repo for everything else, including the Hall of Fame.
+          EOF
+          # Zip it up
+          cd fan-pack
+          zip -r "../fan-pack-${{ steps.tag.outputs.tag }}.zip" .
+          cd ..
+          ls -lh "fan-pack-${{ steps.tag.outputs.tag }}.zip"
+
+      - name: Upload artifact (so manual runs can grab it without a release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: fan-pack-${{ steps.tag.outputs.tag }}
+          path: fan-pack-${{ steps.tag.outputs.tag }}.zip
+          retention-days: 30
+
+      - name: Create / update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: Weekly fan pack - ${{ steps.tag.outputs.tag }}
+          body: |
+            **Weekly fan pack** - the latest prediction CSV plus auto-updated fan docs, bundled for download.
+
+            Contents:
+            - `latest-prediction.csv` - this round's predicted disposal leaders
+            - `predictions.md` - top 30 leaderboard, formatted
+            - `stat-leaders.md` - current season stat leaders
+            - `backtest.md` - model accuracy so far
+            - `glossary.md` - plain-English footy and data terms
+            - `how-to-use.md` - honest guide to what these predictions are good for
+            - `google-sheets-template.md` - 5-tab Google Sheets recipe
+
+            Predictions and accuracy are reproduced from the latest commit on `main`. See the repo for full context, the Hall of Fame, and the methodology deep-dive.
+          files: fan-pack-${{ steps.tag.outputs.tag }}.zip
+          generate_release_notes: false
+          make_latest: true

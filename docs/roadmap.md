@@ -29,6 +29,14 @@ Not a developer? That's fine - opening an issue with a feature request or a ques
 
 For collaboration enquiries, reach out directly to **Abhishek Purohit** at [careerabhi@gmail.com](mailto:careerabhi@gmail.com).
 
+### Discoverability - GitHub topics
+
+If you have admin access to the repo on GitHub, the following topics help fans and data scientists find this project. To set them: **GitHub repo → About (right sidebar) → cog icon → Topics**.
+
+Recommended topics:
+
+`afl` `supercoach` `fantasy-sports` `australian-football` `sports-analytics` `machine-learning` `data-science` `football-data` `streamlit` `python`
+
 ## License
 
 MIT License - see the [LICENSE](../LICENSE) file.

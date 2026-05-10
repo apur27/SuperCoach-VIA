@@ -1,0 +1,68 @@
+name: Bug report
+description: Something is broken, wrong, or producing nonsense output
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! You don't need to be a developer - if something looks off in a doc, a chart, or a prediction, that counts and we want to know.
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did you see the bug?
+      options:
+        - In a documentation page (e.g. an auto-updated doc looks wrong)
+        - In a prediction CSV (e.g. obviously wrong predicted value)
+        - In a chart or image
+        - When running a script (Python error)
+        - In the Hall of Fame / historical rankings
+        - Other - describe below
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What did you see?
+      description: Describe the bug. Include the exact file, page, or command if you know it. Screenshots help.
+      placeholder: I was looking at... I expected to see... but instead I saw...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce (if applicable)
+      description: Only if you ran a command or script. Footy fans - skip this field.
+      placeholder: |
+        1. Run `python prediction.py`
+        2. Open data/prediction/<file>.csv
+        3. See that...
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: false
+
+  - type: input
+    id: env
+    attributes:
+      label: Environment (only if you ran code)
+      description: e.g. "Ubuntu 22.04, Python 3.11, fresh clone"
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Hunches, related issues, ideas for the fix.
+    validations:
+      required: false

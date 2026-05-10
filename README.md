@@ -11,7 +11,24 @@
 ![Data](https://img.shields.io/badge/data-2026%20season%20round%209-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
+SuperCoach VIA turns 125+ years of AFL data into weekly player predictions, team trends, and debate-ready footy insights - no coding required.
+
 ⭐ **If this project is useful to you, please star the repo.**
+
+## Start here - I want to...
+
+| I want to... | Go to | Setup needed |
+|---|---|---|
+| **See this week's predicted disposal leaders** | [docs/afl-predictions-2026.md](docs/afl-predictions-2026.md) | None - browser only |
+| **Browse the no-code fan landing page** | [docs/start-here-no-code.md](docs/start-here-no-code.md) | None - browser only |
+| **Understand what this is good for in SuperCoach** | [docs/how-to-use-this-for-supercoach.md](docs/how-to-use-this-for-supercoach.md) | None - browser only |
+| **Get the prediction CSV into Google Sheets** | [templates/google-sheets-template.md](templates/google-sheets-template.md) | A free Google account |
+| **Read the auto-updated 2026 season hub** | [docs/afl-season-2026.md](docs/afl-season-2026.md) | None - browser only |
+| **See the all-time top 100 and Hall of Fame** | [docs/hall-of-fame.md](docs/hall-of-fame.md) | None - browser only |
+| **Look up a footy or data term** | [docs/glossary.md](docs/glossary.md) | None - browser only |
+| **See how accurate the model has been** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
+| **Read the model's pre-registered report card** | [docs/model-report-card.md](docs/model-report-card.md) | None - browser only |
+| **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
 
 ## What this is
 
@@ -20,33 +37,22 @@ Australian rules football, used as the domain for an applied data science and AI
 The repo runs a full, weekly-refreshed pipeline: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation - all from a single shell script. Three problems drive the work.
 
 ### The prediction problem
-Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? The current pipeline trains a tuned `LightGBM` / `HistGradientBoosting` / `RandomForest` ensemble on rolling-form, opponent, venue, and context features, with `GroupKFold` (player-grouped) cross-validation to prevent leakage and a post-hoc out-of-fold calibration to correct top-end compression. Latest 2026 backtest (8 rounds, ~2,900 player-round predictions): **MAE ≈ 4.1 disposals, 68% within 5, 94% within 10**.
+Can a model learn a player's disposal patterns well enough to forecast next-round output better than intuition? Latest 2026 backtest (8 rounds, ~2,900 player-round predictions): **MAE ≈ 4.1 disposals, 68% within 5, 94% within 10**. See ["For data scientists"](#for-data-scientists) below for the model details.
 
 ### The historical ranking problem
-How do you compare players across eras when the game itself has changed radically - different stats recorded, different rules, different season lengths? The all-time top-100 is built from per-year, position-stratified within-cohort z-scores, capped and shrunk by era completeness, then aggregated using a rank-based formula with a season-count career bonus. It is era-fair by construction rather than by quota.
+How do you compare players across eras when the game itself has changed radically - different stats recorded, different rules, different season lengths? The all-time top-100 is built to be era-fair by construction rather than by quota.
 
 ### AI applied to sport
 Claude - via the Scientist agent in this repo - does not just answer questions about the dataset. It reads the actual code, writes and runs Python analysis, regenerates charts, updates the auto-generated documentation sections, and commits the result. The pattern is "natural language as a thin wrapper over structured data" - and the agent is held to inspect-before-transform, baseline-first, leakage-aware practice via its system prompt.
 
-> Full technical detail → **[How it works: data science deep-dive](docs/data-science.md)** - the dataset, model, backtest, ranking algorithm, current accuracy, and roadmap, written in three layers from layperson to ML practitioner.
-
-## Who is this for?
-
-| I am… | Start here |
-|---|---|
-| **A data scientist or ML engineer** | [How predictions work](docs/prediction-model.md) - the model, feature engineering, walk-forward backtest |
-| **Curious about AI applied to sport** | [Using Claude and the Scientist agent](docs/scientist-agent.md) - LLMs writing and running analysis code over live data |
-| **A footy fan** who wants to understand their team | [Live AFL insights](docs/afl-insights.md) - current-season team profiles, finals pathway, stat leaders |
-| **A SuperCoach player** wanting a data edge | [Running predictions & backtests](docs/usage.md) - produces this week's predicted disposals CSV |
-| **New to all of this** on Ubuntu | [Installation & first-time setup](docs/installation.md) - Git, GitHub, Python, end to end |
-
 ## Table of Contents
 
-### Getting started
-- [Quick start](docs/quick-start.md) - TL;DR, three commands
-- [Installation & first-time setup](docs/installation.md) - Git, GitHub and Python from scratch
-- [Running predictions & backtests](docs/usage.md) - predict next round, backtest, refresh data
-- [Troubleshooting](docs/troubleshooting.md) - common errors and fixes
+### For fans (no code)
+- [Start here - no code](docs/start-here-no-code.md)
+- [How to use this for SuperCoach](docs/how-to-use-this-for-supercoach.md)
+- [Glossary](docs/glossary.md)
+- [Google Sheets template](templates/google-sheets-template.md)
+- [Weekly cheat sheet (current round)](docs/weekly/round-current-2026.md)
 
 ### AFL insights & live data
 - [AFL insights hub](docs/afl-insights.md)
@@ -64,16 +70,58 @@ Claude - via the Scientist agent in this repo - does not just answer questions a
   - [For the coaching staff](docs/coaching-guide.md)
 - [AFL Hall of Fame](docs/hall-of-fame.md) - all-time top 100, statistical leaders, captains, coaches, courageous players, careers cut short, and the great dynasties
 
+### About
+- [Roadmap & contributing](docs/roadmap.md)
+- [Changelog](CHANGELOG.md)
+
+---
+
+## For data scientists
+
+If you're here for the methodology, the technical pages below have the full picture.
+
+### The prediction model in detail
+The current pipeline trains a tuned `LightGBM` / `HistGradientBoosting` / `RandomForest` ensemble on rolling-form, opponent, venue, and context features, with `GroupKFold` (player-grouped) cross-validation to prevent leakage and a post-hoc out-of-fold calibration to correct top-end compression.
+
+> Full technical detail → **[How it works: data science deep-dive](docs/data-science.md)** - the dataset, model, backtest, ranking algorithm, current accuracy, and roadmap, written in three layers from layperson to ML practitioner.
+
+### The all-time-100 algorithm
+Built from per-year, position-stratified within-cohort z-scores, capped and shrunk by era completeness, then aggregated using a rank-based formula with a season-count career bonus. Era-fair by construction.
+
+### Creating a Release (weekly fan pack)
+
+The repo ships a small shell script that bundles the weekly fan pack into a single zip ready to attach to a GitHub Release. From the repo root:
+
+```bash
+./scripts/package_fan_pack.sh                    # default tag: weekly-YYYY-MM-DD
+./scripts/package_fan_pack.sh weekly-2026-05-10  # custom tag
+```
+
+The script picks up the most recent prediction CSV, copies the fan-friendly docs (cheat sheet, predictions, backtest, glossary, how-to, Google Sheets template), writes a small README into the bundle, and zips it as `fan-pack-<tag>.zip` in the repo root.
+
+To upload as a release with the [`gh` CLI](https://cli.github.com/):
+
+```bash
+TAG="weekly-$(date -u +%Y-%m-%d)"
+gh release create "$TAG" \
+  --title "Weekly fan pack - $TAG" \
+  --notes "Latest prediction CSV plus fan-friendly docs." \
+  "fan-pack-${TAG}.zip"
+```
+
+The same packaging happens automatically on a Sunday-night schedule via [.github/workflows/weekly-fan-pack.yml](.github/workflows/weekly-fan-pack.yml) - the local script is for ad-hoc releases between scheduled runs.
+
 ### Technical guides
+- [Quick start](docs/quick-start.md) - TL;DR, three commands
+- [Installation & first-time setup](docs/installation.md) - For Fans / For Power Users / For Contributors
+- [Running predictions & backtests](docs/usage.md) - predict next round, backtest, refresh data
+- [Troubleshooting](docs/troubleshooting.md) - common errors and fixes
 - [Claude Code setup on Ubuntu](docs/claude-code-setup.md) - install Node.js, Claude Code, Python venv, default model
 - [Using the Scientist agent](docs/scientist-agent.md) - when plain Claude vs the Scientist, the improvement loop
-- [How it works: data science deep-dive](docs/data-science.md) - full technical reference: dataset, model, backtest, ranking, accuracy, roadmap
 - [How predictions work](docs/prediction-model.md) - the model, the backtest framework, the all-time-100 algorithm
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [Technical reference](docs/technical-reference.md) - GPU setup, data layout, scripts
-
-### About
-- [Roadmap & contributing](docs/roadmap.md)
+- [Model report card](docs/model-report-card.md) - hit/miss methodology and weekly accuracy log
 
 ## What's coming - Phase 2
 

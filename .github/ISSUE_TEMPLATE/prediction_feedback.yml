@@ -1,0 +1,72 @@
+name: Prediction feedback
+description: A specific prediction looked off, or the model is consistently wrong about a player or a team
+title: "[Prediction feedback] "
+labels: ["prediction-feedback", "model"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us when the model gets a player or a team wrong. This is one of the most valuable kinds of feedback - human eye sees role changes and tag jobs faster than the model does.
+
+        **You don't need to know any data science to fill this in.** Plain English is perfect.
+
+  - type: input
+    id: player-or-team
+    attributes:
+      label: Player or team the model got wrong
+      placeholder: e.g. "Harley Reid" or "West Coast Eagles"
+    validations:
+      required: true
+
+  - type: input
+    id: round
+    attributes:
+      label: Which round?
+      placeholder: e.g. "Round 9, 2026"
+    validations:
+      required: false
+
+  - type: textarea
+    id: predicted
+    attributes:
+      label: What did the model predict?
+      description: e.g. "model said 28 disposals". Paste the row from the CSV if easy.
+    validations:
+      required: false
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened?
+      description: e.g. "he had 14, was tagged by Bird all night"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: What does your eye say is going on?
+      description: Footy IQ welcome. Role change? Hard tag? Coming back from injury? New game plan? Coach in trouble?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: pattern
+    attributes:
+      label: One-off or pattern?
+      options:
+        - One-off - probably noise
+        - Has happened a few weeks in a row
+        - Has been wrong all season
+        - Not sure
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: looked-at-backtest
+    attributes:
+      label: Have you checked the backtest doc?
+      description: It bolds the players the model has been most consistently off about.
+      options:
+        - label: I checked [docs/afl-backtest-2026.md](../docs/afl-backtest-2026.md) for this player.
+          required: false
