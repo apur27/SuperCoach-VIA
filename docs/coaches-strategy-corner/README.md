@@ -28,7 +28,7 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 | Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs | Live reads |
 |-------|-------|-------|------------------|-------------------|------------|-----------------|------------|
-| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) | [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3 + live updates](richmond-vs-adelaide-round-9-2026-q3-live.md) |
+| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) | [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) · [Q4 + full-time](richmond-vs-adelaide-round-9-2026-q4-live.md) |
 
 ### Live reads
 
