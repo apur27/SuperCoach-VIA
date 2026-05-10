@@ -104,7 +104,7 @@ Open `backtest_run_*.log` in any text editor. Things to look for:
 The file `all_time_top_100.csv` ranks the 100 greatest VFL/AFL players of all time. The ranking is updated whenever you run `./refresh_and_rank.sh`.
 
 <!-- POSITION-BREAKDOWN-CHART-START -->
-![Top 100 position breakdown - donut and average score](assets/charts/top100_position_breakdown.png)
+![Top 100 position breakdown - donut and average score](../assets/charts/top100_position_breakdown.png)
 <!-- POSITION-BREAKDOWN-CHART-END -->
 
 #### The problem it solves

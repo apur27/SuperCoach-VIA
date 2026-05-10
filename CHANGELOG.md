@@ -26,6 +26,15 @@ All notable changes to SuperCoach-VIA. Format loosely follows [Keep a Changelog]
 ### Changed
 - `docs/installation.md` restructured with For Fans / For Power Users / For Contributors sections.
 - `README.md` reorganised: lead with the one-liner positioning, "Start here - I want to..." nav table, technical / data-science detail moved under a "For data scientists" heading. New "Creating a Release" section documents the local fan-pack script and `gh release create` flow.
+- `docs/how-this-repo-uses-claude.md` headings converted to sentence case for consistency with the rest of `docs/`; em-dashes replaced with hyphens to match repo convention; back-to-README nav link added at the top.
+- `docs/ai-architecture.md` back-to-README nav link added at the top.
+
+### Fixed
+- Broken internal links audited across all `docs/` and root markdown files (406 internal links checked).
+- `docs/prediction-model.md` - fixed broken image path for the top-100 position breakdown chart (was `assets/...`, now `../assets/...`).
+- `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/data-science.md` - corrected case-mismatched references to `.claude/agents/Scientist.md` (the file is capitalised on disk).
+- `docs/model-report-card.md` - per-round table now lists all 8 backtested rounds (rounds 1, 5, 6 were missing; cumulative numbers were already correct).
+- `docs/start-here-no-code.md` - residual em-dash replaced with hyphen.
 
 ---
 
@@ -72,7 +81,7 @@ All notable changes to SuperCoach-VIA. Format loosely follows [Keep a Changelog]
 - `pyproject.toml`, pinned dependencies, `src/supercoach/` package layout.
 - GitHub Actions CI - first workflow (lint and tests).
 - First test scaffolding - smoke tests for prediction loading.
-- Scientist agent system prompt (`/.claude/agents/scientist.md`) - methodology rules: inspect-before-transform, baseline-first, leakage-aware.
+- Scientist agent system prompt (`.claude/agents/Scientist.md`) - methodology rules: inspect-before-transform, baseline-first, leakage-aware.
 
 ### Changed
 - Refresh script (`refresh_and_rank.sh`) wired end-to-end - top-100 markdown step, 5-year profiles to its own file, auto git push.

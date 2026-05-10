@@ -62,9 +62,12 @@ The numbers below are pulled from the 2026 walk-forward backtest in [afl-backtes
 
 | Round | Players (n) | MAE (disposals) | RMSE | % within 5 | % within 10 | Notes |
 |------:|------------:|----------------:|-----:|-----------:|------------:|-------|
-| 2 | 413 | 4.14 | 5.15 | 68.0% | 94.2% | First useful round - Round 1 has too little 2026 history per player to be fair |
-| 3 | 320 | 4.07 | 5.28 | 69.7% | 94.7% | Best round so far on % within 5 |
+| 1 | 230 | 4.89 | 6.17 | 58.7% | 89.6% | Round 1 has too little 2026 history per player to be fair - included for completeness |
+| 2 | 413 | 4.14 | 5.15 | 68.0% | 94.2% | First useful round once each player has at least one 2026 game |
+| 3 | 320 | 4.07 | 5.28 | 69.7% | 94.7% | |
 | 4 | 319 | 4.15 | 5.31 | 69.9% | 94.0% | |
+| 5 | 365 | 3.74 | 4.74 | 70.4% | 97.3% | Best round so far on MAE and within 10 |
+| 6 | 411 | 3.98 | 5.06 | 71.3% | 95.1% | Best round so far on % within 5 |
 | 7 | 410 | 4.04 | 5.14 | 68.5% | 94.6% | |
 | 8 | 411 | 4.13 | 5.25 | 67.9% | 94.4% | |
 
