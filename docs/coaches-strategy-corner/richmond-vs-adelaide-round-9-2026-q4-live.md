@@ -298,3 +298,11 @@ No. The +25 margin at Q4 23:54 is two points wider than at Update 1 (Q4 9:09, AD
 
 The Q3 collapse remains the unforecast event of the day. The brief modelled per-quarter averages but did not flag the variance distribution that would have surfaced "Richmond's worst-quarter risk against Adelaide's best-quarter capacity". That is the next iteration's research question.
 
+
+---
+
+## Full Time
+
+> **Detailed post-game verdict:** [Full-time verdict](richmond-vs-adelaide-round-9-2026-full-time-verdict.md)
+
+Final score: **Adelaide 14.14.98 def Richmond 9.7.61 by 37 points.** Full analysis, prediction audit, and structural lessons in the verdict doc above.

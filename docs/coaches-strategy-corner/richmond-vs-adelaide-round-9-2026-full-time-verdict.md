@@ -1,0 +1,149 @@
+# Richmond vs Adelaide - Full-Time Verdict (Round 9, 2026)
+
+> Pre-match brief: [Executive summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md)
+> In-game reads: [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) | [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) | [Q4](richmond-vs-adelaide-round-9-2026-q4-live.md)
+>
+> Data source: FanFooty live feed (game 9781), final snapshot `9781_20260510_1751_final-siren.json`.
+> Note: col15 "goals" field is unreliable (per-player team sums do not match scoreboard). Goal counts cited here are from commentary entries or scoreboard totals only.
+
+## Final score
+
+**Adelaide 14.14.98 def Richmond 9.7.61 by 37 points** at the M.C.G., Round 9, 2026.
+
+Adelaide won three of four quarters on AFL Fantasy points and broke the game open in Q3. Richmond won the AF battle in Q2 and Q4 but only the second of those four quarters mattered for the scoreboard.
+
+## The 60-second verdict
+
+Adelaide won this game in a 25-minute window after half-time during which Jordan Dawson reverted from half-back to midfield, Nick Murray returned to defence, and Rankine, Milera, Cook and Dawson all turned in prolific quarters. Richmond's tactical brief read three of the four pre-game battles correctly (Q1 starts, hit-out exposure when Ryan plays, Lynch as contested-mark target) but had no contingency for **Ryan unavailable** and no model for **Q3 variance**. The structural insight: Richmond won enough quarters to be in the game, but Adelaide's worst quarter (Q2, 382 AF) was still within 7% of Richmond's best quarter (Q2, 409 AF). The variance was asymmetric and Richmond never had a quarter that exceeded Adelaide's Q3.
+
+## Quarter-by-quarter AF - the complete picture
+
+| Quarter | Richmond AF | Adelaide AF | Delta | Game narrative |
+|---|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 | Dead even. Richmond absorbed their forecast Q1 deficit (-12.2 AF/g avg). Dawson started at half-back, Murray at key forward - Adelaide playing a structure that was not working. |
+| Q2 | 409 | 382 | RI +27 | Richmond's only quarter on top. Half-time deficit "reflected their shots being taken from better spots" (commentary). Conversion failure was already the visible weakness. |
+| Q3 | 238 | 543 | **AD +305** | The game. Dawson reverted to midfield, Murray to defence, "the Crows woke up with a string of goals". Dawson 48 Q3 AF, Milera 45, Cook 42, Rankine 41. Richmond did not have a single 30+ AF quarter from anyone. |
+| Q4 | 296 | 434 | AD +138 | Richmond got Lynch a contested mark and a goal at 7:11 ("to stop the rot"). Ross 26 Q4 AF, Lynch 23, Balta 26. Adelaide closed out: McAndrew goaled at 25:58, Rachele at 22:50. |
+| **Total** | **1,358** | **1,777** | **AD +419** | |
+
+Adelaide won total AF by 30.8%. The Q3 alone (+305 AF) was 73% of the final AF margin.
+
+## Player report cards
+
+### Adelaide - top 8 by SC
+
+| Player | Disposals | AF | SC | Q3 AF | Q4 AF | Assessment |
+|---|---|---|---|---|---|---|
+| Izak Rankine | 33 (24k+9h) | 158 | **147** | 41 | 36 | The dominant player on the ground. 10 marks, 8 tackles, two-way game. Brief flagged "must contain"; result was the opposite of contained. |
+| Wayne Milera | 34 (18k+16h) | 113 | 127 | 45 | 21 | Game-high disposals. 94% DE - cleanest user on the ground. Brief profile (CV 0.21, defensive runner, doesn't go to contest) was accurate; the volume was the surprise. |
+| Jordan Dawson | 29 (22k+7h) | 133 | 115 | 48 | 26 | Captain. Q3 AF tells the story: started at half-back, moved into midfield after the long break, became the game's structural pivot. 12 marks. |
+| Rory Laird | 27 (16k+11h) | 110 | 105 | 39 | 21 | Predictable Laird - 12 marks, 81% DE, 84% TOG. Linkage role executed. |
+| Brayden Cook | 22 (14k+8h) | 83 | 87 | 42 | 13 | Q3 was his quarter (42 AF). Not on Richmond's radar pre-game. |
+| Josh Worrell | 21 (13k+8h) | 88 | 86 | 34 | 17 | Highest TOG on the team (92%). The intercept-and-launch profile from the brief held. |
+| Josh Rachele | 14 (8k+6h) | 66 | 86 | 23 | 15 | Goal at Q4 22:50 to ice the game. The "high contact free" call was soft; took the points. |
+| Lachlan McAndrew | 9 (6k+3h) | 86 | 83 | 19 | 22 | **31 hit-outs as the lone ruck.** Brief had Adelaide ruck rotation as a no-recognised-ruck weakness; that read died when Ryan was scratched. First senior goal at Q4 25:58. |
+
+### Richmond - top 8 by SC
+
+| Player | Disposals | AF | SC | Q3 AF | Q4 AF | Assessment |
+|---|---|---|---|---|---|---|
+| Jack Ross | 26 (8k+18h) | 96 | **107** | 18 | 26 | Best Tiger. 6 tackles, 86% TOG, +26 Q4 AF. The "Berry-equivalent" call from the brief held; he was the most consistent four-quarter performer on the ground for Richmond. |
+| Ben Miller | 18 (13k+5h) | 80 | 106 | 28 | 14 | Quiet outlier - 7 marks, 93% TOG. Only Tiger to crack 25+ Q3 AF. |
+| Jayden Short | 26 (15k+11h) | 94 | 101 | 11 | 10 | 96% DE - cleanest user on the ground. But the Q3/Q4 fade (11+10) shows the same arc as the team. |
+| Tim Taranto | 28 (12k+16h) | 87 | 99 | 14 | 21 | 28 disposals on paper, 18 clangers in the cell, 64% DE - the highest disposal-getter who lost the ball most. The "trending down" warning in the brief landed. |
+| Nick Vlastuin | 21 (11k+10h) | 67 | 90 | 11 | 6 | The Walker matchup never materialised (Walker DNP). Q4 AF of 6 suggests gassed. |
+| Tom J. Lynch | 14 (8k+6h) | 71 | 90 | 9 | **23** | The contested-mark target call was right; the supply was 45 minutes late. 1 goal confirmed at Q4 7:11 ("to stop the rot"). |
+| James Trezise | 18 (12k+6h) | 78 | 84 | 8 | 15 | 7 marks, 76% TOG. Defensive role, did not generate score. |
+| Luke Trainor | 18 (11k+7h) | 77 | 76 | **32** | 13 | The one Tiger who had a Q3. 10 marks across the game. Late inclusion (replacing Grlj) - the best Richmond Q3 contribution came from the bench. |
+
+## Pre-game prediction audit
+
+Every load-bearing prediction from the [tactical brief](richmond-vs-adelaide-round-9-2026.md), audited.
+
+| Prediction | Pre-game call | Actual | Verdict |
+|---|---|---|---|
+| Hit-outs | RI +15 (Ryan-conditional). "You don't get this opportunity twice a year." | RI 19 vs AD 37 = **AD +18**. Ryan absent, McAndrew 31 HO solo. | **INVERTED** |
+| Tackle gap | AD +8 (brief) - "they will out-pressure unless tempo changes" | RI 38 vs AD 61 = **AD +23**. Direction right, magnitude under by 188%. | **UNDER (direction right)** |
+| Q1 differential | RI avg -12.2 AF/g vs opponents; "the win condition" | Q1 AF: RI 415 AD 418 = AD +3. **Beat the seasonal average by 9 AF.** | **BEAT** |
+| Q2 momentum | Implicit chase quarter | RI +27 AF. Richmond's only winning quarter. | **HIT** |
+| Lynch contested weapon | "2+ marks, 1+ goal, contested target" | 3 marks, 1 goal confirmed (Q4 7:11), 71 AF, 86 SC | **HIT (late delivery)** |
+| Dawson disposals | 21-28 disp band (CV 0.11, "most consistent ball-winner") | 29 disposals, 133 AF, 115 SC, 12 marks | **TRACKING (volume exceeded; consistency held - Q1-Q4 spread was wide due to positional shift)** |
+| Rankine suppression | "Must-contain, mobile forward, match with running defender" | 33 disp, 158 AF, 147 SC, 10 marks, 8 tackles | **FAILED** |
+| Berry pressure | "5+ tackles, 13+ CP, the engine, single point of failure" | 20 disp, **3 tackles**, 69 AF, 73 SC | **OVER (Adelaide won without Berry firing - which inverts the brief's whole "Berry is single point of failure" thesis)** |
+| Adelaide accuracy | "More accurate set-shot side; Richmond cannot afford behinds" | AD 14.14 (50% conversion), RI 9.7 (56% conversion). Adelaide kicked **14 behinds** and still won by 37. | **FAILED ON ASSUMPTION; OUTCOME INVERTED** |
+| Q3 collapse | Not flagged; brief modelled per-quarter averages | AD +305 AF in Q3. The decisive quarter. | **STRUCTURAL BLIND SPOT** |
+| Richmond Q4 burst | Identified as -14.1 avg deficit ("the worst") | RI 296 AF Q4 vs AD 434 = AD +138. Win condition flipped: Richmond did not get blown out in Q4 but the game was already lost. | **WINDOW OPENED TOO LATE** |
+| Vlastuin on Walker | "Veteran intercept body on the goal-kicker" | Walker DNP (Showdown injury). Murray played key forward in Q1-Q2, then reverted to defence. | **MATCHUP NEVER MATERIALISED** |
+| Ross on Berry | "Match Berry with Ross - the contested-ball pivot" | Berry: 3 tackles, 11.9 CP/g pre-game vs ~10 today. Ross 96 AF, 107 SC, 6 tackles. **Ross out-played Berry on every dimension.** | **HIT (matchup won, game lost)** |
+| Conversion lift target | "Lift Richmond from 0.192 to 0.230 g/i50 = +1.8 goals = +11 points" | RI 9.7 from 16 scoring shots = 56% accuracy. Better than projected, but volume was the issue, not accuracy. | **HIT ON ACCURACY, MISSED ON VOLUME** |
+
+**Summary**: 4 hits (Q1, Q2, Lynch, Ross-on-Berry matchup), 2 partials (Dawson tracking, conversion lift hit-but-irrelevant), 4 failed/inverted (Hit-outs, Rankine, Berry-as-single-point-of-failure, Adelaide accuracy), 1 blind spot (Q3 collapse), 2 unrealised (Vlastuin-Walker, Q4 burst). The brief's reads on individual matchup logic were largely correct; the brief's reads on the variance distribution and the Ryan-out scenario were where it broke.
+
+## Structural autopsy
+
+### What actually won this game for Adelaide
+
+**Ryan's absence as structural pivot.** The brief identified the hit-out battle as "the single biggest structural lever in the game" - a claim that depended on Ryan playing. With Ryan scratched, McAndrew took 31 of Adelaide's 37 hit-outs and Adelaide *won* the hit-out count by 18. This was not just a flipped number on a stat sheet: Adelaide's clearance constraint (rank 16/18, "constrained by their ruck") was lifted. Without that constraint, the brief's whole "crack the structure with hit-out dominance" plan had no entry point. Richmond did not have a Plan B for ruck dominance going the other way.
+
+**Dawson's positional shift.** The commentary log makes this explicit: "After half time, Dawson and Nick Murray reverted to their more comfortable roles." Dawson started at half-back in a structure designed to cover for Walker's absence. When that structure failed (Murray as KPF "was just not working"), Adelaide reset at half-time and Dawson moved into the engine room. His Q1-Q2 AF was 25; his Q3-Q4 AF was 74. The 48-point Q3 AF is the largest single-quarter individual AF in the match. Richmond's brief had Dawson tagged for Taranto - that matchup was effectively void once Dawson moved.
+
+**The Q3 burst was four players, not one.** Dawson 48, Milera 45, Cook 42, Rankine 41 - four Crows over 40 AF in a single quarter. Richmond's best Q3 contributor was Trainor (32) - their late inclusion. The variance distribution the brief did not surface: Adelaide's quarter-best-case is far above their quarter-average; Richmond's quarter-best-case is at their quarter-average. Modelling per-quarter means missed this entirely.
+
+**Adelaide's tackle identity executed above the brief's projection.** Brief said AD +8 tackles. Actual was AD +23. The brief projected from season averages (AD 59.5/g, RI 51.8/g = expected gap of ~8). On the day, Adelaide tackled at 161% of their season rate (61) and Richmond at 73% (38). The brief modelled rates; it did not model the *interaction effect* - that Adelaide tackles harder against a side that has clanger problems, and Richmond's clanger floor (4/18 worst) compounds with Adelaide's tackle ceiling. Both teams are at their structural extremes; the gap multiplies, not adds.
+
+### What Richmond did right (and why it didn't matter)
+
+Richmond won the disposal count's quality battle (Short 96% DE, Lynch's late contested marks, Ross's 6 tackles) and won the Q1 starts battle that the brief flagged as the win condition. Q1 finished AD +3 - vs the seasonal expectation of RI -12.2. That is a 9-AF improvement on baseline, executed exactly as the brief specified.
+
+The Q2 was Richmond's. AF +27, "shots being taken from better spots" per commentary. If accuracy had been at season-best, Richmond goes into half-time level or up. They were not.
+
+The problem: winning Q1 (tied) and Q2 (+27 AF) only mattered if Richmond could limit the Q3 damage to within 50 AF. They lost it by 305. There is no game plan that survives a 305-AF quarter loss. The brief's per-quarter mean modelling assumed the quarter outcomes were independent; they are not - Adelaide's Q3 is correlated with their structural reset capacity, which Richmond did not model.
+
+### The conversion problem - data
+
+Adelaide kicked **14.14** (28 scoring shots, 50% accuracy). Richmond kicked **9.7** (16 scoring shots, 56% accuracy). Richmond's accuracy was *better than Adelaide's* - the brief's "Adelaide is the more accurate set-shot side" was wrong on the day (and the brief itself flagged Adelaide's behinds-rate as a vulnerability the commentary calls out: "their shots being taken from better spots" was Richmond's HT advantage, not Adelaide's).
+
+The independent variable was **scoring shot volume**, not accuracy. Adelaide had 28 shots at goal, Richmond 16. At Adelaide's actual accuracy (50%), Richmond would need 20 scoring shots just to match Adelaide's 14 goals (and they had 16). At Richmond's accuracy (56%), Adelaide's 28 shots would yield 15.7 goals. The volume gap (12 scoring shots) is the entire game.
+
+Richmond's territory-and-supply problem was the hidden killer: with 38 tackles taken against them (sorry, 38 tackles applied; 61 conceded), they were locked in their own half for long stretches of Q3-Q4 and could not generate inside-50 volume. Brief modelled accuracy lift (0.192 to 0.230) but the lift target was the wrong axis. Volume of inside-50s was the lever.
+
+## What to adjust for the next Richmond vs Adelaide brief
+
+1. **Ryan selection is a binary flag, not a conditional footnote.** When Ryan is out, the hit-out model must be inverted from the start. The brief had "If Ryan plays" buried in section 3; it needed to be the headline branch. **Action**: Pre-match brief structure should branch on each side's #1 ruck availability, not assume best-case lineup.
+2. **Q3 variance is the unmodelled risk.** Richmond's mean Q3 differential is -9.1; their *variance* against teams that reset at half-time has not been measured. Adelaide demonstrated a +305 AF quarter on this specific lineup. **Action**: Add a "worst-case Q3" model to future briefs - opponent's best historical quarter vs Richmond's worst, with explicit variance bounds.
+3. **Tackle magnitude scales non-linearly with clanger floor.** AD +8 (the brief's projection) was the additive baseline; AD +23 (actual) was the multiplicative outcome when both sides hit their structural extreme. **Action**: Tackle-gap projection must include an interaction term with the favoured team's clanger rank. Both sides at extremes = double the projected gap.
+4. **Conversion is volume, not accuracy.** Richmond's 56% accuracy beat Adelaide's 50%; the game was decided by 12 extra Adelaide scoring shots. **Action**: Replace "lift conversion from X to Y" targets with "generate N+ inside-50s" targets. Inside-50 differential is the load-bearing predictor.
+5. **Mid-match positional shifts are reads, not noise.** Dawson at half-back was a structural cover that failed; the brief's "Dawson is your captain on senior" matchup assumption did not survive the half-time reshuffle. **Action**: Document each side's known positional flex options and tag matchups as "first-half" or "all-game" to track when they lapse.
+
+## SuperCoach fantasy verdict
+
+**Top scorers (SC):**
+
+Adelaide: Rankine 147, Milera 127, Dawson 115, Laird 105 - four 100+ SC scores. **Rankine was the captaincy slam dunk** in retrospect; the brief's "must-contain" framing did not factor in his SC ceiling when contained tactically failed.
+
+Richmond: Ross 107, Miller 106, Short 101 - three 100+. **Ross 107 SC at his price point is the value-add of the game.** The brief's "Berry-equivalent" call gave you the right player.
+
+**Traps:**
+
+- **Taranto 99 SC at 28 disposals** is a value-trap classic. The disposal volume reads "elite midfielder game"; the 18 clangers and 64% DE strip it. SC penalised the cheap turnovers; AF rewarded the volume (87 AF). The 12-point AF/SC gap reflects that.
+- **Vlastuin 90 SC** is junk - the matchup he was selected for (Walker) did not eventuate, and Q4 AF of 6 shows he gassed. Don't extrapolate his role into next week.
+- **Lynch 90 SC, 71 AF** - 23 of the AF came in Q4 garbage time. SC saw the contested marks and rewarded; AF saw the late delivery and underweighted. This is the one game where SC told you more than AF.
+
+**Over-deliverers:**
+
+- **Trainor 76 AF / Miller 106 SC** - cheap forward/defender combo who exceeded brief expectations. Trainor was a late inclusion; if his TOG (86%) holds next week he's a hold.
+- **McAndrew 86 AF / 83 SC as the lone ruck** - 33 hit-outs in a forced 92% TOG ruck role. If Ryan stays out, this becomes a weekly score.
+
+**Under-deliverers:**
+
+- **Berry 69 AF / 73 SC** at his usual ownership - his pressure profile (3 tackles vs season 8.0) collapsed. The brief's "remove Berry, the team's pressure profile collapses" thesis is now in question: Berry was effectively removed (3 tackles) and Adelaide's pressure profile *did not* collapse - it actually went up (61 team tackles vs season 59.5). **This is a finding worth carrying forward**: Adelaide's pressure system may not be Berry-dependent at the level the brief assumed.
+
+## One-line verdict
+
+**Richmond vs Adelaide R9 2026 verdict:** Adelaide won by 37 in a Q3 burst that exceeded any single-quarter scenario the brief modelled, with the headline structural lesson being that Ryan's absence inverted the entire ruck-dominance plan and there was no Plan B written.
+
+---
+
+*Source: FanFooty live feed game 9781, final snapshot 2026-05-10 17:51 (`data/live_snapshots/9781_20260510_1751_final-siren.json`).*
+*Schema note: col15 (per-player goals field) unreliable - team sums do not match scoreboard. Goal counts cited use commentary entries or scoreboard totals only.*
+*Headline scoreboard verified: header.home_score = "9.7.61", header.away_score = "14.14.98", header.status = "Final Siren".*
