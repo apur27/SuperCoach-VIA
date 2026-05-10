@@ -63,7 +63,7 @@ PLAYER_COLUMNS = [
     "marks",            # 12
     "tackles",          # 13
     "hitouts",          # 14
-    "goals",            # 15
+    "goals",            # 15 - WARNING: does NOT equal goals-in-this-game; sum across team != team's actual goals; may be season total or score contributions; treat as unreliable for individual game goal counts
     "behinds",          # 16
     "frees_for",        # 17
     "frees_against",    # 18
