@@ -4,7 +4,46 @@
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
-**Who is this page for?** Brand-new users on Ubuntu (or anyone who wants the full step-by-step). Walks you from zero - no Git, no GitHub account, no Python - through to having the SuperCoach-VIA project cloned and ready to run.
+**Pick the section that matches you. Most footy fans only need section 1.**
+
+| You are... | Go to | What you'll get |
+|---|---|---|
+| **A footy fan** who just wants this week's predictions, stat leaders, or the all-time top 100 | [For Fans](#for-fans-zero-setup-required) | Browser-only - no install, no terminal |
+| **A SuperCoach player** who wants to download the prediction CSV and slice it in your own spreadsheet | [For Power Users](#for-power-users-download-the-data-no-coding) | A few clicks, no Python, no Git |
+| **A developer or data scientist** who wants to run the pipeline, retrain the model, or contribute | [For Contributors](#for-contributors-full-local-setup-on-ubuntu) | Full local setup from zero |
+
+---
+
+## For Fans - zero setup required
+
+Everything you need is already viewable on GitHub in your browser. No install, no terminal, no Python.
+
+- **This week's predicted disposal leaders** → [docs/afl-predictions-2026.md](afl-predictions-2026.md)
+- **2026 season hub** (form, ladder, top scorers) → [docs/afl-season-2026.md](afl-season-2026.md)
+- **All-time top 100** → [docs/hall-of-fame-top100.md](hall-of-fame-top100.md)
+- **The cheat sheets and weekly fan pack** → [docs/start-here-no-code.md](start-here-no-code.md)
+- **What the numbers mean** → [docs/glossary.md](glossary.md)
+
+That's it. You're done. Bookmark this repo and check back weekly.
+
+---
+
+## For Power Users - download the data, no coding
+
+You want the raw prediction CSV in Google Sheets or Excel so you can sort, filter, and add your own columns. You don't want to install anything.
+
+1. Go to the latest prediction CSV in this repo at **`data/prediction/`** (file names look like `next_round_<N>_prediction_<timestamp>.csv` - pick the most recent for the upcoming round).
+2. Click **Raw** on GitHub, then save the page as a `.csv` file (right-click → Save Page As).
+3. Open it in Google Sheets, Excel, or Numbers. The columns are: `player`, `team`, `predicted_disposals`.
+4. Set up a watchlist or comparison view using the [Google Sheets template](../templates/google-sheets-template.md).
+
+That's the whole flow. You don't need Python, Git, or anything installed.
+
+---
+
+## For Contributors - full local setup on Ubuntu
+
+**Who is this section for?** Brand-new users on Ubuntu (or anyone who wants the full step-by-step). Walks you from zero - no Git, no GitHub account, no Python - through to having the SuperCoach-VIA project cloned and ready to run.
 
 > **If you have already cloned the repo and just want to run a prediction**, jump to [Running predictions & backtests](usage.md).
 
