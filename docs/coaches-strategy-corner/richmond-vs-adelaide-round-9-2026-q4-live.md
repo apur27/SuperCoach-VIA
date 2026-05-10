@@ -5,6 +5,8 @@
 >
 > Data source: FanFooty live feed (game 9781) - updated live through Q4.
 > Script: `scripts/fetch_live_match.py`
+>
+> **Data quality note (Updates 1-2):** The `goals` column (col15) in the FanFooty feed does NOT represent goals in this game - summing it gives RI=17, AD=16 vs actual RI=8, AD=11. Updates 1-2 incorrectly attributed 6 goals to Toby Murray. He kicked 1 goal this game. References to "6 junk-time goals" are wrong. Corrections applied from Update 3 onwards.
 
 ---
 
@@ -121,3 +123,50 @@ Richmond's Q4 - won on AF, lost on conversions, played after the game was gone -
 ---
 
 *Data: FanFooty live feed, Q4 12:38, 2026-05-10. Full-time verdict to follow on final siren.*
+
+---
+
+## Update 3 - Q4 12:38 CORRECTED | 2026-05-10
+
+**Score: Adelaide 11.11.77 - Richmond 8.6.54 (Adelaide +23)**
+
+**Correction of Updates 1-2:** The `goals` field (col15) in the FanFooty feed sums to RI=17, AD=16 - far exceeding actual scores of RI=8, AD=11. It does not represent goals kicked in this game. Toby Murray kicked **1 goal** in this game (per verified source), not 6. The "junk time goals" narrative in Updates 1-2 is retracted. The `goals` column in `fetch_live_match.py` has been flagged as unreliable. Individual goal attribution now uses commentary only.
+
+**Murray reread:**
+
+Murray is a ruck-forward who produced 32 Q4 AF. With 1 actual goal (6 AF), the remaining 26 Q4 AF came from his 6 total tackles (likely concentrated in Q4) and hitout contributions. That is the correct read: an active pressure/ruck player running hot on tackles in Q4, not a set-shot beneficiary. The commentary at Q4 2:46 confirms his one Q4 goal came via free kick.
+
+**The corrected Q4 picture:**
+
+| Quarter | Richmond AF | Adelaide AF | Delta |
+|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 |
+| Q2 | 409 | 382 | **RI +27** |
+| Q3 | 238 | 543 | AD **+305** |
+| Q4 (12:38) | **142** | 130 | **RI +12** |
+
+Richmond winning Q4 remains correct. The mechanics behind it:
+
+| Player (RI) | Q4 AF | Role in Q4 |
+|---|---|---|
+| Jack Ross | 18 | Best midfielder in Q4 - driving ball movement |
+| Jacob Hopper | 18 | Matching Ross, contested clearance work |
+| Jonty Faull | 15 | Disposal volume from half-forward |
+| Tom Lynch | 14 | 1 goal (Q4 7:11), 3 marks - the contested plan working |
+| Noah Balta | 21 | Active at ground level; crumbing under pressure |
+
+**What the scoreboard doesn't show:**
+
+Richmond are winning Q4 AF 142-130 but added only 1 behind since Q4 9:09. Hopper's set shot shank (Q4 11:36, per commentary) is emblematic of the conversion problem that has haunted Richmond all day. The midfield generates; the scoreboard stays static.
+
+**Adelaide's Q4 management:**
+
+Dawson has 5 Q4 AF after dominating Q3 (48 AF). Rankine has 13 Q4 AF but is not pressing to extend the lead. This is a team with +23 and 10 minutes left, deliberately conserving energy and field position. The tackle count (AD 52, RI 33) will not move significantly from here.
+
+**What to watch for the final 10 minutes:**
+
+If Richmond somehow produce a 4-goal burst in 10 minutes - which would require both midfield dominance AND conversion - they win. The AF split says the midfield is there. The conversion history says the finish is not. The game is statistically over; the remaining interest is whether Balta and Lynch can combine to make it respectable for Richmond.
+
+---
+
+*Data: FanFooty live feed, Q4 12:38, 2026-05-10. Goals corrected from commentary; col15 flagged as unreliable.*
