@@ -10,11 +10,11 @@ This file collects the lightweight conventions and the maintenance odds-and-ends
 
 You do not need to write code or open a pull request. The most useful contributions from fans are:
 
-- **Prediction feedback** - the model got a player obviously wrong and your eye knows why. Open a [Prediction feedback issue](https://github.com/apur27/SuperCoach-VIA/issues/new?template=prediction_feedback.yml). This is one of the highest-value things a fan can do - human eye sees role changes and tag jobs faster than the model.
-- **Bug reports** - a doc looks wrong, a number is impossible, a chart is broken. [Bug report form](https://github.com/apur27/SuperCoach-VIA/issues/new?template=bug_report.yml).
-- **Feature requests** - a stat you wish was tracked, a doc you wish existed. [Feature request form](https://github.com/apur27/SuperCoach-VIA/issues/new?template=feature_request.yml).
+- **Prediction feedback** - the model got a player obviously wrong and your eye knows why. [Email careerabhi@gmail.com](mailto:careerabhi@gmail.com) with the player name and what the model missed. This is one of the highest-value things a fan can do - human eye sees role changes and tag jobs faster than the model.
+- **Bug reports** - a doc looks wrong, a number is impossible, a chart is broken. [Email careerabhi@gmail.com](mailto:careerabhi@gmail.com) with what you found.
+- **Feature requests** - a stat you wish was tracked, a doc you wish existed. [Email careerabhi@gmail.com](mailto:careerabhi@gmail.com) with the idea.
 
-The issue forms are written in plain English and ask only what's useful. Skip any field you don't have an answer for.
+No account required - just a plain-English email is fine.
 
 ---
 
