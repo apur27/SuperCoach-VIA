@@ -73,4 +73,51 @@ The tackle number is not even in the same zip code as the prediction. Adelaide's
 
 ---
 
-*Data: FanFooty live feed, Q4 9:09, 2026-05-10. Full-time verdict to follow on final siren.*
+*Data: FanFooty live feed, Q4 9:09, 2026-05-10.*
+
+---
+
+## Update 2 - Q4 12:38 | 2026-05-10
+
+**Score: Adelaide 11.11.77 - Richmond 8.6.54 (Adelaide +23)**
+
+### Scientist read: Richmond winning Q4 - too late, but it tells you something
+
+The scoreline is unchanged at +23, but the Q4 AF split has flipped. Richmond are outscoring Adelaide in the final quarter 142 to 130. Adelaide have shifted entirely into game management mode - Dawson and Rankine stepping back, the tackle engine throttled down to 52 (no new tackles since Q4 9:09). Richmond's midfield, freed from the Q3 pressure storm, is actually functioning. The problem is that the damage was done in a 15-minute burst between the Q3 14-minute mark and the three-quarter siren, and no Q4 performance wipes that out with 10 minutes on the clock.
+
+**Quarter-by-quarter AF - final four rows:**
+
+| Quarter | Richmond AF | Adelaide AF | Delta |
+|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 |
+| Q2 | 409 | 382 | **RI +27** |
+| Q3 | 238 | 543 | AD **+305** |
+| Q4 (12:38) | **142** | 130 | **RI +12** |
+
+Richmond are winning this quarter. That fact matters for what comes next - not this game, but the coaching debrief. When Adelaide turned their pressure off, Richmond's disposal game re-emerged: Ross (18 Q4 AF), Taranto (12 Q4 AF), Short and Hopper combining to move the ball freely. The brief's midfield identity was not wrong - it was simply overwhelmed by a Q3 intensity it could not match while also absorbing 16 fewer hit-outs.
+
+**The Ross revelation:**
+
+Ross has 18 Q4 AF - the best Q4 output of any Richmond player. He has 6 tackles and is winning contested ball. This is the version of Richmond's midfield that should have appeared in Q3. The brief flagged Taranto as the contested engine, but Ross is the Q4 story: he showed up when the game was beyond saving.
+
+**Why the scoreboard didn't move:**
+
+Richmond are winning Q4 AF but added only 1 behind (8.6.54 vs 8.5.53 from last snapshot). Commentary shows Hopper shanking a set shot OOTF from 45m in Q4 11:36. The conversion problem that cost Richmond Q1 and Q2 has not been solved - the midfield is generating, the forward line is not converting.
+
+**Adelaide's Q4 dial-down:**
+
+| Player | Q3 AF | Q4 AF | Verdict |
+|---|---|---|---|
+| Jordan Dawson (AD) | 48 | 5 | Game management - pulling back |
+| Izak Rankine (AD) | 42 | 13 | Still active but not hunting |
+| Toby Murray (AD) | - | 32 | Free-kick junk time (6 goals, 7 disp) |
+
+Dawson at 5 Q4 AF after 48 in Q3 is the data signature of a team playing keep-the-ball, not win-the-game. Murray's 32 Q4 AF is deceptive - 6 goals from 7 disposals, all via free kicks per commentary, and the feed itself calls it "junk time." If those goals were dropped from the scoreboard, the true picture of Q4 territory control reads RI winning easily.
+
+**What Q4 tells us for the next Richmond vs Adelaide brief:**
+
+Richmond's Q4 - won on AF, lost on conversions, played after the game was gone - contains one genuinely useful signal: this midfield can function in Q4 conditions when the opponent relaxes the tackle pressure. The lesson is structural. Adelaide's 52-tackle output in this game was not sustainable for four quarters; it was concentrated almost entirely in Q3. A Richmond team that can weather Q3 pressure without capitulating - by rotating an extra midfielder through the contest, by getting Lynch the ball in Q2 to maintain scoreboard pressure - enters Q4 in a winnable position. The forward conversion rate (25% this game) is the independent problem that requires fixing regardless of opponent.
+
+---
+
+*Data: FanFooty live feed, Q4 12:38, 2026-05-10. Full-time verdict to follow on final siren.*
