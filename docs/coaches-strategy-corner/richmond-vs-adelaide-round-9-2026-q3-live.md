@@ -290,4 +290,6 @@ There is no realistic win path from +23. Richmond can play for pride, reduce the
 
 ---
 
-*Data: FanFooty live feed, Q3 27:21, 2026-05-10. Full-time verdict to follow.*
+*Data: FanFooty live feed, Q3 27:21, 2026-05-10.*
+
+> **Q4 live updates and full-time verdict:** [Q4 live read](richmond-vs-adelaide-round-9-2026-q4-live.md)
