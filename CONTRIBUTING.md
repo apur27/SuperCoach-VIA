@@ -24,7 +24,7 @@ For code contributions, the friendly defaults are:
 
 1. Fork → branch → PR. Small focused PRs are easier to review than big ones.
 2. Read [docs/installation.md](docs/installation.md) (For Contributors section) for environment setup.
-3. The [Scientist agent system prompt](.claude/agents/scientist.md) describes the methodology rules: inspect-before-transform, baselines first, no leakage, reproducibility. Code that touches the model or backtest is held to those rules.
+3. The [Scientist agent system prompt](.claude/agents/Scientist.md) describes the methodology rules: inspect-before-transform, baselines first, no leakage, reproducibility. Code that touches the model or backtest is held to those rules.
 4. Don't edit between `<!-- ...-START -->` and `<!-- ...-END -->` markers in the auto-updated docs - those sections are rewritten by the refresh pipeline.
 5. The full project history lives on `main`. There is no separate dev branch.
 

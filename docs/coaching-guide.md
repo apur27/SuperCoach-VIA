@@ -220,7 +220,7 @@ Twenty prompts you can paste straight into Claude. Some are plain-Claude jobs; t
 - "What is West Coast's clearance rate when playing away from Perth? Compare to their home rate over the last 3 seasons."
 - "Does West Coast give up more inside 50s in the last quarter when trailing? Quantify it."
 - "How does West Coast's contested possession win-rate change in wet weather games? (Use historical match-day weather where available, flag the data gap if not.)"
-- "West Coast's record at the MCG in the last 10 years - wins, losses, average margin. Are they worse here than at neutral grounds?" 
+- "West Coast's record at the MCG in the last 10 years - wins, losses, average margin. Are they worse here than at neutral grounds?"
 
 **On their weaknesses**
 
