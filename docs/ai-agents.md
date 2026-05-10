@@ -17,6 +17,7 @@ This entire project is built and maintained using Claude. The two pages below co
 
 ## Related
 
+- [How this repo uses Claude](how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance, multi-agent orchestration (portfolio/showcase doc)
 - [Installation & first-time setup](installation.md)
 - [Running predictions & backtests](usage.md)
 - [Live AFL insights](afl-insights.md)
