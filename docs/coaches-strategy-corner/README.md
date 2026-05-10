@@ -34,6 +34,55 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 From Round 9, briefs are now supplemented with **in-game live reads** pulled directly from the FanFooty live feed (`fanfooty.com.au/live/<gameid>.txt`) using `scripts/fetch_live_match.py`. A live read compares pre-game predictions against in-game reality - who was right, who was wrong, and what the second half should look like. Snapshots are saved to `data/live_snapshots/` for reproducibility. Live reads can be generated at any point during a game: half-time, end of Q3, or whenever a tactical shift warrants a fresh look.
 
+## How to run a live match analysis
+
+End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pipeline. All commands assume the repo root as the working directory and use the project venv: `/home/abhi/sourceCode/python/coding/.venv/bin/python`.
+
+1. **Find the FanFooty game ID.** Open the live page on fanfooty.com.au; the URL is shaped `fanfooty.com.au/live/2026/<gameid>-<team-slug>.html`. The numeric `<gameid>` (e.g. `9781`) is the only argument the fetch script needs.
+
+2. **Fetch a snapshot.** One-liner:
+
+   ```bash
+   /home/abhi/sourceCode/python/coding/.venv/bin/python scripts/fetch_live_match.py <gameid>
+   ```
+
+   The script pulls `https://www.fanfooty.com.au/live/<gameid>.txt`, parses the 65-column player rows, and writes two artifacts to `data/live_snapshots/`:
+   - `<gameid>_<YYYYMMDD_HHMM>_<status>.json` - full structured snapshot (header, meta, commentary, players)
+   - `<gameid>_<YYYYMMDD_HHMM>_players.csv` - the player table on its own
+
+3. **Verify the snapshot.** On success the script prints the score, round, venue, player count, and `Schema sentry: passed`, followed by the top 5 disposal-getters per side. Two hard sentries run on every fetch:
+   - **Column count**: every player row must have exactly 65 columns (catches feed schema drift).
+   - **Quarter-sum**: per-player Q1+Q2+Q3+Q4 AF (cols 46/48/50/52) must equal total AF (col 5). A failure means the columns have shifted and downstream parsing is unsafe - fix before continuing.
+
+4. **Known data quality issue: col15 ("goals") is unreliable.** The team sum of col15 does not match the actual scoreline. Do **not** attribute individual goals from this column. For score and goalkicker attribution, use the match header (`home_score` / `away_score`) and the m0nty commentary stream in the JSON snapshot. Disposals (col10 + col11), tackles (col13), marks (col12), and hitouts (col14) are reliable.
+
+5. **Create the live read doc.** Naming convention, one file per quarter milestone:
+   - `docs/coaches-strategy-corner/<match-slug>-half-time-live.md`
+   - `docs/coaches-strategy-corner/<match-slug>-q3-live.md`
+   - `docs/coaches-strategy-corner/<match-slug>-q4-live.md`
+   - `docs/coaches-strategy-corner/<match-slug>-full-time-verdict.md` (separate post-match wrap)
+
+   `<match-slug>` matches the brief (e.g. `richmond-vs-adelaide-round-9-2026`). Add or update the **Live reads** column in the table at the top of this README so each new doc is one click away.
+
+6. **Run the analysis loop.** Two options:
+   - **Manual**: re-run step 2 every ~90s, then update the active live read doc with what changed. Best for tight tactical commentary where each snapshot deserves a written read.
+   - **Automated polling**: `scripts/live_match_monitor.py` wraps the fetch on a 90-second interval and stops automatically when status flips to `Full Time`:
+
+     ```bash
+     /home/abhi/sourceCode/python/coding/.venv/bin/python scripts/live_match_monitor.py \
+       <gameid> docs/coaches-strategy-corner/<match-slug>-q4-live.md
+     ```
+
+7. **Quarter milestones.** Write a fresh doc at half-time, end of Q3, and end of Q4. Keep each doc focused on what changed in that period vs the pre-match brief - not a running log. After full-time, write the **full-time verdict** as a separate file and link it from the bottom of the Q4 doc.
+
+8. **Commit and push.** GitHub-rendered docs are the live read; push after every meaningful update so readers see the latest version:
+
+   ```bash
+   git add docs/coaches-strategy-corner/<match-slug>-*-live.md docs/coaches-strategy-corner/README.md data/live_snapshots/
+   git commit -m "Live read: <match-slug> <milestone>"
+   git push origin main
+   ```
+
 ### How this section works
 
 Each brief is built from the repo's historical match, lineup, and player-performance data - see the methodology paragraph below for the underlying sources. Charts referenced inside a brief live under `assets/charts/strategy/<match-slug>/` (one folder per fixture, so briefs do not collide with each other). When a new fixture is added, a row is appended to the table above; nothing else on this page needs to change. If you only have a minute, the **Executive summary** column is the right place to start - every fuller doc is one click away from there.
