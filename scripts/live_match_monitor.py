@@ -99,9 +99,89 @@ def format_snapshot(snap: dict, quarter: str) -> str:
     # Recent commentary (current quarter only)
     q_commentary = q_events(snap.get("commentary", []), quarter)
 
+    # --- Richmond win-condition analysis ---
+    ri_players = [p for p in players if p.get("team") == home_code]
+    ad_players = [p for p in players if p.get("team") == away_code]
+
+    ri_q4    = ht.get(q_af_key, 0)
+    ad_q4    = at.get(q_af_key, 0)
+    ri_tk    = ht["tackles"]
+    ad_tk    = at["tackles"]
+    ri_ho    = ht["hitouts"]
+    ad_ho    = at["hitouts"]
+
+    # Lynch contested output
+    lynch = next((p for p in ri_players if "Lynch" in (p.get("surname") or "")), None)
+    lynch_line = (
+        f"Lynch {disp(lynch)} disp / {lynch.get('goals') or 0} goals / "
+        f"{lynch.get('marks') or 0} marks"
+        if lynch else "Lynch not found in data"
+    )
+    # Taranto clearance load
+    taranto = next((p for p in ri_players if "Taranto" in (p.get("surname") or "")), None)
+    taranto_line = (
+        f"Taranto {disp(taranto)} disp / {taranto.get('af') or 0} AF"
+        if taranto else "Taranto not found"
+    )
+    # Rankine suppression check (is he still dominating?)
+    rankine = next((p for p in ad_players if "Rankine" in (p.get("surname") or "")), None)
+    rankine_line = (
+        f"Rankine {disp(rankine)} disp / {rankine.get('goals') or 0} goals / "
+        f"{rankine.get('sc') or 0} SC"
+        if rankine else "Rankine not found"
+    )
+
+    # Score margin
+    def score_pts(s: str) -> int:
+        m = re.search(r"(\d+)$", s.strip())
+        return int(m.group(1)) if m else 0
+
+    ri_pts = score_pts(h.get("home_score", "0"))
+    ad_pts = score_pts(h.get("away_score", "0"))
+    margin = ri_pts - ad_pts
+    margin_str = (
+        f"Richmond +{margin}" if margin > 0 else
+        f"Adelaide +{-margin}" if margin < 0 else "Level"
+    )
+
+    # Win condition assessment
+    q4_momentum = (
+        "Richmond winning Q4" if ri_q4 > ad_q4 else
+        "Adelaide winning Q4" if ad_q4 > ri_q4 else "Even Q4"
+    )
+    tackle_edge = "Richmond" if ri_tk > ad_tk else "Adelaide" if ad_tk > ri_tk else "Level"
+
+    win_conditions = [
+        f"**Margin:** {margin_str}",
+        f"**Q4 momentum:** {q4_momentum} ({ri_q4} vs {ad_q4} AF)",
+        f"**Lynch (Richmond's forward key):** {lynch_line}",
+        f"**Taranto (Richmond's engine):** {taranto_line}",
+        f"**Rankine (must contain):** {rankine_line}",
+        f"**Tackle battle:** {tackle_edge} ({ri_tk} vs {ad_tk})",
+        f"**Hit-outs:** Adelaide +{ad_ho - ri_ho} ({ad_ho} vs {ri_ho})",
+    ]
+
+    # Richmond's path: need Q4 burst, Lynch goals, stop Rankine, win clearances
+    if margin < 0:
+        deficit = -margin
+        goals_needed = (deficit // 6) + 1
+        path = (
+            f"Richmond trail by {deficit} pts. Need {goals_needed}+ unanswered goals. "
+            f"{'Q4 burst is still live.' if deficit <= 18 else 'Steep climb - need a run.'}"
+        )
+    elif margin > 0:
+        path = f"Richmond lead by {margin} pts. Hold the tackle pressure and protect Q4."
+    else:
+        path = "Level game. First goal of Q4 is decisive."
+
     lines = [
         f"### Snapshot - {h['status']} | {ts}",
         f"**Score:** {h['home_team_full']} {h['home_score']} - {h['away_team_full']} {h['away_score']}",
+        "",
+        "**Richmond win-condition check:**",
+        *win_conditions,
+        "",
+        f"*Path to Richmond win: {path}*",
         "",
         "**Team stats:**",
         f"| | {h['home_team_full']} | {h['away_team_full']} |",
