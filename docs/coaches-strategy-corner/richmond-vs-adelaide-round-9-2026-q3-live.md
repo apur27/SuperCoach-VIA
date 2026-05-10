@@ -235,3 +235,59 @@ Richmond needs all three simultaneously: (1) Dawson tagged or quiet, (2) Lynch 2
 ---
 
 *Data: FanFooty live feed, Q3 22:04, 2026-05-10.*
+
+---
+
+## Update 3 - Q3 27:21 | 2026-05-10
+
+**Score: Adelaide 10.10.70 - Richmond 7.5.47 (Adelaide +23)**
+
+### Scientist read: the game is gone - Q4 is now a pride contest for Richmond
+
+The margin has jumped from +17 to +23 in 5 minutes. Adelaide have kicked their 10th goal. Q3 is about to sound the siren with Adelaide having produced one of the most dominant individual quarters in this matchup. The Q4 burst the brief identified as Richmond's window would now require 4 goals - essentially impossible against a team controlling the ball at the rate Adelaide is.
+
+**Q3 final reckoning:**
+
+| Quarter | Richmond AF | Adelaide AF | Delta |
+|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 |
+| Q2 | 409 | 382 | **RI +27** |
+| Q3 (27:21) | 230 | **529** | AD +299 |
+
+Adelaide outscored Richmond by 299 AF in Q3. That number captures what happened: a complete quarter, driven by two players the brief identified as dangerous but could not contain.
+
+**Dawson and Rankine won this game in Q3.**
+
+| Player | Q3 AF | Total SC | Disposals |
+|---|---|---|---|
+| Jordan Dawson (AD) | **48** | 80 | 23 |
+| Izak Rankine (AD) | **42** | 116 | 28 |
+
+Dawson's positional shift to midfield - flagged in the matchup notes but underweighted in the brief's win-condition model - produced 48 Q3 AF. That is an extraordinary single-quarter output. Rankine at 28 disposals and 116 SC is the best player on the ground overall. Together they produced 90 Q3 AF between two players while Richmond's entire squad managed 230.
+
+**The three pre-game win conditions - all failed in Q3:**
+
+1. **Lynch (9 disposals, 56 SC)** - never got going. Brief called him as Richmond's contested-mark weapon. He had the avenue, he did not get the supply. 9 disposals in 3 quarters is the biggest single tactical failure of the game.
+2. **Taranto (19 disposals, 12 Q3 AF)** - elevated slightly in Q3 but nowhere near enough. 12 Q3 AF in a 27-minute quarter is below his season average. The clearance battle was never won.
+3. **Hit-out battle (AD 29, RI 13)** - Ryan's absence inverted the brief's +15 structural advantage to AD +16. Every other failure traces back to this one. Without Ryan, Richmond could not control stoppages, and without stoppage control, Lynch could not be supplied.
+
+**The tackle gap tells the full story.**
+AD 47 tackles vs RI 30 - a gap of 17, far exceeding the predicted +8. Adelaide's pressure rank (4/18) was not a coincidence. They executed their identity; Richmond did not.
+
+**Richmond's Q4 reality:**
+There is no realistic win path from +23. Richmond can play for pride, reduce the margin, and give Miller (28 Q3 AF, 80 SC - best Richmond player in Q3) a platform to finish well. The brief's Q4 burst window required +17 or less going in. At +23, it requires a miracle.
+
+**What the brief got right:**
+- Dawson's consistency (CV 0.11) - he delivered exactly that and more
+- Rankine as Adelaide's danger forward - confirmed, then some
+- Adelaide's tackle identity (predicted +8, actual +17 - direction right, magnitude underestimated)
+- Adelaide's behinds wastefulness - they had 10 behinds; without those the margin is 40+
+
+**What the brief got wrong:**
+- Lynch as Richmond's contested weapon - the avenue existed; the supply never came
+- The "Q4 burst window" assumed a closer Q3 - the 299 AF deficit makes it theoretical
+- Ryan's conditional framing (+15 hit-outs "if selected") - his absence was the structural pivot of the entire game
+
+---
+
+*Data: FanFooty live feed, Q3 27:21, 2026-05-10. Full-time verdict to follow.*
