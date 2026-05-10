@@ -26,9 +26,13 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 ## Available briefs
 
-| Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs |
-|-------|-------|-------|------------------|-------------------|------------|-----------------|
-| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) |
+| Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs | Live reads |
+|-------|-------|-------|------------------|-------------------|------------|-----------------|------------|
+| Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) | [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) |
+
+### Live reads
+
+From Round 9, briefs are now supplemented with **in-game live reads** pulled directly from the FanFooty live feed (`fanfooty.com.au/live/<gameid>.txt`) using `scripts/fetch_live_match.py`. A live read compares pre-game predictions against in-game reality - who was right, who was wrong, and what the second half should look like. Snapshots are saved to `data/live_snapshots/` for reproducibility. Live reads can be generated at any point during a game: half-time, end of Q3, or whenever a tactical shift warrants a fresh look.
 
 ### How this section works
 
