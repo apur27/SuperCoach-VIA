@@ -29,6 +29,7 @@ SuperCoach VIA turns 125+ years of AFL data into weekly player predictions, team
 | **See how accurate the model has been** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Read the model's pre-registered report card** | [docs/model-report-card.md](docs/model-report-card.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
+| **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
 
 ## What this is
 
@@ -44,6 +45,8 @@ How do you compare players across eras when the game itself has changed radicall
 
 ### AI applied to sport
 Claude - via the Scientist agent in this repo - does not just answer questions about the dataset. It reads the actual code, writes and runs Python analysis, regenerates charts, updates the auto-generated documentation sections, and commits the result. The pattern is "natural language as a thin wrapper over structured data" - and the agent is held to inspect-before-transform, baseline-first, leakage-aware practice via its system prompt.
+
+A second specialist agent - **FootyStrategy** - brings AFL tactical knowledge to the same dataset: half-time structural resets, ruck-rotation patterns, list-construction analysis by draft pick, and the football-coach answer to "what does this number actually mean on the ground?" The two agents are designed to work together - Scientist reads the data, FootyStrategy interprets it tactically.
 
 ## Table of Contents
 
@@ -68,6 +71,7 @@ Claude - via the Scientist agent in this repo - does not just answer questions a
   - [AFL history - 125 years](docs/afl-history.md)
   - [For the footy expert](docs/footy-expert-guide.md)
   - [For the coaching staff](docs/coaching-guide.md)
+  - [AFL 2026 team list analysis](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) - all 18 clubs: list identity, Tier 1 draft pedigree, tactical identity explained by list construction
 - [AFL Hall of Fame](docs/hall-of-fame.md) - all-time top 100, statistical leaders, captains, coaches, courageous players, careers cut short, and the great dynasties
 
 ### About
@@ -118,6 +122,7 @@ The same packaging happens automatically on a Sunday-night schedule via [.github
 - [Troubleshooting](docs/troubleshooting.md) - common errors and fixes
 - [Claude Code setup on Ubuntu](docs/claude-code-setup.md) - install Node.js, Claude Code, Python venv, default model
 - [Using the Scientist agent](docs/scientist-agent.md) - when plain Claude vs the Scientist, the improvement loop
+- [Using the FootyStrategy agent](docs/coaching-guide.md#leveraging-the-footystrategy-agent) - tactical brainstorming, list analysis by draft pick, Scientist x FootyStrategy workflow
 - [How predictions work](docs/prediction-model.md) - the model, the backtest framework, the all-time-100 algorithm
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance framework, multi-agent orchestration
