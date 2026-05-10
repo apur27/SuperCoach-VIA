@@ -234,3 +234,67 @@ Adelaide are clock-managing. Murray has been collecting frees, Peatling has been
 ---
 
 *Data: FanFooty live feed, Q4 17:05, 2026-05-10. AF quarter splits computed from per-quarter `af_qN` columns (per-quarter, not cumulative - confirmed via player-level reconciliation: Q1+Q2+Q3+Q4 = total AF for spot-checked players). Goals attributed via commentary only; col15 remains unreliable.*
+
+---
+
+## Update 5 - Q4 23:54 | 2026-05-10
+
+**Score: Richmond 9.7.61 - Adelaide 12.14.86 (Adelaide +25)**
+
+### Scientist read: time-on stretched, Rashele iced it, the margin blew back out
+
+Status string still reads `Q4 23:54` - the FanFooty feed has not flipped to FT yet. Functionally this is the final state: commentary at Q4 22:50 reports "Rashele goals to ice the game" and at Q4 2:46 "Junk time is now in session". Two more Adelaide goals have arrived since Update 4 (Toby Murray at 2:46, Rachele at 22:50), and Richmond have managed only one additional behind (Ross's roving spin from the Cumming goal sequence at 13:26 was actually a Richmond goal - Cumming snap from Lynch handoff - so RI added a goal and a behind since 17:05). Net Q4 result: RI 277, AD 298 (AD +21 in Q4 AF) - the late surge of two Adelaide goals plus McAndrew/Murray/Rachele AF tipped Q4 from "Richmond winning" to "Adelaide closing".
+
+**Quarter-by-quarter AF - through Q4 23:54:**
+
+| Quarter | Richmond AF | Adelaide AF | Delta |
+|---|---|---|---|
+| Q1 | 415 | 418 | AD +3 |
+| Q2 | 409 | 382 | **RI +27** |
+| Q3 | 238 | 543 | AD **+305** |
+| Q4 (23:54) | 277 | 298 | AD +21 |
+| **Total** | **1339** | **1641** | **AD +302** |
+
+Adelaide's total AF advantage (302) is almost identical to their Q3 advantage alone (305). Q1, Q2, and Q4 combined are essentially even (RI +6 across 3 quarters). The game was won and lost in 25 minutes of football.
+
+**Q4 AF leaders - Adelaide (final stretch):**
+
+| Player | Q4 AF | Total AF | Total SC |
+|---|---|---|---|
+| Izak Rankine | 24 | 146 | 135 |
+| Brayden Cook | 22 | 77 | 82 |
+| Wayne Milera | 22 | 111 | 121 |
+| Lachlan McAndrew | 22 | 72 | 72 |
+
+Rankine added 11 Q4 AF since Update 4 (13 to 24). The "junk-time conserving" read at 17:05 was correct for that window; Adelaide's last 7 minutes were a deliberate close-out, not coast.
+
+**Q4 AF leaders - Richmond:**
+
+| Player | Q4 AF | Total AF | Total SC |
+|---|---|---|---|
+| Tom J. Lynch | 23 | 71 | 86 |
+| Jack Ross | 20 | 96 | 102 |
+| Jayden Short | 13 | 97 | 98 |
+| Tim Taranto | 13 | 87 | 95 |
+
+Lynch's 23 Q4 AF is the standout: he was being supplied properly in the final stretch and the data confirms the brief's contested-mark prediction - just 45 minutes too late. Ross's 20 Q4 AF is the Richmond midfield's only sustained four-quarter contribution.
+
+**Is Richmond making a run?**
+
+No. The +25 margin at Q4 23:54 is two points wider than at Update 1 (Q4 9:09, AD +24). Across the full Q4, Richmond won the AF battle by 12 (Update 4 read) but added only 1 goal and 1 behind to the scoreboard. The "midfield is real, forward line is not" structural reading from Update 4 holds: Ross 20 Q4 AF, Taranto 13, Short 13, Hopper missing his set shot at 11:36 (per commentary "Hopper shanks left and OOTF"), Lefau missing at 10:21 ("kick clanger... but he misses"). The AF generated; the scoreboard would not move.
+
+**Win-condition check (final):**
+
+| Brief prediction | Actual at Q4 23:54 | Verdict |
+|---|---|---|
+| Lynch 2+ marks, 1+ goal | 3 marks, ~1-2 goals (Q4 7:11 confirmed), 71 AF, 86 SC | **HIT** |
+| Taranto wins clearances | 28 disposals, 87 AF, 4 tackles | **PARTIAL** - touched ball, did not break game |
+| Hit-outs RI +15 (Ryan-conditional) | RI 19, AD 35 = AD +16 | **INVERTED** - Ryan absent, McAndrew 31 HO solo |
+| Rankine must-contain | 31 disp, 146 AF, 135 SC, 8 marks, 8 tackles | **FAILED** |
+| Dawson 21-28 disp (CV 0.11) | 26 disp, 122 AF, 102 SC | **HIT** - within band |
+| Tackle gap AD +8 | RI 37, AD 59 = AD +22 | **UNDER by 175%** |
+| Q1 differential RI -12.2 avg | Q1 AD +3 | **OVER by ~9 AF** |
+| Q3 collapse risk | Not flagged; AD +305 in Q3 | **STRUCTURAL BLIND SPOT** |
+
+The Q3 collapse remains the unforecast event of the day. The brief modelled per-quarter averages but did not flag the variance distribution that would have surfaced "Richmond's worst-quarter risk against Adelaide's best-quarter capacity". That is the next iteration's research question.
+
