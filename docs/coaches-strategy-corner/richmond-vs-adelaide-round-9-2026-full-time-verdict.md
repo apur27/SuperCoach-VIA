@@ -41,7 +41,7 @@ Adelaide won total AF by 30.8%. The Q3 alone (+305 AF) was 73% of the final AF m
 | Brayden Cook | 22 (14k+8h) | 83 | 87 | 42 | 13 | Q3 was his quarter (42 AF). Not on Richmond's radar pre-game. |
 | Josh Worrell | 21 (13k+8h) | 88 | 86 | 34 | 17 | Highest TOG on the team (92%). The intercept-and-launch profile from the brief held. |
 | Josh Rachele | 14 (8k+6h) | 66 | 86 | 23 | 15 | Goal at Q4 22:50 to ice the game. The "high contact free" call was soft; took the points. |
-| Lachlan McAndrew | 9 (6k+3h) | 86 | 83 | 19 | 22 | **31 hit-outs as the lone ruck.** Brief had Adelaide ruck rotation as a no-recognised-ruck weakness; that read died when Ryan was scratched. First senior goal at Q4 25:58. |
+| Lachlan McAndrew | 9 (6k+3h) | 86 | 83 | 19 | 22 | **33 hit-outs as the lone ruck.** Brief had Adelaide ruck rotation as a no-recognised-ruck weakness; that read died when Ryan was scratched. First senior goal at Q4 25:58. |
 
 ### Richmond - top 8 by SC
 
@@ -62,7 +62,7 @@ Every load-bearing prediction from the [tactical brief](richmond-vs-adelaide-rou
 
 | Prediction | Pre-game call | Actual | Verdict |
 |---|---|---|---|
-| Hit-outs | RI +15 (Ryan-conditional). "You don't get this opportunity twice a year." | RI 19 vs AD 37 = **AD +18**. Ryan absent, McAndrew 31 HO solo. | **INVERTED** |
+| Hit-outs | RI +15 (Ryan-conditional). "You don't get this opportunity twice a year." | RI 19 vs AD 37 = **AD +18**. Ryan absent, McAndrew 33 HO solo. | **INVERTED** |
 | Tackle gap | AD +8 (brief) - "they will out-pressure unless tempo changes" | RI 38 vs AD 61 = **AD +23**. Direction right, magnitude under by 188%. | **UNDER (direction right)** |
 | Q1 differential | RI avg -12.2 AF/g vs opponents; "the win condition" | Q1 AF: RI 415 AD 418 = AD +3. **Beat the seasonal average by 9 AF.** | **BEAT** |
 | Q2 momentum | Implicit chase quarter | RI +27 AF. Richmond's only winning quarter. | **HIT** |
@@ -83,7 +83,7 @@ Every load-bearing prediction from the [tactical brief](richmond-vs-adelaide-rou
 
 ### What actually won this game for Adelaide
 
-**Ryan's absence as structural pivot.** The brief identified the hit-out battle as "the single biggest structural lever in the game" - a claim that depended on Ryan playing. With Ryan scratched, McAndrew took 31 of Adelaide's 37 hit-outs and Adelaide *won* the hit-out count by 18. This was not just a flipped number on a stat sheet: Adelaide's clearance constraint (rank 16/18, "constrained by their ruck") was lifted. Without that constraint, the brief's whole "crack the structure with hit-out dominance" plan had no entry point. Richmond did not have a Plan B for ruck dominance going the other way.
+**Ryan's absence as structural pivot.** The brief identified the hit-out battle as "the single biggest structural lever in the game" - a claim that depended on Ryan playing. With Ryan scratched, McAndrew took 33 of Adelaide's 37 hit-outs and Adelaide *won* the hit-out count by 18. This was not just a flipped number on a stat sheet: Adelaide's clearance constraint (rank 16/18, "constrained by their ruck") was lifted. Without that constraint, the brief's whole "crack the structure with hit-out dominance" plan had no entry point. Richmond did not have a Plan B for ruck dominance going the other way.
 
 **Dawson's positional shift.** The commentary log makes this explicit: "After half time, Dawson and Nick Murray reverted to their more comfortable roles." Dawson started at half-back in a structure designed to cover for Walker's absence. When that structure failed (Murray as KPF "was just not working"), Adelaide reset at half-time and Dawson moved into the engine room. His Q1-Q2 AF was 25; his Q3-Q4 AF was 74. The 48-point Q3 AF is the largest single-quarter individual AF in the match. Richmond's brief had Dawson tagged for Taranto - that matchup was effectively void once Dawson moved.
 
