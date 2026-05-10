@@ -285,4 +285,34 @@ If the answer to "would I make a coaching call on the back of this number?" is y
 > **Read the cost disclaimer** in the [STOP. READ THIS FIRST.](scientist-agent.md#stop-read-this-first-do-not-waste-the-scientist) section before invoking Scientist. On an entry-level Claude plan, three or four Scientist calls is meaningful spend. Be deliberate.
 
 ---
+
+## Leveraging the FootyStrategy agent
+
+Scientist is the data depth. **FootyStrategy is the football brain.** It is a tactical brainstorming agent that thinks like an AFL head coach or senior analyst - it knows zone defences, tagging conventions, ruck-rotation patterns, the difference between a stoppage forward and a structure forward, and the standard contingency plays a Nicks/Goodwin/Hardwick side will reach for at half-time. Scientist tells you *what* the numbers say. FootyStrategy tells you *what coaches will actually do* about it.
+
+**When to use it.** After a post-match review when a structural pattern needs a tactical interpretation; when planning matchup zones for next week and the data has identified an opponent strength but not the counter-play; when a number raises a tactical question the model alone can't answer ("Adelaide tackled at 161% of season rate - is that structural or noise?").
+
+**How to invoke.** `@"FootyStrategy (agent)"` in a Claude Code session, same as Scientist.
+
+**Example prompts** (using the Richmond vs Adelaide R9 2026 result):
+
+```
+@"FootyStrategy (agent)" did Adelaide's half-time reset (Dawson HB→mid, Murray KPF→def) work because of their roster flexibility, or because Richmond had no contingency matchup plan? What's the actual tactical lesson for our pre-match brief structure?
+```
+
+```
+@"FootyStrategy (agent)" is Richmond's Q3 structural collapse a one-off or a pattern? What does it tell us about their rotation depth when the hit-out count goes the wrong way, and what's the standard coaching response to that scenario?
+```
+
+```
+@"FootyStrategy (agent)" build me a blueprint for how to attack Richmond next time we play them, based on what Adelaide did in Q3. I want zone-specific tactics, not just "tackle harder".
+```
+
+**FootyStrategy's superpower.** It can analyse each team's entire list by both quality tier *and* by what draft pick each player was - giving you a list-construction read alongside the tactical one. Useful for: identifying which opponents have built their best 22 from early-pick high-ceiling talent (higher variance, higher game-to-game range), which have built through the mid-rounds (more volume and depth, less ceiling), and how a side's list composition explains its tactical identity. Adelaide's "system over stars" identity, for example, is partly a function of having no Pick-1-quality talent on the list - the structure has to compensate.
+
+**What FootyStrategy doesn't have.** Same data limitations as Scientist - no GPS, no video, no live odds, no positional data, no Champion Data tags. It brings football knowledge and tactical pattern-matching to the table, not additional data sources. If a question requires "where on the ground did Reid win his ball", it can't answer that any better than Scientist can.
+
+**Scientist + FootyStrategy together - the workflow.** Scientist reads the data and surfaces the structural anomalies; you (or Scientist) generate brainstorm questions from those anomalies; FootyStrategy answers from football-coaching knowledge; Scientist writes the combined insight into the match doc with both halves cited. The two agents complement each other - data depth + tactical knowledge - and the joint output is sharper than either alone. See the `## Strategic brainstorm - Scientist x FootyStrategy` section in `docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md` for a worked example covering three decisive moments, five things the brief got right, three structural blind spots, and six tactical themes.
+
+---
 **Related:** [Using the Scientist agent](scientist-agent.md) · [2026 live season data](afl-season-2026.md)

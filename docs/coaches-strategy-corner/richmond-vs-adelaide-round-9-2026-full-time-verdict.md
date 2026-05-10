@@ -199,6 +199,80 @@ Concrete, data-backed:
 
 The pattern is replicable. The talent was the fuel; the half-time reset was the ignition; the tackle-against-clanger interaction was the fire.
 
+## Strategic brainstorm - Scientist x FootyStrategy
+
+*Post-match analysis synthesised from data review (Scientist agent) and tactical brainstorm (FootyStrategy agent). The Scientist read the final-snapshot numbers and surfaced the structural anomalies; the FootyStrategy agent translated those anomalies into football-coaching language. This section is the joined-up output.*
+
+### The full match narrative in four quarters
+
+**Q1 was a false read.** Richmond did not "hold" Adelaide; Adelaide were not yet functional. Murray was deployed as a key forward and Dawson at half-back as Walker-cover - a structure that, per commentary, "was just not working". The 415-418 AF deadlock looks like Richmond meeting their Q1 win condition, but the load-bearing fact is that Adelaide were giving away a quarter of their effective midfield by playing Dawson 70 metres from the contest. Richmond's tactical brief read the AF balance as a Richmond achievement; the underlying cause was an Adelaide self-handicap that was never going to last.
+
+**Q2 was Richmond's only legitimate quarter on top - and it loaded the gun.** Plus-27 AF, "shots being taken from better spots" (commentary), Lynch as a contested-mark target visibly working. But the conversion rate was already broken: 7 behinds from 28 inside-50s by half-time, a 25% goal-per-i50 conversion. The brief had set a 0.230 g/i50 lift target. Richmond was running at 0.107. The quarter was won on territory; the scoreboard never caught up. When Adelaide's structural reset arrived 20 minutes later, Richmond did not have the points-buffer the territory had earned them.
+
+**Q3 was the structural takeover, executed in 90 seconds of dressing-room time.** Half-time: Dawson reverted from half-back to midfield, Murray from KPF to defence. Within 4 minutes 38 seconds of the Q3 bounce, Adelaide led 71-19 AF in the quarter (Rachele snap at 0:53 after Rankine stripped Balta was the visible kickoff). Four players over 40 Q3 AF: Dawson 48, Milera 45, Cook 42, Rankine 41. Richmond's best Q3 was Trainor 32 - a late inclusion playing on the bench rotation. The Taranto-on-Dawson matchup that the brief had built around was voided in 90 seconds of half-time talk. Richmond had no contingency for a positional shift it had not modelled.
+
+**Q4 was cosmetic recovery, not contest.** Richmond won the AF count for chunks of the quarter (+12 AF in stretches) and finally got Lynch a contested mark and a goal at 7:11 "to stop the rot" - which is to say, after the rot. The midfield generated supply; the conversion stayed at 25%. Hopper shanked from 45m OOTF at 11:36 (the symbolic miss); Lefau missed at 10:21. The same conversion problem that had loaded the gun in Q2 fired the empty chamber in Q4. The game was already 50+ points gone.
+
+### Three moments that decided the game
+
+1. **Half-time tactical reset (~3:00pm break)** - not a football play, but the moment the match was decided. Adelaide's Q1-Q2 structure (Murray KPF, Dawson HB) was a Walker-cover compromise that wasn't working. The reversion to natural roles took less than 90 seconds of dressing-room time and re-shaped every Richmond matchup in the on-ball group.
+2. **Q3 0:53 - Rachele snaps after Rankine strips Balta** - the visible kickoff of the Q3 surge. From 0:53 to 4:38, Adelaide led 71-19 AF in the quarter. The ball never settled. The system was firing at structural ceiling and Richmond had no extra body to insert.
+3. **Q4 11:36 - Hopper shanks from 45m OOTF** - symbolic of the conversion problem that ended Richmond's burst window. The supply chain had finally restored (Lynch contested mark, Q4 7:11 goal); the foot-skill at the end of it had not. Same 25% conversion rate that lost Q2 lost Q4.
+
+### What the brief got right - and why it still mattered
+
+- **Q1 win condition framework**. The brief named -12.2 AF/g as Richmond's seasonal Q1 deficit and called Q1 starts as the load-bearing win condition. Result: AD +3 = a 9-AF over-delivery on baseline. Hit. The framework was correct; it just wasn't enough on its own.
+- **Lynch as contested-mark weapon**. 3 marks, 71 AF, 86 SC, 1 confirmed goal. Hit. The supply failed (45 minutes late, hit-out battle lost), not the target. The brief identified the right player; the structure around him collapsed when Ryan was scratched.
+- **Ross-on-Berry matchup**. Hit decisively. Ross 96 AF, 107 SC, 6 tackles vs Berry 69 AF, 73 SC, 3 tackles. Ross out-played Berry on every dimension. The matchup was won; the game was lost - which is itself a finding (matchup-level wins do not aggregate to game-level wins when the variance distribution favours the opponent).
+- **Rankine danger-forward profiling**. Operationally correct identification ("must contain, mobile forward, match with running defender"). Containment failed (33 disp, 158 AF, 147 SC), but the reason was structural - Adelaide's Q3 burst overwhelmed every individual matchup Richmond had planned, not just the one on Rankine.
+- **Adelaide rebound-50s identity (#2 in league)**. Held. Richmond's long-ball inside-50 entries were punished; territory did not convert because Adelaide's defensive rebound system was, exactly as the brief said, the second-strongest in the competition. Hit on identification, not on counter-strategy.
+
+### The three structural blind spots
+
+**Blind spot 1: no variance modelling.** Quarters were modelled as means, not as distributions. The brief had Richmond's average Q3 differential at -9.1 AF; it did not model the *tail* - what is the worst-case Q3 against a side that resets at half-time? Adelaide demonstrated +543 AF in Q3 versus Richmond's 238 AF floor. That gap (+305) is a tail-distribution fact that no mean-based per-quarter model surfaces. **What this means:** any future Richmond brief needs a worst-case-Q3 column alongside the average, computed from the opponent's best historical quarter against any opponent vs Richmond's worst historical quarter, with explicit variance bounds on both.
+
+**Blind spot 2: no mid-match positional flex model.** Matchups were tagged as "game-long" assignments. Dawson tagged for Taranto, Vlastuin tagged for Walker, Ross tagged for Berry. The Walker tag died at team-list announcement (Walker DNP); the Dawson-Taranto tag died in 90 seconds of half-time talk. There was no documented contingency branch for "if Dawson moves into the on-ball group, who goes with him?" **What this means:** matchup briefs should tag every assignment as either "first-half only" (likely to lapse at half-time if structure shifts), "all-game" (the player's role is fixed), or "with contingency" (here is who picks up the new role if X moves). For Adelaide specifically, every matchup involving Dawson, Murray, Sholl or Worrell needs a contingency branch because all four are documented positional flex options.
+
+**Blind spot 3: Berry single-point-of-failure thesis was never tested against the null.** The brief framed Berry as the engine and the single point of failure. Adelaide won with Berry at 3 tackles vs his season average of 8.0; the team tackled at 161% of season rate without him; the pressure system delivered AD +23 in the tackle gap. The thesis was never tested against the null hypothesis "Adelaide's pressure profile is distributed, not Berry-dependent". The data on the day says it is distributed: take Berry out and the team tackle count goes *up*, not down. **What this means:** any future "single point of failure" claim needs an explicit null test - find historical games where the named player had a low-output day and check whether the team metric that supposedly depends on them held up. If it did, the player is a contributor, not a lever, and the brief's pressure-attack plan needs a different target.
+
+### Tactical themes - FootyStrategy analysis
+
+#### Theme 1 - The half-time reset as a tactical weapon
+
+The Dawson HB→mid reset is a specific modern-AFL tactical pattern: use a versatile midfielder as positional cover for an injured or absent KPF, then revert them to their natural role once the immediate damage (early Walker-shaped goals against) is contained. Matthew Nicks has done this with Dawson and Sholl before; Adelaide's list is built around three or four players who can credibly play three positions. Richmond's pre-game matchup structure had no "if Adelaide reshuffle at half-time" branch - the brief assumed Walker's DNP locked Adelaide into a sub-optimal structure for the full 100 minutes.
+
+**What this means:** any brief for a Matthew Nicks side must (a) document the specific positional flex options the side has used in 2025-26, (b) tag matchups as first-half vs all-game, and (c) include a "second-half re-read" item in the in-game decision protocol so the matchup zone gets refreshed at the long break, not just at the bounces.
+
+#### Theme 2 - The Q3 energy wave
+
+Teams that absorb Q1-Q2 pressure inside a constrained or compromised structure, and then release into their natural roles at half-time, tend to peak in Q3 specifically because the opposition's matchup-tracking fatigue is at its highest (90 minutes of in-game work, no fresh pre-game film). Adelaide's Q3 was not random variance; it was the structural release of two players (Dawson, Murray) from roles they had been suppressed in for two quarters, against a Richmond on-ball group that had been game-planning against the suppressed structure.
+
+**What this means:** the coaching lever - if your structure is wrong in Q1-Q2, the cost of leaving it wrong at half-time is a Q3 avalanche, not a Q4 problem. Q4 problems are recoverable in a single goal swing; Q3 problems compound for 25 minutes of game time. For the analyst writing the half-time live read: the question is not "are we losing?" but "are they playing the structure they want to play?" - if no, plan for a Q3 reset.
+
+#### Theme 3 - Clanger-to-tackle interaction
+
+High-clanger teams against high-tackle opponents is one of the most predictable structural mismatches in the AFL. The brief projected AD +8 tackles additively from seasonal rates (AD 59.5/g, RI 51.8/g). The actual gap (AD +23) reflects the multiplicative interaction: every forced clanger creates a new tackle opportunity, which creates a new clanger risk under pressure, and the cycle compounds. Richmond at clanger rank 18/18 and Adelaide at tackle rank 4/18 represented the maximum-extreme version of this matchup in the 2026 competition.
+
+**What this means:** a tackle-gap projection formula for future briefs is `seasonal_differential * (1 + clanger_severity_factor)`, where `clanger_severity_factor` is the opposition's clanger-rank percentile expressed as a multiplier (worst clanger team = ~1.0, best = ~0). For Richmond playing any top-5 tackle side, the projected gap should roughly double the additive baseline. This is testable against the 2024-26 historical record and worth a Scientist sensitivity check before the next Richmond tactical brief.
+
+#### Theme 4 - Ruck supply chain to a tall forward
+
+Ryan's absence broke the Lynch supply chain at the first link. The chain is: stoppage first use → midfield exit → inside-50 entry → contested mark → goal. When the ruck battle is lost by 18 hit-outs, the tall forward must find alternative supply routes - second-ball crumbing from teammates, kick-mark chains through a marking midfielder operating as a half-forward, or transitioning into a ground-level contested-ball role. Lynch did none of these until Q4 when Adelaide had downshifted; he finished with 14 disposals, 8 of them kicks, 1 confirmed goal at Q4 7:11 in cosmetic time.
+
+**What this means:** the next Richmond brief must include a "Ryan-out" forward supply diagram that does not depend on hit-out first use. Three plausible alternatives, each with a named player: (a) Taranto as the marking-midfielder kick-mark chain operator, (b) Lynch dropping deeper to half-forward and crumbing off Trainor's marks, (c) explicit accept-defeat-on-territory and play the kick-out + transition game from Short and Vlastuin. Pre-game should pick one and rehearse it; in-game the live read at 5-minute mark of Q1 should confirm which route is open.
+
+#### Theme 5 - System vs talent
+
+Adelaide won without Walker (DNP) and without Berry firing (3 tackles vs 8.0 average). This is the signature of a system win: the structure generates output regardless of which individuals operate within it. The brief's approach of identifying "Berry as single point of failure" was analytically correct for talent-dependent teams (think a Bulldogs side leaning on Bontempelli, or a Carlton side leaning on Cripps); it fails for systems-dependent teams.
+
+**What this means:** for future Adelaide briefs, the single-point-of-failure test must run against the null - in games where Berry has under 5 tackles, does Adelaide's team tackle count go up, down, or stay flat? In this game it went up (61 vs season 59.5). If that holds across a 5-game sample, the pressure system is distributed, Berry is a contributor not a lever, and any "remove Berry, the engine stops" plan is targeting the wrong axis. The right axis is the structural rotation pattern, not any one midfielder.
+
+#### Theme 6 - Richmond's Q4 shows us the fixable vs the structural
+
+Richmond won Q4 AF stretches and competed hard. Once Adelaide downshifted and Lynch finally got the ball, the forward structure worked - he marked, he goaled, the supply chain operated. This tells us something important: the conversion problem is *independent* of the Adelaide pressure system. Hopper's shank from 45m at Q4 11:36 was not caused by an Adelaide tackle; he had clean possession and a clean kick. Richmond can execute the game plan when given clean ball.
+
+**What this means:** the question for Damien Hardwick / Mark Williams (or whoever Richmond's coaching staff is in 2026) is whether Q3 capitulation is a *roster depth* problem (not enough bodies to rotate when the hit-out battle is lost and the tackle rate against you spikes) or a *game-plan* problem (no emergency protocols for "we are losing the hit-out count and our clangers are up - here is the contingency"). The two have different fixes. Roster-depth is a list-management decision (trade period, draft); game-plan is a coaching meeting on Tuesday. The data here can't distinguish them definitively, but the fact that Q4 worked once Adelaide downshifted suggests Richmond's *talent* is competition-grade. The structural failure is in the plan, not the playing list.
+
 ## What to adjust for the next Richmond vs Adelaide brief
 
 1. **Ryan selection is a binary flag, not a conditional footnote.** When Ryan is out, the hit-out model must be inverted from the start. The brief had "If Ryan plays" buried in section 3; it needed to be the headline branch. **Action**: Pre-match brief structure should branch on each side's #1 ruck availability, not assume best-case lineup.
