@@ -820,6 +820,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|---|---|
 | Toby Nankervis | Trade (Sydney) | 2017 | Ruck | Primary tap, contest |
 | Maurice Rioli Jr | Late pick | 2021 | Small forward | Goalsneak, X-factor |
+| Dion Prestia | Pick 6 | 2017 | Inside mid | Veteran contested ball |
 | Tom Brown | Mid-pick | 2022 | Half-back | Rebound depth |
 | Sam Banks | Recent pick | 2022 | Mid / wing | Two-way mid |
 
@@ -843,7 +844,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 **List vulnerabilities:**
 1. **Key forward depth is the most acute weakness.** The forward line lacks a settled tall (Tom Lynch is past peak), which is structurally why the team is 18th for goals in 2026 (9.2/g). A trade-period acquisition is required and the development pipeline does not currently hold a settled successor. Multi-year list-build problem.
 2. **Small-forward pressure unit thinned with Daniel Rioli's departure to Gold Coast.** Combined with Bolton's prior departure to Fremantle, the side has lost two of its three pressure pieces inside 18 months. Tactical consequence: the post-2017-2020 pressure identity is gone. Multi-year fix.
-3. **Mature-age leadership has thinned with the premiership-era retirements.** Cotchin, Riewoldt, Edwards, Martin, and Prestia are all gone. Finals-pressure experience is the lowest in the competition.
+3. **Mature-age leadership has thinned with the premiership-era retirements.** Cotchin, Riewoldt, Edwards, and Martin are gone; Prestia is one of the few premiership-era survivors still on list. Finals-pressure experience is the lowest in the competition.
 4. **Outside class on the wing remains a concern.** No 30-disposal wing-runner outside Short; the next-tier development is years away.
 
 **Tactical identity explained by list:** The list profile is bottom-tier for ball use - 18th for disposals (328.9/g), 18th for kicks (189.9/g), 18th for marks (82.0/g) in 2026 - this is a rebuild list playing rebuild football. Without a settled key forward, inside-50 entries are 17th in the league, and without a dominant ruck, the contested ball is mid-tier (15th). The tactical identity is forced rather than chosen: hold the ball when you have it, defend in numbers when you don't, and accept that scoring will be limited until the list has the personnel. The personnel does not allow any of the four standard identities (kick-mark, contested-ball, possession-and-control, pressure) at top-eight tier. Bad structural matchup: Sydney, Brisbane (any side with a settled forward 50 will dominate the scoreboard). Good structural matchup: West Coast, Essendon (similarly possession-light sides).
