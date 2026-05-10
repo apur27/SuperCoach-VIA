@@ -86,11 +86,7 @@ This is the honest version. Read it before you trade in your captain on the stre
 
 The most valuable thing a fan can do is tell us when the model is wrong about a player. Your eye sees role changes and tag jobs faster than the model.
 
-→ [Submit prediction feedback (issue form)](https://github.com/apur27/SuperCoach-VIA/issues/new?template=prediction_feedback.yml) - plain-English form, no coding required.
-
-→ [Report a bug](https://github.com/apur27/SuperCoach-VIA/issues/new?template=bug_report.yml).
-
-→ [Request a feature](https://github.com/apur27/SuperCoach-VIA/issues/new?template=feature_request.yml).
+→ [Email us](mailto:careerabhi@gmail.com) — tell us when the model is wrong about a player, report a bug, or request a feature. Plain English, no account required.
 
 ---
 
