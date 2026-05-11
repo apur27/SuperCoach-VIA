@@ -220,6 +220,27 @@ Both of these are dynasties of *culture* rather than of personnel. The players, 
 
 ---
 
+## FootyStrategy analytical read
+
+The twenty dynasties above are heterogeneous - one-club premiership runs, coaching trees, cultural lineages, cross-era continuity dynasties. But reading them together, three common threads run through every entry that produced multiple premierships, and *every* entry that lacks all three is the one most likely to be re-evaluated in fifty years.
+
+**The common thread: list philosophy + coaching continuity + key-player identification.** Every dynasty above shares these three structural features in some form, even when the components look different from the outside.
+
+- *Collingwood's Machine* (1927-30) had the Coventry brothers as the identified key players, McHale's 38-year coaching tenure as continuity, and a fitness-first list-building philosophy that was the league's most professional in the 1920s.
+- *Hawthorn 1971-91* had two waves of identified key players (Matthews → Brereton/Dunstall/Platten), Kennedy → Jeans → Joyce coaching continuity, and a deliberate cultural transmission via Tuck's 19-year career bridging the eras.
+- *Brisbane 2001-03* had Voss, Black, Akermanis as identified players (all three Brownlows in the dynasty window), Matthews as coaching anchor, and a list-building philosophy built on the Bears/Fitzroy merger lineage plus three pieces of recruiting genius (Brown, Black, Brad Scott). The data in this repo confirms: Voss played 79 games at Bears + 210 at Lions, Lappin 61 + 218, Leppitsch 44 + 183, Lynch 32 Bears + 154 Lions **[data]** - the dynasty was a merger story, not an external-recruitment story.
+- *Geelong 2007-11* had list depth as its identified philosophy (eight to ten superstar-grade players), Thompson coaching continuity inherited from Sheedy, and a deliberate stay-at-the-club ethos that produced 300+ game careers for Ablett Jr (247 at Geelong), Bartel (305), Selwood (355), Enright (332), Chapman (280 - 251 at Geelong), Scarlett (284) **[data]**.
+- *Hawthorn 2008-15* had the Clarkson Cluster as philosophy, Clarkson as coach, and the deliberate mid-dynasty list renewal (Rioli, Smith, Gunston, Burgoyne arriving as the 2008-generation aged out).
+- *Richmond 2017-20* had the forward-half-press as philosophy, Hardwick (a Clarkson-tree assistant) as coach, and Martin/Cotchin/Riewoldt as identified players who anchored all three flags.
+
+**The dynasty with the most lasting structural influence on how AFL teams are built today** is the Clarkson coaching tree. Eight directly-attributable premierships between 2008 and 2020 (four to Clarkson, three to Hardwick, one to Beveridge) is the raw count; the deeper influence is that *every team in the league now runs a version of the Cluster*. The defensive overload at the contest, the rolling half-back rebound, the kick-mark patient inside-50 game - these are now the AFL's tactical baseline rather than one club's edge. Hardwick, Beveridge, Yze and Mitchell carrying the methodology to four different clubs is what turned a four-flag run into a structural era.
+
+**The dynasty most likely to be remembered differently in fifty years** is the Sydney 2005-2016 contested-game era. The flag count (two) is the lightest on this page among the entries treated as dynasties, and in the 2020s discourse Sydney's era is often grouped with "near-misses" rather than "dynasties." But the structural contribution - proving that a slow, contested, low-possession style could remain competitive at the top of the ladder for 12-15 years against the running-game philosophies that dominated the 1990s and 2010s - is the kind of contribution that compounds. As the modern game has moved back toward the contested middle (the post-2020 rule changes around stoppage congestion and the 6-6-6 rule have raised the value of inside ball-winners), Sydney's deliberate contested style looks more prescient than it did in 2010. In fifty years the Bloods culture may be read as the foundational template that the post-2020 AFL re-derived for itself.
+
+**The dynasty that the on-field data most strongly supports as the greatest single concentrated era** is Hawthorn 1971-91. Eight flags in twenty-one years - all eight Grand Finals verifiable in this repo's match data - is the highest concentration in the league's modern history. The Brisbane three-peat is more impressive on a per-year basis; the Clarkson tree is more impressive on extended tactical influence; Collingwood's Machine is more impressive on perfect-season margin. But the *depth* of named talent at Hawthorn across two decades - Matthews, Tuck, Dunstall, Platten, Brereton, DiPierdomenico, Ayres, Knights, plus the second wave Rioli/Burgoyne/Hodge/Mitchell of the 2008-2015 chapter - is the deepest sustained pool of greatness any single club has ever produced.
+
+---
+
 ## Related
 
 - [AFL Hall of Fame hub](hall-of-fame.md)
