@@ -39,7 +39,11 @@ flowchart TB
     subgraph LLM["LLM reasoning layer"]
         E1[Claude Scientist<br/>Opus, ReAct loop]
         E2[CLAUDE.md<br/>system prompt /<br/>policy guardrails]
+        E3[FootyStrategy<br/>Tactical Council<br/>8-lens deliberation]
+        E4[The Crumb<br/>13-agent hierarchy<br/>Senior Coach orchestrates]
         E2 -.governs.-> E1
+        E1 --> E3
+        E3 --> E4
     end
 
     subgraph Tools["Tool router - MCP gateway"]
@@ -79,6 +83,7 @@ flowchart TB
     E1 --> F2
     E1 --> F3
     E1 --> F4
+    E4 --> F4
     F2 --> I1
     F2 --> I2
     F1 --> I3
@@ -122,6 +127,16 @@ The diagram traces a single complete loop: AFL data is scraped, transformed into
 
 ---
 
+### 3b. FootyStrategy - tactical interpretation agent
+
+**In plain English:** The Scientist tells you what the numbers honestly say. FootyStrategy tells you what to do about it in football terms. The two roles are deliberately kept apart - one is a statistician, the other is a coaching council - so that a tactical recommendation never silently inherits more confidence than the underlying data supports.
+
+**The methodology:** FootyStrategy deliberates through an 8-lens council, with each lens a distinct coaching perspective: the *Conditioner* (preparation, work-rate, repeatable effort), *Tempo Architect* (game-speed control), *Structuralist* (zones, defensive shape), *Match-up Tactician* (named opposition threats and weekly profiling), *Talent Developer* (role fit over résumé), *Innovator* (exploits in the prevailing meta), *Culture Custodian* (standards, identity), and *List Strategist* (multi-year horizon, draft discipline). Every output is tagged with a confidence tier - *Settled* (multiple lenses converge and the underlying data is robust), *Probationary* (lenses converge but data is exploratory), *Contested* (genuine lens disagreement), or *Insufficient Evidence* (neither data nor lens consensus). Every Settled or Probationary recommendation must include a **tripwire**: an explicit observable that, if seen, would overturn the recommendation. No tripwire means the recommendation is automatically downgraded. Caveats from the Scientist's findings propagate through unchanged - associational evidence cannot become causal in the tactical layer, and the data tier caps the recommendation tier. The agent emits a structured envelope (Tier, Horizon, active lenses, per-lens reads, Convergence/Tensions, recommendation, tripwire, caveats, Out of Scope statement). The handoff to the Scientist is one-directional: the Scientist produces numbers, FootyStrategy interprets tactically, and FootyStrategy never fabricates numbers or overrides upstream confidence labels. Invocation is via `@"FootyStrategy (agent)"` in Claude Code; the system prompt lives in the agent definitions directory and persistent memory at `.claude/agent-memory/FootyStrategy/MEMORY.md`.
+
+**For the ML practitioner:** The interesting design choice is the *structured multi-perspective council* pattern rather than a single composite prompt. A single prompt asking "give me a tactical read with confidence" tends to anchor on whichever framing arrived first in the prompt and to bury tensions inside hedged paragraphs. The 8-lens structure does two things differently: it reduces anchoring bias by forcing each perspective to be produced separately before they are reconciled, and it surfaces disagreement explicitly through the *Contested* tier rather than averaging tensions away. The production-grade equivalent is a "society of mind" pattern - in LangGraph, each lens would be a separately-prompted subagent node with its own working memory, edges that aggregate into a deliberation node, and an explicit reconciliation step that emits the final tier. Known limitations are honest: no GPS or spatial data, no video, no real-time injury feed - the layer is pattern-recognition only and its output quality is bounded by the Scientist's data quality.
+
+---
+
 ### 4. RAG layer - deterministic retrieval over structured data
 
 **In plain English:** When the agent needs a fact like "Sam Berry's average tackles in 2026," it runs a pandas filter over a CSV. There is no fancy semantic search, and there shouldn't be - for clean structured numbers, plain queries are exactly right.
@@ -162,20 +177,76 @@ The diagram traces a single complete loop: AFL data is scraped, transformed into
 
 ---
 
+### 8. Multi-agent hierarchy - The Crumb
+
+**In plain English:** The Crumb is the project's coaching brain - thirteen specialist agents organised into six tiers, with a Senior Coach orchestrator on top. You ask one question at the front door ("what should we do about our forward line going into round 11?") and the Senior Coach decomposes it, dispatches the relevant specialists, and integrates their answers back into a single coherent recommendation. It is named after the AFL crumber - the small forward who reads where the ball will spill from a pack before the contest resolves. The Crumb sees the pattern before the coach has called it.
+
+**The methodology:** Architecture and per-agent role definitions live in `docs/footy-ai-chatbot-setup.md`. The 13-agent, 6-tier structure:
+
+| Tier | Agent | Role |
+|------|-------|------|
+| 1 | Senior Coach Agent | Orchestrator - decomposes queries, integrates responses, owns final framing |
+| 2 | Midfield Coach Agent | Clearance, contested ball, stoppage, rotations |
+| 2 | Forward Line Coach Agent | Inside-50 entries, forward structure, conversion, set pieces |
+| 2 | Back Line Coach Agent | Defensive setup, intercept structure, rebound chain |
+| 3 | Stoppage Specialist | Centre-bounce and around-ground stoppage designs |
+| 3 | Defensive Press Specialist | Forward-half pressure, kick-in coverage, transition defence |
+| 4 | Match Analyst Agent | Pattern recognition across recent fixtures |
+| 4 | Opposition Analyst Agent | Weekly opposition profile, personnel, historical tendencies |
+| 4 | Stats/Methodology Agent | Quantitative work - the existing Scientist agent |
+| 4 | Strategy Council Agent | Tactical interpretation - the existing FootyStrategy agent |
+| 5 | High Performance Agent | Load, fitness, injury risk, return-to-play |
+| 5 | List Manager Agent | Multi-year list strategy, contract, draft |
+| 6 | Data Steward Agent | Owns data files, enforces CLAUDE.md verification rule |
+
+Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestration and final framing are the highest-reasoning workload; line coaches, specialists, and analysts run on `claude-sonnet-4-6` (fast, capable enough for scoped specialist work); the Data Steward runs on `claude-haiku-4-5` because its job is structured retrieval and verification, not open-ended reasoning. Orchestration uses the Claude Code agent SDK's tool_use plus subagent-spawning model - the Senior Coach calls each tier-2/3/4 agent through the Agent tool, receives a structured envelope back, and integrates. Data access is shared across the tiers via the existing repo layout: `data/player_data/`, `data/matches/`, `data/lineups/`, and `data/prediction/`. The Scientist and FootyStrategy agents already documented above are slotted into Tier 4 - The Crumb is the structural envelope that gives them a coordinated calling pattern rather than ad-hoc invocation.
+
+**For the ML practitioner:** The Crumb is a specialisation of the **hierarchical agent** pattern - one orchestrator, many workers, with role boundaries enforced through system prompt scoping rather than code-level access control. The trade-off is honest: prompt-scoped boundaries are cheap to define and flexible to evolve but provide no hard guarantee that, say, the List Manager will not attempt to write a tactical recommendation outside its scope. The production upgrade path is two-part. First, LangGraph to make state transitions explicit and handoffs durable - each agent becomes a node with declared inputs and outputs, the graph is the orchestration contract, and a crashed agent turn can be replayed from the last persisted state rather than re-running the whole workflow. Second, Temporal.io for retry semantics when an agent turn fails mid-workflow - exactly-once execution, exponential backoff on transient model errors, and workflow versioning so an in-flight session does not silently switch behaviour when the agent definitions are updated. Hard role enforcement (least-privilege credentials per agent, capability-scoped MCP tool sets) becomes meaningful once those two are in place.
+
+---
+
+### 9. Claude Code setup - building and extending the agent stack
+
+**In plain English:** Claude Code is the substrate the whole agent stack runs on. It is not a chatbot in a browser tab - it is a CLI/IDE harness that gives Claude direct access to your filesystem, shell, web, and other agents, governed by a policy document checked into the repo. This section is how someone with the repo and an API key gets the full Scientist + FootyStrategy + Crumb stack running, and how they would extend it with a new agent or data source.
+
+**The methodology:**
+
+1. **What Claude Code is.** Anthropic's official CLI and IDE-integrated AI tool. It is the agent harness for this project - the thing that turns a Claude API call into a usable agent. It implements the MCP gateway (tool discovery and dispatch), the tool-use API loop (ReAct cycles with structured tool calls), multi-agent orchestration (parent agents can spawn subagents via the Agent tool), and the CLAUDE.md policy system (a versioned, repo-resident system prompt that governs every session). Distinguishing it from a chatbot wrapper: local filesystem read/write, shell execution, git operations, web fetch, and subagent spawning are all native primitives, not workarounds.
+
+2. **Installation and prerequisites.** Install the CLI with `npm install -g @anthropic-ai/claude-code`, or use the desktop app. Authenticate by setting `ANTHROPIC_API_KEY` as an environment variable. For the SuperCoach-VIA project specifically, the Python environment used by every agent is the project venv at `/home/abhi/sourceCode/python/coding/.venv` - it already contains pandas, scikit-learn, lightgbm, matplotlib, optuna, and the rest of the analysis stack. Clone the repo with `git clone https://github.com/apur27/SuperCoach-VIA` and run Claude Code from inside the repo root so CLAUDE.md is auto-loaded.
+
+3. **Agent definitions.** Custom agents are registered as markdown files under `.claude/agents/`. Each file is a frontmatter block plus a system prompt: `name`, `model` (e.g. `sonnet`, `opus`), `description`, and `tools` (whitelist of tools the agent is allowed to invoke) in the frontmatter, then the system prompt as the body. The Scientist and FootyStrategy definitions live there now. Any new agent - say an Opposition Analyst for The Crumb - is added by writing a new `.md` file in the same directory following the same shape.
+
+4. **CLAUDE.md - the policy layer.** The project-level `CLAUDE.md` at the repo root governs every agent in every session. It encodes the data verification rule (no player stat is written without first reading it from the data files), absolute-path requirements, push policy (push to main, no PRs), and the broader behavioural constraints (no emojis, no summary `.md` files, no ad-hoc filesystem changes outside the agreed scope). This is the agent's constitution - it is read first on every turn and is enforced for the entire session. Versioning it in the repo means policy state at any past commit is reconstructable, which is a real audit primitive.
+
+5. **Extending the stack - adding a new agent.** Four steps. *Step 1:* create `.claude/agents/<agent-name>.md` with frontmatter declaring name, model, description, and the tool whitelist, and the system prompt as body. *Step 2:* define the agent's data access scope in the system prompt - which directories it is allowed to read, which directories it must not write to, which data files are authoritative for which claims. *Step 3:* invoke it from a chat session with `@"<Agent Name> (agent)"`, or programmatically from a parent agent via the Agent tool. *Step 4:* register it in the tier table in `docs/footy-ai-chatbot-setup.md` and mirror the entry in this architecture doc, so the system has a single source of truth for what agents exist and what they do.
+
+6. **MCP server extensions.** Claude Code supports custom MCP servers beyond its built-in tools. Example: a live AFL data MCP server exposing `get_live_scores`, `get_player_stats`, and `get_team_form`. Define it in `.claude/settings.json` under the `mcpServers` key, declaring the transport (stdio or HTTP), the entry point, and any required environment variables. Each MCP server declares its own tool schemas, and Claude Code discovers them at session start - no client-side wiring needed beyond the registration entry. This is the path to integrating real-time data sources without baking them into the agent code.
+
+7. **Memory system.** Persistent agent memory lives under `.claude/agent-memory/<agent-name>/`. The convention is a top-level `MEMORY.md` acting as an index of one-line pointers, with individual topic files (`data_quirks.md`, `user_preferences.md`, etc.) as the entries. Memory persists across sessions and is loaded into the agent's context at conversation start. The Scientist's memory currently carries data-quirk notes, baseline numbers, and reproducibility recipes - all written from prior sessions so future sessions do not re-derive them. FootyStrategy's memory at `.claude/agent-memory/FootyStrategy/MEMORY.md` does the same for tactical patterns. The memory system is what lets the agent tailor responses without re-explaining context on every invocation.
+
+**For the ML practitioner:** The interesting choice is that the entire agent definition surface - system prompts, tool whitelists, memory, policy - lives in the repo as plain markdown and JSON. There is no separate "agent registry" service. That makes the stack diff-able, reviewable, and rollback-able via the same git workflow as the code, which is the right default for a small-team or single-operator deployment. The production upgrade path is to lift the agent definitions into a managed registry once you have multiple teams editing concurrently - but the markdown-in-repo pattern scales further than people expect, and the audit benefits are real.
+
+---
+
 ## Eval results
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Prediction MAE | 4.11 disposals | Weighted across 8 rounds, 2,879 player-rounds |
-| RMSE | 5.21 | |
-| Within 5 disposals | 68.5% | |
-| Within 10 disposals | 94.5% | |
-| Bias | −0.06 | Near-zero - calibration working |
+| Prediction MAE | **[data]** 4.10 disposals | Weighted across 6 rounds, 2,058 player-rounds (Rounds 7–10 still running as of 2026-05-11) |
+| RMSE | **[data]** 5.21 | |
+| Within 5 disposals | **[data]** 72.4% | |
+| Within 10 disposals | **[data]** 95.6% | |
+| Round 1 MAE | **[data]** 4.83 | Elevated - no within-season rolling features (n=230, within-5=60.4%, within-10=92.6%) |
+| Round 2 MAE | **[data]** 4.11 | n=413, within-5=72.2%, within-10=95.9% |
+| Round 3 MAE | **[data]** 4.07 | n=320, within-5=74.7%, within-10=95.9% |
+| Round 4 MAE | **[data]** 4.15 | n=319, within-5=72.4%, within-10=94.7% |
+| Round 5 MAE | **[data]** 3.73 | n=365, within-5=75.3%, within-10=97.5% - best round so far |
+| Round 6 MAE | **[data]** 3.98 | n=411, within-5=74.9%, within-10=95.9% |
 | Top-10 player MAE | ~10.8 | Top-end compression - known failure mode |
-| Round 1 MAE | 4.89 | Elevated - no within-season rolling features |
 | LLM factual accuracy | ~70–75% pre-correction → ~99% post | Measured by external review of Hall of Fame docs; systematic correction process in place |
 
-A 4.11-disposal MAE means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 94.5% within-10 figure says coarse predictions are reliable; the 68.5% within-5 figure says fine predictions are not. The top-10 player MAE is the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 75% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
+A 4.10-disposal weighted MAE across 2,058 player-rounds (six completed 2026 rounds; rounds 7–10 are still running in the live backtest as of 2026-05-11) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.6% within-10 figure says coarse predictions are reliable; the 72.4% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~0.7 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played, and Round 5 is the best round so far (MAE 3.73, within-10 of 97.5%). The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 75% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
 
 ---
 
