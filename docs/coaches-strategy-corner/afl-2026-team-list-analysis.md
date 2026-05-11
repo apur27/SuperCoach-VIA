@@ -224,10 +224,8 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Player | Pick / acquisition | Year | Position | Role |
 |---|---|---|---|---|
 | Jeremy Howe | Trade (Melbourne) | 2014 | Half-back | Intercept defender, leadership |
-| Tom Mitchell | Trade (Hawthorn) | 2022 | Inside mid | Veteran ball-winner |
 | Bobby Hill | Trade (GWS) | 2022 | Small forward | Goalsneak, X-factor |
 | Beau McCreery | Mid-pick | 2020 | Pressure forward | Tackle pressure, run |
-| Will Hoskin-Elliott | Trade (GWS) | 2017 | Wing / forward | Veteran run |
 | Daniel McStay | Trade (Brisbane) | 2022 | Key forward | Lead-up tall, contested mark |
 | Harry Perryman | Trade (GWS) | 2024 | Wing / mid | Outside class, run |
 
@@ -264,7 +262,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 ### Essendon
 
-**List identity:** A draft-built list still trying to settle on a finished spine after a decade of partial rebuilds. The core was recruited across the 2013-2020 window via the draft (Merrett 2013, Parish 2015, Caldwell, McGrath) supplemented by trade reinforcements (McKay from North 2023, Setterfield, Goldstein at the back end). Demographically the list is split between an emerging mid-20s core and a thinning veteran tail. Recruiting philosophy has been heavy draft investment in midfielders, but the key-position stocks (KPF and KPB) have been the slowest part of the list to mature - a structural mismatch between the position invested in (mids) and the position needed (talls). Recruiting bias is best-available rather than position-targeted, which is part of why the imbalance has persisted.
+**List identity:** A draft-built list still trying to settle on a finished spine after a decade of partial rebuilds. The core was recruited across the 2013-2020 window via the draft (Merrett 2013, Parish 2015, Caldwell, McGrath) supplemented by trade reinforcements (McKay from North 2023, Setterfield). Demographically the list is split between an emerging mid-20s core and a thinning veteran tail. Recruiting philosophy has been heavy draft investment in midfielders, but the key-position stocks (KPF and KPB) have been the slowest part of the list to mature - a structural mismatch between the position invested in (mids) and the position needed (talls). Recruiting bias is best-available rather than position-targeted, which is part of why the imbalance has persisted.
 
 **Tier 1 players - the cornerstone:**
 
@@ -299,7 +297,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 | Position | Depth | Notes |
 |---|---|---|
-| Ruck | 1/5 | Bryan + Goldstein veteran cover - chronic structural concern post-Draper |
+| Ruck | 1/5 | Bryan as senior ruck; depth thin post-Draper and post-Goldstein retirement |
 | Key forward | 1/5 | Wright when fit, Caddy emerging - longest-running list weakness |
 | Key back | 3/5 | McKay + Ridley - solid pair but no third tall |
 | Inside mid | 4/5 | Merrett + Parish + Durham + Setterfield genuinely deep |
@@ -344,7 +342,6 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|---|---|
 | Luke Ryan | Pick 66 (mid-round find) | 2017 | Key back | Intercept defender |
 | Brennan Cox | Pick 65 (approx.) | 2017 | Key back | Lockdown |
-| Michael Walters | Mid-pick | 2009 | Small forward | Veteran goalsneak |
 | Sam Switkowski | Mid-pick | 2017 | Pressure forward | Tackle pressure |
 | Nathan O'Driscoll | Mid-round | 2019 | Wing | Run, pressure |
 | Patrick Voss | Late pick | 2021 | Key forward | Developing tall |
@@ -365,7 +362,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Key back | 4/5 | Ryan + Cox + Pearce |
 | Inside mid | 5/5 | Serong + Brayshaw + Aish + youth |
 | Outside mid / wing | 3/5 | Young + O'Driscoll |
-| Small forward | 4/5 | Bolton + Walters + Switkowski |
+| Small forward | 3/5 | Bolton + Switkowski (Walters retired) |
 | Half-back flanker | 4/5 | Clark + Young + McVee (trade Melbourne) |
 
 **List vulnerabilities:**
@@ -777,10 +774,10 @@ This is not a stats document. It is the list-strategy lens applied across the le
 |---|---|---|
 | Ruck | 2/5 | Sweet + Aldridge + Soldo - mid-tier, no dominant tap |
 | Key forward | 2/5 | Georgiades + Finlayson + Marshall - Dixon successor unsettled |
-| Key back | 4/5 | Aliir + Ratugolea + Jonas |
+| Key back | 3/5 | Aliir + Ratugolea (Jonas retired) |
 | Inside mid | 4/5 | Horne-Francis + Wines + Powell-Pepper + Drew |
-| Outside mid / wing | 4/5 | Butters + Rozee + Boak + Farrell |
-| Small forward | 3/5 | Gray + Marshall - mid-tier |
+| Outside mid / wing | 4/5 | Butters + Rozee + Farrell (Boak retired) |
+| Small forward | 3/5 | Marshall + Farrell - mid-tier (Gray retired) |
 | Half-back flanker | 3/5 | Burgoyne + Byrne-Jones + Bergman (Houston departed to Collingwood) |
 
 **List vulnerabilities:**
@@ -898,7 +895,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 | Key back | 3/5 | Wilkie + Howard - thinned by Battle's departure to Hawthorn |
 | Inside mid | 3/5 | Owens + Macrae + Windhager - solid but not elite (Steele's level missing) |
 | Outside mid / wing | 4/5 | Sinclair + Hill + Hunter Clark + Wanganeen-Milera flex |
-| Small forward | 3/5 | Membrey + Wood + Higgins legacy |
+| Small forward | 3/5 | Wood + Higgins legacy (Membrey departed to Collingwood) |
 | Half-back flanker | 4/5 | Sinclair + Wanganeen-Milera + Howard flex |
 
 **List vulnerabilities:**
@@ -952,7 +949,7 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 | Position | Depth | Notes |
 |---|---|---|
-| Ruck | 3/5 | Grundy + Hickey - solid but ageing |
+| Ruck | 2/5 | Grundy as senior; depth thin post-Hickey retirement |
 | Key forward | 5/5 | Curnow + Heeney + McDonald - the league benchmark |
 | Key back | 4/5 | Rampe + McCartin + Melican |
 | Inside mid | 5/5 | Heeney + Warner + Mills + Rowbottom - league elite |
@@ -962,9 +959,9 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 **List vulnerabilities:**
 1. **Heeney load - the list has leaned heavily on Heeney as a forward-line generator.** Curnow's arrival from Carlton in late 2025 directly addresses the marking-tall question and frees Heeney to play more midfield. Vulnerability essentially resolved by the trade; remaining risk is a Heeney injury that removes the dual-position flex.
-2. **Ruck depth behind Grundy is a known structural concern when his form fluctuates.** Hickey is veteran cover. A Grundy form drop costs the side ruck dominance and the centre clearance edge. Multi-year fix; the trade table is the call point.
+2. **Ruck depth behind Grundy is a known structural concern.** Hickey's retirement has left the second-up ruck thin; a Grundy form drop or injury costs the side ruck dominance and the centre clearance edge. Trade table is the call point.
 3. **Nick Blakey's role at half-back remains load-bearing; depth behind him on the rebound side is mid-tier.** A 2-week injury here weakens the rebound chain.
-4. **Veteran ageing - Rampe, Lloyd, Hickey all veterans on the back end.** The succession is in motion via the academy but the senior leadership tier is starting to thin.
+4. **Veteran ageing - Rampe and Lloyd are veterans on the back end.** The succession is in motion via the academy but the senior leadership tier is starting to thin.
 
 **Tactical identity explained by list:** The list profile in 2026 is the league's most dominant by raw numbers - 1st for disposals at 396.5/g, 1st for goals at 17.5/g, 1st for tackles at 63.6/g, 1st for inside-50s at 64.4/g, 1st for contested possessions. With three elite midfielders, an academy-built half-back unit, and Curnow now anchoring a forward line that already had Heeney's versatility, Sydney's list shape forces the most complete tactical identity in the competition - they win the ball, they run it forward, they apply pressure, and they score with a genuine Coleman-tier finisher. The 18th-ranked clangers count is the only meaningful weakness in the profile, and it is a function of taking risks rather than a structural flaw. The personnel allows every standard identity. Bad structural matchup: there is no clean structural matchup that hurts Sydney - the closest is a kick-mark slow-tempo side (Brisbane) that can hold the ball away from Sydney's pressure machine, but Sydney's contested-ball volume offsets it. Good structural matchup: every possession-light side (Richmond, West Coast, Essendon, Adelaide) where the disposal advantage compounds into scoreboard pressure.
 
@@ -1054,7 +1051,6 @@ This is not a stats document. It is the list-strategy lens applied across the le
 
 | Player | Pick / acquisition | Year | Position | Role |
 |---|---|---|---|---|
-| Jeremy McGovern | Pick 44 (approx.) | 2011 | Key back | Veteran intercept (when available) |
 | Jamie Cripps | Trade | 2014 | Small forward | Veteran goalsneak |
 | Matt Flynn | Trade / mid-round | 2024 | Ruck | Primary tap |
 | Bailey Williams | Pick 31 (approx.) | 2020 | Ruck | Second-up tap |
@@ -1103,6 +1099,169 @@ This is not a stats document. It is the list-strategy lens applied across the le
 - **Pipeline players are illustrative, not exhaustive.** Each club has 5-15 development-list players; the doc names 2-3 most likely to break through.
 - **This is a list lens, not a tactical brief.** Match-day adjustments, opposition-specific match-ups, and weekly game-planning sit in the per-match docs in `docs/coaches-strategy-corner/`, not here.
 - **No prediction of premierships, individual awards, or specific player futures.** The document frames where each list sits in its cycle; it does not call who lifts the cup.
+
+---
+
+## Analytical cross-reference - Scientist × FootyStrategy brainstorm
+
+*Generated from 2026 data (rounds 1-9, 3,298 player-game records) cross-referenced against tier classifications above. Scientist provides the numbers; FootyStrategy provides the tactical read.*
+
+---
+
+### Team stat rankings - data vs doc claims
+
+33 of 34 specific rank/value claims in this document were verified exactly against aggregated 2026 player data. One correction:
+
+- **Collingwood marks rank**: doc said 4th (111.4/g) — actual rank is **2nd**. League order: Brisbane (122.8) > Collingwood (111.4) > Port Adelaide (107.4) > Hawthorn (107.1). Strengthens Collingwood's possession-and-control thesis.
+
+Full team ranking table (2026, rounds 1-9):
+
+| Team | Disp rank | Goals rank | Tackles rank | I50 rank | Clear rank | CP rank | Hit-outs rank |
+|---|---|---|---|---|---|---|---|
+| Sydney | 1 | 1 | 1 | 1 | 3 | 1 | 6 |
+| GWS | 2 | 15 | 13 | 6 | 12 | 4 | 8 |
+| Hawthorn | 3 | 4 | 8 | 6 | 5 | 7 | 1 |
+| Brisbane | 4 | 2 | 18 | 3 | 1 | 6 | 11 |
+| Collingwood | 4 | 13 | 12 | 11 | 18 | 17 | 15 |
+| St Kilda | 6 | 8 | 15 | 9 | 8 | 11 | 10 |
+| North Melbourne | 7 | 7 | 6 | 10 | 4 | 10 | 13 |
+| Fremantle | 8 | 9 | 3 | 8 | 6 | 2 | 2 |
+| Geelong | 9 | 6 | 2 | 5 | 9 | 5 | 7 |
+| Gold Coast | 10 | 5 | 10 | 2 | 14 | 13 | 4 |
+| Western Bulldogs | 11 | 10 | 5 | 11 | 2 | 12 | 12 |
+| Carlton | 12 | 16 | 9 | 14 | 10 | 3 | 9 |
+| Essendon | 13 | 14 | 17 | 18 | 17 | 18 | 16 |
+| Port Adelaide | 14 | 11 | 7 | 13 | 11 | 16 | 5 |
+| Melbourne | 15 | 3 | 11 | 4 | 7 | 7 | 3 |
+| Adelaide | 16 | 12 | 4 | 15 | 16 | 7 | 18 |
+| West Coast | 17 | 17 | 14 | 16 | 13 | 14 | 14 |
+| Richmond | 18 | 18 | 16 | 17 | 15 | 15 | 17 |
+
+---
+
+### Tier 1 player spot-check (2026 per-game averages, min 4 games)
+
+| Player | Club | Games | Disp | Disp rank | Tackles | Clearances | CP |
+|---|---|---|---|---|---|---|---|
+| Nick Daicos | Collingwood | 7 | **36.6** | **1** | 2.4 | 5.6 | 10.7 |
+| Clayton Oliver | GWS | 8 | 31.0 | 5 | 4.0 | 7.4 | **14.6** |
+| Lachie Neale | Brisbane | 8 | 30.6 | 6 | 2.6 | 7.1 | 12.6 |
+| Zak Butters | Port Adelaide | 8 | 30.6 | 6 | 5.0 | 5.6 | 12.4 |
+| Archie Roberts | Essendon | 8 | 31.5 | **2** | — | — | — |
+| Bailey Smith | Geelong | 8 | 31.2 | 3 | — | 6.3 | 11.3 |
+| Harry Sheezel | North Melbourne | 8 | 31.1 | 4 | — | — | 9.6 |
+| Marcus Bontempelli | Western Bulldogs | 8 | 27.4 | 16 | 4.0 | 5.0 | 10.6 |
+| Patrick Cripps | Carlton | 8 | 24.0 | 49 | 5.1 | 6.8 | **14.3** |
+| Max Gawn | Melbourne | 8 | 21.4 | 84 | 2.3 | 6.5 | **14.8** |
+| Touk Miller | Gold Coast | 8 | 25.2 | 32 | 4.0 | 3.8 | 8.2 |
+| Caleb Serong | Fremantle | 8 | 24.6 | 38 | 4.4 | 6.1 | 12.0 |
+| Charlie Curnow | Sydney | 8 | 10.5 | 356 | 1.7 | 1.0 | 6.0 |
+
+*Note: Curnow and Cameron (Brisbane, 12.8 disp rank 291) rank low on disposals because they are genuine key forwards — disposal-based rankings systematically undervalue the forward tier. Their Tier 1 designation is role-correct.*
+
+**Flags for review:**
+- **Touk Miller** (Gold Coast Tier 1): 25.2 disp (rank 32), 3.8 clearances (rank 61), 8.2 CP (rank 64). 2026 numbers profile closer to high-volume rotation mid than contested-ball Tier 1. Tactically still Tier 1 for two-way running and matchup work, but FootyStrategy recommends monitoring.
+- **Bailey Smith** (Geelong): rank 3 in disposals, 6.3 clearances — if not already Tier 1 in the Geelong section, his 2026 numbers make the case.
+- **Harry Sheezel** (North Melbourne): rank 4 disposals — confirm Tier 1 designation is unambiguous in the North section.
+- **Hugh McCluggage** (Brisbane): 5 games at 15.6 disp avg — small sample, likely injury-affected. Tier classification stands pending full-season data.
+
+---
+
+### FootyStrategy tier boundary challenges
+
+**1. Touk Miller (Gold Coast) — borderline Tier 1.**
+The data agrees: 2026 output is below the contested-ball Tier 1 threshold. Tactically he earns his place via two-way running and matchup work the numbers don't capture, but the doc's Tier 1 framing should note this is a role-Tier-1, not a stat-Tier-1.
+
+**2. Collingwood — Pendlebury and Sidebottom are Tier 2, not Tier 1.**
+Both veterans are functionally replaced by De Goey, the Daicos brothers, and Houston. Their absence would not force a structural re-write. Genuine Tier 1 is four: Nick Daicos, Josh Daicos, Moore, Houston.
+
+**3. Western Bulldogs — Treloar is Tier 2, not Tier 1.**
+Replaceable by Sanders' development arc. Bontempelli, Naughton, English, Liberatore are the genuine cornerstone tier.
+
+**4. Carlton — the Tier 1 list is 2 players wide, not 6.**
+Cripps and Walsh are true superstars. The others are quality Tier 2 without the gap-to-next-tier that defines a cornerstone. The wide Tier 1 obscures the list's real structural fragility post De Koning / Curnow / Silvagni.
+
+**5. Pipeline reality check.**
+Will Ashcroft (Brisbane) is already Tier 1, not Pipeline. Caleb Windsor (Melbourne) and Murphy Reid (Fremantle) are ETA-now. Jagga Smith, Jed Walter, and Aaron Cadman are genuinely 2-3 years away; treating them as "next gen" in the same breath overstates the near-term depth.
+
+---
+
+### Tactical identity mismatches
+
+**1. Richmond — the doc closes the contested-ball pathway prematurely.**
+Taranto + Hopper + Lalor + Banks is a top-six inside-mid quartet by ball-winning capacity. A contested-ball and transition-pressure identity is achievable in 2026. The structural problem is forward conversion, not midfield class. The coach can scheme contested-ball-first while the forward line develops; calling "no identity available at top-eight tier" sells the midfield short.
+
+**2. Gold Coast — list now says kick-mark control, doc still says speed.**
+Three marking talls (King, Ugle-Hagan, Petracca forward), elite tap ruck, four inside mids. The natural game has shifted from the 2023 run-and-spread Suns toward a Brisbane-style slow-tempo corridor game. If Dew is still running them at speed, the conversion ranking will lag for 18 months.
+
+**3. Collingwood — "possession-and-control" is Daicos-spread, not team control.**
+18th for clearances, 17th for contested possessions. A genuine possession-and-control side wins the centre (Brisbane). Collingwood's identity is more accurately "one-man-disposal-machine spread" — which is brilliant but fragile. If Nick Daicos is tagged or injured, the disposal ranking collapses.
+
+**4. North Melbourne — the problem is not forwards, it's backs.**
+Doc frames "wait for the talls to develop." The data says: 4th for clearances (37.6/g), high pressure rate. North can compete at the contested-ball and pressure layer *now*. The missing piece is an intercept key back who frees Sheezel to play more midfield. The next trade-table target should be a Tom Stewart type, not a key forward.
+
+---
+
+### Structural matchup watch (most one-sided by list shape)
+
+| Matchup | Why |
+|---|---|
+| Sydney vs Richmond | Every load-bearing metric reversed: Sydney 1st, Richmond 18th for disposals, goals, kicks, marks. No winning structural position for Richmond outside Lalor 1v1. |
+| Brisbane vs Essendon | Brisbane 1st kicks/marks/clearances; Essendon 18th I50, 18th CP, 17th tackles, no key forward to contest entries. Brisbane plays uncontested. |
+| Gold Coast vs West Coast | Rowell-Anderson-Petracca vs Reid solo. Gold Coast inside mid rated 5/5; West Coast 2/5. Reid is generational; three Tier 1 mids plus Witts tap is a structural mismatch. |
+| Fremantle vs Carlton | Twin-ruck dominance vs Carlton's 1/5-rated ruck position post De Koning. Fremantle wins every centre bounce; Carlton's only route is through contested-ball class (Cripps). |
+| Hawthorn vs Adelaide | Hawthorn 1st hit-outs (46.0/g), 2nd contested marks (10.9/g). Adelaide 18th hit-outs (8.8/g) and weak second tall. Two Adelaide vulnerabilities hit simultaneously. |
+
+---
+
+### Over/underperformers (2026)
+
+**Likely to outperform doc expectations:**
+- **Hawthorn** (doc: 5th-9th; ceiling: 3rd-6th): Youngest peak-window list in competition, ruck dominance, Battle and Barrass addressing prior vulnerabilities. One-player upgrade (Dear converts) away from top-four.
+- **North Melbourne** (doc: 13th-17th; ceiling: 11th-13th): Three top-five picks in second-year leap simultaneously with veteran cover added. Six months ahead of rebuild orthodoxy.
+- **Adelaide** (doc: 8th-12th; ceiling: 6th-9th): Rebound-50 2nd (41.8/g), tackles 4th (59.5/g). Closer to finals-credible than the list-depth rating suggests.
+
+**Likely to underperform doc expectations:**
+- **Gold Coast** (doc: 4th-8th; floor: 6th-11th): Three new Tier 1 players in one window is an 18-24 month cohesion test. Talent is there; integration timeline is the bet.
+- **Collingwood** (doc: 4th-9th; floor: 8th-12th): Age curve + ruck weakness + Daicos-dependency are three correlated risks the doc treats independently. They compound.
+- **Western Bulldogs** (doc: 6th-11th; floor: 9th-13th): 2024-2025 trade outflow (Smith, Macrae, Ugle-Hagan, Daniel) is the largest single-window depletion in the league. Bontempelli still elite; supporting cast materially thinner than 12 months ago.
+
+---
+
+### Rebuild roadmap
+
+**Richmond:** The contested-ball midfield (Taranto, Hopper, Lalor) is the rebuild's strength and is ahead of schedule. The one acquisition that accelerates the entire arc: a **contested-marking key forward, age 24-26, via trade in late 2026**. Without it, Lalor's first three seasons happen in a forward-50 ranked 18th for goals — wasting the peak development years of a generational pick-1 midfielder.
+
+**West Coast:** Reid alone does not open a premiership window. The one acquisition: **a second top-tier midfielder to partner Reid, via the 2026 draft if a top-three pick is held**. The trade table is not a viable route — no contender sells that profile to a wooden-spooner. The structural risk is the next 18 months hollow the senior list further before the draft arc lifts.
+
+**North Melbourne:** Further along than the doc suggests — midfield arrived faster than expected. The one acquisition: **a mature-age intercept key back via trade in late 2026** (Tom Stewart type). A ball-using half-back-six player frees Sheezel to dominate midfield and builds the rebound chain that turns clearance wins into goals. The conventional instinct (get a forward tall) is the wrong target line for the next trade window.
+
+---
+
+### List philosophy rankings (most coherent → least)
+
+1. **Sydney** — academy-first + one surgical trade per cycle. Every position has succession. The most disciplined list management in the competition.
+2. **Brisbane** — 50/50 draft and trade, contested-ball bias consistent across every move.
+3. **North Melbourne** — patient draft-and-hold + veteran leadership injections. Clean philosophy, clean execution.
+4. **Fremantle** — local pipeline + position-targeted trades. Each acquisition addresses a specific gap.
+5. **Hawthorn** — picks-as-currency rebuild, then deliberate pivot to rising window via veterans. The transition was managed, not accidental.
+6. **Geelong** — soft-rebuild-while-contending. Famous and effective, but trade capital decreasing as window narrows.
+7. **GWS** — best-available retention. Intact philosophy; ruck position under-addressed for two consecutive windows.
+8. **Adelaide** — SANFL-first plus surgical trades. Coherent but the second-tall and ruck gaps have persisted across two windows.
+9. **Port Adelaide** — captain-and-core retention. Clean until the Dixon succession question gets deferred again.
+10. **Gold Coast** — best-available plus academy, decisive 2025 window. Front-loaded; cohesion is the cost.
+11. **St Kilda** — mid-pick draft + trade for missing pieces. Sound but has never landed the top-five generational core. Well-distributed, no superstar tier by design.
+12. **Melbourne** — "retain the premiership core" overtaken by events; now reactive rather than designed.
+13. **Western Bulldogs** — 2024-2025 outflow reads as cap management, not philosophy execution.
+14. **Collingwood** — veteran retention worked for a decade; now an ageing-cliff risk. Regeneration plan thin.
+15. **Carlton** — stack the top, accept thin bottom. Post-De Koning, post-Curnow trade window has exposed the model.
+16. **Richmond** — philosophy still being defined between "contested-ball-via-trade" and "rebuild-via-draft." Pivot managed; next-three-years direction unclear.
+17. **Essendon** — mid-heavy draft bias into a list that needed talls. Philosophy and list shape still misaligned after a decade.
+18. **West Coast** — "retain premiership core" collapsed into reactive rebuild. Philosophy has been reactive rather than designed; the talent gap is the cost.
+
+---
+
+*Scientist data: aggregated from 3,298 player-game records, 2026 rounds 1-9. FootyStrategy tactical reads apply the list-construction lens from the [FootyStrategy agent](./../coaching-guide.md#leveraging-the-footystrategy-agent). Neither source constitutes a premiership prediction or individual player verdict.*
 
 ---
 
