@@ -1,4 +1,4 @@
-# Building Gaffer - a multi-agent footy AI that runs the club better than the coach
+# Building The Crumb - a multi-agent footy AI that runs the club better than the coach
 
 > [← Back to main README](../README.md) · [← AI Agents hub](ai-agents.md)
 
@@ -12,11 +12,11 @@ If you only want to *use* the existing Scientist or FootyStrategy agents, read [
 
 ## 1. Overview
 
-**Gaffer** is the AI that challenges the coach's intuition. The name is what players call the head coach in football vernacular - and that is the point: this system is built to be the decision-maker, not the tool. Where the coach trusts his gut on a selection or a matchup, Gaffer puts the data on the table and asks the question the box was about to lose to vibes.
+**The Crumb** is the AI that challenges the coach's intuition. Named after the AFL crumber - the small forward who reads where the ball will spill from a pack before the contest resolves. The Crumb sees the pattern before the coach has called it: pure pattern recognition, one beat ahead of everyone else. Where the coach trusts his gut on a selection or a matchup, The Crumb puts the data on the table and asks the question the box was about to lose to vibes.
 
-Under the hood, Gaffer is an **AI coaching staff simulation** built on top of the SuperCoach-VIA dataset. Instead of a single monolithic chatbot, the system is structured the way a real AFL coaching staff is structured: a senior coach who runs the meeting, line coaches who own a part of the ground, specialists who own a phase of play, analysts who own the evidence, and a data steward who owns the source of truth.
+Under the hood, The Crumb is an **AI coaching staff simulation** built on top of the SuperCoach-VIA dataset. Instead of a single monolithic chatbot, the system is structured the way a real AFL coaching staff is structured: a senior coach who runs the meeting, line coaches who own a part of the ground, specialists who own a phase of play, analysts who own the evidence, and a data steward who owns the source of truth.
 
-A user asks a question in plain English - "*Who should I pick in my midfield for Round 11?*" - and the **Senior Coach Agent** decides which agents in the staff to call, dispatches the work in parallel, then merges their answers into a single response. When the answer disagrees with conventional wisdom, Gaffer says so plainly and shows the data behind the disagreement. Honest answers over impressive answers, even when "honest" means "the coach is wrong on this one".
+A user asks a question in plain English - "*Who should I pick in my midfield for Round 11?*" - and the **Senior Coach Agent** decides which agents in the staff to call, dispatches the work in parallel, then merges their answers into a single response. When the answer disagrees with conventional wisdom, The Crumb says so plainly and shows the data behind the disagreement. Honest answers over impressive answers, even when "honest" means "the coach is wrong on this one".
 
 Every agent is grounded in the same source of truth: the CSV files inside this repo. Agents read from the data layer, never write to it. There is no separate vector store, no fine-tune - the dataset is the context. **[data]** The repo ships:
 
@@ -33,7 +33,7 @@ The pattern is the same one the existing [Scientist](scientist-agent.md) and [Fo
 
 ### Agent hierarchy
 
-Gaffer is a 13-agent staff arranged in six tiers. The Senior Coach at the top is the only agent the user talks to; everything below is delegated work. The tiers mirror how a real AFL football department is built - line coaches own zones, specialists own phases, analysts own evidence, performance and list-management own the off-field decisions, and a data steward owns the source of truth.
+The Crumb is a 13-agent staff arranged in six tiers. The Senior Coach at the top is the only agent the user talks to; everything below is delegated work. The tiers mirror how a real AFL football department is built - line coaches own zones, specialists own phases, analysts own evidence, performance and list-management own the off-field decisions, and a data steward owns the source of truth.
 
 ```
                                   ┌──────────────────────────┐
@@ -101,7 +101,7 @@ Gaffer is a 13-agent staff arranged in six tiers. The Senior Coach at the top is
 
 Two things to notice. First: every agent above tier 6 delegates data reads to the **Data Steward**. That is deliberate. It centralises the "what year does this column start?" rule (tackles from 1987, clearances from 1998, hit-out recording change in 2017), the citation requirement, and the read-only constraint. None of the analyst agents can lie about a number because none of them touch a file.
 
-Second: the **Stats/Methodology Agent** and **Strategy Council Agent** sit alongside the analysts, not above them. When the Senior Coach is about to give an answer that disagrees with conventional coaching wisdom, it consults the Scientist on the methodology and FootyStrategy on the framing before speaking. That is what makes Gaffer willing to say "the coach is wrong on this one" without it being a vibe.
+Second: the **Stats/Methodology Agent** and **Strategy Council Agent** sit alongside the analysts, not above them. When the Senior Coach is about to give an answer that disagrees with conventional coaching wisdom, it consults the Scientist on the methodology and FootyStrategy on the framing before speaking. That is what makes The Crumb willing to say "the coach is wrong on this one" without it being a vibe.
 
 ### Data layer (read-only)
 
@@ -169,7 +169,7 @@ from anthropic import Anthropic
 
 client = Anthropic()
 
-MIDFIELD_SYSTEM_PROMPT = """You are the Midfield Coach in the Gaffer staff.
+MIDFIELD_SYSTEM_PROMPT = """You are the Midfield Coach in The Crumb staff.
 You answer only midfield questions: disposal chains, clearances, contested ball,
 centre bounce attendance, inside-50 generation.
 
@@ -198,7 +198,7 @@ Repeat the same pattern for the other line coaches, specialists, and analysts - 
 The Senior Coach is a Claude Opus model whose tools are *the staff agents themselves*. From the orchestrator's perspective, calling `call_midfield_coach(...)` is just another `tool_use`.
 
 ```python
-SENIOR_COACH_SYSTEM_PROMPT = """You are the Senior Coach of the Gaffer AI
+SENIOR_COACH_SYSTEM_PROMPT = """You are the Senior Coach of The Crumb AI
 staff. You receive a user question, decide which staff agents to call,
 dispatch their work, and synthesise their answers into a single reply.
 
@@ -277,15 +277,15 @@ This is the only path from agent to disk. Lock down `subprocess` with a timeout 
 ### Step 6 - CLI entry point
 
 ```python
-# bin/gaffer
+# bin/the-crumb
 if __name__ == "__main__":
     import sys
-    question = " ".join(sys.argv[1:]) or input("gaffer> ")
+    question = " ".join(sys.argv[1:]) or input("crumb> ")
     answer = run_senior_coach(question)
     print(answer)
 ```
 
-Inside Claude Code, the same setup can be exposed as a custom agent with `@"Gaffer"` - the existing Scientist and FootyStrategy agents are defined the same way and end up as tier-4 members of the same staff.
+Inside Claude Code, the same setup can be exposed as a custom agent with `@"The Crumb"` - the existing Scientist and FootyStrategy agents are defined the same way and end up as tier-4 members of the same staff.
 
 ---
 
@@ -294,9 +294,9 @@ Inside Claude Code, the same setup can be exposed as a custom agent with `@"Gaff
 ### Senior Coach (orchestrator)
 
 ```
-You are the Senior Coach of the Gaffer AI staff, working on the
+You are the Senior Coach of The Crumb AI staff, working on the
 SuperCoach-VIA dataset (125+ years of match and player data, weekly-refreshed
-predictions). Gaffer's job is to challenge the coach's intuition with
+predictions). The Crumb's job is to challenge the coach's intuition with
 evidence - not to flatter it.
 
 You have eleven staff agents you can call as tools:
@@ -326,7 +326,7 @@ You do not read data files. Always delegate.
 ### Midfield Coach (line coach)
 
 ```
-You are the Midfield Coach in the Gaffer staff.
+You are the Midfield Coach in The Crumb staff.
 
 Your domain:
 - Disposal counts and chains
@@ -355,7 +355,7 @@ Rules:
 ### Data Steward (tier 6)
 
 ```
-You are the Data Steward in the Gaffer staff. You are the only agent that
+You are the Data Steward in The Crumb staff. You are the only agent that
 reads files.
 
 You receive specific data requests from line coaches, specialists, and
@@ -387,7 +387,7 @@ Hard rules:
 ### List Manager (tier 5)
 
 ```
-You are the List Manager in the Gaffer staff.
+You are the List Manager in The Crumb staff.
 
 Your domain:
 - Current player form (last 4-6 weeks of disposals, goals, SC score)
@@ -416,7 +416,7 @@ The other agents (Forward Line Coach, Back Line Coach, Stoppage Specialist, Defe
 
 **User:** *"The coach wants to drop player B from the midfield rotation - should he?"*
 
-This is exactly the kind of question Gaffer is built for: a decision where the coach has a view, and the question is whether the data supports it.
+This is exactly the kind of question The Crumb is built for: a decision where the coach has a view, and the question is whether the data supports it.
 
 1. **Senior Coach** parses the question. Recognises it needs current form (List Manager + Midfield Coach), opposition matchup (Opposition Analyst), and a methodology check (Stats/Methodology) before challenging the coach's preference. Dispatches all four in parallel.
 
@@ -470,7 +470,7 @@ What this system does **not** have:
 - **Prediction uncertainty is real.** The disposal model has a meaningful error bar. **[data]** The 2026 walk-forward backtest reports Round 1 MAE of ~4.83 disposals improving to Round 5 MAE of ~3.73 - meaning a "predicted 28 disposals" answer is realistically a 24-32 range, not a point estimate. The Senior Coach is prompted to surface this, not hide it.
 - **Pre-1987 / pre-1998 stats are incomplete.** Tackles are recorded from 1987. Clearances and contested possessions from 1998. Hit-outs have a recording change in 2017 that is not a real shift. The Data Steward refuses historical computations on columns that did not exist.
 - **No causal claims.** Agents report patterns and predictions. They do not say "trade in player X *because* he will get more game time" unless the lineup file actually shows that - and even then the language is "the lineup indicates", not "this will happen".
-- **"Challenge the coach" is not "override the coach".** Gaffer presents evidence and disagreement; it does not make the selection. The coach is still the one who walks the team out on Saturday. The system is designed to lose arguments cleanly when the data does not support its position.
+- **"Challenge the coach" is not "override the coach".** The Crumb presents evidence and disagreement; it does not make the selection. The coach is still the one who walks the team out on Saturday. The system is designed to lose arguments cleanly when the data does not support its position.
 
 If any of these matter for your use case - add an explicit data source, do not paper over the gap with a confident-sounding answer.
 
