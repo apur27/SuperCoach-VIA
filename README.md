@@ -26,8 +26,7 @@ SuperCoach VIA turns 125+ years of AFL data into weekly player predictions, team
 | **Read the auto-updated 2026 season hub** | [docs/afl-season-2026.md](docs/afl-season-2026.md) | None - browser only |
 | **See the all-time top 100 and Hall of Fame** | [docs/hall-of-fame.md](docs/hall-of-fame.md) | None - browser only |
 | **Look up a footy or data term** | [docs/glossary.md](docs/glossary.md) | None - browser only |
-| **See how accurate the model has been** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
-| **Read the model's pre-registered report card** | [docs/model-report-card.md](docs/model-report-card.md) | None - browser only |
+| **See how accurate the model has been (backtest + pre-registered report card)** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
 
@@ -128,7 +127,7 @@ The same packaging happens automatically on a Sunday-night schedule via [.github
 - [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance framework, multi-agent orchestration
 - [Building The Crumb - a footy AI that runs the club better than the coach](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff (senior coach, line coaches, specialists, analysts, methodology, performance, list, data steward) on the SuperCoach-VIA dataset, end-to-end build guide
 - [Technical reference](docs/technical-reference.md) - GPU setup, data layout, scripts
-- [Model report card](docs/model-report-card.md) - hit/miss methodology and weekly accuracy log
+- [Backtest results — 2026](docs/afl-backtest-2026.md) - pre-registered methodology, per-round MAE/RMSE, team-level bias, notable misses, weekly accuracy log
 
 ## What's coming - Phase 2
 

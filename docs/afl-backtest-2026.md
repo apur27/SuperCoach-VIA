@@ -90,4 +90,127 @@ Full backtest CSVs in `data/prediction/backtest/` — run `backtest.py` to regen
 <!-- 2026-BACKTEST-END -->
 
 ---
+
+## Cumulative summary across all backtested rounds
+
+The per-round table above reports the mean across each round individually. The **player-weighted** cumulative numbers — pooling every player prediction across all rounds and computing one MAE / RMSE / bias on the lot — are the headline accuracy figures for the season **[data]**.
+
+| Metric | Value | What it means |
+|---|---|---|
+| Rounds backtested | 10 (R1–R10) | Walk-forward — each round predicted using only data from rounds before it |
+| Player predictions scored | **3,701** | Total prediction-vs-actual pairs across the 10 rounds |
+| **MAE (overall)** | **4.086 disposals** | Average absolute miss across every player-round |
+| **RMSE (overall)** | **5.195 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
+| **Bias (overall)** | **−0.090 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
+| Cumulative MAE (mean of round MAE) | 4.116 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
+| Median round MAE | 4.089 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
+
+**Read:** the model is essentially unbiased at the population level (mean signed error ≈ 0), with a typical absolute miss of ~4 disposals. RMSE only 1.1 above MAE indicates the error distribution is reasonably tight — there is no fat tail of catastrophic mispredictions.
+
+## Team-level bias — where does the model lean?
+
+A team-level bias is a systematic over- or under-prediction concentrated on one club. It usually traces to that team's playing style being different in 2026 from the historical baseline the model trained on (role changes, structural shifts, midfield rotation depth). Bias is reported as **mean signed error** — a negative number means we predict too low for that team, a positive number means we predict too high **[data]**.
+
+| Team | Predictions (n) | MAE | Bias | Direction |
+|------|----------------:|----:|-----:|-----------|
+| Sydney | 207 | 3.83 | −0.59 | under-predict |
+| Hawthorn | 202 | 3.87 | −0.46 | under-predict |
+| Collingwood | 207 | 4.47 | −0.45 | under-predict |
+| North Melbourne | 207 | 4.18 | −0.39 | under-predict |
+| Greater Western Sydney | 207 | 4.03 | −0.36 | under-predict |
+| Geelong | 207 | 4.17 | −0.32 | under-predict |
+| Melbourne | 207 | 3.78 | −0.24 | under-predict |
+| St Kilda | 206 | 4.18 | −0.09 | under-predict |
+| Port Adelaide | 206 | 4.00 | −0.07 | under-predict |
+| Fremantle | 207 | 4.17 | −0.05 | under-predict |
+| Adelaide | 198 | 4.43 | −0.03 | under-predict |
+| Essendon | 207 | 4.30 | −0.02 | under-predict |
+| Gold Coast | 207 | 4.07 | +0.03 | over-predict |
+| Western Bulldogs | 207 | 4.24 | +0.05 | over-predict |
+| Carlton | 207 | 3.74 | +0.14 | over-predict |
+| West Coast | 201 | 3.62 | +0.34 | over-predict |
+| Brisbane Lions | 207 | 4.25 | +0.36 | over-predict |
+| Richmond | 204 | 4.23 | +0.53 | over-predict |
+
+**Notable:** Sydney, Hawthorn, and Collingwood are the three teams the model most consistently under-predicts — each has had a midfielder (or midfield group) outperforming the model's pre-2026 expectations. Richmond and Brisbane are the most over-predicted; for Richmond this is consistent with their lower 2026 contested-game volume relative to historical baselines.
+
+## Round-by-round notable misses
+
+The five biggest **under-predictions** and the five biggest **over-predictions** per round — these are the players where the model was furthest from reality. They are usually role changes, late tactical surprises, or genuine outliers. The list comes straight from the backtest log **[data]**.
+
+| Round | Top under-predictions (model too low) | Top over-predictions (model too high) |
+|------:|----------------------------------------|----------------------------------------|
+| 1 | Nick Daicos (pred 21, actual 41, −20); Lachie Neale (21→39, −18); Josh Daicos (20→36, −16); Tanner Bruhn (15→31, −16); Jack Sinclair (21→35, −14) | Hugh McCluggage (pred 21, actual 4, +17); Rowan Marshall (18→6, +12); Zane Zakostelsky (17→6, +11); Jordan Croft (14→4, +10); Oisin Mullin (14→4, +10) |
+| 2 | Wayne Milera (17→34, −17); Lachie Jaques (16→29, −13); Noah Anderson (23→34, −11); Marcus Bontempelli (22→33, −11); Zach Merrett (21→32, −11) | Toby Murray (17→2, +15); Campbell Gray (14→2, +12); Billy Frampton (16→5, +11); Zeke Uwland (16→5, +11); Patrick Dangerfield (15→4, +11) |
+| 3 | Andrew Brayshaw (16→39, −23); Shai Bolton (16→32, −16); Lachie Ash (24→39, −15); Zak Butters (21→36, −15); Jack Steele (18→31, −13) | Mason Redman (25→4, +21); Griffin Logue (14→1, +13); Harry Edwards (14→1, +13); Caiden Cleary (15→4, +11); Brayden Fiorini (20→10, +10) |
+| 4 | Colby McKercher (16→35, −19); Kysaiah Pickett (17→33, −16); Bailey Smith (25→40, −15); Steele Sidebottom (16→31, −15); Tom Sparrow (14→29, −15) | Zach Merrett (26→10, +16); Izak Rankine (19→7, +12); Scott Pendlebury (21→10, +11); Elliot Yeo (18→7, +11); Jasper Alger (14→3, +11) |
+| 5 | Archie Roberts (23→37, −14); Ryley Sanders (20→34, −14); Darcy Byrne-Jones (12→26, −14); Brodie Grundy (15→28, −13); Will Ashcroft (25→36, −11) | Mitch Zadow (16→3, +13); Shaun Mannagh (17→6, +11); James Borlase (14→4, +10); Reilly O'Brien (13→3, +10); Sam Walsh (28→19, +9) |
+| 6 | Archie Roberts (25→42, −17); Matt Rowell (17→32, −15); Ben McKay (8→23, −15); Darcy Parish (20→34, −14); Kyle Langford (13→27, −14) | Dayne Zorko (26→8, +18); Caleb Windsor (19→7, +12); Lachlan Gulbin (18→6, +12); Dan Houston (25→14, +11); Joel Jeffrey (22→11, +11) |
+| 7 | Matt Rowell (19→35, −16); Harvey Langford (13→27, −14); Ed Langdon (15→28, −13); Rowan Marshall (12→25, −13); Cameron Zurhaar (10→23, −13) | Elijah Hollands (18→1, +17); Tom Liberatore (26→13, +13); Logan Evans (18→5, +13); Marcus Bontempelli (26→14, +12); Tim Taranto (22→10, +12) |
+| 8 | Scott Pendlebury (20→43, −23); Lachie Neale (25→42, −17); Hugo Garcia (17→32, −15); Finn Maginness (9→24, −15); Archie Roberts (28→42, −14) | Mark Blicavs (17→1, +16); Taylor Walker (13→2, +11); Patrick Dangerfield (14→4, +10); Matthew Kennedy (24→15, +9); Bruce Reville (16→7, +9) |
+| 9 | Peter Wright (12→26, −14); Tristan Xerri (17→30, −13); John Noble (23→35, −12); Darcy Wilmot (21→32, −11); Sam Berry (18→29, −11) | Marc Pittonet (15→4, +11); Patrick Retschko (19→9, +10); Jack Scrimshaw (19→9, +10); Cody Curtin (17→7, +10); Harry Sheezel (29→20, +9) |
+| 10 | Archie Roberts (19→42, −23); Wayne Milera (16→34, −18); Jordan Goey (15→30, −15); Luke Davies-Uniacke (20→34, −14); Izak Rankine (19→33, −14) | Callum Wilkie (24→5, +19); Matt Roberts (20→6, +14); Tom Brown (15→1, +14); Harris Andrews (17→5, +12); Oliver Hannaford (17→5, +12) |
+
+**Recurring names worth noting:** Archie Roberts under-predicted four times (R5, R6, R8, R10) — his 2026 role is genuinely different from his pre-2026 baseline, which the player-history features have not fully absorbed. Wayne Milera under-predicted twice (R2, R10). Matt Rowell appears in consecutive rounds (R6, R7). These names line up with the bolded watchlist in the top-30 table above.
+
+## Methodology — what the backtest actually does
+
+The backtest is the formal evaluation of the disposal prediction model. The procedure is fixed; results are reported every round, regardless of whether the model had a good week or a bad one.
+
+### Walk-forward, no leakage
+
+For each round R in the 2026 season:
+
+1. **Train the model on every game played strictly before round R** (across all years 1965–2026). The round being predicted is invisible to the model during training.
+2. **Score every named player** for round R using only their pre-round-R history.
+3. **Compare prediction vs actual** disposals once the round has been played.
+
+The cutoff is temporal — the predictor (a `LeakProofPredictor` defined in `prediction.py`) drops every row dated at-or-after the target round before computing any feature or fitting any tree. The log line `[cutoff y=2026 r=N] dropped X future rows` is the in-line audit trail that this happened **[data]**.
+
+### Pre-registered metrics
+
+These are the metrics, definitions, and the commitment to report-every-round. They are fixed for the 2026 season. Changing them retroactively to flatter the model would defeat the point of the exercise.
+
+| Metric | Definition | Lower / higher = better |
+|---|---|---|
+| **MAE** (Mean Absolute Error) | Mean of `abs(predicted − actual)` across all players in the round | Lower |
+| **RMSE** (Root Mean Square Error) | `sqrt(mean((predicted − actual)^2))` — penalises larger errors more | Lower |
+| **% within 5 disposals** | Share of predictions where `abs(predicted − actual) <= 5`. Headline fan-facing accuracy | Higher |
+| **% within 10 disposals** | Share within 10. The "obvious blunder" rate is `1 − this` | Higher |
+| **Bias** | Mean signed error: `mean(predicted − actual)` — systematic over/under-prediction | Closer to zero |
+| **n** | Number of players scored in the round after late-out filtering | Higher = more coverage |
+
+### Hit / miss definitions (qualitative)
+
+- **Hit** — within ±5 disposals of the actual value. The model got it right for an average fan's expectations.
+- **Near miss** — between 5 and 10 disposals off. Wrong, but the player was not a wildcard.
+- **Miss** — more than 10 disposals off. The model had no business being this far off; round-level investigation justified.
+
+A round is considered **good** if `% within 5 ≥ 65%` and there are no more than five outright misses (errors > 10 disposals). A round is **concerning** if either threshold breaks.
+
+### What we commit to reporting
+
+- **Every round** — the per-round table is updated regardless of result. No hiding bad weeks.
+- **No cherry-picked windows** — we do not start the table mid-streak. Round 1 is always row 1 even though it is the hardest round (least 2026 history per player).
+- **No retroactive metric changes** — if a metric is added mid-season, prior rounds get a `-` and we say so.
+- **The biggest misses** — top five over- and under-predictions per round, with the model's likely explanation when one is obvious.
+- **Cumulative numbers** — season-to-date averages so a single round cannot be read in isolation.
+
+### What we do not promise
+
+- That the model will improve every round — it will plateau and dip; AFL is noisy.
+- That every miss will be explained — sometimes a player just had a weird game.
+- That this report will catch every methodology error — it is one layer of accountability, not a full audit.
+
+## Why this report exists
+
+Public accuracy reporting is the cheapest form of model accountability. If the model is good, the report shows it. If the model has a bad month, the report shows that too — and the operator (and the fans) can ask why before any decisions get made on a bad assumption.
+
+The alternative — reporting only when the model wins — is what every betting tipster does, and the average tipster is not statistically significant.
+
+---
+
+**Reproducibility:** the run powering this page is `data/prediction/backtest/backtest_run_20260511_191837.log` with companion CSVs `backtest_summary_20260511_191837.csv` (per-round metrics), `backtest_by_team_20260511_191837.csv` (team-level breakdown), and per-round `prediction_vs_actual_round_<N>_2026_20260511_191837.csv` files. Re-run `backtest.py` to regenerate; the per-round table at the top of this page is overwritten by `update_team_analysis.py` between the `<!-- 2026-BACKTEST-START -->` markers on every data refresh.
+
+---
 **Related:** [Team analysis](afl-team-analysis-2026.md) · [Finals pathway](afl-finals-2026.md) · [Brownlow predictor](afl-brownlow-2026.md) · [Stat leaders](afl-stat-leaders-2026.md) · [Predictions](afl-predictions-2026.md)
