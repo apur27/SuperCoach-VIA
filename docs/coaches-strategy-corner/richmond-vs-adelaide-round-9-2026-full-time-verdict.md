@@ -2,9 +2,10 @@
 
 > Pre-match brief: [Executive summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md)
 > In-game reads: [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) | [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) | [Q4](richmond-vs-adelaide-round-9-2026-q4-live.md)
+> Post-match deep dive: [**Post-mortem**](richmond-vs-adelaide-round-9-2026-postmortem.md) - full prediction backtest, structural failure analysis, and SuperCoach verdict grounded in afltables-verified box-score.
 >
 > Data source: FanFooty live feed (game 9781), final snapshot `9781_20260510_1751_final-siren.json`.
-> Note: col15 "goals" field is unreliable (per-player team sums do not match scoreboard). Goal counts cited here are from commentary entries or scoreboard totals only.
+> Note: col15 "goals" field is unreliable (per-player team sums do not match scoreboard). Goal counts cited here are from commentary entries or scoreboard totals only. The post-mortem (link above) uses afltables.com as the canonical source for goals/behinds/clangers.
 
 ## Final score
 
