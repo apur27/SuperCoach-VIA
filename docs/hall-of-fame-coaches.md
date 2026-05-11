@@ -12,7 +12,7 @@ The longest tenure in the history of major team sport anywhere: **thirty-eight c
 
 His coaching philosophy was deceptively simple: *fitness, position, and ferocity*. He demanded a level of pre-season conditioning unheard of in the 1910s and 1920s - Collingwood players ran twice a day in an era when most clubs trained twice a week - and he was the first coach to formally drill specific positions rather than letting players find their own. The "Magpies way" - relentless second efforts, contest-first ball-winning, an almost militaristic team structure - is his invention, and modern Collingwood still recognisably runs its descendants.
 
-His defining moment is harder to pick than for any other coach because he had so many. The 1929 Grand Final, in which Collingwood went undefeated for the entire season - **18–0 home and away, then a Grand Final win** **[historical record]** - is the answer most football historians settle on. No other coach has produced a perfect season, before or since.
+His defining moment is harder to pick than for any other coach because he had so many. The 1929 season, in which Collingwood went **18–0 in the home-and-away rounds** **[data]** before losing the first semi-final to Richmond and then winning the Grand Final by recovering through the preliminary path - is the answer most football historians settle on. An undefeated home-and-away season has not been matched in the 96 years since. (Essendon's 2000 side came closest, with 22 wins and a single home-and-away loss; 1929 Collingwood is the only side ever to complete a regular season without dropping a point.)
 
 ## 2. Ron Barassi - Melbourne / Carlton / North Melbourne / Sydney, 1965–1995
 
@@ -36,7 +36,7 @@ Four premierships at Essendon (**1984, 1985, 1993, 2000**) **[historical record]
 
 Sheedy's innovation was *coaching as theatre and strategy combined*. He invented modern positional flexibility - playing key forwards in the back-line, ruckmen in the midfield, taggers as half-backs - at a time when the game was still organised around fixed positions. He developed **James Hird, Tim Watson, Matthew Lloyd, Mark Mercuri, Michael Long** **[historical record]** and a generation of Indigenous players whose careers he openly championed before it was fashionable.
 
-His defining moment is the **2000 Grand Final**, the year Essendon went **24–1 with the only loss being a meaningless final-round game** **[historical record]** - the most dominant single season since McHale's 1929 Magpies. Sheedy's Essendon of 2000 is the gold standard of modern team-building.
+His defining moment is the **2000 Grand Final**, the year Essendon went **24–1 with the only loss being a late-season Round 21 game to the Western Bulldogs** **[data]** - verified by reconstructing the 2000 ladder from match data. Other than that one loss, the Bombers won every game of the season home-and-away plus four finals, the most dominant single year of the modern era. Sheedy's Essendon of 2000 is the gold standard of modern team-building.
 
 ## 5. Alastair Clarkson - Hawthorn, 2005–2021
 
@@ -87,6 +87,29 @@ Two premierships at North Melbourne (**1996, 1999**) **[historical record]**. **
 Pagan invented "Pagan's Paddock" - the deliberate clearing of the forward-50 area to give Wayne Carey one-on-one contests, in defiance of zone-defence trends elsewhere in the league. It was a structural innovation that reshaped how key forwards were used through the late 1990s and 2000s. He developed **Wayne Carey, Glenn Archer, Anthony Stevens, Adam Simpson** **[historical record]** into a tight premiership core that punched far above the club's resources.
 
 His defining moment is the **1996 Grand Final** - North Melbourne's first flag in nearly two decades, and the validation of the Pagan's Paddock structure that the league had spent the previous five years trying and failing to disrupt.
+
+---
+
+## FootyStrategy analytical read
+
+The ten coaches above are not ten separate stories. They form three lineages, and almost every modern AFL coach can be traced through one of them.
+
+**The McHale → Hafey → Malthouse line: fitness as competitive advantage.** McHale invented the pre-season; Hafey turned beach runs and hill sprints into a Richmond fourth-quarter weapon for a decade; Malthouse carried the same philosophy through West Coast, Collingwood and Carlton across thirty years. The modern AFL pre-season - twice-daily sessions, GPS load-monitoring, individualised recovery - is the unbroken descent from McHale's 1910s training drills. When a current coach talks about "winning the last 10 minutes of every quarter," they are quoting Hafey via Malthouse.
+
+**The Barassi → Sheedy → Thompson → Clarkson line: tactical innovation as identity.** Barassi invented handball-as-attack and the ruck-rover position. Sheedy added positional flexibility (key forwards in defence, ruckmen on the wing) and a deliberate focus on Indigenous player development. Mark Thompson - a Sheedy-era Essendon player - took the Geelong coaching job in 2000 and built the 2007-2011 list depth dynasty. Clarkson developed the Cluster defence at Hawthorn and produced **Damien Hardwick, Luke Beveridge, Adem Yze, Sam Mitchell**, who between them have produced an additional four flags from 2010 onward. This is the most tactically inventive lineage in the game's history; it is also the lineage most responsible for the post-2010 league's stylistic homogeneity (every team now runs a version of the Cluster).
+
+**The Smith → Jeans → Matthews line: opposition match-up as system.** Norm Smith was the first coach to formally rehearse positional drills. Jeans was the first to brief his players on individual opposition match-ups. Leigh Matthews coached the same way - uncompromising on standards, obsessive about specific opposition preparation - and built the Brisbane three-peat on it. Every modern coach who runs a midweek "opposition watch" video session is in this lineage. It is the quietest of the three because match-up coaching does not produce the headlines that tactical innovation does, but it is arguably the most universally adopted.
+
+**Specific innovations still in use today:**
+
+- *Pre-season fitness as a season-long weapon* - McHale, 1910s; still the league baseline.
+- *Handball as attack* - Barassi, 1970 Grand Final; the entire post-1970 game.
+- *Match-up briefings on opposition individuals* - Jeans, 1960s-80s; standard practice.
+- *Positional flexibility (a player covering multiple roles in one game)* - Sheedy, 1980s; the foundation of the modern interchange-bench era.
+- *Pagan's Paddock (clearing the forward 50 for a one-on-one contest)* - Pagan, 1996-99; the structural antecedent of the modern "isolation" forward setup.
+- *Cluster zone defence* - Clarkson, 2007-10; in modified form, every team runs one.
+
+**The case for the greatest of all time.** Premiership counts say McHale (8). Tactical inheritance says Barassi - the line that runs from him through Sheedy, Thompson, Clarkson and the Clarkson protégés accounts for the largest share of premierships in the modern era. Win rate says Jeans (71.6% at Hawthorn 1981-87, the highest sustained rate of any senior coach in this list). The honest answer is that they are answering three different questions. McHale built the longest-tenured club identity in major team-sport history. Barassi rewired the way the game itself is played. Clarkson is the only coach whose method has been borrowed - successfully - by enough successor coaches to be measurable as a discrete tree. If we had to pick one for a single statue, the structural-impact argument points to **Barassi**: every modern coach is in his shadow whether they know it or not, and the 1970 Grand Final is the only single match in the league's 130-year history that can be cleanly identified as the moment the game itself changed.
 
 ---
 

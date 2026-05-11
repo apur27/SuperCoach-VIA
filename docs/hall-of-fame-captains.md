@@ -56,7 +56,7 @@ What he provided as captain was a ceiling on what was acceptable from teammates 
 
 ## 7. Jason Dunstall - Hawthorn, 1995–1998
 
-1,254 goals from 269 games **[historical record]**. Dunstall captained Hawthorn during the post-glory rebuild and was asked to do the hardest job in football: lead a once-great club through its decline without letting standards slip. The Hawks finished out of the eight in three of his four captaincy years, but Dunstall personally kicked **134 goals in 1992 and over 100 in five separate seasons** **[historical record]** - keeping the club competitive through sheer scoreboard pressure.
+**1,254 goals from 269 games** **[data]**. Dunstall captained Hawthorn during the post-glory rebuild and was asked to do the hardest job in football: lead a once-great club through its decline without letting standards slip. The Hawks finished out of the eight in three of his four captaincy years, but Dunstall personally kicked **145 goals in 1992, 138 in 1989, 132 in 1988, 123 in 1993, 102 in 1996 and 101 in 1994 - six separate 100-goal seasons** **[data]** - keeping the club competitive through sheer scoreboard pressure.
 
 He was a thinking captain. Dunstall studied opposition defenders the way a prosecutor studies witnesses, knew exactly which leads each defender would commit to and which they would not, and used that knowledge to script forward-line patterns that survived him. The lead-up centre half-forward archetype that dominated the 2000s - Lloyd, Riewoldt, Brown - was substantially Dunstall's invention.
 
@@ -72,7 +72,7 @@ His captaincy ended badly and that is part of his story too - but on what he was
 
 ## 9. Michael Tuck - Hawthorn, 1986–1991
 
-426 games - still the all-time record **[historical record]**. Tuck captained Hawthorn through the back half of the 1980s dynasty and led them to **three premierships (1986, 1988, 1989, 1991)** **[historical record]** - captaining or vice-captaining four flags in six years. His captaincy was the captaincy of *example*: he was first to training, last to leave, never injured, never visibly tired.
+**426 games** **[data]** - the all-time record until Boomer Harvey passed him in 2016. Tuck captained Hawthorn through the back half of the 1980s dynasty and led them to **four premierships as captain (1986, 1988, 1989, 1991)** **[data]**, all four Grand Finals verified in this repo's match data. His captaincy was the captaincy of *example*: he was first to training, last to leave, never injured, never visibly tired.
 
 What made Tuck rare among great captains was that his on-ground game was entirely about facilitation. He played as a half-back-flanker and ruck-rover, set up teammates relentlessly, and almost never sought the headline play. The Hawks of his era ran a beautifully co-operative game because their captain modelled it every contest.
 
@@ -205,6 +205,24 @@ Carlton's **57.0% all-time win rate** **[data]** holds up as well as it does in 
 Brownlow Medal **1999** **[historical record]**, captain through the post-Tuck rebuild and into the **2008 premiership year** (where he played as a senior elder rather than captain). Crawford's captaincy was about preserving Hawthorn's identity through years when the Hawks had no business being competitive.
 
 His farewell premiership in 2008 - at age 33, in a side captained by Sam Mitchell - is a reminder that captaincy isn't only the years with the C on the jumper. Crawford's *culture-keeping* role for nearly a decade is what kept Hawthorn ready to win when Clarkson's system arrived.
+
+---
+
+## FootyStrategy analytical read
+
+The thirty names above break cleanly into four leadership archetypes, and the league's history can be read through which one was dominant in each era.
+
+**Archetype A — the standard-setter.** Skilton, Tuck, Kernahan, Selwood, Pendlebury. These captains lead not by speech but by un-matchable individual effort: every contest at maximum, every week, regardless of scoreboard. Their teammates simply cannot drop below the level the captain has just set. This is the dominant captaincy archetype in modern AFL and the one most replicated by current clubs - Cripps, Bontempelli, and Marcus Bontempelli's protégé generation are all in this lineage. The structural reason it dominates now: the salary-capped 23-man squad gives every captain at most four or five truly elite teammates; the rest of the group needs an example to clip onto. Speech-based leadership only works above a certain talent floor.
+
+**Archetype B — the tactical re-engineer.** Barassi (player-coach), Hodge, and arguably Lewis (Voss in his Brisbane peak too). These captains run the on-ground tactical adjustment when the bench can't get a message through fast enough. Hodge's three Grand Final performances are the cleanest modern example - moving himself to half-back, then half-forward, then back, mid-game, to counter what the opposition was doing. This archetype is hardest to scale and rarest in supply; it requires a captain whose on-ground IQ is higher than most of the coaches in the league.
+
+**Archetype C — the cultural anchor at a struggling club.** Skilton (South Melbourne), Pavlich (Fremantle), Fyfe (Fremantle), Ablett Jr (Gold Coast). These captains accept a job where the structural prospects of a premiership are close to zero and refuse to let the standard slip anyway. The data backs the perception: Pavlich, Ablett Jr and Fyfe are all on the all-time disposal or contested-possession leaderboards on the [stat-leaders page](hall-of-fame-stat-leaders.md), playing at elite output for clubs whose other elite players were thin on the ground. This is the most undervalued archetype in football discourse and arguably the most personally difficult.
+
+**Archetype D — the cross-generation enforcer.** Barassi (Carlton, North), Whitten (Footscray for fourteen years), Selwood (Geelong for eleven). These captains hold the C for a decade or more, mentor the next captain in the lineage, and become the structural memory of the club. The current AFL produces fewer of these because list turnover is faster and the captaincy tends to rotate, but Bontempelli at the Western Bulldogs and Pendlebury at Collingwood are this archetype's current carriers.
+
+**The three captains who most reshaped how the game is played today** are Barassi (handball-as-attack at Carlton 1970 → modern running game), Tuck (availability + facilitation → modern half-back rebound and ruck-rover positional play), and Hodge (tactical on-ground adjustment → modern in-game role-switching). Each of these three changed the *baseline* of what a captain is expected to do, not merely what they are admired for doing.
+
+If we had to pick a single captain whose tactical influence is least appreciated relative to what they actually did: **Tuck**. Hawthorn's mid-1980s into 1991 dynasty is most often described as a coaching and structural achievement (Kennedy → Jeans → Joyce). But the on-ground continuity, the facilitation-first style, the willingness of star players (Matthews, Dunstall, Platten, Brereton) to play *into* a team game rather than over the top of it - that was the captain. Tuck's four flags as captain (1986, 1988, 1989, 1991) are verifiable in this repo's match data, and the consistency of role across all four is the most under-cited piece of evidence for what captaincy can actually do at the highest level.
 
 ---
 
