@@ -126,6 +126,7 @@ The same packaging happens automatically on a Sunday-night schedule via [.github
 - [How predictions work](docs/prediction-model.md) - the model, the backtest framework, the all-time-100 algorithm
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, feedback governance framework, multi-agent orchestration
+- [Building Gaffer - a footy AI that runs the club better than the coach](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff (senior coach, line coaches, specialists, analysts, methodology, performance, list, data steward) on the SuperCoach-VIA dataset, end-to-end build guide
 - [Technical reference](docs/technical-reference.md) - GPU setup, data layout, scripts
 - [Model report card](docs/model-report-card.md) - hit/miss methodology and weekly accuracy log
 
