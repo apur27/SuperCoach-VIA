@@ -142,6 +142,29 @@ His career was built on *taking the high ball when the contest could break the w
 
 ---
 
+## FootyStrategy analytical read
+
+Football courage is not a single attribute. Reading the twenty above carefully, four distinct taxonomies emerge - and the game has, across its 130 years, gone through phases when one form was visible and prized and other forms were largely invisible.
+
+**Physical courage** - the form most often celebrated and the easiest to film. Newman, Brown, Ablett Sr, Lockett, Dunstall, Hall. These are the players who took marks they had no business taking and absorbed contact that should have ended their careers. Of the four taxonomies this is the one most heavily mediated by the era's rules: the pre-1980s VFL allowed contact that today would be a 12-week suspension, and players who built reputations under those rules (Newman, Dyer before him) cannot be directly compared to modern equivalents. The structural change that most reshaped the rule-book was the head-high contact rule introduced in 2005-2010; before that, the physical-courage bar for a centre half-forward was substantially higher than it is now.
+
+**Mental courage** - return-from-injury, return-from-public-trauma, willingness to play through what should be career-ending damage. Voss (multiple knee reconstructions), Menzel (four ACLs), Lonergan (lost a kidney), Mitch Clark (depression return), Brown (15 plates and 64 screws). This category has expanded in the modern era because the medical infrastructure now lets players come back from injuries that ended careers in the 1980s. The Lonergan kidney case is the sharpest example: in 1985 a player with one kidney would not have been allowed near a senior contest; in 2007 he played 202 more games. The line has moved.
+
+**Competitive courage** - the willingness to keep trying when the contest is lost. Crawford at Hawthorn during the post-Tuck rebuild. Pavlich at Fremantle (on the [captains page](hall-of-fame-captains.md)). Riewoldt chasing through three Grand Finals without a flag. Skilton at South Melbourne. This is the form of courage least visible from outside the club. It does not produce highlight-reel moments. It produces 320-game careers at clubs that lose more than they win, with the player's individual standard never dropping below All-Australian. Of the four taxonomies it is the one we under-credit most heavily.
+
+**Historical / social courage** - acts of courage that travelled beyond the player's own career and changed something about the sport's relationship with the country. McLeod, the Indigenous superstar at Adelaide who set the template for the post-2000 Indigenous wave. Platten, whose 36-concussion career (by his later count) became the canonical example used to justify the post-2010 HIA protocols. Bell, whose 2014 insurance settlement was the first formal acknowledgement that football had been doing systematic neurological damage. These players are remembered as much for what they made the league become as for what they did on the ground. Goodes, Long, Winmar (on the [Indigenous players page](hall-of-fame-indigenous.md)) belong primarily in this category and are listed there for that reason.
+
+**The acts of courage with the largest impact beyond the individual career:**
+
+1. **Daniel Bell's 2014 concussion settlement** - the first formal AFL recognition that repeated head trauma caused permanent damage. Set the legal and medical framework for every concussion case since.
+2. **Michael Long's 1995 Anzac Day complaint** (covered on the Indigenous page) - produced Rule 30, the league's first anti-vilification rule, in 1995. The procedural foundation for every racism case the league has had to handle since.
+3. **Mitch Clark's 2014 mental health disclosure** - the first prominent AFL player to publicly cite depression as the reason for stepping away. The conversation about player wellbeing that began with him is now embedded in every club's player-services structure.
+4. **Lonergan's 2007 return after losing a kidney** - shifted the boundary of what return-to-play protocols can authorise.
+
+The point of organising the list this way is that physical courage is over-credited and historical/social courage is under-credited, relative to actual long-run impact on the game. Brown's 15 plates and 64 screws are the more televisable story; Long's complaint to the league about a single sentence said to him on Anzac Day did more to change the institution. Both belong on the list. Neither is replaceable. The taxonomy is the point.
+
+---
+
 ## Related
 
 - [AFL Hall of Fame hub](hall-of-fame.md)

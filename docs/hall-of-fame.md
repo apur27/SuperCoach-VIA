@@ -20,3 +20,17 @@ The game has produced extraordinary people. The pages below are about the ones w
 - **[Great AFL dynasties](hall-of-fame-dynasties.md)** - dominant club eras, coaching trees, and the cross-club lineages that shaped the modern game, from Collingwood's Machine to the Clarkson tree.
 
 Each page has its own back-link to this hub and to the main README.
+
+---
+
+## How to read this section
+
+These pages are written in two layers, and they intentionally do not collapse into one.
+
+**The data layer.** Every specific number on every page - games played, goals kicked, Brownlow votes polled, premierships won, career span - is verified against the player performance files in `data/player_data/` (one CSV per player, every game they played) and the match files in `data/matches/` (one CSV per season, every match contested). Where the data confirms a number, it is tagged `**[data]**`. Where the claim comes from documented football history but the underlying number is not in the repo (pre-1965 stat categories, club selection records, Norm Smith Medals before 1979 for some matches), it is tagged `**[historical record]**`. Where a specific stat is referenced but cannot be verified from data, it is tagged `**[historical record - unverified in data]**` - which is also a finding, and the right way to flag it.
+
+**The analytical layer.** Each page closes with a *FootyStrategy analytical read* section. Where the data layer answers *what happened*, this layer answers *why it mattered and how it reshaped the game.* These sections are deliberately opinionated. They name the eras, the structural changes, and the tactical innovations that the raw numbers alone do not surface. A career-goals leaderboard, on its own, does not tell you that the post-2000 game made 1,000-goal forwards almost extinct; the analytical read does.
+
+The pages are not ranked by importance. The top-100 is era-normalised. The stat leaders are by raw volume. The captains are by leadership impact. The Indigenous players page is structured by what each player changed about the game's relationship to the country it is played in. There is no single hierarchy. The pages are designed to be read against each other, not summed into a single list.
+
+For methodology and reproducibility, see the comments in `docs/hall-of-fame/compute_stat_leaders.py` and the data-coverage notes at the bottom of each individual page.

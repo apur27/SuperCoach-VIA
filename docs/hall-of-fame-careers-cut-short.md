@@ -18,11 +18,11 @@ Stynes' on-field record is only half the story. He set the **record for consecut
 
 In 2009, at age 43, Stynes was diagnosed with metastatic cancer. He fought it publicly for three years, continuing to lead the football club throughout, and **died in March 2012 at age 45** **[historical record]**. The career was not cut short on the field - he completed his playing days - but the post-football life he had clearly built towards, the decades of advocacy and leadership and family, was. His state funeral at St Paul's Cathedral and the Melbourne Cricket Ground tribute service drew tens of thousands. The "what if" with Stynes is not "what if he had played longer" - it is what the next thirty years of his impact on the game and on Australian society would have looked like.
 
-## 2. Bruce Sloss - South Melbourne, 1908–1915
+## 2. Bruce Sloss - Essendon / South Melbourne, 1907–1914
 
-Sloss was the rover of South Melbourne's premiership-contending teams of the early 1910s - a small, fast, brilliant onballer whose contemporaries rated him among the best players in the league **[historical record]**. He played in the 1914 Grand Final loss to Carlton and was, by 1915, regarded as one of the most important players in the competition.
+Sloss was a small, fast, brilliant onballer who played **84 senior games across 1907-1914** **[data]** - some at Essendon early before establishing himself as a South Melbourne premiership-contending player of the early 1910s. He played in the 1914 Grand Final loss to Carlton **[data]** (Carlton 45 to South 39) and was, by his final season, regarded as one of the most important players in the competition.
 
-He enlisted with the AIF that same year. **Bruce Sloss was killed in action in France in 1917** **[historical record]**, one of dozens of VFL players who never returned from the Western Front. His death stands as the most cited single example among VFL historians of the talent the league lost to the First World War - partly because his peak was so clearly ahead of him, and partly because he was the kind of small, ball-winning midfielder whose career might otherwise have stretched well into the 1920s.
+He enlisted with the AIF the following year. **Bruce Sloss was killed in action in France in 1917** **[historical record]**, one of dozens of VFL players who never returned from the Western Front. His death stands as the most cited single example among VFL historians of the talent the league lost to the First World War - partly because his peak was so clearly ahead of him, and partly because he was the kind of small, ball-winning midfielder whose career might otherwise have stretched well into the 1920s.
 
 The 1915–1918 cohort lost something the league has never been able to recover. Around 80 VFL players who had played senior football died in WWI **[historical record]**, including Sloss, Joe Pearce (Fitzroy), Claude Crowl (Carlton), and many others. The "what if" with Sloss specifically is the rest of the 1910s and the early 1920s - the era of Roy Cazaly and Dave McNamara - that he should have been a leading player of.
 
@@ -76,7 +76,7 @@ The "what if" with Boyd is the Bulldogs' next ten years with him as the marquee 
 
 ## 9. Colin Sylvia - Melbourne / Fremantle, 2004–2014
 
-Sylvia was the No. 3 pick of the 2003 draft and looked, through his early 20s, like the next great Melbourne midfielder. He played **163 senior games (2004–2014)** **[data]** - **157 for Melbourne, 6 for Fremantle** **[data]** - and kicked **130 goals** **[data]**. His best season was **2011: 19 games, 25 goals, 8 Brownlow votes** **[data]**, when he was the Demons' second-best midfielder behind Jack Watts.
+Sylvia was the No. 3 pick of the 2003 draft and looked, through his early 20s, like the next great Melbourne midfielder. He played **163 senior games (2004–2014)** **[data]** - **157 for Melbourne, 6 for Fremantle** **[data]** - and kicked **130 goals** **[data]**. His best statistical season was **2011: 19 games, 25 goals, 10 Brownlow votes** **[data]**, when he was one of the Demons' two ball-winning midfielders alongside Jack Watts.
 
 The career unravelled in 2013 and 2014. He was delisted by Melbourne, picked up by Fremantle, played **6 games in 2014** **[data]**, and was delisted again. He retired at 29. He had been a top-three draft pick on a struggling Melbourne side that drained generations of talent.
 
@@ -86,15 +86,15 @@ On **28 October 2018, Colin Sylvia died at age 32** **[historical record]** in a
 
 Bock was Adelaide's best key defender of his era through the mid-2000s, playing **113 games for the Crows (2004–2010)** **[data]** including the 2006 preliminary final run. His **2007 season - 22 games, 29 goals from defence** **[data]** - was one of the best running-defender seasons of the era and earned him All-Australian selection **[historical record]**.
 
-Then chronic knee problems took over. He played **7 games in 2010** **[data]**, was approached by Gold Coast as one of the foundation signings, and played **27 senior games for the Suns across 2011–2013** **[data]** - 21 in 2011, then four and two in his last two seasons - before chronic knee problems forced retirement at 30.
+Then chronic knee problems took over. He played a reduced **13 games in 2010** **[data]**, was approached by Gold Coast as one of the foundation signings, and played **27 senior games for the Suns across 2011–2013** **[data]** - 21 in 2011, then four and two in his last two seasons - before chronic knee problems forced retirement at 30.
 
 The "what if" with Bock is a 280-game All-Australian defender who plays out a career at a top-four club. The knees decided otherwise.
 
 ## 11. Daniel Hannebery - Sydney / St Kilda, 2009–2022
 
-Hannebery's career divides neatly in two. From **2009 to 2017 at Sydney**, he played **184 senior games**, kicked **84 goals**, and polled **104 Brownlow votes** **[data]** - a top-tier midfielder in a top-four side. His **2015 season (24 votes), 2016 (21 votes), and 2013 (21 votes)** **[data]** were among the best three midfielder seasons in the league across that span. He played in Sydney's 2012 premiership and was a multi-time All-Australian **[historical record]**.
+Hannebery's career divides neatly in two. From **2009 to 2018 at Sydney**, he played **208 senior games** and polled **106 Brownlow votes** **[data]** - a top-tier midfielder in a top-four side. His **2015 season (24 votes), 2013 (21 votes), and 2016 (21 votes)** **[data]** were among the best three midfielder seasons in the league across that span. He played in Sydney's 2012 premiership and was a multi-time All-Australian **[historical record]**.
 
-Then chronic soft-tissue injuries - calf, hamstring, plantar fascia - set in. He was traded to St Kilda in 2018 and played **18 senior games across four years (2019–2022)** **[data]** - 5, 8, 2, 3 - before retirement. The Hannebery who arrived at St Kilda was supposed to be a 30-year-old finals player; the body he brought with him would not let him be.
+Then chronic soft-tissue injuries - calf, hamstring, plantar fascia - set in. He was traded to St Kilda in 2018 and played **18 senior games across four years (2019-2022)** **[data]** - 5, 8, 2, 3 - before retirement. He finished with **226 career games and 100 career goals** **[data]**. The Hannebery who arrived at St Kilda was supposed to be a 30-year-old finals player; the body he brought with him would not let him be.
 
 The "what if" with Hannebery is a 300-game career with a best-and-fairest at a second club. The "what was" was a Sydney premiership and four years at St Kilda spent trying to get fit.
 
@@ -126,9 +126,9 @@ The "what if" with Koschitzke is a 280-game centre-half-forward, multi-time All-
 
 Lonergan's career belongs on this page for a different reason: it was *almost* cut short before it had really started. In Round 14 of 2006, in his second senior season, **Lonergan ruptured his kidney in a marking contest against Melbourne, lost 4 litres of blood, and was given the last rites in hospital** **[historical record]**. Surgeons removed the kidney. Most players in that situation never play again - physically possible to return with one kidney, but the medical advice typically rules it out.
 
-Lonergan returned in 2008 and played a further **193 senior games for Geelong** **[historical record]**, including the 2009 and 2011 premierships. He played key defence at AFL level for nearly a decade with one kidney.
+Lonergan returned in 2008 and played a further **202 senior games for Geelong (2008-2017)** **[data]**, including the 2009 and 2011 premierships. He played key defence at AFL level for nearly a decade with one kidney.
 
-He is on this page because the original career *was* cut short - at 22, in a hospital bed, with a priest. The career he did play afterwards was a second one, on a different body, with different limits. The "what if" of the original career is impossible to answer; the courage of the second career is documented in three premierships and a Grand Final win over Collingwood. He is the rare case of a player whose career was cut short and then somehow restarted.
+He is on this page because the original career *was* cut short - at 22, in a hospital bed, with a priest. The career he did play afterwards was a second one, on a different body, with different limits. The "what if" of the original career is impossible to answer; the courage of the second career is documented in two premierships (2009, 2011) and the famous toe-poke handball passage in the 2009 Grand Final win over St Kilda. He is the rare case of a player whose career was cut short and then somehow restarted.
 
 ## 16. Brian Taylor, Peter Knights and the pre-arthroscopy era - when a knee ended everything
 
@@ -146,7 +146,7 @@ The "what if" with Crosswell is uncomfortable because the answer involves the pl
 
 ## 18. Tony Lockett's 1999 - the early retirement
 
-Tony Lockett retired from Sydney at the end of 1999, **age 33, having just broken Gordon Coventry's all-time goalkicking record (1,300+)** **[historical record]**. He had played **279 senior games and kicked 1,357 goals at the moment of retirement** **[historical record]** - an absurd output. By 2002 he attempted a comeback at age 36, played a handful of games, and re-retired with **1,360 career goals** **[historical record]**.
+Tony Lockett retired from Sydney at the end of 1999, **age 33, having just broken Gordon Coventry's all-time goalkicking record (1,299)** **[historical record]**. He had played **278 senior games and kicked 1,357 goals through to the end of 1999** **[data]** - an absurd output. In 2002 he attempted a comeback at age 36, played **3 more games and kicked 3 more goals** **[data]**, and re-retired with **281 games and 1,360 career goals** **[data]**.
 
 His career is on this page in a marginal sense: he was forced into retirement earlier than the body suggested by chronic groin and hamstring issues that compounded across the late 1990s. The "what if" with Lockett is whether, with a longer career, he would have reached 1,500 goals - a number nobody else would ever come within sight of. He is the upper bound of what the position was capable of producing.
 
@@ -163,6 +163,32 @@ The first Brownlow Medal was awarded in 1924, to **Edward "Carji" Greeves of Gee
 Greeves represents the generation of VFL players whose careers were cut short by the Great Depression - a structural economic force that pushed players out of the league and back into manual work, sometimes interstate, sometimes permanently. Several of his contemporaries - players who had been named in club teams, played in finals, and looked likely to become 250-game players - simply stopped playing in 1930–1932 because the league's amateur-era pay structure could no longer compete with what a working man could earn in a steady job.
 
 This is the deepest category of "cut short" in the league's history because it is the least documented. The names of the players whose careers ended at 60 or 80 games during the Depression - and who, in different economic conditions, would have played 200 - exist mostly in club annuals and *Football Record* match lists. They are the silent half of the game's history of unfinished careers.
+
+---
+
+## FootyStrategy analytical read
+
+A *career cut short* is not a single phenomenon. Reading the twenty above against each other, the careers cluster into five distinct cause-categories - and the league's response to each has evolved across eras in ways that reshape both who appears on a list like this and how their absence is felt.
+
+**The single counterfactual most likely to have topped the all-time list.** Of all the careers above, the cleanest projection that *would have* finished in the top tier of the all-time top 100 is **Jim Stynes**. Stynes had won a Brownlow Medal **[data]** in 1991 at age 25, set the 244-game ironman streak that stood for 27 years, and finished his career at 32 in 1998. The football career was *not* cut short - he completed it. The "cut short" was the post-football life: he diagnosed cancer at 43, fought it for three years, died at 45. The fifty extra years of league-changing impact - Melbourne presidency, the Reach Foundation, public advocacy - is the lost piece. None of the on-field careers above can match that counterfactual because none of them was already trajectoried to define an entire decade of post-football leadership. Stynes was. (Bruce Sloss is the second-cleanest case for an earlier era - a contemporary Bartlett-equivalent rover whose career might have stretched into the late 1920s.)
+
+**The Boyd / Clark cluster - the players whose mental-health stories rewrote the league's culture.** Tom Boyd and Mitch Clark both retired in their mid-20s for mental health reasons, both at the peak of their on-field output. Their careers are short by any measure - Boyd 61 games **[data]**, Clark 106 games **[data]** - but the cultural shift they produced (the AFL's player-wellbeing departments, the formal mental-health leave provisions, the language of "stepping away" rather than "quitting") is the largest off-field policy change in the modern era. Daniel Bell's 2014 concussion settlement is the legal equivalent - the first formal acknowledgement that football had been doing systematic neurological damage. The three cases are different in cause but adjacent in effect: they forced the league to *write down* what it would and would not require of its players.
+
+**Position matters. So does era.**
+
+| Cause | Position pattern | Era pattern |
+|---|---|---|
+| Knee injury | Key defenders, contested mids | Most acute 1985-2010 |
+| Concussion | Small midfielders, half-forwards | Was invisible pre-2010, now formally protected |
+| Mental health | Forwards, marquee draft picks | Recognised from 2014 onward |
+| War / depression-era economics | Across positions | 1914-18, 1939-45, 1929-33 |
+| Suspension / external decision | Forwards, midfielders | Episodic, era-dependent |
+
+The era column is the more interesting one. **A 2026 AFL player on Jonathan Brown's 2011 injury trajectory would be on a graduated return-to-play protocol of at least 6-8 weeks before a contest game; Brown was back in 7 weeks but the timeline was him pushing back against medical advice.** A 2026 player in Newman's 1967 kidney situation would not be allowed to play again. A 2026 player with Lonergan's 2006 injury would receive a different post-surgical assessment than Lonergan did. The list of careers cut short by a single injury has been shrinking as the protocols have tightened; the list of careers shortened by mental-health considerations is more visible than it used to be because the culture has stopped hiding them.
+
+**The list the league has not yet had to publish.** The Essendon supplements generation entry (entry 19 above) is on the page because the data we *have* is unambiguous: thirty-four players were suspended in 2016. The data we *do not have* is the long-run effect of whatever was administered to those players in 2012-2013 - effects that would only show up across the next thirty years of their lives, in conditions that have not yet declared themselves. That is a category of "cut short" the league has not formally accounted for. It exists on the page as a placeholder.
+
+**The deepest "what if" that does not appear on the list at all** is the silent half of every era's economic and social shocks. Greeves's generation lost players to the Depression; Sloss's generation lost players to the Western Front; later generations lost players to alcohol, gambling, and the post-football identity crisis that the sport has barely begun to talk about. The list above is the named tip of a much larger iceberg of careers the game did not finish.
 
 ---
 
