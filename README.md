@@ -29,6 +29,7 @@ SuperCoach VIA turns 125+ years of AFL data into weekly player predictions, team
 | **See how accurate the model has been (backtest + pre-registered report card)** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
+| **Read data-grounded news commentary on current AFL stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
 
 ## What this is
 
@@ -55,6 +56,9 @@ A second specialist agent - **FootyStrategy** - brings AFL tactical knowledge to
 - [Glossary](docs/glossary.md)
 - [Google Sheets template](templates/google-sheets-template.md)
 - [Weekly cheat sheet (current round)](docs/weekly/round-current-2026.md)
+
+### AFL news
+- [News desk - data-grounded commentary on current AFL stories](docs/news/README.md) - coach changes, club crises, list moves, finals runs - every number tagged `**[data]**` and reproducible from the repo's CSVs
 
 ### AFL insights & live data
 - [AFL insights hub](docs/afl-insights.md)
