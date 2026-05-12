@@ -29,7 +29,7 @@ SuperCoach VIA turns 125+ years of AFL data into weekly player predictions, team
 | **See how accurate the model has been (backtest + pre-registered report card)** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
-| **Read data-grounded news commentary on current AFL stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
+| **Read the AFL news desk - data-grounded long-form on current stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
 
 ## What this is
 
@@ -48,6 +48,14 @@ Claude - via the Scientist agent in this repo - does not just answer questions a
 
 A second specialist agent - **FootyStrategy** - brings AFL tactical knowledge to the same dataset: half-time structural resets, ruck-rotation patterns, list-construction analysis by draft pick, and the football-coach answer to "what does this number actually mean on the ground?" The two agents are designed to work together - Scientist reads the data, FootyStrategy interprets it tactically.
 
+## AFL News & Analysis
+
+Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by the two agents in this repo: **Scientist** pulls verified stats from 125+ years of match data (every claim reproducible from the CSVs), and **FootyStrategy** turns them into coach-grade tactical reads. No hot takes, no recycled commentary.
+
+**Latest:** [Michael Voss steps down from Carlton](docs/news/2026-05-13-voss-carlton.md) - what went wrong structurally at the Blues, why it doesn't diminish the legend of a Brisbane three-peat captain, the Melbourne 2021 rebuild parallel, and the path forward. *(13 May 2026)*
+
+→ [All news entries](docs/news/README.md)
+
 ## Table of Contents
 
 ### For fans (no code)
@@ -56,9 +64,6 @@ A second specialist agent - **FootyStrategy** - brings AFL tactical knowledge to
 - [Glossary](docs/glossary.md)
 - [Google Sheets template](templates/google-sheets-template.md)
 - [Weekly cheat sheet (current round)](docs/weekly/round-current-2026.md)
-
-### AFL news
-- [News desk - data-grounded commentary on current AFL stories](docs/news/README.md) - coach changes, club crises, list moves, finals runs - every number tagged `**[data]**` and reproducible from the repo's CSVs
 
 ### AFL insights & live data
 - [AFL insights hub](docs/afl-insights.md)
