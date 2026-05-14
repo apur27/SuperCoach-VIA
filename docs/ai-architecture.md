@@ -233,10 +233,11 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Prediction MAE | **[data]** 4.10 disposals | Weighted across 6 rounds, 2,058 player-rounds (Rounds 7–10 still running as of 2026-05-11) |
-| RMSE | **[data]** 5.21 | |
-| Within 5 disposals | **[data]** 72.4% | |
-| Within 10 disposals | **[data]** 95.6% | |
+| Prediction MAE | **[data]** 4.086 disposals | Weighted across 10 rounds, 3,701 player-rounds (Rounds 1–10, 2026) |
+| RMSE | **[data]** 5.184 | |
+| Within 5 disposals | **[data]** 72.3% | |
+| Within 10 disposals | **[data]** 95.8% | |
+| Signed bias | **[data]** -0.09 | Close to unbiased in aggregate |
 | Round 1 MAE | **[data]** 4.83 | Elevated - no within-season rolling features (n=230, within-5=60.4%, within-10=92.6%) |
 | Round 2 MAE | **[data]** 4.11 | n=413, within-5=72.2%, within-10=95.9% |
 | Round 3 MAE | **[data]** 4.07 | n=320, within-5=74.7%, within-10=95.9% |
@@ -246,7 +247,7 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 | Top-10 player MAE | ~10.8 | Top-end compression - known failure mode |
 | LLM factual accuracy | ~70–75% pre-correction → ~99% post | Measured by external review of Hall of Fame docs; systematic correction process in place |
 
-A 4.10-disposal weighted MAE across 2,058 player-rounds (six completed 2026 rounds; rounds 7–10 are still running in the live backtest as of 2026-05-11) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.6% within-10 figure says coarse predictions are reliable; the 72.4% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~0.7 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played, and Round 5 is the best round so far (MAE 3.73, within-10 of 97.5%). The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 75% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
+A 4.086-disposal weighted MAE across 3,701 player-rounds (ten completed 2026 rounds, Rounds 1–10) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.8% within-10 figure says coarse predictions are reliable; the 72.3% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~0.7 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played, and Round 5 is the best round so far (MAE 3.73, within-10 of 97.5%). The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 75% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
 
 ---
 
