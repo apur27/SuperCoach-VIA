@@ -29,7 +29,11 @@ The current model misses a player's next-round disposal count by about **[data]*
 
 Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by two agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), and **FootyStrategy** turns them into coach-grade tactical reads. No hot takes, no recycled commentary.
 
-**Latest:** [Michael Voss steps down from Carlton](docs/news/2026-05-13-voss-carlton.md) - what went wrong structurally at the Blues, why it doesn't diminish the legend of a Brisbane three-peat captain, the Melbourne 2021 rebuild parallel, and the path forward. *(13 May 2026)*
+**Latest:** [Who should be the next Carlton coach?](docs/news/2026-05-15-carlton-next-coach.md) - a data-driven look at the coaching succession, the structural fix the Blues actually need, and the shortlist that survives the numbers. *(15 May 2026)*
+
+[Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](docs/news/2026-05-15-richmond-vs-stkilda-r11.md) - match preview, the Nasiah Wanganeen-Milera injury impact, and how the Saints' midfield load shifts without him. *(15 May 2026)*
+
+[Michael Voss steps down from Carlton](docs/news/2026-05-13-voss-carlton.md) - what went wrong structurally at the Blues, why it doesn't diminish the legend of a Brisbane three-peat captain, the Melbourne 2021 rebuild parallel, and the path forward. *(13 May 2026)*
 
 → [All news entries](docs/news/README.md)
 
