@@ -21,6 +21,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
+| 2026-05-15 | [Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](2026-05-15-richmond-vs-stkilda-r11.md) | Match preview / injury impact | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-13 | [Michael Voss steps down: what went wrong at Carlton, and why it doesn't diminish a legend](2026-05-13-voss-carlton.md) | Carlton coaching change | Complete (data + FootyStrategy layers) |
 
 ## House rules for entries
