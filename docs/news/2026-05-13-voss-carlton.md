@@ -43,7 +43,7 @@ This piece is structured in five parts: the data on how Carlton's results moved 
 | R8 | @ Fremantle | 89 | 103 | L |
 | R9 | vs St Kilda | 69 | 108 | L |
 
-The single win came at home against Richmond by four points in Round 2. Five of the seven losses were by margins of 14 points or fewer except for Round 1 (Sydney, -63), Round 6 (Adelaide, -28), and Round 9 (St Kilda, -39). The pattern is closer than the ladder position suggests on most weeks - and emphatic when it isn't.
+The single win came at home against Richmond by four points in Round 2. Three of the seven losses were by margins of 14 points or fewer (R5 -10 vs North Melbourne, R7 -5 vs Collingwood, R8 -14 vs Fremantle); the other four were emphatic (R1 -63 vs Sydney, R4 -23 vs Melbourne, R6 -28 vs Adelaide, R9 -39 vs St Kilda) **[data]**. The pattern is closer than the ladder position suggests on roughly half the weeks - and emphatic when it isn't.
 
 ### The full Voss tenure
 
@@ -64,13 +64,13 @@ A team's score-for is a coaching artefact: it reflects shape, ball movement, and
 
 ### The tactical read
 
-Carlton's failure under Michael Voss was not a list failure. A midfield built around Patrick Cripps, Sam Walsh and George Hewett, a ruck-forward platform anchored by Tom De Koning, and a forward pairing in the McKay brothers represents real top-end talent by any honest read of the competition. Clubs have won flags from less. The honest diagnosis is structural and systemic, and three threads stand out.
+The Voss tenure is not a flat failure - and any read that treats it as one is misreading the shape of the data. Three seasons at or above 50%, a 2023 preliminary final, a 2024 finals campaign, then a 2025 slide and a 2026 collapse. The honest question is not "why did Carlton fail under Voss" but "why did a system that worked through 2024 stop working in 2025-26" - and the answer is structural and systemic. Three threads stand out.
 
-The first is that Carlton's contested-ball identity was inconsistent rather than constitutive. The midfield could go to a level no one in the league could match for a quarter - and then disappear for the next two. A great team's identity is what shows up when the game is hard and the scoreboard is against you. Carlton's identity was conditional. That is a system problem before it is a personnel problem: a side that contests on its terms is being coached to contest, but a side that contests only when winning is being asked to contest as a tactic, not a standard.
+The first is that Carlton's contested-ball identity was inconsistent rather than constitutive. The midfield could go to a level no one in the league could match for a quarter - and then disappear for the next two. A great team's identity is what shows up when the game is hard and the scoreboard is against you. The 2023-24 version of Carlton dressed this gap up well enough to win finals; the 2025-26 version did not. That is a system problem before it is a personnel problem: a contested standard that holds in finals but fades in mid-season is being coached as a tactic, not a standard. When the tactic stops working - because the opposition adjusts or the players age into different roles - the side has no identity floor to fall back to.
 
-The second is forward-50 instability. The structural lens looks at Carlton's forward setup over the last two seasons and sees a side that changed its leading patterns, its second-tall configuration, and its small-forward pressure roles too often for any one shape to compound. Forward structures are slow assets - they need repetition before the connection between midfield entry and forward conversion becomes automatic. Carlton's never quite got there.
+The second is forward-50 instability. The structural lens looks at Carlton's forward setup over the last two seasons and sees a side that changed its leading patterns, its second-tall configuration, and its small-forward pressure roles too often for any one shape to compound. Forward structures are slow assets - they need repetition before the connection between midfield entry and forward conversion becomes automatic. The points-for collapse from 92.6 per game in 2024 to 79.3 in 2026 is the visible signature: the same midfield engine, generating worse scoreboard. The breakdown is downstream of the clearance, not in it.
 
-The third - and this is where the personal becomes structural - is the classic AFL trap of the great player inheriting the wrong moment in a club's cycle. Carlton in 2022 was a club halfway between rebuild and contention, with a board hungry for the latter. Voss was asked to compress that window. When the in-season results came, the squeeze produced the worst kind of football: not a team committing to a rebuild identity, not a team executing a contender's plan, but a team caught between the two and reverting under pressure to individual brilliance. That is a support-structure failure as much as a coaching one. A coach in his first senior role at a club of Carlton's expectations needed cover from above. He did not consistently get it.
+The third - and this is where the personal becomes structural - is the inheritance problem. Carlton in 2022 was a club halfway between rebuild and contention, with a board hungry for the latter. Voss compressed the window successfully through 2024. The cost of that compression became visible in 2025-26: a side that had been asked to play at its ceiling for three seasons could not absorb the natural ageing of senior players, the inevitable adjustments from opposition coaches, or the structural drift that creeps in when a system is held together by repetition rather than by next-wave depth. A coach in his first senior role at a club of Carlton's expectations needed cover from above when the slide began. He did not consistently get it.
 
 ---
 
@@ -111,9 +111,9 @@ Carlton's 2026 (1-7) is roughly equivalent in win-rate terms to Melbourne's 2015
 
 The Melbourne comparison is the one Carlton supporters should be sitting with this week, and not as consolation. As a working model of how an underperforming heritage club becomes a premiership side, it is the most relevant case study in the modern game.
 
-Melbourne's dark period is recent enough to remember vividly. The Mark Neeld era through 2012 and 2013 produced football that observers at the time called close to the worst the competition had seen in the modern era. Paul Roos was brought in not as a saviour but as a stabiliser - explicitly, on a defined term, with the brief to install standards rather than chase results. Simon Goodwin inherited that foundation and was given the time, and at points the political cover, to build on it. The 2021 premiership did not arrive because any single decision was correct. It arrived because a series of decisions compounded over the better part of a decade.
+Melbourne's dark period is recent enough to remember vividly. The 2012-13 stretch produced football that observers at the time called close to the worst the competition had seen in the modern era. The intervening appointment was framed not as a saviour but as a stabiliser - explicitly, on a defined term, with the brief to install standards rather than chase results. The senior coach who eventually won the 2021 flag inherited that foundation and was given the time, and at points the political cover, to build on it. The premiership did not arrive because any single decision was correct. It arrived because a series of decisions compounded over the better part of a decade.
 
-The ingredients are instructive. Patience at board level - including the difficult choice to retain Goodwin when external pressure to move him was real. A definitive rebuild rather than the half-rebuild that produces the in-between football Carlton has been playing. The right leadership spine, anchored by Max Gawn's captaincy and the development of Clayton Oliver into a generational midfielder. And, most importantly, the building of a defensive system that became Melbourne's identity rather than a tactic - a system that took years of repetition before it became automatic in finals.
+The ingredients are instructive. Patience at board level - including the difficult choice to retain the senior coach when external pressure to move him was real. A definitive rebuild rather than the half-rebuild that produces the in-between football Carlton has been playing. The right leadership spine, anchored by Max Gawn's captaincy and the development of Clayton Oliver into a generational midfielder. And, most importantly, the building of a defensive system that became Melbourne's identity rather than a tactic - a system that took years of repetition before it became automatic in finals.
 
 The lesson for Carlton is precise and uncomfortable. Rebuilds require identity before they require talent, and patience before they require results. Another coaching change inside two years, executed reactively, would put Carlton further from a premiership than the current state of the list suggests they are. The Melbourne path was hard because it asked the football department and the board to hold a line through public criticism. That is the test Carlton now faces.
 
@@ -154,7 +154,7 @@ Michael Voss's playing career, from the data file `voss_michael_07071975_perform
 | 2001 | 25 | 24.1 | 21 | 19 |
 | 2003 | 25 | 21.4 | 20 | 19 |
 
-Three premierships as captain, a Brownlow, 289 games at one club at an era where 28-disposal midfielders were rare and a 23-disposal captain who kicked 245 career goals **[data]** was the standard. Michael Voss is, by any reasonable measure, an all-time top-50 AFL player. Hall of Fame. A Brisbane Lions Legend. The fact that he could not coach Carlton to a flag in five years does not move that needle a millimetre. Senior coaching is a different job, and the ratio of all-time-great players who become all-time-great coaches is small in every era of every football competition that has ever existed.
+Three premierships as captain, a Brownlow, 289 games at one club at an era where 28-disposal midfielders were rare and a 23-disposal captain who kicked 245 career goals **[data]** was the standard. Michael Voss is, by any reasonable measure, an all-time top-50 AFL player. Hall of Fame. A Brisbane Lions Legend. The fact that his Carlton tenure ended in a 2025-26 collapse - after two finals campaigns in 2023 and 2024 - does not move that needle a millimetre. Senior coaching is a different job, and the ratio of all-time-great players who become all-time-great coaches is small in every era of every football competition that has ever existed.
 
 ### Why the coaching record doesn't diminish the player
 
@@ -172,13 +172,13 @@ The 2026 SuperCoach-VIA Round 11 prediction file (`data/prediction/next_round_11
 
 **Carlton in the top 30** **[data]**:
 - Walsh Sam - predicted 27 disposals (ranked #10)
-- Smith Jagga - predicted 24 disposals (ranked #23)
+- Smith Jagga - predicted 24 disposals (ranked #24)
 
 That is **2 players in the top 30** **[data]**. For comparison, GWS and the Western Bulldogs each have 4 in the top 30; Collingwood, Brisbane, and Gold Coast each have 3 **[data]**.
 
-**Carlton in the top 50** **[data]**: 3 players (Walsh, Smith, Florent at #49).
+**Carlton in the top 50** **[data]**: 3 players (Walsh, Smith, Florent at #50).
 
-**Cripps appears at rank #61** **[data]** with a predicted 21 disposals - a sharp drop from the 28-30 disposal seasons that made him a Brownlow medallist. The model is not the ground truth, but the drop is consistent with what's been visible on the field in 2026.
+**Cripps appears at rank #62** **[data]** with a predicted 21 disposals - a sharp drop from the 28-30 disposal seasons that made him a Brownlow medallist. The model is not the ground truth, but the drop is consistent with what's been visible on the field in 2026.
 
 So the list is not bare. Walsh and Smith are top-tier midfielders. Cripps remains a top-quartile inside midfielder by output. But the depth behind that trio - the difference between two top-30 players and four top-30 players - is the difference between contending and rebuilding. The structural reading of the list - which roles are non-negotiable, where the obvious gaps sit, and how the next coach should think about the balance between the core and the edges - is taken up in Part 5 below.
 
@@ -188,7 +188,7 @@ So the list is not bare. Walsh and Smith are top-tier midfielders. Cripps remain
 
 **Coach profile.** Carlton's next senior coach should be a defensive-systems builder with a track record of installing repeatable structures, not a charismatic figure brought in for cultural reset. The list already has its cultural anchors in Cripps and Walsh. What it lacks is a system that travels - a defensive shape that holds in the third quarter of a tight game and a forward-half setup that does not change every six weeks. The profile is closer to a senior assistant from a club with a stable defensive identity than to a high-profile external hire.
 
-**List decisions.** Non-negotiable: Walsh, Cripps, Hewett, De Koning, the McKay brothers as a forward platform until proven otherwise. The weakness is at the edges - the small-forward pressure roles, the half-back rebound chain behind the marking defenders, and the third-tall forward who connects the marking targets to the midfield. These are draft and trade priorities, not list-overhaul priorities. Carlton does not need to tear it up. They need to fill three or four specific roles.
+**List decisions.** Non-negotiable: Walsh, Cripps, Hewett, the McKay brothers as a forward platform until proven otherwise. **[data]** Tom De Koning, who anchored the ruck-forward role through 2022-25, moved to St Kilda ahead of 2026 - the ruck depth is now a real list-management problem, not a non-negotiable strength. The other weaknesses are at the edges: the small-forward pressure roles, the half-back rebound chain behind the marking defenders, and the third-tall forward who connects the marking targets to the midfield. These are draft and trade priorities, not list-overhaul priorities. Carlton does not need to tear it up. They need to fill the ruck and three or four specific peripheral roles.
 
 **Identity question.** The honest answer, given personnel: a contested-midfield-to-tall-forward team that wins through territory and stoppage dominance rather than through transition speed. That is what the list is built for. Trying to play a faster, transition-heavy game with this midfield body type has been part of the in-between problem.
 
