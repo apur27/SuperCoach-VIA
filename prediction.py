@@ -14,6 +14,50 @@ from lightgbm import LGBMRegressor
 import optuna
 import warnings
 
+
+def _detect_lgbm_device() -> str:
+    """Probe LightGBM GPU support and return the appropriate device string.
+
+    Returns 'gpu' if a tiny LightGBM fit with device='gpu' succeeds, else 'cpu'.
+    Cached as a module-level constant so the probe runs once per process.
+    Kept dependency-light (no torch import) — we ask LightGBM itself whether
+    it can use a GPU in this build/environment, which is the authoritative
+    check for this code path.
+    """
+    import os
+    try:
+        import numpy as _np
+        _probe_X = _np.random.RandomState(0).rand(64, 4)
+        _probe_y = _np.random.RandomState(1).rand(64)
+        # Silence LightGBM's C-level stderr ("[Fatal] GPU Tree Learner was not
+        # enabled in this build.") on CPU-only hosts — the probe's exception
+        # is the real signal; the log line is misleading noise. We dup the
+        # OS-level stderr fd because Python-level redirection doesn't capture
+        # writes from the LightGBM C extension.
+        _devnull_fd = os.open(os.devnull, os.O_WRONLY)
+        _saved_stderr_fd = os.dup(2)
+        try:
+            os.dup2(_devnull_fd, 2)
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                LGBMRegressor(
+                    device='gpu',
+                    n_estimators=1,
+                    num_leaves=4,
+                    min_child_samples=1,
+                    verbose=-1,
+                ).fit(_probe_X, _probe_y)
+        finally:
+            os.dup2(_saved_stderr_fd, 2)
+            os.close(_saved_stderr_fd)
+            os.close(_devnull_fd)
+        return 'gpu'
+    except Exception:
+        return 'cpu'
+
+
+LGBM_DEVICE = _detect_lgbm_device()
+
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 warnings.filterwarnings('ignore', category=pd.errors.SettingWithCopyWarning)
@@ -495,15 +539,23 @@ class AFLDisposalPredictor:
         return study.best_value
 
     def tune_lgbm_gpu(self, X, y):
-        """Hyperparameter tuning for LGBMRegressor on GPU using Optuna."""
-        print("Tuning LGBM on GPU with Optuna...")
+        """Hyperparameter tuning for LGBMRegressor using Optuna.
+
+        Device is selected at module load via _detect_lgbm_device():
+        uses 'gpu' when LightGBM can train on a GPU in this environment,
+        and falls back to 'cpu' otherwise. LightGBM CPU produces fits
+        equivalent to GPU given the same seed, just slower — so the
+        fallback is correctness-preserving but the 600s Optuna timeout
+        will explore a smaller search space on CPU-only hosts.
+        """
+        print(f"Tuning LGBM ({LGBM_DEVICE.upper()}) with Optuna...")
 
         groups = self._train_groups
         cv = GroupKFold(n_splits=5)
 
         def objective(trial):
             params = {
-                'device': 'cuda',  # Use CUDA for NVIDIA GPUs
+                'device': LGBM_DEVICE,  # 'gpu' if available, else CPU fallback
                 'verbose': -1,
                 # Switched from regression_l1 (MAE → predicts the median) to
                 # regression (L2 → predicts the mean). Backtest showed L1 was
@@ -546,7 +598,7 @@ class AFLDisposalPredictor:
 
         self.models['lgbm_gpu_tuned'] = Pipeline([
             ('scaler', StandardScaler()),
-            ('regressor', LGBMRegressor(**study.best_params, device='cuda', verbose=-1, random_state=42))
+            ('regressor', LGBMRegressor(**study.best_params, device=LGBM_DEVICE, verbose=-1, random_state=42))
         ])
 
         return study.best_value
