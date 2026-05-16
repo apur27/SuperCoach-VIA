@@ -8,3 +8,4 @@
 - [Brownlow proxy weight validation](brownlow_proxy_weights.md) - Goals lifted from 5% to 15% after EDA on 145k historical games; eff_disp = disposals-clangers (no true column)
 - [HOF data verification workflow](hof_methodology.md) - How to verify HOF page stats; recurring GF-result errors (1978/1991/1992) and captaincy attribution errors found in prior versions
 - [Snapshot goals/behinds/clangers unreliable](snapshot_data_quality.md) - FanFooty live snapshot misindexes 3 fields; cross-check afltables for goals/behinds/clangers only
+- [LightGBM CPU vs CUDA in prediction.py](prediction_lgbm_cpu.md) - prediction.py hardcodes `device='cuda'`; this env has no GPU so flip both occurrences to `'cpu'` (full backtest ~5-6h on CPU)
