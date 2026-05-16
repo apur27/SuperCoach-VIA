@@ -18,9 +18,9 @@ Nasiah Wanganeen-Milera is the connective tissue of St Kilda's half-back line �
 
 In 2026 he was averaging **26.75 disposals, 19.5 kicks, 4.38 rebound 50s, and 4.88 inside 50s per game** with 7 goals from 8 appearances. **[data]** That combination — elite kicking volume, both a rebound threat and an inside-50 source, secondary goal production from a half-back — is extraordinarily rare. His 2025 was even better (29.9 disposals per game), and the trajectory across four seasons shows a player who genuinely arrived as a top-10 talent. **[data]**
 
-What Milera gave Ross Lyon was a player who could break lines from defence with the ball in hand, then show up inside 50 as a third forward option. Remove him and the St Kilda game plan becomes shorter, slower, more predictable. The kick from half-back that was splitting zones now has to come from a player who is either less accurate (Hill, Windhager) or less willing to take on the corridor (Wilkie, who is primarily an intercept player).
+What Milera gave the St Kilda game plan was a player who could break lines from defence with the ball in hand, then show up inside 50 as a third forward option. Remove him and the plan becomes shorter, slower, more predictable. The kick from half-back that was splitting zones now has to come from a player who is either less accurate (Hill, Windhager) or less willing to take on the corridor (Wilkie, who is primarily an intercept player).
 
-**FootyStrategy read:** Lyon typically asks his half-back line to drive the ball long through the corridor; Milera was the one executing the attacking version of that role. Without him, the Saints' half-back structure leans into the defensive shape — Wilkie anchors the intercept, Hill takes more of the kick-out chain — but the attacking dimension that made St Kilda's transition so efficient comes off. The replacement configuration is safer, not better.
+**FootyStrategy read:** St Kilda's defensive identity asks the half-back line to drive the ball long through the corridor; Milera was the one executing the attacking version of that role. Without him, the Saints' half-back structure leans into the defensive shape — Wilkie anchors the intercept, Hill takes more of the kick-out chain — but the attacking dimension that made St Kilda's transition so efficient comes off. The replacement configuration is safer, not better.
 
 ---
 
@@ -40,7 +40,7 @@ The model's Round 11 predictions for the St Kilda back half: **[data]**
 
 Bradley Hill is the closest natural substitute: kick-heavy (15.78 kicks per 23.33 disposals), high-marking (7.22 per game), a wing/half-back hybrid who has played this kind of transition role at both Hawthorn and Fremantle before landing at St Kilda. The model has him at 22 — a step up from his season average — consistent with an expanded run-with role. **[data]**
 
-But Hill is not Milera. His 15.78 kicks per game versus Milera's 19.5 is a genuine gap; his 4.38 marks per game versus Milera's 3.0 tells you Hill plays a more intercepting, contested-mark style rather than the run-and-gun ball-in-hand style that made Milera's transition so difficult to stop. Hill lifts; he does not replace.
+But Hill is not Milera. His 15.78 kicks per game versus Milera's 19.5 is a genuine gap; his 7.22 marks per game versus Milera's 3.0 **[data]** tells you Hill plays a more intercepting, contested-mark style rather than the run-and-gun ball-in-hand style that made Milera's transition so difficult to stop. Hill lifts; he does not replace.
 
 Callum Wilkie (11.00 marks per game) absorbs the intercept chain and kick-out duties. Jack Sinclair (29.44 disposals, 20.56 kicks) will see more of the football through the centre — but Sinclair is an inside mid, not a half-back distributor. His increased touch reflects the extra midfield load, not the structural fix in defence.
 
@@ -88,11 +88,11 @@ And yet: the 2025 R23 match was a 4-point St Kilda win. In the 2025 R4 fixture S
 
 **1. The Milera replacement vs Richmond's forward entry**
 
-Whoever Lyon puts into Milera's role — Hill most likely — will face a harder test than they've had all year. Richmond won't have the polish to expose it systematically, but if Short can hit moving targets on the wing and Hopper's clearances find Long or Lynch inside 50, the Saints' reorganised half-back becomes the release valve for Richmond's attack. A bad quarter from Hill in this role = Richmond on the scoreboard.
+Whoever St Kilda put into Milera's role — Hill most likely — will face a harder test than they've had all year. Richmond won't have the polish to expose it systematically, but if Short can hit moving targets on the wing and Hopper's clearances find Long or Lynch inside 50, the Saints' reorganised half-back becomes the release valve for Richmond's attack. A bad quarter from Hill in this role = Richmond on the scoreboard.
 
 **2. Clearance count**
 
-Taranto, Hopper, and Ross against Flanders, Steele (if available), and Sinclair in the middle. Richmond will be competitive here — they regularly win clearances in games they lose badly, which tells you the conversion is the issue. If they win clearances *and* conversion lifts even slightly (Lynch getting one or two contested marks, Short finding an overlap), the game gets interesting.
+Taranto, Hopper, and Ross against Flanders, Wilson and Sinclair in the middle. (Jack Steele moved to Melbourne ahead of 2026; Darcy Wilson is St Kilda's next-ranked midfielder at 18 predicted disposals. **[data]**) Richmond will be competitive here — they regularly win clearances in games they lose badly, which tells you the conversion is the issue. If they win clearances *and* conversion lifts even slightly (Lynch getting one or two contested marks, Short finding an overlap), the game gets interesting.
 
 **3. The wing battle — Richmond's most underrated asset**
 
