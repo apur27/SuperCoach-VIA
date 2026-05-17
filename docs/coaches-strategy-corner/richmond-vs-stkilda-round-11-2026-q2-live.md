@@ -11,6 +11,35 @@
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
 ---
+### Q2 30:30 - St Kilda 10.5.65 vs Richmond 5.3.33 - 2026-05-17T06:24:52Z
+
+**Disposal leaders - Richmond:** J. Short 17(10/7) 1t | J. Trezise 14(9/5) 1t | N. Vlastuin 13(9/4) 2t
+**Disposal leaders - St Kilda:** H. Garcia 15(8/7) 4t | S. Flanders 15(7/8) 1t | C. Wilkie 14(12/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 170 (99/71) | 213 (125/88) |
+| Marks | 52 | 63 |
+| Tackles | 15 | 30 |
+| Hit-outs | 7 | 23 |
+| Frees for | 5 | 10 |
+| Total AF | 672 | 929 |
+| Q2 AF | 366 | 456 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 99 - STK 125 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 17 disp [=] (running ahead of rate)
+- Sinclair (pred 27): 13 disp [up]
+- Hill, Milera cover (pred 22): 7 disp, 1m [=]
+
+**Read:** St Kilda dominating possession 213-170 (+43) - Richmond chasing without the ball. St kilda applying more pressure (30-15 tackles); de koning +16 in the ruck giving stk first use. Short running hot (17 disp vs pred 23) - Richmond rebound plan firing. Hill not filling Milera role (7 vs pred 22) - gap exposed. Richmond 32 down - tripwire territory, structural change needed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T06:24:52Z*
+
+---
 ### Q2 28:45 - St Kilda 9.5.59 vs Richmond 5.3.33 - 2026-05-17T06:23:19Z
 
 **Disposal leaders - Richmond:** J. Short 17(10/7) 1t up | J. Trezise 14(9/5) 1t up | N. Vlastuin 13(9/4) 2t
