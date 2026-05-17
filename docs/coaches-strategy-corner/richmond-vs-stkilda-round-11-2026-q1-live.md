@@ -156,3 +156,39 @@ The Scientist's snapshot is a five-minute window with no clean clearance, inside
 **Out of scope.** The reasons behind Lalor, Prestia, Ryan, Lefau (RIC) and Owens, Wood (STK) absences are fitness/medical and not a strategy call. Whether the Saints' apparent Sinclair-to-half-back move is a one-week wrinkle or a season-long re-role is a multi-week observation - the council does not call it from one position-field string after five minutes.
 
 ---
+
+---
+
+## Auto-updated live analysis (newest first)
+
+<!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
+
+---
+### Q1 16:37 - St Kilda 4.1.25 vs Richmond 0.0.0 - 2026-05-17T05:33:28Z
+
+**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
+**Disposal leaders - St Kilda:** M. Hall 5(4/1) 0t | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 36 (20/16) | 50 (29/21) |
+| Marks | 9 | 11 |
+| Tackles | 6 | 7 |
+| Hit-outs | 3 | 7 |
+| Frees for | 0 | 4 |
+| Total AF | 143 | 207 |
+| Q1 AF | 143 | 207 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 20 - STK 29 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 4 disp [=]
+- Sinclair (pred 27): 3 disp [=]
+- Hill, Milera cover (pred 22): 0 disp, 0m [=]
+
+**Read:** St Kilda dominating possession 50-36 (+14) - Richmond chasing without the ball. Tackle pressure even (6-7). Richmond 25 down - tripwire territory, structural change needed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:33:28Z*
+
