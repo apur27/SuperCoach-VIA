@@ -98,25 +98,51 @@ def parse_score_pts(score_str: str) -> int:
 
 
 def classify_status(status: str) -> str:
-    """Map FanFooty status string -> normalised quarter code in QUARTER_ORDER."""
+    """Map FanFooty status string -> normalised quarter code in QUARTER_ORDER.
+
+    Confirmed FanFooty status strings observed in R10/R11 2026 snapshots:
+        "Q1 6:42", "Qtr Time", "Q2 14:23", "Half Time", "Q3 19:11",
+        "3 Qtr Time", "Q4 28:36", "Final Siren", "Full Time".
+
+    Order of checks matters:
+      * Game-over states ("Full Time" / "Final Siren") MUST match first so a
+        scoreboard left frozen at the siren does not get re-classified as Q4.
+      * "3 Qtr Time" must match BEFORE the generic "qtr time" rule so it
+        routes forward to 3QT, not backward to QT.
+      * In-quarter strings ("Q3 19:11") must match BEFORE break strings, since
+        the live string still contains the quarter token.
+
+    Returns None as a sentinel when the status is genuinely unrecognisable -
+    the caller must decide whether to skip the cycle or fall back to the last
+    known good state. Returning "Q1" as a silent fallback (the previous
+    behaviour) was the root cause of the R11 "Final Siren -> Q1 doc" routing
+    bug, where 8 polls wrote end-of-game data into the Q1 live document.
+    """
     s = (status or "").strip().lower()
-    if "full time" in s or s == "ft":
+    if not s:
+        return None  # type: ignore[return-value]
+    # ---- Game-over states (must come first) --------------------------------
+    if "full time" in s or s == "ft" or "final siren" in s or s == "fs":
         return "FT"
-    if "three quarter time" in s or "3qt" in s or "3 qtr" in s:
+    # ---- Three-quarter-time variants (must come before generic "qtr time") -
+    if "three quarter time" in s or "3qt" in s or "3 qtr" in s or "3qtr" in s:
         return "3QT"
+    # ---- In-quarter strings (Qn HH:MM) - match before break tokens ----------
     if "q4" in s:
         return "Q4"
-    if "half time" in s or s == "ht":
-        return "HT"
     if "q3" in s:
         return "Q3"
-    if "quarter time" in s or s == "qt":
-        return "QT"
     if "q2" in s:
         return "Q2"
     if "q1" in s:
         return "Q1"
-    return "Q1"
+    # ---- Break states (only after in-quarter checks have failed) -----------
+    if "half time" in s or s == "ht":
+        return "HT"
+    if "quarter time" in s or "qtr time" in s or s == "qt":
+        return "QT"
+    # Unrecognised - return None and let the caller decide.
+    return None  # type: ignore[return-value]
 
 
 # ---------------------------------------------------------------------------
@@ -478,7 +504,15 @@ def format_analysis_block(
     status_code: str,
     trend_cache: TrendCache,
     prev_state: dict | None = None,
-) -> tuple[str, dict]:
+) -> tuple[str | None, dict]:
+    """Build the markdown block for the current poll.
+
+    Returns `(block, new_prev_state)`. If the feed has STALLED - identical
+    score, disposals, tackles, and hitouts to the previous poll - returns
+    `(None, prev_state)` so the caller can skip writing a duplicate block.
+    See Scientist memory `live_pipeline_glitch.md` for the FanFooty-end-of-game
+    polling bug that motivated this guard.
+    """
     h = snap["header"]
     players = snap["players"]
     ts = snap["fetched_at_utc"]
@@ -509,6 +543,31 @@ def format_analysis_block(
     ric_pc, stk_pc = "RI", "SK"
     ric_t = team_totals(players, ric_pc)
     stk_t = team_totals(players, stk_pc)
+
+    # -----------------------------------------------------------------------
+    # Skip-if-unchanged guard. If the FanFooty feed has stalled (score,
+    # disposals, tackles, AND hitouts all identical to the prior poll), the
+    # block would be byte-for-byte the same useless paragraph as last cycle.
+    # Refuse to write it. We RETURN the existing prev_state unchanged so the
+    # next non-stalled poll still has the right baseline to compute deltas
+    # against. We do NOT skip on a quarter-break status though - the break
+    # block is allowed even if numbers are frozen, since the routing/heading
+    # changes are themselves the new information.
+    # -----------------------------------------------------------------------
+    if prev_state is not None and status_code not in {"QT", "HT", "3QT", "FT"}:
+        ric_pts_now = home_pts if home_pc == "RI" else away_pts
+        stk_pts_now = away_pts if home_pc == "RI" else home_pts
+        if (
+            ric_pts_now == prev_state.get("ric_pts")
+            and stk_pts_now == prev_state.get("stk_pts")
+            and ric_t["disposals"] == prev_state.get("ric_disposals")
+            and stk_t["disposals"] == prev_state.get("stk_disposals")
+            and ric_t["tackles"] == prev_state.get("ric_tackles")
+            and stk_t["tackles"] == prev_state.get("stk_tackles")
+            and ric_t["hitouts"] == prev_state.get("ric_hitouts")
+            and stk_t["hitouts"] == prev_state.get("stk_hitouts")
+        ):
+            return None, prev_state
 
     ric_top = top_disposers(players, ric_pc, 3)
     stk_top = top_disposers(players, stk_pc, 3)
@@ -623,27 +682,238 @@ def format_analysis_block(
 
 
 def format_quarter_break(prev_code: str, snap: dict) -> str:
-    """Compact summary written when status transitions across a break."""
+    """Compact summary written when status transitions across a break.
+
+    Format target: ~10-15 lines. Beyond cumulative totals this block now
+    includes top-3 quarter-AF leaders per side, the kick-share tripwire
+    state, and a one-line score verdict that compares the just-completed
+    quarter's margin to the pre-match target (Richmond must keep each
+    quarter's deficit <=15 to stay in the contest).
+    """
     h = snap["header"]
     players = snap["players"]
     ric_t = team_totals(players, "RI")
     stk_t = team_totals(players, "SK")
-    q_key = {"Q1": "q1_af", "Q2": "q2_af", "Q3": "q3_af", "Q4": "q4_af"}.get(prev_code, "q1_af")
+    q_team_key = {"Q1": "q1_af", "Q2": "q2_af",
+                  "Q3": "q3_af", "Q4": "q4_af"}.get(prev_code, "q1_af")
+    q_player_key = {"Q1": "af_q1", "Q2": "af_q2",
+                    "Q3": "af_q3", "Q4": "af_q4"}.get(prev_code, "af_q1")
+
     home_full = h.get("home_team_full", "Home")
     away_full = h.get("away_team_full", "Away")
+    home_pts = parse_score_pts(h.get("home_score", ""))
+    away_pts = parse_score_pts(h.get("away_score", ""))
+    if home_full == "Richmond":
+        ric_pts, stk_pts = home_pts, away_pts
+    else:
+        ric_pts, stk_pts = away_pts, home_pts
+
+    # Top-3 movers for the quarter just completed, per side.
+    ric_q_top = top_quarter_af(players, "RI", q_player_key, 3)
+    stk_q_top = top_quarter_af(players, "SK", q_player_key, 3)
+
+    def _fmt(p: dict) -> str:
+        return f"{p.get('first_name','')[:1]}. {p.get('surname','?')} {p.get(q_player_key) or 0}"
+
+    ric_top_str = ", ".join(_fmt(p) for p in ric_q_top) if ric_q_top else "(no data)"
+    stk_top_str = ", ".join(_fmt(p) for p in stk_q_top) if stk_q_top else "(no data)"
+
+    # Kick-share tripwire (same proxy used in the live block).
+    tripwire = (
+        "HOLDS - Richmond level/ahead on kick-share proxy"
+        if ric_t["kicks"] >= stk_t["kicks"]
+        else "TRIGGERED - St Kilda winning the kick-share territory proxy"
+    )
+
+    # Score verdict: did Richmond keep this quarter within the 15-pt target?
+    # Compute the per-quarter margin from cumulative scores if possible.
+    # (We only have cumulative scores at the break, so this measures the
+    # GAME margin at the break, not just the quarter. We name it accordingly.)
+    margin = ric_pts - stk_pts
+    if prev_code == "Q1":
+        target_clause = "Richmond's pre-match plan needed <=15 down per quarter to stay live."
+        if margin >= 0:
+            verdict = f"Richmond +{margin} at QT - ahead of the brief, contest live."
+        elif margin >= -15:
+            verdict = f"Richmond {margin} at QT - inside the 15-pt target, plan holding."
+        else:
+            verdict = f"Richmond {margin} at QT - already outside the 15-pt target, structural change needed."
+    elif prev_code == "Q2":
+        target_clause = "Pre-match brief: stay within 25 by half time to keep a comeback live."
+        if margin >= 0:
+            verdict = f"Richmond +{margin} at HT - ahead of brief, second half is a contest."
+        elif margin >= -25:
+            verdict = f"Richmond {margin} at HT - inside the 25-pt half-time threshold."
+        else:
+            verdict = f"Richmond {margin} at HT - outside the 25-pt threshold, comeback unlikely."
+    elif prev_code == "Q3":
+        target_clause = "Pre-match brief: within 30 at 3QT to give Q4 a real chance."
+        if margin >= 0:
+            verdict = f"Richmond +{margin} at 3QT - leading into the final term."
+        elif margin >= -30:
+            verdict = f"Richmond {margin} at 3QT - inside the 30-pt window, Q4 alive."
+        else:
+            verdict = f"Richmond {margin} at 3QT - outside the 30-pt window, game effectively gone."
+    else:  # Q4
+        target_clause = "Final quarter complete."
+        if margin > 0:
+            verdict = f"Richmond win by {margin}."
+        elif margin < 0:
+            verdict = f"Richmond lose by {-margin}."
+        else:
+            verdict = "Scores level."
+
     return "\n".join([
         "",
         "---",
         f"### QUARTER BREAK: end of {prev_code} - {home_full} {h.get('home_score')} vs {away_full} {h.get('away_score')}",
         "",
-        f"**{prev_code} AF:** RIC {ric_t[q_key]} - STK {stk_t[q_key]}",
+        f"**Verdict:** {verdict}",
+        f"*{target_clause}*",
+        "",
+        f"**{prev_code} AF leaders - Richmond:** {ric_top_str}",
+        f"**{prev_code} AF leaders - St Kilda:** {stk_top_str}",
+        "",
+        f"**{prev_code} team AF:** RIC {ric_t[q_team_key]} - STK {stk_t[q_team_key]}",
         f"**Cumulative disposals:** RIC {ric_t['disposals']} - STK {stk_t['disposals']}",
         f"**Cumulative tackles:** RIC {ric_t['tackles']} - STK {stk_t['tackles']}",
         f"**Cumulative hit-outs:** RIC {ric_t['hitouts']} - STK {stk_t['hitouts']}",
+        f"**Tripwire (kick-share proxy):** {tripwire} (RIC {ric_t['kicks']} - STK {stk_t['kicks']} kicks)",
         "",
         f"*Routing forward to the next quarter doc.*",
         "",
     ])
+
+
+def format_quarter_break_analyst(prev_code: str, snap: dict) -> str:
+    """ANALYST BLOCK appended to the INCOMING quarter doc at each transition.
+
+    Distinct from `format_quarter_break`, which goes on the OUTGOING doc
+    (closing out the quarter that just ended). This block opens the new
+    quarter's document with a structured forward-looking read so coaching
+    notes for Q3 / Q4 don't start on a blank page.
+
+    Contents:
+      * Score verdict vs the pre-match plan for the quarter just completed
+      * Top-5 movers in that quarter (quarter-AF leaders across both teams)
+      * Key-player tracking vs pre-match predictions (Short / Sinclair / Hill)
+      * One forward-looking line for the upcoming quarter
+
+    Triggered automatically at every quarter transition by the main loop.
+    Equivalent to having a Scientist / FootyStrategy commentary block fire
+    on the schedule without manual prompting.
+    """
+    h = snap["header"]
+    players = snap["players"]
+    ric_t = team_totals(players, "RI")
+    stk_t = team_totals(players, "SK")
+    q_player_key = {"Q1": "af_q1", "Q2": "af_q2",
+                    "Q3": "af_q3", "Q4": "af_q4"}.get(prev_code, "af_q1")
+    home_full = h.get("home_team_full", "Home")
+    away_full = h.get("away_team_full", "Away")
+    home_pts = parse_score_pts(h.get("home_score", ""))
+    away_pts = parse_score_pts(h.get("away_score", ""))
+    if home_full == "Richmond":
+        ric_pts, stk_pts = home_pts, away_pts
+    else:
+        ric_pts, stk_pts = away_pts, home_pts
+    margin = ric_pts - stk_pts
+
+    # Score verdict vs pre-match targets (same target ladder as the closing
+    # block, repeated here so each doc reads standalone).
+    targets = {"Q1": 15, "Q2": 25, "Q3": 30, "Q4": 0}
+    next_quarter = {"Q1": "Q2", "Q2": "Q3 (after main break)",
+                    "Q3": "Q4", "Q4": "post-match"}.get(prev_code, "next")
+    target = targets.get(prev_code, 15)
+    if margin >= 0:
+        verdict_line = (
+            f"Richmond +{margin} after {prev_code} - above the brief; the "
+            f"target was to be within {target} down."
+        )
+    elif abs(margin) <= target:
+        verdict_line = (
+            f"Richmond {margin} after {prev_code} - inside the {target}-pt "
+            f"target, plan still alive."
+        )
+    else:
+        verdict_line = (
+            f"Richmond {margin} after {prev_code} - outside the {target}-pt "
+            f"target; the {next_quarter} plan needs structural change, not just effort."
+        )
+
+    # Top-5 movers across BOTH teams in the quarter just completed.
+    both = [(p, p.get(q_player_key) or 0) for p in players]
+    both.sort(key=lambda r: -r[1])
+    movers = both[:5]
+    if movers:
+        mover_lines = [
+            f"- {p.get('first_name','')[:1]}. {p.get('surname','?')} "
+            f"({p.get('team','?')}) {af} AF"
+            for p, af in movers if af > 0
+        ]
+    else:
+        mover_lines = ["- (no quarter-AF data available)"]
+
+    # Pre-match matchup tracking (Short, Sinclair, Hill).
+    matchup_lines: list[str] = []
+    for surname, (team_code, pred, role) in KEY_PLAYERS.items():
+        p = find_player(players, surname, team_code)
+        if p is None:
+            matchup_lines.append(f"- {surname} ({role}): not on field / no data")
+            continue
+        d = disp(p)
+        if pred <= 0:
+            ratio_note = ""
+        elif d >= pred:
+            ratio_note = f" - AT/ABOVE pred {pred}"
+        elif d >= 0.7 * pred:
+            ratio_note = f" - tracking (pred {pred})"
+        elif d >= 0.4 * pred:
+            ratio_note = f" - behind rate (pred {pred})"
+        else:
+            ratio_note = f" - WELL below pred {pred}"
+        matchup_lines.append(f"- {surname} ({role}): {d} disp{ratio_note}")
+
+    # Forward-looking line for the next quarter.
+    forward = {
+        "Q1": "Q2 focus: can Richmond's midfield steady the clearance count and avoid the 15-pt blowout swing?",
+        "Q2": "Q3 focus: who lifts after the long break? Watch Sinclair's intercept count and Richmond's I50 entries.",
+        "Q3": "Q4 focus: Richmond needs scoring chains, not just disposals. Watch goal-source diversity.",
+        "Q4": "Post-match: write the verdict doc; review which pre-match calls held and which missed.",
+    }.get(prev_code, "Next: continue the live read on the new quarter's doc.")
+
+    return "\n".join([
+        "",
+        "---",
+        f"### ANALYST BLOCK: opening read for the doc that follows {prev_code}",
+        "",
+        f"**Score verdict:** {verdict_line}",
+        "",
+        f"**Top 5 movers in {prev_code} (both sides, by quarter AF):**",
+        *mover_lines,
+        "",
+        "**Pre-match matchup tracking:**",
+        *matchup_lines,
+        "",
+        f"**Forward-looking:** {forward}",
+        "",
+        f"*Auto-generated at the {prev_code}->next transition. "
+        f"Snapshot: game {snap.get('gameid','?')}, {snap.get('fetched_at_utc','?')}.*",
+        "",
+    ])
+
+
+def _write_quarter_break_analysis(snap: dict, prev_code: str, doc_path: Path) -> None:
+    """Public hook: insert the ANALYST BLOCK into `doc_path`.
+
+    Wraps `format_quarter_break_analyst` and `insert_block` so the main loop
+    can trigger structured commentary at every quarter transition without
+    re-implementing the doc-write contract. Idempotent w.r.t. the file's
+    header: `ensure_header` is called first if the doc is empty.
+    """
+    ensure_header(doc_path, snap, classify_status(snap.get("header", {}).get("status", "")) or "Q1")
+    block = format_quarter_break_analyst(prev_code, snap)
+    insert_block(doc_path, block)
 
 
 # ---------------------------------------------------------------------------
@@ -834,6 +1104,19 @@ def main(argv: list) -> int:
         h = snap["header"]
         status_raw = (h.get("status") or "").strip()
         status_code = classify_status(status_raw)
+        if status_code is None:
+            # Unrecognised status - do NOT silently route to Q1 (that was the
+            # R11 Final Siren routing bug). Skip this cycle entirely; if the
+            # next poll still can't be classified, the user will see it in
+            # the log and can intervene rather than getting wrong-quarter docs.
+            print(
+                f"  [warn] unrecognised status string '{status_raw}' - "
+                f"skipping write this cycle (last good status_code={last_status_code})",
+                flush=True,
+            )
+            time.sleep(POLL_SECONDS)
+            continue
+
         print(
             f"  status='{status_raw}' code={status_code} "
             f"score: {h.get('home_team_full')} {h.get('home_score')} - "
@@ -841,19 +1124,41 @@ def main(argv: list) -> int:
             flush=True,
         )
 
-        # On quarter transition, write a QUARTER BREAK summary to the OLD doc first.
+        # On quarter transition: write a QUARTER BREAK summary (closing read)
+        # to the OUTGOING doc, then an ANALYST BLOCK (opening read) to the
+        # INCOMING doc. Triggered for EVERY transition out of a live quarter,
+        # so Q3 and Q4 docs always start with structured forward-looking
+        # commentary rather than a blank page.
         paths_touched: list[Path] = []
-        if (
+        is_transition_out_of_live = (
             last_status_code is not None
             and last_status_code != status_code
             and last_status_code in {"Q1", "Q2", "Q3", "Q4"}
             and status_code in {"QT", "HT", "3QT", "FT", "Q2", "Q3", "Q4"}
-        ):
+        )
+        if is_transition_out_of_live:
             old_path = doc_path_for(last_status_code)
             ensure_header(old_path, snap, last_status_code)
             insert_block(old_path, format_quarter_break(last_status_code, snap))
             paths_touched.append(old_path)
             print(f"  [break written] end of {last_status_code} -> {old_path.name}", flush=True)
+
+            # ANALYST BLOCK on the incoming doc. We use the destination doc
+            # for status_code (the new live quarter or the break doc), so
+            # Q2/Q3/Q4/FT docs each open with the structured forward read.
+            incoming_path = doc_path_for(status_code)
+            try:
+                _write_quarter_break_analysis(snap, last_status_code, incoming_path)
+                if incoming_path not in paths_touched:
+                    paths_touched.append(incoming_path)
+                print(
+                    f"  [analyst block] {last_status_code}->{status_code} "
+                    f"appended to {incoming_path.name}",
+                    flush=True,
+                )
+            except Exception as e:  # pragma: no cover - defensive: never let
+                # the analyst block crash the main poll loop.
+                print(f"  [warn] analyst block failed: {e}", flush=True)
 
         # Write the live analysis block to the current quarter's doc.
         # On a quarter transition we reset prev_state so deltas don't
@@ -873,11 +1178,23 @@ def main(argv: list) -> int:
         block, prev_state = format_analysis_block(
             snap, status_code, trend_cache, effective_prev,
         )
-        insert_block(current_path, block)
-        paths_touched.append(current_path)
-        print(f"  [block written] {status_code} -> {current_path.name}", flush=True)
+        if block is None:
+            # FanFooty feed stalled - identical numbers to the prior poll.
+            # Don't write a duplicate block, don't commit a no-op. Sleep and
+            # try again. (Don't reset prev_state - we still want to compare
+            # against the same baseline next cycle.)
+            print(
+                f"  [skip] feed stalled - score/disposals/tackles/hitouts "
+                f"identical to prior poll; no block written",
+                flush=True,
+            )
+        else:
+            insert_block(current_path, block)
+            paths_touched.append(current_path)
+            print(f"  [block written] {status_code} -> {current_path.name}", flush=True)
 
-        git_commit_push(paths_touched, f"{status_raw} -> {current_path.name}")
+        if paths_touched:
+            git_commit_push(paths_touched, f"{status_raw} -> {current_path.name}")
         last_status_code = status_code
 
         if status_code == "FT":
