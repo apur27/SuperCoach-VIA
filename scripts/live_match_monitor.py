@@ -344,9 +344,8 @@ def main(argv: list) -> int:
 
         header_written = write_doc(doc_path, header_written, snap, current_quarter)
 
-        if status != last_status or iteration % 3 == 0:
-            git_commit_push(doc_path, status)
-            last_status = status
+        git_commit_push(doc_path, status)
+        last_status = status
 
         if "Full Time" in status or status.lower() == "ft":
             print("\nFull Time detected. Writing final summary and stopping.", flush=True)
