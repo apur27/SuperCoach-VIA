@@ -9,6 +9,35 @@
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
 ---
+### Q3 5:06 - St Kilda 10.5.65 vs Richmond 7.4.46 - 2026-05-17T06:51:23Z
+
+**Disposal leaders - Richmond:** J. Short 17(10/7) 1t | J. Trezise 15(10/5) 1t | N. Vlastuin 13(9/4) 2t
+**Disposal leaders - St Kilda:** C. Wilkie 16(13/3) 1t up | J. Sinclair 16(10/6) 2t | S. Flanders 16(7/9) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 184 (107/77) | 224 (129/95) |
+| Marks | 55 | 63 |
+| Tackles | 20 | 30 |
+| Hit-outs | 11 | 24 |
+| Frees for | 7 | 10 |
+| Total AF | 755 | 950 |
+| Q3 AF | 65 | 25 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 107 - STK 129 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 17 disp [=] (running ahead of rate)
+- Sinclair (pred 27): 16 disp [=]
+- Hill, Milera cover (pred 22): 7 disp, 1m [=]
+
+**Read:** St Kilda dominating possession 224-184 (+40) - Richmond chasing without the ball. St kilda applying more pressure (30-20 tackles); de koning +13 in the ruck giving stk first use. Short running hot (17 disp vs pred 23) - Richmond rebound plan firing. Hill not filling Milera role (7 vs pred 22) - gap exposed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T06:51:23Z*
+
+---
 ### Q3 3:20 - St Kilda 10.5.65 vs Richmond 7.4.46 - 2026-05-17T06:49:50Z
 
 **Disposal leaders - Richmond:** J. Short 17(10/7) 1t | J. Trezise 15(10/5) 1t up | N. Vlastuin 13(9/4) 2t
