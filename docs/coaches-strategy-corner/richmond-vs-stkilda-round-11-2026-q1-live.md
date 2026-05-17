@@ -9,6 +9,198 @@
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
 ---
+### Q1 28:53 - St Kilda 5.2.32 vs Richmond 2.0.12 - 2026-05-17T05:45:56Z
+
+**Disposal leaders - Richmond:** J. Short 8(6/2) 1t | N. Vlastuin 6(4/2) 1t | N. Broad 5(4/1) 0t
+**Disposal leaders - St Kilda:** M. Windhager 8(4/4) 3t | M. Hall 8(6/2) 0t | M. Phillipou 7(3/4) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 70 (40/30) | 96 (59/37) |
+| Marks | 19 | 27 |
+| Tackles | 10 | 13 |
+| Hit-outs | 4 | 12 |
+| Frees for | 2 | 5 |
+| Total AF | 278 | 416 |
+| Q1 AF | 278 | 416 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 40 - STK 59 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 8 disp [=]
+- Sinclair (pred 27): 4 disp [up] (well below rate)
+- Hill, Milera cover (pred 22): 1 disp, 0m [=] (well below rate)
+
+**Read:** St Kilda dominating possession 96-70 (+26) - Richmond chasing without the ball. St kilda applying more pressure (13-10 tackles); de koning +8 in the ruck giving stk first use. Sinclair contained (4 vs pred 27) - STK rebound general muted. Hill not filling Milera role (1 vs pred 22) - gap exposed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:45:56Z*
+
+---
+### SCIENTIST DEEP READ - 2026-05-17T05:44:23Z - St Kilda 5.2.32 (32) v Richmond 2.0.12 (12), Q1 27:26
+
+*Snapshot caveat: FanFooty live feed. The `goals`/`behinds`/`clangers` columns are mis-indexed in this schema and are excluded from per-player rows below. AF, SC, K, HB, marks, tackles, hit-outs, frees, TOG%, DE% are reliable. AF totals match `af_q1` totals exactly (RI 273, SK 361) - all per-player stats below are Q1-only. Sample = first ~27 minutes; treat all rates as descriptive, not predictive.*
+
+#### Full player tables (Q1 only, sorted by disposals desc)
+
+**Richmond - all available stats**
+
+| Player | Disp | K | HB | K% | Mk | Tk | Tk/Disp | HO | TOG% | DE% | AF |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| J. Short | 8 | 6 | 2 | 75 | 2 | 1 | 0.13 | 0 | 97 | 100 | 32 |
+| N. Vlastuin | 6 | 4 | 2 | 67 | 1 | 1 | 0.17 | 0 | 84 | 100 | 22 |
+| N. Broad | 5 | 4 | 1 | 80 | 4 | 0 | 0.00 | 0 | 79 | 100 | 26 |
+| C. Gray | 5 | 2 | 3 | 40 | 2 | 0 | 0.00 | 0 | 100 | 100 | 18 |
+| S. Campbell | 5 | 2 | 3 | 40 | 0 | 0 | 0.00 | 0 | 68 | 60 | 13 |
+| N. Roberts-Thomson | 4 | 3 | 1 | 75 | 0 | 1 | 0.25 | 0 | 79 | 75 | 28 |
+| B. Miller | 4 | 4 | 0 | 100 | 2 | 0 | 0.00 | 0 | 100 | 100 | 18 |
+| J. Trezise | 4 | 3 | 1 | 75 | 1 | 0 | 0.00 | 0 | 66 | 75 | 15 |
+| P. Retschko | 4 | 2 | 2 | 50 | 1 | 0 | 0.00 | 0 | 98 | 100 | 13 |
+| J. Ross | 3 | 1 | 2 | 33 | 0 | 1 | 0.33 | 0 | 76 | 66 | 11 |
+| S. Green | 3 | 1 | 2 | 33 | 1 | 0 | 0.00 | 0 | 81 | 33 | 10 |
+| N. Balta | 2 | 1 | 1 | 50 | 1 | 2 | 1.00 | 2 | 81 | 100 | 15 |
+| J. Hopper | 2 | 1 | 1 | 50 | 0 | 2 | 1.00 | 0 | 78 | 50 | 13 |
+| L. Trainor | 2 | 2 | 0 | 100 | 2 | 0 | 0.00 | 0 | 57 | 50 | 12 |
+| T. Taranto | 2 | 2 | 0 | 100 | 1 | 1 | 0.50 | 0 | 79 | 100 | 10 |
+| T. Sonsie | 2 | 1 | 1 | 50 | 1 | 0 | 0.00 | 0 | 79 | 50 | 8 |
+| S. Grlj | 1 | 0 | 1 | 0 | 0 | 2 | 2.00 | 0 | 83 | 0 | 10 |
+| O. Hayes-Brown | 1 | 0 | 1 | 0 | 0 | 0 | 0.00 | 1 | 45 | 100 | 1 |
+| S. Cumming | 1 | 0 | 1 | 0 | 0 | 0 | 0.00 | 0 | 76 | 100 | -1 |
+| T. Burton | 1 | 0 | 1 | 0 | 0 | 0 | 0.00 | 0 | 79 | 0 | -1 |
+| L. Fawcett | 0 | 0 | 0 | - | 0 | 0 | - | 0 | 74 | 0 | 0 |
+| J. Faull | 0 | 0 | 0 | - | 0 | 0 | - | 0 | 64 | 0 | 0 |
+| T. J. Lynch | 0 | 0 | 0 | - | 0 | 0 | - | 0 | 76 | 0 | 0 |
+
+Team totals: 65 disp (39K / 26HB), 19 mk, 11 tk, 3 HO, 2 frees-for, AF 273.
+
+**St Kilda - all available stats**
+
+| Player | Disp | K | HB | K% | Mk | Tk | Tk/Disp | HO | TOG% | DE% | AF |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| M. Windhager | 8 | 4 | 4 | 50 | 0 | 3 | 0.38 | 0 | 83 | 62 | 33 |
+| M. Hall | 8 | 6 | 2 | 75 | 0 | 0 | 0.00 | 0 | 81 | 62 | 29 |
+| M. Phillipou | 7 | 3 | 4 | 43 | 1 | 1 | 0.14 | 0 | 87 | 71 | 28 |
+| T. De Koning | 6 | 4 | 2 | 67 | 1 | 1 | 0.17 | 8 | 73 | 83 | 35 |
+| H. Garcia | 6 | 3 | 3 | 50 | 1 | 2 | 0.33 | 0 | 76 | 83 | 27 |
+| S. Flanders | 6 | 5 | 1 | 83 | 3 | 0 | 0.00 | 0 | 89 | 66 | 23 |
+| J. Macrae | 5 | 1 | 4 | 20 | 1 | 0 | 0.00 | 0 | 49 | 100 | 14 |
+| J. Silvagni | 4 | 3 | 1 | 75 | 2 | 0 | 0.00 | 0 | 100 | 50 | 17 |
+| D. Wilson | 4 | 1 | 3 | 25 | 0 | 0 | 0.00 | 0 | 69 | 75 | 9 |
+| C. Wilkie | 3 | 3 | 0 | 100 | 3 | 0 | 0.00 | 0 | 100 | 100 | 18 |
+| J. Carroll | 3 | 2 | 1 | 67 | 1 | 1 | 0.33 | 0 | 79 | 33 | 15 |
+| L. O'Connell | 3 | 2 | 1 | 67 | 2 | 0 | 0.00 | 0 | 83 | 66 | 14 |
+| J. Sinclair | 3 | 1 | 2 | 33 | 1 | 1 | 0.33 | 0 | 72 | 66 | 14 |
+| R. Marshall | 3 | 1 | 2 | 33 | 1 | 0 | 0.00 | 4 | 64 | 66 | 11 |
+| J. Higgins (sore) | 3 | 2 | 1 | 67 | 0 | 0 | 0.00 | 0 | 69 | 66 | 10 |
+| L. Henry | 3 | 2 | 1 | 67 | 0 | 0 | 0.00 | 0 | 63 | 66 | 8 |
+| R. Byrnes | 3 | 1 | 2 | 33 | 0 | 0 | 0.00 | 0 | 72 | 66 | 4 |
+| C. Sharman | 2 | 1 | 1 | 50 | 1 | 0 | 0.00 | 0 | 89 | 100 | 14 |
+| C. Banfield | 2 | 2 | 0 | 100 | 0 | 2 | 1.00 | 0 | 67 | 0 | 14 |
+| A. Caminiti | 2 | 2 | 0 | 100 | 0 | 0 | 0.00 | 0 | 75 | 50 | 9 |
+| L. Stocker | 1 | 1 | 0 | 100 | 1 | 1 | 1.00 | 0 | 80 | 100 | 10 |
+| D. Howard | 1 | 1 | 0 | 100 | 0 | 0 | 0.00 | 0 | 79 | 100 | 3 |
+| B. Hill | 1 | 0 | 1 | 0 | 0 | 0 | 0.00 | 0 | 100 | 100 | 2 |
+
+Team totals: 87 disp (51K / 36HB), 19 mk, 12 tk, 12 HO, 5 frees-for, AF 361.
+
+Disposal differential: +22 St Kilda (87-65). Kick differential: +12 St Kilda (51-39). Hit-out differential: +9 St Kilda (12-3). Frees differential: +3 St Kilda (5-2). AF differential: +88 St Kilda (361-273).
+
+#### Ruck battle
+
+| Ruck | Team | HO | Disp | TOG% | Role |
+|---|---|---:|---:|---:|---|
+| T. De Koning | SK | 8 | 6 | 73 | Primary; matchup_note: "Tandem ruck with Marshall" |
+| R. Marshall | SK | 4 | 3 | 64 | Forward/ruck swing; "Starting forward on Gray and tandem rucking with De Koning" |
+| N. Balta | RI | 2 | 2 | 81 | Defender pulled up as relief |
+| O. Hayes-Brown | RI | 1 | 1 | 45 | Nominal primary - only 45% TOG |
+
+SK ruck duo: 12 HO. RI ruck setup: 3 HO. De Koning alone is more than doubling the entire Richmond ruck output. Hayes-Brown's 45% TOG with 1 hit-out suggests he is being beaten off the deck and rested. Balta is dual-rolling from defence (81% TOG, 2 HO, 2 tk, 1 mk) which is structurally costly - it pulls a key back away from his primary job. This is not a temporary edge; it is a planned mismatch on stoppages all quarter.
+
+#### Kick efficiency breakdown (disposals >= 3)
+
+**Going long (K% >= 65) - Richmond (8 players):** Miller 100%, Trainor 100%, Taranto 100%, Broad 80%, Short 75%, Roberts-Thomson 75%, Trezise 75%, Vlastuin 67%. Six of the eight are defenders or half-backs. The two midfielders going long (Taranto, Vlastuin) have a combined 8 disposals - tiny sample.
+
+**Going long (K% >= 65) - St Kilda (8 players):** Wilkie 100%, Flanders 83%, Hall 75%, Silvagni 75%, De Koning 67%, Carroll 67%, O'Connell 67%, Higgins 67%, Henry 67%. Spread across backs, mids, and forwards.
+
+**Handballing under pressure (K% <= 40) - Richmond (5 players):** Campbell 40%, Gray 40%, Ross 33%, Green 33%, Grlj 0%. All five are forwards or wings or midfielders - the front half is going by hand, never foot.
+
+**Handballing under pressure (K% <= 40) - St Kilda (5 players):** Sinclair 33%, Marshall 33%, Byrnes 33%, Wilson 25%, Macrae 20%. Macrae at 1K/4HB on 100% DE looks like clean inside-mid feeder work, not panic. Marshall handballs are ruck-taps to advantage, not pressure.
+
+Net read: SK 51K/36HB = 59% kick share. RI 39K/26HB = 60% kick share. Almost identical foot/hand split, but RI's kicks are concentrated in defenders going long without targets - Short/Broad/Miller alone account for 14 of RI's 39 kicks = 36%. SK's kicks come from across the ground.
+
+#### Tackle heat map (top 5 per side)
+
+**Richmond pressure leaders:**
+1. N. Balta - 2 tk on 2 disp (tk/disp = 1.00) - dual ruck/back role
+2. J. Hopper - 2 tk on 2 disp (tk/disp = 1.00) - pure pressure, no ball-winning
+3. S. Grlj - 2 tk on 1 disp (tk/disp = 2.00) - sub or small-impact
+4. J. Short - 1 tk
+5. N. Roberts-Thomson - 1 tk
+
+Top 3 = 6 of RI's 11 tackles (55%). All three have <= 2 disposals - they are tackling because they are not winning the ball.
+
+**St Kilda pressure leaders:**
+1. M. Windhager - 3 tk on 8 disp - both-sides impact, top AF on the ground (33)
+2. H. Garcia - 2 tk on 6 disp - mid pressure with possession
+3. C. Banfield - 2 tk on 2 disp (tk/disp = 1.00) - dedicated pressure rookie
+4. T. De Koning - 1 tk
+5. M. Phillipou - 1 tk
+
+Top 3 = 7 of SK's 12 tackles (58%), but Windhager and Garcia are also leading possession-winners. SK pressure is symbiotic with ball-winning; RI pressure is what's left after losing the ball.
+
+#### Commentary highlights (all 10 entries, time-ordered)
+
+| Time | Event |
+|---:|---|
+| Q1 02:13 | Hall snaps the first goal of the afternoon from the hotspot (SK 1.0) |
+| Q1 05:10 | Phillipou roves on the flank, jinks inside past Broad, left-foot finish from 35m (SK 2.0) |
+| Q1 12:36 | Caminiti gets a "lucky OOTF free" on Miller 15m out, checksides off his right (SK 3.0) |
+| Q1 14:51 | Garcia clears by hand from outer-wing stoppage to Phillipou who passes to flank over Gray for Sharman 30m out (SK 4.0) |
+| Q1 17:07 | Roberts-Thomson "lucky to get a red hot HTB free" on Flanders at hotspot, first senior goal in debut (RI 1.0) |
+| Q1 21:07 | After Sonsie fumble on HBF, De Koning marks Windhager centring ball 35m out, pops the goal (SK 5.0) |
+| Q1 23:27 | Campbell gathers a Taranto centre-clearance scrubber and feeds Roberts-Thomson for his second (RI 2.0) |
+| Q1 25:02 | Marshall passes from centre to O'Connell 45m out on flank on switch play; "the Irishman shanks for no score" |
+| (no time) | Higgins collapses in Vlastuin tackle 40m out, soft contact free, set shot drifted left (SK 5.1 - and `tag_primary` is now "sore") |
+| (no time, pre-match note) | St Kilda loses Mitch Owens but regains Jack Higgins. Richmond cop two more injuries last week, injury list at 18. |
+
+#### Score timeline (rebuilt from commentary - the authoritative source; goals column is unreliable)
+
+| Time | Score | Scorer | How |
+|---:|---|---|---|
+| Q1 02:13 | SK 1.0 - RI 0.0 | Hall | Snap from hotspot |
+| Q1 05:10 | SK 2.0 - RI 0.0 | Phillipou | Roving rebound, evades Broad, left-foot 35m |
+| Q1 12:36 | SK 3.0 - RI 0.0 | Caminiti | OOTF free on Miller 15m, checkside |
+| Q1 14:51 | SK 4.0 - RI 0.0 | Sharman | Garcia hand -> Phillipou pass -> Sharman 30m |
+| Q1 17:07 | SK 4.0 - RI 1.0 | N. Roberts-Thomson | HTB free on Flanders at hotspot (debut goal) |
+| Q1 ~19? | SK 4.1 - RI 1.0 | Higgins (behind) | Soft contact free in Vlastuin tackle; set shot drifted left |
+| Q1 21:07 | SK 5.1 - RI 1.0 | De Koning | Marks Windhager centring ball 35m off Sonsie fumble |
+| Q1 23:27 | SK 5.1 - RI 2.0 | N. Roberts-Thomson | Off Taranto centre-clearance scrubber, Campbell feed |
+| Q1 ~26 | SK 5.2 - RI 2.0 | (rushed/behind, not in text) | Header confirms 5.2.32 |
+
+Pattern: SK's 5 goals are all from the SK forward half (rove, free, hand-chain, rebound off a Sonsie fumble in RI defence, mark). Richmond's 2 goals are both N. Roberts-Thomson - one from a contentious HTB free, one from a stoppage scrubber. Richmond have not scored from a chain initiated in their own back half in 27 minutes.
+
+#### What FootyStrategy should focus on
+
+1. **Tom Lynch, Jonty Faull, Liam Fawcett: 0/0/0 across the board on 64-76% TOG.** Richmond have three tall forwards on the ground who have not registered a disposal, mark, tackle, or hit-out in 27 minutes. Both Richmond goals are from Roberts-Thomson, who is tagged in `matchup_note` as "Playing defensive forward" and is in his debut game. The Richmond tall-forward bypass is total. This is the single largest tactical signal in the dataset.
+
+2. **Bradley Hill: 1 handball, 0 kicks, 0 marks at 100% TOG.** Pre-match brief flagged Hill as the Milera-cover wing/HFF rebounder. He has had one touch in 27 minutes and it was a handball. 100% TOG means he is on the ground every centre bounce - so the absence is structural (denied receive or wrong starting position) not rotation. The pre-match rebound mechanism is not firing.
+
+3. **Jayden Short: 8 disp, 6 kicks, 100 DE%, 97 TOG, 2 marks, 32 AF.** Richmond's only functioning rebound conduit and now the top-scoring Tiger by AF. He has not been tagged. If SK respond by tagging him, RI's exit options collapse to Broad (5 disp, 100 DE) and Miller (4K, 100 DE) only - and Miller is already at 100% TOG with no room to grow.
+
+4. **Taranto + Hopper + Ross combined: 7 disposals, 4 tackles, on a combined 233 TOG%.** Richmond's three nominal inside-mid `shovels` (the pre-match `tag_primary`) have 7 touches between them. Hopper's profile (2 disp, 2 tk, tk/disp = 1.00) is pure-pressure with no ball-winning. Taranto did create the centre-clearance scrubber that became RI's second goal, but the conversion came from Campbell's gather, not Taranto's hands. The mid trio is not breaking even.
+
+5. **De Koning is the contest, not just a ruck.** 8 HO, 6 disposals (4K, 2HB, 67 K%, 83 DE), 1 mark, 1 tackle, 1 goal, 35 AF on 73% TOG. He is the highest-AF player on the ground. The pattern that emerges: De Koning wins first use, Windhager (3 tk on 8 disp, top AF spread) and Garcia (2 tk on 6 disp, 83 DE) sweep, Phillipou (rotating fwd/mid per matchup_note) and Hall (8 disp from CBA work) provide the spread.
+
+6. **Higgins flagged "sore".** The `tag_primary` field for Higgins is now `sore` (was something else pre-Vlastuin-tackle); commentary describes him collapsing in the tackle. Owens already out per the pre-match note. If Higgins is restricted or subbed, SK's forward rotation thins meaningfully - this is a watch item for Q2.
+
+7. **Pressure asymmetry is structural, not noise.** SK 12 tk spread across 5 players (top three include the two top disposal-winners). RI 11 tk concentrated in three players with a combined 5 disposals (Balta, Hopper, Grlj). The RI pressure profile is what you see when a team is defending without the ball, not pressing.
+
+*Pitfalls walk: leakage [n/a - descriptive only]; snapshot column trust [goals/behinds/clangers excluded per known mis-indexing recorded in `snapshot_data_quality.md`]; baseline [implicit - all rates compared within the same Q1 sample, no extrapolation to FT]; sample size [n=23 per side, 27 minutes only - treat as snapshot, not trend]; score timeline [reconstructed from commentary text, not the unreliable goals column].*
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:44:23Z. Snap file: `data/live_snapshots/9789_20260517_1544_q1-27-26.json`.*
+
+---
 ### Q1 27:26 - St Kilda 5.2.32 vs Richmond 2.0.12 - 2026-05-17T05:44:23Z
 
 **Disposal leaders - Richmond:** J. Short 8(6/2) 1t up | N. Vlastuin 6(4/2) 1t | N. Broad 5(4/1) 0t
