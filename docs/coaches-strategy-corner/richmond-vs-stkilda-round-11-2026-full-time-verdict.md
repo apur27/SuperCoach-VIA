@@ -1,6 +1,8 @@
 # Richmond vs St Kilda - Full-time verdict, Round 11, 2026
 
-> [← Back to strategy corner](README.md) | [Pre-match brief](richmond-vs-stkilda-round-11-2026.md) | [Half-time](richmond-vs-stkilda-round-11-2026-half-time-live.md) | [Q3](richmond-vs-stkilda-round-11-2026-q3-live.md) | [Q4](richmond-vs-stkilda-round-11-2026-q4-live.md)
+> [← Back to strategy corner](README.md) | [Pre-match brief](richmond-vs-stkilda-round-11-2026.md)
+>
+> **Chain:** [Q1](richmond-vs-stkilda-round-11-2026-q1-live.md) → [Q2](richmond-vs-stkilda-round-11-2026-q2-live.md) → [Half-time](richmond-vs-stkilda-round-11-2026-half-time-live.md) → [Q3](richmond-vs-stkilda-round-11-2026-q3-live.md) → [Q4](richmond-vs-stkilda-round-11-2026-q4-live.md) → Full-time verdict (this) → [Post-mortem](richmond-vs-stkilda-round-11-2026-postmortem.md)
 
 *Snapshot time: 2026-05-17T08:04:41Z. Final score: St Kilda 16.13.109 def. Richmond 11.7.73 (margin -36). Game ID: 9789.*
 
