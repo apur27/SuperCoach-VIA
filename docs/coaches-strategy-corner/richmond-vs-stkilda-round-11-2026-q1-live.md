@@ -4,6 +4,99 @@
 
 *Snapshot: 2026-05-17 15:21 local (05:21 UTC), Q1 4:36 elapsed. Score: St Kilda 1.1.7 - Richmond 0.0.0. Status: Q1 active. Source: FanFooty live snapshot game 9789.*
 
+## Auto-updated live analysis (newest first)
+
+<!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
+
+---
+### Q1 19:39 - St Kilda 4.2.26 vs Richmond 1.0.6 - 2026-05-17T05:36:37Z
+
+**Disposal leaders - Richmond:** J. Short 7(5/2) 1t | N. Broad 4(3/1) 0t | J. Trezise 4(3/1) 0t
+**Disposal leaders - St Kilda:** M. Hall 6(4/2) 0t | M. Windhager 5(2/3) 3t | M. Phillipou 5(3/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 47 (27/20) | 62 (35/27) |
+| Marks | 13 | 13 |
+| Tackles | 6 | 10 |
+| Hit-outs | 3 | 9 |
+| Frees for | 1 | 4 |
+| Total AF | 184 | 259 |
+| Q1 AF | 184 | 259 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 27 - STK 35 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 7 disp [=]
+- Sinclair (pred 27): 3 disp [=] (well below rate)
+- Hill, Milera cover (pred 22): 0 disp, 0m [=] (well below rate)
+
+**Read:** St Kilda dominating possession 62-47 (+15) - Richmond chasing without the ball. St kilda applying more pressure (10-6 tackles); de koning +6 in the ruck giving stk first use. Sinclair contained (3 vs pred 27) - STK rebound general muted. Hill not filling Milera role (0 vs pred 22) - gap exposed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:36:37Z*
+
+---
+### Q1 18:05 - St Kilda 4.1.25 vs Richmond 1.0.6 - 2026-05-17T05:35:01Z
+
+**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
+**Disposal leaders - St Kilda:** M. Hall 6(4/2) 0t up | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 37 (21/16) | 55 (31/24) |
+| Marks | 9 | 11 |
+| Tackles | 6 | 8 |
+| Hit-outs | 3 | 8 |
+| Frees for | 1 | 4 |
+| Total AF | 152 | 224 |
+| Q1 AF | 152 | 224 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 21 - STK 31 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 4 disp [=]
+- Sinclair (pred 27): 3 disp [=]
+- Hill, Milera cover (pred 22): 0 disp, 0m [=]
+
+**Read:** St Kilda dominating possession 55-37 (+18) - Richmond chasing without the ball. Tackle pressure even (6-8); de koning +5 in the ruck giving stk first use.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:35:01Z*
+
+---
+### Q1 16:37 - St Kilda 4.1.25 vs Richmond 0.0.0 - 2026-05-17T05:33:28Z
+
+**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
+**Disposal leaders - St Kilda:** M. Hall 5(4/1) 0t | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 36 (20/16) | 50 (29/21) |
+| Marks | 9 | 11 |
+| Tackles | 6 | 7 |
+| Hit-outs | 3 | 7 |
+| Frees for | 0 | 4 |
+| Total AF | 143 | 207 |
+| Q1 AF | 143 | 207 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 20 - STK 29 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 4 disp [=]
+- Sinclair (pred 27): 3 disp [=]
+- Hill, Milera cover (pred 22): 0 disp, 0m [=]
+
+**Read:** St Kilda dominating possession 50-36 (+14) - Richmond chasing without the ball. Tackle pressure even (6-7). Richmond 25 down - tripwire territory, structural change needed.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:33:28Z*
+
+---
+
 ## Scoreline and Q1 snapshot
 
 St Kilda lead by **7 points** [data] after the opening 4:36 of play, with the only goal a Max Hall snap from the hotspot at the 2:13 mark [data, commentary]. Richmond have not yet scored. Sample size warning: with under five minutes of play recorded, almost every team metric is in the small-numbers regime where one stoppage chain can flip the read. Treat everything below as a directional Q1-opening pulse, not a settled trend.
@@ -154,70 +247,3 @@ The "Richmond by 11" call is **on shaky ground but not yet dead**. The brief's o
 The Scientist's snapshot is a five-minute window with no clean clearance, inside-50, or contested-possession breakdown - and a known reliability issue on the goals/behinds/clangers columns (see methodology notes above). The Q1 council read is **directional, not definitive**. Small samples this early can revert quickly. The Sinclair-at-half-back inference is from a single position-field string, not a confirmed tactical pattern. Two-thirds of Q1 still to play before the brief's own checkpoint fires.
 
 **Out of scope.** The reasons behind Lalor, Prestia, Ryan, Lefau (RIC) and Owens, Wood (STK) absences are fitness/medical and not a strategy call. Whether the Saints' apparent Sinclair-to-half-back move is a one-week wrinkle or a season-long re-role is a multi-week observation - the council does not call it from one position-field string after five minutes.
-
----
-
----
-
-## Auto-updated live analysis (newest first)
-
-<!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
-
----
-### Q1 18:05 - St Kilda 4.1.25 vs Richmond 1.0.6 - 2026-05-17T05:35:01Z
-
-**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
-**Disposal leaders - St Kilda:** M. Hall 6(4/2) 0t up | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
-
-| Metric | RIC | STK |
-|--------|-----|-----|
-| Disposals (K+HB) | 37 (21/16) | 55 (31/24) |
-| Marks | 9 | 11 |
-| Tackles | 6 | 8 |
-| Hit-outs | 3 | 8 |
-| Frees for | 1 | 4 |
-| Total AF | 152 | 224 |
-| Q1 AF | 152 | 224 |
-
-*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
-
-**Tripwire (kick-share proxy):** RIC 21 - STK 31 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
-
-**Key player tracking:**
-- Short (pred 23): 4 disp [=]
-- Sinclair (pred 27): 3 disp [=]
-- Hill, Milera cover (pred 22): 0 disp, 0m [=]
-
-**Read:** St Kilda dominating possession 55-37 (+18) - Richmond chasing without the ball. Tackle pressure even (6-8); de koning +5 in the ruck giving stk first use.
-
-*[data] - FanFooty snapshot 9789, 2026-05-17T05:35:01Z*
-
----
-### Q1 16:37 - St Kilda 4.1.25 vs Richmond 0.0.0 - 2026-05-17T05:33:28Z
-
-**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
-**Disposal leaders - St Kilda:** M. Hall 5(4/1) 0t | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
-
-| Metric | RIC | STK |
-|--------|-----|-----|
-| Disposals (K+HB) | 36 (20/16) | 50 (29/21) |
-| Marks | 9 | 11 |
-| Tackles | 6 | 7 |
-| Hit-outs | 3 | 7 |
-| Frees for | 0 | 4 |
-| Total AF | 143 | 207 |
-| Q1 AF | 143 | 207 |
-
-*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
-
-**Tripwire (kick-share proxy):** RIC 20 - STK 29 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
-
-**Key player tracking:**
-- Short (pred 23): 4 disp [=]
-- Sinclair (pred 27): 3 disp [=]
-- Hill, Milera cover (pred 22): 0 disp, 0m [=]
-
-**Read:** St Kilda dominating possession 50-36 (+14) - Richmond chasing without the ball. Tackle pressure even (6-7). Richmond 25 down - tripwire territory, structural change needed.
-
-*[data] - FanFooty snapshot 9789, 2026-05-17T05:33:28Z*
-
