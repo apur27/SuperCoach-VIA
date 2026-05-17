@@ -10,6 +10,17 @@
 
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
+
+---
+### QUARTER BREAK: end of Q2 - St Kilda 10.5.65 vs Richmond 6.3.39
+
+**Q2 AF:** RIC 384 - STK 452
+**Cumulative disposals:** RIC 172 - STK 214
+**Cumulative tackles:** RIC 16 - STK 30
+**Cumulative hit-outs:** RIC 7 - STK 23
+
+*Routing forward to the next quarter doc.*
+
 ---
 ### Q2 30:30 - St Kilda 10.5.65 vs Richmond 5.3.33 - 2026-05-17T06:24:52Z
 
