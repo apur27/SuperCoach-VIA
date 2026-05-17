@@ -85,7 +85,9 @@ def format_snapshot(snap: dict, quarter: str) -> str:
     at = team_totals(players, away_code)
 
     # Quarter AF label
-    q_af_key = {"Q4": "q4_af", "Q3": "q3_af"}.get(quarter, "q4_af")
+    q_af_key = {
+        "Q1": "q1_af", "Q2": "q2_af", "Q3": "q3_af", "Q4": "q4_af",
+    }.get(quarter, "q1_af")
     q_label = quarter
 
     # Top disposal leaders
@@ -99,9 +101,11 @@ def format_snapshot(snap: dict, quarter: str) -> str:
     # Recent commentary (current quarter only)
     q_commentary = q_events(snap.get("commentary", []), quarter)
 
-    # --- Richmond win-condition analysis ---
-    ri_players = [p for p in players if p.get("team") == home_code]
-    ad_players = [p for p in players if p.get("team") == away_code]
+    # --- Home-side win-condition analysis ---
+    home_full = h.get("home_team_full", home_code)
+    away_full = h.get("away_team_full", away_code)
+    home_players = [p for p in players if p.get("team") == home_code]
+    away_players = [p for p in players if p.get("team") == away_code]
 
     ri_q4    = ht.get(q_af_key, 0)
     ad_q4    = at.get(q_af_key, 0)
@@ -110,25 +114,25 @@ def format_snapshot(snap: dict, quarter: str) -> str:
     ri_ho    = ht["hitouts"]
     ad_ho    = at["hitouts"]
 
-    # Lynch contested output
-    lynch = next((p for p in ri_players if "Lynch" in (p.get("surname") or "")), None)
-    lynch_line = (
-        f"Lynch {disp(lynch)} disp / {lynch.get('goals') or 0} goals / "
-        f"{lynch.get('marks') or 0} marks"
-        if lynch else "Lynch not found in data"
-    )
-    # Taranto clearance load
-    taranto = next((p for p in ri_players if "Taranto" in (p.get("surname") or "")), None)
-    taranto_line = (
-        f"Taranto {disp(taranto)} disp / {taranto.get('af') or 0} AF"
-        if taranto else "Taranto not found"
-    )
-    # Rankine suppression check (is he still dominating?)
-    rankine = next((p for p in ad_players if "Rankine" in (p.get("surname") or "")), None)
-    rankine_line = (
-        f"Rankine {disp(rankine)} disp / {rankine.get('goals') or 0} goals / "
-        f"{rankine.get('sc') or 0} SC"
-        if rankine else "Rankine not found"
+    # Dynamic key-player lines: top 3 home-side disposal getters and top away-side disposer to suppress.
+    home_keys = top_players(players, home_code, "_disp", 3)
+    away_key = top_players(players, away_code, "_disp", 1)
+    away_key = away_key[0] if away_key else None
+
+    def fmt_player(p: dict) -> str:
+        return (
+            f"{p.get('first_name', '')[:1]}. {p.get('surname')} "
+            f"{disp(p)} disp / {p.get('goals') or 0}g / "
+            f"{p.get('marks') or 0}m / {p.get('tackles') or 0}t / {p.get('af') or 0} AF"
+        )
+
+    home_key_lines = [
+        f"**{home_full} key #{i+1}:** {fmt_player(p)}"
+        for i, p in enumerate(home_keys)
+    ]
+    away_key_line = (
+        f"**{away_full} top disposer (must contain):** {fmt_player(away_key)}"
+        if away_key else f"**{away_full} top disposer:** not found in data"
     )
 
     # Score margin
@@ -136,52 +140,57 @@ def format_snapshot(snap: dict, quarter: str) -> str:
         m = re.search(r"(\d+)$", s.strip())
         return int(m.group(1)) if m else 0
 
-    ri_pts = score_pts(h.get("home_score", "0"))
-    ad_pts = score_pts(h.get("away_score", "0"))
-    margin = ri_pts - ad_pts
+    home_pts = score_pts(h.get("home_score", "0"))
+    away_pts = score_pts(h.get("away_score", "0"))
+    margin = home_pts - away_pts
     margin_str = (
-        f"Richmond +{margin}" if margin > 0 else
-        f"Adelaide +{-margin}" if margin < 0 else "Level"
+        f"{home_full} +{margin}" if margin > 0 else
+        f"{away_full} +{-margin}" if margin < 0 else "Level"
     )
 
     # Win condition assessment
     q4_momentum = (
-        "Richmond winning Q4" if ri_q4 > ad_q4 else
-        "Adelaide winning Q4" if ad_q4 > ri_q4 else "Even Q4"
+        f"{home_full} winning {q_label}" if ri_q4 > ad_q4 else
+        f"{away_full} winning {q_label}" if ad_q4 > ri_q4 else f"Even {q_label}"
     )
-    tackle_edge = "Richmond" if ri_tk > ad_tk else "Adelaide" if ad_tk > ri_tk else "Level"
+    tackle_edge = home_full if ri_tk > ad_tk else away_full if ad_tk > ri_tk else "Level"
+    ho_diff = ad_ho - ri_ho
+    ho_line = (
+        f"{away_full} +{ho_diff} ({ad_ho} vs {ri_ho})" if ho_diff > 0 else
+        f"{home_full} +{-ho_diff} ({ri_ho} vs {ad_ho})" if ho_diff < 0 else
+        f"Level ({ri_ho} vs {ad_ho})"
+    )
 
     win_conditions = [
         f"**Margin:** {margin_str}",
-        f"**Q4 momentum:** {q4_momentum} ({ri_q4} vs {ad_q4} AF)",
-        f"**Lynch (Richmond's forward key):** {lynch_line}",
-        f"**Taranto (Richmond's engine):** {taranto_line}",
-        f"**Rankine (must contain):** {rankine_line}",
+        f"**{q_label} momentum:** {q4_momentum} ({ri_q4} vs {ad_q4} AF)",
+        *home_key_lines,
+        away_key_line,
         f"**Tackle battle:** {tackle_edge} ({ri_tk} vs {ad_tk})",
-        f"**Hit-outs:** Adelaide +{ad_ho - ri_ho} ({ad_ho} vs {ri_ho})",
+        f"**Hit-outs:** {ho_line}",
     ]
 
-    # Richmond's path: need Q4 burst, Lynch goals, stop Rankine, win clearances
+    # Path narrative based on score state
     if margin < 0:
         deficit = -margin
         goals_needed = (deficit // 6) + 1
         path = (
-            f"Richmond trail by {deficit} pts. Need {goals_needed}+ unanswered goals. "
-            f"{'Q4 burst is still live.' if deficit <= 18 else 'Steep climb - need a run.'}"
+            f"{home_full} trail by {deficit} pts. Need {goals_needed}+ unanswered goals. "
+            f"{f'{q_label} burst is still live.' if deficit <= 18 else 'Steep climb - need a run.'}"
         )
     elif margin > 0:
-        path = f"Richmond lead by {margin} pts. Hold the tackle pressure and protect Q4."
+        path = f"{home_full} lead by {margin} pts. Hold the tackle pressure and protect {q_label}."
     else:
-        path = "Level game. First goal of Q4 is decisive."
+        path = f"Level game. First goal of {q_label} is decisive."
 
     lines = [
         f"### Snapshot - {h['status']} | {ts}",
         f"**Score:** {h['home_team_full']} {h['home_score']} - {h['away_team_full']} {h['away_score']}",
         "",
-        "**Richmond win-condition check:**",
+        f"**{home_full} win-condition check:**",
         *win_conditions,
         "",
-        f"*Path to Richmond win: {path}*",
+        f"*Path to {home_full} win: {path}*",
         "",
         "**Team stats:**",
         f"| | {h['home_team_full']} | {h['away_team_full']} |",
@@ -235,13 +244,20 @@ def write_doc(doc_path: Path, header_written: bool, snap: dict, quarter: str) ->
     content = format_snapshot(snap, quarter)
     if not header_written:
         h = snap["header"]
+        meta = snap.get("meta", {}) or {}
         players = snap["players"]
-        home_code = next((p["team"] for p in players), "RI")
-        away_code = next((p["team"] for p in players if p["team"] != home_code), "AD")
-        preamble = f"""# {h['home_team_full']} vs {h['away_team_full']} - Q4 Live Read (Round 9, 2026)
+        home_code = next((p["team"] for p in players), "")
+        away_code = next((p["team"] for p in players if p["team"] != home_code), "")
+        # Pull match metadata from the snapshot; fall back to gameid where unavailable.
+        home_full = h.get("home_team_full") or home_code or "Home"
+        away_full = h.get("away_team_full") or away_code or "Away"
+        round_str = h.get("round") or f"Game {snap['gameid']}"
+        venue = meta.get("venue") or "venue TBD"
+        year = meta.get("year") or ""
+        round_label = f"{round_str}, {year}" if year else round_str
+        preamble = f"""# {home_full} vs {away_full} - {quarter} Live Read ({round_label})
 
-> Pre-match brief: [Executive summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md)
-> In-game reads: [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md)
+> Live read for {home_full} vs {away_full} at {venue}.
 >
 > Auto-updated every 90 seconds from FanFooty live feed (game {snap['gameid']}).
 > Script: `scripts/live_match_monitor.py`
@@ -293,8 +309,8 @@ def main(argv: list) -> int:
     last_status = ""
     iteration = 0
 
-    # Detect current quarter from first fetch
-    current_quarter = "Q4"
+    # Detect current quarter from each fetch; sane default until status arrives.
+    current_quarter = "Q1"
 
     while True:
         iteration += 1
@@ -307,13 +323,24 @@ def main(argv: list) -> int:
             continue
 
         status = snap["header"].get("status", "").strip()
+        status_l = status.lower()
         print(f"  Status: {status} | Score: {snap['header']['home_score']} vs {snap['header']['away_score']}", flush=True)
 
-        # Detect quarter from status string
-        if "Q4" in status or "q4" in status.lower():
-            current_quarter = "Q4"
-        elif "Full Time" in status or "FT" in status:
-            current_quarter = "Q4"  # use Q4 data for final summary
+        # Detect quarter from status string. Inter-quarter breaks roll forward to the
+        # quarter that just finished so the live read shows that quarter's AF totals.
+        if "q4" in status_l or "full time" in status_l or status_l == "ft" or "three quarter time" in status_l:
+            # Three Quarter Time means Q3 just ended but Q4 about to start - prefer Q3 AF for breakdowns.
+            if "three quarter time" in status_l:
+                current_quarter = "Q3"
+            else:
+                current_quarter = "Q4"
+        elif "q3" in status_l or "half time" in status_l:
+            # Half Time means Q2 just ended - prefer Q2 AF.
+            current_quarter = "Q2" if "half time" in status_l else "Q3"
+        elif "q2" in status_l or "quarter time" in status_l:
+            current_quarter = "Q1" if "quarter time" in status_l else "Q2"
+        elif "q1" in status_l:
+            current_quarter = "Q1"
 
         header_written = write_doc(doc_path, header_written, snap, current_quarter)
 
