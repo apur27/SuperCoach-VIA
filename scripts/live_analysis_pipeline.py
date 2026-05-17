@@ -146,12 +146,31 @@ def top_disposers(players: list, code: str, n: int = 3) -> list:
     return sorted(side, key=disp, reverse=True)[:n]
 
 
+def top_quarter_af(players: list, code: str, q_key: str, n: int = 3) -> list:
+    """Return the top-n players on team `code` by current-quarter AF only.
+
+    This shows who is hot RIGHT NOW (e.g. q4_af), not who has built the biggest
+    cumulative total over the whole match. A midfielder with 8 AF this quarter
+    matters more for the current-block read than a player sitting on 110 total.
+    """
+    side = [p for p in players if p.get("team") == code]
+    return sorted(side, key=lambda p: (p.get(q_key) or 0), reverse=True)[:n]
+
+
 def find_player(players: list, surname: str, team_code: str | None = None) -> dict | None:
     for p in players:
         if p.get("surname", "").lower() == surname.lower():
             if team_code is None or p.get("team") == team_code:
                 return p
     return None
+
+
+def player_key(p: dict) -> str:
+    """Stable key for cross-poll player lookup."""
+    pid = p.get("player_id")
+    if pid:
+        return str(pid)
+    return f"{p.get('team', '?')}|{p.get('surname', '?')}|{p.get('first_name', '?')}"
 
 
 # ---------------------------------------------------------------------------
@@ -179,6 +198,220 @@ class TrendCache:
 # Tactical read generator
 # ---------------------------------------------------------------------------
 
+def _q_key_for(status_code: str) -> str:
+    """Per-PLAYER quarter-AF field name (snapshot schema uses af_qN)."""
+    return {"Q1": "af_q1", "QT": "af_q1", "Q2": "af_q2", "HT": "af_q2",
+            "Q3": "af_q3", "3QT": "af_q3", "Q4": "af_q4", "FT": "af_q4"}.get(status_code, "af_q4")
+
+
+def _q_label_short(status_code: str) -> str:
+    return {"Q1": "Q1", "QT": "Q1", "Q2": "Q2", "HT": "Q2",
+            "Q3": "Q3", "3QT": "Q3", "Q4": "Q4", "FT": "Q4"}.get(status_code, "Qx")
+
+
+def _build_dynamic_read(
+    home_code: str,
+    home_full: str,
+    away_code: str,
+    away_full: str,
+    ht: dict,
+    at: dict,
+    players: list,
+    home_pts: int,
+    away_pts: int,
+    status_code: str,
+    prev_state: dict | None,
+) -> str:
+    """Compose a tactical read that EVOLVES across polls.
+
+    Replaces the prior Mad-Libs template by:
+      * Comparing the current snapshot to `prev_state` (deltas in disposals,
+        tackles, score, and per-player stats) and leading with what CHANGED.
+      * Surfacing the leader of the *current quarter's* AF, not just cumulative.
+      * Choosing a narrative frame from game-state bands (close / chasing /
+        blow-out) and from the status_code (quarter break vs in-play).
+      * Flagging rising players (>=3 disp or >=2 tackle jump since last poll).
+
+    `prev_state` is None on the first poll - the function falls back to a pure
+    snapshot read in that case.
+    """
+    # Richmond-centric framing.
+    if home_code == "RI":
+        ric, stk = ht, at
+        ric_pts, stk_pts = home_pts, away_pts
+    else:
+        ric, stk = at, ht
+        ric_pts, stk_pts = away_pts, home_pts
+
+    margin = ric_pts - stk_pts
+    abs_margin = abs(margin)
+
+    # Game-state band - drives the framing of every other sentence.
+    if status_code == "FT":
+        band = "final"
+    elif abs_margin < 15:
+        band = "close"
+    elif abs_margin <= 30:
+        band = "chasing" if margin < 0 else "leading_mid"
+    else:
+        band = "blowout_down" if margin < 0 else "blowout_up"
+
+    # Quarter-break vs in-play.
+    is_break = status_code in {"QT", "HT", "3QT", "FT"}
+
+    sentences: list[str] = []
+
+    # -----------------------------------------------------------------------
+    # 1. SCORE DELTA - the most newsworthy single fact since last poll.
+    # -----------------------------------------------------------------------
+    if prev_state is not None:
+        ric_score_delta = ric_pts - prev_state.get("ric_pts", ric_pts)
+        stk_score_delta = stk_pts - prev_state.get("stk_pts", stk_pts)
+        # New goals (>= 6 pts) get a special call-out; behinds get a lighter one.
+        if stk_score_delta >= 12 and ric_score_delta == 0:
+            sentences.append(
+                f"Saints have piled on {stk_score_delta} unanswered since last poll - "
+                f"margin out to {abs_margin}."
+            )
+        elif ric_score_delta >= 12 and stk_score_delta == 0:
+            sentences.append(
+                f"Richmond {ric_score_delta} unanswered - margin "
+                f"{('cut to ' + str(abs_margin)) if margin <= 0 else ('out to +' + str(margin))}."
+            )
+        elif stk_score_delta >= 6 and ric_score_delta == 0:
+            sentences.append(f"Saints kicked a goal since last poll, margin now {margin:+d}.")
+        elif ric_score_delta >= 6 and stk_score_delta == 0:
+            sentences.append(f"Richmond responded with a goal, margin now {margin:+d}.")
+        elif stk_score_delta == 0 and ric_score_delta == 0 and not is_break:
+            sentences.append(
+                f"Scoreboard stalemate over the last block - margin holds at {margin:+d}."
+            )
+        elif (ric_score_delta + stk_score_delta) > 0:
+            sentences.append(
+                f"Trade since last poll: RIC +{ric_score_delta} / STK +{stk_score_delta}, "
+                f"margin {margin:+d}."
+            )
+    # First poll fallback - just orient the reader on the scoreboard.
+    elif not is_break:
+        sentences.append(f"Margin {margin:+d} - first read this block.")
+
+    # -----------------------------------------------------------------------
+    # 2. POSSESSION / PRESSURE DELTA - what CHANGED since last poll.
+    # -----------------------------------------------------------------------
+    if prev_state is not None:
+        ric_disp_delta = ric["disposals"] - prev_state.get("ric_disposals", ric["disposals"])
+        stk_disp_delta = stk["disposals"] - prev_state.get("stk_disposals", stk["disposals"])
+        ric_tk_delta = ric["tackles"] - prev_state.get("ric_tackles", ric["tackles"])
+        stk_tk_delta = stk["tackles"] - prev_state.get("stk_tackles", stk["tackles"])
+        net_disp = ric_disp_delta - stk_disp_delta
+        net_tk = ric_tk_delta - stk_tk_delta
+        if abs(net_disp) >= 8:
+            who = "Richmond" if net_disp > 0 else "St Kilda"
+            sentences.append(
+                f"{who} winning the last block's possession by {abs(net_disp)} "
+                f"(RIC +{ric_disp_delta} / STK +{stk_disp_delta})."
+            )
+        elif abs(net_tk) >= 4:
+            who = "Richmond" if net_tk > 0 else "St Kilda"
+            sentences.append(
+                f"{who} have lifted pressure this block - tackle split "
+                f"+{ric_tk_delta}/+{stk_tk_delta} (RIC/STK)."
+            )
+    else:
+        # No prev_state - give the cumulative snapshot framing.
+        disp_gap = ric["disposals"] - stk["disposals"]
+        if abs(disp_gap) > 10:
+            who = "Richmond" if disp_gap > 0 else "St Kilda"
+            sentences.append(
+                f"{who} on top of the possession count {ric['disposals']}-{stk['disposals']}."
+            )
+
+    # -----------------------------------------------------------------------
+    # 3. CURRENT-QUARTER AF LEADER - who is hot RIGHT NOW.
+    # -----------------------------------------------------------------------
+    q_key = _q_key_for(status_code)
+    q_label = _q_label_short(status_code)
+    ric_q_top = top_quarter_af(players, "RI", q_key, 1)
+    stk_q_top = top_quarter_af(players, "SK", q_key, 1)
+    q_bits: list[str] = []
+    if ric_q_top and (ric_q_top[0].get(q_key) or 0) >= 15:
+        p = ric_q_top[0]
+        q_bits.append(
+            f"{p.get('surname')} leading RIC in {q_label} ({p.get(q_key)} AF)"
+        )
+    if stk_q_top and (stk_q_top[0].get(q_key) or 0) >= 15:
+        p = stk_q_top[0]
+        q_bits.append(
+            f"{p.get('surname')} top of STK in {q_label} ({p.get(q_key)} AF)"
+        )
+    if q_bits:
+        sentences.append("; ".join(q_bits) + ".")
+
+    # -----------------------------------------------------------------------
+    # 4. RISING / FALLING PLAYERS - per-player deltas worth flagging.
+    # -----------------------------------------------------------------------
+    if prev_state is not None:
+        prev_disp = prev_state.get("player_disp", {})
+        prev_tk = prev_state.get("player_tk", {})
+        rising: list[tuple[str, str, int, str]] = []  # (surname, team, delta, kind)
+        for p in players:
+            key = player_key(p)
+            d_now = disp(p)
+            t_now = p.get("tackles") or 0
+            d_delta = d_now - prev_disp.get(key, d_now)
+            t_delta = t_now - prev_tk.get(key, t_now)
+            if d_delta >= 4:
+                rising.append((p.get("surname", "?"), p.get("team", "?"), d_delta, f"+{d_delta} disp"))
+            elif t_delta >= 3:
+                rising.append((p.get("surname", "?"), p.get("team", "?"), t_delta, f"+{t_delta} tackles"))
+        # Cap at the two biggest movers to keep the read concise.
+        rising.sort(key=lambda r: -r[2])
+        if rising:
+            risers_str = ", ".join(
+                f"{surname} ({team}, {kind})" for surname, team, _, kind in rising[:2]
+            )
+            sentences.append(f"Movers since last poll: {risers_str}.")
+
+    # -----------------------------------------------------------------------
+    # 5. GAME-STATE CLOSER - varies by band and status_code.
+    # -----------------------------------------------------------------------
+    if band == "final":
+        if margin > 0:
+            sentences.append(f"Full time: Richmond win by {margin}.")
+        elif margin < 0:
+            sentences.append(f"Full time: Richmond lose by {-margin}.")
+        else:
+            sentences.append("Full time: scores level.")
+    elif is_break:
+        sentences.append(
+            f"End of {_q_label_short(status_code)} - margin {margin:+d}, reset and reassess."
+        )
+    elif band == "close":
+        sentences.append("Contest live, margin inside a goal-and-a-bit - every chain matters.")
+    elif band == "chasing":
+        q_remaining = {"Q3": "still 1.5 quarters to make ground",
+                       "Q4": "hunting goals in the final term",
+                       "Q2": "long way to run but the gap is closing distance",
+                       "Q1": "early - shape will tell more than scoreboard"}.get(status_code, "chasing")
+        sentences.append(f"Richmond {abs_margin} down - {q_remaining}.")
+    elif band == "leading_mid":
+        sentences.append(f"Richmond +{margin} - protect the lead, don't chase risk.")
+    elif band == "blowout_down":
+        if status_code in {"Q4"}:
+            sentences.append(
+                f"Margin settled at {abs_margin} - Richmond unable to manufacture goals, "
+                f"focus shifts to individual minutes."
+            )
+        else:
+            sentences.append(
+                f"Richmond {abs_margin} down - tripwire territory, structural change needed."
+            )
+    elif band == "blowout_up":
+        sentences.append(f"Richmond +{margin} - margin established, manage the pressure profile.")
+
+    return " ".join(sentences)
+
+
 def generate_read(
     home_code: str,
     home_full: str,
@@ -190,102 +423,13 @@ def generate_read(
     home_pts: int,
     away_pts: int,
     status_code: str,
+    prev_state: dict | None = None,
 ) -> str:
-    """Compose 2-3 sentence tactical read from rule conditions.
-
-    NOTE: home is St Kilda (home_team_full from the snapshot header).
-    The user-facing tripwire framing is *Richmond perspective* - they are away.
-    """
-    # We need a Richmond-centric read because the strategy work is RIC-side.
-    if home_code == "RI":
-        ric = ht; stk = at; ric_pts = home_pts; stk_pts = away_pts
-    else:
-        ric = at; stk = ht; ric_pts = away_pts; stk_pts = home_pts
-
-    margin = ric_pts - stk_pts
-    sentences: list[str] = []
-
-    # 1. Possession / tempo
-    disp_gap = ric["disposals"] - stk["disposals"]
-    if abs(disp_gap) <= 5:
-        sentences.append(
-            f"Possession is close ({ric['disposals']}-{stk['disposals']}), "
-            f"neither side has yet seized control of the tempo."
-        )
-    elif disp_gap > 0:
-        sentences.append(
-            f"Richmond out-possessing St Kilda {ric['disposals']}-{stk['disposals']} "
-            f"({disp_gap:+d}) - the Tigers are dictating ball movement."
-        )
-    else:
-        sentences.append(
-            f"St Kilda dominating possession {stk['disposals']}-{ric['disposals']} "
-            f"({-disp_gap:+d}) - Richmond chasing without the ball."
-        )
-
-    # 2. Pressure / tackle proxy + ruck
-    tackle_gap = ric["tackles"] - stk["tackles"]
-    ho_gap = stk["hitouts"] - ric["hitouts"]
-    pressure_bits = []
-    if abs(tackle_gap) <= 2:
-        pressure_bits.append(f"tackle pressure even ({ric['tackles']}-{stk['tackles']})")
-    elif tackle_gap > 0:
-        pressure_bits.append(
-            f"Richmond winning the tackle count ({ric['tackles']}-{stk['tackles']})"
-        )
-    else:
-        pressure_bits.append(
-            f"St Kilda applying more pressure ({stk['tackles']}-{ric['tackles']} tackles)"
-        )
-    if ho_gap >= 5:
-        pressure_bits.append(f"De Koning +{ho_gap} in the ruck giving STK first use")
-    elif ho_gap <= -5:
-        pressure_bits.append(f"Richmond ruck +{-ho_gap} - rare territory edge")
-    sentences.append(("; ".join(pressure_bits) + ".").capitalize())
-
-    # 3. Key-player check (Short, Sinclair, Hill)
-    short = find_player(players, "Short", "RI")
-    sinclair = find_player(players, "Sinclair", "SK")
-    hill = find_player(players, "Hill", "SK")
-
-    key_bits = []
-    if short is not None:
-        d = disp(short); p = KEY_PLAYERS["Short"][1]
-        if d >= p * 0.6:
-            key_bits.append(f"Short running hot ({d} disp vs pred {p}) - Richmond rebound plan firing")
-        elif d <= p * 0.3 and stk["disposals"] >= 60:
-            key_bits.append(f"Short quiet ({d} vs pred {p}) - rebound source missing")
-    if sinclair is not None:
-        d = disp(sinclair); p = KEY_PLAYERS["Sinclair"][1]
-        if d >= p * 0.7:
-            key_bits.append(f"Sinclair on track ({d} vs pred {p})")
-        elif d <= p * 0.3 and stk["disposals"] >= 60:
-            key_bits.append(f"Sinclair contained ({d} vs pred {p}) - STK rebound general muted")
-    if hill is not None:
-        d = disp(hill); p = KEY_PLAYERS["Hill"][1]
-        if d <= max(4, p * 0.4) and stk["disposals"] >= 60:
-            key_bits.append(f"Hill not filling Milera role ({d} vs pred {p}) - gap exposed")
-        elif d >= p * 0.7:
-            key_bits.append(f"Hill stepping up in Milera's absence ({d} vs pred {p})")
-    if key_bits:
-        sentences.append(" ".join(b + "." for b in key_bits[:2]))
-
-    # 4. Scoreboard / closing line
-    if status_code == "FT":
-        if margin > 0:
-            sentences.append(f"Final: Richmond win by {margin}.")
-        elif margin < 0:
-            sentences.append(f"Final: Richmond lose by {-margin}.")
-        else:
-            sentences.append("Final: draw.")
-    elif abs(margin) <= 12 and status_code in {"Q3", "3QT", "Q4"}:
-        sentences.append(f"Margin {margin:+d} - contested battle, game still alive for Richmond.")
-    elif margin <= -25:
-        sentences.append(f"Richmond {-margin} down - tripwire territory, structural change needed.")
-    elif margin >= 25:
-        sentences.append(f"Richmond {margin} up - hold the pressure profile.")
-
-    return " ".join(sentences)
+    """Thin wrapper kept for API compatibility - delegates to the dynamic read."""
+    return _build_dynamic_read(
+        home_code, home_full, away_code, away_full,
+        ht, at, players, home_pts, away_pts, status_code, prev_state,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -305,11 +449,36 @@ def fmt_player_oneliner(p: dict, trend: TrendCache | None = None) -> str:
     return f"{p.get('first_name', '')[:1]}. {p.get('surname')} {d}({k}/{hb}) {tk}t{arrow}"
 
 
+def build_prev_state(
+    players: list,
+    ric_t: dict,
+    stk_t: dict,
+    ric_pts: int,
+    stk_pts: int,
+    status_code: str,
+) -> dict:
+    """Snapshot the state we need to compute deltas on the NEXT poll."""
+    return {
+        "ric_disposals": ric_t["disposals"],
+        "stk_disposals": stk_t["disposals"],
+        "ric_tackles":   ric_t["tackles"],
+        "stk_tackles":   stk_t["tackles"],
+        "ric_hitouts":   ric_t["hitouts"],
+        "stk_hitouts":   stk_t["hitouts"],
+        "ric_pts":       ric_pts,
+        "stk_pts":       stk_pts,
+        "status_code":   status_code,
+        "player_disp":   {player_key(p): disp(p) for p in players},
+        "player_tk":     {player_key(p): (p.get("tackles") or 0) for p in players},
+    }
+
+
 def format_analysis_block(
     snap: dict,
     status_code: str,
     trend_cache: TrendCache,
-) -> str:
+    prev_state: dict | None = None,
+) -> tuple[str, dict]:
     h = snap["header"]
     players = snap["players"]
     ts = snap["fetched_at_utc"]
@@ -379,14 +548,24 @@ def format_analysis_block(
     )
 
     # Quarter-AF mini-row (the currently-active quarter only)
-    q_key = {"Q1": "q1_af", "QT": "q1_af", "Q2": "q2_af", "HT": "q2_af",
-             "Q3": "q3_af", "3QT": "q3_af", "Q4": "q4_af", "FT": "q4_af"}[status_code]
+    # Two parallel maps because the team-aggregated dict (team_totals) uses
+    # `qN_af` keys while the per-player snapshot fields are `af_qN`.
+    q_key_team = {"Q1": "q1_af", "QT": "q1_af", "Q2": "q2_af", "HT": "q2_af",
+                  "Q3": "q3_af", "3QT": "q3_af", "Q4": "q4_af", "FT": "q4_af"}[status_code]
+    q_key_player = _q_key_for(status_code)
     q_label = {"Q1": "Q1", "QT": "Q1 (end)", "Q2": "Q2", "HT": "Q2 (end)",
                "Q3": "Q3", "3QT": "Q3 (end)", "Q4": "Q4", "FT": "Q4 (final)"}[status_code]
 
+    # Current-quarter AF leaders (who is hot RIGHT NOW, regardless of cumulative).
+    ric_q_leaders = top_quarter_af(players, ric_pc, q_key_player, 3)
+    stk_q_leaders = top_quarter_af(players, stk_pc, q_key_player, 3)
+
+    def _fmt_q_leader(p: dict) -> str:
+        return f"{p.get('first_name','')[:1]}. {p.get('surname','?')} {p.get(q_key_player) or 0}"
+
     read = generate_read(
         home_pc, home_full, away_pc, away_full, ht, at, players,
-        home_pts, away_pts, status_code,
+        home_pts, away_pts, status_code, prev_state,
     )
 
     lines = [
@@ -398,6 +577,11 @@ def format_analysis_block(
         "**Disposal leaders - St Kilda:** "
         + " | ".join(fmt_player_oneliner(p, trend_cache) for p in stk_top),
         "",
+        f"**{q_label} AF leaders - Richmond:** "
+        + (" | ".join(_fmt_q_leader(p) for p in ric_q_leaders) if ric_q_leaders else "(no data)"),
+        f"**{q_label} AF leaders - St Kilda:** "
+        + (" | ".join(_fmt_q_leader(p) for p in stk_q_leaders) if stk_q_leaders else "(no data)"),
+        "",
         "| Metric | RIC | STK |",
         "|--------|-----|-----|",
         f"| Disposals (K+HB) | {ric_t['disposals']} ({ric_t['kicks']}/{ric_t['handballs']}) | {stk_t['disposals']} ({stk_t['kicks']}/{stk_t['handballs']}) |",
@@ -406,7 +590,7 @@ def format_analysis_block(
         f"| Hit-outs | {ric_t['hitouts']} | {stk_t['hitouts']} |",
         f"| Frees for | {ric_t['frees_for']} | {stk_t['frees_for']} |",
         f"| Total AF | {ric_t['total_af']} | {stk_t['total_af']} |",
-        f"| {q_label} AF | {ric_t[q_key]} | {stk_t[q_key]} |",
+        f"| {q_label} AF | {ric_t[q_key_team]} | {stk_t[q_key_team]} |",
         "",
         "*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*",
         "",
@@ -422,7 +606,20 @@ def format_analysis_block(
         f"*[data] - FanFooty snapshot {snap['gameid']}, {ts}*",
         "",
     ]
-    return "\n".join(lines)
+
+    # Compute the prev_state to hand to the NEXT poll. Use Richmond points and
+    # St Kilda points (not header home/away) so the read narrative stays
+    # Richmond-centric regardless of which side is the nominal home team.
+    if home_pc == "RI":
+        ric_pts_for_state, stk_pts_for_state = home_pts, away_pts
+    else:
+        ric_pts_for_state, stk_pts_for_state = away_pts, home_pts
+    new_prev = build_prev_state(
+        players, ric_t, stk_t,
+        ric_pts_for_state, stk_pts_for_state, status_code,
+    )
+
+    return "\n".join(lines), new_prev
 
 
 def format_quarter_break(prev_code: str, snap: dict) -> str:
@@ -617,6 +814,10 @@ def main(argv: list) -> int:
 
     trend_cache = TrendCache()
     last_status_code: str | None = None
+    # prev_state holds the previous poll's team + per-player stats so the
+    # Read paragraph can describe what CHANGED, not just the current snapshot.
+    # None on the first poll - generate_read handles that gracefully.
+    prev_state: dict | None = None
     iteration = 0
 
     while True:
@@ -655,9 +856,23 @@ def main(argv: list) -> int:
             print(f"  [break written] end of {last_status_code} -> {old_path.name}", flush=True)
 
         # Write the live analysis block to the current quarter's doc.
+        # On a quarter transition we reset prev_state so deltas don't
+        # straddle break boundaries (a 14-minute gap would otherwise be
+        # described as a "block" with massive deltas).
+        effective_prev = prev_state
+        if (
+            last_status_code is not None
+            and last_status_code != status_code
+            and last_status_code in {"Q1", "Q2", "Q3"}
+            and status_code in {"QT", "HT", "3QT", "Q2", "Q3", "Q4"}
+        ):
+            effective_prev = None
+
         current_path = doc_path_for(status_code)
         ensure_header(current_path, snap, status_code)
-        block = format_analysis_block(snap, status_code, trend_cache)
+        block, prev_state = format_analysis_block(
+            snap, status_code, trend_cache, effective_prev,
+        )
         insert_block(current_path, block)
         paths_touched.append(current_path)
         print(f"  [block written] {status_code} -> {current_path.name}", flush=True)
