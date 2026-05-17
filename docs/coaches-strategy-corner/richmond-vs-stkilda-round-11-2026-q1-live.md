@@ -9,6 +9,80 @@
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
 ---
+## Q1 BREAK SUMMARY - St Kilda 5.3.33 vs Richmond 2.0.12 - 2026-05-17T05:50:36Z
+
+**Final Q1 score: St Kilda 5.3.33 - Richmond 2.0.12. Margin: STK +21.** [data]
+
+### Disposal leaders - both sides (Q1 = total at this stage)
+
+**Richmond (top 10 by AF) [data]**
+
+| Player | Disp (K/HB) | Marks | Tackles | Hit-outs | AF | TOG% |
+|---|---|---|---|---|---|---|
+| J. Short | 10 (7/3) | 3 | 1 | 0 | 40 | 97 |
+| N. Roberts-Thomson | 4 (3/1) | 0 | 1 | 0 | 28 | 82 |
+| N. Vlastuin | 7 (5/2) | 2 | 1 | 0 | 28 | 86 |
+| N. Broad | 5 (4/1) | 4 | 0 | 0 | 26 | 70 |
+| B. Miller | 5 (5/0) | 3 | 0 | 0 | 24 | 100 |
+| J. Trezise | 6 (4/2) | 2 | 0 | 0 | 23 | 70 |
+| S. Campbell | 6 (3/3) | 1 | 0 | 0 | 19 | 72 |
+| C. Gray | 5 (2/3) | 2 | 0 | 0 | 18 | 100 |
+| N. Balta | 3 (2/1) | 1 | 1 | 3 | 15 | 83 |
+| J. Hopper | 3 (1/2) | 0 | 2 | 0 | 15 | 75 |
+
+**St Kilda (top 10 by AF) [data]**
+
+| Player | Disp (K/HB) | Marks | Tackles | Hit-outs | AF | TOG% |
+|---|---|---|---|---|---|---|
+| J. Silvagni | 7 (6/1) | 5 | 0 | 0 | 35 | 100 |
+| T. De Koning | 6 (4/2) | 1 | 1 | 8 | 35 | 76 |
+| M. Phillipou | 8 (4/4) | 2 | 1 | 0 | 34 | 85 |
+| M. Windhager | 8 (4/4) | 0 | 3 | 0 | 33 | 85 |
+| M. Hall | 8 (6/2) | 0 | 0 | 0 | 29 | 83 |
+| J. Carroll | 5 (4/1) | 3 | 1 | 0 | 27 | 82 |
+| H. Garcia | 6 (3/3) | 1 | 2 | 0 | 27 | 79 |
+| C. Wilkie | 5 (5/0) | 4 | 0 | 0 | 27 | 100 |
+| J. Sinclair | 5 (3/2) | 3 | 1 | 0 | 26 | 76 |
+| S. Flanders | 6 (5/1) | 3 | 0 | 0 | 23 | 78 |
+
+### Key stats table - both sides [data]
+
+| Metric | RIC | STK | Diff |
+|---|---|---|---|
+| Disposals (K+HB) | 78 (45/33) | 109 (67/42) | STK +31 |
+| Marks | 24 | 32 | STK +8 |
+| Tackles | 11 | 14 | STK +3 |
+| Hit-outs | 4 | 12 | STK +8 |
+| Frees for | 2 | 5 | STK +3 |
+| Total AF | 318 | 470 | STK +152 |
+| Q1 AF (sum of af_q1 col) | 318 | 470 | STK +152 |
+
+**Hit-out split [data]:** STK - De Koning 8, Marshall 4 (12 total). RIC - Balta 3, Hayes-Brown 1 (4 total). De Koning alone double Richmond's entire ruck output. Tandem-ruck advantage to St Kilda is decisive.
+
+### Score timeline - Q1 [data, commentary stream]
+
+| Time | Event | Running score |
+|---|---|---|
+| Q1 2:13 | Hall snaps the first goal of the afternoon from the hotspot. | SK 1.0.6 - RI 0.0.0 |
+| Q1 5:10 | Phillipou roves on the flank and jinks inside past Broad, left-foot finish 35m. | SK 2.0.12 - RI 0.0.0 |
+| Q1 12:36 | Caminiti gets a lucky OOTF free on Miller 15m out, checksides off his right. | SK 3.0.18 - RI 0.0.0 |
+| Q1 14:51 | Garcia clears by hand from stoppage outer wing to Phillipou, passes flank over Gray for Sharman 30m, first goal. | SK 4.0.24 - RI 0.0.0 |
+| Q1 17:07 | Roberts-Thomson gets a red hot HTB free on Flanders at the hotspot, first senior goal in his debut. | SK 4.0.24 - RI 1.0.6 |
+| Q1 21:07 | After a Sonsie fumble on the HBF, De Koning marks Windhager centring ball 35m, pops the goal. | SK 5.0.30 - RI 1.0.6 |
+| Q1 23:27 | Campbell gathers a centre-clearance scrubber by Taranto, feeds Roberts-Thomson for his second. | SK 5.0.30 - RI 2.0.12 |
+| Q1 25:02 | Marshall passes centre to O'Connell 45m flank on switch, Irishman shanks for no score. | SK 5.1.31 - RI 2.0.12 |
+| Q1 29:07 | Balta goes early under flight of long ball to Marshall 25m flank pack, Marshall marks and misses. | SK 5.2.32 - RI 2.0.12 |
+| (end Q1) | Subsequent late behind locks the score. | SK 5.3.33 - RI 2.0.12 |
+
+### Q1 verdict (data-anchored, single line)
+
+**St Kilda won Q1 by 21 via a 5-goals-from-the-forward-half scoring profile while controlling possession (+31 disposals), marks (+8), pressure (+3 tackles) and the ruck (+8 hitouts), with Hall, Phillipou and Windhager all unattended in the midfield and Richmond's three tall forwards (Lynch, Faull, Fawcett) registering 0 disposals / 0 marks / 0 tackles between them on 64-76% TOG.** [data]
+
+*Pitfalls walk: leakage [n/a - in-game observational], goals/behinds per-player columns excluded as unreliable [confirmed - score sourced from header + commentary], temporal ordering of commentary reversed-then-resorted [verified], hitouts cross-checked across both teams [De Koning 8 / Marshall 4 / Balta 3 / Hayes-Brown 1 matches header sum].*
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:50:36Z, snapshot file `data/live_snapshots/9789_20260517_1550_qtr-time.json`*
+
+---
 ### Qtr Time - St Kilda 5.3.33 vs Richmond 2.0.12 - 2026-05-17T05:50:36Z
 
 **Disposal leaders - Richmond:** J. Short 10(7/3) 1t | N. Vlastuin 7(5/2) 1t | J. Trezise 6(4/2) 0t
