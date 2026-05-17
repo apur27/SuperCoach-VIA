@@ -488,24 +488,95 @@ def ensure_header(path: Path, snap: dict, status_code: str) -> None:
 AUTO_MARKER = "<!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->"
 
 
-def insert_block(path: Path, block: str) -> None:
-    """Insert block under the auto marker, so newest is first.
+def _find_header_end(text: str) -> int:
+    """Locate the character offset where the document header/intro ends.
 
-    If the marker isn't present yet (e.g. doc was hand-authored before the
-    pipeline started), append a labelled auto-blocks section to the bottom
-    of the existing doc and put the marker there.
+    Strategy (in order):
+    1. If an explicit `<!-- LIVE UPDATES BELOW -->` marker exists, use the
+       position immediately after it.
+    2. Else, find the end of the first contiguous header block: the H1 title
+       followed by any non-section lines (back-link, intro paragraph) and stop
+       at the first blank line that precedes a content section. Concretely:
+       find the H1 title, then advance past any lines that are not new section
+       markers (`## `, `### `, or `---`) until the first such marker, and
+       insert immediately before it.
+    3. Fall back to end-of-file (prepend nothing useful possible).
+    """
+    pre_marker = "<!-- LIVE UPDATES BELOW -->"
+    idx = text.find(pre_marker)
+    if idx != -1:
+        end = idx + len(pre_marker)
+        # Skip a single trailing newline if present so blocks start cleanly.
+        if end < len(text) and text[end] == "\n":
+            end += 1
+        return end
+
+    lines = text.splitlines(keepends=True)
+    # Find the first H1 (title). Default insertion point is after it.
+    title_idx = next(
+        (i for i, ln in enumerate(lines) if ln.startswith("# ")), None
+    )
+    if title_idx is None:
+        # No title at all - insert at very top.
+        return 0
+
+    # From after the title, walk forward; the header ends at the first line
+    # that opens a content section: `## `, `### `, or a horizontal rule `---`.
+    i = title_idx + 1
+    while i < len(lines):
+        stripped = lines[i].lstrip()
+        if (
+            stripped.startswith("## ")
+            or stripped.startswith("### ")
+            or stripped.rstrip() == "---"
+        ):
+            break
+        i += 1
+    return sum(len(ln) for ln in lines[:i])
+
+
+def insert_block(path: Path, block: str) -> None:
+    """Insert the newest analysis block at the TOP of the document.
+
+    Layout produced:
+
+        # Title
+        > back-links / intro paragraph(s)
+
+        ## Auto-updated live analysis (newest first)
+
+        <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
+
+        <newest block>
+        <older block>
+        ...
+
+        <pre-existing hand-authored sections>
+
+    If the auto-blocks section doesn't yet exist (e.g. the doc was hand-
+    authored before the pipeline started), we splice it in right after the
+    header/intro block, BEFORE all existing content sections - so the newest
+    auto-block always sits near the top of the file.
     """
     if not path.exists():
         path.write_text(block)
         return
     existing = path.read_text()
     if AUTO_MARKER not in existing:
-        existing = (
-            existing.rstrip()
-            + "\n\n---\n\n"
-            + "## Auto-updated live analysis (newest first)\n\n"
+        header_end = _find_header_end(existing)
+        head = existing[:header_end].rstrip() + "\n\n"
+        tail = existing[header_end:].lstrip("\n")
+        auto_section = (
+            "## Auto-updated live analysis (newest first)\n\n"
             + AUTO_MARKER + "\n\n"
         )
+        # If there is hand-authored content following, put a horizontal rule
+        # between the auto-blocks region and that content, so the boundary
+        # reads cleanly.
+        if tail.strip():
+            existing = head + auto_section + "\n---\n\n" + tail
+        else:
+            existing = head + auto_section
     idx = existing.find(AUTO_MARKER)
     insert_at = idx + len(AUTO_MARKER) + 1  # past the trailing newline
     path.write_text(existing[:insert_at] + "\n" + block + existing[insert_at:])
