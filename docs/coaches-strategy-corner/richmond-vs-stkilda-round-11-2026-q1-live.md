@@ -164,6 +164,35 @@ The Scientist's snapshot is a five-minute window with no clean clearance, inside
 <!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->
 
 ---
+### Q1 18:05 - St Kilda 4.1.25 vs Richmond 1.0.6 - 2026-05-17T05:35:01Z
+
+**Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
+**Disposal leaders - St Kilda:** M. Hall 6(4/2) 0t up | J. Macrae 5(1/4) 0t | T. De Koning 4(2/2) 1t
+
+| Metric | RIC | STK |
+|--------|-----|-----|
+| Disposals (K+HB) | 37 (21/16) | 55 (31/24) |
+| Marks | 9 | 11 |
+| Tackles | 6 | 8 |
+| Hit-outs | 3 | 8 |
+| Frees for | 1 | 4 |
+| Total AF | 152 | 224 |
+| Q1 AF | 152 | 224 |
+
+*Inside 50s / contested poss / clearances are not in the FanFooty per-player snapshot schema. Kick-share used as a proxy below.*
+
+**Tripwire (kick-share proxy):** RIC 21 - STK 31 -> TRIPWIRE TRIGGERED (St Kilda controlling kick-territory proxy)
+
+**Key player tracking:**
+- Short (pred 23): 4 disp [=]
+- Sinclair (pred 27): 3 disp [=]
+- Hill, Milera cover (pred 22): 0 disp, 0m [=]
+
+**Read:** St Kilda dominating possession 55-37 (+18) - Richmond chasing without the ball. Tackle pressure even (6-8); de koning +5 in the ruck giving stk first use.
+
+*[data] - FanFooty snapshot 9789, 2026-05-17T05:35:01Z*
+
+---
 ### Q1 16:37 - St Kilda 4.1.25 vs Richmond 0.0.0 - 2026-05-17T05:33:28Z
 
 **Disposal leaders - Richmond:** N. Broad 4(3/1) 0t | J. Short 4(3/1) 1t | J. Trezise 4(3/1) 0t
