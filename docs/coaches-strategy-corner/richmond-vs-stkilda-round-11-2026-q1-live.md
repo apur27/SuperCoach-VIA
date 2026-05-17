@@ -584,3 +584,86 @@ The "Richmond by 11" call is **on shaky ground but not yet dead**. The brief's o
 The Scientist's snapshot is a five-minute window with no clean clearance, inside-50, or contested-possession breakdown - and a known reliability issue on the goals/behinds/clangers columns (see methodology notes above). The Q1 council read is **directional, not definitive**. Small samples this early can revert quickly. The Sinclair-at-half-back inference is from a single position-field string, not a confirmed tactical pattern. Two-thirds of Q1 still to play before the brief's own checkpoint fires.
 
 **Out of scope.** The reasons behind Lalor, Prestia, Ryan, Lefau (RIC) and Owens, Wood (STK) absences are fitness/medical and not a strategy call. Whether the Saints' apparent Sinclair-to-half-back move is a one-week wrinkle or a season-long re-role is a multi-week observation - the council does not call it from one position-field string after five minutes.
+
+---
+
+## FootyStrategy DEEP TACTICAL READ - Q1 25:53, 2026-05-17T05:42:50Z
+
+*[Tier: Probationary | Horizon: next 25 minutes | Lenses: Structuralist, Tempo Architect, Match-up Tactician, Talent Developer]*
+
+**Snapshot anchor:** St Kilda 5.2 (32) - Richmond 2.0 (12). Disposals 81-60 (STK +21), marks 18-17, tackles 12-9, hit-outs 11-3 (De Koning 8 alone). Goals by source (per commentary): STK five goals - Hall snap from hotspot (2:13), Phillipou rove-and-finish (5:10), Caminiti checkside off a soft OOTF free on Miller (12:36), Sharman 30m set shot from a Garcia-Phillipou chain (14:51), De Koning 35m set shot from a Windhager centring kick after a Sonsie HBF fumble (21:07). RIC two goals - both to debutant Roberts-Thomson, the first a soft HTB free on Flanders at the hotspot (17:07), the second a Taranto centre-clearance scrubber to Campbell to Roberts-Thomson (23:27).
+
+### The structural story of Q1
+
+**The mechanism is De Koning + first-use, converted via Windhager and Hall in the corridor, finished by a rotating cast of forwards.** Not a single dominant scorer - **five different goal-kickers from five distinct chain types**, which is the more dangerous pattern. Take the five goals one at a time:
+
+- **Hall 2:13** - opening snap from the hotspot. A first-five-minutes goal off a Saints forward-half stoppage.
+- **Phillipou 5:10** - rove off the pack on the flank, jinked past Broad. Ground-ball off a contest.
+- **Caminiti 12:36** - free kick (out-on-the-full on Miller). A skill error from Richmond, not a structural concession - **but the Saints had a forward in position to convert immediately**.
+- **Sharman 14:51** - the cleanest *structural* goal of the quarter. Garcia clears by hand from a wing stoppage, Phillipou passes to the flank over Gray, Sharman takes a 30m set shot. Three-touch chain, all uncontested, finishing with a forward who beat his man to the spot. This is the Saints' new corridor possession game, working as designed.
+- **De Koning 21:07** - Sonsie fumble on the HBF, De Koning marks a Windhager centring ball 35m out. **A Richmond turnover in their own defensive 50 converted into a ruckman set shot**. The single most damaging goal of the quarter because it tells the Saints they don't need to win the contest to score - they just have to wait for the next Richmond skill error.
+
+The pattern is not "St Kilda are running away with it." It is **"St Kilda are scoring from five different chain types and Richmond has not yet built a defensive response to any of them."** The Sharman goal is the one the brief needs to fear most - a clean possession-corridor-mark-set-shot, the script for a 20-goal afternoon if it repeats.
+
+The **structural lens** reads the De Koning hit-out edge (8 alone from him, 11-3 team, +8 ruck advantage) as the upstream cause. Of the five Saints goals, three flow from stoppage chains (Hall, Sharman, De Koning) and a fourth (Phillipou) from second-touch on a stoppage spill. **The contested game Richmond's whole brief was built on is being lost at the first contact.**
+
+The **tempo architect** sees Saints kick-share 48/81 = 59%, Richmond 34/60 = 57%. Both sides are kicking, but the Saints' kicks are *forward*: Windhager and Hall are the ones moving the ball into scoring territory, with Phillipou as the link. Richmond's kicks (Short 5, Broad 4, Miller 4, Trezise 3, Roberts-Thomson 3) are mostly *lateral and defensive* - the disposal volume is being burned in the back half, not in the corridor. **Same kick-rate, opposite vector.**
+
+### The Milera replacement - Q1 verdict, deeper
+
+The position field at Q1 25:53 still has **Sinclair listed at Back (TOG 71%)** and **Hill listed at Back (TOG 100%, 0 kicks, 1 handball)**. Two snapshots, same read - this is not a transient drift. The Saints have rolled out a **two-defender rebound spine** with Sinclair as the senior distributor and Hill as the receiver-runner.
+
+What this actually does:
+- **Sinclair's kick is corridor-by-choice**; Milera's was sideline-long-by-default. Look at the chain that led to the Sharman goal - Garcia handball from a wing stoppage, then Phillipou through the corridor, then a lateral pass to a leading forward. That is corridor football, not the Milera long-foot blueprint. **The Saints have replaced an outside-running rebound chain with an inside-possession rebound chain**, and the early evidence says it suits this personnel mix.
+- **Hill's 0 kicks is not Richmond shutting him down** - he is running into space the Saints aren't using. With Sinclair carrying the kick load from the back, Hill becomes a receiver-runner, not a distributor. The brief's "Short on Hill" matchup is winning on paper (Short 5 kicks, Hill 0) but losing on impact because Hill was never going to be the link this week.
+
+**This matters for Q2.** If Sinclair-at-half-back is working - and the Sharman goal says it is - the quarter-time message from the Saints' coaching box is "stay the course, Hill drifts wider, Sinclair holds the back." If they want Sinclair's clearance presence back at the centre bounce, he returns to the middle. The De Koning +8 hit-out edge says they probably don't need Sinclair back in the middle yet, which means the wrinkle holds.
+
+The **match-up tactician** confirms what was inferred earlier: the brief's "Taranto on Sinclair at every centre bounce" plan was wargamed against an opponent who is not on the field. Sinclair at half-back means Taranto is tagging air. **The live opposite numbers - Hall (8 disposals, 1 goal), Windhager (7 disposals, 1 goal, 3 tackles), Phillipou (7 disposals, 1 goal contribution, rotating fwd-mid)** - are the centre-square engine for the day, and none of the three are being shadowed. **Hall in particular is unattended.** He has the opening goal, 6 kicks, started in the middle, is flagged "hot" in the snapshot metadata. There is no shovel tag on him from Richmond. **Hall is the un-tagged player who is currently winning the game.**
+
+### Richmond's tactical response - what they must do right now
+
+Three structural adjustments, none of which is "work harder."
+
+1. **Hall is the priority tag. Now.** Hopper is the right body - 77% TOG, 1 kick, 2 tackles, the best contested-tackle-pressure profile available. Put Hopper on Hall at every centre bounce and every stoppage in the Saints' forward half. Cost: lose Hopper's clearance attendance from open ball-ups. Worth it: Hall is the Saints' currently-uncovered midfielder and the link to the corridor scoring chain. If Hopper can't go, Ross is the next-best body. **The current "no tag" choice is becoming a coaching-box error in real time.**
+
+2. **Stop the Sonsie-class HBF turnover.** The De Koning goal at 21:07 traces directly to a Sonsie fumble in Richmond's own back half. Sonsie is 77% TOG, on a wing, 1 kick / 1 handball / 1 mark - he is being asked to participate in the back-half exit chain when he is built as an outside runner. **Move the exit-chain responsibility back to Short and Vlastuin (the senior bodies) and run Sonsie through the corridor as a release target, not a possession-first ball-handler.** The skill-error path is the Saints' easiest score; cut it.
+
+3. **The next inside-50 entry has to be a short kick to Lynch's lead.** Lynch is 75% TOG, 0 disposals - he has not had the ball in his hands. Faull (69% TOG, 0 disposals) and Fawcett (72% TOG, 0 disposals) are also untouched. Of the three tall forwards on Richmond's line, zero have been involved. **The brief's Plan 2 (short to the lead, never to the contest) is not being executed - it is not even being attempted.** That is a structural adjustment from the bench: tell the midfielders the next kick goes to a lead, not a long bomb. Richmond's only two goals are a 50m HTB free and a centre-clearance scrubber that the debutant ran onto - neither was a structured forward entry. Until a forward gets a clean inside-50 mark, the forward-line plan is theoretical.
+
+### The call - is "Richmond by 11" alive?
+
+**No.** The pre-match call is dead.
+
+Specifically:
+- Pre-match Q1 tripwire: within 6 at quarter time. **Current: -20 with around 2 minutes remaining of Q1.** Even a Richmond goal in the run-home leaves the margin at -14, well outside the tripwire.
+- Pre-match hit-out tripwire: +5 to Richmond at half-time. **Current: -8 hit-outs already, with De Koning still on the field.** Mathematically recoverable only if Marshall + De Koning combined go scoreless on hit-outs from this point - not a serious bet.
+- The brief's underlying win-condition was a contested, low-scoring game (the 2025 R23 script - 56-52). **The current Saints projected score on Q1 pace is ~20 goals (~130+ points).** This is the 2025 R4 (-82) script, not the 2025 R23 script. The wrong tape is playing.
+
+The earlier in-game tripwire from the 4:36 council read - "if Richmond have not scored by Q1 10:00 AND the disposal differential is still 60/40 or worse, the pre-match call should be reclassified from Probationary to expired" - fires partially. Richmond did not score until 17:07 (7 minutes past the threshold). Disposal differential is 60/81 = 43%/57% (within the 60/40 threshold, just). The literal tripwire is a split decision but the spirit of it has fired.
+
+**The live recommendation is no longer "Richmond by 11."** It is **"compress the contest, hold the margin to under 60 at three-quarter time, deny the 2025 R4 (-82) blowout."** That is a different game-plan: prioritise defensive ground-ball pressure over forward-line ambition, accept that Richmond will not win, but do not let the Saints kick 20.
+
+### Updated tripwire
+
+**Quarter time (about 2 minutes away):**
+- **If margin > 30 at QT**: blowout pattern is active; live plan becomes a Q2 reset around containment.
+- **If margin 20-30 at QT and Hall has a tag at the first Q2 centre bounce**: the call is "stabilise, hold the structure, target a respectable loss." Probationary tier.
+- **If margin < 20 at QT** (requires a late Richmond goal and a Saints miss): the contested game is closer than the visible margin and a Q2 push is plausible. Lift the call back to Contested.
+
+**Half time:**
+- **If margin > 50**: 2025 R4 blowout pattern is loaded; the live read becomes "stop the bleeding, protect the under-20s," and structural takeaways become the agenda for next week's review, not this week's tactical adjustment.
+
+### What to watch when the players break (QT)
+
+Three observables:
+
+1. **Who comes off Richmond's bench, who comes on.** Specifically watch for Hopper or Ross being told to shadow Hall at the first Q2 centre bounce. If the same midfield rotation runs out unchanged, the coaching-box adjustment didn't happen and the same chain repeats in Q2.
+2. **Sinclair's position at the first Q2 centre bounce.** If he stays at half-back, the Saints are committed to the new structure for the day and Richmond has to redesign its midfield matchups around Hall/Windhager/Flanders/Phillipou rather than Sinclair/Flanders. If Sinclair rolls back into the middle, the Saints' coaching box has decided the half-back experiment is over and Marshall-De Koning are taking the rest of the ruck load alone.
+3. **The De Koning / Marshall rotation share.** Q1 split is De Koning TOG 71% / 8 hit-outs, Marshall TOG 61% / 3 hit-outs. **De Koning is taking the centre bounces, Marshall is rotating as a deep forward (he has a behind already, position is "Ruck-fwd").** If this rotation pattern holds through Q2, the Saints have a tandem-ruck that Richmond literally cannot match - Hayes-Brown is 48% TOG with 1 hit-out, Balta is filling part-time at 80% TOG with 2 hit-outs. The "force Marshall to 80%+ minutes" lever in the brief has been pre-empted; there is no relief plan in Richmond's brief for a *two-ruck* Saints setup.
+
+### Caveat propagation
+
+The Scientist's earlier note still stands: per-player goals, behinds, clangers columns are misindexed in this snapshot pipeline. The five-goals-to-two scoreline comes from the commentary stream cross-checked against the header string, not the per-player goals column. The Sinclair-at-half-back read is now confirmed across two snapshots (Q1 5:00 and Q1 25:53) - upgrade from "single string" to "two-snapshot trend" but it is still in-game evidence, not multi-game evidence. The Hall-as-priority-tag call is based on Q1 personnel evidence; he was not the brief's nominated dangerman, so this is a live re-tier, not a pre-match call.
+
+**Out of scope.** Whether the senior Richmond coaching staff should burn an interchange rotation right now to install the Hall tag is a bench-management call the football department owns. Whether the developing forwards (Faull, Fawcett, Roberts-Thomson) are being thrown to the wolves at two senior forwards short is a list-management / welfare conversation for next week, not a Q1 tactical pivot.
