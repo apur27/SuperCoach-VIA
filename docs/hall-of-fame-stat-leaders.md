@@ -52,7 +52,7 @@ Every total below is computed by summing each player's per-game records across e
 | # | Player | Club(s) | Span | Games | Per game |
 |--:|--------|---------|------|------:|---------:|
 | 1 | Brent Harvey | Kangaroos - North Melbourne | 1996-2016 | 432 | 1.00 |
-| 2 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 1.00 |
+| 1= | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 1.00 |
 | 3 | Michael Tuck | Hawthorn | 1972-1991 | 426 | 1.00 |
 | 4 | Shaun Burgoyne | Hawthorn - Port Adelaide | 2002-2021 | 407 | 1.00 |
 | 5 | Kevin Bartlett | Richmond | 1965-1983 | 403 | 1.00 |
@@ -72,7 +72,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Gary Ablett (jnr) | Geelong - Gold Coast | 2002-2020 | 357 | 1.00 |
 | 20 | Paul Roos | Fitzroy - Sydney | 1982-1998 | 356 | 1.00 |
 
-**[data]** Brent Harvey's 432 is the all-time games record. Pendlebury at 428 (and still active in 2026) sits four games behind and looks likely to break it - the live race that adds quiet drama to every Magpies fixture. Note who is missing: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
+**[data]** Brent Harvey's 432 is the all-time games record. **Pendlebury drew level at 432 in Round 10, 2026** (Collingwood v Geelong, 2026-05-09 - his 432nd career game), and was held out of Collingwood's Round 11 loss to Sydney on 2026-05-15. The outright record will be his the next time he runs out for the Magpies - the live race that adds quiet drama to every Magpies fixture. Note who is missing from the rest of the list: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
 
 ## Career disposals
 
@@ -80,7 +80,7 @@ Every total below is computed by summing each player's per-game records across e
 
 | # | Player | Club(s) | Span | Games | Disposals | Per game |
 |--:|--------|---------|------|------:|----------:|---------:|
-| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 10,886 | 25.43 |
+| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 10,955 | 25.36 |
 | 2 | Robert Harvey | St Kilda | 1988-2008 | 383 | 9,656 | 25.21 |
 | 3 | Brent Harvey | Kangaroos - North Melbourne | 1996-2016 | 432 | 9,213 | 21.33 |
 | 4 | Kevin Bartlett | Richmond | 1965-1983 | 403 | 9,151 | 22.71 |
@@ -136,7 +136,7 @@ Every total below is computed by summing each player's per-game records across e
 
 | # | Player | Club(s) | Span | Games | Tackles | Per game |
 |--:|--------|---------|------|------:|--------:|---------:|
-| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 1,992 | 4.65 |
+| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 2,006 | 4.64 |
 | 2 | Joel Selwood | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
 | 4 | Travis Boak | Port Adelaide | 2007-2025 | 387 | 1,611 | 4.16 |
@@ -157,14 +157,14 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Scott Thompson | Adelaide - Melbourne | 2001-2017 | 308 | 1,409 | 4.57 |
 | 20 | Rory Sloane | Adelaide | 2009-2023 | 255 | 1,397 | 5.48 |
 
-**[data]** Pendlebury again - first player past 2,000 career tackles is a question of when, not if. **[historical record - partial data]** Tackles were not officially recorded league-wide until 1987, so this list necessarily understates the great defensive midfielders of earlier generations (Skilton, Greg Williams's predecessors at Carlton, Tony Shaw's hard-running brigade). Per-game rate is the more revealing column: Jack Steele's 7.23/game in his career-to-date is the highest sustained tackle rate ever recorded, ahead of Priddis's 6.79.
+**[data]** Pendlebury again - **the first player past 2,000 career tackles**, sitting on 2,006 through Round 11, 2026. **[historical record - partial data]** Tackles were not officially recorded league-wide until 1987, so this list necessarily understates the great defensive midfielders of earlier generations (Skilton, Greg Williams's predecessors at Carlton, Tony Shaw's hard-running brigade). Per-game rate is the more revealing column: Jack Steele's 7.23/game in his career-to-date is the highest sustained tackle rate ever recorded, ahead of Priddis's 6.79.
 
 ## Career contested possessions
 
 | # | Player | Club(s) | Span | Games | Contested poss. | Per game |
 |--:|--------|---------|------|------:|----------------:|---------:|
 | 1 | Patrick Dangerfield | Adelaide - Geelong | 2008-2026 | 361 | 4,604 | 12.75 |
-| 2 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 4,371 | 10.21 |
+| 2 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 4,389 | 10.16 |
 | 3 | Josh Kennedy | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
 | 4 | Gary Ablett (jnr) | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
 | 5 | Joel Selwood | Geelong | 2007-2022 | 355 | 3,984 | 11.22 |
@@ -192,7 +192,7 @@ Every total below is computed by summing each player's per-game records across e
 |--:|--------|---------|------|------:|-----------:|---------:|
 | 1 | Lachie Neale | Brisbane Lions - Fremantle | 2012-2026 | 300 | 1,923 | 6.41 |
 | 2 | Patrick Dangerfield | Adelaide - Geelong | 2008-2026 | 361 | 1,884 | 5.22 |
-| 3 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 1,869 | 4.37 |
+| 3 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 1,877 | 4.34 |
 | 4 | Joel Selwood | Geelong | 2007-2022 | 355 | 1,846 | 5.20 |
 | 5 | Josh Kennedy | Hawthorn - Sydney | 2008-2022 | 290 | 1,809 | 6.24 |
 | 6 | Sam Mitchell | Hawthorn - West Coast | 2002-2017 | 329 | 1,801 | 5.47 |
@@ -247,7 +247,7 @@ Every total below is computed by summing each player's per-game records across e
 | 1 | Gary Ablett (jnr) | Geelong - Gold Coast | 2002-2020 | 357 | 262 | 0.73 |
 | 2 | Patrick Dangerfield | Adelaide - Geelong | 2008-2026 | 361 | 251 | 0.70 |
 | 3 | Sam Mitchell | Hawthorn - West Coast | 2002-2017 | 329 | 227 | 0.69 |
-| 4 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 223 | 0.52 |
+| 4 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 223 | 0.52 |
 | 5 | Robert Harvey | St Kilda | 1988-2008 | 383 | 215 | 0.56 |
 | 6 | Joel Selwood | Geelong | 2007-2022 | 355 | 214 | 0.60 |
 | 7 | Dustin Martin | Richmond | 2010-2024 | 302 | 213 | 0.71 |
@@ -271,7 +271,7 @@ Every total below is computed by summing each player's per-game records across e
 
 | # | Player | Club(s) | Span | Games | Goal assists | Per game |
 |--:|--------|---------|------|------:|-------------:|---------:|
-| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 428 | 325 | 0.76 |
+| 1 | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 325 | 0.75 |
 | 2 | Eddie Betts | Adelaide - Carlton | 2005-2021 | 350 | 318 | 0.91 |
 | 3 | Tom Hawkins | Geelong | 2007-2024 | 359 | 296 | 0.82 |
 | 4 | Patrick Dangerfield | Adelaide - Geelong | 2008-2026 | 361 | 272 | 0.75 |
@@ -301,7 +301,7 @@ These two are the components of disposals, useful for separating the ball-users 
 | Stat | #1 holder | Total | Per game |
 |------|-----------|------:|---------:|
 | Kicks | Kevin Bartlett (Richmond, 1965-1983) | 8,293 | 20.58 |
-| Handballs | Scott Pendlebury (Collingwood, 2006- ) | 5,451 | 12.74 |
+| Handballs | Scott Pendlebury (Collingwood, 2006- ) | 5,491 | 12.71 |
 
 **[data]** Bartlett's career kick tally would still rank #1 today even if you froze the leaderboard - he averaged over 20 kicks per game in an era when 12-15 was elite. Pendlebury's handball total reflects a different era of the game: modern midfielders distribute by hand at far higher rates than their 1970s predecessors. The two records together explain why Pendlebury appears at #1 in disposals despite Bartlett still leading the kicks-only board.
 
