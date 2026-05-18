@@ -22,6 +22,7 @@
 10. [How to run things](#10-how-to-run-things)
 11. [Recent problems encountered (and fixes shipped)](#11-recent-problems-encountered-and-fixes-shipped)
 12. [Planned improvements](#12-planned-improvements)
+13. [Agent guardrails and sequencing](#13-agent-guardrails-and-sequencing)
 
 ---
 
@@ -77,6 +78,8 @@ SuperCoach-VIA/
 ---
 
 ## 2. The two-agent model — Scientist and FootyStrategy
+
+> **Note:** the original architecture rested on two agents — Scientist (methodology) and FootyStrategy (interpretation) — described in §2.1 to §2.3. §2.4 introduces the extended council (DataSentinel, BriefBuilder, Skeptic) that wraps a production loop around them. Together the five agents are the "agent layer" referenced elsewhere in this document.
 
 Two LLM agents are defined under `.claude/agents/`, each with its own persistent memory under `.claude/agent-memory/`. They are invoked from inside Claude Code (`@"Scientist (agent)"` / `@"FootyStrategy (agent)"`) and operate as a methodology layer (Scientist) and an interpretation layer (FootyStrategy) on top of the same data.
 
@@ -152,13 +155,61 @@ The convention used across every news entry and strategy brief:
 
 This is the pattern used in `docs/coaches-strategy-corner/` (pre-match briefs and post-mortems) and `docs/news/` (long-form journalism). The README for each directory documents the rule.
 
-### 2.4 The non-negotiable CLAUDE.md rule
+### 2.4 The extended agent council
+
+Scientist and FootyStrategy carry the analytical and tactical layers. Three additional agents wrap the production loop around them — a verifier in front of every commit, a structured-assembly drafter for the pre-match brief, and an adversarial critic that probes finished work before it ships. Each closes a specific gap the Council identified in the original two-agent design.
+
+#### DataSentinel (Haiku)
+
+**File:** `.claude/agents/DataSentinel.md`.
+**Model:** Haiku.
+**Role:** pre-commit verification gate.
+
+**What it does:** walks every `**[data]**` tag in a doc and confirms the cited number against the source CSV named in the methodology paragraph. Flags any number that is untagged, any tag whose source file is missing or mis-cited, any coach-name violation (FootyStrategy rule), and any FanFooty schema violation (e.g. a `goals` figure pulled from per-player snapshot rather than afltables, given §9.1).
+
+**Output:** machine-readable JSON — `{status: PASS|FAIL, violations: [{kind, line, expected, actual}]}` — so a pre-commit hook can consume it without LLM-parsing prose.
+
+**When it runs:** at every brief, news article, and post-mortem before commit. High-frequency, latency-sensitive, low-judgement — exactly the shape Haiku is for.
+
+**Why Haiku:** mechanical comparison task. No interpretation, no tactical reasoning, no methodology trade-offs. The job is "is this number in this CSV." Sonnet and Opus would be over-spec and over-priced for it.
+
+#### BriefBuilder (Sonnet)
+
+**File:** `.claude/agents/BriefBuilder.md`.
+**Model:** Sonnet.
+**Role:** auto-populates the data skeleton of a pre-match brief.
+
+**What it does:** given two team names and a round, pulls the H2H ledger from `data/matches/`, the season form from per-player CSVs, the model predictions from `data/prediction/`, and assembles a top-5-per-side tracking list. Writes `**[data]**` tags with source-file annotations into the draft. Leaves `<!-- FOOTYSTRATEGY INSERT -->` placeholders for the interpretation layer to fill.
+
+**What it does not do:** decide the tier, choose the tripwires, name structural reads, write any prose interpretation. Those remain FootyStrategy's responsibility. BriefBuilder produces a tabular spine — not a finished brief.
+
+**Gating:** BriefBuilder output goes through DataSentinel like every other doc. It cannot self-certify the numbers it tagged.
+
+**Why Sonnet:** structured assembly with surfacing judgement. Choosing which 5 of 25 past H2Hs to surface is judgement (recency, structural similarity, marquee context); choosing which players belong in the top-5 tracking list is judgement (form vs role vs matchup vs availability). Not deep analytical novelty — that's Scientist's territory — but more than mechanical string substitution. Sonnet is the right rung.
+
+#### Skeptic (Opus)
+
+**File:** `.claude/agents/Skeptic.md`.
+**Model:** Opus.
+**Role:** adversarial review of FootyStrategy-authored drafts before commit.
+
+**What it probes:**
+
+- **Tripwire observability.** Every Settled or Probationary recommendation must include a tripwire. Skeptic asks: is the named observable actually computable from this repo's data schema? An inside-50-differential tripwire is currently unobservable (§9.2) — Skeptic flags it.
+- **Caveat hierarchy honour.** Did FootyStrategy upgrade the tier above what Scientist's upstream tag supports? An associational `[Blast: LOW]` Scientist finding cannot become a Settled tactical recommendation. Skeptic checks the caveat propagation line against the upstream data layer.
+- **Lens-tension smoothing.** Did the brief paper over genuine disagreement between coaching lenses? If the Conditioner and the Tempo Architect would reach opposite conclusions on the same evidence, the brief must surface the tension, not blend it.
+
+**Output:** structured `PASS / PASS_WITH_CONCERNS / BLOCK` verdict with a per-concern critique. Skeptic never silently modifies the document. The author decides what to incorporate.
+
+**Why Opus:** must reason adversarially across both the methodology layer (does this tripwire honour upstream caveat?) and the tactical layer (would these lenses really agree?). Subtle violations — a tier upgrade hidden inside a footnote, a tripwire that is observable in theory but not in this repo's snapshot schema — require the strongest model. Haiku and Sonnet will miss them.
+
+### 2.5 The non-negotiable CLAUDE.md rule
 
 `CLAUDE.md` is the operational policy loaded into every session. Its single load-bearing rule:
 
 > Before writing any player stat into a document — games played, goals, Brownlow votes, premierships, career averages — you MUST verify it against the actual data files in this repo. Do NOT rely on training-data memory or general knowledge for specific numbers.
 
-This binds both agents equally. Scientist enforces it through its inspect-before-transforming discipline; FootyStrategy enforces it by refusing to overwrite Scientist-tagged numbers. If the player's data file is missing or the stat is genuinely unavailable (e.g. pre-1965), the claim is tagged `**[historical record — unverified in data]**` rather than fabricated.
+This binds all five agents equally. Scientist enforces it through its inspect-before-transforming discipline; FootyStrategy enforces it by refusing to overwrite Scientist-tagged numbers; BriefBuilder must verify before it tags; Skeptic flags any unverified number it spots; DataSentinel is the runtime mechanism that actually closes the loop — CLAUDE.md is policy, DataSentinel is the enforcement. If the player's data file is missing or the stat is genuinely unavailable (e.g. pre-1965), the claim is tagged `**[historical record — unverified in data]**` rather than fabricated.
 
 ---
 
@@ -456,24 +507,33 @@ A match in this repo passes through five phases. Both agents work at every phase
 
 ### 6.1 Pre-match (typically 3–7 days before the bounce)
 
-**Scientist:**
+The pre-match flow is now a five-agent pipeline. Each agent's output is the next agent's input; DataSentinel gates every commit.
 
-1. Pulls the next round's predictions: `prediction.py` writes `data/prediction/next_round_<N>_prediction_<ts>.csv`.
-2. Writes a per-team **data brief** under `docs/news/<date>-<slug>-data.md` with:
-   - Season record table from `data/matches/matches_<year>.csv`
-   - Per-player form averages from `data/player_data/*_performance_details.csv`
-   - H2H ledger across the last 5 meetings
-   - Each number tagged `**[data]**` with the source file named in a methodology paragraph
-3. Authors the tabular sections of the **pre-match brief** under `docs/coaches-strategy-corner/<match-slug>.md`: stat profiles vs league average, top-player tables, head-to-head, the executive summary numbers.
-4. Generates strategy charts: `docs/coaches-strategy-corner/generate_strategy_charts.py` writes 6 PNGs under `assets/charts/strategy/<match-slug>/`.
+**Step 1 — BriefBuilder writes the data skeleton.**
 
-**FootyStrategy:**
+Given the two team names and the round, BriefBuilder assembles the tabular spine of the pre-match brief: H2H ledger from `data/matches/matches_<year>.csv`, season form from per-player CSVs, model predictions from `data/prediction/`, top-5-per-side tracking list. Every cited number is tagged `**[data]**` with the source file named in the methodology paragraph. `<!-- FOOTYSTRATEGY INSERT: ... -->` placeholders are left in every interpretation slot.
 
-1. Reads Scientist's data brief and fills the `<!-- FOOTYSTRATEGY INSERT: ... -->` placeholders with the tactical interpretation: structural reads, matchup calls, the council's tier and tripwires.
-2. Drafts the **headline call** (e.g. "Richmond by 11, ~25–30% Richmond win probability") with an explicit tripwire ("If St Kilda lead the inside-50 count at half-time, flip the call.").
-3. Names the load-bearing structural reads (typically 3) — each one a falsifiable claim that the post-mortem will grade.
+**Step 2 — Scientist reviews and adds non-routine analysis.**
 
-**Commit cadence:** one or two commits per session, message scoped to the brief slug.
+Scientist reads BriefBuilder's draft, fixes anything BriefBuilder got mechanically wrong, and adds the analysis BriefBuilder is not allowed to author: per-team form vs league average, era-coverage caveats, model bias notes for the specific teams, and the strategy charts (`docs/coaches-strategy-corner/generate_strategy_charts.py` writes 6 PNGs under `assets/charts/strategy/<match-slug>/`).
+
+**Step 3 — FootyStrategy fills the interpretation layer.**
+
+FootyStrategy reads the data-layer draft and fills the `<!-- FOOTYSTRATEGY INSERT: ... -->` placeholders:
+
+1. Tactical interpretation: structural reads, matchup calls, council tier and tripwires.
+2. The **headline call** (e.g. "Richmond by 11, ~25–30% Richmond win probability") with an explicit tripwire ("If St Kilda lead the inside-50 count at half-time, flip the call.").
+3. The load-bearing structural reads (typically 3) — each one a falsifiable claim that the post-mortem will grade.
+
+**Step 4 — DataSentinel verifies before commit.**
+
+DataSentinel walks every `**[data]**` tag, confirms each number against its cited CSV, flags any untagged numbers, any coach-name violations, and any FanFooty schema violations (§9.1). Output is JSON; a pre-commit hook consumes it. A FAIL blocks the commit until the violations are corrected.
+
+**Step 5 (optional) — Skeptic reviews.**
+
+For higher-stakes briefs (a finals match, a season-defining game, a brief that will be quoted in a news piece), Skeptic runs an adversarial pass: are the tripwires observable in this repo's schema, did FootyStrategy honour the upstream caveat hierarchy, were lens tensions smoothed over. Output is `PASS / PASS_WITH_CONCERNS / BLOCK`. Skeptic never modifies the brief — the author decides what to incorporate.
+
+**Commit cadence:** one or two commits per session, message scoped to the brief slug. DataSentinel must pass before commit; Skeptic concerns are addressed at the author's discretion.
 
 ### 6.2 Live — during the match
 
@@ -490,7 +550,9 @@ Per poll the pipeline:
 7. On a quarter-transition: writes a `QUARTER BREAK` summary to the OUTGOING doc (closing read) and an `ANALYST BLOCK` to the INCOMING doc (forward-looking opening read with top-5 movers and updated key-player tracking).
 8. `git add` the touched docs and the last two snapshot JSON+CSV pairs; commit with `Live analysis <gameid>: <status>`; `git push origin main`.
 
-**Scientist:** owns the pipeline. The automated blocks are Scientist output — structured, falsifiable, traceable to a snapshot file.
+**Scientist:** owns the pipeline. The automated blocks are Scientist output in the sense that Scientist wrote and maintains the code; they are not LLM-generated prose.
+
+> **Note:** the per-poll analysis blocks are generated by rule-based Python code (`live_analysis_pipeline.py`), not by LLM inference at runtime. They are Scientist-authored in the sense that Scientist wrote and maintains the code, but the 90-second blocks are deterministic outputs of that code, not agent-generated prose. The "Read" paragraph composes its sentences from a `prev_state` delta table; the quarter-break analyst block composes from the `af_qN` columns. No LLM is in the live loop.
 
 **FootyStrategy:** can be invoked at any quarter break for a multi-lens tactical read of the ANALYST BLOCK. These are appended manually after the automated block and tier-labelled as Probationary at most (the live-data sample is n=1 quarter).
 
@@ -539,6 +601,8 @@ Every step above produces a commit. The diff of any doc is the change history; t
 ## 7. Live pipeline architecture
 
 `scripts/live_analysis_pipeline.py` (~1211 lines) is the load-bearing live system. It runs as a long-lived process started by the operator at first bounce and exits on Full Time.
+
+> **Note (clarification, not change):** every block this pipeline writes is generated by rule-based Python code, not by LLM inference at runtime. The pipeline is "Scientist output" only in the sense that Scientist authored and maintains the code. The 90-second poll cycle, the "Read" paragraph, the QUARTER BREAK summary, and the ANALYST BLOCK are all deterministic functions of the snapshot and the `prev_state` delta — no agent is called during the live loop. LLM-authored quarter-break commentary is listed as planned work in §12.1.
 
 ### 7.1 Status classification
 
@@ -987,14 +1051,14 @@ The current auto analyst block is rule-based — top-N by `af_qN`, matchup delta
 Inside-50s, clearances, and contested possessions are the most important possession-chain stats in modern AFL analysis. None of them are in the FanFooty per-player snapshot schema (see §9.2). The live pipeline currently uses kick-share as a labelled territory proxy.
 
 - **Planned:** investigate whether the FanFooty commentary event stream can be parsed to approximate inside-50 counts in-game; alternatively, pull authoritative numbers from a secondary source post-game and back-fill the auto-blocks.
+- **Why this is now load-bearing:** Skeptic (§2.4) will block any FootyStrategy tripwire that references inside-50 differential because it is unobservable in this repo's live schema. Until §12.2 ships, every tripwire that wants to use inside-50s must be reframed in observable terms (kick-share proxy, post-game backfill from afltables) or it will fail Skeptic's tripwire-observability probe. This makes §12.2 a prerequisite for a class of tactical recommendations that are otherwise routine in modern AFL analysis.
 - **Status:** unstarted.
 
 ### 12.3 Pre-match brief auto-population
 
-Currently Scientist manually queries the data files and authors every tabular section of a pre-match brief (season records, H2H ledger, model predictions, per-player form averages).
+Originally planned as a one-off script. Now implemented as the **BriefBuilder agent** (Sonnet) — see §2.4 and §6.1. BriefBuilder takes two team names and a round, pulls the H2H history from `data/matches/`, the season form from per-player CSVs, and the model predictions from `data/prediction/`, then writes the data skeleton with `**[data]**` tags and source-file annotations. FootyStrategy fills the interpretation layer between BriefBuilder's tables; DataSentinel gates the commit.
 
-- **Planned:** `scripts/generate_prematch_brief.py` — given two team names and a round, auto-pulls the H2H history from `data/matches/`, the season form from per-player CSVs, the model predictions from `data/prediction/`, and writes the data skeleton with `**[data]**` tags and source-file annotations. FootyStrategy then fills the interpretation layer between Scientist's tables.
-- **Status:** unstarted.
+- **Status:** agent file at `.claude/agents/BriefBuilder.md` is defined; integration into the pre-match flow per §6.1 is the next deliverable, gated on DataSentinel landing first. Ship order per §13: DataSentinel first, then BriefBuilder, then Skeptic.
 
 ### 12.4 Player position tagging
 
@@ -1023,6 +1087,39 @@ Player data, match results, and prediction files need updating after every round
 
 - **Planned:** scheduled weekly refresh script with validation gates — row counts, date-range checks, schema diffs — before any new CSV is allowed to overwrite the existing file. A failed validation should leave the existing data in place and surface a clear "refresh blocked because X" message.
 - **Status:** unstarted.
+
+---
+
+## 13. Agent guardrails and sequencing
+
+The extended council (DataSentinel + BriefBuilder + Skeptic, §2.4) introduces three new agents with distinct trust boundaries. The guardrails below are non-negotiable: they exist to make the architecture honest rather than ceremonial.
+
+### 13.1 Output contracts
+
+- **DataSentinel must emit machine-readable JSON, never prose.** The pre-commit hook is the consumer; a hook cannot parse paragraphs. Schema: `{status: "PASS" | "FAIL", violations: [{kind, line_number, expected, actual, source_file}]}`. Any prose explanation is for the human reviewing the hook output, not the hook itself. If DataSentinel ever returns prose-only, the hook silently passes and the gate has failed.
+- **BriefBuilder must never write `**[data]**` tags it hasn't verified.** Tagging a number is a claim that the number was read from the cited source CSV. BriefBuilder's output goes through DataSentinel like every other doc — it cannot self-certify. If BriefBuilder is unsure of a number, it leaves the slot empty with a `<!-- TODO Scientist: pull X -->` placeholder rather than tag a guess.
+- **Skeptic never silently modifies the doc.** Its output is critique only — `PASS / PASS_WITH_CONCERNS / BLOCK` with a per-concern explanation. The author (FootyStrategy or Scientist) decides what to incorporate. This preserves the audit trail: every change to a published doc is attributable to a named author, not to an adversarial reviewer who quietly rewrote a paragraph.
+
+### 13.2 Inherited rules
+
+- **All three new agents inherit the CLAUDE.md verification rule with no exceptions.** No agent — regardless of model, regardless of role — is exempt from "verify against the data file before writing a number." DataSentinel is the runtime enforcement; BriefBuilder is the most-likely violator (it is doing the tagging); Skeptic is the second-line auditor that catches what DataSentinel's mechanical comparison misses (e.g. a number that matches the CSV but cites the wrong file).
+- **No coach names.** FootyStrategy's coach-anonymity rule extends to all agents that touch published docs. DataSentinel flags coach-name violations as a `kind: "coach_name_violation"` in its JSON output.
+- **No business decisions.** Threshold setting, model-vs-source preference, tier overrides — these escalate to the human author. No agent makes a stakeholder-implicated call autonomously.
+
+### 13.3 Recommended ship order
+
+Ship the council in this order. Each rung depends on the one below it.
+
+1. **DataSentinel first.** It is the closure on Gap 1 (CLAUDE.md is aspirational policy, not runtime-enforced). Until DataSentinel exists, every commit is a trust exercise; once it exists, every commit is gated by a deterministic check. This is the highest-leverage agent in the council.
+2. **BriefBuilder second.** Only after DataSentinel is in place. Reason: BriefBuilder is a fast tagger of `**[data]**` numbers — if its output is not gated, it will accelerate the rate of unverified claims entering the repo. Shipping BriefBuilder before DataSentinel is a regression on the existing manual-Scientist baseline.
+3. **Skeptic third — after ~2 months of manual skepticism.** Before automating adversarial review, the team should manually adversarially-review FootyStrategy briefs for a sustained window and record what was caught. That catalogue becomes Skeptic's calibration set. Shipping Skeptic earlier risks an agent that either (a) catches the same things FootyStrategy already self-catches, or (b) BLOCKs on style differences rather than methodology violations. The 2-month manual window proves the defects are real and recurrent before any agent is wired to flag them.
+
+### 13.4 Known limitations carried forward
+
+These are the Council's gaps that were *not* closed by the new agents and remain on the limitations ledger.
+
+- **Gap 6: `DOC_BASE` hardcoded per pipeline invocation.** `live_analysis_pipeline.py` requires the operator to edit `DOC_BASE = "richmond-vs-stkilda-round-11-2026"` for each new fixture. There is no auto-detection of which match-slug to route to. A wrong slug routes blocks into the wrong fixture's docs and is only caught by the operator's eye.
+- **Gap 8: orchestration is implicit.** The five-agent pre-match flow described in §6.1 (BriefBuilder → Scientist → FootyStrategy → DataSentinel → optionally Skeptic) is documented but not enforced by any orchestrator. Each step is launched manually via `@"Agent (agent)"` in Claude Code. Skipping a step is possible; reordering is possible; running steps out of dependency order is possible. The architecture is descriptive, not enforced. A proper orchestrator (or even a shell script that walks the sequence) is open work.
 
 ---
 
