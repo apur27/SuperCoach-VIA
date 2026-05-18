@@ -19,7 +19,7 @@
 
 The repo runs a full weekly-refreshed pipeline from a single shell script: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation. The football is the domain; the architecture is the point.
 
-The current model misses a player's next-round disposal count by about **[data]** 4.09 disposals on average, measured honestly across **[data]** 3,701 player-round predictions (Rounds 1-10, 2026).
+The current model misses a player's next-round disposal count by about **[data]** 4.06 disposals on average, measured honestly across **[data]** 4,074 player-round predictions (Rounds 1-11, 2026).
 
 ⭐ **If this project is useful to you, please star the repo.**
 
@@ -126,61 +126,11 @@ Claude Code's built-in MCP implementation. Tool surface: Bash, Read/Write/Edit, 
 
 ## The Crumb - Phase 2: Production-Grade Multi-Agent Architecture
 
-This is the major piece of new design work. Full spec: **[docs/footy-ai-chatbot-phase2.md](docs/footy-ai-chatbot-phase2.md)**.
+Phase 1 of The Crumb relies on cooperation between agents — system prompts scope each agent's lane and the orchestrator trusts each one to stay in it. Phase 2 makes the structure load-bearing: agents talk through a validated schema, the Senior Coach is split into a Planner that picks the agents and a Synthesiser that merges their findings (the Synthesiser has no data access at all), data reads go through parameterised query templates instead of arbitrary code, low-confidence answers are routed to a human queue, and a nightly eval harness measures citation precision, era-coverage refusal, role isolation, calibration, and falsifiability.
 
-### What's changing and why
+The patterns come from João Moura (CrewAI): Planner-Executor split, role-based crew with IAM isolation, supervisor-worker graph with durable state. The football is incidental — the same five changes apply to any multi-agent deployment.
 
-**Plain English:** Phase 1 of The Crumb works - you ask the Senior Coach a question, it calls the right specialists, it merges their answers. But it works the way a well-run training session works: everyone knows their job because they were *told* their job, and they cooperate because they choose to. Phase 2 makes the structure load-bearing instead of cooperative - the rules are enforced by the system, not by good behaviour.
-
-**Technical:** Phase 1 scopes agents through their system prompts and lets each agent emit arbitrary tool calls (including running arbitrary Python). That is flexible and cheap to evolve, but it gives no hard guarantee that an agent stays in its lane, no schema contract on what agents hand each other, and no automated check that the system as a whole still works after a change. Phase 2 applies three patterns drawn from real multi-agent deployments to close those gaps - without losing the legible, markdown-in-repo character of the project.
-
-### The three patterns driving Phase 2
-
-These are patterns João Moura (CrewAI) has described from production multi-agent work. Each maps cleanly onto a football idea.
-
-1. **Planner-Executor split.** One component decides *what* to do and writes a plan; separate components *execute* the plan steps. The planner never touches data; the executors never decide strategy. Footy analogy: the match committee picks the plan on Thursday; the players run it on Saturday. You don't want the bloke running the plan also rewriting it mid-quarter.
-
-2. **Role-based crew with IAM isolation.** Each agent gets only the access it needs for its role - the credentials, the tools, the data paths - and nothing else, enforced at the infrastructure level rather than by instruction. Footy analogy: the goal umpire can signal a goal; they cannot also bounce the ball. The role *is* the permission set.
-
-3. **Supervisor-worker graph.** The orchestration is an explicit graph - declared nodes, declared edges, durable state - so a crashed step can be replayed from its last good state instead of re-running the whole workflow. Footy analogy: a structured game plan with named phases and triggers, not a verbal "see how we go" - when something breaks down you reset to the last set position, you don't restart the game.
-
-### The five Phase 2 design changes
-
-1. **Planner-Executor split of the Senior Coach Agent.** The current Senior Coach both decides which specialists to call *and* synthesises their answers. Phase 2 splits this: a **Planner** node reads the user question and emits a structured plan (which agents, what each is asked, what the dependency order is); **Executor** nodes run the plan; a separate **Synthesis** node merges results. The Synthesis node has no data access at all - it can only combine what the executors verified.
-
-2. **Parameterised query templates.** Today the Data Steward runs arbitrary pandas/Python. Phase 2 replaces arbitrary code execution with a fixed set of parameterised query templates - `player_form(player_id, n_games)`, `team_round_results(team, year, round)`, and so on. The agent fills parameters; it cannot author new code paths. This kills an entire class of failure (and attack surface) at once.
-
-3. **`FootyFinding` Pydantic envelope.** Every agent-to-agent handoff is wrapped in a single validated schema - the finding itself, its data citations, its confidence tier, its caveats, its era-coverage flags. A handoff that does not validate is rejected at the boundary, not discovered three steps later in a wrong answer.
-
-4. **HITL routing on confidence threshold.** When the synthesised answer's confidence falls below a configured floor - genuine lens disagreement, thin data, an era-coverage refusal - the answer is routed to a human review queue instead of being returned directly. High-confidence answers flow through; the uncertain ones get a human in the loop.
-
-5. **Evaluation harness for the agent layer.** A nightly regression suite across five test categories: **citation precision** (does every number trace to a real file?), **era-coverage refusal** (does the system correctly refuse a pre-1987 tackle query?), **role isolation** (does the Planner stay out of the data?), **calibration** (do "Settled" answers actually hold up more often than "Contested" ones?), and **falsifiability** (does every recommendation carry a real tripwire?).
-
-### Data isolation without GCP IAM
-
-João's pattern assumes cloud IAM - role-scoped credentials issued by the platform. This repo runs locally, so Phase 2 adapts the *principle* without the cloud machinery:
-
-- The data layer is mounted **read-only** to the agent process - the OS enforces it, not a prompt.
-- Data access goes only through the **parameterised query templates** - there is no general code-execution tool for an agent to misuse.
-- The **Synthesis node has no data access at all** - it physically cannot fabricate a number, only combine verified findings.
-
-Three cheap, local mechanisms that together give the same guarantee as cloud IAM: an agent can only touch what its role allows.
-
-### Build order
-
-| Priority | Change | Effort |
-|----------|--------|--------|
-| 1 | Parameterised query templates (kill arbitrary code execution) | Low |
-| 2 | `FootyFinding` Pydantic envelope for all handoffs | Low-Medium |
-| 3 | Planner-Executor split of the Senior Coach | Medium |
-| 4 | HITL routing on confidence threshold | Medium |
-| 5 | Evaluation harness (5 test categories, nightly) | Medium-High |
-
-Sequenced so each rung unblocks the next: templates and the envelope are the contracts the split depends on; the split is what makes HITL routing and the eval harness meaningful.
-
-### What this proves beyond football
-
-The football is incidental. The same five patterns - a Planner-Executor split, role-scoped data isolation, schema-validated handoffs, HITL routing on a confidence threshold, and a nightly eval regression - apply to any multi-agent deployment: a customer-support crew, a research assistant, a code-review pipeline. SuperCoach-VIA is small enough to read in an afternoon and complete enough to be the reference implementation for all five. That is the actual deliverable; the disposal predictions are the demo.
+**Full spec including build order, sample Planner output, the `FootyFinding` Pydantic envelope, and the local IAM adaptation:** [docs/footy-ai-chatbot-phase2.md](docs/footy-ai-chatbot-phase2.md).
 
 ---
 
@@ -206,42 +156,20 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 
 ## Eval results - current
 
-Walk-forward backtest, 2026 season, Rounds 1-10. For each round the model is retrained using only data from before that round, predicts every player who played, and is scored against actuals. All figures reproducible from `data/prediction/backtest/backtest_summary_20260511_191837.csv`.
+Walk-forward backtest, 2026 season, Rounds 1-11. For each round the model is retrained using only data from before that round, predicts every player who played, and is scored against actuals.
 
-| Round | Player-rounds | MAE | RMSE | Within 5 | Within 10 |
-|-------|--------------:|----:|-----:|---------:|----------:|
-| 1  | **[data]** 230 | **[data]** 4.83 | **[data]** 6.10 | **[data]** 60.4% | **[data]** 92.6% |
-| 2  | **[data]** 413 | **[data]** 4.11 | **[data]** 5.11 | **[data]** 72.2% | **[data]** 95.9% |
-| 3  | **[data]** 320 | **[data]** 4.07 | **[data]** 5.28 | **[data]** 74.7% | **[data]** 95.9% |
-| 4  | **[data]** 319 | **[data]** 4.15 | **[data]** 5.32 | **[data]** 72.4% | **[data]** 94.7% |
-| 5  | **[data]** 365 | **[data]** 3.73 | **[data]** 4.74 | **[data]** 75.3% | **[data]** 97.5% |
-| 6  | **[data]** 411 | **[data]** 3.98 | **[data]** 5.05 | **[data]** 74.9% | **[data]** 95.9% |
-| 7  | **[data]** 410 | **[data]** 4.05 | **[data]** 5.15 | **[data]** 72.0% | **[data]** 95.6% |
-| 8  | **[data]** 411 | **[data]** 4.14 | **[data]** 5.27 | **[data]** 73.2% | **[data]** 95.4% |
-| 9  | **[data]** 410 | **[data]** 3.79 | **[data]** 4.74 | **[data]** 74.9% | **[data]** 98.3% |
-| 10 | **[data]** 412 | **[data]** 4.31 | **[data]** 5.50 | **[data]** 68.2% | **[data]** 94.9% |
-| **All** | **[data]** 3,701 | **[data]** 4.09 | **[data]** 5.18 | **[data]** 72.3% | **[data]** 95.8% |
+| Window | Player-rounds | MAE | Within 5 | Within 10 | Bias |
+|---|--:|--:|--:|--:|--:|
+| **R1-R11 player-weighted** | **[data]** 4,074 | **[data]** 4.063 | **[data]** 72.3% | **[data]** 95.6% | **[data]** -0.069 |
+| Round 1 (hardest) | **[data]** 230 | **[data]** 4.83 | **[data]** 60.4% | **[data]** 92.6% | — |
+| Round 5 (best MAE) | **[data]** 365 | **[data]** 3.73 | **[data]** 75.3% | **[data]** 97.5% | — |
+| Round 11 (best within-5) | **[data]** 373 | **[data]** 3.83 | **[data]** 77.2% | **[data]** 95.2% | — |
 
-**Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0-45, that is usable signal, not a solved problem. Round 1 is the hardest (**[data]** 4.83 MAE) because there are no within-season form features before any 2026 game has been played; Round 5 is the best so far (**[data]** 3.73 MAE, **[data]** 97.5% within 10).
+**Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0-45 that is usable signal, not a solved problem. Round 1 is hardest because there are no within-season form features before any 2026 game has been played.
 
-**Technical:** weighted across 3,701 player-rounds the overall signed bias is **[data]** -0.09 disposals - the model is very close to unbiased in aggregate. The known failure mode is the elite tier: top-10-player MAE runs roughly 2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially.
+**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most over-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
 
-### Team-level bias
-
-Signed bias by team, weighted across all 10 rounds (negative = model over-predicts, positive = model under-predicts). Reproducible from `data/prediction/backtest/backtest_by_team_20260511_191837.csv`.
-
-| Direction | Team | Mean signed bias |
-|-----------|------|-----------------:|
-| Most over-predicted | Sydney | **[data]** -0.59 |
-| | Collingwood | **[data]** -0.45 |
-| | Hawthorn | **[data]** -0.45 |
-| Most under-predicted | Richmond | **[data]** +0.53 |
-| | West Coast | **[data]** +0.36 |
-| | Brisbane Lions | **[data]** +0.36 |
-
-Mean absolute team bias is **[data]** 0.25 disposals - no team is badly mis-calibrated, but the spread is real and is a calibration target for the next model iteration.
-
-Full pre-registered methodology, per-round notable misses, and the weekly accuracy log: [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md).
+Full per-round table (all 11 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 
 ---
 

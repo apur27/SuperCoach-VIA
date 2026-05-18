@@ -89,7 +89,7 @@ Two LLM agents are defined under `.claude/agents/`, each with its own persistent
 **Memory:** `.claude/agent-memory/Scientist/` (MEMORY.md index + 10 topic files)
 **Model:** Opus.
 
-**Responsibilities:**
+**Operational responsibilities (this repo):**
 
 - All data work: EDA, stat verification, feature engineering, statistical testing.
 - Writing and maintaining the prediction code (`prediction.py`, `backtest.py`, the scrapers).
@@ -98,14 +98,7 @@ Two LLM agents are defined under `.claude/agents/`, each with its own persistent
 - Doc structure itself: the marker-driven auto-generated sections (`<!-- YEAR-TEAM-ANALYSIS-START -->` etc.) are written by Scientist-owned code (`update_team_analysis.py`, `refresh_readme.py`).
 - Enforcing reproducibility: explicit seeds, GroupKFold by player, pinned versions, the row-count-at-every-filter discipline from its prompt.
 
-**Hard rules (from the agent prompt):**
-
-- Inspect before transforming. No silent schema or unit changes. No silent data loss.
-- No data leakage; holdout sets are sacred; baselines first.
-- Reproducibility is mandatory; distinguish correlation, association, and causation.
-- No business decisions — methodology trade-offs with stakeholder implications get escalated, not silently resolved.
-
-**Response contract:** every Scientist reply is structured as `[Mode / Type / Blast]` line + `Did / Found / Caveats / Didn't / Assumed` sections. HIGH-blast work ends with a Pitfalls Walk line.
+Methodology contract (hard rules, response contract, escalation protocol) is described in [`ai-architecture.md` §3](ai-architecture.md#3-llm-reasoning-layer---the-scientist-agent) and [`how-this-repo-uses-claude.md` §1](how-this-repo-uses-claude.md#1-custom-agent-design-the-scientist). The full agent prompt is the source of truth in `.claude/agents/Scientist.md`.
 
 ### 2.2 FootyStrategy
 
@@ -113,7 +106,7 @@ Two LLM agents are defined under `.claude/agents/`, each with its own persistent
 **Memory:** `.claude/agent-memory/FootyStrategy/` (MEMORY.md index + 3 topic files)
 **Model:** Opus.
 
-**Responsibilities:**
+**Operational responsibilities (this repo):**
 
 - Tactical interpretation: converting Scientist's findings into football-language recommendations a coaches' panel could defend.
 - The **interpretation layer** of news articles and strategy briefs: what the numbers mean structurally, what a coach typically does about it, what the cultural read is. FootyStrategy's prose sits between Scientist's tables.
@@ -121,16 +114,7 @@ Two LLM agents are defined under `.claude/agents/`, each with its own persistent
 - Multi-game pattern recognition — it owns the `recurring_tensions.md` memory that records when council lenses systematically disagree on this list's questions.
 - Coach-anonymity enforcement (see `coach_anonymity_lint.md`).
 
-**The council:** FootyStrategy is implemented as eight archetypal coaching lenses — Conditioner, Tempo Architect, Structuralist, Match-up Tactician, Talent Developer, Innovator, Culture Custodian, List Strategist. Each request activates 3–5 of them and surfaces convergence and tension explicitly.
-
-**Hard rules (from the agent prompt):**
-
-- **Never name coaches.** Wisdom is principle, never personality. Player names are fine; coach names are out.
-- **Never exceed the upstream caveat.** If Scientist labels a finding `[Blast: LOW]` or "associational", FootyStrategy cannot upgrade it to a Settled / causal recommendation.
-- **No recommendation without a tripwire.** Every Settled or Probationary call must include the observable that would reverse it.
-- **No business decisions** — welfare, governance, and contract calls get escalated as trade-offs.
-
-**Output contract:** `[Tier: Settled|Probationary|Contested|Insufficient] [Horizon] [Lenses: N]` line + `Read / Lens reads / Convergence / Tensions / Recommendation / Tripwire / Caveat propagation / Out of scope` sections.
+The 8-lens council methodology (Conditioner, Tempo Architect, Structuralist, Match-up Tactician, Talent Developer, Innovator, Culture Custodian, List Strategist), the confidence tiers, the tripwire rule, and the output envelope are described in [`ai-architecture.md` §3b](ai-architecture.md#3b-footystrategy---tactical-interpretation-agent) and the operator playbook is in [`coaching-guide.md` §"The eight-lens council"](coaching-guide.md#the-eight-lens-council---how-footystrategy-thinks). The full agent prompt is the source of truth in `.claude/agents/FootyStrategy.md`.
 
 ### 2.3 How they collaborate
 
@@ -507,31 +491,9 @@ A match in this repo passes through five phases. Both agents work at every phase
 
 ### 6.1 Pre-match (typically 3–7 days before the bounce)
 
-The pre-match flow is now a five-agent pipeline. Each agent's output is the next agent's input; DataSentinel gates every commit.
+The pre-match flow is a five-agent pipeline: **BriefBuilder → Scientist → FootyStrategy → DataSentinel → Skeptic (optional)**. BriefBuilder assembles the tabular spine (H2H, season form, model predictions, top-5-per-side tracking list) with `**[data]**` tags and `<!-- FOOTYSTRATEGY INSERT -->` placeholders; Scientist adds non-routine analysis (per-team form vs league, era-coverage caveats, model bias for these teams, the six strategy charts under `assets/charts/strategy/<match-slug>/`); FootyStrategy fills the interpretation layer including a headline call with explicit tripwire and the load-bearing structural reads; DataSentinel walks every tag against its CSV and emits PASS/FAIL JSON that a pre-commit hook consumes; Skeptic runs for high-stakes briefs (finals, news-cited) and emits PASS / PASS_WITH_CONCERNS / BLOCK without ever modifying the doc.
 
-**Step 1 — BriefBuilder writes the data skeleton.**
-
-Given the two team names and the round, BriefBuilder assembles the tabular spine of the pre-match brief: H2H ledger from `data/matches/matches_<year>.csv`, season form from per-player CSVs, model predictions from `data/prediction/`, top-5-per-side tracking list. Every cited number is tagged `**[data]**` with the source file named in the methodology paragraph. `<!-- FOOTYSTRATEGY INSERT: ... -->` placeholders are left in every interpretation slot.
-
-**Step 2 — Scientist reviews and adds non-routine analysis.**
-
-Scientist reads BriefBuilder's draft, fixes anything BriefBuilder got mechanically wrong, and adds the analysis BriefBuilder is not allowed to author: per-team form vs league average, era-coverage caveats, model bias notes for the specific teams, and the strategy charts (`docs/coaches-strategy-corner/generate_strategy_charts.py` writes 6 PNGs under `assets/charts/strategy/<match-slug>/`).
-
-**Step 3 — FootyStrategy fills the interpretation layer.**
-
-FootyStrategy reads the data-layer draft and fills the `<!-- FOOTYSTRATEGY INSERT: ... -->` placeholders:
-
-1. Tactical interpretation: structural reads, matchup calls, council tier and tripwires.
-2. The **headline call** (e.g. "Richmond by 11, ~25–30% Richmond win probability") with an explicit tripwire ("If St Kilda lead the inside-50 count at half-time, flip the call.").
-3. The load-bearing structural reads (typically 3) — each one a falsifiable claim that the post-mortem will grade.
-
-**Step 4 — DataSentinel verifies before commit.**
-
-DataSentinel walks every `**[data]**` tag, confirms each number against its cited CSV, flags any untagged numbers, any coach-name violations, and any FanFooty schema violations (§9.1). Output is JSON; a pre-commit hook consumes it. A FAIL blocks the commit until the violations are corrected.
-
-**Step 5 (optional) — Skeptic reviews.**
-
-For higher-stakes briefs (a finals match, a season-defining game, a brief that will be quoted in a news piece), Skeptic runs an adversarial pass: are the tripwires observable in this repo's schema, did FootyStrategy honour the upstream caveat hierarchy, were lens tensions smoothed over. Output is `PASS / PASS_WITH_CONCERNS / BLOCK`. Skeptic never modifies the brief — the author decides what to incorporate.
+The handoff contracts (what each agent receives and what it must not invent) are in [`ai-architecture.md` §10](ai-architecture.md#10-the-six-agent-council--architecture-and-interaction-model). The operator playbook with copy-paste prompts is [`coaching-guide.md` §"Getting all six agents to brainstorm together"](coaching-guide.md#getting-all-six-agents-to-brainstorm-together).
 
 **Commit cadence:** one or two commits per session, message scoped to the brief slug. DataSentinel must pass before commit; Skeptic concerns are addressed at the author's discretion.
 
