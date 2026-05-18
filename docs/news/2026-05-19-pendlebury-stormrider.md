@@ -4,7 +4,7 @@
 
 *Published: 2026-05-19. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
-> **Note on the subtitle.** "StormRider" is an authorial descriptor used as the title of this piece — it is not a recorded nickname. Pendlebury's known nickname inside the game is *Pendles*. The "StormRider" framing is editorial, not biographical.
+> **Note on the subtitle.** "StormRider" is an authorial descriptor used as the title of this piece — it is not a recorded nickname; Pendlebury's known nickname inside the game is *Pendles*. The framing is editorial, but it is not arbitrary: it names the precise way he moves through congestion. He does not break the storm of bodies around a stoppage the way Dustin Martin breaks it — with power, contact, and force of will. He *rides* it: reads where the gap will open, arrives there a half-second early, and emerges on the other side with the ball already on its way to a teammate. The title is a description of a movement pattern, not a marketing flourish — and the opening paragraph of "The footballer" below is where that description is made explicit.
 
 ---
 
@@ -77,7 +77,9 @@ From **2011 through 2017** Pendlebury averaged **≥27 disposals, ≥5 tackles, 
 
 ## The footballer — five lenses
 
-*The five paragraphs below are the FootyStrategy interpretation layer. They read the career through five of the eight coaching lenses: Structuralist, Tempo Architect, Conditioner, Culture Custodian, Talent Developer.*
+*The five paragraphs below are the FootyStrategy interpretation layer. They read the career through five of the eight coaching lenses: Structuralist, Tempo Architect, Conditioner, Culture Custodian, Talent Developer. They are preceded by a brief Match-up Tactician / Structuralist note on the move that earns this piece its title.*
+
+**The StormRider — Match-up Tactician & Structuralist.** Watch an elite midfielder enter a cluster of bodies around a stoppage and you are watching one of two distinct football intelligences solving the same problem. Dustin Martin solved it the way the most physical players of his era solved it: by deciding, in the half-second before contact, that the cluster would have to move around him. The fend, the second effort through the tackle, the late acceleration on the line of the ball — that is football as imposition. The contest yields because the body running through it refuses to. Pendlebury has spent twenty-one seasons solving the same problem in the opposite direction. He does not run at the cluster; he reads where the cluster will not be a half-second from now, drifts the line of his run two metres wide of the bodies, and arrives at the gap before the gap has formed. The footwork through the gap is small, the acceleration on the other side is unhurried, and the disposal goes to a player who was not even an option when the contest began. Martin is the storm — the body the contest has to move for. Pendlebury rides it: same weather, opposite reading. Riding the storm is harder to teach than breaking it, harder to learn without watching it done, and — because it costs the body less than collision does — far harder to sustain into a 21st season. That is the move that earns the name.
 
 **Structuralist.** Football careers are usually built around explosive years — a window where the body, the role, and the system align, and a player produces the highlight reel that defines them. Scott Pendlebury's career is the opposite proposition. It is the career of a player who built a role so structurally sound that the highlight reel became almost beside the point. Through the structural lens, Pendlebury is what a midfield looks like when it has a permanent organising principle. The handball-receive on the burst, the unhurried kick out of congestion, the body shape on the lead-up — these are not flourishes; they are the structure the rest of the midfield was built around for twenty-one consecutive seasons. The role survived the body.
 
