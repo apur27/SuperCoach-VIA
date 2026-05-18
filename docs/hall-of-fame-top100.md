@@ -33,7 +33,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 16 | Gary Ablett | Geelong - Gold Coast | 357 | 445 | 8,896 | 262 | 2.104 |
 | 17 | Ted Whitten | Footscray | 321 | 360 | 1,384 | — | 2.103 |
 | 18 | Matthew Pavlich | Fremantle | 353 | 700 | 6,109 | 126 | 2.098 |
-| 19 | Scott Pendlebury | Collingwood | 429 | 207 | 10,913 | 223 | 2.091 |
+| 19 | Scott Pendlebury | Collingwood | 432 | 207 | 10,955 | 223 | 2.091 |
 | 20 | Simon Madden | Essendon | 378 | 575 | 4,611 | 58 | 2.091 |
 | 21 | Bill Hutchison | Essendon | 290 | 496 | — | — | 2.089 |
 | 22 | Nick Riewoldt | St Kilda | 336 | 718 | 5,613 | 153 | 2.078 |
@@ -213,9 +213,9 @@ Two Brownlow Medals, two premierships at Geelong, and the highest Brownlow vote 
 A six-time All-Australian who played both ends of the ground and the midfield - the most positionally versatile elite key forward of his generation. 700 goals from 353 games and a 6,109 disposal count for a tall is a rare combination. Pavlich captained Fremantle to their only Grand Final and remained the club's career goalkicker, games-leader, and emotional spine. Legacy: the proof that you can be the best player at a club that never quite gets there, and the value is real regardless.
 
 ### #19 Scott Pendlebury — Collingwood
-*428 games · 206 goals · 10,886 disposals · 223 Brownlow votes · Score: 2.091*
+*432 games · 207 goals · 10,955 disposals · 223 Brownlow votes · Score: 2.091*
 
-10,886 career disposals - the highest in VFL/AFL history - across 428 games of midfield craft. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
+**[data]** 10,955 career disposals - the highest in VFL/AFL history - across 432 games of midfield craft. He drew level with Brent Harvey's all-time games record (432) in Round 10, 2026 (v Geelong, 2026-05-09) and missed Collingwood's Round 11 loss to Sydney; he will pass the record the next time he runs out. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
 
 ### #20 Simon Madden — Essendon
 *378 games · 575 goals · 4,611 disposals · 58 Brownlow votes · Score: 2.091*
