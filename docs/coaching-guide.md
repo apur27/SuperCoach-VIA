@@ -290,9 +290,55 @@ If the answer to "would I make a coaching call on the back of this number?" is y
 
 Scientist is the data depth. **FootyStrategy is the football brain.** It is a tactical brainstorming agent that thinks like an AFL head coach or senior analyst - it knows zone defences, tagging conventions, ruck-rotation patterns, the difference between a stoppage forward and a structure forward, and the standard contingency plays a Nicks/Goodwin/Hardwick side will reach for at half-time. Scientist tells you *what* the numbers say. FootyStrategy tells you *what coaches will actually do* about it.
 
-**When to use it.** After a post-match review when a structural pattern needs a tactical interpretation; when planning matchup zones for next week and the data has identified an opponent strength but not the counter-play; when a number raises a tactical question the model alone can't answer ("Adelaide tackled at 161% of season rate - is that structural or noise?").
+**When to use it.** After a post-match review when a structural pattern needs a tactical interpretation; when planning matchup zones for next week and the data has identified an opponent strength but not the counter-play; when a number raises a tactical question the model alone can't answer ("Adelaide tackled at 161% of season rate - is that structural or noise?"); and - increasingly important - **on match day itself**, when a quarter-time or half-time read needs a tactical second opinion in the box.
 
 **How to invoke.** `@"FootyStrategy (agent)"` in a Claude Code session, same as Scientist.
+
+---
+
+### The eight-lens council - how FootyStrategy thinks
+
+FootyStrategy is not a single coach giving you a single answer. It is a **council of eight archetypal coaching lenses** that deliberate in parallel and produce a single integrated recommendation, with disagreements made visible rather than smoothed over. Most questions activate three to five lenses (not all eight) - forcing all eight to speak produces noise. Each lens looks at your question through a different load-bearing principle:
+
+- **The Conditioner** - asks whether you have earned the right to play this way for four quarters. Looks at work rate, repeat-effort capacity, and whether the plan survives round 18.
+- **The Tempo Architect** - asks where you want to accelerate the ball and where you want to slow it down. Looks at handball receivers, play-on speed, and tempo control.
+- **The Structuralist** - asks what shape you are in when you lose the ball. Looks at zones, forward-50 setups, defensive-50 exits, and the half-back rebound chain.
+- **The Match-up Tactician** - asks who covers their best mover and who you can leave. Looks at named threats, tagging targets, and individual contests.
+- **The Talent Developer** - asks whether each player is being asked to do what they are actually good at. Looks at role-fit, role-vs-résumé, and the third-year leap.
+- **The Innovator** - asks where the league is not looking and what convention can be attacked. Looks at structural exploits and the half-life of any tactical novelty.
+- **The Culture Custodian** - asks who you are when you are losing. Looks at non-negotiable standards, contested-ball identity, and what survives turnover.
+- **The List Strategist** - asks where the list sits in its arc and whether you are pricing your trades correctly. Looks at multi-year horizon, re-signings, and draft capital.
+
+The council also surfaces **convergence** (lenses agreeing on the same call - higher confidence) and **tensions** (lenses materially disagreeing - a real strategic choice you have to make, not a bug to smooth over).
+
+---
+
+### Confidence tiers - how to read FootyStrategy's recommendation
+
+Every FootyStrategy output is tagged with a confidence tier. **Do not act on a tier without understanding what it permits.**
+
+| Tier | What it means | What you do with it |
+|---|---|---|
+| **Settled** | Multiple lenses converge AND the upstream data is robust. The call is defensible against a senior coach's scrutiny. | Act with confidence. Build the game plan around it. Still pair with the tripwire. |
+| **Probationary** | Lenses converge but the data is exploratory, partial, or has stated assumption weaknesses. The direction is right, the precision is not. | Act, but state the tripwire to your senior coach and be ready to reverse mid-game. Good for in-game wrinkles, not for list calls. |
+| **Contested** | Lenses disagree materially. There is no single right answer. | Do not let FootyStrategy pick for you. Surface both options with their tripwires in the coaches' meeting. |
+| **Insufficient Evidence** | Neither the data nor lens consensus supports a recommendation. | Do not invent a call. Send the missing inputs back to Scientist, then re-run FootyStrategy. |
+
+---
+
+### Tripwires - the falsifiable observable
+
+**Every Settled or Probationary recommendation comes with a tripwire.** A tripwire is a specific, observable event that, if it occurs on match day, **reverses the call**.
+
+Examples of well-formed tripwires:
+
+- "If Yeo wins the first 3 contested balls of Q1, the tag is not working - switch Marlion Pickett off the tag and onto a free midfield role; zone Yeo instead."
+- "If our forward-50 entries-per-quarter rise above 14 but our mark rate inside 50 stays under 18%, the bottleneck is entry quality, not forward structure."
+- "If West Coast's clearance differential is +5 at quarter-time, our stoppage structure is being beaten - bring the wing in for the extra body at centre bounce."
+
+If FootyStrategy gives you a Settled or Probationary recommendation **without** a tripwire, ask for one. A recommendation without a tripwire is a sermon, not strategy.
+
+---
 
 **Example prompts** (using the Richmond vs Adelaide R9 2026 result):
 
@@ -308,11 +354,280 @@ Scientist is the data depth. **FootyStrategy is the football brain.** It is a ta
 @"FootyStrategy (agent)" build me a blueprint for how to attack Richmond next time we play them, based on what Adelaide did in Q3. I want zone-specific tactics, not just "tackle harder".
 ```
 
-**FootyStrategy's superpower.** It can analyse each team's entire list by both quality tier *and* by what draft pick each player was - giving you a list-construction read alongside the tactical one. Useful for: identifying which opponents have built their best 22 from early-pick high-ceiling talent (higher variance, higher game-to-game range), which have built through the mid-rounds (more volume and depth, less ceiling), and how a side's list composition explains its tactical identity. Adelaide's "system over stars" identity, for example, is partly a function of having no Pick-1-quality talent on the list - the structure has to compensate.
+**Example prompts - live match use:**
 
-**What FootyStrategy doesn't have.** Same data limitations as Scientist - no GPS, no video, no live odds, no positional data, no Champion Data tags. It brings football knowledge and tactical pattern-matching to the table, not additional data sources. If a question requires "where on the ground did Reid win his ball", it can't answer that any better than Scientist can.
+```
+@"FootyStrategy (agent)" quarter-time read - we're -12, Yeo has 9 disposals and 2 clearances, our tagger has 4 touches and zero impact. Do we stick with the tag, switch to a zone, or pull Pickett off and back our system? Give me a Probationary call with a tripwire I can watch in the first 5 minutes of Q2.
+```
 
-**Scientist + FootyStrategy together - the workflow.** Scientist reads the data and surfaces the structural anomalies; you (or Scientist) generate brainstorm questions from those anomalies; FootyStrategy answers from football-coaching knowledge; Scientist writes the combined insight into the match doc with both halves cited. The two agents complement each other - data depth + tactical knowledge - and the joint output is sharper than either alone. See the `## Strategic brainstorm - Scientist x FootyStrategy` section in `docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md` for a worked example covering three decisive moments, five things the brief got right, three structural blind spots, and six tactical themes.
+```
+@"FootyStrategy (agent)" half-time, we're +4 but West Coast has won the last 8 minutes of Q2 and the inside-50 count is 14-22 against. Which lens do I trust here - hold structure or pre-empt their surge with a tempo change?
+```
+
+```
+@"FootyStrategy (agent)" Q3 ten-minute mark, Tom Lynch is being chopped out by a double-team. Move him up the ground to drag a defender out, or hold him in the goalsquare? Two options, two tripwires, I need to call this in the next two minutes.
+```
+
+**FootyStrategy's superpower.** It can analyse each team's entire list by both quality tier *and* by what draft pick each player was - giving you a list-construction read alongside the tactical one. Adelaide's "system over stars" identity, for example, is partly a function of having no Pick-1-quality talent on the list - the structure has to compensate.
+
+**What FootyStrategy doesn't have.** Same data limitations as Scientist - no GPS, no video, no live odds, no positional data, no Champion Data tags. If a question requires "where on the ground did Reid win his ball", it can't answer that any better than Scientist can.
+
+**Scientist + FootyStrategy together - the workflow.** Scientist reads the data and surfaces the structural anomalies; FootyStrategy answers from football-coaching knowledge; Scientist writes the combined insight into the match doc with both halves cited. The joint output is sharper than either alone.
 
 ---
 **Related:** [Using the Scientist agent](scientist-agent.md) · [2026 live season data](afl-season-2026.md)
+---
+
+## Leveraging the BriefBuilder agent
+
+Scientist is the data depth. FootyStrategy is the football brain. **BriefBuilder is the skeleton crew.** It is a structured-assembly agent that auto-populates the data layer of a pre-match brief before any human or agent writes a single interpretive sentence. Given two team names and a round number, it opens the matches CSV, the player performance files, and the round's prediction CSV, then writes a complete tabular skeleton into `docs/coaches-strategy-corner/` — head-to-head ledger, season records for both sides, per-player form tables for the top 5 tracked players on each side, and model context including per-team prediction bias. Everywhere a tactical read would normally sit, it leaves a clearly labelled `<!-- FOOTYSTRATEGY INSERT -->` placeholder. Everywhere a methodology choice has implications, it leaves a `<!-- SCIENTIST REVIEW -->` flag. What it hands back is not a finished brief — it is a verified foundation that means nobody walks into Monday morning staring at a blank page.
+
+**When to use it.** Monday morning, as the first thing you do after the weekend's result is confirmed and next week's opponent is known. Run BriefBuilder before you ask FootyStrategy for a tactical read and before you ask Scientist for a deeper regression. The sequence matters: BriefBuilder surfaces the numbers, FootyStrategy interprets them, Scientist tests the ones that are genuinely uncertain.
+
+**How to invoke.** `@"BriefBuilder (agent)"` in a Claude Code session with team names and round.
+
+**Example prompts:**
+
+```
+@"BriefBuilder (agent)" Richmond vs West Coast, round 12, 2026
+```
+
+```
+@"BriefBuilder (agent)" Hawthorn vs Geelong, round 14, 2026, with H2H and exec-summary sub-docs
+```
+
+```
+@"BriefBuilder (agent)" GWS vs Sydney, round 13, 2026 — once that's done, @"FootyStrategy (agent)" fill in the FOOTYSTRATEGY INSERT placeholders using the rivalry context and Sydney's current defensive structure
+```
+
+**What BriefBuilder produces vs what it leaves for humans.** BriefBuilder writes every number in the brief and nothing else. It opens the source files, reads the rows, and tags each figure `**[data]**` with the source named in the methodology paragraph. What it does not write: a single sentence about what any number means. Every tactical read, every momentum call, every "this matters because" line is left as an explicit placeholder for FootyStrategy to fill or for the coaching staff to supply from their own vision work.
+
+**One honest limitation.** BriefBuilder applies a consistent template to every matchup. If the structural question for this week is something the template does not surface — a ruckman who only matters in wet-weather games, a player returning from a four-week absence whose season average is therefore misleading — BriefBuilder will not flag it as the key issue; it will present the numbers in the standard layout. Noticing what the skeleton is not telling you is your job.
+
+---
+**Related:** [Using the Scientist agent](scientist-agent.md) · [Leveraging the FootyStrategy agent](#leveraging-the-footystrategy-agent) · [2026 live season data](afl-season-2026.md)
+---
+
+## The DataSentinel — keeping the numbers honest
+
+DataSentinel is a pre-commit verification gate. Before any document tagged with player statistics leaves your hands — a pre-match brief, a tactical review, a performance snapshot — DataSentinel walks every `**[data]**` tag and confirms the number against the actual source CSV in the repo. If a disposal average, a win-loss record, a Brownlow count, or a match margin doesn't match the data file, DataSentinel flags it before you print it. The goal is simple: no wrong numbers make it to the senior coach's desk.
+
+**Why this matters.** You've built credibility over months of careful analysis. One wrong disposal average in Tuesday's review meeting — "he averaged 26 touches" when the data says 24 — erodes that credibility instantly. The senior coach starts second-guessing the whole brief. DataSentinel makes that verification automatic, not a manual checklist at 11 p.m. on Monday night.
+
+**When it fires.** DataSentinel runs automatically as a pre-commit hook on any markdown document you're about to push that uses the repo's data-tag vocabulary. You can also invoke it manually on a draft: `@"DataSentinel (agent)"` in a Claude Code session points it at any document and runs the same check without blocking anything — you get the report, fix the draft, commit clean.
+
+**How to invoke manually:**
+
+```
+@"DataSentinel (agent)" verify this draft document: docs/coaches-strategy-corner/richmond-vs-west-coast-brief.md
+```
+
+**Example use cases.**
+
+*Pre-match brief before printing.* You've written a brief with "Elliot Yeo averaged 27.3 disposals this season" tagged `**[data]**`. DataSentinel opens the file, calculates the true 2026 average, and tells you: "Matched - 27.3 disposals confirmed" or "Mismatch - CSV shows 26.8." You fix the number before the brief goes anywhere.
+
+*Player profile before showing the head coach.* You've pulled together a one-page profile with game totals, goals-per-game average, contested-mark percentage, and performance splits. Each stat is tagged. DataSentinel confirms all of them against the source files in one pass. If the contested marks are from a live snapshot that misindexes the column, you catch it before the head coach sees an unreliable number.
+
+**What the output looks like.** DataSentinel emits a structured `PASS` or `FAIL` verdict. A `FAIL` gives you a list of which tags failed, why (CSV doesn't contain that value, source file is missing, stat from an unreliable live snapshot column), and which line of the document each error is on. Fix the number, rerun DataSentinel, commit clean.
+
+The rule is: every number tagged `**[data]**` must be verifiable from a CSV in this repo. If you can't verify it, tag it `**[historical record - unverified in data]**` instead. DataSentinel passes that tag because you've signalled uncertainty. A number that's mismatched? That fails, every time.
+---
+
+## The Skeptic — stress-testing the brief before it goes upstairs
+
+The Skeptic is your adversarial reviewer. Once FootyStrategy has finished drafting a brief — lens reads written, tensions surfaced, recommendation tiered — the Skeptic reads the whole thing cold and asks the questions a sceptical senior coach would ask in the meeting: is this tripwire something you can actually see from the box on match day, or is it a stat we only get on Tuesday? Did the recommendation quietly upgrade from "the data hints at this" to "we should do this"? When two lenses disagreed, did the brief honestly hold the tension, or did it smooth the disagreement into a comfortable consensus? The Skeptic does not write new analysis. It does not propose alternative recommendations. It interrogates what FootyStrategy produced and reports back.
+
+### The three probes
+
+1. **Tripwire observability.** Every Settled or Probationary recommendation must include a tripwire — the observable that would reverse the call. The Skeptic checks each tripwire against the data layers this repo can actually reach. A tripwire that fires on inside-50 differential is fine for a weekly review but useless at three-quarter-time — FanFooty's live snapshot does not carry it. A tripwire that says "if their tempo changes" is observable in theory and unfalsifiable in practice. The Skeptic flags both.
+
+2. **Caveat-hierarchy fidelity.** Downstream confidence must never exceed upstream confidence. If the Scientist's finding was associational ("tagging correlates with lower output"), the recommendation cannot drift into causal framing ("tagging will suppress him"). The Skeptic walks the chain from Scientist finding to FootyStrategy verdict and flags any rung where the caveat got dropped, softened, or rewritten.
+
+3. **Lens-tension smoothing.** If the List Strategist said "don't trade futures for a one-match edge" and the Innovator said "this is the meta window, trade for it," and the Tensions section reads "lenses broadly converged" — that is smoothed disagreement, and the Skeptic calls it out.
+
+### When to use it
+
+After FootyStrategy has drafted the brief and before it goes to the senior coach or gets published. The Skeptic is a gate, not a co-author — it runs once on the completed draft. If you are still iterating on the recommendation itself, the Skeptic is premature.
+
+### How to invoke it
+
+```
+@"Skeptic (agent)" review docs/coaches-strategy-corner/2026-05-18-richmond-vs-stkilda-r11-brief.md
+```
+
+### What the Skeptic outputs
+
+One of three verdicts:
+
+- **PASS** — the three probes produced no material findings. Ship it.
+- **PASS_WITH_CONCERNS** — the brief is not blocked, but specific issues are flagged for the author to consider. The author decides whether to incorporate.
+- **BLOCK** — a clear-cut violation: a tripwire that cannot be observed in time, a tier that exceeds the upstream data confidence, causal language on associational evidence. The brief should not be committed until the blocker is addressed.
+
+Critically, the Skeptic **never silently rewrites the draft**. Every concern comes with a line number, a verbatim quote, the rule being invoked, and a proposed fix. The author — you, with FootyStrategy's help — decides what to incorporate.
+
+### A footy example
+
+> `@"Skeptic (agent)"` review this draft: "Richmond should tag Elliot Yeo — historical data shows tagging suppresses his output by 18%. [Tier: Settled]. Tripwire: reverse the tag if his clearance count climbs in the second quarter."
+
+The Skeptic will probe: (a) clearances are not in the FanFooty live snapshot schema — the tripwire is unobservable in real time, **BLOCK**; (b) "suppresses" is causal, but if the upstream finding was correlational, the language has drifted, **CONCERN**; (c) was the Match-up Tactician the only lens activated? A tag decision affects the whole midfield structure — missing-lens flag.
+
+### Why an adversarial agent matters in a coaching environment
+
+Match preparation rooms are high-trust, high-tempo, and densely consensual by Friday afternoon. Once a tactical read has been articulated confidently by the head of analysis and nodded along to by two assistants, it is socially expensive to be the person who says "but the tripwire isn't observable." Group-think is the enemy of good match preparation. The Skeptic carries that cost-free. It has no relationship to protect, no meeting to get through, no senior coach to keep onside. It reads the brief the way the opposition's analyst would read it: looking for the gap between what the data supports and what the recommendation claims. Every flag it raises is a flag you would rather see on Friday than explain on Monday.
+---
+
+## Getting all six agents to brainstorm together
+
+Calling one agent gets you one perspective. Running all six in sequence gets you a brief that survives contact with Saturday afternoon. This section is the operating manual for chaining them — when to use which pipeline, what to type into Claude Code, and how to keep the brainstorm honest.
+
+### The conductor rule (read this first)
+
+The agents do not talk to each other. There is no shared memory between them, no orchestration layer that auto-forwards Scientist's findings to FootyStrategy. **You are the conductor.** Each agent only sees what you paste into its prompt. The quality of the brainstorm is the quality of the hand-offs — you read the previous agent's output, extract the load-bearing claims, and paste them as context into the next agent's prompt. If you skip this, FootyStrategy will hallucinate stats that Scientist never produced, and DataSentinel will have nothing to verify against.
+
+### Mode 1 — Standard brainstorm pipeline (Mon–Thu pre-match)
+
+**BriefBuilder → Scientist → FootyStrategy → DataSentinel → Skeptic**
+
+Worked example: **Richmond vs West Coast, Round 12, 2026.**
+
+**Step 1 — BriefBuilder**
+```
+@"BriefBuilder (agent)" Richmond vs West Coast, Round 12 2026.
+Build the pre-match brief: H2H last 10 meetings, current ladder position, last 5 form for both, top-3 disposal-getters per side, predicted line-up changes, and the projected disposal/goal lines from the latest prediction file.
+```
+
+**Step 2 — Scientist**
+```
+@"Scientist (agent)" Using the BriefBuilder output below, test whether West Coast's last-quarter fade is real or sample noise. Pull their Q4 score-conceded vs Q1-Q3 over the last 12 games, run a paired-difference test, report effect size + CI, and tell me whether the gap survives a sensitivity check on the two biggest blow-outs.
+
+[paste BriefBuilder output here]
+```
+
+**Step 3 — FootyStrategy**
+```
+@"FootyStrategy (agent)" Using the Scientist's findings + the BriefBuilder brief, run the eight-lens council on the question: "Should Richmond press high in Q4 against West Coast, or sit back and let them come?" Give me tiered recommendations and the tripwires that would force a switch.
+
+[paste BriefBuilder + Scientist outputs here]
+```
+
+**Step 4 — DataSentinel**
+```
+@"DataSentinel (agent)" Verify every [data] tag and every specific number in the brief below — player game totals, H2H record, last-quarter differentials, predicted disposal lines.
+
+[paste the full assembled brief here]
+```
+
+**Step 5 — Skeptic**
+```
+@"Skeptic (agent)" Review the full brief below. Three things: (1) are FootyStrategy's tripwires actually observable from the broadcast in real time? (2) did confidence drift upward between Scientist's hedged finding and FootyStrategy's recommendation? (3) what's the single weakest link in the causal chain?
+
+[paste the full assembled, DataSentinel-verified brief here]
+```
+
+If Skeptic raises a substantive concern, loop back to the relevant agent — do not paper over it.
+
+### Mode 2 — Rapid brainstorm (in-game, ~15 minutes)
+
+When the match is live and you have one quarter to make a call, skip BriefBuilder and compress to two agents:
+
+**Scientist → FootyStrategy**
+
+```
+@"Scientist (agent)" Quick: West Coast are +18 at half-time but their last-quarter concession-rate over the last 12 games is worse than their season average. Is the gap big enough to bet on, or noise? One number, one CI, one sentence.
+```
+
+```
+@"FootyStrategy (agent)" Half-time, West Coast +18, Scientist says their Q4 fade is real at [effect size from above]. Do we hold structure or chase now? One tiered recommendation, one tripwire for switching.
+```
+
+No DataSentinel, no Skeptic — accept the higher residual risk. That is the price of speed.
+
+### Mode 3 — Devil's-advocate brainstorm (stress-test a call you've already made)
+
+You think you should tag Yeo. Before you commit, force the system to argue the other side.
+
+**Scientist (evidence against) → FootyStrategy (best case against) → Skeptic (audit the pro-tag case)**
+
+```
+@"Scientist (agent)" I'm planning to put a hard tag on Elliot Yeo. Find evidence AGAINST this call: games where Yeo had a quiet day without a tagger and West Coast still won; correlation between Yeo's disposals and West Coast's score. Be adversarial — your job is to talk me out of it.
+```
+
+```
+@"FootyStrategy (agent)" Using the Scientist's counter-evidence, build the strongest possible tactical case for NOT tagging Yeo. What does the eight-lens council look like when the prior is "don't tag"? Tripwires that would prove the no-tag call wrong in-game.
+```
+
+```
+@"Skeptic (agent)" Here is my original pro-tagging brief [paste]. Here is the best case against [paste FootyStrategy output]. Review the pro-tagging brief for: caveat drift, tripwire observability, and any places I treated correlation as causation. Does the pro-tag case survive?
+```
+
+If the pro-tag brief survives Skeptic after being attacked, your conviction is earned. If it does not, you have just avoided a bad call.
+
+### Brainstorm modes at a glance
+
+| Mode | Agents used | Time required | Use case |
+|---|---|---|---|
+| **Standard** | BriefBuilder → Scientist → FootyStrategy → DataSentinel → Skeptic | 60–90 min | Pre-match preparation with runway; decision-grade brief |
+| **Rapid** | Scientist → FootyStrategy | ~15 min | Live tactical call between quarters |
+| **Devil's-advocate** | Scientist → FootyStrategy → Skeptic | 30–45 min | Stress-testing a call you've already drafted |
+| **Code-level deep-dive** | BriefBuilder → Scientist → Codex → FootyStrategy | 90+ min | When the question touches model internals (why does the predictor rate Curnow so highly this week?) |
+| **Full council (all six)** | BriefBuilder → Scientist → FootyStrategy → Codex → DataSentinel → Skeptic | 2+ hrs | High-stakes, finals-level briefs; canonical numbers cited downstream |
+
+### Copy-paste starter block — full six-agent session
+
+```
+# === BLOCK 1: BriefBuilder ===
+@"BriefBuilder (agent)" Richmond vs West Coast, Round 12 2026.
+Assemble the pre-match brief: H2H last 10, ladder, last-5 form,
+top-3 disposal-getters per side, predicted line-up changes,
+disposal + goal projections from latest prediction file.
+
+# [wait for output, then:]
+
+# === BLOCK 2: Scientist ===
+@"Scientist (agent)" Using the BriefBuilder brief below, test:
+(a) is West Coast's last-quarter fade real or noise?
+(b) is the disposal-line prediction for Yeo well-calibrated historically?
+Report effect sizes, CIs, and a sensitivity check.
+
+[paste BriefBuilder output]
+
+# [wait, then:]
+
+# === BLOCK 3: FootyStrategy ===
+@"FootyStrategy (agent)" Using the Scientist's findings + the BriefBuilder brief,
+run the eight-lens council on Richmond's match-up plan.
+Tiered recommendations + tripwires.
+
+[paste BriefBuilder + Scientist outputs]
+
+# [wait, then:]
+
+# === BLOCK 4: Codex ===
+@"Codex (agent)" Outside-the-frame: look at the brief below and tell me what
+we're NOT considering. The predictor rates Yeo at 28 disposals — pull the
+relevant feature contributions and tell me whether the prediction is driven
+by form, opponent, or venue.
+
+[paste full assembled brief]
+
+# [wait, then:]
+
+# === BLOCK 5: DataSentinel ===
+@"DataSentinel (agent)" Verify every [data] tag and every specific number
+in the brief below against data/player_data/, data/matches/, data/prediction/.
+Flag anything that cannot be confirmed.
+
+[paste full assembled brief, including Codex notes]
+
+# [wait, then:]
+
+# === BLOCK 6: Skeptic ===
+@"Skeptic (agent)" Adversarial review of the final, verified brief below.
+Check: tripwire observability, caveat drift between Scientist's hedged findings
+and FootyStrategy's recommendations, weakest link in the causal chain,
+and any place Codex's outside-the-frame point was waved away rather than addressed.
+
+[paste full verified brief]
+```
+
+The output of Block 6 is the brief you take into the match. If Skeptic flags a structural issue, the brief is not done — loop back to the responsible agent, fix the issue, and re-run DataSentinel + Skeptic on the patched version. The point of the pipeline is not to generate a brief; it is to generate a brief you trust on Saturday at 2:10pm.
