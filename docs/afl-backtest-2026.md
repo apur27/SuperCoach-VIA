@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-05-12 · 10 rounds backtested · auto-generated*
+*Last updated: 2026-05-18 · 11 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -44,8 +44,9 @@ This is the honest test. The model never gets to see the round it's predicting.
 | 8 | 411 | 4.14 | 5.27 | 73.2% | 95.4% |
 | 9 | 410 | 3.79 | 4.74 | 74.9% | 98.3% |
 | 10 | 412 | 4.31 | 5.50 | 68.2% | 94.9% |
+| 11 | 373 | 3.83 | 5.01 | 77.2% | 95.2% |
 
-**Overall (mean across 10 rounds):** MAE 4.12 disposals · 71.8% of predictions within 5 disposals · 95.7% within 10.
+**Overall (mean across 11 rounds):** MAE 4.09 disposals · 72.3% of predictions within 5 disposals · 95.6% within 10.
 
 > **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
 
@@ -97,13 +98,13 @@ The per-round table above reports the mean across each round individually. The *
 
 | Metric | Value | What it means |
 |---|---|---|
-| Rounds backtested | 10 (R1–R10) | Walk-forward — each round predicted using only data from rounds before it |
-| Player predictions scored | **3,701** | Total prediction-vs-actual pairs across the 10 rounds |
-| **MAE (overall)** | **4.086 disposals** | Average absolute miss across every player-round |
+| Rounds backtested | 11 (R1–R11) | Walk-forward — each round predicted using only data from rounds before it |
+| Player predictions scored | **4,074** | Total prediction-vs-actual pairs across the 11 rounds |
+| **MAE (overall)** | **4.063 disposals** | Average absolute miss across every player-round |
 | **RMSE (overall)** | **5.195 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
-| **Bias (overall)** | **−0.090 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
-| Cumulative MAE (mean of round MAE) | 4.116 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
-| Median round MAE | 4.089 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
+| **Bias (overall)** | **−0.069 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
+| Cumulative MAE (mean of round MAE) | 4.09 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
+| Median round MAE | 4.07 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
 
 **Read:** the model is essentially unbiased at the population level (mean signed error ≈ 0), with a typical absolute miss of ~4 disposals. RMSE only 1.1 above MAE indicates the error distribution is reasonably tight — there is no fat tail of catastrophic mispredictions.
 
@@ -150,6 +151,7 @@ The five biggest **under-predictions** and the five biggest **over-predictions**
 | 8 | Scott Pendlebury (20→43, −23); Lachie Neale (25→42, −17); Hugo Garcia (17→32, −15); Finn Maginness (9→24, −15); Archie Roberts (28→42, −14) | Mark Blicavs (17→1, +16); Taylor Walker (13→2, +11); Patrick Dangerfield (14→4, +10); Matthew Kennedy (24→15, +9); Bruce Reville (16→7, +9) |
 | 9 | Peter Wright (12→26, −14); Tristan Xerri (17→30, −13); John Noble (23→35, −12); Darcy Wilmot (21→32, −11); Sam Berry (18→29, −11) | Marc Pittonet (15→4, +11); Patrick Retschko (19→9, +10); Jack Scrimshaw (19→9, +10); Cody Curtin (17→7, +10); Harry Sheezel (29→20, +9) |
 | 10 | Archie Roberts (19→42, −23); Wayne Milera (16→34, −18); Jordan Goey (15→30, −15); Luke Davies-Uniacke (20→34, −14); Izak Rankine (19→33, −14) | Callum Wilkie (24→5, +19); Matt Roberts (20→6, +14); Tom Brown (15→1, +14); Harris Andrews (17→5, +12); Oliver Hannaford (17→5, +12) |
+| 11 | Brodie Grundy (17→34, −17); Harley Reid (18→34, −16); Shaun Mannagh (14→30, −16); Nick Blakey (24→39, −15); Jack Macrae (16→31, −15) | Lachie Weller (18→3, +15); Tom McCarthy (27→13, +14); Bailey Williams (21→7, +14); Matthew Kennedy (24→11, +13); Milan Murdock (24→12, +12) |
 
 **Recurring names worth noting:** Archie Roberts under-predicted four times (R5, R6, R8, R10) — his 2026 role is genuinely different from his pre-2026 baseline, which the player-history features have not fully absorbed. Wayne Milera under-predicted twice (R2, R10). Matt Rowell appears in consecutive rounds (R6, R7). These names line up with the bolded watchlist in the top-30 table above.
 
@@ -210,7 +212,7 @@ The alternative — reporting only when the model wins — is what every betting
 
 ---
 
-**Reproducibility:** the run powering this page is `data/prediction/backtest/backtest_run_20260511_191837.log` with companion CSVs `backtest_summary_20260511_191837.csv` (per-round metrics), `backtest_by_team_20260511_191837.csv` (team-level breakdown), and per-round `prediction_vs_actual_round_<N>_2026_20260511_191837.csv` files. Re-run `backtest.py` to regenerate; the per-round table at the top of this page is overwritten by `update_team_analysis.py` between the `<!-- 2026-BACKTEST-START -->` markers on every data refresh.
+**Reproducibility:** R1–R10 from run `data/prediction/backtest/backtest_run_20260511_191837.log`; R11 from `backtest_run_20260518_144551.log` with companion CSVs `backtest_summary_20260518_144551.csv` (per-round metrics), `backtest_by_team_20260518_144551.csv` (team-level breakdown), and `prediction_vs_actual_round_11_2026_20260518_144551.csv`. Re-run `backtest.py --start-year 2026 --start-round N --end-year 2026 --end-round N` for a specific round; the per-round table at the top of this page is overwritten by `update_team_analysis.py` between the `<!-- 2026-BACKTEST-START -->` markers on every data refresh.
 
 ---
 **Related:** [Team analysis](afl-team-analysis-2026.md) · [Finals pathway](afl-finals-2026.md) · [Brownlow predictor](afl-brownlow-2026.md) · [Stat leaders](afl-stat-leaders-2026.md) · [Predictions](afl-predictions-2026.md)
