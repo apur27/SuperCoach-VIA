@@ -181,6 +181,51 @@ def parse_meta(line: str) -> dict:
 _TIME_RE = re.compile(r"\((Q[1-4])\s+([0-9]+:[0-9]{2})\)")
 _TAG_RE = re.compile(r"<[^>]+>")
 
+# Maximum length for sanitized free-text fields. Commentary events are short
+# play-by-play strings; 200 chars is more than enough headroom.
+_SANITIZE_MAX_LEN = 200
+
+# Patterns that look like prompt-injection or markdown-directive markers.
+# Stripped from any FanFooty free-text field before it is written to the
+# snapshot JSON.
+_INJECTION_PATTERNS = [
+    re.compile(r"<", re.IGNORECASE),
+    re.compile(r">", re.IGNORECASE),
+    re.compile(r"\[SYSTEM", re.IGNORECASE),
+    re.compile(r"\[INST", re.IGNORECASE),
+    re.compile(r"<!--\s*", re.IGNORECASE),
+]
+
+# Whitelist for safe characters: printable ASCII plus a handful of basic
+# punctuation. Anything else is dropped.
+_ASCII_SAFE_RE = re.compile(r"[^A-Za-z0-9 \t\n\.,;:!\?'\"\(\)\-_/]")
+
+
+def sanitize_free_text(text: str) -> str:
+    """Sanitize an untrusted free-text field from the FanFooty feed.
+
+    FanFooty free-text fields (commentary[].text, chat[].text) are untrusted
+    external input. Sanitized to prevent prompt injection if these fields are
+    ever read by an agent. The pipeline does not currently feed these fields
+    to an LLM, but BriefBuilder and Skeptic (see ARCHITECTURE.md §2.4) could
+    plausibly read them in future, so sanitization is applied at ingest time.
+
+    Steps:
+      1. Strip prompt-injection markers (`<`, `>`, `[SYSTEM`, `[INST`, `<!-- `).
+      2. Keep only safe ASCII + basic punctuation.
+      3. Truncate to 200 chars (commentary events do not need more).
+    """
+    if not text:
+        return ""
+    s = text
+    for pat in _INJECTION_PATTERNS:
+        s = pat.sub("", s)
+    s = _ASCII_SAFE_RE.sub("", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    if len(s) > _SANITIZE_MAX_LEN:
+        s = s[:_SANITIZE_MAX_LEN].rstrip() + "..."
+    return s
+
 
 def parse_commentary(line: str) -> list[dict]:
     """Line 3 holds the m0nty commentary stream. Returns a list of
@@ -202,16 +247,27 @@ def parse_commentary(line: str) -> list[dict]:
             quarter, t = m.group(1), m.group(2)
             event_text = _TIME_RE.sub("", text).strip()
             event_text = re.sub(r"^m0nty:\s*", "", event_text)
-            events.append({"quarter": quarter, "time": t, "text": event_text})
+            # FanFooty free-text is untrusted external input; sanitize before
+            # storing in the snapshot JSON to prevent prompt injection if an
+            # agent ever reads these fields.
+            event_text = sanitize_free_text(event_text)
+            if event_text:
+                events.append({"quarter": quarter, "time": t, "text": event_text})
         else:
             cleaned = re.sub(r"^m0nty:\s*", "", text)
+            cleaned = sanitize_free_text(cleaned)
             if cleaned:
                 events.append({"quarter": None, "time": None, "text": cleaned})
     return events
 
 
 def parse_chat(line: str) -> list[dict]:
-    """Line 4 holds the coach chat stream. Returns {user, text} entries."""
+    """Line 4 holds the coach chat stream. Returns {user, text} entries.
+
+    Chat entries are user-generated text from arbitrary FanFooty visitors and
+    are the highest-risk free-text field in the feed. Both the username and
+    the body are sanitized via sanitize_free_text() before storage.
+    """
     if not line:
         return []
     chunks = re.split(r"<br\s*/?>", line)
@@ -221,8 +277,13 @@ def parse_chat(line: str) -> list[dict]:
         m = re.search(r"<em[^>]*>([^<]*?)</em>:\s*(.*)$", chunk)
         if not m:
             continue
-        user = unescape(_TAG_RE.sub("", m.group(1))).strip()
-        text = unescape(_TAG_RE.sub("", m.group(2))).replace("&#044;", ",").strip()
+        user_raw = unescape(_TAG_RE.sub("", m.group(1))).strip()
+        text_raw = unescape(_TAG_RE.sub("", m.group(2))).replace("&#044;", ",").strip()
+        # FanFooty chat is untrusted user input; sanitize before storing in
+        # the snapshot JSON to prevent prompt injection if an agent ever
+        # reads these fields.
+        user = sanitize_free_text(user_raw)
+        text = sanitize_free_text(text_raw)
         if user and text:
             out.append({"user": user, "text": text})
     return out

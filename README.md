@@ -27,7 +27,7 @@ The current model misses a player's next-round disposal count by about **[data]*
 
 ## AFL News & Analysis
 
-Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by two agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), and **FootyStrategy** turns them into coach-grade tactical reads. No hot takes, no recycled commentary.
+Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 **Latest:** [Who should be the next Carlton coach?](docs/news/2026-05-15-carlton-next-coach.md) - a data-driven look at the coaching succession, the structural fix the Blues actually need, and the shortlist that survives the numbers. *(15 May 2026)*
 
@@ -55,6 +55,9 @@ An AI that does the honest statistical work. It reads the actual data, writes an
 ### The FootyStrategy agent
 An AI that thinks like a coaching panel. Where the Scientist tells you what the numbers say, FootyStrategy tells you what to *do* about it in football terms - and tags every recommendation with how confident it actually is. Picture a panel of eight assistant coaches, each obsessed with one thing - fitness, structure, match-ups, list management, and so on - all reviewing the same question at once. They hand back a single recommendation, but they're upfront about how sure they are and where they disagreed. And every call comes with a "tripwire": the specific thing you'd see on the ground that means the plan is wrong and you change it.
 
+### The extended council - DataSentinel, BriefBuilder, Skeptic
+Three more agents wrap a production loop around Scientist and FootyStrategy. **DataSentinel** is the fact-checker who sits at the door of every commit - it walks every stat in a draft and refuses to let it past if the number does not actually match the CSV it was supposed to come from. **BriefBuilder** is the analyst's apprentice who lays out the bones of next week's match brief - season records, head-to-head ledger, model predictions, the players worth tracking - so the senior coaches can start from a populated draft instead of a blank page. **Skeptic** is the devil's advocate the panel keeps in the room - it reads finished briefs and asks the awkward questions ("is that tripwire really observable on the day?", "did you upgrade the call beyond what the data supports?", "did you paper over a real disagreement?") and refuses to silently rewrite anything, leaving the call to the author. Together they make sure the published work is verified, drafted from the right starting point, and stress-tested before it goes out.
+
 ### The Crumb
 A 13-agent AI coaching staff - a senior coach, line coaches, specialists, analysts, a data steward - that you ask one question and it dispatches the right specialists and merges their answers. Named after the crumber: the small forward who reads where the ball will spill before the pack resolves. This is the entire football department drawn as an org chart. At the top sits the Senior Coach, who doesn't crunch numbers personally - they take the big question, hand the right pieces to the right specialists below them, and pull the answers back together into one plan. Thirteen roles in all, from the boss down to the data steward who keeps the filing cabinet clean. Everyone has a lane.
 
@@ -81,6 +84,9 @@ Claude (`claude-sonnet-4-6` / Opus) running a ReAct loop - Reason, Act, Observe,
 
 ### LLM reasoning - FootyStrategy
 An 8-lens tactical council: Conditioner, Tempo Architect, Structuralist, Match-up Tactician, Talent Developer, Innovator, Culture Custodian, List Strategist. Each lens is produced separately, then reconciled. Output is tiered - Settled, Probationary, Contested, Insufficient Evidence - and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier.
+
+### LLM reasoning - extended council (DataSentinel, BriefBuilder, Skeptic)
+Three additional agents wrap a production loop around Scientist + FootyStrategy. **DataSentinel** (Haiku) is a pre-commit verification gate - it walks every `**[data]**` tag in a doc, confirms the cited number against the source CSV, and emits machine-readable JSON (`PASS | FAIL` with per-violation detail) that a pre-commit hook consumes. **BriefBuilder** (Sonnet) is a structured-assembly drafter for the pre-match brief - given two team names and a round it pulls H2H, season form, model predictions, and a top-5-per-side tracking list, writes `**[data]**` tags with source-file annotations, and leaves `<!-- FOOTYSTRATEGY INSERT -->` placeholders for the interpretation layer. **Skeptic** (Opus) is an adversarial critic of FootyStrategy drafts - it probes tripwire observability (is the metric actually computable from the snapshot schema?), caveat-hierarchy honour (did the tier upgrade above what Scientist's data tag supports?), and lens-tension smoothing - then emits `PASS / PASS_WITH_CONCERNS / BLOCK`. Skeptic never silently modifies the doc; the author decides what to incorporate. Recommended ship order: DataSentinel first (closes the runtime-enforcement gap on CLAUDE.md), then BriefBuilder, then Skeptic after a window of manual adversarial review. Full design in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2.4 and §13.
 
 ### The Crumb (Phase 1)
 A 13-agent, 6-tier hierarchy. `claude-opus-4-7` orchestrator (Senior Coach), `claude-sonnet-4-6` specialists (line coaches, analysts), `claude-haiku-4-5` data steward. Invoked through the Claude Code `@"Agent (agent)"` pattern. Phase 1 uses prompt-based scoping and model-driven tool calls.
@@ -268,7 +274,7 @@ Full pre-registered methodology, per-round notable misses, and the weekly accura
 - [AFL Hall of Fame](docs/hall-of-fame.md) - all-time top 100, statistical leaders, captains, coaches, dynasties
 
 ### AI architecture & agents
-- [Repository architecture](docs/ARCHITECTURE.md) - how this repo works end-to-end: two-agent model (Scientist + FootyStrategy), data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
+- [Repository architecture](docs/ARCHITECTURE.md) - how this repo works end-to-end: five-agent council (Scientist + FootyStrategy + DataSentinel + BriefBuilder + Skeptic), data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff, end-to-end build guide
 - [The Crumb - Phase 2 design doc](docs/footy-ai-chatbot-phase2.md) - Planner-Executor, parameterised tools, FootyFinding envelope, HITL routing, eval harness
@@ -282,7 +288,7 @@ Full pre-registered methodology, per-round notable misses, and the weekly accura
 
 ## Further reading
 
-- [Repository architecture (this repo, end-to-end)](docs/ARCHITECTURE.md) - the map: two-agent model, complete data + scripts + docs inventory, match lifecycle, live pipeline deep-dive, prediction model deep-dive, known limitations, how to run things
+- [Repository architecture (this repo, end-to-end)](docs/ARCHITECTURE.md) - the map: five-agent council, complete data + scripts + docs inventory, match lifecycle, live pipeline deep-dive, prediction model deep-dive, known limitations, how to run things
 - [How it works: data science deep-dive](docs/data-science.md) - dataset, model, backtest, ranking algorithm, written in three layers from layperson to ML practitioner
 - [AI system architecture](docs/ai-architecture.md) - the full architecture write-up
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - the 13-agent staff build guide
