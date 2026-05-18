@@ -9,4 +9,6 @@
 - [HOF data verification workflow](hof_methodology.md) - How to verify HOF page stats; recurring GF-result errors (1978/1991/1992) and captaincy attribution errors found in prior versions
 - [Snapshot goals/behinds/clangers unreliable](snapshot_data_quality.md) - FanFooty live snapshot misindexes 3 fields; cross-check afltables for goals/behinds/clangers only
 - [LightGBM CPU vs CUDA in prediction.py](prediction_lgbm_cpu.md) - prediction.py auto-probes for GPU LightGBM at module load; this env falls back to CPU (full backtest ~5-6h)
+- [⚠️ CRITICAL: Backtest must be incremental](feedback_backtest_incremental.md) - ALWAYS check docs/afl-backtest-2026.md first; only run missing rounds — re-running from scratch wasted hours TWICE
 - [Live pipeline misfires past end-of-game](live_pipeline_glitch.md) - FanFooty polling stamps end-of-game scores into earlier-quarter docs; prune by scope + score-magnitude sanity
+- [Brownlow ineligibility registry](brownlow_ineligibility_registry.md) - Suspended-player flag lives in `BROWNLOW_INELIGIBLE_2026` in update_team_analysis.py; doc is auto-regen between markers
