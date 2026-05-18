@@ -236,6 +236,7 @@ Full pre-registered methodology, per-round notable misses, and the weekly accura
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
 | **Read the AFL news desk - data-grounded long-form on current stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
 | **Understand the AI system architecture** | [docs/ai-architecture.md](docs/ai-architecture.md) | None - browser only |
+| **See how this repo works end-to-end (agents, data, scripts, lifecycle)** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | None - browser only |
 | **Read the Crumb Phase 2 design doc** | [docs/footy-ai-chatbot-phase2.md](docs/footy-ai-chatbot-phase2.md) | None - browser only |
 
 ---
@@ -267,6 +268,7 @@ Full pre-registered methodology, per-round notable misses, and the weekly accura
 - [AFL Hall of Fame](docs/hall-of-fame.md) - all-time top 100, statistical leaders, captains, coaches, dynasties
 
 ### AI architecture & agents
+- [Repository architecture](docs/ARCHITECTURE.md) - how this repo works end-to-end: two-agent model (Scientist + FootyStrategy), data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff, end-to-end build guide
 - [The Crumb - Phase 2 design doc](docs/footy-ai-chatbot-phase2.md) - Planner-Executor, parameterised tools, FootyFinding envelope, HITL routing, eval harness
@@ -280,6 +282,7 @@ Full pre-registered methodology, per-round notable misses, and the weekly accura
 
 ## Further reading
 
+- [Repository architecture (this repo, end-to-end)](docs/ARCHITECTURE.md) - the map: two-agent model, complete data + scripts + docs inventory, match lifecycle, live pipeline deep-dive, prediction model deep-dive, known limitations, how to run things
 - [How it works: data science deep-dive](docs/data-science.md) - dataset, model, backtest, ranking algorithm, written in three layers from layperson to ML practitioner
 - [AI system architecture](docs/ai-architecture.md) - the full architecture write-up
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - the 13-agent staff build guide
