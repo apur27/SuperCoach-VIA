@@ -160,7 +160,7 @@ Titus held the VFL games record for decades and finished a peg short of 1,000 go
 ### #8 Brent Harvey — North Melbourne
 *432 games · 518 goals · 9,213 disposals · 191 Brownlow votes · Score: 2.271*
 
-The all-time games-record holder at 432, Harvey took the small-forward / half-forward / midfield rover role and stretched it across two decades of changing structures. He kicked 518 goals, gathered 9,213 disposals, and polled 191 Brownlow votes - the rare combination of longevity AND consistent peer respect. The score rewards a player who never had a single category they dominated but never had one they were weak in either. Legacy: the proof that adaptability beats specialisation when measured over a career.
+Joint all-time games-record holder at 432 - Harvey set the mark on retirement in 2016 and is now tied by Scott Pendlebury (still active for Collingwood), who drew level in Round 10, 2026 **[data]**. Harvey took the small-forward / half-forward / midfield rover role and stretched it across two decades of changing structures. He kicked 518 goals, gathered 9,213 disposals, and polled 191 Brownlow votes - the rare combination of longevity AND consistent peer respect. The score rewards a player who never had a single category they dominated but never had one they were weak in either. Legacy: the proof that adaptability beats specialisation when measured over a career.
 
 ### #9 Tony Lockett — St Kilda-Sydney
 *281 games · 1,360 goals · 2,867 disposals · 128 Brownlow votes · Score: 2.207*
