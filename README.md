@@ -223,6 +223,7 @@ Full per-round table (all 11 rounds), team-level breakdown for every club, bigge
 ### AI architecture & agents
 - [Repository architecture](docs/ARCHITECTURE.md) - how this repo works end-to-end: six-agent council (Scientist + FootyStrategy + DataSentinel + BriefBuilder + Skeptic + Codex), data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
+  - [Australia's AI Ethics Principles — how this project maps to the 8 principles](docs/ai-architecture.md#australias-ai-ethics-principles--how-this-project-maps)
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff, end-to-end build guide
 - [The Crumb - Phase 2 design doc](docs/footy-ai-chatbot-phase2.md) - Planner-Executor, parameterised tools, FootyFinding envelope, HITL routing, eval harness
 - [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, multi-agent orchestration
