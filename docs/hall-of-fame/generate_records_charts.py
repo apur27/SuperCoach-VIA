@@ -181,7 +181,16 @@ def chart_wall_of_records(data: dict) -> Path:
         if not leaders:
             continue
         top = leaders[0]
-        rows.append((label, top["name"], top["total"], top["year_min"]))
+        # if multiple players share the top mark (e.g. Harvey & Pendlebury
+        # tied on 432 games), surface every co-holder rather than silently
+        # showing only the first.
+        top_total = top["total"]
+        co_holders = [r for r in leaders if r["total"] == top_total]
+        if len(co_holders) > 1:
+            holder_str = " = ".join(r["name"] for r in co_holders)
+        else:
+            holder_str = top["name"]
+        rows.append((label, holder_str, top_total, top["year_min"]))
 
     n = len(rows)
     fig, ax = plt.subplots(figsize=(14, 0.65 * n + 2.4))

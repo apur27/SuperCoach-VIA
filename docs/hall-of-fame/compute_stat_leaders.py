@@ -77,10 +77,24 @@ def load_career(path: str):
         return None
     year_min, year_max = int(years.min()), int(years.max())
 
-    # games played: prefer counting non-null disposals/games rows; rows with
-    # all stats missing are still listed appearances. Use a row count of rows
-    # where team is non-null (every actual game record has a team).
+    # games played: the per-row `games_played` column carries the running
+    # AFL games tally (e.g. "432" or "432↑" for the season-debut bump). Use
+    # its max as the authoritative count - row count alone undercounts
+    # because drawn Grand Finals are collapsed into a single row and a
+    # handful of finals appearances are not separately rowed in the
+    # FanFooty-derived per-player files. Fall back to row count if the
+    # column is missing or unparseable.
     games = int(df["team"].notna().sum())
+    if "games_played" in df.columns:
+        gp_clean = (
+            df["games_played"]
+            .astype(str)
+            .str.replace("↑", "", regex=False)
+            .str.replace("↓", "", regex=False)
+        )
+        gp_num = pd.to_numeric(gp_clean, errors="coerce")
+        if gp_num.notna().any():
+            games = int(gp_num.max())
 
     teams = (
         df.dropna(subset=["team"])  # type: ignore[arg-type]
@@ -181,11 +195,25 @@ def main() -> None:
         # players with all-zero stat lines for stats not recorded in their era
         sub = df[df[col] > 0].copy()
         sub = sub.sort_values(col, ascending=False).head(20).reset_index(drop=True)
+        # tie-aware ranks: identical totals share the same rank, displayed
+        # with a trailing "=" (e.g. "1=" / "1="). This matters first for
+        # career_games where Harvey and Pendlebury sit equal at 432; it also
+        # future-proofs every other category in case of identical totals.
+        totals_list = [float(v) for v in sub[col].tolist()]
         rec = []
         for r, row in sub.iterrows():
+            tot_val = float(row[col])
+            # min-rank among rows with the same total (1-indexed)
+            base_rank = next(
+                i for i, v in enumerate(totals_list, start=1) if v == tot_val
+            )
+            tie_count = sum(1 for v in totals_list if v == tot_val)
+            rank_label = f"{base_rank}=" if tie_count > 1 else str(base_rank)
             rec.append(
                 {
-                    "rank": int(r) + 1,
+                    "rank": base_rank,
+                    "rank_label": rank_label,
+                    "tied": tie_count > 1,
                     "name": row["name"],
                     "teams": row["teams"],
                     "year_min": int(row["year_min"]),
@@ -237,8 +265,9 @@ def main() -> None:
         for r in payload["leaders"]:
             tot = r["total"]
             tot_str = f"{tot:,.0f}" if tot >= 100 else f"{tot:,.1f}"
+            rank_disp = r.get("rank_label", str(r["rank"]))
             lines.append(
-                f"| {r['rank']} | {r['name']} | {r['teams']} | "
+                f"| {rank_disp} | {r['name']} | {r['teams']} | "
                 f"{r['year_min']}-{r['year_max']} | {r['games']} | "
                 f"{tot_str} | {r['per_game']:.2f} |"
             )

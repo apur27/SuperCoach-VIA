@@ -96,7 +96,7 @@ He played the position at a time when the rules favoured bigger forwards, and wo
 
 ## 14. Brent "Boomer" Harvey - North Melbourne, 1996–2016
 
-**432 games - the all-time record** **[historical record]**, surpassing Tuck. Harvey was a 175cm small forward in a league of 188cm key-position players, and his career stretched from the back end of the Carey-captaincy era through to the Goldstein-Ziebell modern Kangaroos.
+**432 games** **[data]** - the all-time games record, surpassing Tuck on retirement in 2016 and held outright until Scott Pendlebury drew level at 432 in Round 10, 2026 **[data]**. Harvey now shares the record; Pendlebury, still active for Collingwood, is set to pass it the next time he plays. Harvey was a 175cm small forward in a league of 188cm key-position players, and his career stretched from the back end of the Carey-captaincy era through to the Goldstein-Ziebell modern Kangaroos.
 
 His courage was the courage of *small-bodied longevity*. Most small forwards' careers end at 28 because the cumulative body damage catches up. Harvey played until **38** **[historical record]** at the same level. He was small, fast, and exposed to constant heavy contact, and he refused to break.
 

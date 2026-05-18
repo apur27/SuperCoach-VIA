@@ -12,3 +12,6 @@
 - [⚠️ CRITICAL: Backtest must be incremental](feedback_backtest_incremental.md) - ALWAYS check docs/afl-backtest-2026.md first; only run missing rounds — re-running from scratch wasted hours TWICE
 - [Live pipeline misfires past end-of-game](live_pipeline_glitch.md) - FanFooty polling stamps end-of-game scores into earlier-quarter docs; prune by scope + score-magnitude sanity
 - [Brownlow ineligibility registry](brownlow_ineligibility_registry.md) - Suspended-player flag lives in `BROWNLOW_INELIGIBLE_2026` in update_team_analysis.py; doc is auto-regen between markers
+- [refresh_data.py "0 files grew" log is unreliable](refresh_data_grew_counter_bug.md) - Don't trust the summary line; verify with `git status` on data/player_data/
+- [Player CSV date column is unreliable](player_csv_date_format.md) - Performance-file `date` field off by ~1 month from real match date; cross-check via data/matches/ for exact dates. Also: games_played counter > row count (drawn GFs collapsed, some finals rows missing).
+- [HoF games counter must use games_played col, not row count](hof_games_counter_gotcha.md) - compute_stat_leaders.py was patched: rank ties get `rank_label` "1=" and chart_wall_of_records joins tied co-holders.

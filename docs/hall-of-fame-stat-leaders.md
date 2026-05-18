@@ -51,7 +51,7 @@ Every total below is computed by summing each player's per-game records across e
 
 | # | Player | Club(s) | Span | Games | Per game |
 |--:|--------|---------|------|------:|---------:|
-| 1 | Brent Harvey | Kangaroos - North Melbourne | 1996-2016 | 432 | 1.00 |
+| 1= | Brent Harvey | Kangaroos - North Melbourne | 1996-2016 | 432 | 1.00 |
 | 1= | Scott Pendlebury | Collingwood | 2006-2026 | 432 | 1.00 |
 | 3 | Michael Tuck | Hawthorn | 1972-1991 | 426 | 1.00 |
 | 4 | Shaun Burgoyne | Hawthorn - Port Adelaide | 2002-2021 | 407 | 1.00 |
@@ -72,7 +72,7 @@ Every total below is computed by summing each player's per-game records across e
 | 19 | Gary Ablett (jnr) | Geelong - Gold Coast | 2002-2020 | 357 | 1.00 |
 | 20 | Paul Roos | Fitzroy - Sydney | 1982-1998 | 356 | 1.00 |
 
-**[data]** Brent Harvey's 432 is the all-time games record. **Pendlebury drew level at 432 in Round 10, 2026** (Collingwood v Geelong, 2026-05-09 - his 432nd career game), and was held out of Collingwood's Round 11 loss to Sydney on 2026-05-15. The outright record will be his the next time he runs out for the Magpies - the live race that adds quiet drama to every Magpies fixture. Note who is missing from the rest of the list: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
+**[data]** Brent Harvey and Scott Pendlebury are joint all-time leaders at 432 games each. Harvey set the mark on retirement in 2016; **Pendlebury drew level at 432 in Round 10, 2026** (Collingwood v Geelong, 2026-05-09 - his 432nd career game), and was held out of Collingwood's Round 11 loss to Sydney on 2026-05-15. The outright record will be Pendlebury's the next time he runs out for the Magpies - the live race that adds quiet drama to every Magpies fixture. Note who is missing from the rest of the list: no specialist key forwards or ruckmen feature outside Tuck, Madden, Hawkins, and Burgoyne. Survival to 400 games requires the body of a small or medium midfielder, the durability of a flanker, and an absence of major injuries spanning two decades.
 
 ## Career disposals
 
