@@ -1,0 +1,120 @@
+{
+  "document": "docs/news/2026-05-15-carlton-next-coach.md",
+  "checked_at_utc": "2026-05-18T00:00:00Z",
+  "verdict": "FAIL",
+  "summary": {
+    "tags_total": 13,
+    "tags_verified": 9,
+    "tags_failed": 4,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    {
+      "claim": "Carlton scoring average 92.6 points per game in 2024, 79.3 in 2026",
+      "source": "data/matches/matches_2024.csv, data/matches/matches_2026.csv",
+      "line": 19,
+      "status": "VERIFIED",
+      "matched_value": "2024: 92.6 PPG; 2026 (R1-R9): 79.2 PPG"
+    },
+    {
+      "claim": "Points against per game 85.5 (2024) to 101.5 (2026)",
+      "source": "data/matches/matches_2024.csv, data/matches/matches_2026.csv",
+      "line": 19,
+      "status": "VERIFIED",
+      "matched_value": "2024: 85.5 PPG; 2026 (R1-R9): 101.5 PPG"
+    },
+    {
+      "claim": "2002-2007 Carlton records: 3, 4, 10, 4, 3, 4 wins",
+      "source": "data/matches/matches_2002.csv through matches_2007.csv",
+      "line": 21,
+      "status": "VERIFIED",
+      "matched_value": "2002: 3-19; 2003: 4-18; 2004: 10-12; 2005: 4-18; 2006: 3-19; 2007: 4-18"
+    },
+    {
+      "claim": "2018 Carlton record 2-20 under Brendon Bolton",
+      "source": "data/matches/matches_2018.csv",
+      "line": 21,
+      "status": "VERIFIED",
+      "matched_value": "2018: 2-20 (22 games)"
+    },
+    {
+      "claim": "Sam Walsh 28.22 disposals, 12.89 kicks, 5.33 tackles per game in 2026",
+      "source": "data/player_data/walsh_sam_02072000_performance_details.csv",
+      "line": 31,
+      "status": "VERIFIED",
+      "matched_value": "9 games: 28.22 avg disp, 12.89 avg kicks, 5.33 avg tackles"
+    },
+    {
+      "claim": "Patrick Cripps 24.89 disposals, 7.00 clearances, 14.67 contested possessions per game in 2026",
+      "source": "data/player_data/cripps_patrick_18031995_performance_details.csv",
+      "line": 33,
+      "status": "VERIFIED",
+      "matched_value": "9 games: 24.89 avg disp, 7.00 avg clear, 14.67 avg CP"
+    },
+    {
+      "claim": "Jagga Smith 22.78 disposals/game, age 20 in 2026",
+      "source": "data/player_data/smith_jagga_28012006_performance_details.csv",
+      "line": 35,
+      "status": "VERIFIED",
+      "matched_value": "9 games: 22.78 avg disposals; DOB 28-01-2006 = age 20 in 2026"
+    },
+    {
+      "claim": "Mitch McGovern 19 goals from 9 games, 10.56 disposals per game",
+      "source": "data/player_data/mcgovern_mitch_11101994_performance_details.csv",
+      "line": 39,
+      "status": "VERIFIED",
+      "matched_value": "9 games: 19 total goals, 10.56 avg disposals"
+    },
+    {
+      "claim": "Tom De Koning moved to St Kilda ahead of 2026",
+      "source": "data/player_data/koning_tom_16071999_performance_details.csv",
+      "line": 51,
+      "status": "VERIFIED",
+      "matched_value": "2025: Carlton; 2026: St Kilda (debut 2026-05-17 vs Collingwood)"
+    }
+  ],
+  "failed_tags": [
+    {
+      "claim": "Voss record: 50W-52L-1D across 103 games, 48.5% win rate, aggregate margin +291 points",
+      "declared_source": "data/matches/matches_2020.csv through matches_2026.csv (inferred from methodology)",
+      "line": 23,
+      "status": "FAILED",
+      "reason": "Data shows 49W-45L-1D across 95 games (2022-2025). If 2022-2025 Voss tenure is correct (36.4% 2021 → 54.5% 2022 jump), the counts do not match the claimed totals. Aggregate margin is +469, not +291. Document states 50W-52L but data yields 49W-45L."
+    },
+    {
+      "claim": "Sam Walsh R11 prediction model ranks him 10th in the league at 27 predicted disposals",
+      "declared_source": "data/prediction/next_round_11_prediction_20260511_1942.csv",
+      "line": 31,
+      "status": "FAILED",
+      "reason": "Walsh Sam is ranked 14th (1-indexed), not 10th. File shows 27 predicted disposals is correct."
+    },
+    {
+      "claim": "Jagga Smith is the third-most prolific ball-winner on the list and R11 model ranks him #24 in league",
+      "declared_source": "data/prediction/next_round_11_prediction_20260511_1942.csv",
+      "line": 35,
+      "status": "FAILED",
+      "reason": "Smith Jagga is ranked 31st (1-indexed) in R11 predictions, not 24th. The 24 predicted disposals is correct."
+    },
+    {
+      "claim": "Florent Oliver at #50 in top 50 predicted ball-winners for Round 11",
+      "declared_source": "data/prediction/next_round_11_prediction_20260511_1942.csv",
+      "line": 37,
+      "status": "FAILED",
+      "reason": "Florent Oliver is ranked 43rd (1-indexed), not 50th. Margin is 7 positions, exceeds typical rounding tolerance."
+    }
+  ],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": [],
+  "diagnostic_notes": {
+    "voss_tenure_analysis": "The document references Voss's 'first season' as producing an 18-point jump from 36.4% to 54.5%. Data confirms 2021 (8-22, 36.4%) under prior coach → 2022 (12-10, 54.5%) under Voss. If Voss tenure spans 2022-2025 as methodology implies, cumulative record is 49W-45L-1D (95 games, 51.6% win rate, +469 margin). The claimed 50W-52L-1D (48.5% rate, +291 margin) does not match this span. Possible explanations: (a) tenure includes partial pre-2022 or post-2025 games; (b) terminology error in document. No match found in available data.",
+    "rank_inconsistencies": "Three rank claims fail. Possible causes: (a) document and CSV use different ranking methods (e.g., ties broken differently); (b) CSV data is newer than document's source (predicted R11 CSV is 2026-05-11_1942, document published 2026-05-15); (c) document author hand-checked a different model run. File is correct per CSV; ranks are off by 4, 7, and 7 positions respectively.",
+    "2023_2024_records": "Verified as 15-10-1 (26 games) and 13-11 (24 games) respectively. These match document claim of 'finals in 2023 (preliminary final) and 2024' and game counts.",
+    "mcgovern_goals_note": "Document notes McGovern 19 goals from 9 games. Also states '2.11 average when counted on 9 listed appearances; 2.38 if averaged only across games where he kicked.' Data confirms 19 total goals / 9 games = 2.11; 19 / 8 games-with-goals ≈ 2.38. Both formulations in document are accurate.",
+    "mckay_goals": "Harry McKay: 11 goals from 8 games in 2026 (verified). Document claim is '1.38 per game' which is 11/8 = 1.375 ≈ 1.38 when rounded."
+  }
+}
