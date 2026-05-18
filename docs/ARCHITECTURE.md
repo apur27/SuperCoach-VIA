@@ -2,7 +2,9 @@
 
 > [← Back to main README](../README.md)
 >
-> **Status:** Reference document. Describes how the repository is organised, who (which agent) is responsible for which layer, what data and code lives where, and how a match flows from pre-game preview to full-time verdict.
+> **Scope:** This is the **repository map and operations manual.** It tells you what is in the repo, who (which agent) owns which layer, where the data and code live, how to run each pipeline, and the full lifecycle of a match from pre-game preview to full-time verdict. Read this when you need to navigate or operate the repo.
+>
+> **Companion doc:** For the **AI-system reference architecture** — RAG layer, MCP tool router, eval harness, observability stack, The Crumb 13-agent hierarchy, Claude Code setup, AI Ethics Principles mapping, and the "sovereign deployment" what-if — see [`ai-architecture.md`](ai-architecture.md). This doc cross-references it where the architecture-level treatment goes deeper.
 >
 > Where this document and CLAUDE.md disagree, CLAUDE.md wins — it is the operational policy and is loaded into every Claude session. This document is the map; CLAUDE.md is the rule book.
 
