@@ -2290,6 +2290,30 @@ BROWNLOW_DISPLAY_STATS = [
     "disposals", "clearances", "contested_possessions", "goals",
 ]
 
+# Brownlow ineligibility registry.
+# ---------------------------------
+# Under AFL rules, any player who is suspended by the Tribunal during the
+# home-and-away season is automatically ineligible to win the Brownlow
+# Medal, regardless of vote tally. Our proxy is a stat-profile model and
+# does NOT model ineligibility — so we flag affected players in the
+# rendered table and narrative. Their proxy score is still shown (it is
+# statistically interesting and a fair reflection of on-field output) but
+# they are explicitly marked as unable to win the actual medal.
+#
+# Keys are the player_stem (filename stem minus `_performance_details.csv`).
+# Add an entry here when a suspension is confirmed; remove if overturned
+# on appeal. Source: the suspension itself should be referenced in
+# `docs/news/` where possible so the registry is auditable.
+BROWNLOW_INELIGIBLE_2026: dict = {
+    # Tristan Xerri (North Melbourne ruck) — suspended; missed NM games
+    # in rounds 5-7. Under AFL rules any in-season suspension renders
+    # the player ineligible to win the Brownlow Medal.
+    "xerri_tristan_15031999": {
+        "reason": "Suspended (2026 season)",
+        "team": "North Melbourne",
+    },
+}
+
 # We need extra columns the team-analysis pipeline doesn't load by default.
 BROWNLOW_LOAD_COLS = [
     "team", "year", "round", "disposals", "kicks", "handballs", "marks",
@@ -2456,6 +2480,15 @@ def _build_brownlow_proxy_table(
     # scale is for ranking, not for direct vote interpretation.
     out["projected_votes_22_games"] = out["brownlow_proxy_pg"] * HOME_AND_AWAY
 
+    # Brownlow ineligibility flag (suspended players cannot win the actual
+    # medal). Proxy score is still ranked — the flag is for display only.
+    out["is_ineligible"] = out["player_stem"].isin(
+        BROWNLOW_INELIGIBLE_2026.keys()
+    )
+    out["ineligible_reason"] = out["player_stem"].map(
+        lambda s: BROWNLOW_INELIGIBLE_2026.get(s, {}).get("reason", "")
+    )
+
     out = out.sort_values("brownlow_proxy_pg", ascending=False).reset_index(drop=True)
     out["rank"] = out.index + 1
 
@@ -2575,7 +2608,13 @@ def generate_brownlow_chart(
 
 
 def _build_brownlow_table_md(top: pd.DataFrame) -> str:
-    """Render the top-15 markdown table."""
+    """Render the top-15 markdown table.
+
+    Suspended/ineligible players (per `BROWNLOW_INELIGIBLE_2026`) keep
+    their proxy ranking but are flagged inline so a reader can see at a
+    glance that they are statistically interesting yet ineligible to win
+    the actual medal.
+    """
     header = (
         "| Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | "
         "Goals/g | Proxy | Proj. votes |\n"
@@ -2583,9 +2622,16 @@ def _build_brownlow_table_md(top: pd.DataFrame) -> str:
     )
     rows: List[str] = []
     for _, r in top.iterrows():
+        ineligible = bool(r.get("is_ineligible", False))
+        name_cell = r["player_display"]
+        if ineligible:
+            name_cell = (
+                f"{r['player_display']} "
+                f"**[SUSPENDED — BROWNLOW INELIGIBLE]**"
+            )
         rows.append(
             f"| {int(r['rank'])} "
-            f"| {r['player_display']} "
+            f"| {name_cell} "
             f"| {r['team']} "
             f"| {int(r['games_played'])} "
             f"| {r['disposals_pg']:.1f} "
@@ -2596,6 +2642,33 @@ def _build_brownlow_table_md(top: pd.DataFrame) -> str:
             f"| {r['projected_votes_22_games']:+.1f} |"
         )
     return header + "\n" + "\n".join(rows)
+
+
+def _build_brownlow_ineligibility_note(top: pd.DataFrame) -> str:
+    """One-paragraph note explaining the ineligibility rule and listing
+    any flagged players in the current top-15 table. Returns an empty
+    string if no ineligible players appear in `top`."""
+    flagged = top[top.get("is_ineligible", False) == True]  # noqa: E712
+    if flagged.empty:
+        return ""
+    bullets: List[str] = []
+    for _, r in flagged.iterrows():
+        reason = BROWNLOW_INELIGIBLE_2026.get(
+            r["player_stem"], {}
+        ).get("reason", "Ineligible")
+        bullets.append(
+            f"- **{r['player_display']}** ({r['team']}, proxy rank "
+            f"#{int(r['rank'])}, {r['brownlow_proxy_pg']:+.2f}) — {reason}"
+        )
+    note_intro = (
+        "**Brownlow ineligibility note.** Under AFL rules, any player "
+        "suspended by the Tribunal during the home-and-away season is "
+        "automatically ineligible to win the Brownlow Medal, regardless "
+        "of vote tally. Our proxy ranks on stat profile and does not "
+        "remove these players — their score is still informative — but "
+        "they cannot win the actual medal:"
+    )
+    return note_intro + "\n\n" + "\n".join(bullets)
 
 
 def _build_brownlow_narrative(top: pd.DataFrame) -> str:
@@ -2708,8 +2781,11 @@ def generate_brownlow_predictor(
         f"(n=145,150) where actual `brownlow_votes` are recorded — the "
         f"top 1% of proxy games captured ~70% of vote-earning performances. "
         f"Players need at least 3 games played to be ranked. Suspended "
-        f"players are not penalised — this proxy is a stat-profile model, "
-        f"not a vote forecaster."
+        f"players are not penalised in the proxy — this is a stat-profile "
+        f"model, not a vote forecaster — but because any in-season "
+        f"suspension makes a player ineligible to win the actual Brownlow "
+        f"Medal, suspended players are flagged inline in the table below "
+        f"so the distinction stays visible."
     )
 
     formula_note = (
@@ -2738,14 +2814,19 @@ def generate_brownlow_predictor(
     )
 
     narrative = _build_brownlow_narrative(top15)
+    ineligibility_note = _build_brownlow_ineligibility_note(top15)
 
-    body = "\n\n".join([
+    sections = [
         intro,
         formula_note,
         chart_md,
         table_md,
         narrative,
-    ])
+    ]
+    if ineligibility_note:
+        sections.append(ineligibility_note)
+
+    body = "\n\n".join(sections)
 
     return body, table
 
