@@ -33,8 +33,6 @@ Long-form footy journalism where the numbers are not decoration - they are the a
 
 [Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](docs/news/2026-05-15-richmond-vs-stkilda-r11.md) - match preview, the Nasiah Wanganeen-Milera injury impact, and how the Saints' midfield load shifts without him. *(15 May 2026)*
 
-[Michael Voss steps down from Carlton](docs/news/2026-05-13-voss-carlton.md) - what went wrong structurally at the Blues, why it doesn't diminish the legend of a Brisbane three-peat captain, the Melbourne 2021 rebuild parallel, and the path forward. *(13 May 2026)*
-
 → [All news entries](docs/news/README.md)
 
 ---
