@@ -27,6 +27,33 @@ FETCH_SCRIPT = REPO / "scripts" / "fetch_live_match.py"
 PYTHON = "/home/abhi/sourceCode/python/coding/.venv/bin/python"
 POLL_SECONDS = 90
 
+# Per-quarter doc scopes. A doc named like "...-q1-live.md" should stop polling
+# once the game has progressed past Q1 (e.g. into Quarter Time / Q2). Without this
+# guard, every running instance kept writing until Full Time and stamped end-of-game
+# state blocks into earlier-quarter docs (seen in R11 STK v RIC 2026-05-17).
+# Ordered so higher index = later in match.
+QUARTER_ORDER = ["Q1", "Q2", "Q3", "Q4"]
+
+# Map doc-filename token -> the latest snapshot-quarter we should still accept.
+# Half-time doc captures Q2-and-quarter-break, so its terminal scope is Q2.
+DOC_SCOPE_BY_TOKEN = {
+    "q1-live": "Q1",
+    "q2-live": "Q2",
+    "half-time-live": "Q2",
+    "q3-live": "Q3",
+    "q4-live": "Q4",
+}
+
+
+def doc_scope_for(doc_path: Path) -> str | None:
+    """Return the latest match-quarter this doc is allowed to record, or None
+    if the doc is unscoped (free-running until Full Time)."""
+    name = doc_path.name.lower()
+    for token, scope in DOC_SCOPE_BY_TOKEN.items():
+        if name.endswith(f"-{token}.md"):
+            return scope
+    return None
+
 
 def run_fetcher(gameid: str) -> dict | None:
     result = subprocess.run(
@@ -302,7 +329,13 @@ def main(argv: list) -> int:
     doc_path = REPO / argv[2]
     doc_path.parent.mkdir(parents=True, exist_ok=True)
 
+    scope = doc_scope_for(doc_path)
     print(f"Monitoring game {gameid} -> {doc_path}", flush=True)
+    if scope:
+        print(f"Doc scope: {scope} (will stop when match progresses past {scope}).",
+              flush=True)
+    else:
+        print("Doc scope: unscoped (will run until Full Time).", flush=True)
     print(f"Polling every {POLL_SECONDS}s. Stops on Full Time.", flush=True)
 
     header_written = False
@@ -342,12 +375,32 @@ def main(argv: list) -> int:
         elif "q1" in status_l:
             current_quarter = "Q1"
 
+        # Scope guard: if this doc is per-quarter, stop polling once the match
+        # has progressed past its scope. Without this, the polling loop kept
+        # writing Full-Time stat blocks into Q1/Q2/HT/Q3 docs (the original bug
+        # the per-quarter scoping was introduced to fix).
+        is_ft = "Full Time" in status or status_l == "ft"
+        if scope is not None:
+            try:
+                cur_idx = QUARTER_ORDER.index(current_quarter)
+                scope_idx = QUARTER_ORDER.index(scope)
+            except ValueError:
+                cur_idx = scope_idx = 0
+            if is_ft or cur_idx > scope_idx:
+                print(
+                    f"\nMatch progressed past doc scope ({scope}); "
+                    f"status='{status}', current_quarter={current_quarter}. "
+                    "Stopping without writing this snapshot.",
+                    flush=True,
+                )
+                break
+
         header_written = write_doc(doc_path, header_written, snap, current_quarter)
 
         git_commit_push(doc_path, status)
         last_status = status
 
-        if "Full Time" in status or status.lower() == "ft":
+        if is_ft:
             print("\nFull Time detected. Writing final summary and stopping.", flush=True)
             # One final push to make sure latest is captured
             git_commit_push(doc_path, "Full Time - FINAL")

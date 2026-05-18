@@ -1,0 +1,414 @@
+player,team,predicted_disposals
+Daicos Nick,Collingwood,29
+Neale Lachie,Brisbane Lions,29
+Whitfield Lachie,Greater Western Sydney,29
+Butters Zak,Port Adelaide,28
+Ash Lachie,Greater Western Sydney,28
+Oliver Clayton,Greater Western Sydney,28
+Smith Bailey,Geelong,28
+Miller Touk,Gold Coast,28
+Callaghan Finn,Greater Western Sydney,28
+Walsh Sam,Carlton,27
+Ashcroft Will,Brisbane Lions,27
+Holmes Max,Geelong,27
+Sinclair Jack,St Kilda,27
+Bontempelli Marcus,Western Bulldogs,27
+Daicos Josh,Collingwood,26
+Merrett Zach,Essendon,26
+Mcinerney Justin,Sydney,25
+Heeney Isaac,Sydney,25
+Noble John,Gold Coast,25
+Houston Dan,Collingwood,25
+Kennedy Matthew,Western Bulldogs,25
+Petracca Christian,Gold Coast,24
+Richards Ed,Western Bulldogs,24
+Smith Jagga,Carlton,24
+Zorko Dayne,Brisbane Lions,24
+Dale Bailey,Western Bulldogs,24
+Bolton Shai,Fremantle,24
+Newcombe Jai,Hawthorn,24
+Daniel Caleb,North Melbourne,24
+Wilkie Callum,St Kilda,24
+Pickett Kysaiah,Melbourne,24
+Greene Toby,Greater Western Sydney,24
+Blakey Nick,Sydney,23
+Impey Jarman,Hawthorn,23
+Short Jayden,Richmond,23
+Serong Caleb,Fremantle,23
+Pendlebury Scott,Collingwood,23
+Parker Luke,North Melbourne,23
+Clark Jordan,Fremantle,23
+Wines Ollie,Port Adelaide,23
+Bruhn Tanner,Geelong,23
+Dawson Jordan,Adelaide,23
+Flanders Sam,St Kilda,22
+Crisp Jack,Collingwood,22
+Wilmot Darcy,Brisbane Lions,22
+Macdonald Connor,Hawthorn,22
+Parish Darcy,Essendon,22
+Hill Bradley,St Kilda,22
+Kelly Tim,West Coast,22
+Florent Oliver,Carlton,22
+Brayshaw Andrew,Fremantle,22
+Windhager Marcus,St Kilda,22
+Mills Callum,Sydney,22
+Newman Nic,Carlton,22
+Laird Rory,Adelaide,22
+Steele Jack,Melbourne,21
+Amon Karl,Hawthorn,21
+Cerra Adam,Carlton,21
+Horne-Francis Jason,Port Adelaide,21
+Anderson Noah,Gold Coast,21
+Warner Chad,Sydney,21
+Cripps Patrick,Carlton,21
+Sicily James,Hawthorn,21
+Bailey Zac,Brisbane Lions,21
+Ross Jack,Richmond,21
+Ryan Luke,Fremantle,21
+Williams Bailey,Western Bulldogs,21
+Battle Josh,Hawthorn,20
+Idun Connor,Greater Western Sydney,20
+Sheezel Harry,North Melbourne,20
+Ginnivan Jack,Hawthorn,20
+Stephens Dylan,North Melbourne,20
+Roberts Matt,Sydney,20
+Ward Josh,Hawthorn,20
+Maynard Brayden,Collingwood,20
+Hewett George,Carlton,20
+Stewart Tom,Geelong,20
+Davies-Uniacke Luke,North Melbourne,20
+Maric Ryan,West Coast,20
+Roberts Archie,Essendon,19
+Jeffrey Joel,Gold Coast,19
+Dunkley Josh,Brisbane Lions,19
+Lipinski Patrick,Collingwood,19
+Young Hayden,Fremantle,19
+Rioli Daniel,Gold Coast,19
+Rankine Izak,Adelaide,19
+Fletcher Jaspa,Brisbane Lions,19
+Taranto Tim,Richmond,19
+Dambrosio Massimo,Hawthorn,19
+Farrell Kane,Port Adelaide,19
+Mccarthy Tom,West Coast,19
+Andrew Mac,Gold Coast,19
+Langdon Ed,Melbourne,19
+Freijah Joel,Western Bulldogs,19
+Hopper Jacob,Richmond,19
+Budarick Connor,Western Bulldogs,19
+Mcgrath Andrew,Essendon,19
+Atkins Tom,Geelong,19
+Durham Sam,Essendon,19
+Moore Dylan,Hawthorn,19
+Coleman Keidean,Brisbane Lions,19
+Burgoyne Jase,Port Adelaide,19
+Haynes Nick,Carlton,18
+Peatling James,Adelaide,18
+Ashcroft Levi,Brisbane Lions,18
+Long Ned,Collingwood,18
+Duggan Liam,West Coast,18
+Williams Zac,Carlton,18
+Gawn Max,Melbourne,18
+Bowes Jack,Geelong,18
+Bowey Jake,Melbourne,18
+Wilson Darcy,St Kilda,18
+Humphries Lawson,Geelong,18
+Byrne-Jones Darcy,Port Adelaide,18
+Sanders Ryley,Western Bulldogs,18
+Aliir Aliir,Port Adelaide,17
+Langford Harvey,Melbourne,17
+Weller Lachie,Gold Coast,17
+Coniglio Stephen,Greater Western Sydney,17
+Mcvee Judd,Fremantle,17
+Fonti Joe,Greater Western Sydney,17
+Hollands Oliver,Carlton,17
+Quaynor Isaac,Collingwood,17
+Wicks Sam,Sydney,17
+Hardwick Blake,Hawthorn,17
+Guthrie Zach,Geelong,17
+Uwland Bodhi,Gold Coast,17
+Thomas Harvey,Greater Western Sydney,17
+Yeo Elliot,West Coast,17
+Lester Ryan,Brisbane Lions,17
+Chapman Heath,Fremantle,17
+Sparrow Tom,Melbourne,17
+Daniels Brent,Greater Western Sydney,17
+Mcdonald Luke,North Melbourne,17
+Redman Mason,Essendon,17
+Prior Jaxon,Essendon,17
+Simpkin Jy,North Melbourne,17
+Dempsey Oliver,Geelong,17
+Wardlaw George,North Melbourne,17
+Mccluggage Hugh,Brisbane Lions,17
+Rowbottom James,Sydney,17
+Silvagni Jack,St Kilda,17
+Sheldrick Angus,Sydney,17
+Johnson Matthew,Fremantle,17
+Macrae Jack,St Kilda,17
+Evans Logan,Port Adelaide,17
+Mackenzie Cam,Hawthorn,17
+Mcauliffe Kane,Richmond,17
+Drew Willem,Port Adelaide,17
+Andrews Harris,Brisbane Lions,17
+Hannaford Oliver,Greater Western Sydney,17
+Langford Kyle,Essendon,17
+Nash Conor,Hawthorn,17
+Papley Tom,Sydney,17
+Xerri Tristan,North Melbourne,17
+Soligo Jake,Adelaide,17
+Grundy Brodie,Sydney,16
+Jiath Changkuoth,Melbourne,16
+Erasmus Neil,Fremantle,16
+Powell Wil,Gold Coast,16
+Neal-Bullen Alex,Adelaide,16
+Milera Wayne,Adelaide,16
+Wright Peter,Essendon,16
+Sonsie Tyler,Richmond,16
+Wehr Jacob,Port Adelaide,16
+Sidebottom Steele,Collingwood,16
+Jackson Luke,Fremantle,16
+Lewis Will,Western Bulldogs,16
+Worrell Josh,Adelaide,16
+Bergman Miles,Port Adelaide,16
+Bice Riley,Sydney,16
+Rampe Dane,Sydney,16
+Schultz Lachie,Collingwood,16
+Steene Oscar,Collingwood,16
+Anderson Angus,Collingwood,16
+Himmelberg Harry,Greater Western Sydney,16
+Lai Josh,Port Adelaide,16
+Watkins Jack,Port Adelaide,16
+Blamires Tom,North Melbourne,16
+Baker Liam,West Coast,16
+Marshall Rowan,St Kilda,16
+Ryan Bodie,Hawthorn,16
+Smith Lachlan,Western Bulldogs,16
+Cumming Sam,Richmond,16
+Cross Paddy,Melbourne,16
+Burton Tom,Richmond,16
+Curtin Cody,Brisbane Lions,16
+Hayes-Brown Oliver,Richmond,16
+Retschko Patrick,Richmond,16
+Pickett Latrelle,Melbourne,16
+Cootee Billy,Sydney,16
+Edwards Will,Sydney,16
+Duff-Tytler Cooper,West Coast,16
+Lindsay Josh,West Coast,16
+Murdock Milan,West Coast,16
+Duursma Willem,West Coast,16
+Reid Harley,West Coast,16
+Farrow Jacob,Essendon,16
+Robey Sullivan,Essendon,16
+Sharp Dyson,Essendon,16
+Windsor Caleb,Melbourne,16
+Duursma Xavier,Essendon,16
+Lloyd Jake,Sydney,16
+Howe Jeremy,Collingwood,16
+Michalanney Max,Adelaide,16
+Murray Toby,Adelaide,16
+Hall Max,St Kilda,16
+Davies Alex,Gold Coast,16
+Osullivan Connor,Geelong,16
+Cameron Jeremy,Geelong,16
+Byrnes Ryan,St Kilda,16
+Worpel James,Geelong,15
+West Rhylee,Western Bulldogs,15
+Coffield Nick,Western Bulldogs,15
+Trainor Luke,Richmond,15
+Jordon James,Sydney,15
+Wood Mason,St Kilda,15
+Phillipou Mattaes,St Kilda,15
+Lever Jake,Melbourne,15
+Cameron Darcy,Collingwood,15
+Laverde Jayden,Greater Western Sydney,15
+Bramble Lachlan,Western Bulldogs,15
+Goey Jordan,Collingwood,15
+Weddle Josh,Hawthorn,15
+Reville Bruce,Brisbane Lions,15
+Rayner Cam,Brisbane Lions,15
+Collins Sam,Gold Coast,15
+Mckercher Colby,North Melbourne,15
+English Tim,Western Bulldogs,15
+Mackinlay Ewan,Port Adelaide,15
+Chandler Kade,Melbourne,15
+Mccreery Beau,Collingwood,15
+Worner Karl,Fremantle,15
+Humphrey Bailey,Gold Coast,15
+Brown Tom,Richmond,15
+Mannagh Shaun,Geelong,15
+Hutchinson Jack,West Coast,15
+Trezise James,Richmond,15
+Reid Zach,Essendon,15
+Keays Ben,Adelaide,14
+Richards Joe,Port Adelaide,14
+Oconnor Mark,Geelong,14
+Young Tylar,West Coast,14
+Vlastuin Nick,Richmond,14
+Moraes Christian,Port Adelaide,14
+Hough Brady,West Coast,14
+Rachele Josh,Adelaide,14
+Curtis Paul,North Melbourne,14
+Watson Nick,Hawthorn,14
+Ginbey Reuben,West Coast,14
+Berry Sam,Adelaide,14
+Wilson Billy,Carlton,14
+Laurie Bailey,Melbourne,14
+Jepson Ben,Gold Coast,14
+Garcia Hugo,St Kilda,14
+Hayward Will,Carlton,14
+Caddy Nate,Essendon,14
+Wagner Corey,Fremantle,14
+Campbell Seth,Richmond,14
+Carroll Matt,Carlton,14
+Osullivan Finn,North Melbourne,14
+Gulbin Lachlan,Gold Coast,14
+Joyce Darragh,Brisbane Lions,14
+Howard Dougal,St Kilda,14
+Comben Charlie,North Melbourne,14
+Dean Harry,Carlton,14
+Davis Hamish,West Coast,14
+Leake James,Greater Western Sydney,14
+Weitering Jacob,Carlton,14
+Zurhaar Cameron,North Melbourne,14
+Carroll Jack,St Kilda,14
+Ainsworth Ben,Carlton,14
+Reid Murphy,Fremantle,14
+Dudley Isaiah,Fremantle,14
+Shanahan Jobe,West Coast,14
+Moniz-Wakefield Andy,Melbourne,14
+Oconnell Liam,St Kilda,14
+Bryan Nick,Essendon,14
+Blakiston Lachlan,Essendon,14
+Trembath Cooper,North Melbourne,14
+Mullin Oisin,Geelong,14
+Johnston Harvey,West Coast,14
+Gray Campbell,Richmond,14
+Henry Liam,St Kilda,14
+Treacy Josh,Fremantle,14
+Busslinger Jedd,Western Bulldogs,14
+Johnson Zak,Essendon,14
+Faull Jonty,Richmond,14
+Cumming Isaac,Adelaide,14
+Howes Blake,Melbourne,14
+Edwards Harry,West Coast,14
+Stringer Jake,Greater Western Sydney,14
+Cowan Lachlan,Carlton,14
+Larkey Nick,North Melbourne,14
+Green Steely,Richmond,14
+Konstanty Jacob,North Melbourne,14
+Voss Patrick,Fremantle,14
+Mclean Hayden,Sydney,14
+Dawson Wil,North Melbourne,14
+Nguyen Jayden,Essendon,14
+Champion Malakai,West Coast,14
+Stanley Rhys,Geelong,14
+Lefau Mykelti,Richmond,14
+Jefferson Matthew,Melbourne,14
+Duursma Zane,North Melbourne,14
+Heath Max,Melbourne,14
+Visentini Dante,Port Adelaide,14
+Berry Joe,Port Adelaide,14
+Mccarthy Lincoln,Brisbane Lions,14
+Borlase James,Adelaide,14
+Broad Nathan,Richmond,14
+Saad Adam,Carlton,14
+Thilthorpe Riley,Adelaide,14
+Moyle Ned,Gold Coast,14
+Tholstrup Koltyn,Melbourne,14
+Murray Nick,Adelaide,14
+May Archie,Essendon,13
+Sharp Harry,Melbourne,13
+Day-Wicks Archer,Essendon,13
+Read Ethan,Gold Coast,13
+Whitlock Jack,Port Adelaide,13
+Ramsden Max,Hawthorn,13
+Curtin Daniel,Adelaide,13
+Lombard Leo,Gold Coast,13
+Reeves Ned,Hawthorn,13
+Bond Hugh,Adelaide,13
+Steele Roan,Collingwood,13
+Balta Noah,Richmond,13
+Baker Oskar,Western Bulldogs,13
+Kolodjashnij Jake,Geelong,13
+Pedlar Luke,Adelaide,13
+Taylor Zac,Adelaide,13
+Cook Brayden,Adelaide,13
+Darling Jack,North Melbourne,13
+Mcandrew Lachlan,Adelaide,13
+Owens Mitch,St Kilda,13
+Sweet Jordon,Port Adelaide,13
+Perkins Archie,Essendon,13
+Riccardi Jake,Greater Western Sydney,13
+Martin Jack,Geelong,13
+Cameron Charlie,Brisbane Lions,13
+Koning Sam,Geelong,13
+Cole Tom,West Coast,13
+Waterman Jake,West Coast,13
+Fritsch Bayley,Melbourne,13
+Cunningham Harry,Sydney,13
+Georgiades Mitch,Port Adelaide,13
+Miller Ben,Richmond,12
+Sharman Cooper,St Kilda,12
+Cox Brennan,Fremantle,12
+Evans Francis,Carlton,12
+Morris Logan,Brisbane Lions,12
+Cadman Aaron,Greater Western Sydney,12
+Buckley Jack,Greater Western Sydney,12
+Switkowski Sam,Fremantle,12
+Pittonet Marc,Carlton,12
+Koning Tom,St Kilda,12
+Frampton Billy,Collingwood,12
+Elliott Jamie,Collingwood,12
+Fort Darcy,Brisbane Lions,12
+Jones Lachie,Port Adelaide,12
+Kemp Brodie,Carlton,12
+Mckay Harry,Carlton,12
+Adams Oscar,Gold Coast,12
+Meek Lloyd,Hawthorn,12
+Logue Griffin,North Melbourne,12
+Gallagher Harvey,Western Bulldogs,12
+Lohmann Kai,Brisbane Lions,12
+Long Ben,Gold Coast,12
+Gunston Jack,Hawthorn,12
+Spargo Charlie,North Melbourne,11
+Butler Sam,Hawthorn,11
+Sellwood Michael,Western Bulldogs,11
+Rooyen Jacob,Melbourne,11
+Hynes Cooper,Western Bulldogs,11
+Dangerfield Patrick,Geelong,11
+Amiss Jye,Fremantle,11
+Barrass Tom,Hawthorn,11
+Henry Oliver,Geelong,11
+Gothard Phoenix,Greater Western Sydney,11
+Mcgovern Mitch,Carlton,11
+Melican Lewis,Sydney,11
+Bedford Toby,Greater Western Sydney,11
+Mckenna Conor,Brisbane Lions,11
+Lynch Tom,Richmond,11
+Amartey Joel,Sydney,11
+Cox Nik,Essendon,11
+Neale Shannon,Geelong,11
+Draper Sam,Brisbane Lions,11
+Briggs Kieren,Greater Western Sydney,10
+Graham Will,Gold Coast,10
+Petty Harry,Melbourne,10
+Close Brad,Geelong,10
+Buller Jack,Collingwood,10
+Frederick Michael,Fremantle,10
+Mcstay Daniel,Collingwood,10
+Naughton Aaron,Western Bulldogs,10
+Rosas Malcolm,Sydney,10
+Pearce Alex,Fremantle,10
+Lewis Mitch,Hawthorn,10
+Stocker Liam,St Kilda,10
+Moore Darcy,Collingwood,10
+Mcneil Lachlan,Western Bulldogs,10
+Mcdonald Logan,Sydney,10
+Khamis Buku,Western Bulldogs,10
+Gruzewski Max,Greater Western Sydney,9
+Mcmullin Toby,Greater Western Sydney,9
+Ugle-Hagan Jamarra,Gold Coast,9
+Durdin Corey,Port Adelaide,9
+Cox Mason,Fremantle,9
+Jones Arthur,Western Bulldogs,9
+King Ben,Gold Coast,9
+Caminiti Anthony,St Kilda,9
