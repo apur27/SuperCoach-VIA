@@ -36,14 +36,20 @@ flowchart TB
         D3 --> D4
     end
 
-    subgraph LLM["LLM reasoning layer"]
-        E1[Claude Scientist<br/>Opus, ReAct loop]
+    subgraph LLM["LLM reasoning layer — six-agent council"]
+        E1[Scientist<br/>Opus, ReAct loop]
         E2[CLAUDE.md<br/>system prompt /<br/>policy guardrails]
-        E3[FootyStrategy<br/>Tactical Council<br/>8-lens deliberation]
-        E4[The Crumb<br/>13-agent hierarchy<br/>Senior Coach orchestrates]
+        E3[FootyStrategy<br/>Opus, 8-lens council]
+        E4[BriefBuilder<br/>Sonnet, brief skeleton]
+        E5[DataSentinel<br/>Haiku, data gate]
+        E6[Skeptic<br/>Opus, adversarial review]
+        E7[Codex<br/>External, blind read]
         E2 -.governs.-> E1
+        E4 --> E1
         E1 --> E3
-        E3 --> E4
+        E3 --> E5
+        E3 --> E6
+        E1 --> E7
     end
 
     subgraph Tools["Tool router - MCP gateway"]
@@ -229,25 +235,122 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 
 ---
 
+### 10. The six-agent council — architecture and interaction model
+
+**In plain English:** The repo has six specialised agents. Each one does a narrowly-defined job, deliberately separated so that no single agent has to be good at everything - and so that errors made by one are caught before they propagate into the final output. This section documents who they are, what they hand off to each other, and how to invoke them correctly.
+
+**Agent registry:**
+
+| Agent | Job | Model | Tool surface | Invocation |
+|-------|-----|-------|-------------|-----------|
+| **Scientist** | Data analysis, statistical tests, code execution, prediction runs | Claude Opus | All tools (Bash, Read, Write, Edit, WebFetch, Agent) | `@"Scientist (agent)"` |
+| **FootyStrategy** | Tactical interpretation, 8-lens council, confidence tiering, tripwire writing | Claude Opus | All tools | `@"FootyStrategy (agent)"` |
+| **BriefBuilder** | Pre-match brief skeleton - auto-populates [data] tags, leaves FOOTYSTRATEGY INSERT placeholders | Claude Sonnet | All tools | `@"BriefBuilder (agent)"` |
+| **DataSentinel** | Pre-commit verification gate - walks every [data] tag, confirms against source CSV, emits PASS/FAIL | Claude Haiku | All tools | `@"DataSentinel (agent)"` |
+| **Skeptic** | Adversarial review - checks tripwire observability, caveat-hierarchy fidelity, lens-tension smoothing | Claude Opus | All tools | `@"Skeptic (agent)"` |
+| **Codex** | Outside-the-frame second opinion, model-internals inspection, blind adversarial read | External (GPT series) | Shared runtime | `@"Codex (agent)"` |
+
+**Standard pre-match pipeline — sequence and handoffs:**
+
+```
+ Monday
+    │
+    ▼
+┌─────────────┐   team names + round
+│ BriefBuilder│──────────────────────► writes data skeleton
+│  (Sonnet)   │                        [data] tags on every number
+└─────────────┘                        <!-- FOOTYSTRATEGY INSERT --> placeholders
+    │ brief skeleton
+    ▼
+┌─────────────┐   skeleton + target question
+│  Scientist  │──────────────────────► statistical tests, effect sizes, CIs
+│   (Opus)    │                        caveats propagated explicitly
+└─────────────┘
+    │ findings with uncertainty
+    ▼
+┌─────────────┐   skeleton + Scientist findings
+│ FootyStrategy──────────────────────► 8-lens council deliberation
+│   (Opus)    │                        tiered recommendations + tripwires
+└─────────────┘
+    │ complete draft
+    ▼
+┌─────────────┐   complete assembled brief
+│ DataSentinel│──────────────────────► verifies every [data] tag vs source CSV
+│   (Haiku)   │                        PASS or annotated FAIL list
+└─────────────┘
+    │ verified brief
+    ▼
+┌─────────────┐   verified brief + upstream chain
+│   Skeptic   │──────────────────────► tripwire observability check
+│   (Opus)    │                        caveat-hierarchy audit
+└─────────────┘                        PASS / PASS_WITH_CONCERNS / BLOCK
+    │
+    ▼
+ Brief ready to print
+    │
+    └── optional: Codex blind read for outside-the-frame gaps
+```
+
+**Handoff contracts — what each agent receives and what it must not invent:**
+
+| Handoff | What must be passed explicitly | What the receiving agent must not do |
+|---------|-------------------------------|--------------------------------------|
+| BriefBuilder → Scientist | The brief skeleton with [data] tags already placed | Scientist must not re-derive stats already in the skeleton; augment, don't redo |
+| Scientist → FootyStrategy | Effect size, CI, sample size, and the verbatim caveat on each finding | FootyStrategy must not upgrade "associational" to "causal"; must not fabricate numbers not in Scientist's output |
+| FootyStrategy → DataSentinel | The complete assembled draft with all [data] tags and sources named in the methodology para | DataSentinel must not interpret meaning; it checks numbers only |
+| FootyStrategy → Skeptic | The full draft + Scientist findings + BriefBuilder skeleton as context | Skeptic must not rewrite the draft; must report line-number + quote + proposed fix |
+| Any agent → Codex | The complete brief and the specific question | Codex should not act as a primary fact source for AFL stats - it is a reasoning check, not a data source |
+
+**Standalone invocation rules:**
+
+- **Scientist**: can be invoked standalone for any data analysis task. No prior context needed.
+- **FootyStrategy**: works best with some data context (from Scientist or BriefBuilder). Can be invoked standalone for post-match tactical reads where the question is conceptual rather than statistical.
+- **BriefBuilder**: always invoked first in any match-preparation cycle. No prior context needed.
+- **DataSentinel**: invoked on any draft document with [data] tags. Can be run standalone mid-draft for a partial check.
+- **Skeptic**: invoke only after FootyStrategy has produced a *complete* draft. Premature invocation before the recommendation is settled generates noise.
+- **Codex**: invoke when you want a second opinion uncorrupted by the other agents' reasoning chains, or when the question touches model internals (feature contributions, why did the predictor give this player that score).
+
+**Model selection rationale:**
+
+The council tiers its model selection by task complexity, not by prestige. Using Opus everywhere is slower and more expensive without improving quality on scoped tasks.
+
+| Agent | Why this model |
+|-------|---------------|
+| DataSentinel → Haiku | Pure structured retrieval and pattern matching against a known schema. No complex reasoning; speed and cost matter more than chain-of-thought depth. |
+| BriefBuilder → Sonnet | Data-assembly templating: open files, read rows, write tagged output to a fixed structure. Moderate complexity — Sonnet handles it cleanly without Opus latency. |
+| Scientist → Opus | Long reasoning chains: statistical test selection, feature engineering decisions, caveat propagation, uncertainty quantification. The hardest reasoning workload in the council. |
+| FootyStrategy → Opus | Multi-perspective deliberation: activating 3–5 distinct coaching lenses, surfacing tensions, tiering a recommendation with a falsifiable tripwire. Requires broad knowledge and nuanced judgement. |
+| Skeptic → Opus | Adversarial reasoning: detecting caveat drift, assessing tripwire observability from first principles, identifying smoothed tensions. Must be as capable as the agent it reviews. |
+| Codex → External | Deliberate provider separation: an independent model family avoids anchoring on the same training-data priors as the rest of the council. The value of Codex is the difference in perspective, not raw capability. |
+
+**For the ML practitioner:** The interesting design choice is that error containment is structural rather than prompt-based. Rather than adding "check your numbers" to every agent's system prompt, DataSentinel is a dedicated gate — a separate agent whose only job is verification, running on a cheap model because the task is cheap. Similarly, rather than adding "play devil's advocate" to FootyStrategy's prompt (which causes self-critique to be soft and polite), Skeptic is an adversarial agent with no social stake in the draft it reviews. The pattern is: *separate agents for separate failure modes*. The production equivalent is a pipeline with explicit checkpoints — a lint step for data tags, a confidence-threshold gate before publication, a separate evaluator that does not share weights with the generator. These are well-established patterns in ML pipelines (train/eval split, holdout sets, A/B test gating); the council applies the same logic to the LLM layer.
+
+---
+
 ## Eval results
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| Prediction MAE | **[data]** 4.086 disposals | Weighted across 10 rounds, 3,701 player-rounds (Rounds 1–10, 2026) |
-| RMSE | **[data]** 5.184 | |
+| Prediction MAE | **[data]** 4.063 disposals | Player-weighted across 11 rounds, 4,074 player-rounds (Rounds 1–11, 2026) |
+| RMSE | **[data]** 5.195 | |
 | Within 5 disposals | **[data]** 72.3% | |
-| Within 10 disposals | **[data]** 95.8% | |
-| Signed bias | **[data]** -0.09 | Close to unbiased in aggregate |
+| Within 10 disposals | **[data]** 95.6% | |
+| Signed bias | **[data]** -0.069 | Essentially unbiased in aggregate |
 | Round 1 MAE | **[data]** 4.83 | Elevated - no within-season rolling features (n=230, within-5=60.4%, within-10=92.6%) |
 | Round 2 MAE | **[data]** 4.11 | n=413, within-5=72.2%, within-10=95.9% |
 | Round 3 MAE | **[data]** 4.07 | n=320, within-5=74.7%, within-10=95.9% |
 | Round 4 MAE | **[data]** 4.15 | n=319, within-5=72.4%, within-10=94.7% |
-| Round 5 MAE | **[data]** 3.73 | n=365, within-5=75.3%, within-10=97.5% - best round so far |
+| Round 5 MAE | **[data]** 3.73 | n=365, within-5=75.3%, within-10=97.5% |
 | Round 6 MAE | **[data]** 3.98 | n=411, within-5=74.9%, within-10=95.9% |
+| Round 7 MAE | **[data]** 4.05 | n=410, within-5=72.0%, within-10=95.6% |
+| Round 8 MAE | **[data]** 4.14 | n=411, within-5=73.2%, within-10=95.4% |
+| Round 9 MAE | **[data]** 3.79 | n=410, within-5=74.9%, within-10=98.3% |
+| Round 10 MAE | **[data]** 4.31 | n=412, within-5=68.2%, within-10=94.9% |
+| Round 11 MAE | **[data]** 3.83 | n=373, within-5=77.2%, within-10=95.2% - best within-5 so far |
 | Top-10 player MAE | ~10.8 | Top-end compression - known failure mode |
 | LLM factual accuracy | ~70–75% pre-correction → ~99% post | Measured by external review of Hall of Fame docs; systematic correction process in place |
 
-A 4.086-disposal weighted MAE across 3,701 player-rounds (ten completed 2026 rounds, Rounds 1–10) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.8% within-10 figure says coarse predictions are reliable; the 72.3% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~0.7 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played, and Round 5 is the best round so far (MAE 3.73, within-10 of 97.5%). The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 75% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
+A 4.063-disposal player-weighted MAE across 4,074 player-rounds (eleven completed 2026 rounds, Rounds 1–11) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.6% within-10 figure says coarse predictions are reliable; the 72.3% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~1.0 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played. Round 11 produced the season's best within-5 accuracy at 77.2%. The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 78% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
 
 ---
 
