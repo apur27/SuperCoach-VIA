@@ -348,6 +348,75 @@ A 4.063-disposal player-weighted MAE across 4,074 player-rounds means the typica
 
 ---
 
+## Australia's AI Ethics Principles — how this project maps
+
+Australia's [AI Ethics Principles](https://www.industry.gov.au/publications/australias-ai-ethics-principles) are a set of eight voluntary principles published by the Department of Industry, Science and Resources to guide responsible AI design, development and deployment. They have since been complemented by the *Guidance for AI Adoption* (October 2025) and the *Voluntary AI Safety Standard*, but the eight principles remain the canonical reference point for whether an AI system has been built with the right things in mind. This section maps each principle to the concrete artefacts in this repo — what's actually in place, and where the project is honest about not meeting the principle in full.
+
+SuperCoach-VIA is a personal weekend project, not a production deployment, and the mapping reflects that: some principles are well-served by the architecture; others are partially met; one (contestability) has no meaningful surface here because there are no external users to contest anything. The aim is to be useful to an auditor or regulator reading the repo, not to claim more than the artefacts support.
+
+### 1. Human, societal and environmental wellbeing
+
+> *"Throughout their lifecycle, AI systems should benefit individuals, society and the environment."*
+
+The system's purpose is football analysis and pedagogy — the README's "Why this repo exists" framing positions it as a reference architecture for AI engineers and a learning resource for fans, not a decision-support tool with material stakes. The harm surface is correspondingly narrow: no individual is denied a service, opportunity, or resource based on a model output. **Partial gap:** environmental footprint is not measured. The system runs ML training on a local GPU and makes paid Anthropic API calls; neither the per-run kWh nor the per-session token-driven inference compute is tracked. A production deployment would account for this; this project does not.
+
+### 2. Human-centred values
+
+> *"Throughout their lifecycle, AI systems should respect human rights, diversity, and the autonomy of individuals."*
+
+The system processes only publicly-published AFL match and player statistics. Player names appear in outputs because the data is inherently per-player, but no demographic inferences are made, no automated decisions affect any player or coach, and the agent council's tactical recommendations are explicitly framed as advisory — the FootyStrategy envelope ends with an "Out of Scope" statement and the system has no mechanism to act on its own recommendations. **Honest qualifier:** human review is the *default* publication path for documents authored by the agent council, but the live in-game analysis pipeline (`live_analysis_pipeline.py`) is rule-based code that auto-commits and `git push`es every ~90 seconds during a match without per-block human approval. Those blocks are deterministic outputs of Scientist-authored code (no LLM inference at runtime), but they reach `main` without a human in the loop on each push.
+
+### 3. Fairness
+
+> *"Throughout their lifecycle, AI systems should be inclusive and accessible, and should not involve or result in unfair discrimination against individuals, communities or groups."*
+
+The prediction model uses only on-field statistical features (rolling form, opponent, venue, context) and does not ingest demographic attributes. **Honest framing:** absence of demographic features rules out one specific class of risk (direct discrimination on a protected attribute) but is not by itself a fairness audit — proxy variables can still encode group membership, and equal-accuracy across groups has not been measured. The closest available slice is performance tier: top-10 player MAE sits at ~10.8 disposals vs the global 4.06, meaning the model is meaningfully less accurate for elite players. This is disclosed in the eval-results table and in `agent-memory/Scientist/prediction_top_end_compression.md`. **Partial gap:** no formal slice analysis has been run across player position, age, team, or era. Per-position analysis is blocked by a known data limitation (no position column in player CSVs, noted in `agent-memory/Scientist/data_no_position.md`); other slices have not been prioritised. A regulator-grade fairness review is not on the artefact list.
+
+### 4. Privacy protection and security
+
+> *"Throughout their lifecycle, AI systems should respect and uphold privacy rights and data protection, and ensure the security of data."*
+
+All data at rest is publicly-published AFL match and player statistics — no private personal information, no protected health information, no minors' data beyond what AFL publishes officially for senior-team players. The data layer is read-only flat CSVs in a public GitHub repository (github.com/apur27/SuperCoach-VIA). **The data-at-rest privacy story is essentially trivial; the runtime security story is not, and several gaps are open.** Bash invocations through the MCP gateway execute against the host filesystem without sandboxing (documented in section 5), which is a software-supply-chain risk if the agent stack is ever run against an untrusted prompt source. Agent sessions also exchange the local repo contents with the Anthropic API (and Codex with OpenAI), which is fine for public AFL data but would not be acceptable for any deployment that touched private information without first solving the model-hosting question. Section 4 of the sovereign-deployment notes describes the gVisor / Firecracker sandboxing and self-hosted-model path that would close both gaps; neither is in place now.
+
+### 5. Reliability and safety
+
+> *"Throughout their lifecycle, AI systems should reliably operate in accordance with their intended purpose."*
+
+This is the principle the architecture most fully addresses, and the strongest evidence in the section. The `LeakProofPredictor` enforces strict temporal cutoffs and GroupKFold by player ID to prevent leakage. The walk-forward backtest harness re-runs every completed 2026 round under the same constraints it would face in real prediction, and reports MAE / RMSE / within-N / signed bias / top-10 MAE — all published in the eval-results table above and in `docs/afl-backtest-2026.md`. The six-agent council *describes* two additional review steps for documents: DataSentinel verifies every `[data]` tag against the source CSV, and Skeptic performs adversarial review on tripwire observability and caveat fidelity. **Honest qualifier on those two:** as called out in `docs/ARCHITECTURE.md` §13.4 (Gap 8), the council sequence is "descriptive, not enforced" — each agent is invoked manually and there is no orchestrator or pre-commit hook that blocks publication if a step is skipped. Known reliability limits are reported alongside the numbers, not buried: top-10 MAE elevation, round 1 cold-start, lack of an automated online eval loop.
+
+### 6. Transparency and explainability
+
+> *"There should be transparency and responsible disclosure so people can understand when they are being significantly impacted by AI, and can find out when an AI system is engaging with them."*
+
+The agent stack is fully documented in this file. Every model used is named, every tool surface is enumerated, the council's handoff contracts are documented, and the policy layer (CLAUDE.md) is version-controlled and diff-able. Published documents carry `[data]` tags that point to the source statistic, and FootyStrategy outputs carry a confidence tier (Settled / Probationary / Contested / Insufficient Evidence) plus a tripwire that names what observation would overturn the recommendation. **Honest limit on explainability:** the ensemble exposes global `feature_importances_` from its tree-based base learners — a user can see which features the model relies on overall — but no per-prediction (local) attribution like SHAP or LIME is generated, and no per-prediction confidence interval is exposed to the reader (the backtest gives an aggregate MAE / within-N envelope, not a player-specific one). A reader cannot answer "this specific prediction is high because feature X contributed +N for this player this week" or "what is the 80% interval on this single prediction." Closing both is straightforward (SHAP over the ensemble; quantile regression or conformal prediction for intervals) but is not yet on the artefact list.
+
+### 7. Contestability
+
+> *"When an AI system significantly impacts a person, community, group or environment, there should be a timely process to allow people to challenge the use or outcomes of the AI system."*
+
+**Largely not applicable in the current deployment, and stated as such.** No AI output from this repo significantly impacts an external person, community, or group — there is no user-facing service, no decision is being made about anyone based on a model output, and the tactical recommendations are advisory text published to a documentation site. The GitHub issue tracker exists as an informal feedback channel for any reader who disagrees with a published claim, but that is a feedback surface, not a formal challenge process — there is no SLA, no documented review procedure, and no escalation path. If the system were ever to be used to inform decisions with real stakes (a wagering product, a fantasy-sports tool with paid users, a coaching-staff recommendation system), a formal challenge process would be required and is not in place.
+
+### 8. Accountability
+
+> *"Those responsible for the different phases of the AI system lifecycle should be identifiable and accountable for the outcomes of the AI systems, and human oversight of AI systems should be enabled."*
+
+A single named operator (the repo owner) is accountable for the data layer, the model, the agent stack, the policy document, and every published artefact. The git log is an immutable record of who or what (human author or co-authored agent) made every change, with timestamp, diff, and commit message. CLAUDE.md is version-controlled, so the agent's policy state at any past commit is reconstructable for audit. Human oversight is the *intended* workflow for agent-authored documents — DataSentinel + Skeptic are the documented pre-publication review steps for documents containing `[data]` tags or tactical recommendations. **Honest limit on enforcement (Codex-flagged):** the review steps are convention, not a machine-enforced gate — there is no pre-commit hook or CI check that blocks a push if DataSentinel was skipped (`docs/ARCHITECTURE.md` §13.4 Gap 8 names this explicitly). The live in-game analysis pipeline also bypasses human-in-the-loop entirely, auto-committing rule-based blocks to `main` every ~90s during a match. **Honest limit at scale:** with a single accountable operator, role separation is not enforced — the same person owns data ingest, model training, policy, and publication. The sovereign-deployment notes describe the role-separation path (least-privilege credentials per agent, separate retrain / publish / review identities) that would be required if this were ever staffed by a team. The accountability story is therefore better described as *attributable* (git log makes every change traceable to a named author or co-authored agent) than as *gated* (no automated control prevents an unreviewed change from reaching `main`).
+
+### Summary
+
+| Principle | Status | Most credible evidence | Most honest gap |
+|-----------|--------|------------------------|-----------------|
+| 1. Wellbeing | Met for the project's narrow scope | Pedagogical / reference-architecture framing; no decision-stakes | No environmental footprint tracking; "low stakes" is not the same as positive wellbeing contribution |
+| 2. Human-centred values | Partial | Advisory-only outputs; no demographic inferences | Live in-game pipeline auto-commits to `main` without per-block human review |
+| 3. Fairness | Partial | No demographic features; top-10 MAE elevation disclosed | No formal slice analysis; absence of demographic features ≠ a fairness audit |
+| 4. Privacy & security | Met for data; partial for runtime | Public data only; no PII at rest | MCP Bash gateway unsandboxed; agent sessions exchange repo contents with external model APIs |
+| 5. Reliability & safety | Strongest in the section | Leak-proof predictor, walk-forward backtest, published metrics | DataSentinel/Skeptic gates are descriptive not enforced; no automated online eval loop |
+| 6. Transparency & explainability | Met for system; partial for predictions | Versioned policy doc, `[data]` tags, confidence tiers + tripwires | Global feature importance only; no per-prediction SHAP/LIME or confidence interval |
+| 7. Contestability | Not applicable at current scope | GitHub issues as informal feedback channel | No formal challenge mechanism (none needed at current stakes) |
+| 8. Accountability | Attributable, not gated | Git as audit trail; versioned CLAUDE.md; named operator | Review gates are convention not machine-enforced; live pipeline auto-pushes; no role separation |
+
+---
+
 ## What I'd do differently in a sovereign deployment
 
 "Sovereign AI" means a deployment under the operator's full control - on-premises hardware or a VPC-isolated cloud tenancy, with data residency guarantees, no information leaving the relevant jurisdiction, and (for sensitive use cases) air-gapped or semi-air-gapped network postures. Australia's AI Ethics Framework and the broader push toward on-shore AI capability make this a live concern: government, defence, regulated industries, and any system handling protected data increasingly need an AI architecture that does not depend on hyperscaler API endpoints. The seven changes below are what I would actually build if SuperCoach-VIA had to run inside that envelope.
@@ -401,3 +470,4 @@ Replace the single-agent, single-process model with LangGraph for stateful multi
 - [vLLM - high-throughput LLM serving](https://vllm.ai)
 - [Temporal - durable execution for agent workflows](https://temporal.io)
 - [Australia's AI Ethics Framework](https://www.industry.gov.au/publications/australias-artificial-intelligence-ethics-framework)
+- [Australia's AI Ethics Principles (the 8 principles)](https://www.industry.gov.au/publications/australias-ai-ethics-principles) — mapped to this project in the section above
