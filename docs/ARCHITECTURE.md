@@ -20,6 +20,8 @@
 8. [Prediction model architecture](#8-prediction-model-architecture)
 9. [Known limitations and caveats](#9-known-limitations-and-caveats)
 10. [How to run things](#10-how-to-run-things)
+11. [Recent problems encountered (and fixes shipped)](#11-recent-problems-encountered-and-fixes-shipped)
+12. [Planned improvements](#12-planned-improvements)
 
 ---
 
@@ -894,6 +896,133 @@ print(f"Years: {df['year'].min()}–{df['year'].max()}")
 ```
 
 Same pattern for any career stat. If the player's file is missing or the stat is genuinely unavailable for that era, tag the claim `**[historical record — unverified in data]**` rather than inventing a number.
+
+---
+
+## 11. Recent problems encountered (and fixes shipped)
+
+A log of significant defects observed during live operation and what was done about each. Commit hashes link the fix to its diff. Where a single commit covers multiple subsections (`deaa918b0` bundles five R11 hardenings), the same hash is cited under each affected item.
+
+### 11.1 Hardcoded `device='cpu'` in `prediction.py` (Codex review finding)
+
+- **Problem:** `prediction.py` hardcoded `device='cpu'` for every LightGBM fit, ignoring available GPU hardware. On a CUDA-enabled host the cost was a 5–10x training slowdown that nobody noticed because the runs still completed.
+- **Fix:** Added `_detect_lgbm_device()` — probes the local LightGBM build by attempting a 1-tree fit on dummy data with `device='gpu'`; falls back to `'cpu'` if the GPU build is unavailable. The result is cached in the module-level constant `LGBM_DEVICE` and threaded through both the Optuna trial params and the final `LGBMRegressor` in the Pipeline. Probe stderr is redirected to `/dev/null` so the C-level "GPU Tree Learner was not enabled" log line does not leak to the user.
+- **Commit:** `e153046db` (Fix hardcoded device='cpu' in prediction.py - use CUDA when available, fall back to CPU).
+
+### 11.2 Pipeline pushing only every 3rd poll
+
+- **Problem:** The initial `live_analysis_pipeline.py` had an `if iteration % 3 == 0` guard on the git push step. Docs went 4.5 minutes between pushes — a long time during a fast-moving quarter, and an unforgiving cadence for any external reader pulling from `origin/main`.
+- **Fix:** Removed the iteration guard. The pipeline now pushes after every poll that actually wrote a block (every 90s during a live game; skipped polls do not push because there is nothing to commit).
+- **Commit:** `f20d45fad` (Push to main on every 90s poll, not every 3rd).
+
+### 11.3 Pipeline inserting new blocks at bottom not top
+
+- **Problem:** New analysis blocks were appended to the bottom of the per-quarter doc. The newest analysis was the hardest to find — a reader had to scroll past every older block to see what just happened.
+- **Fix:** Added `_find_header_end()` helper plus a `<!-- LIVE_ANALYSIS_AUTO_BLOCKS_BELOW -->` insertion marker. All new blocks now prepend immediately after the marker, pushing older blocks down. If the marker is absent (older hand-authored doc), `_find_header_end()` splices the auto-section in right after the H1 title and intro, before any existing `##` / `###` / `---` boundary.
+- **Commit:** `9a045bc3e` (Fix live_analysis_pipeline: insert new blocks at top of doc, not bottom).
+
+### 11.4 Repetitive "Read" paragraph — identical template every 90 seconds
+
+- **Problem:** The `Read:` paragraph in every auto-block was a hardcoded f-string template ("Saints dominating possession X-Y… Short running hot… Sinclair on track… tripwire territory"). Across 50+ blocks in Q3 and Q4 only the numbers changed. Same sentence structure every poll. No evolving narrative, no score-movement delta, no quarter-specific story — pure Mad Libs.
+- **Fix:** Added `_build_dynamic_read()`. The paragraph is now composed from deltas against a `prev_state` dict carried across polls. Narrative content changes based on score movement since the last poll, who is hot in the *current* quarter (via the `af_qN` columns), rising / falling player flags (4+ disposals or 3+ tackles in the last 90s), and the game-state band (close / chasing / blowout / final / break). New `top_quarter_af()` helper surfaces the in-quarter leader rather than the cumulative leader.
+- **Commit:** `1e137356a` (Live pipeline: replace Mad-Libs Read with delta-aware dynamic narrative).
+
+### 11.5 "Final Siren" routing bug — 8 polls misfiled to Q1 doc
+
+- **Problem:** FanFooty emits `"Final Siren"` as a status after the final siren sounds but before the official `"Full Time"` string is published — a window that lasted 8 polls (~12 minutes) during R11. The pipeline only checked for `"Full Time"` / `"ft"` as game-over signals, so the `"Final Siren"` polls fell through to the Q1 default and wrote end-of-game scores into the Q1 live document. The Q1 doc ballooned to 75KB of mostly post-game data.
+- **Fix:** `classify_status()` now matches `"final siren"` (and `"FS"`) and returns `"FT"`. Check ordering was reorganised so all game-over signals fire before any in-quarter regex — a scoreboard frozen at the siren is no longer re-classified as Q4.
+- **Commit:** `deaa918b0` (Harden live_analysis_pipeline.py after R11 Richmond vs St Kilda postmortem).
+
+### 11.6 Thin quarter-break blocks
+
+- **Problem:** The auto-generated `QUARTER BREAK` block had only 4 cumulative stat lines. No quarter-specific leaders, no score verdict against the pre-match target ladder, no tripwire state. A reader scanning the half-time doc could not tell at a glance whether the quarter just played met expectations.
+- **Fix:** `format_quarter_break()` expanded to 18 lines: score verdict against the target ladder (≤15 down at Q1, ≤25 down at HT, ≤30 down at 3QT), top-3 quarter-AF leaders per side using `af_qN`, kick-share tripwire state, and the existing cumulative stat lines.
+- **Commit:** `deaa918b0` (Harden live_analysis_pipeline.py after R11 Richmond vs St Kilda postmortem).
+
+### 11.7 No auto analyst block at quarter transitions
+
+- **Problem:** After Q2 there was no automatic Scientist or FootyStrategy commentary written to the Q3 or Q4 doc. Q3 and Q4 docs started on a blank page until the next per-poll block landed. Key players were missed in live analysis as a result — Jack Macrae (STK) finished R11 with 31 disposals and 7 tackles and was never named in any auto-block because nothing was forcing the pipeline to look at quarter-specific movers.
+- **Fix:** Added `format_quarter_break_analyst()` plus `_write_quarter_break_analysis()`. Fires at every Q→Q transition and writes the top-5 quarter movers per side (by `af_qN`), key-player matchup tracking vs the pre-match disposal predictions (Short / Sinclair / Hill), and a forward-looking line for the next quarter. The transition handler is wrapped so an analyst-block exception cannot crash the main poll loop.
+- **Commit:** `deaa918b0` (Harden live_analysis_pipeline.py after R11 Richmond vs St Kilda postmortem).
+
+### 11.8 Skip-if-unchanged missing
+
+- **Problem:** When FanFooty's feed stalled (no new numbers between two consecutive polls), identical blocks were written multiple times. The Q3 doc had four byte-identical "3 Qtr Time" blocks visible in succession — pure noise from the operator's perspective.
+- **Fix:** `format_analysis_block()` now returns `(None, prev_state)` when score, disposals, tackles, AND hit-outs are all unchanged vs the previous poll. The main loop skips the write and the git commit in that case. The guard is intentionally disabled at quarter-break codes (`QT`, `HT`, `3QT`, `FT`) because at a break the routing change itself is the news.
+- **Commit:** `deaa918b0` (Harden live_analysis_pipeline.py after R11 Richmond vs St Kilda postmortem).
+
+### 11.9 Status string detection fragile
+
+- **Problem:** `'Qtr Time'` (note: capitalised, not `"quarter time"`) was falling through to the Q1 default because the matcher only checked the lowercase long form. `'3 Qtr Time'` was at risk of matching a generic `"qtr time"` rule before the specific `"3qt"` rule. Unknown strings silently routed to Q1 instead of being skipped.
+- **Fix:** All FanFooty status strings catalogued from actual R11 snapshots: `'Qtr Time'`, `'Half Time'`, `'3 Qtr Time'`, `'Final Siren'`, `'Full Time'`, plus the in-quarter `Qn HH:MM` forms. Check order made load-bearing — game-over first, three-quarter-time variants before generic quarter-time, in-quarter strings before break tokens. Unknown strings now return `None`; the main loop logs a warning and skips the cycle rather than misfiling.
+- **Commit:** `deaa918b0` (Harden live_analysis_pipeline.py after R11 Richmond vs St Kilda postmortem).
+
+### 11.10 Live docs bloating with repetitive blocks
+
+- **Problem:** After the R11 game the live docs were 42KB–75KB of near-identical auto-pipeline blocks (Q1: 75KB, Q2: 42KB, HT: 19KB, Q3: 33KB, Q4: 27KB). Combination of the Final Siren misrouting (11.5) and the missing skip-if-unchanged guard (11.8). Effectively unreadable.
+- **Fix:** Post-game pruning pass. For each doc: kept the first block of the quarter, the last block before the break, one instance per distinct transition header (`QUARTER BREAK` / `Qtr Time` / `Half Time` / `3 Qtr Time` / `Full Time` / `Final Siren`), and any block where the margin jumped ≥6 points since the last kept block. Out-of-scope end-of-game blocks were dropped entirely from earlier-quarter docs. Result: Q1 75KB→50KB, Q2 42KB→21KB, HT 19KB→4KB, Q3 33KB→9KB, Q4 27KB→11KB. The fixes in 11.4 and 11.8 prevent this from recurring on future games.
+- **Commit:** `5ae20feee` (Prune repetitive auto-pipeline blocks from R11 live docs).
+
+### 11.11 Pre-match brief missed key player (Macrae, R11)
+
+- **Problem:** Jack Macrae (STK) finished R11 with 31 disposals and 7 tackles and was not tracked in the pre-match brief. Only three players were tracked explicitly in `KEY_PLAYERS` (Short / Sinclair / Hill). A tackling midfielder who was also a high-handball-receive distributor turned out to be the game's dominant presence and went undetected for the full 2.5 hours of live coverage.
+- **Fix (process, not code):** Pre-match tracking list extended to top-5 players per side. Auto analyst blocks now surface the top-5 quarter-AF movers instead of the top-3, on the principle that the brief's named list will always be incomplete and the auto-layer needs to catch the rest.
+- **Commit:** n/a (process change; the structural surfacing of top-5 movers is included in `deaa918b0`, but the brief-authoring policy is documented in the R11 postmortem rather than enforced in code).
+
+---
+
+## 12. Planned improvements
+
+A frank list of what is planned but not yet shipped. Items are marked aspirational where they require new wiring (subagent invocation, secondary data sources, scheduled jobs) rather than just a code change.
+
+### 12.1 LLM-generated quarter-break commentary
+
+The current auto analyst block is rule-based — top-N by `af_qN`, matchup delta vs pre-match prediction, score margin against the target ladder. Planned: invoke the Scientist / FootyStrategy subagents at each quarter break to write actual prose commentary in place of the structured tables.
+
+- **Blocked by:** subagent invocation from inside the polling loop is not currently wired. Would need an in-process call path (or a deferred queue that a human triggers at break) so the loop is not held up by a multi-second LLM round-trip.
+- **Status:** aspirational.
+
+### 12.2 Inside-50 and clearance tracking
+
+Inside-50s, clearances, and contested possessions are the most important possession-chain stats in modern AFL analysis. None of them are in the FanFooty per-player snapshot schema (see §9.2). The live pipeline currently uses kick-share as a labelled territory proxy.
+
+- **Planned:** investigate whether the FanFooty commentary event stream can be parsed to approximate inside-50 counts in-game; alternatively, pull authoritative numbers from a secondary source post-game and back-fill the auto-blocks.
+- **Status:** unstarted.
+
+### 12.3 Pre-match brief auto-population
+
+Currently Scientist manually queries the data files and authors every tabular section of a pre-match brief (season records, H2H ledger, model predictions, per-player form averages).
+
+- **Planned:** `scripts/generate_prematch_brief.py` — given two team names and a round, auto-pulls the H2H history from `data/matches/`, the season form from per-player CSVs, the model predictions from `data/prediction/`, and writes the data skeleton with `**[data]**` tags and source-file annotations. FootyStrategy then fills the interpretation layer between Scientist's tables.
+- **Status:** unstarted.
+
+### 12.4 Player position tagging
+
+Player CSVs lack a `position` column (§9.5). All position-based analysis — forward vs midfielder vs defender splits, `backtest_by_position` — currently buckets every row as `"Unknown"`.
+
+- **Planned:** enrich player data with a position lookup table sourced from afltables or a similar reliable source. Likely an extension to `player_scraper.py` that parses the position field already present on player profile pages, plus a back-fill pass for the existing 13,000-player corpus.
+- **Status:** unstarted.
+
+### 12.5 Model bias correction per team
+
+The walk-forward backtest surfaces a +0.53 disposals-per-player over-prediction for Richmond on the 2026 season. Other teams have smaller but non-zero biases. Consumers currently have to mentally shade the headline number for Richmond.
+
+- **Planned:** apply a per-team bias correction factor at predict time, sourced from the most recent `backtest_by_team_<ts>.csv`. Apply only to teams where the bias is statistically distinguishable from zero on the season-to-date sample.
+- **Status:** identified, not yet implemented.
+
+### 12.6 Smoke test expansion
+
+`scripts/smoke_test_live_pipeline.py` currently exercises four assertions against one R11 Full Time snapshot.
+
+- **Planned:** build a snapshot library of edge cases — stalled feed, unknown status string, first poll of a game, quarter-transition race condition, mid-game schema drift — and exercise all of them as a regression suite before any change to `classify_status` or the skip-if-unchanged guard.
+- **Status:** partially started (the smoke test exists; more snapshot cases needed).
+
+### 12.7 Automated weekly data refresh
+
+Player data, match results, and prediction files need updating after every round. Currently this is a manual `bash refresh_and_rank.sh` invocation by the operator.
+
+- **Planned:** scheduled weekly refresh script with validation gates — row counts, date-range checks, schema diffs — before any new CSV is allowed to overwrite the existing file. A failed validation should leave the existing data in place and surface a clear "refresh blocked because X" message.
+- **Status:** unstarted.
 
 ---
 
