@@ -1,6 +1,10 @@
 # SuperCoach-VIA - AI System Architecture
 
 > [← Back to main README](../README.md)
+>
+> **Scope:** This is the **AI-system reference architecture** write-up. It walks each layer of the AI stack (feature pipeline, ML inference, LLM reasoning, RAG, tool router / MCP, eval harness, observability, multi-agent hierarchy), maps the project to Australia's AI Ethics Principles, and describes the production gaps and the sovereign-deployment design. Read this when you want to understand the architecture as a reference design or audit it from an ML-engineering / AI-ethics perspective.
+>
+> **Companion doc:** For the **repository map and operations manual** — full data inventory, code inventory, docs inventory, match lifecycle, live-pipeline internals, prediction-model implementation, ops runbooks, the incident log, and the agent guardrails — see [`ARCHITECTURE.md`](ARCHITECTURE.md). That doc tells you how the repo *runs*; this one tells you how the system is *designed*.
 
 > How a weekend football project maps to production-grade AI system design
 
