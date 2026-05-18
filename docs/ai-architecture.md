@@ -336,21 +336,15 @@ The council tiers its model selection by task complexity, not by prestige. Using
 | Within 5 disposals | **[data]** 72.3% | |
 | Within 10 disposals | **[data]** 95.6% | |
 | Signed bias | **[data]** -0.069 | Essentially unbiased in aggregate |
-| Round 1 MAE | **[data]** 4.83 | Elevated - no within-season rolling features (n=230, within-5=60.4%, within-10=92.6%) |
-| Round 2 MAE | **[data]** 4.11 | n=413, within-5=72.2%, within-10=95.9% |
-| Round 3 MAE | **[data]** 4.07 | n=320, within-5=74.7%, within-10=95.9% |
-| Round 4 MAE | **[data]** 4.15 | n=319, within-5=72.4%, within-10=94.7% |
-| Round 5 MAE | **[data]** 3.73 | n=365, within-5=75.3%, within-10=97.5% |
-| Round 6 MAE | **[data]** 3.98 | n=411, within-5=74.9%, within-10=95.9% |
-| Round 7 MAE | **[data]** 4.05 | n=410, within-5=72.0%, within-10=95.6% |
-| Round 8 MAE | **[data]** 4.14 | n=411, within-5=73.2%, within-10=95.4% |
-| Round 9 MAE | **[data]** 3.79 | n=410, within-5=74.9%, within-10=98.3% |
-| Round 10 MAE | **[data]** 4.31 | n=412, within-5=68.2%, within-10=94.9% |
-| Round 11 MAE | **[data]** 3.83 | n=373, within-5=77.2%, within-10=95.2% - best within-5 so far |
-| Top-10 player MAE | ~10.8 | Top-end compression - known failure mode |
+| Round 1 MAE | **[data]** 4.83 | Elevated — no within-season rolling features |
+| Round 5 MAE | **[data]** 3.73 | Best MAE so far |
+| Round 11 MAE | **[data]** 3.83 | Best within-5 so far (**[data]** 77.2%) |
+| Top-10 player MAE | ~10.8 | Top-end compression — known failure mode |
 | LLM factual accuracy | ~70–75% pre-correction → ~99% post | Measured by external review of Hall of Fame docs; systematic correction process in place |
 
-A 4.063-disposal player-weighted MAE across 4,074 player-rounds (eleven completed 2026 rounds, Rounds 1–11) means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range - usable signal, not a solved problem. The 95.6% within-10 figure says coarse predictions are reliable; the 72.3% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~1.0 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played. Round 11 produced the season's best within-5 accuracy at 77.2%. The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 78% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
+A 4.063-disposal player-weighted MAE across 4,074 player-rounds means the typical prediction misses by about four disposals, which on a per-player range of 0–45 is roughly 9% of the active range — usable signal, not a solved problem. The 95.6% within-10 figure says coarse predictions are reliable; the 72.3% within-5 figure says fine predictions are improving but still leave headroom. Round 1 sits ~1.0 MAE above the rolling-rounds floor because there are no within-season rolling features available before any 2026 game has been played. The top-10 player MAE remains the headline failure: elite players are systematically harder to predict because their week-to-week ceilings move on context (tag absorption, opponent matchups, role rotations) that the current feature set captures only partially. Roadmap targets: cut top-10 MAE below 8.0 via an opponent-tag feature and a within-season rolling feature for round 1, raise within-5 above 78% via better calibration on the upper tail, and add an automated online eval loop so post-round actuals score the predictions without manual triggering.
+
+**Full per-round table (all 11 rounds), team-level bias for every club, and round-by-round biggest misses:** [docs/afl-backtest-2026.md](afl-backtest-2026.md).
 
 ---
 
