@@ -19,7 +19,7 @@
 
 The repo runs a full weekly-refreshed pipeline from a single shell script: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation. The football is the domain; the architecture is the point.
 
-The current model misses a player's next-round disposal count by about **[data]** 4.06 disposals on average, measured honestly across **[data]** 4,074 player-round predictions (Rounds 1-11, 2026).
+The current model misses a player's next-round disposal count by about **[data]** 4.056 disposals on average, measured honestly across **[data]** 4,494 player-round predictions (Rounds 1–12, 2026).
 
 ⭐ **If this project is useful to you, please star the repo.**
 
@@ -29,9 +29,11 @@ The current model misses a player's next-round disposal count by about **[data]*
 
 Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
-**Latest:** [Scott Pendlebury — The StormRider](docs/news/2026-05-19-pendlebury-stormrider.md) - the all-time games record milestone: 432 games and counting, the prime-era consistency, two premierships, and a career read through five coaching lenses. *(19 May 2026)*
+<!-- NEWS-LATEST-START -->
+**Latest:** [Neale Daniher — Why Not](docs/news/2026-05-25-neale-daniher-tribute.md) - Tribute on the passing of the Essendon Hall of Fame footballer, Melbourne coach, and FightMND founder — aged 65 *(2026-05-25)*
 
-[Who should be the next Carlton coach?](docs/news/2026-05-15-carlton-next-coach.md) - a data-driven look at the coaching succession, the structural fix the Blues actually need, and the shortlist that survives the numbers. *(15 May 2026)*
+[Scott Pendlebury — The StormRider](docs/news/2026-05-19-pendlebury-stormrider.md) - All-time games record milestone (tied at 432) *(2026-05-19)*
+<!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
 
