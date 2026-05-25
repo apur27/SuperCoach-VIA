@@ -3,9 +3,9 @@ name: Weekly fan pack
 # Generates the weekly "fan pack" - latest predictions CSV plus auto-updated
 # fan-friendly docs - and uploads them as a GitHub Release artifact.
 #
-# Runs every Sunday at 23:00 UTC (Monday 09:00 AEST - well after the typical
-# Sunday afternoon final-game) so the bundle reflects post-round data once the
-# operator has refreshed and pushed. Also runnable manually via the Actions tab.
+# Runs every Wednesday at 23:00 UTC (Thursday 09:00 AEST) during the footy
+# season - mid-week gives fans the latest round data plus predictions well
+# before the next round starts. Also runnable manually via the Actions tab.
 #
 # This is intentionally a low-blast-radius workflow: it does NOT retrain the
 # model or scrape data (that still happens on the operator's local machine via
@@ -14,7 +14,7 @@ name: Weekly fan pack
 
 on:
   schedule:
-    - cron: '0 23 * * 0'   # Sundays at 23:00 UTC (Monday 09:00 AEST)
+    - cron: '0 23 * * 3'   # Wednesdays at 23:00 UTC (Thursday 09:00 AEST)
   workflow_dispatch:        # allow manual trigger
     inputs:
       release_tag:
