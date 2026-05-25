@@ -21,6 +21,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
+| 2026-05-25 | [Neale Daniher (1961–2026) — player, coach, fighter](2026-05-25-neale-daniher-tribute.md) | Tribute on the passing of the Essendon Hall of Fame footballer, Melbourne coach, and FightMND founder | Complete (all six council layers) |
 | 2026-05-19 | [Scott Pendlebury — The StormRider](2026-05-19-pendlebury-stormrider.md) | All-time games record milestone (tied at 432) | Complete (data + FootyStrategy layers) |
 | 2026-05-15 | [Who should be the next Carlton coach?](2026-05-15-carlton-next-coach.md) | Carlton coaching succession | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-15 | [Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](2026-05-15-richmond-vs-stkilda-r11.md) | Match preview / injury impact | Complete (data + FootyStrategy + Codex layers) |
