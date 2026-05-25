@@ -314,6 +314,64 @@ def _step_predictions_and_backtest() -> Tuple[List[str], List[str]]:
     return written, errors
 
 
+def _step_news_latest() -> Tuple[List[str], List[str]]:
+    """Update the <!-- NEWS-LATEST-START/END --> block in README.md with the
+    two most recent entries from docs/news/README.md (parsed from the entries
+    table, most-recent-first)."""
+    import re
+
+    news_index = os.path.join(REPO_ROOT, "docs", "news", "README.md")
+    main_readme = os.path.join(REPO_ROOT, "README.md")
+
+    try:
+        with open(news_index, encoding="utf-8") as f:
+            news_text = f.read()
+        # Parse the entries table: rows look like:
+        # | DATE | [TITLE](FILE) | TOPIC | STATUS |
+        rows = re.findall(
+            r"^\|\s*(\d{4}-\d{2}-\d{2})\s*\|\s*\[([^\]]+)\]\(([^)]+)\)\s*\|\s*([^|]+)\|",
+            news_text, re.MULTILINE,
+        )
+        if not rows:
+            return [], ["news index: no entries found"]
+
+        # rows are already most-recent-first in the index; take top 2
+        top2 = rows[:2]
+        lines = []
+        for i, (date, title, path, topic) in enumerate(top2):
+            # path in the index is relative to docs/news/; make it relative to repo root
+            rel_path = f"docs/news/{path}"
+            topic = topic.strip().rstrip("|").strip()
+            prefix = "**Latest:** " if i == 0 else ""
+            lines.append(f"{prefix}[{title}]({rel_path}) - {topic} *({date})*")
+
+        new_block = (
+            "<!-- NEWS-LATEST-START -->\n"
+            + "\n\n".join(lines)
+            + "\n<!-- NEWS-LATEST-END -->"
+        )
+
+        with open(main_readme, encoding="utf-8") as f:
+            readme_text = f.read()
+
+        new_readme = re.sub(
+            r"<!-- NEWS-LATEST-START -->.*?<!-- NEWS-LATEST-END -->",
+            new_block,
+            readme_text,
+            flags=re.DOTALL,
+        )
+
+        if new_readme == readme_text:
+            return [], []
+
+        with open(main_readme, "w", encoding="utf-8") as f:
+            f.write(new_readme)
+        return [main_readme], []
+
+    except Exception as e:
+        return [], [f"news latest: {e}"]
+
+
 def refresh_all(skip_static: bool = False, skip_top100: bool = False,
                 skip_team: bool = False) -> Dict[str, object]:
     """Run every refresh step. Returns a result dict that mirrors what main()
@@ -357,9 +415,19 @@ def refresh_all(skip_static: bool = False, skip_top100: bool = False,
             print(f"  [error] {e}", file=sys.stderr)
         errors.extend(errs)
 
+    print("=========================================")
+    print("[Step 2c] Latest news in README.md")
+    print("=========================================")
+    news_paths, errs = _step_news_latest()
+    for p in news_paths:
+        print(f"  wrote {os.path.relpath(p, REPO_ROOT)}")
+    for e in errs:
+        print(f"  [error] {e}", file=sys.stderr)
+    errors.extend(errs)
+
     if not skip_team:
         print("=========================================")
-        print("[Step 2c] Next-round predictions + backtest results doc sections")
+        print("[Step 2d] Next-round predictions + backtest results doc sections")
         print("=========================================")
         pred_bt_paths, errs = _step_predictions_and_backtest()
         for p in pred_bt_paths:
