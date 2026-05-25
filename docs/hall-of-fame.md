@@ -11,7 +11,19 @@ The game has produced extraordinary people. The pages below are about the ones w
 ## Pages in this section
 
 - **[Top 100 AFL players of all time](hall-of-fame-top100.md)** - auto-generated, era-normalised composite ranking. Updated whenever `update_team_analysis.py` runs.
-- **[All-time statistical leaders](hall-of-fame-stat-leaders.md)** - top 20 in every major category (goals, disposals, marks, tackles, hit-outs, Brownlow, games and more), plus single-season records. Pure raw-volume tables, the counterpart to the era-normalised top 100.
+- **[All-time statistical leaders](hall-of-fame-stat-leaders.md)** - top 20 in every major category, hub page with links to twelve dedicated sub-pages, plus single-season records. Pure raw-volume tables, the counterpart to the era-normalised top 100.
+  - [Career goals](hall-of-fame-stat-goals.md) - Lockett 1,360 **[data]**
+  - [Career games](hall-of-fame-stat-games.md) - Pendlebury 433 (outright) **[data]**
+  - [Career disposals](hall-of-fame-stat-disposals.md) - Pendlebury 10,933 **[data]**
+  - [Career marks](hall-of-fame-stat-marks.md) - Nick Riewoldt 2,944 **[data]**
+  - [Career tackles](hall-of-fame-stat-tackles.md) - Pendlebury 1,997 **[data]**
+  - [Career contested possessions](hall-of-fame-stat-contested.md) - Dangerfield 4,627 **[data]**
+  - [Career clearances](hall-of-fame-stat-clearances.md) - Neale 1,947 **[data]**
+  - [Career hit-outs](hall-of-fame-stat-hitouts.md) - Goldstein 10,597 **[data]**
+  - [Career Brownlow votes](hall-of-fame-stat-brownlow.md) - Ablett jnr 262 **[data]**
+  - [Career goal assists](hall-of-fame-stat-goalassists.md) - Pendlebury 325 **[data]**
+  - [Career kicks & handballs](hall-of-fame-stat-kicks-handballs.md) - Bartlett 8,293 kicks; Pendlebury 5,477 handballs **[data]**
+  - [Single-season records](hall-of-fame-stat-single-season.md) - Hudson/Pratt 150 goals; Cripps 45 Brownlow votes **[data]**
 - **[Top 30 AFL captains of all time](hall-of-fame-captains.md)** - Barassi, Whitten, Skilton, Dyer through to Bontempelli and Cripps.
 - **[Top 10 AFL coaches of all time](hall-of-fame-coaches.md)** - McHale, Barassi, Malthouse, Sheedy, Clarkson and the rest.
 - **[Top 20 most courageous AFL players of all time](hall-of-fame-courageous.md)** - physical, mental, competitive courage from Sam Newman to Jason Dunstall.
