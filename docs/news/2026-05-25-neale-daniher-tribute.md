@@ -1,6 +1,10 @@
-# Neale Daniher (1961–2026) — player, coach, fighter
+# Neale Daniher — Why Not
 
 > [← Back to news](README.md) | [← Back to main README](../../README.md)
+
+*Published: 2026-05-25. Data layer: Scientist. Tactical layer: FootyStrategy. This tribute was produced by the SuperCoach-VIA six-agent council.*
+
+> **Note on the title.** "Why Not" is not an authorial invention — it is the question Daniher asked publicly throughout his fight with MND, and the philosophy he named his book after. It is used here as the title of this piece because it describes something precise about how he moved through every stage of his life, not just the advocacy years. When his knee was destroyed at twenty and the career should have been over, he did not ask whether to come back — he came back in 1985, sat out again, came back in 1989, came back in 1990. When he took over a Melbourne side that lacked the list to win a flag, he coached it for a decade anyway. When he was given a terminal diagnosis in 2013 with a median prognosis of two to five years, he founded a charity and spent thirteen years in front of every audience that would have him. At each of these junctions, the same logic applied: calculate the odds, note that they are against you, and ask why not anyway. The title is a description of a decision-making pattern, not a marketing flourish. The preceding sentence — "Vale Neale Daniher" — is where the description is made explicit as an act of respect.
 
 > **Note on tone.** This is a tribute piece. The analytical framing is applied respectfully — Neale Daniher's career and legacy are described through the same coaching lenses used for all entries in this project. Numbers are tagged by source. The "Why not?" section is interpretive, not analytical.
 
@@ -147,4 +151,4 @@ Vale Neale Daniher.
 
 ---
 
-*Published: 2026-05-25. Data layer: Scientist. Tactical layer: FootyStrategy. This tribute was produced by the SuperCoach-VIA six-agent council.*
+*Scientist agent data layer. FootyStrategy agent tactical layer. Published 2026-05-25.*
