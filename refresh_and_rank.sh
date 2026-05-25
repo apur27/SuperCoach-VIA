@@ -24,14 +24,23 @@ echo "=========================================="
 "$PYTHON" prediction.py
 
 echo "=========================================="
-echo "[4/6] Backtesting prediction accuracy (last round)..."
+echo "[4/6] Backtesting prediction accuracy (incremental)..."
 echo "=========================================="
-# Walk-forward backtest covering all played rounds of the current season.
-# --end-round auto picks the most recently completed round automatically.
+# Walk-forward backtest — incremental only. Detects the last complete run
+# (one that produced a backtest_summary_*.csv) and starts from the next round.
 # Writes: data/prediction/backtest/backtest_summary_<timestamp>.csv
 #         data/prediction/backtest/backtest_by_team_<timestamp>.csv
 #         data/prediction/backtest/backtest_by_position_<timestamp>.csv
-"$PYTHON" backtest.py --start-year 2026 --start-round 1 --end-year 2026 --end-round auto
+LAST_TS=$(ls data/prediction/backtest/backtest_summary_*.csv 2>/dev/null | sort | tail -1 | grep -oP '\d{8}_\d{6}')
+if [ -z "$LAST_TS" ]; then
+    START_ROUND=1
+else
+    LAST_ROUND=$(ls data/prediction/backtest/prediction_vs_actual_round_*_2026_${LAST_TS}.csv 2>/dev/null \
+        | grep -oP 'round_\K[0-9]+' | sort -n | tail -1)
+    START_ROUND=$((LAST_ROUND + 1))
+fi
+echo "Last complete backtest: round ${LAST_ROUND:-none}. Running from round ${START_ROUND}."
+"$PYTHON" backtest.py --start-year 2026 --start-round "$START_ROUND" --end-year 2026 --end-round auto
 
 echo "=========================================="
 echo "[5/6] Refreshing docs, charts and analysis..."
