@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-05-25 · 1 rounds backtested · auto-generated*
+*Last updated: 2026-05-25 · 12 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -34,9 +34,20 @@ This is the honest test. The model never gets to see the round it's predicting.
 
 | Round | Players | MAE | RMSE | Within 5 disp | Within 10 disp |
 |------:|--------:|----:|-----:|--------------:|---------------:|
+| 1 | 230 | 4.83 | 6.10 | 60.4% | 92.6% |
+| 2 | 413 | 4.11 | 5.11 | 72.2% | 95.9% |
+| 3 | 320 | 4.07 | 5.28 | 74.7% | 95.9% |
+| 4 | 319 | 4.15 | 5.32 | 72.4% | 94.7% |
+| 5 | 365 | 3.73 | 4.74 | 75.3% | 97.5% |
+| 6 | 411 | 3.98 | 5.05 | 74.9% | 95.9% |
+| 7 | 410 | 4.05 | 5.15 | 72.0% | 95.6% |
+| 8 | 411 | 4.14 | 5.27 | 73.2% | 95.4% |
+| 9 | 410 | 3.79 | 4.74 | 74.9% | 98.3% |
+| 10 | 412 | 4.31 | 5.50 | 68.2% | 94.9% |
+| 11 | 373 | 3.83 | 5.01 | 77.2% | 95.2% |
 | 12 | 412 | 3.98 | 5.24 | 74.3% | 94.9% |
 
-**Overall (mean across 1 rounds):** MAE 3.98 disposals · 74.3% of predictions within 5 disposals · 94.9% within 10.
+**Overall (mean across 12 rounds):** MAE 4.08 disposals · 72.5% of predictions within 5 disposals · 95.6% within 10.
 
 > **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
 
@@ -88,13 +99,13 @@ The per-round table above reports the mean across each round individually. The *
 
 | Metric | Value | What it means |
 |---|---|---|
-| Rounds backtested | 11 (R1–R11) | Walk-forward — each round predicted using only data from rounds before it |
-| Player predictions scored | **4,074** | Total prediction-vs-actual pairs across the 11 rounds |
-| **MAE (overall)** | **4.063 disposals** | Average absolute miss across every player-round |
-| **RMSE (overall)** | **5.195 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
-| **Bias (overall)** | **−0.069 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
-| Cumulative MAE (mean of round MAE) | 4.09 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
-| Median round MAE | 4.07 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
+| Rounds backtested | 12 (R1–R12) | Walk-forward — each round predicted using only data from rounds before it |
+| Player predictions scored | **4,494** | Total prediction-vs-actual pairs across the 12 rounds |
+| **MAE (overall)** | **4.056 disposals** | Average absolute miss across every player-round |
+| **RMSE (overall)** | **5.190 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
+| **Bias (overall)** | **−0.084 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
+| Cumulative MAE (mean of round MAE) | 4.08 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
+| Median round MAE | 4.06 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
 
 **Read:** the model is essentially unbiased at the population level (mean signed error ≈ 0), with a typical absolute miss of ~4 disposals. RMSE only 1.1 above MAE indicates the error distribution is reasonably tight — there is no fat tail of catastrophic mispredictions.
 
