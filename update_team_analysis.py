@@ -4138,25 +4138,31 @@ def generate_backtest_section(year: int) -> str:
     """
     bt_dir = os.path.join(REPO_ROOT, "data", "prediction", "backtest")
     pattern = os.path.join(bt_dir, "backtest_summary_*.csv")
-    candidates = [p for p in glob.glob(pattern) if os.path.isfile(p)]
+    candidates = sorted(
+        [p for p in glob.glob(pattern) if os.path.isfile(p)],
+        key=os.path.getmtime,
+    )
     if not candidates:
-        return ""
-    latest = max(candidates, key=os.path.getmtime)
-    try:
-        df = pd.read_csv(latest)
-    except Exception as exc:
-        print(f"[backtest] could not read {os.path.basename(latest)}: {exc}", file=sys.stderr)
         return ""
     needed = {
         "round", "year", "n_players", "mae", "rmse",
         "pct_within_5", "pct_within_10",
     }
-    if not needed.issubset(df.columns):
-        print(
-            f"[backtest] {os.path.basename(latest)} missing columns "
-            f"(have {list(df.columns)})", file=sys.stderr,
-        )
+    # Merge ALL summary CSVs (oldest first), keeping the most-recent entry per
+    # (year, round) so that incremental runs extend rather than replace the table.
+    frames = []
+    for path in candidates:
+        try:
+            chunk = pd.read_csv(path)
+            if needed.issubset(chunk.columns):
+                frames.append(chunk)
+        except Exception as exc:
+            print(f"[backtest] skip {os.path.basename(path)}: {exc}", file=sys.stderr)
+    if not frames:
         return ""
+    df = pd.concat(frames, ignore_index=True)
+    # Keep newest entry per (year, round) — concat is oldest-first so last wins
+    df = df.drop_duplicates(subset=["year", "round"], keep="last")
     # Filter to the target year so cross-year summaries don't blend in
     df = df[df["year"] == year].copy()
     if df.empty:
