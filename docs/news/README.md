@@ -21,6 +21,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
+| 2026-05-29 | [Jonathan Brown — The Fist of God](2026-05-29-jonathan-brown-fist-of-god.md) | Career tribute to the Brisbane Lions full-forward; the 2004 Grand Final as the defining image of refusing to be moved | Complete (all six council layers) |
 | 2026-05-27 | [James Hird and the Essendon vacancy — the case for Australia's most contested second chance](2026-05-27-hird-essendon-coach.md) | Argued case for James Hird as next Essendon senior coach; engages the supplements-era counterarguments | Complete (data + FootyStrategy layers) |
 | 2026-05-25 | [Neale Daniher — Why Not](2026-05-25-neale-daniher-tribute.md) | Tribute on the passing of the Essendon Hall of Fame footballer, Melbourne coach, and FightMND founder — aged 65 | Complete (all six council layers) |
 | 2026-05-19 | [Scott Pendlebury — The StormRider](2026-05-19-pendlebury-stormrider.md) | All-time games record milestone (tied at 432) | Complete (data + FootyStrategy layers) |
