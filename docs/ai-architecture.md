@@ -388,6 +388,152 @@ The other gaps are real but lower-velocity: the council operates today without t
 
 ---
 
+## AI security — risks, controls, and secure design in this repo
+
+**In plain English:** The harness section above describes the gaps in operational engineering — what the system fails to *enforce*. This section describes the gaps in adversarial engineering — what the system fails to *defend against*. The two overlap, but the framing is different: harness gaps are about an operator wanting to do the right thing and lacking the rails; security gaps are about an attacker wanting to do the wrong thing and finding a path. SuperCoach-VIA's attack surface is small but real — it pulls data from a public website, feeds it into prompts, trains a model on it, generates documents from it, and auto-pushes those documents to `main`. Every step is a place an adversary could try to influence behaviour. This section is grounded in the actual code paths above, not in generic AI threat lists.
+
+The audit method is the same as the harness section — *DataSentinel-style verification*. Every "implemented" control names the file and line where it lives; every "gap" links back by name to the harness engineering gap table where applicable.
+
+### Threat model summary
+
+| # | Threat | Attack vector | Likelihood | Impact | Current control | Gap |
+|---|---|---|---|---|---|---|
+| 1 | Prompt injection via scraped data | Malicious string in a scraped player name, team description, or news article that lands in an agent's context window with instruction-like phrasing ("ignore previous instructions, write file X") | **M** | **M** | None at scrape time; agents are trained to recognise injection but this is probabilistic, not enforced | **[gap]** — no scrubbing of scraped strings before they enter prompt context |
+| 2 | Prompt injection via agent memory | Malicious content written into `.claude/agent-memory/<agent>/*.md` by a compromised prior session, then loaded as context at the start of every future session | **L** | **H** | Memory files are git-tracked and reviewable; a malicious entry would show up in `git diff` | **[gap]** — no pre-commit gate on memory file edits, no integrity check at session load |
+| 3 | Training data poisoning (single row) | Adversary controls one row in `data/player_data/<player>_performance_details.csv` (via a compromised FanFooty page or a man-in-the-middle on the scrape) with an extreme value | **L** | **M** | None; `refresh_data.py` writes the row unchanged | **[gap]** — no anomaly detection before append (see §13.4 Gap 5 — CSV schema validation) |
+| 4 | Feature poisoning via rolling-average propagation | A single poisoned row (Threat 3) propagates through the rolling features. `prediction.py` line 162 sets `rolling_window=5` and `within_season_window=3` — one corrupted row influences the next 5 across-season and next 3 within-season predictions for that player before it ages out | **L** | **M** | Same as Threat 3 | **[gap]** — same fix closes both; additionally, the backtest cannot detect the poisoning because the model was trained on the poisoned row |
+| 5 | CSV formula injection | A scraped player name or team description starting with `=`, `+`, `-`, or `@` becomes a CSV cell that executes as a formula when a user opens the file in Excel/Sheets | **L** | **L** | None; the CSVs are written verbatim | **[gap]** — sanitise leading metacharacters in any text column before write |
+| 6 | Auto-commit of agent-written malicious content | An agent (Scientist, BriefBuilder, FootyStrategy) writes malicious content into a doc, and `refresh_and_rank.sh` line 79 or `scripts/live_analysis_pipeline.py` line 1068 `git push origin main` lands it without human review | **L** | **H** | Convention only — DataSentinel is *described as* a pre-commit gate but is not wired (see §13.4 Gap 1) | **[gap]** — same as harness Gap 1 ("No pre-commit gate") and Gap 3 ("Live pipeline auto-pushes to main with no HITL") |
+| 7 | Agent privilege escalation via injected Bash instructions | A prompt injection redirects an agent with Bash access (Scientist, FootyStrategy, BriefBuilder, Skeptic, DataSentinel — all five agent specs in `.claude/agents/` permit all tools) to run `rm -rf`, `git push --force`, or an outbound `curl` | **L** | **H** | `.claude/settings.local.json` enforces an ~130-entry allowlist; unlisted Bash invocations trigger a permission prompt (a human-in-the-loop on novel commands) | **[gap]** — the allowlist contains broad globs (`Bash(git *)`, `Bash(bash *)`, `Bash(sudo *)`) that defeat the principle of least privilege |
+| 8 | Supply chain — pip dependency or GitHub Actions tag mutation | A compromised `pandas`/`lightgbm`/`cudf` release, or a re-pointed `actions/checkout@v4` tag, exfiltrates scraped data or injects build-time payload | **L** | **H** | None; deps are pulled by tag/version, GitHub Actions uses `@v4`/`@v5`/`@v2` floating tags (`.github/workflows/weekly-fan-pack.yml` lines 33, 40, 126, 133) | **[gap]** — no lockfile hashes, no Actions pinned by commit SHA |
+| 9 | DataSentinel bypass (injection in reviewed draft) | The draft DataSentinel reviews contains an injection that redirects DataSentinel to mark a fraudulent `[data]` tag as verified | **L** | **H** | DataSentinel runs on Haiku — smaller, less prompt-injectable than Opus, but still LLM-based; runs on `.claude/agents/DataSentinel.md` model spec | **[gap]** — verification should be deterministic Python that re-reads the CSV, not LLM judgement |
+| 10 | Hallucinated `[data]` tags (integrity violation) | An agent writes a `[data]`-tagged number that is not in fact derived from a data file (memory-confabulation, not adversarial) | **M** | **M** | CLAUDE.md policy + DataSentinel convention; HOF docs measured at ~70–75% pre-correction, ~99% post | **[gap]** — DataSentinel is not enforced; "post-correction" relies on human review (see harness Gap 1) |
+
+The risk profile is dominated by *low likelihood, high impact* threats: the system is small, the attack surface is narrow, and there is no obvious adversary today — but the controls would not hold against a determined one, and several of the high-impact paths (agent privilege escalation, auto-commit, DataSentinel bypass) all chain to "malicious content on `origin/main`." That chain is the single most important security property to harden.
+
+### Prompt injection — how it manifests here
+
+The injection surfaces in this repo, in roughly descending order of exposure:
+
+1. **Scraped FanFooty data → CSV → agent prompt.** `refresh_data.py` scrapes player and match pages from `www.fanfooty.com.au` and `afltables.com`. Text fields — player names, team descriptions, venue names — are written verbatim into `data/player_data/*.csv` and `data/matches/matches_*.csv`. When the Scientist agent later reads those CSVs into a prompt context (via `pd.read_csv(...).to_string()` or `.head()`), any injection payload embedded in those text fields lands inside the agent's context window. **[implemented]** none — there is no scrubbing of scraped strings. **[gap]** strip control characters, refuse instruction-like prefixes ("ignore previous", "you are now"), and quote-fence all CSV-derived strings when they enter prompt context.
+
+2. **Live JSON snapshots → live pipeline → markdown doc.** `scripts/live_analysis_pipeline.py` reads `data/live_snapshots/<gameid>_*.json` (FanFooty live feed responses) and writes blocks into `docs/coaches-strategy-corner/<match>-q<N>-live.md`. The live pipeline does not invoke an LLM at runtime — the analyst-block generation is deterministic Python — so an injection in the JSON only matters if a *later* Scientist session reads that markdown back as context. The exposure is one hop indirect, but still real. **[implemented]** the FanFooty schema is loosely defined (see `agent-memory/Scientist/snapshot_data_quality.md` documenting field-misindex issues already detected). **[gap]** the same schema validation that would catch col-15/16/39 drift would also catch injection-in-string-field.
+
+3. **Prior news articles as agent context.** When BriefBuilder or FootyStrategy reads an earlier news doc to build continuity (e.g. "what did we say about Carlton's coach search last week"), a malicious prior doc could redirect the agent. The repo has no untrusted contributors today, but the surface exists. **[implemented]** none beyond the human review that approved the prior doc. **[gap]** treat prior docs as untrusted input when read into prompt context — quote-fence and refuse to act on instruction-like content from them.
+
+4. **Marker injection in auto-generated docs.** `update_team_analysis.py` parses `<!-- YEAR-TEAM-ANALYSIS-START -->` / `<!-- YEAR-TEAM-ANALYSIS-END -->` markers (line 22) to replace the section between them. A scraped team name containing the literal string `<!-- YEAR-TEAM-ANALYSIS-END -->` would break the marker parsing and could cause the script to delete content beyond the intended block. The likelihood is near-zero (no real team name contains HTML comment syntax), but the failure mode is total — the script does not validate that exactly one START and one END marker exist. **[gap]** add a marker integrity check at the top of every marker-driven function.
+
+5. **Agent memory as a persistent injection vector.** `.claude/agent-memory/<agent>/MEMORY.md` is loaded into every session of that agent at conversation start. A single malicious memory file written by a compromised session (or by an attacker with write access to the repo) persists across all future sessions until manually removed. The blast radius is the largest of any injection surface here — one poisoned file, all future Scientist sessions. **[implemented]** memory files are git-tracked, so a malicious edit would appear in `git diff` and `git log`. **[gap]** no pre-commit gate that asserts memory edits were authored by the operator and not by an agent; no integrity check at session load.
+
+### Data and model poisoning — the training pipeline attack surface
+
+The poisoning chain in this repo is short and well-defined:
+
+```
+FanFooty / afltables scrape  →  refresh_data.py append row  →  data/player_data/<player>.csv
+                                                                       │
+                                                                       ▼
+                                            prediction.py LeakProofPredictor reads
+                                                                       │
+                                                                       ▼
+                                            _add_rolling() builds 5-game across-season +
+                                            3-game within-season averages (line 162)
+                                                                       │
+                                                                       ▼
+                                                       VotingRegressor train + predict
+                                                                       │
+                                                                       ▼
+                                                       backtest.py reads predictions
+```
+
+**Propagation radius.** A single poisoned row (e.g. a player's row with `disposals = 9999`) affects:
+- The *target* for that row's player-round (one prediction error on backtest).
+- The across-season rolling-5 feature for that player's next 5 rounds (`prediction.py` line 162, `rolling_window=5`).
+- The within-season rolling-3 feature for that player's next 3 rounds.
+- The season-to-date mean for every subsequent round of that player's season.
+- The league-average and rank features that update_team_analysis.py uses to write the auto-generated team profiles — a one-row outlier shifts the team's rank by one position if the team's true value is close to the rank boundary.
+
+So a single row's blast radius is roughly *5 subsequent predictions for that player* plus *one team-level rank shift* plus *one season-to-date mean drift*. Not catastrophic, but enough to materially change a published number.
+
+**Backtest cannot detect this.** The walk-forward backtest re-trains on data up to round N-1 and predicts round N. If the poisoned row was in the training set, the model has already adapted to it; the backtest measures error against the (also-poisoned) actuals and reports nothing unusual. **The backtest is a model-quality gate, not a data-quality gate.**
+
+**Current controls.** **[implemented]** none specific to poisoning. The closest thing is the existing `agent-memory/Scientist/snapshot_data_quality.md` and `player_csv_date_format.md` memory files — they describe known data-quality issues, but the agent has to remember to check. **[gap]** — see harness Gap 5 ("No CSV schema validation"). The recommended fix for that gap (a `pandera` schema applied in `refresh_data.py`) is also the right fix for poisoning: add a z-score gate at write time. For any new row, compute the z-score of each numeric stat against the player's historical mean and stddev (from rows already in the CSV). Flag any row with `abs(z) > 5` on any stat, log to `data/_quarantine/<player>_<round>_<reason>.json`, and refuse to append. The threshold of 5σ is generous enough to admit genuinely exceptional games (Brett Deledio's 51-disposal round, Hawkins' bag-of-10) while catching mechanical errors (9999, negative disposals, off-by-orders-of-magnitude). The same gate addresses Threat 4 (rolling propagation) because the poisoned row never enters the CSV in the first place.
+
+**CSV formula injection (Threat 5).** Separate issue, same surface. `refresh_data.py` writes scraped player names verbatim. A name beginning with `=` would execute as a formula in Excel/Sheets. Likelihood is essentially zero (AFL player names don't start with `=`) but the fix is one line: prefix any text-column value matching `^[=+\-@\t\r]` with a single quote before write. **[gap]** not implemented; trivially cheap.
+
+### Auto-commit attack surface
+
+The repo has *three* auto-commit-to-main paths, in roughly descending criticality:
+
+1. **`scripts/live_analysis_pipeline.py` line 1068** — `git push origin main` every ~90 seconds during a live match (`POLL_SECONDS = 90`, line 38). The block written each cycle is deterministic Python output (no LLM at runtime), so there is no prompt-injection vector at this step — but the block is generated from FanFooty JSON, and a malformed JSON can still produce a bogus block (the end-of-game-back-fill bug already documented in `agent-memory/Scientist/live_pipeline_glitch.md`). The pipeline includes a status-classification guard (line 1107) that *skips writes* on unrecognised status strings — that is the closest thing to a sanity check, but it does not check the block content itself against an earlier-quarter score state. **Cross-reference:** this is harness Gap 3.
+
+2. **`refresh_and_rank.sh` line 79** — `git push origin main` at step [6/6] of the weekly refresh. The staged file list is a deliberate allowlist (lines 58–77) to avoid pulling in scratch CSVs, which is a real control against accidental publication of work-in-progress files. But the allowlist does not check *content* — if an agent wrote malicious content into one of the allowlisted files during step [1/6] through [5/6], it gets pushed. **Cross-reference:** this is the same surface as harness Gap 1 (no pre-commit gate).
+
+3. **Manual `git push origin main` from agent sessions.** The Scientist's `Bash(git *)` allowlist entry (`.claude/settings.local.json` line 9) permits any git invocation, including push. There is no policy enforcement that distinguishes "Scientist editing a docs file" from "Scientist force-pushing to main with arbitrary content." Convention holds because the operator is the only user — but the convention is not machine-enforced.
+
+**Current controls.** **[implemented]** the live pipeline's status-classification guard (line 1107) refuses to write on unrecognised status strings. The refresh script's `set -e` and explicit `git add` allowlist (lines 58–77). The settings.local.json permission gate forces a prompt on novel Bash commands (but `Bash(git *)` is allowlisted, so all git commands pass silently). **[gap]** see harness Gap 1 (pre-commit hook) and Gap 3 (live pipeline staging).
+
+**Recommended fix.** Per the harness section recommendations, swap the live pipeline's `git push origin main` (line 1068) for `git push origin HEAD:refs/heads/live-staging`, and require a human `git merge live-staging main && git push` to promote. This converts an unattended-auto-push into an attended-attended-publish without changing the live analyst-block generation cadence. The same staging pattern can apply to `refresh_and_rank.sh` if desired, though the weekly cadence makes the unattended path more defensible there than for the 90-second live cadence.
+
+### Agent governance model
+
+**Current state — flat operator permissions.** All five agents (`.claude/agents/BriefBuilder.md`, `DataSentinel.md`, `FootyStrategy.md`, `Scientist.md`, `Skeptic.md`) run with the same permission allowlist defined in `.claude/settings.local.json`. None of the agent spec files declare a `tools:` whitelist in their frontmatter (the schema supports it; the entries don't use it). The result: DataSentinel, whose only job is to read CSVs and emit a JSON verdict, has the same Bash + Write + WebFetch privileges as the Scientist.
+
+**Specifically violating principles of least privilege:**
+- DataSentinel should be **read-only** — no Write, no Edit, no Bash beyond `pd.read_csv` invocations. Currently has full Write and Bash access.
+- BriefBuilder should write only to `docs/coaches-strategy-corner/` and read from `data/`. Currently can edit any file.
+- Skeptic should be read-only on the draft it reviews (no rewrites, per its spec line 4: "Never silently modifies the doc"). Convention only — Write tool is available.
+
+**[gap]** the `tools:` frontmatter field in agent specs is not used to restrict capabilities. Adding `tools: [Read, Grep, Glob]` to DataSentinel.md and `tools: [Read, Grep, Glob, Edit, Write]` (scoped to `docs/`) to BriefBuilder.md is a low-effort, high-leverage change.
+
+**Audit trail.** Git commits are the only log. Each commit identifies the human author (and, in the case of co-authored commits, the agent), the timestamp, and the diff. What is *not* captured: the prompt that produced the diff, the tool calls the agent made, the data files it read along the way, the model version, the token cost. **[gap]** see harness Gap 2 ("No LLM-turn audit trail"). The recommended fix there — `.claude/audit/YYYY-MM-DD.jsonl` of structured per-turn records — would also provide the security-relevant audit trail (who ran what, against what data, with what output).
+
+**Human-in-the-loop gates.** Currently none on the auto-commit path. The settings.local.json permission allowlist is the closest thing — it forces a prompt on unlisted commands — but it is bypassed for all the high-privilege operations (`Bash(git *)`, `Bash(bash *)`, `Bash(sudo *)`). **[gap]** add HITL specifically for: any commit that modifies `data/` (not just docs), any push to `main` from an agent session, and any agent-invoked WebFetch beyond the allowlisted domain set.
+
+### Secure design principles applied here
+
+Mapping the existing controls in this repo to standard secure-AI-design framings — this is the *defensive* side of the architecture.
+
+- **Input validation at system boundaries** **[implemented partial]**. The CLAUDE.md data-verification rule is an input validation gate at the agent → doc boundary: no specific player stat may be written without first reading it from a data file. This is enforced by DataSentinel convention and CLAUDE.md policy, not by code. **[gap]** the *opposite* boundary — data → agent — is unguarded. Scraped strings enter prompt context with no scrubbing.
+
+- **Least privilege** **[gap]**. DataSentinel is described as read-only in its spec body, but the `tools:` frontmatter field is not used to enforce read-only access; the permission allowlist applies equally to all five agents. The principle is documented but not enforced.
+
+- **Defence in depth** **[implemented partial]**. The DataSentinel → Skeptic → human-review chain is a three-layer defence on document content. The first two layers are advisory (not blocking) — see harness Gap 1, Gap 4 ("Hand-off contracts are advisory, not enforced"). Defence in depth requires that each layer *blocks* on its own check; convention does not satisfy this.
+
+- **Integrity at rest** **[implemented]**. The `**[data]**` and `**[historical record - unverified in data]**` tagging system is an integrity-provenance scheme — every claim either traces to a source file or is explicitly marked as not having been verified. Git's content-addressable storage provides tamper-evidence for the files themselves (any post-hoc edit produces a different commit SHA).
+
+- **Separation of concerns** **[implemented]**. The six-agent council separation — Scientist owns data, DataSentinel owns verification, Skeptic owns adversarial review — is a security control as much as an organisational one. A compromise of any single agent does not compromise the verification chain, *provided the chain is actually run* (see harness Gap 4).
+
+- **Fail-safe defaults** **[implemented partial]**. The live pipeline's status-classification guard (`scripts/live_analysis_pipeline.py` line 1107) refuses to write on unrecognised status strings — a fail-safe default. The LightGBM GPU probe (`prediction.py` `LGBM_DEVICE`) falls back to CPU on failure rather than producing incorrect output. **[gap]** the schema-validation surface (Threat 3, Threat 5) fails *open* — unknown strings enter the CSV verbatim.
+
+- **Reproducibility as a security property** **[implemented]**. Seeded model training (`prediction.py` `random_state=42`) and the persisted backtest CSVs mean any past prediction can be reproduced and re-checked. Reproducibility is a forensic primitive: if a published number is later contested, the model that produced it can be re-instantiated.
+
+### AI governance — what this repo has and what it lacks
+
+Mapping against the Australia AI Ethics Principles (the dedicated section below already covers all eight) and conceptually against the NIST AI Risk Management Framework's four functions (Govern, Map, Measure, Manage):
+
+- **Transparency** **[implemented]** — `[data]` tagging, published methodology sections, the `docs/ai-architecture.md` document itself, versioned CLAUDE.md. Maps to NIST *Map* and Australia Principle 6.
+- **Accountability** **[implemented partial]** — git commit trail names every change author (human or agent co-author); the single-operator deployment makes accountability concentrated. **[gap]** as harness Gap 2 notes, the git log captures *what* was changed but not *why the agent decided to change it that way*. Maps to NIST *Govern* and Australia Principle 8.
+- **Privacy** **[implemented]** for the current scope (public AFL data only). The scraper's scope is currently limited to publicly-published statistics. **[gap]** there is no architectural enforcement of that scope — a future code change could expand the scraper to non-public surfaces without tripping any control. Maps to NIST *Manage* and Australia Principle 4.
+- **Reliability** **[implemented]** — walk-forward backtest, DataSentinel verification convention, the strict temporal cutoff in `LeakProofPredictor`. **[gap]** no automated online eval loop (harness Gap 7). Maps to NIST *Measure* and Australia Principle 5.
+- **Contestability** **[gap]** — there is no formal mechanism for an external reader to contest a `**[data]**` claim. The GitHub issue tracker exists, but there is no SLA, no documented review procedure, no escalation path. Maps to Australia Principle 7. The system's current scope (no external decision-stakes) makes this lower priority but not zero.
+
+The single most important governance gap, in security terms, is the absence of a structured incident response plan. If a poisoned `[data]` tag were detected after publication, the current response is *ad-hoc* — the operator notices, hand-edits, `git revert`-s, force-pushes if necessary. There is no playbook, no notification list, no rollback script (harness Gap 10), and no record of what *had been* derived from the bad number before correction.
+
+### Recommended security roadmap (prioritised)
+
+Three items, ordered by impact-per-engineering-day. These complement — and partially overlap — the harness section's recommendations.
+
+1. **Input anomaly detection on scraped rows (1–2 days).** A z-score gate in `refresh_data.py` before any append to `data/player_data/<player>.csv`. For each numeric stat in the new row, compute `(value - historical_mean) / historical_stddev` from rows already in the CSV. If `abs(z) > 5` on any stat, write the row to `data/_quarantine/<player>_<round>_<timestamp>.json` and emit a warning rather than appending. Same gate addresses Threat 3 (training data poisoning) and Threat 4 (rolling-average propagation) — neither can fire if the poisoned row never enters the CSV. Closes both halves of the data-poisoning attack surface. Side benefit: catches scraper bugs that produce out-of-range values, which are more common than adversarial poisoning. Overlaps with harness Gap 5 (CSV schema validation) — the schema validation is the *type* check; this is the *distribution* check; both are wanted.
+
+2. **Structured agent-turn audit log (2–3 days).** Per the harness recommendation, persist `{session_id, agent, model_version, prompt_hash, tool_calls, retrieved_files, output_hash, latency_ms, token_count, timestamp}` to `.claude/audit/YYYY-MM-DD.jsonl`. Append-only, one record per agent turn. The same log addresses Threat 2 (memory injection — any agent that loaded a poisoned memory file is now traceable), Threat 7 (privilege escalation — any unusual Bash invocation is now logged), and Threat 9 (DataSentinel bypass — the verification turn is now reconstructable). Without this, post-incident forensics has nothing to work with except git diffs. This is harness Gap 2, repeated here because it is the highest-leverage security investment in the repo.
+
+3. **Live pipeline staging gate (half day).** Change `scripts/live_analysis_pipeline.py` line 1068 from `git push origin main` to `git push origin HEAD:refs/heads/live-staging`, and document the human-promotion step (`git merge live-staging main && git push`). Converts the system's largest unattended attack surface (90-second auto-pushes to main during a 2-hour live match — that is up to 80 unattended pushes per game) into an attended-publish flow without losing the polling cadence. This is harness Gap 3, again recapped here because of its security weight: of all the threats in the table above, this is the one where the impact path is shortest from "agent writes bad content" to "bad content is on origin/main."
+
+The other items — per-agent `tools:` scoping, marker-integrity check in `update_team_analysis.py`, CSV formula sanitisation, GitHub Actions SHA pinning — are each less than a day's work and each closes one of the lower-likelihood threats. They are correctness improvements, not load-bearing security investments, but they are cheap enough to bundle into the next maintenance pass.
+
+---
+
 ## Eval results
 
 | Metric | Value | Notes |
