@@ -189,6 +189,7 @@ Full per-round table (all 11 rounds), team-level breakdown for every club, bigge
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
 | **Read the AFL news desk - data-grounded long-form on current stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
 | **AI design patterns — how this maps to a production deployment (RAG, MCP, eval harness, AI Ethics, sovereign deployment)** | [docs/ai-architecture.md](docs/ai-architecture.md) | None - browser only |
+| **AI security — risks, controls, prompt injection, data poisoning, governance and secure design** | [docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo) | None - browser only |
 | **Operator's manual — how this specific repo works end-to-end (data inventory, scripts, match lifecycle, live pipeline, runbooks)** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | None - browser only |
 | **Read the Crumb Phase 2 design doc** | [docs/footy-ai-chatbot-phase2.md](docs/footy-ai-chatbot-phase2.md) | None - browser only |
 
@@ -224,6 +225,7 @@ Full per-round table (all 11 rounds), team-level breakdown for every club, bigge
 - [Repository architecture](docs/ARCHITECTURE.md) - how this repo works end-to-end: six-agent council (Scientist + FootyStrategy + DataSentinel + BriefBuilder + Skeptic + Codex), data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) - RAG, tool router, eval harness, MCP gateway, sovereign deployment
   - [Australia's AI Ethics Principles — how this project maps to the 8 principles](docs/ai-architecture.md#australias-ai-ethics-principles--how-this-project-maps)
+  - [AI security — risks, controls, and secure design in this repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo)
 - [Building The Crumb (Phase 1)](docs/footy-ai-chatbot-setup.md) - 13-agent Claude staff, end-to-end build guide
 - [The Crumb - Phase 2 design doc](docs/footy-ai-chatbot-phase2.md) - Planner-Executor, parameterised tools, FootyFinding envelope, HITL routing, eval harness
 - [How this repo uses Claude](docs/how-this-repo-uses-claude.md) - custom agent design, policy-as-code, multi-agent orchestration
