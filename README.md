@@ -30,9 +30,9 @@ The current model misses a player's next-round disposal count by about **[data]*
 Long-form footy journalism where the numbers are not decoration - they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [Jonathan Brown — The Fist of God](docs/news/2026-05-29-jonathan-brown-fist-of-god.md) - Career tribute to the Brisbane Lions full-forward; the 2004 Grand Final as the defining image of refusing to be moved *(2026-05-29)*
+**Latest:** [Greg Williams — The Possession Engine](docs/news/2026-05-29-greg-williams-possession-engine.md) - Career tribute to the dual-Brownlow Carlton/Sydney/Geelong midfielder; the handball-out-of-traffic signature behind the two medals eight years apart *(2026-05-29)*
 
-[James Hird and the Essendon vacancy — the case for Australia's most contested second chance](docs/news/2026-05-27-hird-essendon-coach.md) - Argued case for James Hird as next Essendon senior coach; engages the supplements-era counterarguments *(2026-05-27)*
+[Jonathan Brown — The Fist of God](docs/news/2026-05-29-jonathan-brown-fist-of-god.md) - Career tribute to the Brisbane Lions full-forward; the 2004 Grand Final as the defining image of refusing to be moved *(2026-05-29)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
