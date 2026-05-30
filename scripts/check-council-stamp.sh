@@ -42,13 +42,26 @@ fi
 
 # Does this path require a council-pipeline stamp?
 #   docs/news/*.md                 -> yes (news desk articles)
-#   docs/hall-of-fame-stat-*.md    -> yes (Hall of Fame stat pages)
+#   docs/hall-of-fame-stat-*.md    -> yes (Hall of Fame stat pages, by convention)
+#   docs/hall-of-fame-*.md that
+#     already carry a council marker -> yes (a council doc may not silently drop
+#                                            its stamp; new council pages such as
+#                                            forgotten-heroes opt in by carrying one)
+#
+# Legacy Hall of Fame pages without a stamp are NOT retroactively blocked — that
+# would only train contributors to bypass the hook. Enforcement is opt-in on first
+# stamp, then sticky.
 # Everything else (README, CSV, Python, briefs, other docs) is skipped.
 requires_stamp() {
   local f="$1"
   case "$f" in
     docs/news/*.md)              return 0 ;;
     docs/hall-of-fame-stat-*.md) return 0 ;;
+    docs/hall-of-fame-*.md)
+      # Require a stamp only if the file already declares itself a council doc.
+      [ -f "$f" ] && grep -q '<!-- council-pipeline:' "$f" && return 0
+      return 1
+      ;;
     *)                           return 1 ;;
   esac
 }

@@ -184,9 +184,9 @@ Full per-round table (all 12 rounds), team-level breakdown for every club, bigge
 Long-form footy journalism where the numbers are not decoration — they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [Meet Gaffer — the council's new delivery lead and editor-in-chief](docs/council-intro-gaffer.md) - Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth *(2026-05-30)*
+**Latest:** [AFL Hall of Fame — 100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) - 95 unique underappreciated AFL players across 8 categories, data-verified from 13,328 player CSVs *(2026-05-30)*
 
-[Greg Williams — The Possession Engine](docs/news/2026-05-29-greg-williams-possession-engine.md) - Career tribute to the dual-Brownlow Carlton/Sydney/Geelong midfielder; the handball-out-of-traffic signature behind the two medals eight years apart *(2026-05-29)*
+[Meet Gaffer — the council's new delivery lead and editor-in-chief](docs/council-intro-gaffer.md) - Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth *(2026-05-30)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
