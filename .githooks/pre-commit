@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# pre-commit — council-pipeline provenance gate (harness Gap 1 + Gap 4).
+#
+# This file lives at .githooks/pre-commit and IS version-controlled.
+# To activate it after cloning, run once:
+#
+#     git config core.hooksPath .githooks
+#
+# The check logic lives in scripts/check-council-stamp.sh (also committed)
+# so it is reviewable and shared.
+#
+set -uo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
+
+if [ ! -x "$CHECK_SCRIPT" ]; then
+  echo "pre-commit: $CHECK_SCRIPT not found or not executable — skipping council-stamp gate." >&2
+  exit 0
+fi
+
+# Staged Markdown files only. The check script decides which ones require a stamp.
+staged_md="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.md$' || true)"
+
+if [ -z "$staged_md" ]; then
+  exit 0
+fi
+
+printf '%s\n' "$staged_md" | "$CHECK_SCRIPT"
