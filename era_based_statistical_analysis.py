@@ -49,14 +49,16 @@ from scipy import stats
 
 warnings.simplefilter("ignore", category=RuntimeWarning)
 
-REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
-PLAYER_DATA_DIR = os.path.join(REPO_ROOT, "data", "player_data")
-MATCHES_DIR = os.path.join(REPO_ROOT, "data", "matches")
-OUT_ERA_STATS = os.path.join(REPO_ROOT, "data", "era_stats.csv")
-OUT_TEAM_SCORING = os.path.join(REPO_ROOT, "data", "era_team_scoring.csv")
-OUT_SIG_TESTS = os.path.join(REPO_ROOT, "data", "era_significance_tests.csv")
-OUT_YEARLY = os.path.join(REPO_ROOT, "data", "era_yearly_trends.csv")
-OUT_SUMMARY_JSON = os.path.join(REPO_ROOT, "data", "era_summary.json")
+import config
+
+REPO_ROOT = config.REPO_ROOT
+PLAYER_DATA_DIR = config.PLAYER_DATA_DIR
+MATCHES_DIR = config.MATCHES_DIR
+OUT_ERA_STATS = os.path.join(config.DATA_DIR, "era_stats.csv")
+OUT_TEAM_SCORING = os.path.join(config.DATA_DIR, "era_team_scoring.csv")
+OUT_SIG_TESTS = os.path.join(config.DATA_DIR, "era_significance_tests.csv")
+OUT_YEARLY = os.path.join(config.DATA_DIR, "era_yearly_trends.csv")
+OUT_SUMMARY_JSON = os.path.join(config.DATA_DIR, "era_summary.json")
 
 ERA_BOUNDS = [
     ("pre-1965", 1897, 1964),

@@ -76,7 +76,9 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
-REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
+import config
+
+REPO_ROOT = config.REPO_ROOT
 
 
 def _step_static_charts() -> Tuple[List[str], List[str]]:

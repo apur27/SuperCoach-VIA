@@ -6,9 +6,21 @@
 >
 > **Companion doc:** For the **repository map and operations manual** — full data inventory, code inventory, docs inventory, match lifecycle, live-pipeline internals, prediction-model implementation, ops runbooks, the incident log, and the agent guardrails — see [`ARCHITECTURE.md`](ARCHITECTURE.md). That doc tells you how the repo *runs*; this one tells you how the system is *designed*.
 
-> How a weekend football project maps to production-grade AI system design
+## How a weekend football project maps to production-grade AI system design
 
-SuperCoach-VIA is a working AI system that ingests 130 years of Australian Football League data, trains an ensemble disposal-prediction model, and lets a Claude-powered "Scientist" agent reason over the dataset, write its own analysis code, generate charts, and publish updated documentation back into the repo. The interesting part is not the football - it is that the system contains, in miniature, every layer you would expect in a production AI deployment: a feature pipeline, an ML inference layer with temporal validation, an LLM reasoning loop, a tool gateway, a deterministic RAG layer over structured data, an offline eval harness, and a lightweight audit trail. This document walks each layer, explains it in plain English, then says what an ML engineer would want to add for production. The aim is to use a small, legible system as a reference point for the bigger ones - and to be honest about the gaps a weekend project leaves open.
+SuperCoach-VIA is a working AI system that ingests 130 years of Australian Football League data, trains an ensemble disposal-prediction model, and lets a Claude-powered "Scientist" agent reason over the dataset, write its own analysis code, generate charts, and publish updated documentation back into the repo.
+
+The interesting part is not the football. It is that the system contains, in miniature, every layer you would expect in a production AI deployment:
+
+- a **feature pipeline** with temporal validation,
+- an **ML inference layer** (a calibrated three-model ensemble),
+- an **LLM reasoning loop** (the six-agent council),
+- a **tool gateway** (MCP),
+- a **deterministic RAG layer** over structured data,
+- an **offline eval harness** (walk-forward backtest), and
+- a **lightweight audit trail**.
+
+This document walks each layer, explains it in plain English, then says what an ML engineer would want to add for production. The aim is to use a small, legible system as a reference point for the bigger ones — and to be honest about the gaps a weekend project leaves open.
 
 ---
 

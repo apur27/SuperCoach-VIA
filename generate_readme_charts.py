@@ -77,11 +77,13 @@ from matplotlib.path import Path
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
-ASSETS_DIR = os.path.join(REPO_ROOT, "assets", "charts")
-DATA_DIR = os.path.join(REPO_ROOT, "data")
-PLAYER_DATA_DIR = os.path.join(DATA_DIR, "player_data")
-MATCHES_DIR = os.path.join(DATA_DIR, "matches")
+import config
+
+REPO_ROOT = config.REPO_ROOT
+ASSETS_DIR = config.CHARTS_DIR
+DATA_DIR = config.DATA_DIR
+PLAYER_DATA_DIR = config.PLAYER_DATA_DIR
+MATCHES_DIR = config.MATCHES_DIR
 
 # Banner-aligned palette. Background hex is GitHub's dark canvas.
 BG = "#0d1117"
