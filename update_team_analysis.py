@@ -66,28 +66,34 @@ import pandas as pd
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
-PLAYER_DATA_DIR = os.path.join(REPO_ROOT, "data", "player_data")
-MATCHES_DIR = os.path.join(REPO_ROOT, "data", "matches")
-TEAM_ANALYSIS_PATH  = os.path.join(REPO_ROOT, "docs", "afl-team-analysis-2026.md")
-FINALS_PATH         = os.path.join(REPO_ROOT, "docs", "afl-finals-2026.md")
-BROWNLOW_PATH       = os.path.join(REPO_ROOT, "docs", "afl-brownlow-2026.md")
-STAT_LEADERS_PATH   = os.path.join(REPO_ROOT, "docs", "afl-stat-leaders-2026.md")
-PREDICTIONS_PATH    = os.path.join(REPO_ROOT, "docs", "afl-predictions-2026.md")
-BACKTEST_PATH       = os.path.join(REPO_ROOT, "docs", "afl-backtest-2026.md")
+# Paths, season year, and the season length now come from the shared config
+# module so they stop diverging across scripts. The module-level names below are
+# preserved as aliases so existing callers (refresh_readme.py et al.) keep
+# working unchanged.
+import config
+
+REPO_ROOT = config.REPO_ROOT
+PLAYER_DATA_DIR = config.PLAYER_DATA_DIR
+MATCHES_DIR = config.MATCHES_DIR
+TEAM_ANALYSIS_PATH  = config.season_doc("afl-team-analysis")
+FINALS_PATH         = config.season_doc("afl-finals")
+BROWNLOW_PATH       = config.season_doc("afl-brownlow")
+STAT_LEADERS_PATH   = config.season_doc("afl-stat-leaders")
+PREDICTIONS_PATH    = config.season_doc("afl-predictions")
+BACKTEST_PATH       = config.season_doc("afl-backtest")
 # Backward-compat alias — refresh_readme.py and other callers historically
 # referenced uta.README_PATH; it now points at the team-analysis file (the
 # "primary" season block) so old call sites keep working.
 README_PATH         = TEAM_ANALYSIS_PATH
-TEAM_PROFILES_PATH  = os.path.join(REPO_ROOT, "docs", "afl-team-profiles.md")
-HALL_OF_FAME_PATH   = os.path.join(REPO_ROOT, "docs", "hall-of-fame-top100.md")
-TOP100_CSV = os.path.join(REPO_ROOT, "all_time_top_100.csv")
-TOP100_SCORES_CSV = os.path.join(REPO_ROOT, "data", "top100", "all_time_top_100.csv")
-CHARTS_DIR = os.path.join(REPO_ROOT, "assets", "charts")
+TEAM_PROFILES_PATH  = os.path.join(config.DOCS_DIR, "afl-team-profiles.md")
+HALL_OF_FAME_PATH   = os.path.join(config.DOCS_DIR, "hall-of-fame-top100.md")
+TOP100_CSV = config.TOP100_CSV
+TOP100_SCORES_CSV = config.TOP100_SCORES_CSV
+CHARTS_DIR = config.CHARTS_DIR
 
 # AFL home-and-away season length (each team plays this many games in total).
 # Used by the finals-pathway section to compute games remaining.
-HOME_AND_AWAY_GAMES = 22
+HOME_AND_AWAY_GAMES = config.HOME_AND_AWAY_GAMES
 
 # Stats we will load from the per-player CSVs and aggregate to team-game level.
 STAT_COLS = [

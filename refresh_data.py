@@ -28,14 +28,16 @@ import pandas as pd
 from game_scraper import MatchScraper
 from player_scraper import PlayerScraper, get_soup
 
+import config
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
     stream=sys.stdout,
 )
 
-ACTIVE_SINCE = "2024-01-01"  # players with any game on/after this are refresh candidates
-DATA_DIR = "data/player_data"
+ACTIVE_SINCE = config.ACTIVE_SINCE  # players with any game on/after this are refresh candidates
+DATA_DIR = config.PLAYER_DATA_DIR
 
 
 def find_active_player_ids(data_dir: str) -> set[str]:
@@ -170,8 +172,8 @@ def refresh_players() -> None:
 def refresh_matches() -> None:
     scraper = MatchScraper()
     scraper.scrape_all_matches(
-        match_folder_path="data/matches",
-        lineup_folder_path="data/lineups",
+        match_folder_path=config.MATCHES_DIR,
+        lineup_folder_path=config.LINEUPS_DIR,
     )
 
 
