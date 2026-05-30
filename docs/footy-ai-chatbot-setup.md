@@ -98,10 +98,13 @@ The Crumb is a 13-agent staff arranged in six tiers. The Senior Coach at the top
 | 5 | **High Performance Agent** | claude-sonnet-4-6 | load, soreness/injury proxies, games-played cadence, return-from-injury form curves | via Data Steward |
 | 5 | **List Manager Agent** | claude-sonnet-4-6 | per-player form, tier rankings, availability, lineups, contract/age structure context | via Data Steward |
 | 6 | **Data Steward** | claude-haiku-4-x | the *only* agent that reads files; enforces read-only, schema, era-coverage rules, citation | `data/player_data/`, `data/matches/`, `data/lineups/`, `data/prediction/` |
+| — | **Gaffer** (Delivery Lead / Editor-in-Chief) | Opus | commissions the council chain, decides "ready to ship" on PASS, owns cadence + presentation surface (README, news index); **cannot** override DataSentinel/Skeptic, cannot author a `[data]` number | nothing directly — orchestrates and presents |
 
 Two things to notice. First: every agent above tier 6 delegates data reads to the **Data Steward**. That is deliberate. It centralises the "what year does this column start?" rule (tackles from 1987, clearances from 1998, hit-out recording change in 2017), the citation requirement, and the read-only constraint. None of the analyst agents can lie about a number because none of them touch a file.
 
 Second: the **Stats/Methodology Agent** and **Strategy Council Agent** sit alongside the analysts, not above them. When the Senior Coach is about to give an answer that disagrees with conventional coaching wisdom, it consults the Scientist on the methodology and FootyStrategy on the framing before speaking. That is what makes The Crumb willing to say "the coach is wrong on this one" without it being a vibe.
+
+The **Gaffer** row carries no tier number on purpose. Gaffer is not a member of the routing hierarchy — it does not own a phase of the game or read data. It is the cross-cutting delivery and editorial owner that commissions the council chain (BriefBuilder → Scientist → FootyStrategy → DataSentinel → Skeptic → optional Codex), enforces the handoffs, and decides whether a finished artifact is ready to ship. Crucially, Gaffer is boss of *process*, not of *truth*: it cannot override a DataSentinel FAIL or a Skeptic BLOCK, and it never authors a `[data]`-tagged number. See [council-intro-gaffer.md](council-intro-gaffer.md) for the full charter.
 
 ### Data layer (read-only)
 
