@@ -1,5 +1,14 @@
 # Greg Williams — The Possession Engine
 
+<!-- council-pipeline:
+  BriefBuilder: DONE
+  Scientist: DONE
+  FootyStrategy: DONE
+  DataSentinel: PASS @ 2026-05-29
+  Skeptic: PASS @ 2026-05-29
+  Gaffer: APPROVED @ 2026-05-29
+-->
+
 > [← Back to news](README.md) | [← Back to main README](../../README.md)
 
 *Published: 2026-05-29. This piece was produced by the SuperCoach-VIA six-agent council: Scientist (data), FootyStrategy (tactical), BriefBuilder (skeleton), DataSentinel (verification), Skeptic (adversarial review), Codex (outside-frame commentary).*

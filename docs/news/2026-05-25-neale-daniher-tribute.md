@@ -1,5 +1,14 @@
 # Neale Daniher — Why Not
 
+<!-- council-pipeline:
+  BriefBuilder: DONE
+  Scientist: DONE
+  FootyStrategy: DONE
+  DataSentinel: PASS @ 2026-05-25
+  Skeptic: PASS @ 2026-05-25
+  Gaffer: APPROVED @ 2026-05-25
+-->
+
 > [← Back to news](README.md) | [← Back to main README](../../README.md)
 
 *Published: 2026-05-25. Data layer: Scientist. Tactical layer: FootyStrategy. This tribute was produced by the SuperCoach-VIA six-agent council.*
