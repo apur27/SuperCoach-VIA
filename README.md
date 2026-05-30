@@ -14,7 +14,7 @@
 
 ---
 
-The most complete public AFL dataset (1897–present), paired with a machine-learning prediction engine and a six-agent AI council that writes data-grounded match analysis. Built for SuperCoach players who want the edge — and for ML engineers who want a production architecture small enough to read end to end.
+The most complete public AFL dataset (1897–present), paired with a machine-learning prediction engine and a seven-agent AI council that writes data-grounded match analysis. Built for SuperCoach players who want the edge — and for ML engineers who want a production architecture small enough to read end to end.
 
 **For the footy fan:** 130 years of AFL data plus a set of AI agents that reason like a coaching staff — weekly player predictions, team trends, all-time rankings, and debate-ready insight, no coding required.
 
@@ -83,9 +83,9 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 
 ---
 
-## The six-agent council
+## The seven-agent council
 
-This is the differentiator. Five agents live in `.claude/agents/`; the sixth (Codex) is an external model queried for outside-the-frame commentary. Each has a bounded role, and together they form a methodology layer that makes every published claim falsifiable against a CSV in this repo.
+This is the differentiator. Six agents live in `.claude/agents/`; the seventh (Codex) is an external model queried for outside-the-frame commentary. Each has a bounded role, and together they form a methodology layer that makes every published claim falsifiable against a CSV in this repo.
 
 | # | Agent | Model | Primary role | One-line description |
 |---|-------|-------|--------------|----------------------|
@@ -94,7 +94,8 @@ This is the differentiator. Five agents live in `.claude/agents/`; the sixth (Co
 | 3 | **DataSentinel** | Haiku | Pre-commit verification gate | Walks every `**[data]**` tag in a draft, confirms it against the source CSV. Flags untagged numbers, coach-name violations, schema violations. Emits machine-readable JSON for a pre-commit hook to consume. |
 | 4 | **BriefBuilder** | Sonnet | Brief data-skeleton drafter | Given two teams and a round, auto-populates the data skeleton of a pre-match brief — H2H ledger, season form, model predictions, top-5-per-side tracking list. Leaves `<!-- FOOTYSTRATEGY INSERT -->` placeholders for the interpretation layer. |
 | 5 | **Skeptic** | Opus | Adversarial reviewer | Probes tripwire observability, caveat-hierarchy fidelity, and lens-tension smoothing on FootyStrategy drafts. Outputs `PASS / PASS_WITH_CONCERNS / BLOCK`. Never modifies the doc — the author decides what to incorporate. |
-| 6 | **Codex (GPT-5.4)** | External | Outside-the-frame commentary | Queried for views from outside this repo's data frame. All Codex outputs are attributed explicitly as external commentary and cross-checked against repo data where possible. |
+| 6 | **Gaffer** | Opus | Delivery lead / editor-in-chief | Delivery Lead / Editor-in-Chief — orchestrates the chain, decides 'ready to ship' on PASS; boss of process, not of truth. Never authors or edits a `**[data]**` number, never overrides a DataSentinel FAIL or Skeptic BLOCK. |
+| 7 | **Codex (GPT-5.4)** | External | Outside-the-frame commentary | Queried for views from outside this repo's data frame. All Codex outputs are attributed explicitly as external commentary and cross-checked against repo data where possible. |
 
 **The chain:** BriefBuilder → Scientist → FootyStrategy → DataSentinel → (optionally Skeptic). Full architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2 and §6.
 
@@ -107,6 +108,7 @@ This is the differentiator. Five agents live in `.claude/agents/`; the sixth (Co
 - **DataSentinel** — the fact-checker at the door of every commit. It refuses to let a stat past if the number does not actually match the CSV it came from.
 - **BriefBuilder** — the analyst's apprentice who lays out the bones of next week's match brief (season records, head-to-head ledger, model predictions, players worth tracking) so the senior coaches start from a populated draft, not a blank page.
 - **Skeptic** — the devil's advocate the panel keeps in the room. It reads finished briefs and asks the awkward questions ("is that tripwire really observable on the day?", "did you upgrade the call beyond what the data supports?") and refuses to silently rewrite anything — the call stays with the author.
+- **Gaffer** — the delivery lead and editor-in-chief who runs the week. They sequence the agents, hold the line on every gate, and only call "ready to ship" once DataSentinel and the Skeptic have signed off. They are boss of process, not of truth: they never touch a `**[data]**` number and never publish around a FAIL or a BLOCK.
 
 ### The Crumb — a 13-agent coaching staff
 
@@ -193,7 +195,7 @@ Long-form footy journalism where the numbers are not decoration — they are the
 
 ## AI architecture & security
 
-- [Repository architecture](docs/ARCHITECTURE.md) — how this repo works end-to-end: six-agent council, data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
+- [Repository architecture](docs/ARCHITECTURE.md) — how this repo works end-to-end: seven-agent council, data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) — RAG, tool router, eval harness, MCP gateway, sovereign deployment
   - [Australia's AI Ethics Principles — how this project maps to the 8 principles](docs/ai-architecture.md#australias-ai-ethics-principles--how-this-project-maps)
   - [AI security — risks, controls, and secure design in this repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo)
