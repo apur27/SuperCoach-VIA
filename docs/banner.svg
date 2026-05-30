@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="SuperCoach VIA - 130 years of AFL data, 13,000+ players, AI-powered predictions">
+  <defs>
+    <!-- Deep navy night-game gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10182b"/>
+      <stop offset="55%" stop-color="#0c1322"/>
+      <stop offset="100%" stop-color="#070b15"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="22%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#1c2c4d" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0c1322" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Subtle title sheen: white core, faint gold edges -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="78%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ffe39a"/>
+    </linearGradient>
+    <!-- Footy-gold accent bar -->
+    <linearGradient id="goldBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFB300" stop-opacity="0"/>
+      <stop offset="14%" stop-color="#FFB300" stop-opacity="1"/>
+      <stop offset="86%" stop-color="#FFB300" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#FFB300" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="300" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="300" fill="url(#glow)"/>
+
+  <!-- Faint pitch lines for texture (very low opacity) -->
+  <g stroke="#FFB300" stroke-opacity="0.05" stroke-width="1" fill="none">
+    <ellipse cx="1040" cy="150" rx="220" ry="150"/>
+    <ellipse cx="1040" cy="150" rx="130" ry="88"/>
+    <line x1="1040" y1="0" x2="1040" y2="300"/>
+  </g>
+
+  <!-- Left gold tick mark -->
+  <rect x="64" y="74" width="6" height="62" rx="3" fill="#FFB300"/>
+
+  <!-- Primary title -->
+  <text x="92" y="118" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="62" font-weight="800" fill="url(#titleGrad)"
+        letter-spacing="-1">SuperCoach VIA</text>
+
+  <!-- Subtitle -->
+  <text x="94" y="158" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="22" font-weight="400" fill="#aebbd2"
+        letter-spacing="0.3">130 years of AFL data &#183; 13,000+ players &#183; AI-powered predictions</text>
+
+  <!-- Stat callout pills -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+    <!-- Pill 1 -->
+    <rect x="92" y="196" width="178" height="48" rx="24" fill="#e8eef9"/>
+    <text x="181" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">R1&#8211;R12 &#183; 2026</text>
+    <!-- Pill 2 -->
+    <rect x="286" y="196" width="158" height="48" rx="24" fill="#e8eef9"/>
+    <text x="365" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">MAE 4.055</text>
+    <!-- Pill 3 -->
+    <rect x="460" y="196" width="206" height="48" rx="24" fill="#FFB300"/>
+    <text x="563" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#3a2a00">72.8% within 5</text>
+  </g>
+
+  <!-- Right-side mark -->
+  <text x="1136" y="150" text-anchor="end" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="20" font-weight="600" fill="#7f8db0" letter-spacing="2">AFL &#183; SUPERCOACH &#183; DATA</text>
+
+  <!-- Bottom footy-gold accent bar -->
+  <rect x="0" y="293" width="1200" height="7" fill="url(#goldBar)"/>
+</svg>
