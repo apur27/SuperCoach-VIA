@@ -21,6 +21,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
+| 2026-05-30 | [Meet Gaffer — the council's new delivery lead and editor-in-chief](../council-intro-gaffer.md) | Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth | Internal / team announcement (not a council-reviewed article) |
 | 2026-05-29 | [Greg Williams — The Possession Engine](2026-05-29-greg-williams-possession-engine.md) | Career tribute to the dual-Brownlow Carlton/Sydney/Geelong midfielder; the handball-out-of-traffic signature behind the two medals eight years apart | Complete (all six council layers) |
 | 2026-05-29 | [Jonathan Brown — The Fist of God](2026-05-29-jonathan-brown-fist-of-god.md) | Career tribute to the Brisbane Lions full-forward; the 2004 Grand Final as the defining image of refusing to be moved | Complete (all six council layers) |
 | 2026-05-27 | [James Hird and the Essendon vacancy — the case for Australia's most contested second chance](2026-05-27-hird-essendon-coach.md) | Argued case for James Hird as next Essendon senior coach; engages the supplements-era counterarguments | Complete (data + FootyStrategy layers) |
@@ -29,7 +30,6 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 | 2026-05-15 | [Who should be the next Carlton coach?](2026-05-15-carlton-next-coach.md) | Carlton coaching succession | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-15 | [Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](2026-05-15-richmond-vs-stkilda-r11.md) | Match preview / injury impact | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-13 | [Michael Voss steps down: what went wrong at Carlton, and why it doesn't diminish a legend](2026-05-13-voss-carlton.md) | Carlton coaching change | Complete (data + FootyStrategy layers) |
-| 2026-05-30 | [Meet Gaffer — the council's new delivery lead and editor-in-chief](../council-intro-gaffer.md) | Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth | Internal / team announcement (not a council-reviewed article) |
 
 ## House rules for entries
 
