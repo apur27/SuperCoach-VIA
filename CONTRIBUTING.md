@@ -18,12 +18,45 @@ No account required - just a plain-English email is fine.
 
 ---
 
+## One-time setup after clone
+
+Run this once after cloning the repo to activate the committed pre-commit hook:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This tells git to use `.githooks/` (version-controlled) instead of `.git/hooks/` (local-only). Without it, the council-stamp gate will not run on your machine.
+
+**What the pre-commit hook checks:**
+The hook runs `scripts/check-council-stamp.sh` against any staged Markdown files. It blocks the commit if a council-authored doc (news articles under `docs/news/`, Hall of Fame stat pages `docs/hall-of-fame-stat-*.md`) is missing a valid `<!-- council-pipeline: ... -->` provenance stamp, or if the recorded DataSentinel or Skeptic verdict is not PASS.
+
+Everything else (README, CSV, Python files, briefs, other docs) is skipped.
+
+**How to add a council stamp to a new article:**
+Every file under `docs/news/` and every `docs/hall-of-fame-stat-*.md` must include a block like:
+
+```
+<!-- council-pipeline:
+  FootyStrategy: PASS
+  BriefBuilder: PASS
+  DataSentinel: PASS
+  Skeptic: PASS
+  Scientist: PASS
+  Gaffer: PASS
+-->
+```
+
+All six agents must have run and both gating tiers (DataSentinel and Skeptic) must record PASS before the commit will be accepted. The check is deterministic - it greps the file, it does not invoke any LLM.
+
+---
+
 ## How developers can contribute
 
 For code contributions, the friendly defaults are:
 
 1. Fork → branch → PR. Small focused PRs are easier to review than big ones.
-2. Read [docs/installation.md](docs/installation.md) (For Contributors section) for environment setup.
+2. Read [docs/installation.md](docs/installation.md) (For Contributors section) for environment setup. Run `git config core.hooksPath .githooks` as part of setup (see above).
 3. The [Scientist agent system prompt](.claude/agents/Scientist.md) describes the methodology rules: inspect-before-transform, baselines first, no leakage, reproducibility. Code that touches the model or backtest is held to those rules.
 4. Don't edit between `<!-- ...-START -->` and `<!-- ...-END -->` markers in the auto-updated docs - those sections are rewritten by the refresh pipeline.
 5. The full project history lives on `main`. There is no separate dev branch.
