@@ -342,7 +342,8 @@ def _step_news_latest() -> Tuple[List[str], List[str]]:
         lines = []
         for i, (date, title, path, topic) in enumerate(top2):
             # path in the index is relative to docs/news/; make it relative to repo root
-            rel_path = f"docs/news/{path}"
+            # normpath handles ../foo entries (e.g. entries linking outside docs/news/)
+            rel_path = os.path.normpath(f"docs/news/{path}")
             topic = topic.strip().rstrip("|").strip()
             prefix = "**Latest:** " if i == 0 else ""
             lines.append(f"{prefix}[{title}]({rel_path}) - {topic} *({date})*")
