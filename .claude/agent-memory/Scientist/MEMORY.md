@@ -9,9 +9,10 @@
 - [HOF data verification workflow](hof_methodology.md) - How to verify HOF page stats; recurring GF-result errors (1978/1991/1992) and captaincy attribution errors found in prior versions
 - [Snapshot goals/behinds/clangers unreliable](snapshot_data_quality.md) - FanFooty live snapshot misindexes 3 fields; cross-check afltables for goals/behinds/clangers only
 - [LightGBM CPU vs CUDA in prediction.py](prediction_lgbm_cpu.md) - prediction.py auto-probes for GPU LightGBM at module load; this env falls back to CPU (full backtest ~5-6h)
-- [⚠️ CRITICAL: Backtest must be incremental](feedback_backtest_incremental.md) - ALWAYS check docs/afl-backtest-2026.md first; only run missing rounds — re-running from scratch wasted hours TWICE
+- [⚠️ CRITICAL: Backtest rules — incremental only, preserve all rounds](feedback_backtest_rules.md) - NEVER re-run from R1. Only backtest missing round. Merge ALL summary CSVs for cumulative doc. Both fixes in commits 855b6d225 + 2edbee5f9. Violated TWICE.
 - [Live pipeline misfires past end-of-game](live_pipeline_glitch.md) - FanFooty polling stamps end-of-game scores into earlier-quarter docs; prune by scope + score-magnitude sanity
 - [Brownlow ineligibility registry](brownlow_ineligibility_registry.md) - Suspended-player flag lives in `BROWNLOW_INELIGIBLE_2026` in update_team_analysis.py; doc is auto-regen between markers
 - [refresh_data.py "0 files grew" log is unreliable](refresh_data_grew_counter_bug.md) - Don't trust the summary line; verify with `git status` on data/player_data/
 - [Player CSV date column is unreliable](player_csv_date_format.md) - Performance-file `date` field off by ~1 month from real match date; cross-check via data/matches/ for exact dates. Also: games_played counter > row count (drawn GFs collapsed, some finals rows missing).
 - [HoF games counter must use games_played col, not row count](hof_games_counter_gotcha.md) - compute_stat_leaders.py was patched: rank ties get `rank_label` "1=" and chart_wall_of_records joins tied co-holders.
+- [GPU "no device" = kernel module missing, not CUDA](gpu_kernel_module_missing.md) - This laptop's nvidia.ko is not built for the running kernel after kernel upgrades; userspace is fine. Also: CUDA_VISIBLE_DEVICES='' is exported in this shell.
