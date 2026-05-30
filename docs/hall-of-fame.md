@@ -10,6 +10,7 @@ The game has produced extraordinary people. The pages below are about the ones w
 
 ## Pages in this section
 
+- **[100 Forgotten Heroes →](hall-of-fame-forgotten-heroes.md)** - 95 underappreciated AFL players across 8 categories, data-verified from 13,328 player CSVs. The workhorses, ruck gods, defensive anchors, goal machines, one-club servants, pre-TV era legends, handball kings, and short but brilliant.
 - **[Top 100 AFL players of all time](hall-of-fame-top100.md)** - auto-generated, era-normalised composite ranking. Updated whenever `update_team_analysis.py` runs.
 - **[All-time statistical leaders](hall-of-fame-stat-leaders.md)** - top 20 in every major category, hub page with links to twelve dedicated sub-pages, plus single-season records. Pure raw-volume tables, the counterpart to the era-normalised top 100.
   - [Career goals](hall-of-fame-stat-goals.md) - Lockett 1,360 **[data]**
