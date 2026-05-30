@@ -8,7 +8,7 @@
 </div>
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Data](https://img.shields.io/badge/data-2026%20season%20round%2010-green)
+![Data](https://img.shields.io/badge/data-2026%20season%20round%2012-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ## What this is
@@ -19,7 +19,7 @@
 
 The repo runs a full weekly-refreshed pipeline from a single shell script: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation. The football is the domain; the architecture is the point.
 
-The current model misses a player's next-round disposal count by about **[data]** 4.056 disposals on average, measured honestly across **[data]** 4,494 player-round predictions (Rounds 1–12, 2026).
+The current model misses a player's next-round disposal count by about **[data]** 4.055 disposals on average, measured honestly across **[data]** 4,486 player-round predictions (Rounds 1–12, 2026).
 
 ⭐ **If this project is useful to you, please star the repo.**
 
@@ -66,7 +66,7 @@ Plain English, with a football analogy for each piece.
 130 years of AFL history, structured. Every match since 1897, and **[data]** 13,321-plus individual player files - one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current. Think of the club's archivist who has kept a card for every player in every game since 1897 - every kick, mark, and goal, filed and cross-referenced. Each week after the round finishes, a runner goes out, collects the latest match sheets, and adds them to the cabinet before the analysts come in Monday morning. The whole system is useless if the cabinet is out of date or has gaps, so keeping it complete and current is the unglamorous job everything else depends on.
 
 ### The prediction model
-Three different prediction models look at a player's recent form, who they're playing, where, and under what conditions - then they vote on how many disposals that player will get next round. Averaging three models is steadier than trusting any one. Across the 2026 season so far it has been within 5 disposals **[data]** 72% of the time and within 10 **[data]** 96% of the time. Instead of trusting one analyst's gut, you put three experienced analysts in the room - each with a different way of reading the game - and ask them all to call the result independently. When all three lean the same way, you can be confident. When they split, that disagreement is itself a useful signal that the match is genuinely hard to call. You take their combined verdict, not any single one's.
+Three different prediction models look at a player's recent form, who they're playing, where, and under what conditions - then they vote on how many disposals that player will get next round. Averaging three models is steadier than trusting any one. Across the 2026 season so far it has been within 5 disposals **[data]** 73% of the time and within 10 **[data]** 96% of the time. Instead of trusting one analyst's gut, you put three experienced analysts in the room - each with a different way of reading the game - and ask them all to call the result independently. When all three lean the same way, you can be confident. When they split, that disagreement is itself a useful signal that the match is genuinely hard to call. You take their combined verdict, not any single one's.
 
 ### The Scientist agent
 An AI that does the honest statistical work. It reads the actual data, writes and runs its own analysis code, checks for the traps that make sports stats lie (a player appearing in both the training and the test set, using future games to "predict" the past), and refuses to oversell a result. If the answer is "we can't tell from this data," it says so. This is the stats analyst in the coaches' box who doesn't just answer a question - they go and do the work. Ask "does this player drop off in wet weather?" and they pull the data, run the numbers, draw the chart, then write up what they found with the honest caveats attached. They think, act, look at the result, and think again - and they file the finished report so the coaches can read it.
@@ -96,7 +96,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 130 years of AFL match and player CSVs. **[data]** 13,321-plus player performance files, one row per player per game, 1897-present, plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags (home/away, day/night, season stage). The `LeakProofPredictor` enforces a strict temporal cutoff: when predicting round N, only data strictly before round N is visible during feature construction and fitting.
 
 ### ML inference
-A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. A post-hoc out-of-fold linear calibration step corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.086 across 3,701 player-rounds (R1-R10, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds.
+A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. A post-hoc out-of-fold linear calibration step corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.055 across 4,486 player-rounds (R1-R12, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds.
 
 ### LLM reasoning - Scientist
 Claude (`claude-sonnet-4-6` / Opus) running a ReAct loop - Reason, Act, Observe, repeat - for 50-plus turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc: data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable.
@@ -145,7 +145,7 @@ pip install -r requirements.txt
 # Refresh data + predictions
 bash refresh_and_rank.sh
 # Run backtest (latest round only - incremental)
-python backtest.py --start-year 2026 --start-round 10 --end-year 2026 --end-round 10
+python backtest.py --start-year 2026 --start-round 12 --end-year 2026 --end-round 12
 # Generate weekly fan pack
 python scripts/generate_weekly_cheat_sheet.py --year 2026
 ```
@@ -156,11 +156,11 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 
 ## Eval results - current
 
-Walk-forward backtest, 2026 season, Rounds 1-11. For each round the model is retrained using only data from before that round, predicts every player who played, and is scored against actuals.
+Walk-forward backtest, 2026 season, Rounds 1-12. For each round the model is retrained using only data from before that round, predicts every player who played, and is scored against actuals.
 
 | Window | Player-rounds | MAE | Within 5 | Within 10 | Bias |
 |---|--:|--:|--:|--:|--:|
-| **R1-R11 player-weighted** | **[data]** 4,074 | **[data]** 4.063 | **[data]** 72.3% | **[data]** 95.6% | **[data]** -0.069 |
+| **R1-R12 player-weighted** | **[data]** 4,486 | **[data]** 4.055 | **[data]** 72.8% | **[data]** 95.7% | **[data]** -0.080 |
 | Round 1 (hardest) | **[data]** 230 | **[data]** 4.83 | **[data]** 60.4% | **[data]** 92.6% | — |
 | Round 5 (best MAE) | **[data]** 365 | **[data]** 3.73 | **[data]** 75.3% | **[data]** 97.5% | — |
 | Round 11 (best within-5) | **[data]** 373 | **[data]** 3.83 | **[data]** 77.2% | **[data]** 95.2% | — |
@@ -169,7 +169,7 @@ Walk-forward backtest, 2026 season, Rounds 1-11. For each round the model is ret
 
 **Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most over-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
 
-Full per-round table (all 11 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
+Full per-round table (all 12 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 
 ---
 
