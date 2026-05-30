@@ -75,6 +75,7 @@ flowchart TB
         I1[Markdown docs]
         I2[Charts PNG]
         I3[Git commits + push]
+        I4[News desk<br/>docs/news/ — six-agent<br/>council articles]
     end
 
     subgraph Obs["Observability"]
@@ -97,6 +98,8 @@ flowchart TB
     F2 --> I1
     F2 --> I2
     F1 --> I3
+    E3 --> I4
+    E6 --> I4
     I3 --> J1
     H1 --> J1
 ```
@@ -241,7 +244,7 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 
 ### 10. The six-agent council — architecture and interaction model
 
-**In plain English:** The repo has six specialised agents. Each one does a narrowly-defined job, deliberately separated so that no single agent has to be good at everything - and so that errors made by one are caught before they propagate into the final output. This section documents who they are, what they hand off to each other, and how to invoke them correctly.
+**In plain English:** The repo has six specialised agents. Each one does a narrowly-defined job, deliberately separated so that no single agent has to be good at everything - and so that errors made by one are caught before they propagate into the final output. The same six-agent council drives two distinct output types: the pre-match brief (a forward-looking tactical preview) and the **news desk** (`docs/news/` — data-grounded commentary on a current AFL story). Both run the same chain — BriefBuilder skeleton → Scientist data layer → FootyStrategy interpretation → DataSentinel verification → Skeptic adversarial review → optional Codex outside-frame read — only the prompt and the target document differ. This section documents who they are, what they hand off to each other, and how to invoke them correctly.
 
 **Agent registry:**
 
@@ -254,10 +257,12 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 | **Skeptic** | Adversarial review - checks tripwire observability, caveat-hierarchy fidelity, lens-tension smoothing | Claude Opus | All tools | `@"Skeptic (agent)"` |
 | **Codex** | Outside-the-frame second opinion, model-internals inspection, blind adversarial read | External (GPT series) | Shared runtime | `@"Codex (agent)"` |
 
-**Standard pre-match pipeline — sequence and handoffs:**
+**Standard council pipeline — sequence and handoffs:**
+
+The same sequence below is used for both the pre-match brief and a news-desk article. For a brief the trigger is "team names + round" (Monday of match week); for a news article the trigger is "a story breaks" (a retirement, coach change, milestone, controversy). The handoffs and gates are identical.
 
 ```
- Monday
+ Trigger (match week / story breaks)
     │
     ▼
 ┌─────────────┐   team names + round
@@ -290,10 +295,12 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 └─────────────┘                        PASS / PASS_WITH_CONCERNS / BLOCK
     │
     ▼
- Brief ready to print
+ Brief / article ready to print
     │
     └── optional: Codex blind read for outside-the-frame gaps
 ```
+
+**News desk as an output type.** The `docs/news/` section is the council's second product line — data-grounded AFL commentary rather than forward-looking tactical briefs. Each entry takes a current story (a retirement, a coach vacancy, a games-record milestone, a club crisis) and grounds it in the repo's 125+ years of match data and per-game player tables. Recent six-layer council articles include *Jonathan Brown — The Fist of God*, *Greg Williams — The Possession Engine*, *Neale Daniher — Why Not*, *Scott Pendlebury — The StormRider*, and the *James Hird Essendon coach* case. The provenance contract is the same `[data]` / `[historical record]` / `[historical record - unverified in data]` tagging used everywhere else in the repo: every figure either traces to a CSV in `data/` (and is reproducible) or is explicitly marked as a public-record fact not held in the dataset. The full pattern, house rules (no betting tips, no business decisions disguised as analysis, associational-vs-causal language made explicit), and entries table live in `docs/news/README.md`. The two-layer split is visible in every article — the data tables and `[data]` tags are the Scientist's work; the prose interpretation between them is FootyStrategy's — with DataSentinel and Skeptic gating the result and Codex providing the optional outside-frame read. The "Complete (all six council layers)" status in the entries table records which articles have been through the full chain versus the lighter "data + FootyStrategy" path.
 
 **Handoff contracts — what each agent receives and what it must not invent:**
 
@@ -309,7 +316,7 @@ Technology mapping: the Senior Coach runs on `claude-opus-4-7` because orchestra
 
 - **Scientist**: can be invoked standalone for any data analysis task. No prior context needed.
 - **FootyStrategy**: works best with some data context (from Scientist or BriefBuilder). Can be invoked standalone for post-match tactical reads where the question is conceptual rather than statistical.
-- **BriefBuilder**: always invoked first in any match-preparation cycle. No prior context needed.
+- **BriefBuilder**: invoked first in any match-preparation cycle, and first in a news-desk article build (it lays the data skeleton with `[data]` tags and `<!-- FOOTYSTRATEGY INSERT -->` placeholders before the Scientist deepens the data layer). No prior context needed.
 - **DataSentinel**: invoked on any draft document with [data] tags. Can be run standalone mid-draft for a partial check.
 - **Skeptic**: invoke only after FootyStrategy has produced a *complete* draft. Premature invocation before the recommendation is settled generates noise.
 - **Codex**: invoke when you want a second opinion uncorrupted by the other agents' reasoning chains, or when the question touches model internals (feature contributions, why did the predictor give this player that score).
@@ -343,14 +350,16 @@ The audit method matches the rest of this repo — *DataSentinel-style verificat
 - **Per-agent persistent memory** **[implemented]** — `/home/abhi/git/SuperCoach-VIA/.claude/agent-memory/` holds one directory per agent (`Scientist/`, `FootyStrategy/`, `BriefBuilder/`, `DataSentinel/`, `Skeptic/`). Each directory has a `MEMORY.md` index plus topic files (data quirks, baselines, methodology recipes). The Scientist memory currently carries 17 topic files including stat-coverage eras, the top-end-compression incident, and a "backtest must be incremental" rule recorded from a prior failure.
 - **Agent definitions in repo** **[implemented]** — 5 agent specs live as plain markdown under `/home/abhi/git/SuperCoach-VIA/.claude/agents/` (BriefBuilder, DataSentinel, FootyStrategy, Scientist, Skeptic), each ~144 lines with YAML frontmatter declaring model, color, and memory scope. Diff-able and version-controlled in the same workflow as code.
 - **Permission allowlist** **[implemented]** — `/home/abhi/git/SuperCoach-VIA/.claude/settings.local.json` declares an explicit allowlist of ~130 `Bash(...)` and `WebFetch(domain:...)` patterns. Any unlisted command surfaces a permission prompt rather than silently executing. This is the closest thing to a per-session capability scope currently in place.
-- **Auto-generation markers** **[implemented]** — `update_team_analysis.py` and `refresh_readme.py` edit specific sections of `README.md` and `docs/afl-team-analysis-2026.md` by locating `<!-- YEAR-TEAM-ANALYSIS-END -->`, `<!-- 5YEAR-TEAM-PROFILES-END -->`, `<!-- GOALS-DISPOSALS-CHART-START/END -->`, `<!-- FORM-TREND-CHART-START/END -->`, and `<!-- {year}-FINALS-PATHWAY-START/END -->` markers. This is a real harness primitive — the same doc can hold hand-written prose *and* an auto-regenerated block without re-edits clobbering each other.
-- **Walk-forward backtest with strict temporal cutoff** **[implemented]** — `backtest.py --start-year 2026 --start-round 1 --end-year 2026 --end-round auto` writes `data/prediction/backtest/prediction_vs_actual_round_<N>_<timestamp>.csv` files. 47 backtest CSVs currently persisted; the timestamp suffix means re-runs accumulate rather than overwrite, giving a rough longitudinal record.
+- **Auto-generation markers** **[implemented]** — `update_team_analysis.py` and `refresh_readme.py` edit specific sections of `README.md` and `docs/afl-team-analysis-2026.md` by locating `<!-- YEAR-TEAM-ANALYSIS-END -->`, `<!-- 5YEAR-TEAM-PROFILES-END -->`, `<!-- GOALS-DISPOSALS-CHART-START/END -->`, `<!-- FORM-TREND-CHART-START/END -->`, `<!-- {year}-FINALS-PATHWAY-START/END -->`, and `<!-- NEWS-LATEST-START/END -->` markers. This is a real harness primitive — the same doc can hold hand-written prose *and* an auto-regenerated block without re-edits clobbering each other.
+- **News-latest auto-surfacing** **[implemented]** — `refresh_readme.py` `_step_news_latest()` (step [2c] of the refresh cycle) parses the entries table in `docs/news/README.md`, takes the two most-recent rows (the table is maintained most-recent-first), and rewrites the `<!-- NEWS-LATEST-START/END -->` block in `README.md` so the front page always links the latest two council articles. The step is idempotent — if the parsed top-2 already match the README block it writes nothing — and is resilient: a parse failure returns an error string that the orchestrator logs without aborting the rest of the refresh. This is the harness wiring that connects the news-desk output type back to the repo's front door without a manual edit.
+- **Walk-forward backtest with strict temporal cutoff** **[implemented]** — `backtest.py --start-year 2026 --start-round <N> --end-year 2026 --end-round auto` writes `data/prediction/backtest/prediction_vs_actual_round_<N>_<timestamp>.csv` plus a `backtest_summary_<timestamp>.csv` per run. The timestamp suffix means re-runs accumulate rather than overwrite, giving a longitudinal record.
+- **Incremental backtest resume** **[implemented]** — `refresh_and_rank.sh` step [4/6] (line 27, "Backtesting prediction accuracy (incremental)") detects the last complete run by globbing `data/prediction/backtest/backtest_summary_*.csv`, extracting the newest timestamp, and starting the walk-forward from the next unprocessed round rather than from round 1. This is the fix for a recurring failure mode recorded in `agent-memory/Scientist/feedback_backtest_rules.md` — re-running the full backtest from R1 every week was both slow (full 2026 backtest is ~5–6h on CPU LightGBM) and risked dropping earlier rounds. On the read side, `update_team_analysis.py` `generate_backtest_section()` (line 4131) merges **all** `backtest_summary_*.csv` files and de-duplicates on `(year, round)` so the published cumulative doc always shows every round R1–Rn even though each incremental run only computes the newest one.
 - **Seeded model training** **[implemented]** — `prediction.py` pins `random_state=42` on `HistGradientBoostingRegressor`, `LGBMRegressor`, and `RandomForestRegressor`, and seeds Optuna's TPE sampler at 42. Re-runs of the model fit are deterministic for the ML layer (LLM turns remain non-deterministic).
 - **LightGBM GPU/CPU runtime probe** **[implemented]** — `prediction.py` runs a 64-row tiny fit at module load (`LGBM_DEVICE` constant) to detect whether GPU LightGBM is usable in the current environment, and silently falls back to CPU on `[Fatal] GPU Tree Learner was not enabled in this build` errors. Correctness-preserving fallback; the only cost is longer Optuna runtime.
 - **cuDF/pandas runtime probe** **[implemented]** — `top_players_comprehensive.py` `initialize_df_lib()` attempts to import cuDF and falls back to pandas on failure with `USE_GPU` flag propagated through downstream code paths. Same pattern: correctness-preserving, environment-aware.
 - **Pipeline orchestrator script** **[implemented]** — `refresh_and_rank.sh` chains six steps end-to-end (refresh data → top-100 → predict → backtest → refresh docs → commit/push). Uses `set -e` to abort on any step failure; commits only if `git diff --cached` shows changes; only stages a deliberate file allowlist to avoid pulling in scratch CSVs from `data/prediction/`.
 - **Live-match polling pipeline** **[implemented]** — `scripts/live_analysis_pipeline.py` is a long-running Python process (invoked manually via `nohup`) that polls the FanFooty live feed every 90 seconds (`POLL_SECONDS = 90`), writes a quarter-break analyst block into a target markdown doc on each transition, and `git commit && git push origin main` after every block. Stops on Full Time. The polling glitch where end-of-game scores back-fill into earlier-quarter docs is documented in `.claude/agent-memory/Scientist/live_pipeline_glitch.md` and was patched in-pipeline.
-- **GitHub Actions scheduled jobs** **[implemented]** — `.github/workflows/weekly-fan-pack.yml` runs at `0 23 * * 0` (Sunday 23:00 UTC, Monday 09:00 AEST) and packages whatever is at HEAD into a GitHub Release. `.github/workflows/sync-phase2.yml` runs at `0 2 * * *` and merges main into `feature/phase2`. `.github/workflows/pylint.yml` runs `pylint` on every push across Python 3.8/3.9/3.10. These are real automation, but they run *after* commits land — they do not gate writes to main.
+- **GitHub Actions scheduled jobs** **[implemented]** — `.github/workflows/weekly-fan-pack.yml` runs at `0 23 * * 3` (Wednesday 23:00 UTC, Thursday 09:00 AEST — moved from the former Sunday slot) and packages whatever is at HEAD into a GitHub Release. `.github/workflows/sync-phase2.yml` runs at `0 2 * * *` and merges main into `feature/phase2`. `.github/workflows/pylint.yml` runs `pylint` on every push across Python 3.8/3.9/3.10. These are real automation, but they run *after* commits land — they do not gate writes to main.
 - **Backtest output persistence as audit primitive** **[implemented]** — backtest CSVs are timestamped (e.g. `prediction_vs_actual_round_9_2026_20260511_191837.csv`) and never overwritten, so a regression is visible by diffing two runs at the same round across different timestamps.
 - **Codex CLI as external second opinion** **[implemented]** — `codex --approval-mode full-auto` and `Skill(codex:rescue)` permission entries in `settings.local.json` confirm Codex is wired into the harness as a callable subprocess, not just referenced.
 
