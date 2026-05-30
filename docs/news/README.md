@@ -21,6 +21,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
+| 2026-05-30 | [AFL Hall of Fame — 100 Forgotten Heroes](../hall-of-fame-forgotten-heroes.md) | 95 unique underappreciated AFL players across 8 categories, data-verified from 13,328 player CSVs | Complete (all seven council layers) |
 | 2026-05-30 | [Meet Gaffer — the council's new delivery lead and editor-in-chief](../council-intro-gaffer.md) | Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth | Internal / team announcement (not a council-reviewed article) |
 | 2026-05-29 | [Greg Williams — The Possession Engine](2026-05-29-greg-williams-possession-engine.md) | Career tribute to the dual-Brownlow Carlton/Sydney/Geelong midfielder; the handball-out-of-traffic signature behind the two medals eight years apart | Complete (all six council layers) |
 | 2026-05-29 | [Jonathan Brown — The Fist of God](2026-05-29-jonathan-brown-fist-of-god.md) | Career tribute to the Brisbane Lions full-forward; the 2004 Grand Final as the defining image of refusing to be moved | Complete (all six council layers) |

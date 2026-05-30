@@ -209,6 +209,7 @@ Long-form footy journalism where the numbers are not decoration — they are the
 
 ### Hall of Fame
 - [AFL Hall of Fame](docs/hall-of-fame.md) — all-time top 100, statistical leaders, captains, coaches, dynasties
+- [100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) — underappreciated players across 8 categories, data-verified from the player CSVs
 
 ### For fans (no code)
 - [Start here - no code](docs/start-here-no-code.md)
