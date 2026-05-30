@@ -29,6 +29,7 @@ The news section is the place to turn that into reading. Slower than a tweet. Sm
 | 2026-05-15 | [Who should be the next Carlton coach?](2026-05-15-carlton-next-coach.md) | Carlton coaching succession | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-15 | [Richmond vs St Kilda, Round 11, 2026: Milera out, Tigers in](2026-05-15-richmond-vs-stkilda-r11.md) | Match preview / injury impact | Complete (data + FootyStrategy + Codex layers) |
 | 2026-05-13 | [Michael Voss steps down: what went wrong at Carlton, and why it doesn't diminish a legend](2026-05-13-voss-carlton.md) | Carlton coaching change | Complete (data + FootyStrategy layers) |
+| 2026-05-30 | [Meet Gaffer — the council's new delivery lead and editor-in-chief](../council-intro-gaffer.md) | Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth | Internal / team announcement (not a council-reviewed article) |
 
 ## House rules for entries
 
