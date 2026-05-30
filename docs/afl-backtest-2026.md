@@ -100,10 +100,10 @@ The per-round table above reports the mean across each round individually. The *
 | Metric | Value | What it means |
 |---|---|---|
 | Rounds backtested | 12 (R1–R12) | Walk-forward — each round predicted using only data from rounds before it |
-| Player predictions scored | **4,494** | Total prediction-vs-actual pairs across the 12 rounds |
-| **MAE (overall)** | **4.056 disposals** | Average absolute miss across every player-round |
-| **RMSE (overall)** | **5.190 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
-| **Bias (overall)** | **−0.084 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
+| Player predictions scored | **4,486** | Total prediction-vs-actual pairs across the 12 rounds |
+| **MAE (overall)** | **4.055 disposals** | Average absolute miss across every player-round |
+| **RMSE (overall)** | **5.184 disposals** | Penalises large misses more heavily; small gap to MAE means few extreme blunders |
+| **Bias (overall)** | **−0.080 disposals** | Model under-predicts by less than 1/10 of a disposal on average — essentially unbiased |
 | Cumulative MAE (mean of round MAE) | 4.08 | Equally weights each round; close to the player-weighted figure so no single round is dominating |
 | Median round MAE | 4.06 | Half the rounds beat this number, half fell short — the model is consistent week-to-week |
 
