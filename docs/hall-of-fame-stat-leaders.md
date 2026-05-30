@@ -1,3 +1,11 @@
+<!-- council-pipeline:
+  BriefBuilder: N/A (navigation hub, no data skeleton required)
+  Scientist: N/A (no [data] tags to derive)
+  FootyStrategy: N/A (no tactical interpretation required)
+  DataSentinel: PASS @ 2026-05-30 (link integrity verified — all 13 sub-pages exist on disk; no untagged data claims found)
+  Skeptic: PASS @ 2026-05-30 (navigation-only page; no causal claims, no "forgotten" framing to probe)
+  Gaffer: APPROVED @ 2026-05-30
+-->
 # AFL all-time statistical leaders - hub
 
 > [← Back to main README](../README.md) · [← Hall of Fame hub](hall-of-fame.md)
@@ -30,6 +38,7 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 | Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 325 **[data]** |
 | Career kicks and handballs | [Kicks & handballs split](hall-of-fame-stat-kicks-handballs.md) | Bartlett (kicks) 8,293; Pendlebury (handballs) 5,477 **[data]** |
 | Single-season peaks | [Single-season records](hall-of-fame-stat-single-season.md) | Hudson/Pratt 150 goals; Macrae 880 disposals; Cripps 45 Brownlow votes **[data]** |
+| Forgotten heroes | [100 Forgotten Heroes](hall-of-fame-forgotten-heroes.md) | Underappreciated players across 8 categories — Quiet Workhorses, Ruck Gods, Defensive Anchors, Goal Machines, One-Club Servants, Pre-TV Era, Handball Kings, Short But Brilliant |
 
 Each sub-page has the top-20 (or top-10 for single-season) leaderboard with every number tagged `**[data]**`, a chart embed where one is generated, a FootyStrategy tactical narrative, a data-coverage note that names the era effects, and a methodology callout.
 
