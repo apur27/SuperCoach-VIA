@@ -173,7 +173,7 @@ Walk-forward backtest, 2026 season, Rounds 1–12. For each round the model is r
 
 **Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0–45 that is usable signal, not a solved problem. Round 1 is hardest because there are no within-season form features before any 2026 game has been played.
 
-**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most over-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
+**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most under-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
 
 Full per-round table (all 12 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 
@@ -184,7 +184,7 @@ Full per-round table (all 12 rounds), team-level breakdown for every club, bigge
 Long-form footy journalism where the numbers are not decoration — they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [AFL Hall of Fame — 100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) - 95 unique underappreciated AFL players across 8 categories, data-verified from 13,328 player CSVs *(2026-05-30)*
+**Latest:** [AFL Hall of Fame — 100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) - 96 unique underappreciated AFL players across 8 categories, data-verified from 13,328 player CSVs *(2026-05-30)*
 
 [Meet Gaffer — the council's new delivery lead and editor-in-chief](docs/council-intro-gaffer.md) - Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth *(2026-05-30)*
 <!-- NEWS-LATEST-END -->
