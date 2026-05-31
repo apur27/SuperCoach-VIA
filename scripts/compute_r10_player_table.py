@@ -10,9 +10,14 @@ Output: markdown table sorted by SC descending for each team.
 """
 
 import json
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
 
 
-SNAPSHOT = "/home/abhi/git/SuperCoach-VIA/data/live_snapshots/9781_20260510_1751_final-siren.json"
+SNAPSHOT = os.path.join(config.LIVE_SNAPSHOTS_DIR, "9781_20260510_1751_final-siren.json")
 
 
 # afltables truth: (team, name) -> dict

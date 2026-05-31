@@ -48,6 +48,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import config
+
 # Reuse the production predictor end-to-end.
 from prediction import AFLDisposalPredictor, extract_round_number
 
@@ -56,8 +58,8 @@ from prediction import AFLDisposalPredictor, extract_round_number
 # Constants
 # ---------------------------------------------------------------------------
 
-DEFAULT_DATA_DIR = Path("/home/abhi/git/SuperCoach-VIA/data/player_data")
-BACKTEST_DIR = Path("/home/abhi/git/SuperCoach-VIA/data/prediction/backtest")
+DEFAULT_DATA_DIR = Path(config.PLAYER_DATA_DIR)
+BACKTEST_DIR = Path(config.BACKTEST_DIR)
 
 EXACT_TOL = 1.0  # |pred - actual| <= 1 is treated as "exact" for over_under
 
@@ -361,7 +363,7 @@ def run_round_backtest(
     predictor.run()
 
     pred_path = sorted(
-        Path("/home/abhi/git/SuperCoach-VIA/data/prediction").glob(
+        Path(config.PREDICTION_DIR).glob(
             f"next_round_*_prediction_*.csv"
         ),
         key=lambda p: p.stat().st_mtime,

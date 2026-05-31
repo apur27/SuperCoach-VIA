@@ -11,9 +11,14 @@ Run with: /home/abhi/sourceCode/python/coding/.venv/bin/python scripts/update_r1
 """
 
 import os
+import sys
+
 import pandas as pd
 
-PLAYER_DIR = "/home/abhi/git/SuperCoach-VIA/data/player_data"
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
+
+PLAYER_DIR = config.PLAYER_DATA_DIR
 DATE = "2026-05-10"
 YEAR = 2026
 ROUND = 10

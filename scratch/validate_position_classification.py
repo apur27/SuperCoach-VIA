@@ -6,10 +6,15 @@ results here will be re-validated by full pipeline before any production use.
 
 import os
 import glob
+import sys
+
 import numpy as np
 import pandas as pd
 
-DATA_DIR = "/home/abhi/git/SuperCoach-VIA/data/player_data"
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
+
+DATA_DIR = config.PLAYER_DATA_DIR
 
 WEIGHTS = {
     'goals': 55.0, 'behinds': 1.5,
