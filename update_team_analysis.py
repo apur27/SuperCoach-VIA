@@ -1857,6 +1857,7 @@ def render_finals_pathway_paragraph(
     stat_row: pd.Series,
     ladder: pd.DataFrame,
     games_remaining: int,
+    max_round: int = 0,
 ) -> str:
     """5-7 sentence paragraph on this team's finals + grand final pathway."""
     team = ladder_row["team"]
@@ -1884,7 +1885,7 @@ def render_finals_pathway_paragraph(
 
     record_str = f"{wins}-{losses}" + (f"-{draws}" if draws else "")
     s1 = (
-        f"**{team}** sit {ordinal(pos)} on the ladder after Round 8 "
+        f"**{team}** sit {ordinal(pos)} on the ladder after Round {max_round} "
         f"({record_str}, {pts} points, {pct:.1f}%) — {path_clause}."
     )
 
@@ -1978,8 +1979,8 @@ def build_finals_pathway_body(
     intro = (
         f"What does each AFL team need to do — from here — to make finals this "
         f"year, and what would have to go right for them to play in the grand "
-        f"final? After Round {max_round} of the {year} season, every side has "
-        f"played 7 games with roughly {games_remaining} games left in the "
+        f"final? After Round {max_round} of the {year} season, most sides have "
+        f"played {HOME_AND_AWAY_GAMES - games_remaining} games with roughly {games_remaining} games left in the "
         f"home-and-away. The paragraphs below combine the actual {year} "
         f"ladder (wins, losses, percentage) with the team's stat profile across "
         "16 categories to write an honest, data-driven mid-season assessment "
@@ -2009,7 +2010,7 @@ def build_finals_pathway_body(
         body_lines.append(f"### {ordinal(int(lr['position']))} — {team}")
         body_lines.append("")
         body_lines.append(
-            render_finals_pathway_paragraph(lr, stat_row, ladder, games_remaining)
+            render_finals_pathway_paragraph(lr, stat_row, ladder, games_remaining, max_round)
         )
         body_lines.append("")
 
