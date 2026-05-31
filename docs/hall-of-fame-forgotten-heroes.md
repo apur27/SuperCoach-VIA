@@ -975,11 +975,11 @@ Viney is the archetype of the modern clearance midfielder: win the contested bal
 
 The verdict: a contested-extraction midfielder whose ability to win and release under pressure is the engine of a stoppage.
 
-### Josh Dunkley (2016-2026, Western Bulldogs)
+### Josh Dunkley (2016–2022, Western Bulldogs → 2023–present, Brisbane Lions)
 
 A two-way contested midfielder whose distribution keeps his side's ball moving.
 
-[data]: 205 games, 78 career goals, 23.2 disposal average **[data]** — a handball-to-kick ratio of 1.16 **[data]**. His 2019 peak of 28.3 disposals a game **[data]** was an elite season.
+[data]: 201 games, 78 career goals, 23.2 disposal average **[data]** — a handball-to-kick ratio of 1.16 **[data]**. His 2019 peak of 28.3 disposals a game **[data]** was an elite season.
 
 Dunkley combines heavy contested volume with a handball-first release — the profile of a midfielder who does the defensive work, wins his own ball and distributes to a runner. A 28-disposal peak from a two-way midfielder is the kind of season that lets a coach trust the contest and build around it.
 
