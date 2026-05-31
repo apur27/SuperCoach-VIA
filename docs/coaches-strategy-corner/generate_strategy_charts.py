@@ -18,13 +18,17 @@ from __future__ import annotations
 
 import glob
 import os
+import sys
 from typing import List
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-REPO_ROOT = "/home/abhi/git/SuperCoach-VIA"
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+import config
+
+REPO_ROOT = config.REPO_ROOT
 DATA_DIR = os.path.join(REPO_ROOT, "data")
 PLAYER_DIR = os.path.join(DATA_DIR, "player_data")
 MATCH_DIR = os.path.join(DATA_DIR, "matches")
