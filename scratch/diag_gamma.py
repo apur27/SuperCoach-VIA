@@ -6,7 +6,12 @@ side effects.
 """
 import os
 import glob
+import sys
+
 import pandas as pd
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
 
 ERA_COMPLETENESS = {
     'pre_1965':  0.85,
@@ -63,7 +68,7 @@ CAREER_GAMES = {
 
 # Gather yearly ranks for each canary
 ranks = {p: [] for p in CANARIES}
-yearly_dir = '/home/abhi/git/SuperCoach-VIA/data/top100/yearly/'
+yearly_dir = os.path.join(config.TOP100_DIR, "yearly")
 for f in sorted(glob.glob(os.path.join(yearly_dir, 'year_*.csv'))):
     df = pd.read_csv(f)
     year = int(os.path.basename(f).replace('year_', '').replace('.csv', ''))

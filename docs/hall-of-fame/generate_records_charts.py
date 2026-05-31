@@ -18,13 +18,17 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Dict, List
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-REPO = Path("/home/abhi/git/SuperCoach-VIA")
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+import config
+
+REPO = Path(config.REPO_ROOT)
 LEADERS_JSON = REPO / "docs" / "hall-of-fame" / "_stat_leaders.json"
 OUT_DIR = REPO / "assets" / "charts" / "hall"
 OUT_DIR.mkdir(parents=True, exist_ok=True)

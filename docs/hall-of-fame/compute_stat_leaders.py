@@ -14,12 +14,16 @@ import glob
 import json
 import os
 import re
+import sys
 from pathlib import Path
 from typing import Optional
 
 import pandas as pd
 
-REPO = Path("/home/abhi/git/SuperCoach-VIA")
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+import config
+
+REPO = Path(config.REPO_ROOT)
 PLAYER_DIR = REPO / "data" / "player_data"
 OUT_DIR = REPO / "docs" / "hall-of-fame"
 OUT_DIR.mkdir(parents=True, exist_ok=True)

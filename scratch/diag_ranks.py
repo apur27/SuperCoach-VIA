@@ -8,7 +8,12 @@ This is read-only — no side effects, no model fit, no decisions ride on the ou
 """
 import os
 import glob
+import sys
+
 import pandas as pd
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
 
 ERA_COMPLETENESS = {
     'pre_1965':  0.65,
@@ -45,7 +50,7 @@ PLAYERS = [
 
 ranks_by_player = {p: [] for p in PLAYERS}
 
-yearly_dir = '/home/abhi/git/SuperCoach-VIA/data/top100/yearly/'
+yearly_dir = os.path.join(config.TOP100_DIR, "yearly")
 files = sorted(glob.glob(os.path.join(yearly_dir, 'year_*.csv')))
 total_rows_in = 0
 total_rows_out = 0

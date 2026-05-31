@@ -9,7 +9,13 @@ for Richmond) for the "was this representative" question.
 """
 
 import glob
+import os
+import sys
+
 import pandas as pd
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import config
 
 DATE = "2026-05-10"
 GAME_ROUND = 10
@@ -43,7 +49,7 @@ ROSTERS = {
 def sum_team_game(team_key, year, round_num):
     rows = []
     for slug in ROSTERS[team_key]:
-        path = f"/home/abhi/git/SuperCoach-VIA/data/player_data/{slug}_performance_details.csv"
+        path = os.path.join(config.PLAYER_DATA_DIR, f"{slug}_performance_details.csv")
         df = pd.read_csv(path)
         # Force consistent types so '10' and 10 both match
         df['year'] = pd.to_numeric(df['year'], errors='coerce')
@@ -77,7 +83,7 @@ def main():
         print()
 
     print("=== Richmond 2026 season-to-date (R1-R10) averages ===")
-    rich_files = [f"/home/abhi/git/SuperCoach-VIA/data/player_data/{s}_performance_details.csv"
+    rich_files = [os.path.join(config.PLAYER_DATA_DIR, f"{s}_performance_details.csv")
                   for s in ROSTERS['Richmond']]
     all_games = []
     for path in rich_files:
@@ -105,7 +111,7 @@ def main():
 
     print()
     print("=== Adelaide 2026 season-to-date (R1-R10) averages ===")
-    ade_files = [f"/home/abhi/git/SuperCoach-VIA/data/player_data/{s}_performance_details.csv"
+    ade_files = [os.path.join(config.PLAYER_DATA_DIR, f"{s}_performance_details.csv")
                  for s in ROSTERS['Adelaide']]
     all_games = []
     for path in ade_files:
@@ -122,7 +128,7 @@ def main():
     print(f"Avg hit_outs/g: {season_team_a['hit_outs'].mean():.1f}")
 
     print("\n=== Sanity: Richmond losing margin per round 2026 ===")
-    matches = pd.read_csv('/home/abhi/git/SuperCoach-VIA/data/matches/matches_2026.csv')
+    matches = pd.read_csv(os.path.join(config.MATCHES_DIR, "matches_2026.csv"))
     rich_matches = matches[(matches['team_1_team_name'] == 'Richmond') | (matches['team_2_team_name'] == 'Richmond')].copy()
 
     def richmond_margin(row):
