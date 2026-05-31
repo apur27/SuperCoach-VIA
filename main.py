@@ -1,5 +1,5 @@
-from game_scraper import MatchScraper
-from player_scraper import PlayerScraper
+from scrapers.game_scraper import MatchScraper
+from scrapers.player_scraper import PlayerScraper
 from datetime import datetime
 
 import config

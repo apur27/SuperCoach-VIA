@@ -21,7 +21,9 @@ echo "[3/6] Predicting next round disposals..."
 echo "=========================================="
 # Auto-detects the current year and next round from latest player data.
 # Writes: data/prediction/next_round_<N>_prediction_<timestamp>.csv
-"$PYTHON" prediction.py
+# prediction.py now lives in the supercoach/ package — invoke as a module so
+# its package-relative imports and config bootstrap resolve correctly.
+"$PYTHON" -m supercoach.prediction
 
 echo "=========================================="
 echo "[4/6] Backtesting prediction accuracy (incremental)..."

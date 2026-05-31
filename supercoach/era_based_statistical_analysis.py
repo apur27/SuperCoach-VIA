@@ -49,6 +49,8 @@ from scipy import stats
 
 warnings.simplefilter("ignore", category=RuntimeWarning)
 
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 
 REPO_ROOT = config.REPO_ROOT
