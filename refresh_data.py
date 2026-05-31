@@ -25,8 +25,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from game_scraper import MatchScraper
-from player_scraper import PlayerScraper, get_soup
+from scrapers.game_scraper import MatchScraper
+from scrapers.player_scraper import PlayerScraper, get_soup
 
 import config
 

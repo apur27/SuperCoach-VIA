@@ -51,7 +51,7 @@ import pandas as pd
 import config
 
 # Reuse the production predictor end-to-end.
-from prediction import AFLDisposalPredictor, extract_round_number
+from supercoach.prediction import AFLDisposalPredictor, extract_round_number
 
 
 # ---------------------------------------------------------------------------
