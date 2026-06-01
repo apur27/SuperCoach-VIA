@@ -8,17 +8,23 @@
 #   0 11 * * 4 cd /home/abhi/git/SuperCoach-VIA && bash scripts/weekly_refresh.sh
 #
 # What runs:
-#   Phase 1 — refresh_and_rank.sh   (data scrape → top100 → prediction →
-#                                    backtest → season docs → git push)
-#   Phase 2 — generate_weekly_cheat_sheet.py  (round cheat sheet)
-#   Phase 3 — FootyStrategy agent   (round recap + next-round preview in
-#                                    docs/afl-insights.md)
-#   Phase 4 — commit + push phase 2/3 outputs
+#   Phase 1  — refresh_and_rank.sh   (data scrape → top100 → prediction →
+#                                     backtest → season docs → git push)
+#   Phase 2a — generate_weekly_cheat_sheet.py  (round cheat sheet)
+#   Phase 2b — compute_stat_leaders.py + generate_records_charts.py
+#              + DataSentinel agent to update docs/hall-of-fame-stat-*.md
+#   Phase 3  — FootyStrategy agent   (round recap in docs/afl-insights.md)
+#   Phase 4  — commit + push phase 2/3 outputs
 #
 # Excluded (manually curated — never auto-updated):
-#   docs/hall-of-fame*.md           Hall of Fame pages
-#   docs/news/README.md             Published news
-#   docs/hall-of-fame-stat-*.md     Stat record pages
+#   docs/hall-of-fame-captains.md       Captains HOF
+#   docs/hall-of-fame-courageous.md     Courageous HOF
+#   docs/hall-of-fame-forgotten-heroes.md  Forgotten Heroes
+#   docs/hall-of-fame-dynasties.md      Dynasties HOF
+#   docs/hall-of-fame-indigenous.md     Indigenous HOF
+#   docs/hall-of-fame-careers-cut-short.md
+#   docs/hall-of-fame-coaches.md
+#   docs/news/README.md                 Published news
 # =============================================================================
 
 set -euo pipefail
@@ -32,9 +38,7 @@ LOG_FILE="$LOG_DIR/weekly_refresh_${TODAY}.log"
 
 cd "$REPO_ROOT"
 
-# ---------------------------------------------------------------------------
 log() { echo "[$(date '+%H:%M:%S')] $*" | tee -a "$LOG_FILE"; }
-# ---------------------------------------------------------------------------
 
 mkdir -p "$LOG_DIR"
 log "=================================================================="
@@ -49,13 +53,13 @@ log "=================================================================="
 #   afl-backtest-2026.md, afl-team-profiles.md, hall-of-fame-top100.md,
 #   assets/charts/, all_time_top_100.csv, data/top100/
 # ---------------------------------------------------------------------------
-log "[1/4] Running refresh_and_rank.sh (data + model + season docs)..."
+log "[1/5] Running refresh_and_rank.sh (data + model + season docs)..."
 bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
-log "[1/4] refresh_and_rank.sh complete."
+log "[1/5] refresh_and_rank.sh complete."
 
 # ---------------------------------------------------------------------------
-# Detect the current round from the latest prediction CSV so the agent
-# and commit message reference the right round number.
+# Detect round AFTER Phase 1 so we read the CSV that prediction.py just wrote,
+# not whatever was on disk before the run.
 # ---------------------------------------------------------------------------
 LATEST_PRED=$(ls "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
     | sort | tail -1 || true)
@@ -64,25 +68,82 @@ if [ -n "$LATEST_PRED" ]; then
 else
     ROUND="unknown"
 fi
-log "Detected round: $ROUND"
+log "Detected next round: $ROUND"
 
 # ---------------------------------------------------------------------------
-# Phase 2 — weekly cheat sheet
+# Phase 2a — weekly cheat sheet
 # Reads the latest prediction CSV, writes:
 #   docs/weekly/round-<N>-<year>.md
 #   docs/weekly/round-current-<year>.md  (stable link)
 # ---------------------------------------------------------------------------
-log "[2/4] Generating weekly cheat sheet for round $ROUND..."
+log "[2a/5] Generating weekly cheat sheet for round $ROUND..."
 $PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" 2>&1 | tee -a "$LOG_FILE"
-log "[2/4] Cheat sheet generated."
+log "[2a/5] Cheat sheet generated."
+
+# ---------------------------------------------------------------------------
+# Phase 2b — Hall of Fame stat leaders refresh
+# 1. Recompute career stat totals from the freshly-updated player_data corpus
+# 2. Regenerate stat records charts
+# 3. DataSentinel agent: compare fresh JSON to the published stat pages,
+#    update any changed numbers + "Last refreshed" date across all stat docs
+# ---------------------------------------------------------------------------
+log "[2b/5] Recomputing all-time stat leaders from updated player data..."
+$PYTHON "$REPO_ROOT/docs/hall-of-fame/compute_stat_leaders.py" 2>&1 | tee -a "$LOG_FILE"
+log "[2b/5] Stat leaders JSON refreshed."
+
+log "[2b/5] Regenerating stat records charts..."
+$PYTHON "$REPO_ROOT/docs/hall-of-fame/generate_records_charts.py" 2>&1 | tee -a "$LOG_FILE"
+log "[2b/5] Charts regenerated."
+
+log "[2b/5] Invoking DataSentinel to update hall-of-fame stat pages..."
+$CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Today is $TODAY.
+
+## Task
+The all-time stat leaders have just been recomputed from freshly-updated player data.
+The ground truth is now in: docs/hall-of-fame/_stat_leaders.json
+
+Read that JSON, then read each of these published docs and update any [data]-tagged
+numbers that have changed, plus update the 'Last refreshed' date to $TODAY:
+
+Docs to check and update:
+- docs/hall-of-fame-stat-leaders.md       (hub — update date + any headline numbers)
+- docs/hall-of-fame-stat-disposals.md
+- docs/hall-of-fame-stat-games.md
+- docs/hall-of-fame-stat-goals.md
+- docs/hall-of-fame-stat-brownlow.md
+- docs/hall-of-fame-stat-tackles.md
+- docs/hall-of-fame-stat-marks.md
+- docs/hall-of-fame-stat-clearances.md
+- docs/hall-of-fame-stat-contested.md
+- docs/hall-of-fame-stat-hitouts.md
+- docs/hall-of-fame-stat-kicks-handballs.md
+- docs/hall-of-fame-stat-goalassists.md
+- docs/hall-of-fame-stat-single-season.md
+
+## Rules
+- Read docs/hall-of-fame/_stat_leaders.json FIRST — it is the source of truth.
+- Only update numbers that have actually changed vs what is currently in each doc.
+- Update the 'Last refreshed: YYYY-MM-DD' line in each doc you touch to $TODAY.
+- After updating numbers, update the DataSentinel council stamp date in the doc to $TODAY.
+- Do NOT change narrative text, formatting, or council commentary — numbers and date only.
+- Do NOT touch docs/news/, docs/hall-of-fame-captains.md, docs/hall-of-fame-courageous.md,
+  docs/hall-of-fame-forgotten-heroes.md, docs/hall-of-fame-coaches.md,
+  docs/hall-of-fame-dynasties.md, docs/hall-of-fame-indigenous.md,
+  docs/hall-of-fame-careers-cut-short.md, or any other file.
+- If a number has not changed, do not touch that doc (skip it entirely).
+- Report: which docs were updated and what changed." \
+    --agent DataSentinel \
+    --allowedTools "Read,Write,Edit,Glob,Grep,Bash" \
+    --permission-mode bypassPermissions \
+    --model sonnet \
+    2>&1 | tee -a "$LOG_FILE"
+
+log "[2b/5] DataSentinel stat update complete."
 
 # ---------------------------------------------------------------------------
 # Phase 3 — FootyStrategy agent: round recap + insights update
-# Invokes the FootyStrategy council agent via Claude Code CLI (-p = non-interactive).
-# The agent reads the freshly-updated season docs and writes a "Week in Review"
-# section to docs/afl-insights.md.
 # ---------------------------------------------------------------------------
-log "[3/4] Invoking FootyStrategy agent for round $ROUND weekly insights..."
+log "[3/5] Invoking FootyStrategy agent for round $ROUND weekly insights..."
 
 $CLAUDE -p "You are FootyStrategy for SuperCoach-VIA. Today is $TODAY.
 
@@ -110,33 +171,46 @@ Tag any specific stat with [data] per the council convention.
 - Do NOT touch the navigation table, intro text, or any link in the file.
 - Do NOT touch docs/news/, docs/hall-of-fame*.md, or any other file.
 - Do NOT add new links to Hall of Fame or news pages.
-- If the stat leaders or season doc do not have enough data for a claim, omit the claim rather than estimating." \
+- If the stat leaders or season doc do not have enough data for a claim, omit it." \
     --agent FootyStrategy \
     --allowedTools "Read,Write,Edit,Glob,Grep" \
     --permission-mode bypassPermissions \
     --model sonnet \
     2>&1 | tee -a "$LOG_FILE"
 
-log "[3/4] FootyStrategy agent complete."
+log "[3/5] FootyStrategy agent complete."
 
 # ---------------------------------------------------------------------------
-# Phase 4 — commit and push phase 2 + phase 3 outputs
-# Only commits files that were actually changed by this session.
-# refresh_and_rank.sh already pushed its own outputs in phase 1.
+# Phase 4 — commit and push all phase 2/3 outputs
 # ---------------------------------------------------------------------------
-log "[4/4] Staging and committing weekly agent outputs..."
+log "[4/5] Staging and committing weekly agent outputs..."
 
 git add \
     docs/afl-insights.md \
     docs/weekly/ \
+    docs/hall-of-fame-stat-leaders.md \
+    docs/hall-of-fame-stat-disposals.md \
+    docs/hall-of-fame-stat-games.md \
+    docs/hall-of-fame-stat-goals.md \
+    docs/hall-of-fame-stat-brownlow.md \
+    docs/hall-of-fame-stat-tackles.md \
+    docs/hall-of-fame-stat-marks.md \
+    docs/hall-of-fame-stat-clearances.md \
+    docs/hall-of-fame-stat-contested.md \
+    docs/hall-of-fame-stat-hitouts.md \
+    docs/hall-of-fame-stat-kicks-handballs.md \
+    docs/hall-of-fame-stat-goalassists.md \
+    docs/hall-of-fame-stat-single-season.md \
+    docs/hall-of-fame/_stat_leaders.json \
+    assets/charts/ \
     2>/dev/null || true
 
 if git diff --cached --quiet; then
-    log "[4/4] No new changes to commit — everything already up to date."
+    log "[4/5] No new changes to commit — everything already up to date."
 else
-    git commit -m "Weekly refresh round $ROUND — cheat sheet + insights ($TODAY)"
+    git commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)"
     git push origin main
-    log "[4/4] Pushed to origin/main."
+    log "[4/5] Pushed to origin/main."
 fi
 
 log "=================================================================="
