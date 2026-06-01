@@ -3,9 +3,9 @@
 # weekly_refresh.sh — Full weekly pipeline for SuperCoach-VIA
 # =============================================================================
 #
-# Run every Thursday night after the AFL round is complete.
-# Recommended cron (Thursday 9 PM AEST = 11 AM UTC):
-#   0 11 * * 4 cd /home/abhi/git/SuperCoach-VIA && bash scripts/weekly_refresh.sh
+# Run every Wednesday morning — round completes Sunday, data settled by Tuesday.
+# Recommended cron (Wednesday 6 AM AEST = Tuesday 8 PM UTC):
+#   0 20 * * 2 cd /home/abhi/git/SuperCoach-VIA && bash scripts/weekly_refresh.sh
 #
 # What runs:
 #   Phase 1  — refresh_and_rank.sh   (data scrape → top100 → prediction →
