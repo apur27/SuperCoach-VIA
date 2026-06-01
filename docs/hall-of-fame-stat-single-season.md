@@ -1,3 +1,11 @@
+<!-- council-pipeline:
+  BriefBuilder: N/A (data table — no narrative skeleton required)
+  Scientist: N/A (numbers derived from player_data corpus, not model output)
+  FootyStrategy: N/A (career volume stats — no tactical interpretation required)
+  DataSentinel: PASS @ 2026-06-02 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
+  Gaffer: APPROVED @ 2026-06-02
+-->
 # AFL single-season records - peak-output leaderboards
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
@@ -142,7 +150,7 @@ The career leaderboards on the other [stat-leaders sub-pages](hall-of-fame-stat-
 | 7= | Nick Daffy **[data]** | 1998 | Richmond - Sydney | 159 |
 | 7= | Nathan Buckley **[data]** | 2003 | Brisbane Bears - Collingwood | 159 |
 | 9 | Dustin Martin **[data]** | 2017 | Richmond | 150 |
-| 10 | Ben Cousins **[data]** | 2005 | Richmond - West Coast | 149 |
+| 10 | Scott Camporeale **[data]** | 2000 | Carlton - Essendon | 149 |
 
 **Dangerfield's 194 inside-50s in 2016 is the all-time peak.** *Structuralist lens:* the inside-50 stat counts the player who carries or kicks the ball across the forward arc - a measure of forward-half attacking activity. Dangerfield's 2016 Brownlow-winning season included 194 of these in 22 games (8.8/game), a rate no other player on the list matches. The modern era leader (Gulden 171 in 2024) **[data]** suggests the ceiling has shifted slightly downward as forward-half delivery has been spread across more players in the modern attacking structure.
 

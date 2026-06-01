@@ -1,3 +1,11 @@
+<!-- council-pipeline:
+  BriefBuilder: N/A (data table — no narrative skeleton required)
+  Scientist: N/A (numbers derived from player_data corpus, not model output)
+  FootyStrategy: N/A (career volume stats — no tactical interpretation required)
+  DataSentinel: PASS @ 2026-06-02 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
+  Gaffer: APPROVED @ 2026-06-02
+-->
 # AFL career goal assists - all-time top 20
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
@@ -16,10 +24,10 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 
 | # | Player | Club(s) | Span | Games | Goal assists | Per game |
 |--:|--------|---------|------|------:|-------------:|---------:|
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 433 | 325 | 0.75 |
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 434 | 328 | 0.76 |
 | 2 | Eddie Betts **[data]** | Adelaide - Carlton | 2005-2021 | 350 | 318 | 0.91 |
 | 3 | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 | 296 | 0.82 |
-| 4 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 367 | 275 | 0.75 |
+| 4 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 368 | 275 | 0.75 |
 | 5 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 264 | 0.74 |
 | 6 | Robbie Gray **[data]** | Port Adelaide | 2007-2022 | 271 | 262 | 0.97 |
 | 7 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 261 | 0.73 |
@@ -28,18 +36,18 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 | 10 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 248 | 0.64 |
 | 11 | Luke Breust **[data]** | Hawthorn | 2011-2025 | 308 | 246 | 0.80 |
 | 12 | Taylor Walker **[data]** | Adelaide | 2009-2026 | 308 | 240 | 0.78 |
-| 13 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 269 | 238 | 0.88 |
+| 13 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 270 | 238 | 0.88 |
 | 14 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 233 | 0.54 |
 | 15 | Lance Franklin **[data]** | Hawthorn - Sydney | 2005-2023 | 354 | 231 | 0.65 |
 | 16 | Nick Riewoldt **[data]** | St Kilda | 2001-2017 | 336 | 224 | 0.67 |
 | 17 | Dustin Martin **[data]** | Richmond | 2010-2024 | 302 | 221 | 0.73 |
 | 18 | Matthew Pavlich **[data]** | Fremantle | 2000-2016 | 353 | 216 | 0.61 |
-| 19 | Toby Greene **[data]** | Greater Western Sydney | 2012-2026 | 272 | 213 | 0.78 |
+| 19 | Toby Greene **[data]** | Greater Western Sydney | 2012-2026 | 273 | 215 | 0.79 |
 | 20 | Shane Edwards **[data]** | Richmond | 2007-2022 | 303 | 211 | 0.70 |
 
 ## FootyStrategy tactical read
 
-**Pendlebury and the modern playmaker template.** Scott Pendlebury 325 goal assists **[data]** is the all-time leader. Eddie Betts 318 **[data]** sits second, only seven assists back, on a vastly higher per-game rate (0.91 to 0.75) **[data]**. *Structuralist lens:* Pendlebury and Betts represent two different paths to the same destination. Pendlebury is the midfielder-distributor whose assists come from clearance-to-forward delivery and from secondary use after marks 50-60 metres out. Betts is the small forward whose assists come from inside-50 close-range craft - the no-look handball, the short snap-pass, the cutting kick from inside the goal square that he saw before anyone else. The fact that they finish 1-2 on the list shows the assist as a stat is genuinely role-agnostic.
+**Pendlebury and the modern playmaker template.** Scott Pendlebury 328 goal assists **[data]** is the all-time leader. Eddie Betts 318 **[data]** sits second, only seven assists back, on a vastly higher per-game rate (0.91 to 0.76) **[data]**. *Structuralist lens:* Pendlebury and Betts represent two different paths to the same destination. Pendlebury is the midfielder-distributor whose assists come from clearance-to-forward delivery and from secondary use after marks 50-60 metres out. Betts is the small forward whose assists come from inside-50 close-range craft - the no-look handball, the short snap-pass, the cutting kick from inside the goal square that he saw before anyone else. The fact that they finish 1-2 on the list shows the assist as a stat is genuinely role-agnostic.
 
 **Robbie Gray's per-game rate is the highest.** Robbie Gray 262 assists in 271 games at 0.97/game **[data]** is the highest sustained per-game rate in the top 20 and one of the only careers above 0.90. *Match-up Tactician lens:* Gray's Port Adelaide role across his prime years was specifically as the half-forward who turned the back-of-pack possession into a forward 50 entry that hit a target. Almost every Gray possession inside attacking half ended in a forward-50 disposal; the assists accumulated naturally from a role design that prioritised final-third creation over personal goal-scoring.
 

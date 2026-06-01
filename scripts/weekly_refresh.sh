@@ -95,24 +95,34 @@ log "[2b/5] Regenerating stat records charts..."
 $PYTHON "$REPO_ROOT/docs/hall-of-fame/generate_records_charts.py" 2>&1 | tee -a "$LOG_FILE"
 log "[2b/5] Charts regenerated."
 
-log "[2b/5] Invoking DataSentinel to update hall-of-fame stat pages..."
-$CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Today is $TODAY.
+log "[2b/5] Invoking DataSentinel to update hall-of-fame stat pages (2 batches)..."
 
-## Task
-The all-time stat leaders have just been recomputed from freshly-updated player data.
-The ground truth is now in: docs/hall-of-fame/_stat_leaders.json
+# Split into 2 batches to stay under the 32k output token limit.
+SENTINEL_OPTS="--agent DataSentinel --allowedTools Read,Write,Edit,Glob,Grep --permission-mode bypassPermissions --model sonnet"
 
-Read that JSON, then read each of these published docs and update any [data]-tagged
-numbers that have changed, plus update the 'Last refreshed' date to $TODAY:
+CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000 $CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Today is $TODAY.
 
-Docs to check and update:
-- docs/hall-of-fame-stat-leaders.md       (hub — update date + any headline numbers)
+Ground truth: docs/hall-of-fame/_stat_leaders.json (read this first).
+
+Check and update ONLY these docs (batch 1 of 2):
+- docs/hall-of-fame-stat-leaders.md
 - docs/hall-of-fame-stat-disposals.md
 - docs/hall-of-fame-stat-games.md
 - docs/hall-of-fame-stat-goals.md
-- docs/hall-of-fame-stat-brownlow.md
 - docs/hall-of-fame-stat-tackles.md
 - docs/hall-of-fame-stat-marks.md
+- docs/hall-of-fame-stat-brownlow.md
+
+Rules: only update [data]-tagged numbers that changed. Update 'Last refreshed:' and
+DataSentinel stamp date to $TODAY in every doc you touch. No narrative changes. Skip
+docs where nothing changed. Be concise." \
+    $SENTINEL_OPTS 2>&1 | tee -a "$LOG_FILE"
+
+CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000 $CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Today is $TODAY.
+
+Ground truth: docs/hall-of-fame/_stat_leaders.json (read this first).
+
+Check and update ONLY these docs (batch 2 of 2):
 - docs/hall-of-fame-stat-clearances.md
 - docs/hall-of-fame-stat-contested.md
 - docs/hall-of-fame-stat-hitouts.md
@@ -120,23 +130,10 @@ Docs to check and update:
 - docs/hall-of-fame-stat-goalassists.md
 - docs/hall-of-fame-stat-single-season.md
 
-## Rules
-- Read docs/hall-of-fame/_stat_leaders.json FIRST — it is the source of truth.
-- Only update numbers that have actually changed vs what is currently in each doc.
-- Update the 'Last refreshed: YYYY-MM-DD' line in each doc you touch to $TODAY.
-- After updating numbers, update the DataSentinel council stamp date in the doc to $TODAY.
-- Do NOT change narrative text, formatting, or council commentary — numbers and date only.
-- Do NOT touch docs/news/, docs/hall-of-fame-captains.md, docs/hall-of-fame-courageous.md,
-  docs/hall-of-fame-forgotten-heroes.md, docs/hall-of-fame-coaches.md,
-  docs/hall-of-fame-dynasties.md, docs/hall-of-fame-indigenous.md,
-  docs/hall-of-fame-careers-cut-short.md, or any other file.
-- If a number has not changed, do not touch that doc (skip it entirely).
-- Report: which docs were updated and what changed." \
-    --agent DataSentinel \
-    --allowedTools "Read,Write,Edit,Glob,Grep,Bash" \
-    --permission-mode bypassPermissions \
-    --model sonnet \
-    2>&1 | tee -a "$LOG_FILE"
+Rules: only update [data]-tagged numbers that changed. Update 'Last refreshed:' and
+DataSentinel stamp date to $TODAY in every doc you touch. No narrative changes. Skip
+docs where nothing changed. Be concise." \
+    $SENTINEL_OPTS 2>&1 | tee -a "$LOG_FILE"
 
 log "[2b/5] DataSentinel stat update complete."
 
