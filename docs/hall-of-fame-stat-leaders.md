@@ -12,7 +12,7 @@
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
-*Last refreshed: 2026-06-02. Every number on every sub-page is re-aggregated from 13,328 player career files in `data/player_data/`.*
+*Last refreshed: 2026-06-02. Every number on every sub-page is re-aggregated from 13,329 player career files in `data/player_data/`.*
 
 The [top 100 list](hall-of-fame-top100.md) is era-normalised: it asks who was furthest above the standard of their own era. This hub asks the simpler, blunter question - **who has the biggest career numbers, full stop.** No z-scores, no era adjustments. Just the raw ledger.
 
