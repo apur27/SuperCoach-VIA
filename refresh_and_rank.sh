@@ -51,6 +51,11 @@ echo "=========================================="
 # and embeds them into docs/afl-predictions-2026.md and docs/afl-backtest-2026.md.
 "$PYTHON" refresh_readme.py
 
+# Recompute all-time stat leaders + regenerate HOF charts from fresh player data.
+# Any image that depends on data is updated here so it never goes stale.
+"$PYTHON" docs/hall-of-fame/compute_stat_leaders.py
+"$PYTHON" docs/hall-of-fame/generate_records_charts.py
+
 echo "=========================================="
 echo "[6/6] Committing and pushing updated docs..."
 echo "=========================================="
