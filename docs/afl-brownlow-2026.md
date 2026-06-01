@@ -11,31 +11,31 @@ The **Brownlow Medal** is the AFL's individual award for the "fairest and best" 
 
 ![2026 Brownlow predictor](../assets/charts/brownlow_predictor_2026.png)
 
-#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 12)
+#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 13)
 
 | Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | Goals/g | Proxy | Proj. votes |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | Clayton Oliver | Greater Western Sydney | 11 | 31.7 | 8.5 | 16.2 | 0.18 | +2.90 | +63.8 |
-| 2 | Lachie Neale | Brisbane Lions | 11 | 30.7 | 7.4 | 13.0 | 0.27 | +2.50 | +54.9 |
-| 3 | Isaac Heeney | Sydney | 9 | 26.1 | 6.6 | 14.2 | 1.67 | +2.40 | +52.8 |
-| 4 | Nick Daicos | Collingwood | 10 | 34.7 | 5.0 | 9.7 | 1.10 | +2.39 | +52.5 |
-| 5 | Bailey Smith | Geelong | 11 | 32.4 | 5.8 | 11.6 | 0.55 | +2.38 | +52.3 |
-| 6 | Christian Petracca | Gold Coast | 9 | 26.3 | 6.4 | 12.2 | 1.67 | +2.29 | +50.4 |
-| 7 | Patrick Cripps | Carlton | 11 | 25.9 | 7.2 | 15.1 | 0.64 | +2.26 | +49.8 |
-| 8 | Zak Butters | Port Adelaide | 11 | 30.7 | 5.7 | 12.0 | 0.27 | +2.19 | +48.1 |
-| 9 | Jai Newcombe | Hawthorn | 11 | 25.5 | 7.6 | 12.2 | 0.36 | +2.05 | +45.1 |
-| 10 | Marcus Bontempelli | Western Bulldogs | 11 | 27.5 | 4.9 | 11.1 | 1.45 | +2.02 | +44.4 |
-| 11 | Matt Rowell | Gold Coast | 6 | 25.3 | 7.0 | 13.7 | 0.17 | +1.98 | +43.6 |
-| 12 | Tristan Xerri **[SUSPENDED — BROWNLOW INELIGIBLE]** | North Melbourne | 8 | 20.0 | 8.0 | 16.1 | 0.38 | +1.95 | +43.0 |
-| 13 | Caleb Serong | Fremantle | 10 | 24.9 | 6.3 | 12.2 | 0.50 | +1.88 | +41.4 |
-| 14 | Harry Sheezel | North Melbourne | 11 | 30.5 | 4.6 | 9.5 | 0.45 | +1.88 | +41.3 |
-| 15 | Tim Taranto | Richmond | 8 | 24.0 | 6.5 | 12.6 | 0.38 | +1.85 | +40.6 |
+| 1 | Clayton Oliver | Greater Western Sydney | 12 | 31.4 | 8.3 | 15.8 | 0.17 | +2.84 | +62.6 |
+| 2 | Isaac Heeney | Sydney | 10 | 26.7 | 6.4 | 13.9 | 2.00 | +2.51 | +55.2 |
+| 3 | Lachie Neale | Brisbane Lions | 12 | 30.1 | 7.4 | 12.8 | 0.25 | +2.45 | +54.0 |
+| 4 | Nick Daicos | Collingwood | 11 | 34.9 | 5.0 | 9.9 | 1.09 | +2.44 | +53.6 |
+| 5 | Patrick Cripps | Carlton | 12 | 26.2 | 7.2 | 15.1 | 0.67 | +2.33 | +51.3 |
+| 6 | Bailey Smith | Geelong | 12 | 32.6 | 5.5 | 11.2 | 0.50 | +2.32 | +51.0 |
+| 7 | Christian Petracca | Gold Coast | 9 | 26.3 | 6.4 | 12.2 | 1.67 | +2.31 | +50.9 |
+| 8 | Zak Butters | Port Adelaide | 11 | 30.7 | 5.7 | 12.0 | 0.27 | +2.20 | +48.5 |
+| 9 | Marcus Bontempelli | Western Bulldogs | 12 | 27.0 | 5.2 | 11.4 | 1.42 | +2.07 | +45.4 |
+| 10 | Jai Newcombe | Hawthorn | 12 | 25.4 | 7.6 | 11.8 | 0.33 | +2.03 | +44.7 |
+| 11 | Matt Rowell | Gold Coast | 6 | 25.3 | 7.0 | 13.7 | 0.17 | +2.00 | +44.0 |
+| 12 | Tristan Xerri **[SUSPENDED — BROWNLOW INELIGIBLE]** | North Melbourne | 8 | 20.0 | 8.0 | 16.1 | 0.38 | +1.98 | +43.5 |
+| 13 | Caleb Serong | Fremantle | 10 | 24.9 | 6.3 | 12.2 | 0.50 | +1.90 | +41.8 |
+| 14 | Harry Sheezel | North Melbourne | 11 | 30.5 | 4.6 | 9.5 | 0.45 | +1.89 | +41.6 |
+| 15 | Tim Taranto | Richmond | 9 | 24.0 | 6.1 | 13.0 | 0.33 | +1.83 | +40.3 |
 
-On the proxy, **Clayton Oliver** (Greater Western Sydney) leads the field — built on 8.5 clearances/g, 16.2 contested poss/g across 11 games. The composite score (+2.90) sits 0.41 clear of second place. **Lachie Neale** (Brisbane Lions) is the closest challenger at +2.50, with 30.7 disposals/g and 7.4 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
+On the proxy, **Clayton Oliver** (Greater Western Sydney) leads the field — built on 8.3 clearances/g, 15.8 contested poss/g across 12 games. The composite score (+2.84) sits 0.34 clear of second place. **Isaac Heeney** (Sydney) is the closest challenger at +2.51, with 26.7 disposals/g and 6.4 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
 
 **Brownlow ineligibility note.** Under AFL rules, any player suspended by the Tribunal during the home-and-away season is automatically ineligible to win the Brownlow Medal, regardless of vote tally. Our proxy ranks on stat profile and does not remove these players — their score is still informative — but they cannot win the actual medal:
 
-- **Tristan Xerri** (North Melbourne, proxy rank #12, +1.95) — Suspended (2026 season)
+- **Tristan Xerri** (North Melbourne, proxy rank #12, +1.98) — Suspended (2026 season)
 <!-- 2026-BROWNLOW-PREDICTOR-END -->
 
 ---

@@ -5,7 +5,7 @@
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
 <!-- ALL-TIME-TOP100-START -->
-*Last updated: 2026-05-25 — auto-generated from era-normalised composite scoring*
+*Last updated: 2026-06-01 — auto-generated from era-normalised composite scoring*
 
 Every all-time list is an argument. This one is backed by numbers. The ranking uses an **era-normalised composite score**: each player's career stats are converted to z-scores within their playing era, so a 1930s forward is not penalised for the absence of handball counts in the records, and a modern midfielder is not inflated by the sheer volume of stats logged today. The composite blends disposals, goals, Brownlow votes, peak single-game output, and career consistency. The result is not perfect — no algorithm captures what it felt like to watch Jack Dyer run through a pack or Bernie Quinlan take a screamer — but it is honest, reproducible, and it updates automatically as new season data is scraped.
 
@@ -33,7 +33,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 16 | Gary Ablett | Geelong - Gold Coast | 357 | 445 | 8,896 | 262 | 2.104 |
 | 17 | Ted Whitten | Footscray | 321 | 360 | 1,384 | — | 2.103 |
 | 18 | Matthew Pavlich | Fremantle | 353 | 700 | 6,109 | 126 | 2.098 |
-| 19 | Scott Pendlebury | Collingwood | 430 | 207 | 10,933 | 223 | 2.091 |
+| 19 | Scott Pendlebury | Collingwood | 431 | 207 | 10,966 | 223 | 2.091 |
 | 20 | Simon Madden | Essendon | 378 | 575 | 4,611 | 58 | 2.091 |
 | 21 | Bill Hutchison | Essendon | 290 | 496 | — | — | 2.089 |
 | 22 | Nick Riewoldt | St Kilda | 336 | 718 | 5,613 | 153 | 2.078 |
@@ -48,13 +48,13 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 31 | Craig Bradley | Carlton | 375 | 247 | 8,776 | 144 | 1.993 |
 | 32 | Matthew Lloyd | Essendon | 270 | 926 | 3,522 | 97 | 1.986 |
 | 33 | Jack Riewoldt | Richmond | 347 | 787 | 4,108 | 62 | 1.985 |
-| 34 | Patrick Dangerfield | Adelaide - Geelong | 364 | 371 | 8,282 | 251 | 1.978 |
+| 34 | Patrick Dangerfield | Adelaide - Geelong | 365 | 372 | 8,295 | 251 | 1.978 |
 | 35 | Jimmy Freake | Fitzroy | 174 | 442 | — | — | 1.975 |
 | 36 | Tom Hawkins | Geelong | 359 | 796 | 4,382 | 73 | 1.973 |
 | 37 | Wayne Schimmelbusch | North Melbourne | 306 | 354 | 5,950 | 8 | 1.971 |
 | 38 | Bill Goggin | Geelong | 248 | 279 | 3,614 | — | 1.969 |
 | 39 | Harry Vallence | Carlton | 204 | 722 | — | 15 | 1.944 |
-| 40 | Lachie Neale | Fremantle - Brisbane Lions | 303 | 138 | 8,330 | 209 | 1.940 |
+| 40 | Lachie Neale | Fremantle - Brisbane Lions | 304 | 138 | 8,353 | 209 | 1.940 |
 | 41 | Ron Barassi | Melbourne - Carlton | 254 | 330 | 1,130 | — | 1.936 |
 | 42 | Stephen Kernahan | Carlton | 251 | 738 | 3,578 | 67 | 1.934 |
 | 43 | John Peck | Hawthorn | 213 | 475 | 334 | — | 1.925 |
@@ -66,7 +66,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 49 | Stewart Loewe | St Kilda | 321 | 594 | 4,859 | 126 | 1.876 |
 | 50 | Chris Grant | Footscray - Western Bulldogs | 341 | 554 | 5,014 | 112 | 1.874 |
 | 51 | Percy Martini | Geelong - Richmond | 159 | 355 | — | — | 1.860 |
-| 52 | Marcus Bontempelli | Western Bulldogs | 269 | 269 | 6,529 | 191 | 1.855 |
+| 52 | Marcus Bontempelli | Western Bulldogs | 270 | 270 | 6,551 | 191 | 1.855 |
 | 53 | Mark Ricciuto | Adelaide | 312 | 292 | 6,569 | 146 | 1.844 |
 | 54 | Nathan Buckley | Brisbane Bears - Collingwood | 280 | 284 | 6,887 | 178 | 1.843 |
 | 55 | Arthur Olliver | Footscray | 272 | 354 | — | — | 1.842 |
@@ -103,16 +103,16 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 86 | Barry Hall | St Kilda - Sydney - Western Bulldogs | 289 | 746 | 3,452 | 92 | 1.724 |
 | 87 | Scott Thompson | Melbourne - Adelaide | 308 | 162 | 7,233 | 155 | 1.715 |
 | 88 | Hugh Mitchell | Essendon | 224 | 301 | 598 | — | 1.707 |
-| 89 | Peter Bedford | South Melbourne - Carlton | 186 | 329 | 3,978 | — | 1.703 |
-| 90 | Patrick Cripps | Carlton | 241 | 134 | 6,172 | 189 | 1.703 |
+| 89 | Patrick Cripps | Carlton | 242 | 135 | 6,202 | 189 | 1.704 |
+| 90 | Peter Bedford | South Melbourne - Carlton | 186 | 329 | 3,978 | — | 1.703 |
 | 91 | Jason Akermanis | Brisbane Bears - Brisbane Lions - Western Bulldogs | 325 | 421 | 5,868 | 107 | 1.703 |
 | 92 | Travis Boak | Port Adelaide | 387 | 215 | 8,976 | 174 | 1.702 |
 | 93 | Josh Kennedy | Hawthorn - Sydney | 290 | 157 | 7,372 | 146 | 1.696 |
 | 94 | Nicky Winmar | St Kilda - Western Bulldogs | 251 | 317 | 4,996 | 82 | 1.695 |
 | 95 | Peter McKenna | Collingwood - Carlton | 191 | 874 | 2,244 | — | 1.682 |
 | 96 | Alby Morrison | Footscray | 224 | 369 | — | 17 | 1.676 |
-| 97 | Scott Lucas | Essendon | 270 | 471 | 4,036 | 58 | 1.671 |
-| 98 | Jeremy Cameron | Greater Western Sydney - Geelong | 287 | 761 | 3,870 | 105 | 1.670 |
+| 97 | Jeremy Cameron | Greater Western Sydney - Geelong | 288 | 765 | 3,883 | 105 | 1.672 |
+| 98 | Scott Lucas | Essendon | 270 | 471 | 4,036 | 58 | 1.671 |
 | 99 | Richard Osborne | Fitzroy - Sydney - Footscray - Collingwood | 283 | 574 | 3,838 | 51 | 1.670 |
 | 100 | Darren Jarman | Hawthorn - Adelaide | 230 | 386 | 4,307 | 95 | 1.666 |
 
