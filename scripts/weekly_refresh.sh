@@ -140,6 +140,47 @@ log "[2b/5] DataSentinel stat update complete."
 # ---------------------------------------------------------------------------
 # Phase 3 — FootyStrategy agent: round recap + insights update
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Enforce hard limit: README news block keeps only the 2 most recent entries.
+# An "entry" is a non-empty line between NEWS-LATEST-START and NEWS-LATEST-END.
+# If a new news item was added this cycle and pushed the count over 2, this
+# trims the oldest entry so the block never grows beyond 2.
+# ---------------------------------------------------------------------------
+enforce_news_limit() {
+    local readme="$REPO_ROOT/README.md"
+    local tmp
+    tmp=$(mktemp)
+
+    /home/abhi/sourceCode/python/coding/.venv/bin/python - "$readme" <<'PYEOF'
+import sys, re
+
+path = sys.argv[1]
+text = open(path).read()
+
+pattern = r'(<!-- NEWS-LATEST-START -->)(.*?)(<!-- NEWS-LATEST-END -->)'
+match = re.search(pattern, text, re.DOTALL)
+if not match:
+    sys.exit(0)
+
+block = match.group(2)
+# Split into entries: non-empty paragraphs
+entries = [e.strip() for e in re.split(r'\n{2,}', block.strip()) if e.strip()]
+
+if len(entries) <= 2:
+    sys.exit(0)  # nothing to trim
+
+# Keep only the 2 most recent (first two)
+kept = '\n\n'.join(entries[:2])
+new_block = f'\n{kept}\n'
+new_text = text[:match.start(2)] + new_block + text[match.end(2):]
+open(path, 'w').write(new_text)
+print(f"News block trimmed: {len(entries)} → 2 entries (dropped {len(entries)-2})")
+PYEOF
+}
+
+enforce_news_limit
+log "News block limit enforced (max 2 entries)."
+
 log "[3/5] Invoking FootyStrategy agent for round $ROUND weekly insights..."
 
 $CLAUDE -p "You are FootyStrategy for SuperCoach-VIA. Today is $TODAY.

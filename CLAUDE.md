@@ -62,6 +62,22 @@ These guidelines are working if: fewer unnecessary changes in diffs, fewer rewri
 
 # Project-Specific Rules
 
+## README news block — hard limit of 2 entries
+
+The `<!-- NEWS-LATEST-START -->` / `<!-- NEWS-LATEST-END -->` block in `README.md`
+must contain **at most 2 entries** at all times. The full news archive lives in
+`docs/news/README.md`.
+
+When adding a new news entry to the README block:
+1. Add the new entry at the top (most recent first).
+2. Remove the oldest entry if the count would exceed 2.
+3. The removed entry must already be present in `docs/news/README.md` before you delete it from README.
+
+The weekly harness (`scripts/weekly_refresh.sh`) auto-enforces this via the
+`enforce_news_limit` function — any manual publish must follow the same rule.
+
+---
+
 ## Data verification rule - AFL stats
 
 **This repo contains the complete AFL match and player statistics history (1897–present).**

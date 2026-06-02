@@ -187,8 +187,6 @@ Long-form footy journalism where the numbers are not decoration — they are the
 **Latest:** [AI Harness 101: How to Turn a Language Model Into a System That Actually Ships](https://medium.com/@abh1shek/ai-harness-101-how-to-turn-a-language-model-into-a-system-that-actually-ships-b4d0ab5bdf21) - Uses this repo as the worked example for production AI harness design *(2026-06-02)*
 
 [AFL Hall of Fame — 100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) - 96 unique underappreciated AFL players across 8 categories, data-verified from 13,329 player CSVs *(2026-05-30)*
-
-[Meet Gaffer — the council's new delivery lead and editor-in-chief](docs/council-intro-gaffer.md) - Internal / team announcement — introduces the orchestration + presentation role that commissions the council chain and decides "ready to ship" on PASS; boss of process, not of truth *(2026-05-30)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
