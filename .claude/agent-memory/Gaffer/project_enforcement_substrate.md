@@ -20,4 +20,10 @@ State of my own enforcement substrate. Updated 2026-05-30 after the council sess
 
 **How to apply:** Before a publication cycle, treat the gate as live for non-`[data]` doc work. The two open halves are backlog items, not blockers. If editing the gap table again, preserve the honest "MVP-live, not production-grade" language (Skeptic's standard) — never "closed."
 
+**Confirmed 2026-05-30 (this triage):**
+- `scripts/rollback_last_council_publish.sh` (Gap 9-equiv) does NOT exist. It is on the backlog, not built. Do not reference it as present.
+- The check-script's only enforcement is the council STAMP (DataSentinel:PASS + Skeptic:PASS + stamp present, else exit 1). There is NO separate `[data]`-tag re-verification gate — that earlier note was wrong; the stamp PASS is the whole gate and it is trusted, not re-derived. The `[data]` protection I previously described as a WARN does not exist in this script.
+- Gate scope is by stamp presence + the stat-glob, not by every stat page. 13 `docs/hall-of-fame-stat-*.md` pages carry NO stamp, so any edit to them blocks until a real council pass (consistent with [[council-stamp-gate-scope]]).
+- The flagship forgotten-heroes page lives at `docs/hall-of-fame-forgotten-heroes.md` (NOT a `stat-` filename, so the stat-glob does not auto-gate it; it opted in by carrying a stamp). Its Skeptic verdict is `PASS_WITH_CONCERNS — fixes applied`, not a bare PASS — the check-script greps the "PASS" substring so it passes the gate, but it is not a clean PASS.
+
 See [[backlog-priorities]] once the 11-gap triage is written.

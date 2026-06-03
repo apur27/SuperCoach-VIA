@@ -5,48 +5,50 @@ import matplotlib.pyplot as plt
 def main() -> None:
     df = pd.read_csv('data/era_stats.csv')
 
-    correct_order = ['pre-1970', '1970-1990', '1991-1995', '1996-2000', '2001-2005', '2006-2010', '2011-2015', '2016-2020', '2021-2025']
-    df['Era'] = pd.Categorical(df['Era'], categories=correct_order, ordered=True)
-    df = df.sort_values('Era')
-
-    stats_to_plot = ['kicks Mean', 'disposals Mean', 'goals Mean', 'tackles Mean', 'inside_50s Mean']
-    norm_stats_to_plot = ['kicks Norm Mean', 'disposals Norm Mean', 'goals Norm Mean', 'tackles Norm Mean', 'inside_50s Norm Mean']
+    stats_to_plot = ['kicks', 'disposals', 'goals', 'tackles', 'inside_50s']
+    correct_order = ['pre-1965', '1965-1990', '1991-2010', '2011-present']
 
     label_mapping = {
-        'kicks Mean': 'Kicks (Raw)', 'kicks Norm Mean': 'Kicks (Norm)',
-        'disposals Mean': 'Disposals (Raw)', 'disposals Norm Mean': 'Disposals (Norm)',
-        'goals Mean': 'Goals (Raw)', 'goals Norm Mean': 'Goals (Norm)',
-        'tackles Mean': 'Tackles (Raw)', 'tackles Norm Mean': 'Tackles (Norm)',
-        'inside_50s Mean': 'Inside 50s (Raw)', 'inside_50s Norm Mean': 'Inside 50s (Norm)'
+        'kicks': 'Kicks',
+        'disposals': 'Disposals',
+        'goals': 'Goals',
+        'tackles': 'Tackles',
+        'inside_50s': 'Inside 50s',
     }
 
-    all_stats = stats_to_plot + norm_stats_to_plot
-    for stat in all_stats:
-        if stat not in df.columns:
-            raise ValueError(f"Column '{stat}' not found in CSV. Available columns: {df.columns.tolist()}")
+    # Filter to the 5 stats, enforce era order, sort
+    df_f = df[df['metric'].isin(stats_to_plot)].copy()
+    df_f['era'] = pd.Categorical(df_f['era'], categories=correct_order, ordered=True)
+    df_f = df_f.sort_values('era')
 
-    eras = df['Era']
+    # Pivot long → wide: one row per era, one column per metric
+    raw_wide = df_f.pivot(index='era', columns='metric', values='mean_per_game')[stats_to_plot]
+    norm_wide = df_f.pivot(index='era', columns='metric', values='mean_per_100pct_played')[stats_to_plot]
+
+    # NaNs (e.g. pre-1965 kicks/tackles/inside_50s not recorded) render as line gaps — intentional
+    eras = raw_wide.index.astype(str)
 
     plt.style.use('seaborn-v0_8-muted')
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 12), sharex=True)
 
     markers = ['o', 's', 'D', '^', 'v']
-    line_styles = ['-', '--']
 
     for stat, marker in zip(stats_to_plot, markers):
-        ax1.plot(eras, df[stat], marker=marker, linewidth=2.5, markersize=8, linestyle=line_styles[0], label=label_mapping[stat])
+        ax1.plot(eras, raw_wide[stat], marker=marker, linewidth=2.5, markersize=8,
+                 linestyle='-', label=label_mapping[stat])
 
-    for stat, marker in zip(norm_stats_to_plot, markers):
-        ax2.plot(eras, df[stat], marker=marker, linewidth=2.5, markersize=8, linestyle=line_styles[1], label=label_mapping[stat])
+    for stat, marker in zip(stats_to_plot, markers):
+        ax2.plot(eras, norm_wide[stat], marker=marker, linewidth=2.5, markersize=8,
+                 linestyle='--', label=label_mapping[stat])
 
     ax1.set_title('Raw Average per Player per Game', fontsize=16, fontweight='bold')
     ax1.set_ylabel('Raw Average', fontsize=14, fontweight='bold')
     ax1.grid(True, linestyle='--', alpha=0.7)
     ax1.legend(title='Statistic', fontsize=12, title_fontsize='13')
 
-    ax2.set_title('Normalized Average per Player per 100 Minutes', fontsize=16, fontweight='bold')
+    ax2.set_title('Normalized Average per Player per 100% Game Played', fontsize=16, fontweight='bold')
     ax2.set_xlabel('Era', fontsize=14, fontweight='bold')
-    ax2.set_ylabel('Normalized Average', fontsize=14, fontweight='bold')
+    ax2.set_ylabel('Average per 100% Game Played', fontsize=14, fontweight='bold')
     ax2.grid(True, linestyle='--', alpha=0.7)
     ax2.legend(title='Statistic', fontsize=12, title_fontsize='13')
 

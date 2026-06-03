@@ -31,7 +31,7 @@ The whole pipeline runs from a single shell script: scrape new match and player 
 | Metric | Value | Source |
 |---|--:|---|
 | AFL history covered | **[data]** 1897–present | `data/matches/` |
-| Player performance files | **[data]** 13,321+ | `data/player_data/` (one CSV per player, one row per game) |
+| Player performance files | **[data]** 13,329 | `data/player_data/` (one CSV per player, one row per game) |
 | Backtest window | **[data]** R1–R12, 2026 | `data/prediction/backtest/` |
 | Player-round predictions scored | **[data]** 4,486 | walk-forward backtest |
 | Mean absolute error (disposals) | **[data]** 4.055 | player-weighted across all rounds |
@@ -124,7 +124,7 @@ Full spec — build order, sample Planner output, the `FootyFinding` Pydantic en
 
 ## The data
 
-130 years of AFL history, structured. Every match since 1897, and **[data]** 13,321+ individual player files — one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current.
+130 years of AFL history, structured. Every match since 1897, and **[data]** 13,329 individual player files — one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current.
 
 Think of the club's archivist who has kept a card for every player in every game since 1897 — every kick, mark, and goal, filed and cross-referenced. Each week after the round finishes, a runner collects the latest match sheets and adds them to the cabinet before the analysts come in Monday morning. The whole system is useless if the cabinet is out of date or has gaps, so keeping it complete and current is the unglamorous job everything else depends on.
 
@@ -148,7 +148,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 
 | Layer | What it is |
 |---|---|
-| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,321+ player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
+| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,329 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
 | **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.055 across 4,486 player-rounds (R1–R12, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
 | **LLM reasoning — Scientist** | Claude (`claude-sonnet-4-6` / Opus) running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
 | **LLM reasoning — FootyStrategy** | An 8-lens tactical council, each lens produced separately then reconciled. Output is tiered — Settled, Probationary, Contested, Insufficient Evidence — and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier. |
@@ -173,7 +173,7 @@ Walk-forward backtest, 2026 season, Rounds 1–12. For each round the model is r
 
 **Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0–45 that is usable signal, not a solved problem. Round 1 is hardest because there are no within-season form features before any 2026 game has been played.
 
-**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most under-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
+**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.59 (Sydney, most over-predicted) to **[data]** +0.53 (Richmond, most under-predicted), with mean absolute team bias **[data]** 0.25 disposals.
 
 Full per-round table (all 12 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 

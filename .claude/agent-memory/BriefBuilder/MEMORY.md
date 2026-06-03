@@ -1,0 +1,26 @@
+# BriefBuilder Memory Index
+
+- [H2H window — Hawthorn matchups post-2020](h2h_window_hawthorn.md) — Use last 8 meetings for Hawthorn: spans their dynasty-end to rebuild arc; pre-2021 data structurally unrepresentative
+- [Team name canonicalisation](team_names.md) — Canonical forms from matches_2026.csv: "St Kilda", "Hawthorn", "Greater Western Sydney" (not GWS)
+- [Hawthorn model bias — material under-prediction](model_bias_hawthorn.md) — As of R13 2026 backtest, Hawthorn per-team bias = −2.64 disposals; triggers SCIENTIST REVIEW on every Hawthorn brief
+- [Flanders Sam — cross-club 2025 context](player_flanders_crossclub.md) — Flanders at Gold Coast 2025, moved to St Kilda 2026; 2025 baseline not comparable to 2026 role
+- [H2H window — Sydney vs Richmond](h2h_window_sydney_richmond.md) — Last 8 meetings (2020–2026); SCG 2–0 Sydney, MCG 3–0 Richmond in this window
+- [Sydney model bias R13 2026 — severe over-prediction](model_bias_sydney_r13_2026.md) — Sydney per-team bias −3.00, MAE 5.78, 47.8% within 5 in R13 2026; check on future Sydney briefs
+- [H2H window — Brisbane Lions vs Fremantle](h2h_window_patterns.md) — Use 2020 floor for Brisbane; Fremantle competitive window ~2022; 9 meetings 2020–2026 is optimal window
+- [Brisbane Lions model over-prediction bias R13 2026](model_bias_brisbane.md) — Brisbane bias +2.65 in R13 2026 backtest; triggers SCIENTIST REVIEW; Fremantle well-calibrated (−0.30)
+- [Tracked-player selection — Macrae-archetype flag](tracked_player_selection.md) — Dunkley R13 2026: disposal drop 25.5→20.0 but tackle mean 5.8; retain by rank, flag tackle column explicitly
+- [H2H window — West Coast matchups](h2h_window_west_coast.md) — Exclude COVID-bubble 2020 Gabba game from WC H2H; use 2021–present for Perth Stadium dynamics
+- [Roberts Archie disambiguation](player_disambiguation_roberts.md) — Two roberts_archie files; 18112005 is current Essendon player, 16071910 is historical
+- [Two prediction CSVs same round](feedback_two_prediction_csvs.md) — Use most recent timestamp; note both files; honour user-specified file; don't assess MAD unless Scientist requests
+- [matches_2026 R10 data gap](project_matches_2026_r10_gap.md) — R10 2026 missing from matches_2026.csv (only Richmond vs Adelaide present); use player performance files for W/L; omit R10 from For/Against/%
+- [Collingwood model bias — negative in 2026](model_bias_collingwood_2026.md) — Collingwood per-team bias −0.91 in R13 2026 backtest; triggers SCIENTIST REVIEW; lower pct-within-5 (69.6%) vs league average
+- [Kennedy Matthew disambiguation](player_disambiguation_kennedy.md) — Two kennedy_matthew files; 06041997 is current WB player; 04021970 has no 2026 WB data — rule out immediately
+- [Geelong model under-prediction bias R13 2026](model_bias_geelong_r13_2026.md) — Geelong +1.17 bias (under-prediction); Carlton -0.52; Bailey Smith most impacted (-4.6 vs season mean)
+- [H2H window — Carlton vs Geelong](h2h_window_carlton_geelong.md) — Last 7 meetings (2020–2025); Carlton 4-3 overall, 3-1 at MCG post-2022; window spans Carlton rebuild arc
+- [H2H window — Melbourne vs GWS](h2h_window_melbourne_gws.md) — 7 meetings 2020–2025; GWS won last 3 (all ≤3 pts); Traeger Park 2023 = GWS +2
+- [Player file disambiguation — parallel reads](player_file_disambiguation_parallel_reads.md) — Verify by jersey+debut year; identical sequences between two players must be flagged (Oliver/Callaghan R13 2026)
+- [Melbourne/GWS model bias R13 2026](model_bias_melbourne_gws_r13_2026.md) — Melbourne +0.74, GWS −0.65; both exceed |0.5|; SCIENTIST REVIEW required on both
+- [Traeger Park venue context](traeger_park_context.md) — Remote neutral venue; low attendance; GWS 2-for-2 at Traeger Park in modern data (2023, 2026)
+- [NaN handling for counting stats](nan_counting_stats.md) — dropna with (N of M) annotation; blank≠absent in this dataset
+- [DataSentinel runs twice](datasentinel_runs_twice.md) — Before AND after FootyStrategy; a pre-FootyStrategy DataSentinel PASS is NOT final clearance
+- [Structured [data] tag format](data_tag_format.md) — All new [data] tags use `[data: file ; filter ; column ; aggregation]`; spec at docs/data-tag-spec.md
