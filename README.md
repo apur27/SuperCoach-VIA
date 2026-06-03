@@ -166,14 +166,13 @@ Walk-forward backtest, 2026 season, Rounds 1–13. For each round the model is r
 
 | Window | Player-rounds | MAE | Within 5 | Within 10 | Bias |
 |---|--:|--:|--:|--:|--:|
-| **R1-R13 player-weighted** | **[data]** 4,806 | **[data]** 4.020 | **[data]** 73.0% | **[data]** 95.7% | **[data]** -0.097 |
+| **R1-R13 player-weighted** | **[data]** 4,806 | **[data]** 4.019 | **[data]** 73.3% | **[data]** 95.8% | **[data]** -0.093 |
 | Round 1 (hardest) | **[data]** 230 | **[data]** 4.83 | **[data]** 60.4% | **[data]** 92.6% | — |
-| Round 5 (best MAE) | **[data]** 365 | **[data]** 3.73 | **[data]** 75.3% | **[data]** 97.5% | — |
-| Round 11 (best within-5) | **[data]** 373 | **[data]** 3.83 | **[data]** 77.2% | **[data]** 95.2% | — |
+| Round 13 (best MAE) | **[data]** 320 | **[data]** 3.51 | **[data]** 79.4% | **[data]** 96.9% | — |
 
 **Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0–45 that is usable signal, not a solved problem. Round 1 is hardest because there are no within-season form features before any 2026 game has been played.
 
-**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.74 (Sydney, most under-predicted) to **[data]** +0.57 (Richmond, most over-predicted), with mean absolute team bias **[data]** 0.28 disposals.
+**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.73 (Sydney, most under-predicted) to **[data]** +0.57 (Richmond, most over-predicted), with mean absolute team bias **[data]** 0.28 disposals.
 
 Full per-round table (all 13 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 

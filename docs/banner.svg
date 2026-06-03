@@ -70,10 +70,10 @@
     <text x="181" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">R1&#8211;R13 &#183; 2026</text>
     <!-- Pill 2 -->
     <rect x="286" y="196" width="158" height="48" rx="24" fill="#e8eef9"/>
-    <text x="365" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">MAE 4.020</text>
+    <text x="365" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">MAE 4.019</text>
     <!-- Pill 3 -->
     <rect x="460" y="196" width="206" height="48" rx="24" fill="#FFB300"/>
-    <text x="563" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#3a2a00">73.0% within 5</text>
+    <text x="563" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#3a2a00">73.3% within 5</text>
   </g>
 
   <!-- Right-side mark -->
@@ -153,17 +153,17 @@
     <text x="92" y="600" font-size="13" font-weight="700" fill="#7f8db0" letter-spacing="3">PREDICTION ACCURACY &#8212; 2026 SEASON (R1&#8211;R13 &#183; 4,806 player-rounds)</text>
 
     <!-- MAE 4.020 — teal -->
-    <text x="300" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">4.020</text>
+    <text x="300" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">4.019</text>
     <rect x="240" y="678" width="120" height="4" rx="2" fill="#1fb6c9"/>
     <text x="300" y="704" text-anchor="middle" font-size="16" font-weight="500" fill="#9fb0cd">Mean absolute error</text>
 
     <!-- 73.0% — gold -->
-    <text x="600" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">73.0%</text>
+    <text x="600" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">73.3%</text>
     <rect x="540" y="678" width="120" height="4" rx="2" fill="#FFB300"/>
     <text x="600" y="704" text-anchor="middle" font-size="16" font-weight="500" fill="#9fb0cd">Predictions within 5 disposals</text>
 
     <!-- 95.7% — green -->
-    <text x="900" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">95.7%</text>
+    <text x="900" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">95.8%</text>
     <rect x="840" y="678" width="120" height="4" rx="2" fill="#3ec98a"/>
     <text x="900" y="704" text-anchor="middle" font-size="16" font-weight="500" fill="#9fb0cd">Predictions within 10 disposals</text>
   </g>

@@ -71,6 +71,16 @@ fi
 log "Detected next round: $ROUND"
 
 # ---------------------------------------------------------------------------
+# Phase 1b — refresh the README "Eval results" section + docs/banner.svg from
+# the backtest figures Phase 1 just produced. Re-derives already-verified
+# numbers via the same merge logic as the backtest doc; touches only the eval
+# table + banner pills/numbers, never the news block. Idempotent.
+# ---------------------------------------------------------------------------
+log "[1b/5] Updating README eval surface + banner from backtest figures..."
+bash "$REPO_ROOT/scripts/update_eval_surface.sh" 2>&1 | tee -a "$LOG_FILE"
+log "[1b/5] Eval surface updated."
+
+# ---------------------------------------------------------------------------
 # Phase 2a — weekly cheat sheet
 # Reads the latest prediction CSV, writes:
 #   docs/weekly/round-<N>-<year>.md
@@ -224,6 +234,8 @@ log "[3/5] FootyStrategy agent complete."
 log "[4/5] Staging and committing weekly agent outputs..."
 
 git add \
+    README.md \
+    docs/banner.svg \
     docs/afl-insights.md \
     docs/weekly/ \
     docs/hall-of-fame-stat-leaders.md \
