@@ -183,9 +183,9 @@ Full per-round table (all 13 rounds), team-level breakdown for every club, bigge
 Long-form footy journalism where the numbers are not decoration — they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [AI Harness 101: How to Turn a Language Model Into a System That Actually Ships](https://medium.com/@abh1shek/ai-harness-101-how-to-turn-a-language-model-into-a-system-that-actually-ships-b4d0ab5bdf21) - Uses this repo as the worked example for production AI harness design *(2026-06-02)*
+**Latest:** [List Management 101: Is the Top-10 Draft Pick Strategy a Path to Premiership Dominance?](docs/list-management-101.md) - Data analysis across 127 premierships of whether early draft picks build dynasties, or whether retention and an experienced core matter more *(2026-06-05)*
 
-[AFL Hall of Fame — 100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) - 96 unique underappreciated AFL players across 8 categories, data-verified from 13,329 player CSVs *(2026-05-30)*
+[AI Harness 101: How to Turn a Language Model Into a System That Actually Ships](https://medium.com/@abh1shek/ai-harness-101-how-to-turn-a-language-model-into-a-system-that-actually-ships-b4d0ab5bdf21) - Uses this repo as the worked example for production AI harness design *(2026-06-02)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
