@@ -10,3 +10,6 @@
 - [Script health backlog](project_script_health_backlog.md) — charts.py Era KeyError (needs Scientist); live_analysis_pipeline.py --help auto-starts poll loop; chart re-render churn
 - [BriefBuilder defect classes](project_briefbuilder_defects.md) — round-13 cycle: sort-order (Clayton/Harvey), NaN-handling (needs Scientist convention), win-count source; + DataSentinel arithmetic slip
 - [Briefs are user-initiated only](feedback_brief_user_initiated.md) — NEVER autonomously publish a coaches-strategy-corner brief; wait for explicit user instruction
+- [Backtest n filtering](project_backtest_n_filtering.md) — doc headline n is late-out-filtered (~9 below raw CSV pool); gap expected, doc figure is canonical; per-round canonical run timestamps
+- [Eval surface auto-update](project_eval_surface_autoupdate.md) — update_eval_surface.sh refreshes README eval + banner.svg; backtest CSVs are split per-run, MUST merge all + dedupe by (year,round)
+- [No Agent dispatch tool](project_no_agent_dispatch_tool.md) — this env can't spawn the 6 council agents; run single-operator cycles w/ deterministic gates + honest stamp, never fake the 7-agent chain
