@@ -149,6 +149,43 @@ if not table_re.search(md):
     sys.exit("update_eval_surface: README eval table anchor not found")
 md = table_re.sub(table_md.replace("\\", "\\\\"), md, count=1)
 
+# ---- "The numbers" summary table (lines ~35-42) ----
+md = re.sub(
+    r"(\| Backtest window \| \*\*\[data\]\*\* )R\d+–R\d+, 2026",
+    rf"\g<1>R{r_lo}–R{r_hi}, 2026", md, count=1)
+md = re.sub(
+    r"(\| Player-round predictions scored \| \*\*\[data\]\*\* )[\d,]+",
+    rf"\g<1>{N:,}", md, count=1)
+md = re.sub(
+    r"(\| Mean absolute error \(disposals\) \| \*\*\[data\]\*\* )[\d.]+",
+    rf"\g<1>{mae_w:.3f}", md, count=1)
+md = re.sub(
+    r"(\| Within 5 disposals \| \*\*\[data\]\*\* )[\d.]+%",
+    rf"\g<1>{w5_w:.1f}%", md, count=1)
+md = re.sub(
+    r"(\| Within 10 disposals \| \*\*\[data\]\*\* )[\d.]+%",
+    rf"\g<1>{w10_w:.1f}%", md, count=1)
+md = re.sub(
+    r"(\| Aggregate bias \| \*\*\[data\]\*\* )[-+]?[\d.]+",
+    rf"\g<1>{bias_w:.3f}", md, count=1)
+# Plain English sentence in "The numbers" section
+md = re.sub(
+    r"(measured honestly across )[\d,]+( predictions\.)",
+    rf"\g<1>{N:,}\g<2>", md, count=1)
+
+# ---- Prediction model prose (within 5 / within 10 inline) ----
+md = re.sub(
+    r"(within 5 disposals \*\*\[data\]\*\* )[\d.]+%( of the time and within 10 "
+    r"\*\*\[data\]\*\* )[\d.]+%( of the time)",
+    rf"\g<1>{w5_w:.1f}%\g<2>{w10_w:.1f}%\g<3>", md, count=1)
+
+# ---- ML inference table row ----
+md = re.sub(
+    r"(Walk-forward backtest: \*\*\[data\]\*\* MAE )[\d.]+ across [\d,]+ "
+    r"player-rounds \(R\d+–R\d+, \d+\)\.",
+    rf"\g<1>{mae_w:.3f} across {N:,} player-rounds (R{r_lo}–R{r_hi}, {YEAR}).",
+    md, count=1)
+
 # Team-bias sentence figures in the Technical paragraph.
 md = re.sub(
     r"Team-level signed bias spans \*\*\[data\]\*\* [-+]?\d+\.\d+ \([^)]+\) "

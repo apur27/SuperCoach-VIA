@@ -32,14 +32,14 @@ The whole pipeline runs from a single shell script: scrape new match and player 
 |---|--:|---|
 | AFL history covered | **[data]** 1897–present | `data/matches/` |
 | Player performance files | **[data]** 13,329 | `data/player_data/` (one CSV per player, one row per game) |
-| Backtest window | **[data]** R1–R12, 2026 | `data/prediction/backtest/` |
-| Player-round predictions scored | **[data]** 4,486 | walk-forward backtest |
-| Mean absolute error (disposals) | **[data]** 4.055 | player-weighted across all rounds |
-| Within 5 disposals | **[data]** 72.8% | player-weighted |
-| Within 10 disposals | **[data]** 95.7% | player-weighted |
-| Aggregate bias | **[data]** −0.080 | essentially unbiased at population level |
+| Backtest window | **[data]** R1–R13, 2026 | `data/prediction/backtest/` |
+| Player-round predictions scored | **[data]** 4,806 | walk-forward backtest |
+| Mean absolute error (disposals) | **[data]** 4.019 | player-weighted across all rounds |
+| Within 5 disposals | **[data]** 73.3% | player-weighted |
+| Within 10 disposals | **[data]** 95.8% | player-weighted |
+| Aggregate bias | **[data]** −0.093 | essentially unbiased at population level |
 
-**Plain English:** the model misses a player's next-round disposal count by about four disposals on average — usable signal on a 0–45 range, measured honestly across 4,486 predictions. The known weak spot is the elite tier, where error runs roughly 2.5× the global figure.
+**Plain English:** the model misses a player's next-round disposal count by about four disposals on average — usable signal on a 0–45 range, measured honestly across 4,806 predictions. The known weak spot is the elite tier, where error runs roughly 2.5× the global figure.
 
 ---
 
@@ -130,7 +130,7 @@ Think of the club's archivist who has kept a card for every player in every game
 
 ### The prediction model
 
-Three different prediction models look at a player's recent form, who they're playing, where, and under what conditions — then they vote on how many disposals that player will get next round. Across the 2026 season so far it has been within 5 disposals **[data]** 72.8% of the time and within 10 **[data]** 95.7% of the time. Averaging three models is steadier than trusting any one: when all three lean the same way you can be confident; when they split, that disagreement is itself a useful signal that the match is genuinely hard to call.
+Three different prediction models look at a player's recent form, who they're playing, where, and under what conditions — then they vote on how many disposals that player will get next round. Across the 2026 season so far it has been within 5 disposals **[data]** 73.3% of the time and within 10 **[data]** 95.8% of the time. Averaging three models is steadier than trusting any one: when all three lean the same way you can be confident; when they split, that disagreement is itself a useful signal that the match is genuinely hard to call.
 
 ### The weekly fan pack
 
@@ -149,7 +149,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 | Layer | What it is |
 |---|---|
 | **Data** | 130 years of AFL match and player CSVs — **[data]** 13,329 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
-| **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.055 across 4,486 player-rounds (R1–R12, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
+| **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.019 across 4,806 player-rounds (R1–R13, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
 | **LLM reasoning — Scientist** | Claude (`claude-sonnet-4-6` / Opus) running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
 | **LLM reasoning — FootyStrategy** | An 8-lens tactical council, each lens produced separately then reconciled. Output is tiered — Settled, Probationary, Contested, Insufficient Evidence — and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier. |
 | **LLM reasoning — extended council** | **DataSentinel** (Haiku) is a pre-commit verification gate that walks every `**[data]**` tag and emits machine-readable JSON (`PASS \| FAIL` with per-violation detail) for a pre-commit hook. **BriefBuilder** (Sonnet) is a structured-assembly drafter that pulls H2H, season form, model predictions, and a top-5-per-side tracking list. **Skeptic** (Opus) is an adversarial critic that probes tripwire observability, caveat-hierarchy honour, and lens-tension smoothing, then emits `PASS / PASS_WITH_CONCERNS / BLOCK` — never silently modifying the doc. Ship order: DataSentinel first (closes the runtime-enforcement gap on CLAUDE.md), then BriefBuilder, then Skeptic. Full design in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2.4 and §13. |
