@@ -25,7 +25,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from scrapers.game_scraper import MatchScraper
+from scrapers.game_scraper import MatchScraper, audit_match_rounds
 from scrapers.player_scraper import PlayerScraper, get_soup
 
 import config
@@ -175,6 +175,23 @@ def refresh_matches() -> None:
         match_folder_path=config.MATCHES_DIR,
         lineup_folder_path=config.LINEUPS_DIR,
     )
+    # Post-write self-check: audit the current season's match file for rounds
+    # that were silently truncated (the "R10 2026" bug). Warnings only -- this
+    # never aborts the refresh, it just surfaces probable gaps in the log.
+    current_year = datetime.now().year
+    current_file = os.path.join(config.MATCHES_DIR, f"matches_{current_year}.csv")
+    if os.path.exists(current_file):
+        issues = audit_match_rounds(current_file)
+        gaps = [i for i in issues if i["severity"] == "WARNING"]
+        if gaps:
+            logging.warning(
+                "Match audit found %d probable scraper gap(s) in %s: rounds %s",
+                len(gaps),
+                os.path.basename(current_file),
+                ", ".join(str(i["round_num"]) for i in gaps),
+            )
+        else:
+            logging.info("Match audit clean for %s", os.path.basename(current_file))
 
 
 def main() -> None:

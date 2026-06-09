@@ -26,6 +26,96 @@ def get_soup(url: str) -> BeautifulSoup:
         print(f"Error fetching URL {url}: {e}")
         return BeautifulSoup("", 'html.parser')
 
+# Largest number of matches a legitimate bye round removes from a full round.
+# Modern AFL bye rounds rest 6 teams -> 3 fewer matches than a full round. A
+# round that drops further than this below the season's normal size is almost
+# certainly a scraper gap rather than a scheduled bye.
+MAX_BYE_MATCH_DROP = 3
+
+
+def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
+    """
+    Audits a matches_<year>.csv for rounds with a suspicious number of matches.
+
+    Catches the "R10 2026" class of bug, where the match-summary scraper silently
+    wrote only 1 of 9 rows for a round and the gap went undetected for weeks.
+
+    The "full" round size is derived per season from the *modal* match count
+    across that season's home-and-away rounds (9 for the 18-team era, 8 for the
+    16-team era, 4 for early VFL, etc.) rather than hardcoded, so the check is
+    era-correct and does not false-positive on historical seasons.
+
+    Rule (warnings only, never raises):
+      - expected = mode of matches-per-round for the season.
+      - A round whose count is at/above `expected` is fine.
+      - A round more than MAX_BYE_MATCH_DROP below `expected` is flagged
+        WARNING (probable scraper gap) -- unless it is round 1, which can be a
+        legitimately small AFL "Opening Round".
+      - A round a little below `expected` (within the bye band) is reported as
+        INFO so a human can eyeball it without it being treated as an error.
+
+    Returns a list of issue dicts (empty when clean). Each dict has keys:
+      year, round_num, n_matches, expected, teams_present, severity.
+    severity is "WARNING" for a probable gap, "INFO" for a plausible bye round.
+    """
+    issues: List[Dict[str, Any]] = []
+    try:
+        df = pd.read_csv(file_path)
+    except Exception as e:
+        print(f"[match-audit] could not read {file_path}: {e}")
+        return issues
+
+    required = {"round_num", "team_1_team_name", "team_2_team_name"}
+    if not required.issubset(df.columns):
+        print(f"[match-audit] {file_path} missing expected columns; skipping audit")
+        return issues
+
+    # Restrict to integer home-and-away rounds; finals rounds are stored as
+    # non-numeric strings and have their own (smaller) match counts.
+    round_as_int = pd.to_numeric(df["round_num"], errors="coerce")
+    ha = df[round_as_int.notna()].copy()
+    ha["round_num"] = round_as_int[round_as_int.notna()].astype(int)
+    if ha.empty:
+        return issues
+
+    year = int(ha["year"].iloc[0]) if "year" in ha.columns and not ha["year"].isna().all() else None
+
+    counts = ha.groupby("round_num").size()
+    # Season's normal full-round size = most common match count across rounds.
+    expected = int(counts.mode().iloc[0])
+    warn_floor = expected - MAX_BYE_MATCH_DROP
+
+    for rnd, n_matches in counts.sort_index().items():
+        n_matches = int(n_matches)
+        if n_matches >= expected:
+            continue
+        group = ha[ha["round_num"] == rnd]
+        teams_present = len(set(group["team_1_team_name"]) | set(group["team_2_team_name"]))
+        # round 1 (Opening Round) is allowed to be small; a round that falls
+        # further than a bye could explain is treated as a probable gap.
+        if rnd != 1 and n_matches < warn_floor:
+            severity = "WARNING"
+        else:
+            severity = "INFO"
+        issues.append({
+            "year": year,
+            "round_num": int(rnd),
+            "n_matches": n_matches,
+            "expected": expected,
+            "teams_present": teams_present,
+            "severity": severity,
+        })
+        label = "[match-audit][WARNING]" if severity == "WARNING" else "[match-audit][info]"
+        suffix = (
+            " <-- PROBABLE SCRAPER GAP" if severity == "WARNING" else " (likely bye round)"
+        )
+        print(
+            f"{label} {year} round {int(rnd)}: {n_matches} matches "
+            f"({teams_present} teams present, season-normal {expected}){suffix}"
+        )
+    return issues
+
+
 class MatchScraper:
     def __init__(self):
         """
@@ -245,6 +335,13 @@ class MatchScraper:
                 df.to_csv(file_path, index=False)
             
             print(f"Saved {len(match_data)} new matches for year {year}")
+
+        # Self-check: audit per-round match counts so a silently-truncated round
+        # (the "R10 2026" bug) is surfaced on every run instead of weeks later.
+        # Runs even when no new matches were written this pass, so re-runs still
+        # validate the on-disk file. Warnings only -- never aborts the pipeline.
+        if os.path.exists(file_path):
+            audit_match_rounds(file_path)
 
     def _process_team_lineups(self, lineup_folder_path: str) -> None:
         """
@@ -511,5 +608,24 @@ class MatchScraper:
             return []
 
 if __name__ == "__main__":
+    # Standalone audit mode: `python game_scraper.py --audit [matches_dir]`
+    # Audits every matches_<year>.csv (or just the given files) without scraping.
+    if len(sys.argv) > 1 and sys.argv[1] == "--audit":
+        import glob
+        targets = sys.argv[2:]
+        if not targets:
+            targets = sorted(glob.glob(os.path.join("./data/matches", "matches_*.csv")))
+        elif len(targets) == 1 and os.path.isdir(targets[0]):
+            targets = sorted(glob.glob(os.path.join(targets[0], "matches_*.csv")))
+        total_warnings = 0
+        for path in targets:
+            issues = audit_match_rounds(path)
+            total_warnings += sum(1 for i in issues if i["severity"] == "WARNING")
+        if total_warnings:
+            print(f"[match-audit] DONE: {total_warnings} probable-gap WARNING(s) across {len(targets)} file(s)")
+        else:
+            print(f"[match-audit] DONE: no probable gaps across {len(targets)} file(s)")
+        sys.exit(0)
+
     scraper = MatchScraper()
     scraper.scrape_all_matches()  # Uses default paths "./data/matches" and "./data/lineups"
