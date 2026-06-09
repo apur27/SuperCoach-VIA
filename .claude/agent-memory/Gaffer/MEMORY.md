@@ -13,3 +13,4 @@
 - [Backtest n filtering](project_backtest_n_filtering.md) — doc headline n is late-out-filtered (~9 below raw CSV pool); gap expected, doc figure is canonical; per-round canonical run timestamps
 - [Eval surface auto-update](project_eval_surface_autoupdate.md) — update_eval_surface.sh refreshes README eval + banner.svg; backtest CSVs are split per-run, MUST merge all + dedupe by (year,round)
 - [No Agent dispatch tool](project_no_agent_dispatch_tool.md) — this env can't spawn the 6 council agents; run single-operator cycles w/ deterministic gates + honest stamp, never fake the 7-agent chain
+- [Player finals data lag](project_player_finals_data_lag.md) — player CSVs lack current-season finals rounds though matches CSV has the GF; scope player-level premiership metrics to completed seasons
