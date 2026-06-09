@@ -24,3 +24,16 @@
 - [NaN handling for counting stats](nan_counting_stats.md) — dropna with (N of M) annotation; blank≠absent in this dataset
 - [DataSentinel runs twice](datasentinel_runs_twice.md) — Before AND after FootyStrategy; a pre-FootyStrategy DataSentinel PASS is NOT final clearance
 - [Structured [data] tag format](data_tag_format.md) — All new [data] tags use `[data: file ; filter ; column ; aggregation]`; spec at docs/data-tag-spec.md
+- [H2H window — Collingwood vs Melbourne](h2h_window_collingwood_melbourne.md) — Last 8 meetings from 2022 (all MCG); 2020 Gabba + 2021 SCG COVID games excluded; Coll 6-2 in window
+- [H2H window — Sydney vs St Kilda](h2h_window_sydney_stkilda.md) — 9 meetings 2020–2026; Sydney 5-4 overall; SCG 3-0 Sydney; COVID Gabba 2020 retained (unlike WC); last 3 meetings all ≤5pt margin
+- [Flanders Sam — R14 2026 absence pattern](player_flanders_r14_absence.md) — Predicted #2 St Kilda but DNP R14; R13 exit at 27% game time was the signal; check last-row game-time for any predicted top-5 player
+- [Model coverage gap — Port Adelaide absent](model_bias_portadelaide_absent.md) — PA, Adelaide, Gold Coast, NM absent from R14 2026 prediction CSVs; model covers 14/18 clubs only; use form-data for PA trackers
+- [H2H window — WC vs Port Adelaide](h2h_window_wc_portadelaide.md) — 7 meetings 2021–2026; Adelaide Oval PA 4-1; Perth Stadium 1-1; 2026 games both decided ≤6 pts
+- [H2H window — Essendon vs Carlton](h2h_window_essendon_carlton.md) — Last 8 meetings (2019–2025), all MCG; Carlton 6-2, won last 4 consecutive; window spans Carlton rebuild arc
+- [Essendon model bias R14 2026](model_bias_essendon_r14_2026.md) — Essendon −0.86, Carlton −0.52 in R13 2026 backtest; both trigger SCIENTIST REVIEW
+- [Parish and Setterfield file patterns](parish_setterfield_file_patterns.md) — Parish file clean Essendon-only jersey=3; 2025 injury-affected (3 games only); Setterfield multi-club history in file is correct
+- [Florent Oliver — cross-club 2026](florent_crossclub_2026.md) — Sydney 2025 mean 15.2 not comparable to Carlton 2026 mean 22.5; tag 2025 figure with club context note
+- [H2H window — Gold Coast vs Brisbane Lions](h2h_window_goldcoast_brisbane.md) — 10 meetings 2022–2026; BL 8-2; GC's 2 wins both at Carrara and both blowouts; BL 5-0 at Gabba in window
+- [H2H window — North Melbourne vs Fremantle](h2h_window_nm_fremantle.md) — 7 meetings 2019–2026; Frem 6-1; NM absent from R14 predictions; use form-data for NM player tracking
+- [H2H window — Adelaide vs Geelong](h2h_window_adelaide_geelong.md) — Last 8 meetings 2021–2026; Geelong 6-2; Adelaide's 2 wins both at Adelaide Oval; 2020 COVID game excluded
+- [Adelaide trackers — bye-round workflow](adelaide_trackers_bye_round.md) — When Adelaide has no prediction CSV output, select trackers by 2026 season disposal mean from performance_details.csv; filter "Port Adelaide,2026" carefully

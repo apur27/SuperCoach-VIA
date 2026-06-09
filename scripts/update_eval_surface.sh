@@ -199,6 +199,25 @@ md = re.sub(
     count=1,
 )
 
+# ---- Shields.io badge: "data-2026%20season%20round%20N" ----
+md = re.sub(
+    r"(data-2026%20season%20round%20)\d+(-green)",
+    rf"\g<1>{r_hi}\g<2>", md, count=1)
+
+# ---- Player file count — 3 README locations ----
+# 1. "The numbers" table row
+md = re.sub(
+    r"(\| Player performance files \| \*\*\[data\]\*\* )[\d,]+",
+    rf"\g<1>{PLAYER_FILE_COUNT:,}", md, count=1)
+# 2. "The data" narrative paragraph
+md = re.sub(
+    r"(\*\*\[data\]\*\* )[\d,]+( individual player files)",
+    rf"\g<1>{PLAYER_FILE_COUNT:,}\g<2>", md, count=1)
+# 3. "Under the hood" table row
+md = re.sub(
+    r"(\*\*\[data\]\*\* )[\d,]+( player performance files \(one row)",
+    rf"\g<1>{PLAYER_FILE_COUNT:,}\g<2>", md, count=1)
+
 with open(readme_path, "w", encoding="utf-8") as f:
     f.write(md)
 

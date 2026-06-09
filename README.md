@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/github/stars/apur27/SuperCoach-VIA?style=flat-square">
   <img src="https://img.shields.io/github/forks/apur27/SuperCoach-VIA?style=flat-square">
   <img src="https://img.shields.io/badge/python-3.10%2B-blue">
-  <img src="https://img.shields.io/badge/data-2026%20season%20round%2012-green">
+  <img src="https://img.shields.io/badge/data-2026%20season%20round%2013-green">
   <img src="https://img.shields.io/badge/license-MIT-lightgrey">
 </div>
 
@@ -31,7 +31,7 @@ The whole pipeline runs from a single shell script: scrape new match and player 
 | Metric | Value | Source |
 |---|--:|---|
 | AFL history covered | **[data]** 1897–present | `data/matches/` |
-| Player performance files | **[data]** 13,329 | `data/player_data/` (one CSV per player, one row per game) |
+| Player performance files | **[data]** 13,334 | `data/player_data/` (one CSV per player, one row per game) |
 | Backtest window | **[data]** R1–R13, 2026 | `data/prediction/backtest/` |
 | Player-round predictions scored | **[data]** 4,806 | walk-forward backtest |
 | Mean absolute error (disposals) | **[data]** 4.019 | player-weighted across all rounds |
@@ -124,7 +124,7 @@ Full spec — build order, sample Planner output, the `FootyFinding` Pydantic en
 
 ## The data
 
-130 years of AFL history, structured. Every match since 1897, and **[data]** 13,329 individual player files — one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current.
+130 years of AFL history, structured. Every match since 1897, and **[data]** 13,334 individual player files — one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current.
 
 Think of the club's archivist who has kept a card for every player in every game since 1897 — every kick, mark, and goal, filed and cross-referenced. Each week after the round finishes, a runner collects the latest match sheets and adds them to the cabinet before the analysts come in Monday morning. The whole system is useless if the cabinet is out of date or has gaps, so keeping it complete and current is the unglamorous job everything else depends on.
 
@@ -148,7 +148,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 
 | Layer | What it is |
 |---|---|
-| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,329 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
+| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,334 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form), opponent strength, venue effects, and contextual flags. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
 | **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 4.019 across 4,806 player-rounds (R1–R13, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
 | **LLM reasoning — Scientist** | Claude Sonnet running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
 | **LLM reasoning — FootyStrategy** | An 8-lens tactical council, each lens produced separately then reconciled. Output is tiered — Settled, Probationary, Contested, Insufficient Evidence — and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier. |
