@@ -27,9 +27,12 @@ def get_soup(url: str) -> BeautifulSoup:
         return BeautifulSoup("", 'html.parser')
 
 # Largest number of matches a legitimate bye round removes from a full round.
-# Modern AFL bye rounds rest 6 teams -> 3 fewer matches than a full round. A
-# round that drops further than this below the season's normal size is almost
-# certainly a scraper gap rather than a scheduled bye.
+# A standard bye round rests 6 teams -> 3 fewer matches than a full round, and
+# this has held across expansion eras (this stays true under the 19-team /
+# Tasmania 2027+ structure, where every round carries 1 mandatory bye that is
+# already absorbed into the season's modal round size). A round that drops
+# further than this below the season's normal size is almost certainly a
+# scraper gap rather than a scheduled bye.
 MAX_BYE_MATCH_DROP = 3
 
 
@@ -41,9 +44,11 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
     wrote only 1 of 9 rows for a round and the gap went undetected for weeks.
 
     The "full" round size is derived per season from the *modal* match count
-    across that season's home-and-away rounds (9 for the 18-team era, 8 for the
-    16-team era, 4 for early VFL, etc.) rather than hardcoded, so the check is
-    era-correct and does not false-positive on historical seasons.
+    across that season's home-and-away rounds rather than hardcoded, so the check
+    is era-agnostic and handles every VFL/AFL expansion era (4 matches/round in
+    early VFL, 8 in the 16-team era, 9 in the 18-team era, and 9 again in the
+    19-team / Tasmania 2027+ era where the mandatory weekly bye is absorbed into
+    the mode) without false-positiving on historical or future seasons.
 
     Rule (warnings only, never raises):
       - expected = mode of matches-per-round for the season.
