@@ -26,42 +26,126 @@ def get_soup(url: str) -> BeautifulSoup:
         print(f"Error fetching URL {url}: {e}")
         return BeautifulSoup("", 'html.parser')
 
-# Largest number of matches a legitimate bye round removes from a full round.
-# A standard bye round rests 6 teams -> 3 fewer matches than a full round, and
-# this has held across expansion eras (this stays true under the 19-team /
-# Tasmania 2027+ structure, where every round carries 1 mandatory bye that is
-# already absorbed into the season's modal round size). A round that drops
-# further than this below the season's normal size is almost certainly a
-# scraper gap rather than a scheduled bye.
-MAX_BYE_MATCH_DROP = 3
+# Canonical AFL/VFL club names as they appear on afltables.com season pages and
+# in our scraped matches_<year>.csv. Used to identify team-name cells in the
+# fixture HTML and to ignore ladder/footnote rows. Includes current clubs plus
+# historical names so the fixture parser works across eras.
+KNOWN_TEAM_NAMES = {
+    "Adelaide", "Brisbane Lions", "Carlton", "Collingwood", "Essendon",
+    "Fremantle", "Geelong", "Gold Coast", "Greater Western Sydney", "Hawthorn",
+    "Melbourne", "North Melbourne", "Port Adelaide", "Richmond", "St Kilda",
+    "Sydney", "West Coast", "Western Bulldogs",
+    # Historical / former names that appear on older season pages
+    "Brisbane Bears", "Fitzroy", "Footscray", "Kangaroos", "South Melbourne",
+    "University",
+}
+
+# afltables season-results page. This is the SAME site the match scraper already
+# hits (self.base_url), and it lists the full fixture: completed rounds carry
+# scores, and *upcoming* rounds list the scheduled matchups with no scores. That
+# makes it the ground-truth schedule -- no extra dependency, no second source.
+FIXTURE_BASE_URL = "https://afltables.com/afl/seas/"
+
+# Per-process cache of parsed season pages, so auditing every round in a file
+# fetches the season page once instead of once per round.
+_SEASON_SOUP_CACHE: Dict[int, BeautifulSoup] = {}
+
+
+def _get_season_soup(year: int) -> BeautifulSoup:
+    """Return the parsed afltables season page for `year`, cached per process."""
+    if year not in _SEASON_SOUP_CACHE:
+        _SEASON_SOUP_CACHE[year] = get_soup(f"{FIXTURE_BASE_URL}{year}.html")
+    return _SEASON_SOUP_CACHE[year]
+
+
+def fetch_round_fixture(year: int, round_num: int) -> Optional[set]:
+    """
+    Fetch the scheduled matchups for a single home-and-away round from the
+    afltables season-results page, which lists the full fixture (played and
+    upcoming) for the year.
+
+    Returns a set of frozenset({team_a, team_b}) pairs -- one per scheduled
+    match -- so it can be compared directly against scraped matchups regardless
+    of home/away ordering. Returns None if the round heading or its match table
+    cannot be located (e.g. the page layout changed, or the round does not
+    exist), so the caller can distinguish "no ground truth available" from
+    "zero matches scheduled".
+
+    Parsing model (verified against the 2026 season page):
+      - Each round is introduced by a `<b>Round N ...</b>` heading; the asterisk
+        footnote variant ("Round 1* see notes") is handled by a bounded match.
+      - The round's matches live in the very next sibling `<table>`. Within it,
+        each match is two consecutive rows whose first cell is a known team name;
+        we read the team-name cells in document order and pair them sequentially.
+      - Bye rows ("<team> | Bye") and the trailing "Rd N Ladder" block are
+        skipped because they are not 3+-cell team rows.
+    """
+    soup = _get_season_soup(year)
+
+    heading = None
+    pat = re.compile(rf"^\s*Round\s+{round_num}(?!\d)")
+    for b in soup.find_all("b"):
+        if pat.match(b.get_text(strip=True)):
+            heading = b
+            break
+    if heading is None:
+        return None
+
+    # Walk up from the heading <b> to its enclosing table, then take the next
+    # sibling table -- that is the block of matches for this round.
+    heading_table = heading
+    while heading_table is not None and heading_table.name != "table":
+        heading_table = heading_table.parent
+    if heading_table is None:
+        return None
+
+    match_table = heading_table.find_next_sibling()
+    while match_table is not None and match_table.name != "table":
+        match_table = match_table.find_next_sibling()
+    if match_table is None:
+        return None
+
+    team_sequence: List[str] = []
+    for row in match_table.find_all("tr"):
+        cells = row.find_all("td")
+        if not cells:
+            continue
+        # Bye row is exactly [team, "Bye"] -- not a scheduled match.
+        if len(cells) == 2 and cells[1].get_text(strip=True) == "Bye":
+            continue
+        name = cells[0].get_text(" ", strip=True)
+        if name in KNOWN_TEAM_NAMES and len(cells) >= 3:
+            team_sequence.append(name)
+
+    pairs = set()
+    for i in range(0, len(team_sequence) - 1, 2):
+        pairs.add(frozenset((team_sequence[i], team_sequence[i + 1])))
+    return pairs
 
 
 def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
     """
-    Audits a matches_<year>.csv for rounds with a suspicious number of matches.
+    Audits a matches_<year>.csv against the public AFL fixture, round by round.
 
     Catches the "R10 2026" class of bug, where the match-summary scraper silently
     wrote only 1 of 9 rows for a round and the gap went undetected for weeks.
 
-    The "full" round size is derived per season from the *modal* match count
-    across that season's home-and-away rounds rather than hardcoded, so the check
-    is era-agnostic and handles every VFL/AFL expansion era (4 matches/round in
-    early VFL, 8 in the 16-team era, 9 in the 18-team era, and 9 again in the
-    19-team / Tasmania 2027+ era where the mandatory weekly bye is absorbed into
-    the mode) without false-positiving on historical or future seasons.
-
-    Rule (warnings only, never raises):
-      - expected = mode of matches-per-round for the season.
-      - A round whose count is at/above `expected` is fine.
-      - A round more than MAX_BYE_MATCH_DROP below `expected` is flagged
-        WARNING (probable scraper gap) -- unless it is round 1, which can be a
-        legitimately small AFL "Opening Round".
-      - A round a little below `expected` (within the bye band) is reported as
-        INFO so a human can eyeball it without it being treated as an error.
+    This check is exact, not probabilistic. For each integer home-and-away round
+    present in the file, it fetches the scheduled matchups from the afltables
+    season page (`fetch_round_fixture`) and compares them, by team pair, to what
+    was scraped. A round is flagged WARNING if any *scheduled* matchup is absent
+    from the scraped file -- and the warning names the exact missing matchups.
+    There is no modal/threshold heuristic and no MAX_BYE_MATCH_DROP: byes are
+    handled because the fixture itself omits resting teams.
 
     Returns a list of issue dicts (empty when clean). Each dict has keys:
-      year, round_num, n_matches, expected, teams_present, severity.
-    severity is "WARNING" for a probable gap, "INFO" for a plausible bye round.
+      year, round_num, n_matches, expected, teams_present, severity, missing.
+      - n_matches: matches scraped for the round
+      - expected: matches scheduled in the fixture for the round
+      - missing:  list of "TeamA v TeamB" strings for scheduled-but-unscraped games
+      - severity: "WARNING" when missing is non-empty, else "INFO"
+    Rounds whose fixture cannot be fetched are skipped (no false positives when
+    the schedule is unavailable).
     """
     issues: List[Dict[str, Any]] = []
     try:
@@ -76,7 +160,7 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
         return issues
 
     # Restrict to integer home-and-away rounds; finals rounds are stored as
-    # non-numeric strings and have their own (smaller) match counts.
+    # non-numeric strings and are not covered by the season-page round headings.
     round_as_int = pd.to_numeric(df["round_num"], errors="coerce")
     ha = df[round_as_int.notna()].copy()
     ha["round_num"] = round_as_int[round_as_int.notna()].astype(int)
@@ -84,40 +168,54 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
         return issues
 
     year = int(ha["year"].iloc[0]) if "year" in ha.columns and not ha["year"].isna().all() else None
+    if year is None:
+        print(f"[match-audit] {file_path} has no usable year column; skipping audit")
+        return issues
 
-    counts = ha.groupby("round_num").size()
-    # Season's normal full-round size = most common match count across rounds.
-    expected = int(counts.mode().iloc[0])
-    warn_floor = expected - MAX_BYE_MATCH_DROP
-
-    for rnd, n_matches in counts.sort_index().items():
-        n_matches = int(n_matches)
-        if n_matches >= expected:
-            continue
+    for rnd in sorted(ha["round_num"].unique()):
+        rnd = int(rnd)
         group = ha[ha["round_num"] == rnd]
+        scraped_pairs = {
+            frozenset((r.team_1_team_name, r.team_2_team_name))
+            for r in group.itertuples()
+        }
+        n_matches = len(scraped_pairs)
         teams_present = len(set(group["team_1_team_name"]) | set(group["team_2_team_name"]))
-        # round 1 (Opening Round) is allowed to be small; a round that falls
-        # further than a bye could explain is treated as a probable gap.
-        if rnd != 1 and n_matches < warn_floor:
-            severity = "WARNING"
-        else:
-            severity = "INFO"
+
+        fixture = fetch_round_fixture(year, rnd)
+        if fixture is None:
+            print(
+                f"[match-audit][info] {year} round {rnd}: {n_matches} matches scraped; "
+                f"fixture unavailable -- cannot verify"
+            )
+            continue
+
+        expected = len(fixture)
+        missing_pairs = fixture - scraped_pairs
+        missing = [" v ".join(sorted(p)) for p in missing_pairs]
+
+        severity = "WARNING" if missing else "INFO"
         issues.append({
             "year": year,
-            "round_num": int(rnd),
+            "round_num": rnd,
             "n_matches": n_matches,
             "expected": expected,
             "teams_present": teams_present,
             "severity": severity,
+            "missing": missing,
         })
-        label = "[match-audit][WARNING]" if severity == "WARNING" else "[match-audit][info]"
-        suffix = (
-            " <-- PROBABLE SCRAPER GAP" if severity == "WARNING" else " (likely bye round)"
-        )
-        print(
-            f"{label} {year} round {int(rnd)}: {n_matches} matches "
-            f"({teams_present} teams present, season-normal {expected}){suffix}"
-        )
+
+        if missing:
+            print(
+                f"[match-audit][WARNING] {year} round {rnd}: {n_matches}/{expected} "
+                f"scheduled matches scraped <-- MISSING {len(missing)}: "
+                f"{'; '.join(sorted(missing))}"
+            )
+        else:
+            print(
+                f"[match-audit][info] {year} round {rnd}: {n_matches}/{expected} "
+                f"scheduled matches present (complete)"
+            )
     return issues
 
 

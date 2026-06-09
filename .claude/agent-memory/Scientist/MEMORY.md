@@ -1,8 +1,10 @@
 # Memory Index
 
+- [Match-round audit (R10 2026 bug guard)](match_round_audit.md) - audit_match_rounds() in game_scraper.py; fixture-aware (fetch_round_fixture from afltables season page), exact, names missing matchups, no threshold
 - [Backtest doc verification](backtest_doc_verification.md) - afl-backtest-2026.md has 3 sections that drift to different round windows; canonical sources + 4486/4806 (NaN-actual) reconciliation
 - [All-time ranking formula constraints](all_time_formula.md) - Rank-based formula trade-offs; data supports Matthews #1 over Carey, expert lists don't
 - [No position column in player data](data_no_position.md) - Player CSVs lack a `position` field; per-position analysis requires a new data source
+- [Same-team false-duplicate flag](same_team_false_duplicate.md) - Two same-team players' CSVs share opponent/round/team cols and look like dupes; test on STAT columns only, not fixture cols
 - [Blank counting stat = zero in a played game](blank_counting_stat_means.md) - NaN tackles/marks/hit-outs means a real zero, not missing data; use fill-zero for season means within the stat's recorded era
 - [Disposal predictor top-end compression](prediction_top_end_compression.md) - log1p target + L1 LGBM loss caused max-pred compression; removed both and added OOF linear calibration
 - [AFL stat coverage by year](data_stat_coverage_eras.md) - Tackles only from 1987, clearances/cont-poss from 1998, hit-outs jump in 2017 is a recording change not a real shift
@@ -18,3 +20,4 @@
 - [Player CSV date column is unreliable](player_csv_date_format.md) - Performance-file `date` field off by ~1 month from real match date; cross-check via data/matches/ for exact dates. Also: games_played counter > row count (drawn GFs collapsed, some finals rows missing).
 - [HoF games counter must use games_played col, not row count](hof_games_counter_gotcha.md) - compute_stat_leaders.py was patched: rank ties get `rank_label` "1=" and chart_wall_of_records joins tied co-holders.
 - [GPU "no device" = kernel module missing, not CUDA](gpu_kernel_module_missing.md) - This laptop's nvidia.ko is not built for the running kernel after kernel upgrades; userspace is fine. Also: CUDA_VISIBLE_DEVICES='' is exported in this shell.
+- [Team-profiles doc staleness is expected](team_profiles_staleness_is_expected.md) - Old mtime on afl-team-profiles.md is NOT a bug; 5yr window (2021-2025) is frozen seasons so regen no-ops. Verify by re-running the generator, not by mtime.
