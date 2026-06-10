@@ -521,16 +521,44 @@ def compile_all_time_top_100(
 # Fast single-pass ingestion
 # ---------------------------------------------------------------------------
 
-def _aggregate_one_file(path: str) -> List[Tuple[str, int, Dict[str, float], int]]:
-    """Read one player CSV once → [(player_name, year, totals, games_played), ...]."""
+def _aggregate_one_file(
+    path: str,
+) -> Tuple[List[Tuple[str, int, Dict[str, float], int]], int]:
+    """Read one player CSV once.
+
+    Returns ``(year_tuples, career_games)`` where:
+      * ``year_tuples`` is ``[(player_name, year, totals, games_in_year), ...]``
+        with ``games_in_year`` = per-season row count (correct for the yearly
+        rankings — a season's games are exactly its rows).
+      * ``career_games`` is the authoritative career-games total. The running
+        ``games_played`` counter is populated before each row is written, so it
+        catches games whose stat-detail row is missing (drawn GF replays, some
+        finals). We take ``max(row_count, max(games_played))`` so the counter is
+        used when it leads (e.g. Pendlebury 435 vs 432 rows) but never lets a
+        trailing run of NaN ``games_played`` values undercount the row total
+        (e.g. Shane Tuck: 173 rows, max games_played 167 → 173).
+    """
     try:
         df = pd.read_csv(path, low_memory=False)
     except Exception as e:
         logging.warning(f"Could not read {path}: {e}")
-        return []
+        return [], 0
 
     if df.empty:
-        return []
+        return [], 0
+
+    # Career-games counter from the raw frame (before any year filtering), so a
+    # row with an unparseable year still contributes its games_played peak.
+    gp_max = 0
+    if 'games_played' in df.columns:
+        gp_num = pd.to_numeric(
+            df['games_played'].astype(str)
+            .str.replace('↑', '', regex=False)
+            .str.replace('↓', '', regex=False),
+            errors='coerce',
+        )
+        if gp_num.notna().any():
+            gp_max = int(gp_num.max())
 
     # Derive year from the 'year' column (preferred) or parse from 'date'
     if 'year' in df.columns:
@@ -538,16 +566,19 @@ def _aggregate_one_file(path: str) -> List[Tuple[str, int, Dict[str, float], int
     elif 'date' in df.columns:
         df['year'] = pd.to_datetime(df['date'], errors='coerce').dt.year
     else:
-        return []
+        return [], 0
 
     df = df.dropna(subset=['year'])
     df['year'] = df['year'].astype(int)
     if df.empty:
-        return []
+        return [], 0
+
+    # Career games: counter when it leads, row count as a floor (see docstring).
+    career_games = max(len(df), gp_max)
 
     available = [s for s in ALL_STATS if s in df.columns]
     if not available:
-        return []
+        return [], career_games
     for s in available:
         df[s] = pd.to_numeric(df[s], errors='coerce').fillna(0)
 
@@ -556,21 +587,34 @@ def _aggregate_one_file(path: str) -> List[Tuple[str, int, Dict[str, float], int
     for year, sub in df.groupby('year', sort=False):
         totals = {s: float(sub[s].sum()) for s in available}
         out.append((player_name, int(year), totals, len(sub)))
-    return out
+    return out, career_games
 
 
-def _aggregate_all_players(data_dir: str) -> Dict[int, List[Tuple[str, Dict[str, float], int]]]:
-    """Single pass over all player files → {year: [(player, totals, games), ...]}."""
+def _aggregate_all_players(
+    data_dir: str,
+) -> Tuple[Dict[int, List[Tuple[str, Dict[str, float], int]]], Dict[str, int]]:
+    """Single pass over all player files.
+
+    Returns ``(by_year, career_games)`` where ``by_year`` is
+    ``{year: [(player, totals, games_in_year), ...]}`` and ``career_games`` is
+    ``{player: authoritative_career_games}`` (see ``_aggregate_one_file``).
+    """
     files = glob.glob(os.path.join(data_dir, "*_performance_details.csv"))
     logging.info(f"Single-pass aggregation of {len(files)} player files...")
     by_year: Dict[int, List[Tuple[str, Dict[str, float], int]]] = defaultdict(list)
+    career_games: Dict[str, int] = {}
     for i, path in enumerate(files, 1):
-        for player, year, totals, games in _aggregate_one_file(path):
+        year_tuples, file_career_games = _aggregate_one_file(path)
+        for player, year, totals, games in year_tuples:
             by_year[year].append((player, totals, games))
+        if year_tuples:
+            player = year_tuples[0][0]
+            # Same player across multiple files (rare): keep the larger career.
+            career_games[player] = max(career_games.get(player, 0), file_career_games)
         if i % 1000 == 0:
             logging.info(f"  aggregated {i}/{len(files)} files")
     logging.info(f"Aggregation complete — {len(by_year)} years found")
-    return dict(by_year)
+    return dict(by_year), career_games
 
 
 def _generate_yearly_from_memory(
@@ -667,19 +711,18 @@ def main():
     os.makedirs(os.path.join(output_dir, 'yearly'), exist_ok=True)
 
     # Single-pass aggregation: read each of ~13k player files exactly once.
-    raw_aggregates = _aggregate_all_players(data_dir)
+    # true_career_games comes straight from the games_played counter (with a
+    # row-count floor) rather than summing per-season row counts, so games whose
+    # stat-detail row is missing (drawn GF replays, some finals) are still
+    # counted — e.g. Pendlebury 435, not 432.
+    raw_aggregates, true_career_games = _aggregate_all_players(data_dir)
 
-    # Single pass over all years to compute per-player career totals.
     # career_gpg: career goals/game — used for stable 3-group position classification
     #   so high-scoring forwards are never z-scored against pure key forwards.
-    # true_career_games: total games from ALL seasons (not just top-100 seasons),
-    #   fixing the bug where injury-affected seasons were silently dropped.
     career_goals: Dict[str, float] = defaultdict(float)
-    true_career_games: Dict[str, int] = defaultdict(int)
     for year_data in raw_aggregates.values():
         for player, totals, games in year_data:
             career_goals[player] += totals.get('goals', 0.0)
-            true_career_games[player] += games
     career_gpg: Dict[str, float] = {
         p: career_goals[p] / true_career_games[p]
         for p in true_career_games
@@ -696,7 +739,7 @@ def main():
         if top_100:
             yearly_top_100[year] = top_100
 
-    compile_all_time_top_100(yearly_top_100, output_dir, career_games=dict(true_career_games))
+    compile_all_time_top_100(yearly_top_100, output_dir, career_games=true_career_games)
 
     format_top_100(
         os.path.join(output_dir, 'all_time_top_100.csv'),
@@ -722,7 +765,7 @@ def _read_player_personal(player_id: str) -> Optional[dict]:
 
 def _read_player_performance(player_id: str) -> dict:
     empty = {
-        'teams': [], 'total_games': 0, 'total_goals': 0, 'total_disposals': 0,
+        'teams': [], 'total_games': 0, 'career_games': 0, 'total_goals': 0, 'total_disposals': 0,
         'avg_disposals': 0.0, 'total_brownlow_votes': 0, 'games_20_plus_disposals': 0,
         'games_3_plus_goals': 0, 'num_seasons': 0, 'peak_disposals': 0,
         'peak_goals': 0, 'median_disposals': 0, 'impact_score': 0,
@@ -739,6 +782,7 @@ def _read_player_performance(player_id: str) -> dict:
             disposals_per_game, goals_per_game = [], []
             total_games = total_goals = total_disposals = total_brownlow_votes = 0
             games_20_plus = games_3_plus_goals = 0
+            gp_max = 0  # running games_played counter peak (authoritative career games)
             for row in reader:
                 team, year = row['team'], row['year']
                 unique_years.add(year)
@@ -746,6 +790,12 @@ def _read_player_performance(player_id: str) -> dict:
                     teams_order.append(team)
                     seen_teams.add(team)
                 total_games += 1
+                gp_raw = (row.get('games_played') or '').replace('↑', '').replace('↓', '').strip()
+                if gp_raw:
+                    try:
+                        gp_max = max(gp_max, int(float(gp_raw)))
+                    except ValueError:
+                        pass
                 kicks = int(float(row['kicks'])) if row.get('kicks') else 0
                 handballs = int(float(row['handballs'])) if row.get('handballs') else 0
                 disposals = kicks + handballs
@@ -769,7 +819,13 @@ def _read_player_performance(player_id: str) -> dict:
             if games_20_plus > 0:
                 consistency = (games_20_plus / total_games) * 100
         return {
-            'teams': teams_order, 'total_games': total_games, 'total_goals': total_goals,
+            'teams': teams_order, 'total_games': total_games,
+            # Authoritative career games for the narrative count: the games_played
+            # counter when it leads (catches games with no stat-detail row), with
+            # the row count as a floor. total_games stays row-based so it remains
+            # the correct denominator for per-game averages summed over rows.
+            'career_games': max(total_games, gp_max),
+            'total_goals': total_goals,
             'total_disposals': total_disposals,
             'avg_disposals': total_disposals / total_games if total_games > 0 else 0.0,
             'total_brownlow_votes': total_brownlow_votes,
@@ -808,8 +864,8 @@ def format_top_100(input_csv: str, output_csv: str) -> None:
             if perf['teams']:
                 teams_str = " - ".join(perf['teams'])
                 summary = f"{base}. A true legend of the game, {full_name} played for {teams_str}"
-                if perf['num_seasons'] > 0 and perf['total_games'] > 0:
-                    summary += f" over {perf['num_seasons']} seasons and {perf['total_games']} games"
+                if perf['num_seasons'] > 0 and perf['career_games'] > 0:
+                    summary += f" over {perf['num_seasons']} seasons and {perf['career_games']} games"
                 summary += "."
                 if perf['total_disposals'] > 0 or perf['total_goals'] > 0:
                     summary += " He recorded"

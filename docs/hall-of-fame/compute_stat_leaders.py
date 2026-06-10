@@ -98,7 +98,10 @@ def load_career(path: str):
         )
         gp_num = pd.to_numeric(gp_clean, errors="coerce")
         if gp_num.notna().any():
-            games = int(gp_num.max())
+            # Counter when it leads (catches games with no stat-detail row), but
+            # never below the row count — a trailing run of NaN games_played
+            # values must not undercount a player who clearly played those rows.
+            games = max(games, int(gp_num.max()))
 
     teams = (
         df.dropna(subset=["team"])  # type: ignore[arg-type]
