@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-02 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-15 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Published: 2026-06-02. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-15. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -36,14 +36,14 @@ Career games played is the longevity-and-availability stat. It measures three th
 | 10 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 |
 | 11 | Craig Bradley **[data]** | Carlton | 1986-2002 | 375 |
 | 12 | Adam Goodes **[data]** | Sydney | 1999-2015 | 372 |
-| 13 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 369 |
+| 13 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 370 |
 | 14 | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 |
 | 15 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 365 |
 | 16 | Brad Johnson **[data]** | Footscray - Western Bulldogs | 1994-2010 | 364 |
 | 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |
 | 17= | John Blakey **[data]** | Fitzroy - Kangaroos - North Melbourne | 1985-2002 | 359 |
 | 19 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 |
-| 20 | Paul Roos **[data]** | Fitzroy - Sydney | 1982-1998 | 356 |
+| 20 | Bruce Doull **[data]** | Carlton | 1969-1986 | 356 |
 
 ## FootyStrategy tactical read
 
@@ -55,7 +55,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 **The 21st-century shift in availability.** Of the top 20, nine started their careers in 2002 or later (Pendlebury, Burgoyne, Boak, Mundy, Goodes, Dangerfield, Sidebottom, Hawkins, Ablett jnr). The professionalisation of fitness, nutrition, and recovery has measurably extended career length. *Talent Developer lens:* the post-2000 first-round draft pick is now expected to play 200+ games as the baseline outcome rather than the elite outcome. The 400-game career, which required a once-a-generation body and total injury luck in the 1970s-90s, is now a realistic ambition for a top-five pick who stays at one club and avoids major surgeries.
 
-**Active watch.** Three names on the list are still active in 2026: Pendlebury 435 **[data]**, Dangerfield 369 **[data]**, Sidebottom 365 **[data]**. If Pendlebury plays out 2026 and a 2027 season, his record could push toward 460 - a number that would require a generation to overhaul. Sidebottom and Dangerfield, both 36, are unlikely to reach 400 themselves but will end among the top dozen.
+**Active watch.** Three names on the list are still active in 2026: Pendlebury 435 **[data]**, Dangerfield 370 **[data]**, Sidebottom 365 **[data]**. If Pendlebury plays out 2026 and a 2027 season, his record could push toward 460 - a number that would require a generation to overhaul. Sidebottom and Dangerfield, both 36, are unlikely to reach 400 themselves but will end among the top dozen.
 
 ## Data coverage
 

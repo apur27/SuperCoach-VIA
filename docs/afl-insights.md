@@ -19,12 +19,12 @@ Live season data, historical analysis, and guides for footy fans and coaches.
 
 ## Round 9 — Week in Review
 
-**Disposal leaders (season through Round 13):** Nick Daicos (Collingwood) heads the competition at **34.9 per game** [data], followed by Bailey Smith (Geelong) at **32.6** [data] and Archie Roberts (Essendon) at **32.3** [data] — all roughly double the league average of 15.3 [data].
+**Disposal leaders (season through Round 15):** Nick Daicos (Collingwood) leads the competition at **34.9 per game** [data], with Bailey Smith (Geelong) at **32.3** [data] and Clayton Oliver (GWS) at **31.7** [data] — all more than double the league average of 15.3 [data].
 
-**Ladder:** Sydney's season-average winning margin of **+42.5 points** [data] — 16.5 points clear of second-placed Fremantle (+26.0) [data] — is the sharpest indicator of a two-tier competition forming at the top.
+**Ladder:** Sydney's average winning margin of **+36.3 points** [data] places them 2.1 points clear of second-placed Fremantle (**+34.2** [data]), with a steep drop to Geelong in third (**+16.1** [data]) — the clearest sign of a two-team tier forming at the top.
 
-**Watch in Round 14:** Archie Roberts (Essendon) is the model's top disposal projection at **30.0 predicted disposals** [data], consistent with his position as the competition's leading kicker at **22.4 kicks per game** [data].
+**Watch in Round 16:** Bailey Smith (Geelong) tops the model's next-round projections at **29.0 predicted disposals** [data] — consistent with his 32.3 season average and second-ranked inside-50 delivery rate (**6.86 per game** [data]).
 
-**Tactical note:** Marks inside 50 carries the strongest predictive correlation with forward output (r = +0.67 with goals [data]) — structuring forward-50 entries to create marking contests, not just entries, is where scoring patterns diverge between the competition's top and bottom scoring teams.
+**Tactical note:** Marks inside 50 carries the strongest predictive link to forward output in this dataset (r = +0.68 with goals [data]) — teams generating marking contests inside the arc, not just entries, are where the scoring gaps between the ladder's top and bottom have opened.
 
 The **FootyStrategy agent** (`@"FootyStrategy (agent)"` in Claude Code) complements Scientist with AFL tactical knowledge - use it to interpret what the data means on the ground. See [coaching-guide.md](coaching-guide.md#leveraging-the-footystrategy-agent) for the full workflow.

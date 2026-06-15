@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-02 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-15 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -25,10 +25,10 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 | # | Player | Club(s) | Span | Games | Hit-outs | Per game |
 |--:|--------|---------|------|------:|---------:|---------:|
 | 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 344 | 10,597 | 30.81 |
-| 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 259 | 8,598 | 33.20 |
+| 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 261 | 8,673 | 33.23 |
 | 3 | Aaron Sandilands **[data]** | Fremantle | 2003-2019 | 271 | 8,502 | 31.37 |
-| 4 | Brodie Grundy **[data]** | Collingwood - Melbourne - Sydney | 2013-2026 | 253 | 8,022 | 31.71 |
-| 5 | Jarrod Witts **[data]** | Collingwood - Gold Coast | 2013-2026 | 214 | 7,312 | 34.17 |
+| 4 | Brodie Grundy **[data]** | Collingwood - Melbourne - Sydney | 2013-2026 | 255 | 8,074 | 31.66 |
+| 5 | Jarrod Witts **[data]** | Collingwood - Gold Coast | 2013-2026 | 215 | 7,328 | 34.08 |
 | 6 | Sam Jacobs **[data]** | Adelaide - Carlton - Greater Western Sydney | 2009-2020 | 208 | 6,787 | 32.63 |
 | 7 | Dean Cox **[data]** | West Coast | 2001-2014 | 290 | 6,628 | 22.86 |
 | 8 | Gary Dempsey **[data]** | Footscray - North Melbourne | 1967-1984 | 329 | 6,479 | 19.69 |
@@ -47,9 +47,9 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 
 ## FootyStrategy tactical read
 
-**Goldstein's untouchable total.** Todd Goldstein 10,597 hit-outs **[data]** is the only career past 10,000. Gawn at 8,598 **[data]** is the closest active threat - 2,029 hit-outs behind, requiring approximately 60 more games at his current ~33/game rate to catch up. Realistically, this record stands for the foreseeable future. *Structuralist lens:* Goldstein's career at North Melbourne was the textbook one-ruckman team model - sole ruck, no rest rotations, every centre bounce. The single-ruckman pattern is now largely extinct; modern teams carry two rucks (Gawn + Tomlinson at Melbourne, Witts + Lobb at Gold Coast historically) and the workload spreads.
+**Goldstein's untouchable total.** Todd Goldstein 10,597 hit-outs **[data]** is the only career past 10,000. Gawn at 8,673 **[data]** is the closest active threat - 2,029 hit-outs behind, requiring approximately 60 more games at his current ~33/game rate to catch up. Realistically, this record stands for the foreseeable future. *Structuralist lens:* Goldstein's career at North Melbourne was the textbook one-ruckman team model - sole ruck, no rest rotations, every centre bounce. The single-ruckman pattern is now largely extinct; modern teams carry two rucks (Gawn + Tomlinson at Melbourne, Witts + Lobb at Gold Coast historically) and the workload spreads.
 
-**Per-game rates jumped post-2017.** O'Brien 34.98 **[data]**, Witts 34.17 **[data]**, Gawn 33.20 **[data]**, Jacobs 32.63 **[data]**, Grundy 31.71 **[data]**, Sandilands 31.37 **[data]**, Goldstein 30.81 **[data]** - the 30+/game rates cluster heavily in the post-2017 ruckmen. *Tempo Architect lens:* the 2017 hit-out recording change combined with the post-2018 nominated-ruckman rule has pushed the per-game ceiling upward. Pre-2017 ruckmen at the same physical level (Cox, Justin Madden, Simon Madden, Jeff White) sit at 13-23 per game - genuinely lower output, but also genuinely lower-counted output. The exact split between rule effect and recording effect is impossible to disentangle from this data alone.
+**Per-game rates jumped post-2017.** O'Brien 34.98 **[data]**, Witts 34.08 **[data]**, Gawn 33.23 **[data]**, Jacobs 32.63 **[data]**, Grundy 31.66 **[data]**, Sandilands 31.37 **[data]**, Goldstein 30.81 **[data]** - the 30+/game rates cluster heavily in the post-2017 ruckmen. *Tempo Architect lens:* the 2017 hit-out recording change combined with the post-2018 nominated-ruckman rule has pushed the per-game ceiling upward. Pre-2017 ruckmen at the same physical level (Cox, Justin Madden, Simon Madden, Jeff White) sit at 13-23 per game - genuinely lower output, but also genuinely lower-counted output. The exact split between rule effect and recording effect is impossible to disentangle from this data alone.
 
 **The 1980s-90s ruck legends are understated.** Cox 22.86 **[data]**, Dempsey 19.69 **[data]**, Justin Madden 17.31 **[data]**, Simon Madden 13.83 **[data]**, Jeff White 18.66 **[data]**, Peter Everitt 17.05 **[data]** - the pre-2010 ruckmen on this list have per-game rates that look comically low compared to the modern era. *Match-up Tactician lens:* their actual ruck dominance was substantial - Cox was the foundation ruckman of West Coast's 2006 premiership, Dempsey won the 1975 Brownlow as a ruckman - but the recording methodology of their era credited fewer of their tap-downs as hit-outs. The 10-13 hit-out delta per game is largely an artefact, not a real performance gap.
 

@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-02 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-15 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -133,7 +133,7 @@ The career leaderboards on the other [stat-leaders sub-pages](hall-of-fame-stat-
 | 7 | Matt Rowell **[data]** | 2025 | Gold Coast | 190 |
 | 8 | Tom Liberatore **[data]** | 2021 | Western Bulldogs | 189 |
 | 9 | Caleb Serong **[data]** | 2025 | Fremantle | 184 |
-| 10 | Matt Priddis **[data]** | 2015 | West Coast | 183 |
+| 10 | Tom Green **[data]** | 2025 | Greater Western Sydney | 183 |
 
 **Ratten's 265 in 1999 is a methodology artefact.** Clearances were first tracked league-wide in 1998 using a slightly looser definition than the modern stat (almost any first-disposal-out-of-a-stoppage counted as a clearance, including ones that were quickly intercepted). The modern stat is more restrictive. *Skeptic note:* treat Ratten's 1999 figure as historically interesting but not directly comparable to post-2003 numbers. The real modern record is Neale's 205 in 2023 **[data]**, which sits at the rough ceiling of what a 23-game season of stoppage-attack midfield can sustain.
 
