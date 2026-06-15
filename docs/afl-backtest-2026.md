@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-06-01 · 13 rounds backtested · auto-generated*
+*Last updated: 2026-06-15 · 15 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -47,8 +47,10 @@ This is the honest test. The model never gets to see the round it's predicting.
 | 11 | 373 | 3.83 | 5.01 | 77.2% | 95.2% |
 | 12 | 412 | 3.98 | 5.24 | 74.3% | 94.9% |
 | 13 | 320 | 3.51 | 4.65 | 79.4% | 96.9% |
+| 14 | 367 | 3.63 | 4.76 | 76.8% | 95.6% |
+| 15 | 322 | 3.86 | 4.83 | 76.4% | 96.9% |
 
-**Overall (mean across 13 rounds):** MAE 4.04 disposals · 73.0% of predictions within 5 disposals · 95.7% within 10.
+**Overall (mean across 15 rounds):** MAE 4.00 disposals · 73.5% of predictions within 5 disposals · 95.7% within 10.
 
 > **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
 
@@ -56,36 +58,36 @@ This is the honest test. The model never gets to see the round it's predicting.
 
 | # | Player | Team | Avg actual disposals | Avg predicted | Avg error | Rounds |
 |--:|--------|------|---------------------:|--------------:|----------:|-------:|
-| **1** | **Nick Daicos** | **Collingwood** | **34.9** | **28.3** | **−6.6 ↓** | **11** |
-| 2 | Bailey Smith | Geelong | 32.6 | 26.9 | −5.7 ↓ | 12 |
-| **3** | **Archie Roberts** | **Essendon** | **32.3** | **24.8** | **−7.5 ↓** | **12** |
-| **4** | **Clayton Oliver** | **Greater Western Sydney** | **31.4** | **25.7** | **−5.7 ↓** | **12** |
-| 5 | Zak Butters | Port Adelaide | 30.7 | 26.1 | −4.6 ↓ | 11 |
-| **6** | **Harry Sheezel** | **North Melbourne** | **30.5** | **26.8** | **−3.7 ↓** | **11** |
-| **7** | **Lachie Neale** | **Brisbane Lions** | **30.1** | **26.5** | **−3.6 ↓** | **12** |
-| 8 | Lachie Ash | Greater Western Sydney | 30.0 | 26.0 | −4.0 ↓ | 12 |
-| 9 | Jack Sinclair | St Kilda | 29.7 | 26.9 | −2.8 ↓ | 12 |
-| 10 | Lachie Whitfield | Greater Western Sydney | 29.4 | 26.3 | −3.1 ↓ | 11 |
-| 11 | Max Holmes | Geelong | 29.2 | 26.4 | −2.8 ↓ | 12 |
-| 12 | Finn Callaghan | Greater Western Sydney | 28.6 | 26.4 | −2.2 ↓ | 12 |
-| 13 | Sam Walsh | Carlton | 28.1 | 26.5 | −1.6 ↓ | 12 |
-| **14** | **Zach Merrett** | **Essendon** | **27.8** | **25.2** | **−2.5 ↓** | **12** |
-| 15 | Noah Anderson | Gold Coast | 27.4 | 24.0 | −3.4 ↓ | 10 |
-| 16 | Marcus Bontempelli | Western Bulldogs | 27.0 | 25.3 | −1.7 ↓ | 12 |
-| **17** | **Wayne Milera** | **Adelaide** | **27.0** | **22.3** | **−4.7 ↓** | **10** |
-| 18 | Nasiah Wanganeen-Milera | St Kilda | 26.8 | 22.6 | −4.1 ↓ | 8 |
-| 19 | Isaac Heeney | Sydney | 26.7 | 21.7 | −5.0 ↓ | 10 |
-| 20 | Luke Davies-Uniacke | North Melbourne | 26.5 | 23.9 | −2.6 ↓ | 11 |
-| 21 | Ryley Sanders | Western Bulldogs | 26.5 | 22.7 | −3.8 ↓ | 11 |
-| 22 | Will Ashcroft | Brisbane Lions | 26.4 | 25.4 | −1.0 ↓ | 12 |
-| 23 | Christian Petracca | Gold Coast | 26.3 | 24.0 | −2.3 ↓ | 9 |
-| **24** | **Patrick Cripps** | **Carlton** | **26.2** | **21.8** | **−4.4 ↓** | **12** |
-| 25 | Josh Daicos | Collingwood | 26.2 | 25.7 | −0.6 ↓ | 12 |
-| 26 | Nick Blakey | Sydney | 26.1 | 22.6 | −3.5 ↓ | 12 |
+| **1** | **Nick Daicos** | **Collingwood** | **34.9** | **28.4** | **−6.5 ↓** | **12** |
+| 2 | Bailey Smith | Geelong | 32.3 | 27.2 | −5.1 ↓ | 14 |
+| **3** | **Clayton Oliver** | **Greater Western Sydney** | **31.7** | **25.6** | **−6.1 ↓** | **13** |
+| **4** | **Harry Sheezel** | **North Melbourne** | **30.5** | **26.9** | **−3.5 ↓** | **13** |
+| **5** | **Lachie Neale** | **Brisbane Lions** | **30.4** | **26.4** | **−4.0 ↓** | **14** |
+| 6 | Zak Butters | Port Adelaide | 30.2 | 26.5 | −3.7 ↓ | 13 |
+| 7 | Lachie Ash | Greater Western Sydney | 30.2 | 25.9 | −4.2 ↓ | 13 |
+| **8** | **Archie Roberts** | **Essendon** | **30.1** | **25.3** | **−4.9 ↓** | **14** |
+| 9 | Lachie Whitfield | Greater Western Sydney | 29.5 | 26.2 | −3.3 ↓ | 12 |
+| 10 | Max Holmes | Geelong | 29.4 | 26.6 | −2.8 ↓ | 14 |
+| 11 | Jack Sinclair | St Kilda | 29.0 | 26.9 | −2.1 ↓ | 14 |
+| 12 | Finn Callaghan | Greater Western Sydney | 28.5 | 26.2 | −2.3 ↓ | 13 |
+| **13** | **Zach Merrett** | **Essendon** | **28.4** | **25.6** | **−2.9 ↓** | **14** |
+| 14 | Nasiah Wanganeen-Milera | St Kilda | 27.8 | 23.5 | −4.3 ↓ | 10 |
+| 15 | Sam Walsh | Carlton | 27.8 | 26.6 | −1.2 ↓ | 13 |
+| 16 | Noah Anderson | Gold Coast | 27.3 | 24.4 | −2.9 ↓ | 12 |
+| 17 | Isaac Heeney | Sydney | 27.2 | 22.1 | −5.2 ↓ | 12 |
+| 18 | John Noble | Gold Coast | 27.0 | 24.1 | −2.9 ↓ | 13 |
+| 19 | Marcus Bontempelli | Western Bulldogs | 26.9 | 25.5 | −1.4 ↓ | 14 |
+| **20** | **Will Ashcroft** | **Brisbane Lions** | **26.9** | **25.3** | **−1.6 ↓** | **14** |
+| 21 | Josh Daicos | Collingwood | 26.5 | 25.5 | −1.1 ↓ | 13 |
+| **22** | **Wayne Milera** | **Adelaide** | **26.5** | **22.9** | **−3.6 ↓** | **12** |
+| **23** | **Will Setterfield** | **Essendon** | **26.2** | **20.0** | **−6.2 ↓** | **4** |
+| 24 | Jai Newcombe | Hawthorn | 26.2 | 23.2 | −3.1 ↓ | 13 |
+| 25 | Bailey Dale | Western Bulldogs | 26.2 | 22.9 | −3.4 ↓ | 14 |
+| **26** | **Patrick Cripps** | **Carlton** | **26.0** | **22.0** | **−4.0 ↓** | **13** |
 | 27 | Darcy Parish | Essendon | 26.0 | 21.5 | −4.5 ↓ | 11 |
-| 28 | John Noble | Gold Coast | 25.9 | 24.0 | −1.9 ↓ | 11 |
-| 29 | Bailey Dale | Western Bulldogs | 25.8 | 22.4 | −3.4 ↓ | 12 |
-| 30 | Jordan Dawson | Adelaide | 25.7 | 22.4 | −3.3 ↓ | 7 |
+| **28** | **Joel Fitzgerald** | **Melbourne** | **26.0** | **16.0** | **−10.0 ↓** | **1** |
+| 29 | Nick Blakey | Sydney | 26.0 | 22.9 | −3.1 ↓ | 14 |
+| 30 | Jordan Dawson | Adelaide | 26.0 | 23.1 | −2.9 ↓ | 9 |
 
 > **Reading this table:** "Avg error" tells you whether the model systematically misjudges a player. A large positive error (↑) means we over-predicted — the player gets fewer disposals than expected. A large negative error (↓) means we under-predicted — they consistently beat the model. Players with errors above ±6 (bolded) are worth investigating — they may have changed role, had an injury, or are operating in a way the model hasn't caught up with yet.
 
