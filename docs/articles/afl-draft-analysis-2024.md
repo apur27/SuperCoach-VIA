@@ -2,6 +2,7 @@
   Scientist: PASS @ 2026-06-16 (all [data] numbers verified against data/drafts/*.csv and data/player_data/* using canonical career_games = max(row_count, max_numeric(games_played)); corrections applied — Franklin 354 games, Neale 139 goals, Fyfe 247 games, Josh Kennedy disambiguated to the Sydney/Hawthorn midfielder at 2006 pick 40 (290 games). Elite-school % = APS+GPS_WA+GPS_SA+GPS_QLD over all picks.)
   FootyStrategy: AUTHORED @ 2026-06-16
   Gaffer: SPLICED top-10 conversion rate section (user request) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 3 (brand currency thesis) @ 2026-06-16
 -->
 # The AFL National Draft: Error, Structure, and the Shape of Talent
 
@@ -144,3 +145,59 @@ That is not a failure of the device so much as a revelation of who actually has 
 ---
 
 *Numbers verified against `data/drafts/afl_draft_schools.csv`, `data/drafts/draftguru_enrichment.csv`, and the per-player files in `data/player_data/`. Grades follow the DraftGuru A+/A/B+/B/C+/C/D system. Career games use `max(games_played)` per the repo convention.*
+
+---
+
+## Part 3 — The Draft Pick as Brand Currency
+
+Elite private schools advertise their AFL draftees the way they advertise their ATAR results: a measurable, rankable outcome the institution can put its name to. The two metrics behave almost identically as marketing instruments. Both are published — in prospectuses, on websites, in the speech-night program. Both are rankable, which lets a school position itself against its peers. Both are self-reinforcing: the outcome attracts more of the type of family that produces the outcome, so the list compounds. And both run roughly proportional to fees — the schools at the top of the draft-feeder table are, with few exceptions, the same schools at the top of the fee table.
+
+But the analogy breaks at the point that matters: attribution. A school can plausibly claim some share of an ATAR. Its teaching, its culture, its exam preparation might genuinely have moved the number — the score is at least partly *made* on site. An AFL draft pick is harder to claim. The physical talent existed before the player enrolled. What the school added was structured training, quality facilities, a strong inter-school competition, and proximity to AFL recruiters who were already watching that competition. Those are real goods. But they curate and expose talent; they do not create it. The school's name on the draft pick is a claim of authorship over something it mostly hosted.
+
+### The recursive loop — talent moves toward the institution
+
+The feeder table makes the mechanism visible. National-draft picks, 2004–2025:
+
+| School | Picks |
+|---|--:|
+| Haileybury College (APS) | 35 **[data]** |
+| St Patrick's College | 29 **[data]** |
+| Caulfield Grammar (APS) | 26 **[data]** |
+| Melbourne Grammar (APS) | 24 **[data]** |
+| Scotch College (APS) | 24 **[data]** |
+| Xavier College (APS) | 20 **[data]** |
+| Brighton Grammar (APS) | 19 **[data]** |
+
+A school with a draft history attracts talented footballers — through scholarships, boarding programs, and reputation — and the inflow refreshes the history, which sharpens the attraction. The "Original Club" pathway chains in the data show the direction of travel: players moving significant distances to attend a GPS or APS school, talent migrating *toward* the institution rather than the institution developing the talent it already had. The school then books the marketing credit for a destination it competed to become. That is a legitimate thing to compete for. It is just not the same as having grown the player.
+
+### The conversion problem — the number that isn't in the prospectus
+
+If the school environment genuinely *developed* a player beyond what an alternative pathway offered, that development should show up where the players are most comparable: at the very top of the draft, where clubs spend first-round capital on the most thoroughly scouted prospects in the pool.
+
+| Top-10 picks | Great (A+/A) | Rate |
+|---|--:|--:|
+| Elite school (APS + GPS) | 18 of 62 | 29.0% **[data]** |
+| Non-elite school | 44 of 158 | 27.8% **[data]** |
+
+There is no gap. The school helped get the player drafted higher; it did not make him more likely to succeed once he got there. That sits against a real overall difference in talent concentration —
+
+| Pathway | A+/A rate |
+|---|--:|
+| GPS WA | 17% **[data]** |
+| APS | 16% **[data]** |
+| No school / unknown | 8% **[data]** |
+
+— where the 16% **[data]** versus 8% **[data]** spread is genuine and reflects that the pathway systems co-located with elite schools are better at *identifying* talent than the raw population is. But the two findings have to be read together. The population-level gap (16% vs 8%) is an identification story; the top-ten finding (29% vs 28%) is the development story, and there the premium vanishes. Once a player is good enough that clubs are spending a top-ten pick on him, the school has already done whatever it was going to do. Its marginal contribution to the outcome, at that point, rounds to zero.
+
+### The academy correction — what the trend reveals
+
+| Era | Elite-school share of all National picks |
+|---|--:|
+| 2004–09 | 15.7% **[data]** |
+| 2010–14 | 22.5% **[data]** |
+| 2015–19 | 27.7% **[data]** ← peak |
+| 2020–25 | 20.5% **[data]** |
+
+The peak at 27.7% **[data]** lands in 2015–19 — the window just before the AFL's expanded Next Generation Academy system, formalised from 2017, had fully propagated through the draft. The pullback to 20.5% **[data]** in 2020–25 is consistent with what genuinely widening access looks like in the data: a parallel elite pathway that reproduces the structured development environment without the school crest. As that academy infrastructure matures, the private school's structural advantage as a talent *pipeline* should keep narrowing — and the brand claim, "we produced X AFL players," becomes progressively harder to defend as the same calibre of player is drafted from other postcodes.
+
+The schools won't stop counting draft picks any more than they'll stop counting ATARs, and they're entitled not to. Both are fair indicators of the environment an institution can attract and retain. But the data says something the prospectus does not: at the top-ten level, where the claim is loudest, the school credential carries no conversion premium. The player drafted out of an APS school and the player drafted out of a country football club arrive with the same odds of becoming elite. The school got to put the pick on its website. The football club got to watch him leave.
