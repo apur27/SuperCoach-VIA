@@ -1,6 +1,7 @@
 # Memory Index
 
 - [Match-round audit (R10 2026 bug guard)](match_round_audit.md) - audit_match_rounds() in game_scraper.py; fixture-aware (fetch_round_fixture from afltables season page), exact, names missing matchups, no threshold
+- [Reconciliation source: afltables player page](reconciliation_source_afltables_player.md) - all-season Totals row maps 1:1 to our CSV cols; second source of truth for missing PLAYER stat rows (Pendlebury bug); career-level not per-game
 - [Backtest doc verification](backtest_doc_verification.md) - afl-backtest-2026.md has 3 sections that drift to different round windows; canonical sources + 4486/4806 (NaN-actual) reconciliation
 - [All-time ranking formula constraints](all_time_formula.md) - Rank-based formula trade-offs; data supports Matthews #1 over Carey, expert lists don't
 - [No position column in player data](data_no_position.md) - Player CSVs lack a `position` field; per-position analysis requires a new data source
