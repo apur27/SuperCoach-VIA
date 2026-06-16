@@ -21,11 +21,16 @@ import glob
 import logging
 import os
 import sys
+import time
 from datetime import datetime
 
 import pandas as pd
 
-from scrapers.game_scraper import MatchScraper, audit_match_rounds
+from scrapers.game_scraper import (
+    MatchScraper,
+    audit_match_rounds,
+    audit_player_career_totals,
+)
 from scrapers.player_scraper import PlayerScraper, get_soup
 
 import config
@@ -148,6 +153,7 @@ def refresh_players() -> None:
     grew = 0
     new = 0
     after_rows = 0
+    grown_paths: list[str] = []
     for pid in active_ids:
         path = os.path.join(DATA_DIR, f"{pid}_performance_details.csv")
         if os.path.exists(path):
@@ -157,6 +163,7 @@ def refresh_players() -> None:
                 if pid in before_rows:
                     if cur > before_rows[pid]:
                         grew += 1
+                        grown_paths.append(path)
                 else:
                     new += 1
             except Exception:
@@ -167,6 +174,40 @@ def refresh_players() -> None:
         new,
         after_rows,
     )
+
+    # Self-check: reconcile each updated player's career totals against the
+    # afltables profile page, so a silently dropped/double-counted career stat
+    # is surfaced this run. Only the files that actually grew are audited (not
+    # all ~13k), honouring the 0.5s inter-request delay. Warnings only -- never
+    # aborts the refresh, same contract as audit_match_rounds().
+    if grown_paths:
+        logging.info("Auditing career totals for %d updated player file(s)", len(grown_paths))
+        total_player_warnings = 0
+        for path in grown_paths:
+            try:
+                issues = audit_player_career_totals(path)
+            except Exception as e:
+                logging.error("player audit error for %s: %s", path, e)
+                continue
+            for issue in issues:
+                if issue["severity"] == "WARNING":
+                    total_player_warnings += 1
+                    logging.warning(
+                        "Player audit: %s %s csv=%g vs afltables=%g (delta %g)",
+                        issue["player"],
+                        issue["stat"],
+                        issue["csv_val"],
+                        issue["source_val"],
+                        issue["delta"],
+                    )
+            time.sleep(0.5)
+        if total_player_warnings:
+            logging.warning(
+                "Player audit found %d career-total reconciliation WARNING(s)",
+                total_player_warnings,
+            )
+        else:
+            logging.info("Player audit clean across %d updated file(s)", len(grown_paths))
 
 
 def refresh_matches() -> None:

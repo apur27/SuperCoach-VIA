@@ -219,6 +219,205 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
     return issues
 
 
+# afltables player profile pages. Each player has a profile at
+#   https://afltables.com/afl/stats/players/{initial}/{First}_{Last}.html
+# where {initial} is the FIRST letter of the player's FIRST name (empirically:
+# Scott Pendlebury lives at .../players/S/Scott_Pendlebury.html, and the
+# last-name variant .../players/P/... 404s). The profile carries a stats table
+# whose final "Totals" row holds career aggregates (GM games, DI disposals,
+# GL goals, TK tackles, CL clearances, etc.) -- the ground truth we reconcile
+# the locally-scraped per-game CSV against.
+PLAYER_PROFILE_BASE_URL = "https://afltables.com/afl/stats/players/"
+
+# Per-process cache of (initial, First_Last) -> Totals row (pd.Series) or None,
+# mirroring _SEASON_SOUP_CACHE so re-auditing the same player in one run does
+# not refetch. Value is None when the page 404s or has no parseable Totals row.
+_PLAYER_TOTALS_CACHE: Dict[str, Optional["pd.Series"]] = {}
+
+# Earliest season each stat is recorded league-wide on afltables. A stat is only
+# reconciled when the player's career started on/after its era floor, because a
+# pre-era career legitimately has zeros/NaNs in our CSV that the afltables Totals
+# row also omits -- comparing them would manufacture phantom deltas.
+# (Tackles from 1987; clearances from 1998 -- see Scientist memory
+# data_stat_coverage_eras.md.)
+_STAT_ERA_FLOOR = {
+    "tackles": 1987,
+    "clearances": 1998,
+}
+
+
+def _player_url_from_csv_path(player_csv_path: str) -> Optional[str]:
+    """
+    Derive the afltables profile URL from a performance-details CSV filename.
+
+    Filenames are `<lastname>_<firstname>_<DDMMYYYY>_performance_details.csv`,
+    so `pendlebury_scott_07011988_performance_details.csv` -> first=Scott,
+    last=Pendlebury, initial=S (first letter of the FIRST name), giving
+    `https://afltables.com/afl/stats/players/S/Scott_Pendlebury.html`.
+
+    Returns None if the filename does not match the expected pattern.
+    """
+    stem = os.path.basename(player_csv_path).replace("_performance_details.csv", "")
+    parts = stem.split("_")
+    if len(parts) < 2:
+        return None
+    last, first = parts[0], parts[1]
+    if not first or not last:
+        return None
+    first_cap = first.capitalize()
+    last_cap = last.capitalize()
+    initial = first_cap[0].upper()
+    return f"{PLAYER_PROFILE_BASE_URL}{initial}/{first_cap}_{last_cap}.html"
+
+
+def _get_player_totals(player_url: str) -> Optional["pd.Series"]:
+    """
+    Fetch the afltables profile at `player_url` and return its career "Totals"
+    row as a pandas Series (indexed by afltables column codes: GM, DI, GL, ...),
+    cached per process. Returns None if the page 404s, can't be fetched, or has
+    no table with a parseable Totals row.
+
+    afltables 404s pandas' default urllib User-Agent, so we fetch with requests
+    (same client the rest of this module uses) and hand the HTML to read_html.
+    The first stats table on the page is the season-by-season block whose last
+    row is "Totals"; we take the first table that contains such a row.
+    """
+    if player_url in _PLAYER_TOTALS_CACHE:
+        return _PLAYER_TOTALS_CACHE[player_url]
+
+    totals: Optional["pd.Series"] = None
+    try:
+        resp = requests.get(player_url, timeout=30)
+        if resp.status_code == 404:
+            print(f"[player-audit][info] {player_url} not found (404); skipping")
+            _PLAYER_TOTALS_CACHE[player_url] = None
+            return None
+        resp.raise_for_status()
+        import io
+        tables = pd.read_html(io.StringIO(resp.text), flavor="lxml")
+        for t in tables:
+            if t.shape[1] == 0:
+                continue
+            first_col = t.iloc[:, 0].astype(str)
+            mask = first_col.str.contains("Total", case=False, na=False)
+            if mask.any():
+                totals = t[mask].iloc[0]
+                break
+    except Exception as e:
+        print(f"[player-audit][info] could not parse {player_url}: {e}; skipping")
+        totals = None
+
+    _PLAYER_TOTALS_CACHE[player_url] = totals
+    return totals
+
+
+def audit_player_career_totals(player_csv_path: str) -> List[Dict[str, Any]]:
+    """
+    Reconcile a player's locally-scraped career totals against the afltables
+    profile page, stat by stat. Catches the class of bug where a per-game CSV
+    silently dropped or double-counted games/disposals/goals over a career.
+
+    For each reconcilable stat it compares the afltables career "Totals" value
+    (ground truth) to the aggregate of our CSV: max(games_played) for games,
+    column sum for counting stats. A stat is flagged WARNING when the absolute
+    delta is > 0.
+
+    Era-aware: tackles are only recorded league-wide from 1987 and clearances
+    from 1998, so those stats are reconciled only when the player's career
+    started on/after the relevant floor (career start = min(year) in the CSV).
+    Games, disposals and goals are reconciled for every era.
+
+    Returns a list of issue dicts (empty when clean or unverifiable). Each dict:
+      {severity, player, stat, csv_val, source_val, delta}
+      - severity: always "WARNING" (an issue is only emitted on a non-zero delta)
+      - player:   the CSV filename stem
+      - stat:     our CSV column name (games_played, disposals, ...)
+      - csv_val / source_val / delta: numeric
+
+    Never raises on a missing page or parse failure -- it logs INFO and returns
+    an empty list, mirroring audit_match_rounds()'s warnings-only contract.
+    """
+    issues: List[Dict[str, Any]] = []
+    player = os.path.basename(player_csv_path).replace("_performance_details.csv", "")
+
+    try:
+        df = pd.read_csv(player_csv_path)
+    except Exception as e:
+        print(f"[player-audit] could not read {player_csv_path}: {e}")
+        return issues
+
+    if "year" not in df.columns or df["year"].isna().all():
+        print(f"[player-audit] {player}: no usable year column; skipping")
+        return issues
+    career_start = int(pd.to_numeric(df["year"], errors="coerce").min())
+    if career_start < 1897:
+        print(f"[player-audit] {player}: implausible career start {career_start}; skipping")
+        return issues
+
+    player_url = _player_url_from_csv_path(player_csv_path)
+    if player_url is None:
+        print(f"[player-audit] {player}: cannot derive profile URL; skipping")
+        return issues
+
+    totals = _get_player_totals(player_url)
+    if totals is None:
+        return issues
+
+    # (afltables Totals column, our CSV column, aggregator). Games uses max of
+    # the cumulative games_played counter (object dtype); counting stats sum.
+    checks = [
+        ("GM", "games_played", "max"),
+        ("DI", "disposals", "sum"),
+        ("GL", "goals", "sum"),
+        ("TK", "tackles", "sum"),
+        ("CL", "clearances", "sum"),
+    ]
+
+    for src_col, csv_col, how in checks:
+        # Era gate: skip stats whose recording era postdates this career start.
+        floor = _STAT_ERA_FLOOR.get(csv_col)
+        if floor is not None and career_start < floor:
+            continue
+        if src_col not in totals.index or csv_col not in df.columns:
+            continue
+
+        source_val = pd.to_numeric(totals[src_col], errors="coerce")
+        if pd.isna(source_val):
+            continue
+
+        col = pd.to_numeric(df[csv_col], errors="coerce")
+        if how == "max":
+            csv_val = col.max()
+        else:
+            # Blank counting stats are real zeros in a played game, not missing
+            # data (Scientist memory blank_counting_stat_means.md), so sum over
+            # fill-zero rather than dropna-then-sum.
+            csv_val = col.fillna(0).sum()
+        if pd.isna(csv_val):
+            continue
+
+        csv_val = float(csv_val)
+        source_val = float(source_val)
+        delta = abs(csv_val - source_val)
+        if delta > 0:
+            issues.append({
+                "severity": "WARNING",
+                "player": player,
+                "stat": csv_col,
+                "csv_val": csv_val,
+                "source_val": source_val,
+                "delta": delta,
+            })
+            print(
+                f"[player-audit][WARNING] {player}: {csv_col} csv={csv_val:g} "
+                f"vs afltables={source_val:g} (delta {delta:g})"
+            )
+
+    if not issues:
+        print(f"[player-audit][info] {player}: career totals reconcile (clean)")
+    return issues
+
+
 class MatchScraper:
     def __init__(self):
         """
@@ -728,6 +927,25 @@ if __name__ == "__main__":
             print(f"[match-audit] DONE: {total_warnings} probable-gap WARNING(s) across {len(targets)} file(s)")
         else:
             print(f"[match-audit] DONE: no probable gaps across {len(targets)} file(s)")
+        sys.exit(0)
+
+    # Standalone player-totals audit: `python game_scraper.py --audit-players [glob]`
+    # Reconciles each player CSV's career totals against its afltables profile
+    # without scraping. Honours the existing 0.5s inter-request delay.
+    if len(sys.argv) > 1 and sys.argv[1] == "--audit-players":
+        import glob
+        import time
+        pattern = sys.argv[2] if len(sys.argv) > 2 else "data/player_data/*performance*.csv"
+        targets = sorted(glob.glob(pattern))
+        total_warnings = 0
+        for path in targets:
+            issues = audit_player_career_totals(path)
+            total_warnings += sum(1 for i in issues if i["severity"] == "WARNING")
+            time.sleep(0.5)
+        if total_warnings:
+            print(f"[player-audit] DONE: {total_warnings} reconciliation WARNING(s) across {len(targets)} file(s)")
+        else:
+            print(f"[player-audit] DONE: no reconciliation issues across {len(targets)} file(s)")
         sys.exit(0)
 
     scraper = MatchScraper()
