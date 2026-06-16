@@ -1,0 +1,2852 @@
+year,round,pick,club,player_name,recruited_from
+1990,1,1,Geelong,Stephen Hooper,East Perth ( WAFL )
+1990,1,2,Carlton,James Cook,Clarence ( TFL )
+1990,1,3,Fitzroy,David Donato,Clarence (TFL)
+1990,1,4,Collingwood,Jason McCartney,Nhill ( WFL )
+1990,1,5,Geelong,Stewart Devlin,Horsham (WFL)
+1990,1,6,Melbourne,Allen Jakovich,Woodville ( SANFL )
+1990,1,7,Carlton,Damian Hampson,Subiaco (WAFL)
+1990,1,8,Footscray,Paul Gow,Swan Districts (WAFL)
+1990,1,9,West Coast,Matt Clape,East Perth (WAFL)
+1990,1,10,Brisbane,David Ogg,Swan Districts (WAFL)
+1990,1,11,Nth Melbourne,Danny Sexton,Lemnos ( GVFL )
+1990,1,12,West Coast,Shane Porter,North Launceston (TFL)
+1990,1,13,Essendon,Todd Ridley,Claremont (WAFL)
+1990,1,14,Collingwood,Andrew Hamer,Lakes Entrance ( EGFL )
+1990,1,15,Brisbane,Andrew Harrison,Benalla (VCFL)
+1990,1,16,Richmond,Todd Menegola,Swan Districts (WAFL)
+1990,1,17,Geelong,Brendan Hehir,Darley (VCFL)
+1990,1,18,Nth Melbourne,Dan Miller,Morwell (VCFL)
+1990,1,19,Melbourne,Gary Merritt,Tatura (VCFL)
+1990,1,20,West Coast,Robbie West,Wodonga (VCFL)
+1990,1,21,Essendon,Richard Ambrose,Shepparton (VCFL)
+1990,1,22,Collingwood,Paul Sharkey,Cath C. Bendigo (VCFL)
+1990,1,23,Brisbane,Ben Thomas,Port Fairy (VCFL)
+1990,1,24,Essendon,John Fidge,Glenelg (SANFL)
+1990,1,25,Brisbane,Peter Worsfold,South Fremantle (WAFL)
+1990,1,26,Sydney,Dale Hall,Hobart (TFL)
+1990,1,27,Fitzroy,Brad Davis,Burnie Hawks (TFL)
+1990,1,28,Richmond,Chris Smith,Assumption Coll. (APS)
+1990,1,29,Geelong,Byron Donnellan,Donald (VCFL)
+1990,1,30,Hawthorn,Matthew Young,St Pats Launceston (Tas)
+1990,1,31,Brisbane,Nick Faull,Golden Point ( BFL )
+1990,1,32,Footscray,Matthew Moylan,Shepparton (VCFL)
+1990,1,33,Nth Melbourne,Matthew Kelly,Wedderburn (VCFL)
+1990,1,34,Hawthorn,Brad Read,East Fremantle (WAFL)
+1990,1,35,Nth Melbourne,Stuart Anderson,Sale (VCFL)
+1990,1,36,West Coast,Matthew Burton,Subiaco (WAFL)
+1990,1,37,Essendon,Glen Hoffman,Jeparit (VCFL)
+1990,1,38,Collingwood,Grant McFarlane,Wodonga (VCFL)
+1990,1,39,Brisbane,Nigel Palfreyman,Sandy Bay (TFL)
+1990,1,40,Sydney,Mark Collins,South Fremantle (WAFL)
+1990,1,41,Fitzroy,Mark Jenkinson,Willaura (VCFL)
+1990,1,42,Richmond,Mark McQueen,North Hobart (TFL)
+1990,1,43,Geelong,Glen Thomlinson,Rochester (VCFL)
+1990,1,44,Hawthorn,Scott Crow,Port Fairy (VCFL)
+1990,1,45,Nth Melbourne,Craig Jennings,Traralgon (VCFL)
+1990,1,46,Footscray,Brian McInnes,Wick.-L. Bolac (VCFL)
+1990,1,47,Brisbane,Luke Chambers,Lucknow (VCFL)
+1990,1,48,Hawthorn,Willie Rioli,South Fremantle (WAFL)
+1990,1,49,Richmond,Nick Daffy,North Gambier (SA)
+1990,1,50,Nth Melbourne,Craig Ellis,Stawell (VCFL)
+1990,1,51,Essendon,Jarrod Carter,North Hobart (TFL)
+1990,1,52,Collingwood,Brendon Retzlaff,Swan Districts (WAFL)
+1990,1,53,Nth Melbourne,Stephen Pears,Perth (WAFL)
+1990,1,54,Sydney,Brian Stanislaus,St Mary's ( NTFL )
+1990,1,55,Fitzroy,Steven Byers,New Norfolk (TFL)
+1990,1,56,Richmond,Matthew Clarke,West Gambier (SA)
+1990,1,57,Geelong,Chris Barzen,Mooroopna (VCFL)
+1990,1,58,Sydney,Adrian Goldup,Redcliffs (VCFL)
+1990,1,59,Carlton,Cameron James,Morwell (VCFL)
+1990,1,60,Footscray,Rodney Harvey,Trinity-Ararat (VCFL)
+1990,1,61,North Melbourne,Michael Scoon,Monbulk (VCFL)
+1990,1,62,Hawthorn,Ben Herrald,Assumption Coll. (APS)
+1990,1,63,Melbourne,Fabian Francis,Southern Districts (NTFL)
+1990,1,64,West Coast,Derek Hall,West Perth (WAFL)
+1990,1,65,Essendon,Stephen Fry,Clarence (TFL)
+1990,1,66,Collingwood,Bowden Hamilton,Colbinabbin (VCFL)
+1990,1,67,Sydney,David Griffin,South Bendigo (VCFL)
+1990,1,68,Brisbane,Peter Whyte,South Barwon (VCFL)
+1990,1,69,West Coast,Gavin Cooney,Clarence (TFL)
+1990,1,70,Richmond,Stuart Johnstone,Melbourne
+1990,1,71,Geelong,Dennis Ryan,Kyabram (VCFL)
+1990,1,72,St Kilda,Brian Wilson,Melbourne
+1990,1,73,Carlton,Anthony McDonald,Ballarat YCW (VCFL)
+1990,1,74,Footscray,Paul Campbell,Cobram (VCFL)
+1990,1,75,Melbourne,Robert Panozza,Wodonga Raiders (VCFL)
+1990,1,76,Hawthorn,Robert Bowden,Robinvale (VCFL)
+1990,1,77,Melbourne,Niall Buckley,County Kildare (Ireland)
+1990,1,78,Fitzroy,Dean Harding,Wangaratta Rovers (VCFL)
+1990,1,79,Essendon,James Hird,Ainslie (ACT)
+1990,1,80,Collingwood,Scott O'Donohue,Bungaree (VCFL)
+1990,1,81,Hawthorn,Luan Morley,North Ballarat (VCFL)
+1990,1,82,Sydney,Leigh Campbell,Campbelltown (NSW)
+1990,1,83,West Coast,Mark Williams,Sandhurst ( BFL )
+1990,1,84,Richmond,John Peter-Budge,St Kilda
+1990,1,85,Geelong,Brad Dowling,Mooroopna (VCFL)
+1990,1,86,St Kilda,Sam Jones,Sandy Bay (TFL)
+1990,1,87,Carlton,Danny Morgan,Boolarra (VCFL)
+1990,1,88,Footscray,Peter Jacks,Ballarat YCW (VCFL)
+1990,1,89,Nth Melbourne,Simon Wood,St Arnaud (VCFL)
+1990,1,90,Hawthorn,Adam Ahern,Devonport (TFL)
+1990,1,91,St Kilda,Adam Rudd,Numurkah (VCFL)
+1990,1,92,St Kilda,Jamie Shanahan,Hobart (TFL)
+1990,1,93,Essendon,Adam Houlihan,Kyabram (VCFL)
+1990,1,94,Collingwood,Chris Ryan,Morwell StVincents (VCFL)
+1991,1,1,Brisbane,John Hutton,Claremont
+1991,1,2,Fitzroy,Marcus Seecamp,East Perth
+1991,1,3,Melbourne,Darren Kowal,Claremont
+1991,1,4,Sydney,Andrew McGovern,Claremont
+1991,1,5,Melbourne,Jason Norrish,Claremont
+1991,1,6,Sydney,Paul Burton,Claremont
+1991,1,7,Fitzroy,Jeremy Guard,Claremont
+1991,1,8,Essendon,Michael Symons,Subiaco
+1991,1,9,Geelong,Stephen O'Reilly,Swan Districts
+1991,1,10,Melbourne,Andrew Lamprill,Hobart
+1991,1,11,Geelong,Leigh Willison,East Perth
+1991,1,12,St Kilda,Rob Malone,Claremont
+1991,1,13,Hawthorn,Shane Crawford,Finley (VCFL)
+1991,1,14,Brisbane,Fabian Francis,Southern District (NT)
+1991,1,15,Hawthorn,Kieran O'Dwyer,Barooga (NSW)
+1991,1,16,West Coast,Daniel Metropolis,Subiaco
+1991,1,17,Sydney,Anthony Cole,North Hobart
+1991,1,18,Carlton,Matthew Hogg,Footscray
+1991,1,19,Melbourne,Phil Gilbert,Claremont
+1991,1,20,Fitzroy,Brett Cook,Broken Hill (NSW)
+1991,1,21,Essendon,Willie Dick,Perth
+1991,1,22,Hawthorn,Simon Crawshay,Hawthorn
+1991,1,23,Melbourne,Mathew McKay,Hawthorn
+1991,1,24,West Coast,Kane Morphett,East Fremantle
+1991,1,25,West Coast,Steven Davies,Subiaco
+1991,1,26,Hawthorn,Ben Herrald,Hawthorn
+1991,1,27,Brisbane,Terry Board,Fitzroy
+1991,1,28,Carlton,Cale O'Keefe,South Launceston
+1991,1,29,West Coast,Matthew Connell,Subiaco
+1991,1,30,Collingwood,Kane Purcell,North Shore (T)
+1991,1,31,Melbourne,Haydon Kilmartin,North Hobart
+1991,1,32,Melbourne,Micah Berry,Melb. Gr. (APS)
+1991,1,33,Fitzroy,Paul Morrish,Essendon
+1991,1,34,Nth Melbourne,Tim Leng,Nth Melbourne
+1991,1,35,Geelong,Darryl Donald,Wangaratta (VCFL)
+1991,1,36,Melbourne,Jason Dullard,Essendon
+1991,1,37,Essendon,Ryan O'Connor,Ulverstone
+1991,1,38,Footscray,Jamie Rundle,Dandenong (VFA)
+1991,1,39,Hawthorn,Richard Taylor,Hawthorn
+1991,1,40,Melbourne,Nick White,Richmond
+1991,1,41,Collingwood,Todd Curley,West Perth
+1991,1,42,West Coast,Peter Freeman,St Kilda
+1991,1,43,Sydney,David Strooper,Fitzroy
+1991,1,44,Carlton,Brett Sholl,Nth Melbourne
+1991,1,45,Footscray,Gary Barrow,Essendon
+1991,1,46,Collingwood,Bruno Italiano,South Fremantle
+1991,1,47,Essendon,Glenn Manton,Essendon
+1991,1,48,Essendon,Kevin Mitchell,Claremont
+1991,1,49,Richmond,Todd Hawes,Swan Districts
+1991,1,50,Nth Melbourne,Bruce Hando,St Arnaud (VCFL)
+1991,1,51,Richmond,Shaun Brooker,Sydney
+1991,1,52,Hawthorn,Mathew Henderson,Morwell (VCFL)
+1991,1,53,St Kilda,Alistair Gray,Carey Grammar (APS)
+1991,1,54,Carlton,Leigh Snooks,Derinallum (VCFL))
+1991,1,55,Richmond,Glenn Hoffman,Essendon
+1991,1,56,Sydney,Andrew Dunkley,North Launceston
+1991,1,57,Carlton,Anthony McDonald,Carlton
+1991,1,58,Footscray,Justin Pickering,Richmond
+1991,1,59,Collingwood,Greg Turner,South Fremantle
+1991,1,60,Essendon,James Billington,Subiaco
+1991,1,61,St Kilda,Michael Addison,Carey Gr. (APS)
+1991,1,62,Geelong,Peter Maclean,Seymour (VCFL)
+1991,1,63,Essendon,Brendan Bower,Richmond
+1991,1,64,Fitzroy,Chris Barrett,Geelong
+1991,1,65,Brisbane,Heath Shephard,Burnie Hawks (T)
+1991,1,66,Richmond,Nick Roney,North Launceston
+1991,1,67,Footscray,Shane Ellen,Footscray (VCFL)
+1991,1,68,Sydney,Mathew Bell,Sydney
+1991,1,69,North Melbourne,Brad Sholl,North Melbourne
+1991,1,70,Collingwood,Jon Lister,Sandy Bay (T)
+1991,1,71,Brisbane,Luke Chambers,Brisbane
+1991,1,72,St Kilda,Michael Shields,St Kilda
+1991,1,73,Geelong,Cameron Burke,Warragul (VCFL)
+1991,1,74,West Coast,Brendan Krummel,East Fremantle
+1991,1,75,Hawthorn,Travis Edmonds,Swan Districts
+1991,1,76,Brisbane,Matt Rendell,Fitzroy
+1991,1,77,Richmond,Jay Burton,Subiaco
+1991,1,78,Carlton,Mathew Dickson,Sandhurst (VCFL)
+1991,1,79,Carlton,Bevan Smillie,Essendon
+1991,1,80,Footscray,Damian Ryan,Coburg (VFA)
+1991,1,81,Collingwood,Brendan Barrows,Claremont
+1991,1,82,St Kilda,Scott Morrison,Nth Melbourne
+1991,1,83,Geelong,Peter Jacks,Ballarat YCW (VCFL)
+1991,1,84,Hawthorn,Alistair Burke,Hawthorn
+1991,1,85,Richmond,John Kennedy,Hawthorn
+1991,1,86,Footscray,Jamie Madigan,Footscray
+1991,1,87,St Kilda,Sam Jones,Sandy Bay
+1991,1,88,Hawthorn,Aiden Bussell,Whorouly (VCFL)
+1991,1,89,Richmond,Paul Dimattina,Richmond
+1993,1,1,Sydney,Darren Gaspar,South Fremantle
+1993,1,2,Brisbane Bears,Nigel Lappin,Chiltern
+1993,1,3,Richmond,Justin Murphy,Centrals Dragons
+1993,1,4,Sydney,Glenn Gorman,Geelong Falcons
+1993,1,5,Sydney,Adam Heuskes,Norwood
+1993,1,6,Fitzroy,Trent Cummings,Central District (SANFL)
+1993,1,7,Fitzroy,Chris Johnson,Northern Knights
+1993,1,8,St Kilda,Michael Frost,Footscray
+1993,1,9,Fitzroy,Rowan Warfe,Bendigo U18
+1993,1,10,Melbourne,Trent Ormond-Allen,Port Adelaide Magpies
+1993,1,11,Footscray,Brad Johnson,Western U18s
+1993,1,12,Brisbane Bears,Chris Scott,Eastern Ranges
+1993,1,13,Geelong,David Ugrinic,Woodville West-Torrens Eagles
+1993,1,14,North Melbourne,Adam Simpson,Northern Knights
+1993,1,15,Hawthorn,Luke McCabe,Central District (SANFL)
+1993,1,16,West Coast,Fraser Gehrig,Murray Bushrangers
+1993,1,17,Hawthorn,Angelo Lekkas,Northern Knights
+1993,1,18,Carlton,Simon Beaumont,Centrals Dragons
+1993,1,19,Essendon,Robert Stevenson,Western U18
+1993,1,20,Sydney,Wade Chapman,Geelong Falcons
+1993,1,21,Brisbane Bears,Shane Hodges,North Adelaide
+1993,1,22,Sydney,Dion Myles,Baulkham Hills
+1993,1,23,Hawthorn,Shannon Gibson,Northern Knights
+1993,1,24,Brisbane Bears,Cameron Bennett,North Adelaide
+1993,1,25,St Kilda,Clinton Shaw,Southern U18
+1993,1,26,Richmond,Stephen Jurica,South Fremantle
+1993,1,27,Melbourne,Brad Hall,Assumption
+1993,1,28,Sydney,Daryl Griffin,Western (U18)
+1993,1,29,Essendon,Scott Mollard,Centrals Dragons
+1993,1,30,Geelong,Paul Lewis,Murray Bushrangers
+1993,1,31,North Melbourne,Mark Stevens,Gippsland Power
+1993,1,32,Hawthorn,Paul Barnard,East Perth
+1993,1,33,West Coast,Ben Robbins,Gippsland Power
+1993,1,34,Collingwood,Stephen Patterson,Norwood
+1993,1,35,Collingwood,Aaron James,Western (U18)
+1993,1,36,Essendon,Julian Kirzner,Centrals Dragons
+1993,1,37,Sydney,Ashley Thompson,Nyah-Nyah West Utd
+1993,1,38,Geelong,David Innella,Western U18
+1993,1,39,Collingwood,Jason Wild,Collingulie
+1993,1,40,St Kilda,Matthew Lappin,Chiltern
+1993,1,41,Fitzroy,Kieran Sporn,Essendon
+1993,1,42,Melbourne,Michael Prentice,Southern (U18)
+1993,1,43,West Coast,Jason Heatley,Subiaco
+1993,1,44,Adelaide,Eugene Warrior,Port Adelaide
+1993,1,45,Brisbane Bears,Trent Bartlett,Deloraine (Tas)
+1993,1,46,North Melbourne,David King,Port Melbourne
+1993,1,47,Hawthorn,Chris Palmer,West Adelaide
+1993,1,48,Carlton,Matt Hopkins,West Adelaide
+1993,1,49,Sydney,Simon Garlick,Centrals Dragons
+1993,1,50,Richmond,Mark Merenda,West Perth
+1993,1,51,St Kilda,Kristian Pascoe,Northern (U18)
+1993,1,52,Fitzroy,Matthew Dent,Sturt Football Club
+1993,1,53,Collingwood,Justin Mallon,Northern Knights
+1993,1,54,Footscray,Sedat Sir,Centrals Dragons
+1993,1,55,Geelong,Grant Tanner,Norwood
+1993,1,56,Hawthorn,Rayden Tallis,Eastern Ranges
+1993,1,57,Sydney,Mark Hepburn,West Coast
+1993,1,58,Fitzroy,Jeff Bruce,Corowa-Rutherglen
+1993,1,59,Geelong,Craig Biddiscombe,Gippsland Power
+1993,1,60,North Melbourne,Troy Polak,Perth
+1993,1,61,Sydney,Shayne Smith,Southern (U18)
+1993,1,62,Fitzroy,Graeme Wood,Mildura
+1993,1,63,North Melbourne,Gareth John,Sydney
+1993,1,64,Brisbane Bears,Shane Hamilton,Brisbane
+1993,1,65,Fitzroy,Paul Mullarvey,Box Hill
+1993,1,66,Collingwood,Andrew Schauble,Xavier(APS)
+1994,1,1,Fremantle,Jeff White,Southern U18
+1994,1,2,Sydney,Anthony Rocca,Northern U18
+1994,1,3,Sydney,Shannon Grant,Western U18
+1994,1,4,Essendon,Scott Lucas,Geelong U18
+1994,1,5,St Kilda,Joel Smith,Murray 18
+1994,1,6,Fitzroy,Robert McMahon,Gippsland U18
+1994,1,7,St Kilda,Tony Brown,Geelong U18
+1994,1,8,Hawthorn,Daniel Harford,Northern U18
+1994,1,9,Collingwood,Ben Wilson,Norwood
+1994,1,10,Essendon,Blake Caracella,Northern U18
+1994,1,11,Richmond,Damien Ryan,Eastern U18
+1994,1,12,West Coast,Shane Sikora,Murray U18
+1994,1,13,St Kilda,Chris Hemley,Geelong U18
+1994,1,14,Footscray,Michael Martin,Hobart
+1994,1,15,Carlton,Scott Camporeale,WWT Eagles
+1994,1,16,Melbourne,Adem Yze,Murray U18
+1994,1,17,Geelong,Carl Steinfort,Centrals Dragons
+1994,1,18,Geelong,Robert Di Rosa,Western U18
+1994,1,19,Fitzroy,Ben Holland,North Adelaide
+1994,1,20,Sydney,Stuart Mangin,Northern U18
+1994,1,21,Sydney,Matthew Nicks,West Adelaide
+1994,1,22,Fremantle,Winston Abraham,Perth
+1994,1,23,Fitzroy,John Rombotis,Centrals Dragons
+1994,1,24,Fitzroy,Matthew Manfield,WWT Eagles
+1994,1,25,St Kilda,Steven Sziller,WWT Eagles
+1994,1,26,St Kilda,Tim Elliott,Gippsland U18
+1994,1,27,Adelaide,Toby Kennett,Sturt
+1994,1,28,Essendon,Shawn Lewfatt,Western U18
+1994,1,29,Richmond,Jason Torney,South Adelaide
+1994,1,30,Collingwood,Chad Liddell,Southern U18
+1994,1,31,Adelaide,Allen Nash,Western U18
+1994,1,32,Footscray,Simon Cox,Glenelg
+1994,1,33,Carlton,Mark Cullen,Eastern U18
+1994,1,34,Melbourne,Michael Polley,Northern U18
+1994,1,35,Fitzroy,Marty Warry,Centrals Dragons
+1994,1,36,Geelong,Matthew Robbins,Centrals Dragons
+1994,1,37,West Coast,Ashley Blurton,West Perth
+1994,1,38,Adelaide,Matthew Collins,Northern U18
+1994,1,39,Essendon,Stephen Carter,Port Magpies
+1994,1,40,Sydney,Michael O'Loughlin,Central District
+1994,1,41,Carlton,Adam White,Eastern U18
+1994,1,42,Fremantle,Douglas Headland,Perth
+1994,1,43,St Kilda,Dean Matthews,Bulleen-Templestowe
+1994,1,44,West Coast,Jeremy Dyer,Geelong U18
+1994,1,45,Essendon,Gary Moorcroft,Northern U18
+1994,1,46,Richmond,Justin Charles,Western Bulldogs
+1994,1,47,Collingwood,Robert Ahmat,Darwin
+1994,1,48,St Kilda,Austinn Jones,Southern U18
+1994,1,49,Footscray,Shaun Baxter,Geelong U18
+1994,1,50,Adelaide,Brett Higgins,Port Magpies
+1994,1,51,Melbourne,Clay Sampson,South Adelaide
+1994,1,52,Nth Melbourne,Danny Stevens,Northern U18
+1994,1,53,Collingwood,Mark Orchard,Ballarat U18
+1994,1,54,West Coast,Ian Downsborough,West Perth
+1994,1,55,Nth Melbourne,Mark Belleville,Western U18
+1994,1,56,Fremantle,Ryan Smith,West Perth
+1994,1,57,Sydney,Emil Parthenides,Eastern U18
+1994,1,58,Fitzroy,Peter Bird,Geelong U18
+1994,1,59,Hawthorn,Nathan Saunders,Geelong U18
+1994,1,60,Hawthorn,Brad Scott,Eastern U18
+1994,1,61,Collingwood,Stephen Zavalas,Western U18
+1994,1,62,Essendon,Justin Blumfield,Tuggeranong
+1994,1,63,Richmond,Ross Funcke,Ballarat U18
+1994,1,64,Collingwood,Robert Powell,Northern U18
+1994,1,65,Hawthorn,Lee Fraser,Western U18
+1994,1,66,Footscray,Scott Taylor,Geelong U18
+1994,1,67,Carlton,Tony Bourke,Ballarat U18
+1994,1,68,Melbourne,Luke Norman,Wangaratta
+1994,1,69,Geelong,Dean Helmers,Western U18
+1994,1,70,Geelong,Adam Benjamin,Assumption College
+1994,1,71,West Coast,Jason Spinks,Sydney
+1994,1,72,Fremantle,Daniel Wilcox,Northern U18
+1994,1,73,Fremantle,Sam McFarlane,Subiaco
+1994,1,74,Sydney,Troy Luff,Sydney
+1994,1,75,Brisbane,Gerard Jess,Ballarat U18
+1994,1,76,Melbourne,Todd McHardy,Western U18
+1994,1,77,Hawthorn,Ben Dixon,Assumption College
+1994,1,78,Footscray,Daryl Griffin,Sydney
+1994,1,79,Carlton,Aaron Hamill,Tuggeranong
+1994,1,80,Nth Melbourne,Ben Atkins,Glenorchy
+1994,1,81,Geelong,Tim Allen,Hawthorn
+1994,1,82,Fremantle,Pass,1994 NAT
+1994,1,83,Fremantle,Pass,1994 NAT
+1994,1,84,Fitzroy,Doug Hawkins,Footscray
+1994,1,85,Brisbane,Michael Agnello,Southern U18
+1994,1,86,Richmond,Shaun Gordon,Murray U18
+1994,1,87,Sydney,Simon Arnott,Collegians
+1994,1,88,Footscray,Nathon Irvin,Norwood
+1994,1,89,Carlton,David Nicholson,Western U18
+1994,1,90,Nth Melbourne,Matthew Joy,Southern U18
+1994,1,91,Fremantle,Pass,
+1994,1,92,Fremantle,Pass,
+1994,1,93,Brisbane,Michael Murphy,Brisbane
+1994,1,94,Hawthorn,Jade Rawlings,Devonport
+1994,1,95,Nth Melbourne,Kym Eyers,Central District
+1994,1,96,Fremantle,Pass,
+1994,1,97,Fremantle,Pass,
+1995,1,1,Fremantle,Clive Waterhouse,Port Adelaide
+1995,1,2,Fitzroy,Matthew Primus,Norwood
+1995,1,3,West Coast,Brendon Fewster,West Perth
+1995,1,4,Fitzroy,Scott Bamford,North Adelaide
+1995,1,5,Hawthorn,Brendan Krummel,Fremantle
+1995,1,6,St Kilda,Daniel Healy,Central District
+1995,1,7,Fremantle,Ben Edwards,Claremont
+1995,1,8,Sydney,Jared Crouch,Norwood
+1995,1,9,Footscray,Allen Jakovich,Melbourne
+1995,1,10,Collingwood,Simon Prestigiacomo,Northern Knights
+1995,1,11,Melbourne,Don Cockatoo-Collins,Port Adelaide
+1995,1,12,Brisbane Bears,Andrew Gowling,South Adelaide
+1995,1,13,Fremantle,Brad Rowe,Collingwood
+1995,1,14,West Coast,Luke Trew,Murray Bushrangers
+1995,1,15,Essendon,Darren Wheildon,West Adelaide
+1995,1,16,Fitzroy,Shane Clayton,Northern Knights
+1995,1,17,North Melbourne,Scott Welsh,West Adelaide
+1995,1,18,Adelaide,Brent Williams,Prahran Dragons
+1995,1,19,St Kilda,Barry Hall,Murray Bushrangers
+1995,1,20,Fitzroy,Nick Carter,Bendigo Pioneers
+1995,1,21,Sydney,Clinton King,Eastern Ranges
+1995,1,22,St Kilda,Joe McLaren,Geelong Falcons
+1995,1,23,Fremantle,Jay Burton,Fremantle
+1995,1,24,Sydney,Paul Licuria,Northern Knights
+1995,1,25,Hawthorn,Daniel Chick,East Fremantle
+1995,1,26,North Melbourne,Chris Groom,Fremantle
+1995,1,27,Adelaide,Kane Johnson,Eastern Ranges
+1995,1,28,Brisbane Bears,Nick Trask,Eastern Ranges
+1995,1,29,Footscray,Todd Curley,West Perth
+1995,1,30,West Coast,Craig Smoker,West Perth
+1995,1,31,Essendon,Andrew Ukovic,Northern Knights
+1995,1,32,Fitzroy,Nigel Credlin,Geelong Falcons
+1995,1,33,North Melbourne,Sam McFarlane,Subiaco
+1995,1,34,Geelong,Jason Snell,Eastern Ranges
+1995,1,35,Richmond,Brad Smith,Claremont
+1995,1,36,St Kilda,Andrew Lamb,Murray Bushrangers
+1995,1,37,Hawthorn,Scott Grainger,Northern Knights
+1995,1,38,St Kilda,Jason Cripps,Central Dragons
+1995,1,39,Geelong,Glenn Kilpatrick,West Adelaide
+1995,1,40,Collingwood,Luke Godden,Northern Knights
+1995,1,41,St Kilda,Ryan Grinter,Geelong Falcons
+1995,1,42,Brisbane Bears,Troy Johnson,South Fremantle
+1995,1,43,Footscray,Mark West,South Adelaide
+1995,1,44,West Coast,Jonson Clifton,Swan Districts
+1995,1,45,Adelaide,Scott Hodges,Port Adelaide
+1995,1,46,Richmond,Ben Moore,Glenelg
+1995,1,47,North Melbourne,Brent Harvey,Northern Knights
+1995,1,48,Geelong,Darren Milburn,Calder Cannons
+1995,1,49,Geelong,Ronnie Burns,St Mary's
+1995,1,50,Fitzroy,Brad Cassidy,Fremantle
+1995,1,51,Hawthorn,Kane Fraser,Eastern Ranges
+1995,1,52,Footscray,Tony Campbell,Footscray
+1995,1,53,Adelaide,Adam Ugrinic,Woodville-West Torrens Eagles
+1995,1,54,Hawthorn,Adam Ansell,West Adelaide
+1995,1,55,Melbourne,Mark Bradly,East Fremantle
+1995,1,56,Brisbane Bears,Daniel Bradshaw,"Wodonga , ( VCFL )"
+1995,1,57,West Coast,Paul Whitelaw,West Perth
+1995,1,58,Essendon,Peter Berbakov,Glenelg
+1995,1,59,Richmond,Ewan Thompson,Northern Knights
+1995,1,60,Melbourne,Darren O'Brien,West Perth
+1995,1,61,Geelong,Daniel Lowther,Northern Knights
+1995,1,62,Carlton,Adrian Burdon,Tassie Mariners
+1995,1,63,Carlton,Jacob Anstey,"Tuggeranong , (ACT)"
+1995,1,64,Collingwood,Matthew Carr,East Fremantle
+1995,1,65,North Melbourne,Eric Lissenden,"Warragul Industrials, (VCFL)"
+1995,1,66,West Coast,Neil Marshall,Claremont
+1995,1,67,Richmond,Michael Raidis,Glenelg
+1995,1,68,Geelong,Brady Anderson,East Perth
+1995,1,69,Carlton,Daniel Marshall,Dandenong Stingrays
+1995,1,70,Adelaide,Ashley Fernee,Calder Cannons
+1995,1,71,Collingwood,Jason Bevan,South Adelaide
+1995,1,72,Melbourne,Ashley Gehling,Dandenong Stingrays
+1995,1,73,Geelong,Stuart Lamond,Woodville-West Torrens
+1995,1,74,Collingwood,Mark Bradley,Gippsland Power
+1995,1,75,Geelong,Clint Bizzell,"Kedron Grange , AFLQ"
+1995,1,76,Collingwood,Ben Kemp,Norwood
+1995,1,77,Collingwood,Steven Pitt,Norwood
+1996,1,1,West Coast,Michael Gardiner,Claremont ( WAFL )
+1996,1,2,Essendon,Chris Heffernan,Geelong (U18)
+1996,1,3,Brisbane Lions,Rory Hilton,Murray (U18)
+1996,1,4,Sydney,Mark Kinnear,Calder (U18)
+1996,1,5,Essendon,Daniel McAlister,Tasmania (U18)
+1996,1,6,Port Adelaide,John Rombotis,Fitzroy
+1996,1,7,Port Adelaide,Bowen Lockwood,Geelong (U18)
+1996,1,8,Geelong,Leigh Brockman,Tasmania (U18)
+1996,1,9,Port Adelaide,Mark Harwood,Tasmania (U18)
+1996,1,10,Western Bulldogs,Nathan Brown,Bendigo (U18)
+1996,1,11,Melbourne,Brent Grgic,Geelong (U18)
+1996,1,12,Fremantle,Heath Black,Oakleigh Chargers
+1996,1,13,Adelaide,Tom Gilligan,Southern (U18)
+1996,1,14,Sydney,Brett O'Farrell,Prahran Dragons
+1996,1,15,St Kilda,Max Hudghton,West Brisbane ( AFLQ )
+1996,1,16,Richmond,Pat Steinfort,Oakleigh Chargers
+1996,1,17,Sydney,Rowan Warfe,Fitzroy (U18)
+1996,1,18,Geelong,Gerrard Bennett,Tasmania (U18)
+1996,1,19,Collingwood,Brent Tuckey,Ballarat (U18)
+1996,1,20,Western Bulldogs,Matthew Dent,Fitzroy
+1996,1,21,Essendon,Tim Williams,East Perth (WAFL)
+1996,1,22,Melbourne,Alistair Nicholson,Claremont
+1996,1,23,North Melbourne,Evan Hewitt,Subiaco (WAFL)
+1996,1,24,West Coast,Josh Wooden,NSW-ACT (U18)
+1996,1,25,Essendon,Andrew Bomford,Sydney
+1996,1,26,Brisbane Lions,Tim Notting,Ballarat (U18)
+1996,1,27,Sydney,Troy Cook,Perth (WAFL)
+1996,1,28,Essendon,Jason Johnson,Calder (U18)
+1996,1,29,Hawthorn,Nathan Turvey,South Fremantle (WAFL)
+1996,1,30,Melbourne,Hayden Lamaro,Murray (U18)
+1996,1,31,Fremantle,Jess Sinclair,Eastern (U18)
+1996,1,32,Western Bulldogs,Jim Plunkett,Northern (U18)
+1996,1,33,Sydney,Will Sangster,Prahran Dragons
+1996,1,34,Sydney,Shannon Corcoran,Brisbane
+1996,1,35,Richmond,Mark Chaffey,Caulfield Grammar
+1996,1,36,Hawthorn,Jonathan Hay,East Fremantle (WAFL)
+1996,1,37,Port Adelaide,Adam Kingsley,Essendon
+1996,1,38,Carlton,Sam Smart,Norwood ( SANFL )
+1996,1,39,West Coast,Nick Stone,Claremont (WAFL)
+1996,1,40,Essendon,Forfeited due to violation of salary cap regulations,-
+1996,1,41,Richmond,Matthew Manfield,Fitzroy
+1996,1,42,North Melbourne,Martin Pike,Fitzroy
+1996,1,43,Geelong,Paul Corrigan,Melbourne
+1996,1,44,Western Bulldogs,Jacob Rhodes,Geelong (U18)
+1996,1,45,Melbourne,Clayton Gardiner,Claremont (WAFL)
+1996,1,46,Fremantle,Matthew Clucas,East Fremantle (WAFL)
+1996,1,47,Western Bulldogs,Brett Montgomery,Footscray
+1996,1,48,Collingwood,Marty Warry,Fitzroy
+1996,1,49,St Kilda,Jason Heatley,West Coast
+1996,1,50,North Melbourne,Luke McCormick,NSW-ACT (U18)
+1996,1,51,Hawthorn,Robert McMahon,Fitzroy
+1996,1,52,Carlton,Damien Lock,Bendigo (U18)
+1996,1,53,West Coast,Michael Braun,Bendigo (U18)
+1996,1,54,Essendon,Mathew Watson,Essendon
+1996,1,55,Richmond,Steven McKee,Myrtelford (VCFL)
+1996,1,56,North Melbourne,Cameron Mooney,NSW-ACT (U18)
+1996,1,57,West Coast,Trent Cummings,Fitzroy
+1996,1,58,Western Bulldogs,Paul Dooley,Williamstown (VFL)
+1996,1,59,Melbourne,Anthony McDonald,Melbourne
+1996,1,60,Adelaide,Andrew Eccles,Northern (U18)
+1996,1,61,Western Bulldogs,Stephen Powell,Melbourne
+1996,1,62,St Kilda,Andrew Thompson,St Kilda
+1996,1,63,Richmond,Jason Baldwin,Fitzroy
+1996,1,64,Hawthorn,Darren Collins,Port Adelaide
+1996,1,65,Collingwood,Brad Cassidy,Fitzroy
+1996,1,66,Essendon,Paul Hills,Essendon
+1996,1,67,North Melbourne,Byron Pickett,Port Adelaide
+1996,1,68,Melbourne,Russell Robertson,Tasmania (U18)
+1996,1,69,Adelaide,Chad Rintoul,East Fremantle
+1996,1,70,North Melbourne,Adam Hay,East Perth
+1996,1,71,St Kilda,Brett Knowles,Gippsland (U18)
+1996,1,72,Richmond,Brent Frewen,Fitzroy
+1996,1,73,Hawthorn,Brett Howman,NSW-ACT (U18)
+1996,1,74,Carlton,Chris Jackson,NSW-ACT (U18)
+1996,1,75,Melbourne,Mark Winterton,Southern (U18)
+1996,1,76,Adelaide,Greg Dempsey,West Adelaide
+1996,1,77,Collingwood,Marcus Barham,Calder (U18)
+1996,1,78,St Kilda,Lucas Fleming,Northern (U18)
+1996,1,79,Richmond,Daniel Donati,Old Xavs (VAFA)
+1996,1,80,Hawthorn,Chris Holcombe,Southern (U18)
+1996,1,81,Carlton,Anthony Franchina,Carlton
+1996,1,82,Melbourne,Duncan O'Toole,Devonport
+1996,1,83,Melbourne,Ashley Gehling,Melbourne
+1996,1,84,Collingwood,Josh Mahoney,Williamstown (VFL)
+1996,1,85,Hawthorn,Brad Scott,Hawthorn
+1996,1,86,Adelaide,Ben Parker,Murray (U18)
+1996,1,87,Collingwood,Brad Fuller,NSW-ACT (U18)
+1996,1,88,Hawthorn,Phil Smith,West Perth
+1996,1,89,Collingwood,Dwayne Griffin,Swan Districts
+1996,1,90,Collingwood,Leigh Singline,Sth Launceston
+1997,1,1,Melbourne,Travis Johnstone,Dandenong Stingrays
+1997,1,2,Richmond,Brad Ottens,Glenelg
+1997,1,3,Hawthorn,Trent Croad,Dandenong Stingrays
+1997,1,4,Essendon,Mark Bolton,Eastern Ranges
+1997,1,5,Brisbane Lions,Luke Power,Oakleigh Chargers
+1997,1,6,Fremantle,James Walker,North Ballarat Rebels
+1997,1,7,Carlton,Kris Massie,Dandenong Stingrays
+1997,1,8,Collingwood,Chris Tarrant,Bendigo Pioneers
+1997,1,9,Port Adelaide,Chad Cornes,Glenelg
+1997,1,10,Brisbane Lions,Shane O'Bree,North Ballarat Rebels
+1997,1,11,Sydney Swans,Jason Saddington,Eastern Ranges
+1997,1,12,West Coast Eagles,Jaxon Crabb,Claremont
+1997,1,13,West Coast Eagles,Callum Chambers,Gippsland Power
+1997,1,14,North Melbourne,Shannon Watt,North Ballarat Rebels
+1997,1,15,Geelong,Joel McKay,Murray Bushrangers
+1997,1,16,St Kilda,Ben Walton,Central District
+1997,1,17,Adelaide,Lance Picioane,Western Jets
+1997,1,18,Western Bulldogs,Mark Alvey,Bendigo Pioneers
+1997,1,19,Hawthorn,Chris Obst,Western Jets
+1997,1,20,Essendon,Dean Solomon,Bendigo Pioneers
+1997,1,21,Fremantle,Clem Michael,South Fremantle
+1997,1,22,Melbourne,Troy Longmuir,West Perth
+1997,1,23,Carlton,Adam Chatfield,NSW/ACT Rams
+1997,1,24,Collingwood,James Wasley,Norwood
+1997,1,25,Port Adelaide,Nick Stevens,Preston Knights
+1997,1,26,Fremantle,Brodie Holland,Tassie Mariners
+1997,1,27,North Melbourne,Brad Stephens,Murray Bushrangers
+1997,1,28,West Coast Eagles,Rowan Jones,Claremont
+1997,1,29,Geelong,Marc Woolnough,Southport
+1997,1,30,North Melbourne,Paul McMahon,Bendigo Pioneers
+1997,1,31,Brisbane Lions,Simon Black,East Fremantle
+1997,1,32,Fremantle,Troy Johnson,South Fremantle
+1997,1,33,Adelaide,James Thiessen,Norwood
+1997,1,34,West Coast Eagles,Andrew Williams,Dandenong Stingrays
+1997,1,35,Hawthorn,Marcus Baldwin,Calder Cannons
+1997,1,36,Essendon,Judd Lalich,East Perth
+1997,1,37,West Coast Eagles,Todd Holmes,Subiaco
+1997,1,38,Geelong,James Rahilly,Geelong Falcons
+1997,1,39,Melbourne,Matthew Blake,Bendigo Pioneers
+1997,1,40,Sydney Swans,Fred Campbell,Bendigo Pioneers
+1997,1,41,Port Adelaide,Danny Morton,North Adelaide
+1997,1,42,Hawthorn,Matthew Dennis,Old Brighton
+1997,1,43,Sydney Swans,Adam Goodes,North Ballarat Rebels
+1997,1,44,West Coast Eagles,David Antonowicz,Western Jets
+1997,1,45,Geelong,Matthew Scarlett,Geelong Falcons
+1997,1,46,North Melbourne,Joshua Robertson,Murray Bushrangers
+1997,1,47,Western Bulldogs,Robert Stevenson,Essendon
+1997,1,48,St Kilda,Ben Thompson,Glenelg
+1997,1,49,Adelaide,Ian Perrie,East Perth
+1997,1,50,Melbourne,Luke Ottens,Glenelg
+1997,1,51,Brisbane Lions,Scott Ralph,Morningside
+1997,1,52,Essendon,Jordan Doering,Bendigo Pioneers
+1997,1,53,Richmond,Lionel Proctor,Preston Knights
+1997,1,54,Geelong,Justin Wood,Tassie Mariners
+1997,1,55,Carlton,Craig Black,Dandenong Stingrays
+1997,1,56,Collingwood,Ben Kinnear,Central District
+1997,1,57,Port Adelaide,Darren Fraser,Essendon
+1997,1,58,Brisbane Lions,Marcus Picken,North Ballarat Rebels
+1997,1,59,Sydney Swans,Brett Rose,Eastern Ranges
+1997,1,60,West Coast Eagles,Phillip Read,East Fremantle
+1997,1,61,Geelong,Tim Finocchiaro,Eastern Ranges
+1997,1,62,North Melbourne,Dion Miles,North Melbourne
+1997,1,63,Western Bulldogs,Anthony Aloi,Western Jets
+1997,1,64,St Kilda,Sam Cranage,North Ballarat Rebels
+1997,1,65,Adelaide,Linden Stevens,Sturt
+1997,1,66,Melbourne,Nathan Brown,West Adelaide
+1997,1,67,Hawthorn,Brad Lloyd,Hawthorn
+1997,1,68,Essendon,Simon Eastaugh,Norwood
+1997,1,69,Richmond,Paul Greenham,Port Melbourne
+1997,1,70,Carlton,Trent Hoppner,Preston Knights
+1997,1,71,Richmond,Andrew Kellaway,Richmond
+1997,1,72,Port Adelaide,Pass,
+1997,1,73,Brisbane Lions,Beau McDonald,Swan Districts
+1997,1,74,Western Bulldogs,Paul Digiovine,Oakleigh Chargers
+1997,1,75,St Kilda,Brent Cowell,Gippsland Power
+1997,1,76,Adelaide,Pass,
+1997,1,77,Melbourne,Guy Rigoni,Myrtleford
+1997,1,78,Hawthorn,Richie Vandenberg,University Blues
+1997,1,79,Richmond,Pass,
+1997,1,80,Carlton,John Hynes,Prahran Dragons
+1997,1,81,Collingwood,Troy Kirwen,Preston Knights
+1997,1,82,Hawthorn,Nathan Thompson,Bendigo Pioneers
+1997,1,83,Carlton,Ben Thompson,Northern Eagles
+1997,1,84,Collingwood,Frankie Raso,Preston Knights
+1997,1,85,Hawthorn,Hayden Burgiel,Gippsland Power
+1997,1,86,Collingwood,Scott Whiston,Central District
+1998,1,1,Brisbane Lions,Des Headland,Subiaco Football Club
+1998,1,2,Fremantle,Justin Longmuir,West Perth Football Club
+1998,1,3,Sydney Swans,Nic Fosdike,Norwood Football Club
+1998,1,4,Sydney Swans,Ryan Fitzgerald,South Adelaide Football Club
+1998,1,5,Port Adelaide,Michael Stevens,Murray Bushrangers
+1998,1,6,Carlton,Murray Vance,Murray Bushrangers
+1998,1,7,Port Adelaide,Josh Carr,East Fremantle Football Club
+1998,1,8,Sydney Swans,Jude Bolton,Calder Cannons
+1998,1,9,Essendon,Mark McVeigh,NSW/ACT Rams
+1998,1,10,West Coast Eagles,Brandon Hill,Peel Thunder Football Club
+1998,1,11,St Kilda,Lenny Hayes,NSW/ACT Rams
+1998,1,12,Essendon,Adam Ramanauskas,Dandenong Stingrays
+1998,1,13,Melbourne,Chris Lamb,Murray Bushrangers
+1998,1,14,Western Bulldogs,Luke Penny,Oakleigh Chargers
+1998,1,15,North Melbourne,Brady Rawlings,Tassie Mariners
+1998,1,16,Adelaide,Brett Burton,Woodville-West Torrens Eagles
+1998,2,17,Geelong,Peter Street,Tassie Mariners
+1998,2,18,Fremantle,Daniel Schell,Central District Football Club
+1998,2,19,Collingwood,Nick Davis,NSW/ACT Rams
+1998,2,20,Hawthorn,Michael Collica,East Fremantle Football Club
+1998,2,21,Geelong,David Clarke,Geelong Falcons
+1998,2,22,St Kilda,James Begley,Sturt Football Club
+1998,2,23,Essendon,Chris Ladhams,North Adelaide Football Club
+1998,2,24,Geelong,David Wojcinski,Gippsland Power
+1998,2,25,Essendon,Aaron Henneman,Murray Bushrangers
+1998,2,26,West Coast Eagles,Michael O'Brien,Bendigo Pioneers
+1998,2,27,St Kilda,Steven Baker,Geelong Falcons
+1998,2,28,Sydney Swans,Heath James,Port Adelaide Magpies
+1998,2,29,Adelaide,Tyson Stenglein,Subiaco Football Club
+1998,2,30,Western Bulldogs,Nicky Winmar,St Kilda
+1998,2,31,North Melbourne,Gary Dhurrkay,Fremantle
+1998,2,32,Adelaide,David Gallagher,Prahran Dragons
+1998,3,33,Brisbane Lions,Craig Bolton,NSW/ACT Rams
+1998,3,34,Adelaide,Bryan Beinke,Port Adelaide Magpies
+1998,3,35,Collingwood,Brad Oborne,Preston Knights
+1998,3,36,Essendon,Danny Jacobs,Prahran Dragons
+1998,3,37,Port Adelaide,Adam Morgan,Oakleigh Chargers
+1998,3,38,Carlton,Brendan Fevola,Dandenong Stingrays
+1998,3,39,Port Adelaide,Toby Thurstans,Dandenong Stingrays
+1998,3,40,Richmond,James White,Oakleigh Chargers
+1998,3,41,Collingwood,Craig Jacotine,Dandenong Stingrays
+1998,3,42,West Coast Eagles,Forfeit,-
+1998,3,43,St Kilda,Damien Ryan,Richmond
+1998,3,44,Collingwood,Heath Scotland,Western Jets
+1998,3,45,Brisbane Lions,Aaron Shattock,Woodville-West Torrens Eagles
+1998,3,46,Western Bulldogs,Jay Solomon,Geelong Falcons
+1998,3,47,North Melbourne,Nicolas Lowther,Preston Knights
+1998,3,48,Adelaide,Lucas Herbert,North Adelaide Football Club
+1998,4,49,Fremantle,Garth Taylor,Swan Districts Football Club
+1998,4,50,Collingwood,Damien Adkins,Gippsland Power
+1998,4,51,Hawthorn,David Loats,Geelong Falcons
+1998,4,52,Sydney Swans,Ryan O'Connor,Essendon
+1998,4,53,St Kilda,Troy Schwarze,Prahran Dragons
+1998,4,54,Port Adelaide,Derek Murray,Murray Bushrangers
+1998,4,55,Richmond,Marc Dragicevic,Geelong Falcons
+1998,4,56,Essendon,Ilija Grgic,West Coast Eagles
+1998,4,57,West Coast Eagles,Andrew Embley,Swan Districts
+1998,4,58,Carlton,Ian Prendergast,Oakleigh Chargers
+1998,4,59,Sydney Swans,Dwayne Simpson,East Fremantle Football Club
+1998,4,60,Melbourne,Luke Speers,Tassie Mariners
+1998,4,61,Western Bulldogs,Ricky Symes,Murray Bushrangers
+1998,4,62,North Melbourne,Tim van der Klooster,Geelong Falcons
+1998,4,63,Adelaide,Clint Kirey,East Fremantle Football Club
+1998,5,64,Fremantle,Andrew Shipp,Springvale Scorpions
+1998,5,65,Collingwood,Lee Walker,Collingwood
+1998,5,66,Hawthorn,Steven Rode,Dandenong Stingrays
+1998,5,67,Carlton,Brett Backwell,"Northern Eagles, QAFL"
+1998,5,68,Richmond,Matthew Greig,Richmond Supplementary List
+1998,5,69,West Coast Eagles,Scott Bennett,East Fremantle Football Club
+1998,5,70,St Kilda,Kurt Heazlewood,Tassie Mariners
+1998,5,71,Sydney Swans,Simon Feast,Sturt Football Club
+1998,5,72,Melbourne,Luke Taylor,Port Adelaide Magpies
+1998,5,73,Western Bulldogs,Christin Macri,Western Bulldogs Supplementary List
+1998,5,74,North Melbourne,Adam Lange,Sturt Football Club
+1998,5,75,Adelaide,Ken McGregor,Woodville-West Torrens Eagles
+1998,6,76,Collingwood,Rupert Betheras,Collingwood Supplementary List
+1998,6,77,Hawthorn,Adrian Cox,Gippsland Power
+1998,6,78,Carlton,Pass,
+1998,6,79,Richmond,Ray Hall,NSW/ACT Rams
+1998,6,80,Adelaide,Brodie Atkinson,Sturt Football Club
+1998,6,81,St Kilda,Jacob Anstey,Carlton
+1998,6,82,Sydney Swans,Pass,
+1998,6,83,Melbourne,Pass,
+1998,6,84,Western Bulldogs,Pass,
+1998,6,85,North Melbourne,Shannon Motlop,North Adelaide Football Club
+1998,7,86,Hawthorn,Kris Barlow,Hawthorn Supplementary List
+1998,7,87,Carlton,Pass,
+1998,7,88,Richmond,Pass,
+1998,7,89,West Coast Eagles,Joel Duckworth,East Fremantle Football Club
+1998,7,90,North Melbourne,Shane Clayton,Brisbane Lions
+1998,8,91,Hawthorn,Pass,
+1999,0,1,Collingwood,Josh Fraser,Murray Bushrangers
+1999,0,2,Fremantle,Paul Hasleby,East Fremantle
+1999,1,3,Richmond,Aaron Fiora,Port Adelaide Magpies
+1999,1,4,Fremantle,Matthew Pavlich,Woodville-West Torrens
+1999,1,5,Fremantle,Leigh Brown,Gippsland Power
+1999,1,6,Brisbane Lions,Damian Cupido,Eastern Ranges
+1999,1,7,Collingwood,Danny Roach,Tassie Mariners
+1999,1,8,Geelong,Joel Corey,East Perth
+1999,1,9,St Kilda,Caydn Beetham,Oakleigh Chargers
+1999,1,10,Hawthorn,Luke McPharlin,East Fremantle
+1999,1,11,West Coast Eagles,Darren Glass,Perth
+1999,1,12,Port Adelaide,Paul Koulouriotis,Calder Cannons
+1999,1,13,Western Bulldogs,Robert Murphy,Gippsland Power
+1999,1,14,West Coast Eagles,Travis Gaspar,South Fremantle
+1999,1,15,Geelong,David Spriggs,Prahran Dragons
+1999,1,16,West Coast Eagles,David Haynes,Geelong Falcons
+1999,1,17,Geelong,Ezra Bray,Calder Cannons
+1999,2,19,Melbourne,Brad Green,Tassie Mariners
+1999,2,20,Melbourne,Paul Wheatley,Preston Knights
+1999,2,21,Sydney,Scott Stevens,Perth
+1999,2,22,Richmond,Ezra Poyas,Prahran Dragons
+1999,2,23,Geelong,Daniel Foster,Port Adelaide
+1999,2,24,St Kilda,Jason Blake,Prahran Dragons
+1999,2,25,Hawthorn,Brett Johnson,Swan Districts
+1999,2,27,Port Adelaide,Cain Ackland,Port Adelaide
+1999,2,28,Port Adelaide,Brent Guerra,Bendigo Pioneers
+1999,2,29,West Coast Eagles,Adam Hunter,Swan Districts
+1999,2,31,Geelong,Paul Chapman,Calder Cannons
+1999,2,32,Western Bulldogs,Daniel Giansiracusa,Western Jets
+1999,2,33,Hawthorn,Tim Clarke,Geelong Falcons
+1999,2,34,Collingwood,Leon Davis,Perth
+1999,3,35,Western Bulldogs,Patrick Wiggins,Tassie Mariners
+1999,3,36,Adelaide,Rhett Biglands,Woodville-West Torrens
+1999,3,37,Western Bulldogs,Mitch Hahn,Northern Eagles
+1999,3,38,Geelong,Cameron Ling,Geelong Falcons
+1999,3,39,Richmond,Scott Homewood,Eastern Ranges
+1999,3,40,Essendon,David Hille,Dandenong Stingrays
+1999,3,41,West Coast Eagles,Kane Munro,Bendigo Pioneers
+1999,3,42,Melbourne,Michael Clark,Eastern Ranges
+1999,3,43,Western Bulldogs,Lindsay Gilbee,Eastern Ranges
+1999,3,45,Essendon,Marcus Pickett,Port Adelaide
+1999,3,46,Fremantle,Adam Butler,Murray Bushrangers
+1999,3,47,Geelong,Corey Enright,Port Adelaide
+1999,3,48,Hawthorn,Chance Bateman,Perth
+1999,3,49,Fremantle,Ben Cunningham,Claremont
+1999,3,50,Melbourne,Matthew Whelan,Woodville-West Torrens
+1999,4,51,Adelaide,Ricky O'Loughlin,Port Adelaide
+1999,4,52,Richmond,Andrew Mills,Murray Bushrangers
+1999,4,53,Kangaroos,Clayton Lassock,West Perth
+1999,4,54,St Kilda,Murray Pitts,St Kilda Reserves
+1999,4,55,Hawthorn,Tim Hazell,Southern Districts
+1999,4,56,Sydney,Ryan O'Keefe,Calder Cannons
+1999,4,57,Port Adelaide,Steven Brosnan,Port Adelaide
+1999,4,58,Western Bulldogs,Patrick Bowden,Rovers
+1999,4,59,Essendon,John Barnes,Geelong
+1999,4,60,Carlton,Richard Kelly,Perth
+1999,4,61,Kangaroos,Mark Ainley,Prahran Dragons
+1999,4,62,Collingwood,Ben Johnson,Preston Knights
+1999,4,63,Melbourne,Shannon O'Brien,Gippsland Power
+1999,4,64,Melbourne,Cameron Bruce,Melbourne Reserves
+1999,4,65,Adelaide,Justin Cicolella,Woodville-West Torrens
+1999,4,66,Western Bulldogs,Ryan Hargrave,Perth
+1999,5,67,Adelaide,Robert Shirley,Woodville-West Torrens
+1999,5,68,St Kilda,Tony Delaney,Fremantle
+1999,5,69,Hawthorn,Bill Nicholls,Geelong Falcons
+1999,5,70,Sydney,Brett Allison,Kangaroos
+1999,5,71,Port Adelaide,Not utilised,–
+1999,5,72,Essendon,Robert Forster-Knight,Murray Bushrangers
+1999,5,73,Carlton,Ryan Houlihan,Murray Bushrangers
+1999,5,74,Kangaroos,Matthew Burton,Fremantle
+1999,5,75,Collingwood,Dale Baynes,East Fremantle
+1999,5,76,Fremantle,Not utilised,–
+1999,5,77,Kangaroos,Lindsay Smith,Glenelg
+1999,5,78,Richmond,Ty Zantuck,Western Jets
+1999,5,79,Adelaide,Balraj Singh,West Adelaide
+1999,5,80,Carlton,Jeremy Dukes,Prahran Dragons
+1999,5,81,Kangaroos,Troy Makepeace,Kangaroos Reserves
+1999,5,82,Collingwood,Nick Stone,Prahran Dragons
+1999,6,83,Adelaide,Matthew Shir,Murray Bushrangers
+1999,6,84,Richmond,Not utilised,–
+1999,6,85,Hawthorn,Not utilised,–
+1999,6,86,Carlton,Trent Hotton,East Burwood
+1999,6,87,Kangaroos,Christian Woodley,Subiaco
+1999,6,88,Collingwood,Michael W. Clark,Fremantle
+1999,6,89,Adelaide,Not utilised,–
+1999,6,90,Carlton,Andrew Merrington,St Bernards
+1999,6,91,Adelaide,Not utilised,–
+1999,6,92,Carlton,Adam Mathews,Murray Bushrangers
+1999,6,93,Carlton,Joe Allen,Gippsland Power
+2000,0,1,St Kilda,Nick Riewoldt,Southport Sharks
+2000,1,2,St Kilda,Justin Koschitzke,Murray Bushrangers
+2000,1,3,Collingwood,Alan Didak,Port Adelaide Magpies
+2000,1,4,Carlton,Luke Livingston,Bendigo Pioneers
+2000,1,5,West Coast,Andrew McDougall,Perth Football Club
+2000,1,6,Kangaroos,Dylan Smith,Sandringham Dragons
+2000,1,7,Adelaide,Laurence Angwin,Dandenong Stingrays
+2000,1,8,Kangaroos,Daniel Motlop,North Adelaide Roosters
+2000,1,9,Richmond,Kayne Pettifer,Murray Bushrangers
+2000,1,10,Western Bulldogs,Jordan McMahon,Glenelg
+2000,1,11,Carlton,Trent Sporn,North Adelaide Roosters
+2000,1,12,Port Adelaide,Shaun Burgoyne,Port Adelaide Magpies
+2000,1,13,Brisbane Lions,Ashley McGrath,South Fremantle Football Club
+2000,1,14,Kangaroos,Daniel Harris,Bendigo Bombers
+2000,1,15,Carlton,Simon Wiggins,Tasmanian Devils Football Club / Glenorchy Football Club
+2000,1,16,Melbourne,Scott Thompson,Port Adelaide Magpies
+2000,1,17,Essendon,James Davies,Xavier College
+2000,2,18,West Coast Eagles,Daniel Kerr,East Fremantle Football Club
+2000,,19,Collingwood,Jason Cloke,Eastern Ranges
+2000,2,20,Port Adelaide,Kane Cornes,Glenelg Football Club
+2000,2,21,Hawthorn,Nick Ries,Sandringham Dragons
+2000,2,22,Brisbane Lions,Richard Hadley,East Fremantle Football Club
+2000,2,23,Kangaroos,Drew Petrie,North Ballarat Rebels
+2000,2,24,Sydney Swans,Luke Ablett,Gippsland Power
+2000,2,25,Richmond,Mark Coughlan,Perth Football Club
+2000,2,26,Western Bulldogs,Shane Birss,Gippsland Power
+2000,2,27,Essendon,Ted Richards,Sandringham Dragons
+2000,,28,Hawthorn,Steven Greene,Sandringham Dragons
+2000,2,29,Brisbane Lions,Jamie Charman,Northern Eagles
+2000,2,30,Kangaroos,Saverio Rocca,Collingwood
+2000,2,31,Carlton,Blake Campbell,Murray Bushrangers
+2000,2,32,Essendon,Sam Hunt,Geelong Falcons
+2000,3,33,Brisbane Lions,Martin Pike,Kangaroos
+2000,3,34,Collingwood,Ryan Lonie,Dandenong Stingrays
+2000,3,35,Port Adelaide,Allan Murray,Murray Bushrangers
+2000,3,36,West Coast Eagles,Jeremy Humm,North Ballarat Rebels
+2000,3,37,Collingwood,Guy Richards,Eastern Ranges
+2000,3,38,Adelaide Crows,Michael Handby,Dandenong Stingrays
+2000,3,39,Fremantle,Adam McPhee,Dandenong Stingrays
+2000,3,40,Richmond,Chris Hyde,Murray Bushrangers
+2000,3,41,Richmond,Andrew Krakouer,South Fremantle Football Club
+2000,3,42,Kangaroos,Daniel Pratt,Northern Eagles
+2000,3,43,Hawthorn,Mark Williams,South Fremantle Football Club
+2000,3,44,Geelong,Josh Hunt,Bendigo Pioneers
+2000,3,45,West Coast Eagles,Trent Carroll,Claremont Football Club
+2000,3,46,Carlton,Sean O'Keeffe,Murray Bushrangers
+2000,3,47,Essendon,Jordan Bannister,Calder Cannons
+2000,3,48,Adelaide Crows,Matthew Smith,Oakleigh Chargers
+2000,4,49,Collingwood,Shane Wakelin,St Kilda
+2000,4,50,Port Adelaide,Domenic Cassisi,East Fremantle
+2000,4,51,Fremantle,Dion Woods,Perth
+2000,4,52,Sydney Swans,Amon Buchanan,Geelong Falcons
+2000,4,53,Adelaide Crows,Hayden Skipworth,Woodville-West Torrens
+2000,4,54,Sydney Swans,Jarrad Sundqvist,Glenelg
+2000,4,55,Richmond,Chris Newman,Dandenong Stingrays
+2000,4,56,Western Bulldogs,Daniel Cross,Murray Bushrangers
+2000,4,57,Richmond,Steven Sziller,St Kilda
+2000,4,58,Hawthorn,Nathan Lonie,Dandenong Stingrays
+2000,4,59,Brisbane Lions,Luke Hammond,Sandringham Dragons
+2000,4,60,Kangaroos,Corey Jones,Sturt Football Club
+2000,4,61,Carlton,Callan Beasy,Bendigo Pioneers
+2000,4,62,Melbourne,Daniel Breese,Eastern Ranges
+2000,4,63,Essendon,Marc Bullen,Murray Bushrangers
+2000,5,64,St Kilda,Mark Gale,Fremantle
+2000,5,65,Collingwood,Pass,
+2000,5,66,Fremantle,Scott Thornton,Sandringham Dragons
+2000,5,67,Adelaide Crows,Graham Johncock,Port Adelaide Magpies
+2000,5,68,Sydney Swans,Pass,
+2000,5,69,Richmond,Pass,
+2000,5,70,Western Bulldogs,Wayde Skipper,West Perth
+2000,5,71,Geelong,Daniel Lowther,Geelong Football Club
+2000,5,72,Hawthorn,Pass,
+2000,5,73,Melbourne,Ross Funcke,North Ballarat
+2000,5,74,Essendon,Michael Davis,Sandringham Dragons
+2000,6,75,St Kilda,Robert Powell,Richmond
+2000,6,76,Fremantle,Pass,
+2000,6,77,Adelaide Crows,Pass,
+2000,6,78,Western Bulldogs,Pass,
+2000,6,79,Geelong,Hamish Simpson,Geelong Football Club
+2000,6,80,Melbourne,Mitchell Craig,Eastern Ranges
+2000,6,81,Essendon,Pass,
+2000,7,82,St Kilda,Daniel Wulf,St Kilda
+2000,7,83,Western Bulldogs,Pass,
+2000,7,84,Melbourne,Pass,
+2000,8,85,St Kilda,Pass,
+2000,9,86,St Kilda,Pass,
+2000,10,87,St Kilda,Pass,
+2001,0,1,Hawthorn,Luke Hodge,Geelong Falcons
+2001,0,2,St Kilda,Luke Ball,Sandringham Dragons
+2001,0,3,West Coast Eagles,Chris Judd,Sandringham Dragons
+2001,1,4,Fremantle,Graham Polak,East Fremantle
+2001,1,5,St Kilda,Xavier Clarke,St Mary's
+2001,1,6,West Coast Eagles,Ashley Sampi,South Fremantle
+2001,1,7,Kangaroos,David Hale,Broadbeach
+2001,1,8,Geelong,Jimmy Bartel,Geelong Falcons
+2001,1,9,Melbourne,Luke Molan,Geelong Falcons
+2001,1,10,Western Bulldogs,Sam Power,Oakleigh Chargers
+2001,1,11,Collingwood,Richard Cole,Eastern Ranges
+2001,1,12,Adelaide,Brent Reilly,Calder Cannons
+2001,1,13,St Kilda,Nick Dal Santo,Bendigo Pioneers
+2001,1,14,Kangaroos,Ashley Watson,Bendigo Pioneers
+2001,1,15,Port Adelaide,Barry Brooks,Tassie Mariners
+2001,1,16,Hawthorn,Rick Ladson,Bendigo Pioneers
+2001,1,17,Geelong,James Kelly,Calder Cannons
+2001,1,18,Essendon,Shane Harvey,Northern Knights
+2001,1,19,Brisbane Lions,Jason Gram,Gippsland Power
+2001,2,20,Hawthorn,Daniel Elstone,Bendigo Pioneers
+2001,2,21,St Kilda,Matt Maguire,Geelong Falcons
+2001,2,22,West Coast,Mark Seaby,West Perth
+2001,2,23,Geelong,Charlie Gardiner,Sandringham Dragons
+2001,2,24,Geelong,Steve Johnson,Murray Bushrangers
+2001,2,25,Melbourne,Steven Armstrong,Perth
+2001,2,26,Melbourne,Aaron Rogers,NSW/ACT Rams
+2001,2,27,Collingwood,Tom Davidson,Geelong Falcons
+2001,2,28,Sydney,Mark Powell,Murray Bushrangers
+2001,2,29,Sydney,Lewis Roberts-Thomson,NSW/ACT Rams
+2001,2,30,Kangaroos,Rod Crowe,Sandringham Dragons
+2001,2,31,Essendon,Joel Reynolds,Geelong Falcons
+2001,2,32,Hawthorn,Campbell Brown,Oakleigh Chargers
+2001,2,33,Richmond,David Rodan,Calder Cannons
+2001,2,34,Essendon,Simon O'Keefe,Murray Bushrangers
+2001,2,35,Brisbane Lions,Jarrad Wright,Woodville-West Torrens
+2001,3,36,Hawthorn,Sam Mitchell,Box Hill Hawks
+2001,3,37,St Kilda,Leigh Montagna,Northern Knights
+2001,3,38,West Coast Eagles,Ashley Hansen,Oakleigh Chargers
+2001,3,39,Carlton,Justin Davies,Murray Bushrangers
+2001,3,41,Geelong,Henry Playfair,NSW/ACT Rams
+2001,3,42,Western Bulldogs,Kieran McGuinness,Eastern Ranges
+2001,3,43,Collingwood,Mark McGough,Murray Bushrangers
+2001,3,44,Adelaide,Ben Finnin,Northern Knights
+2001,3,45,Brisbane Lions,Nathan Clarke,Brisbane Lions
+2001,3,47,Essendon,Andrew Welsh,Calder Cannons
+2001,3,48,Hawthorn,Simon Cox,Western Bulldogs
+2001,3,49,St Kilda,Josh Houlihan,Murray Bushrangers
+2001,3,50,Essendon,Paul Salmon,Hawthorn
+2001,3,51,Brisbane Lions,Pass,-
+2001,4,52,Fremantle,Andrew Browne,Claremont
+2001,4,53,Sydney,Daniel Hunt,South Fremantle
+2001,4,54,Kangaroos,Ben Robbins,Brisbane Lions
+2001,4,55,Melbourne,Brad Miller,Mt Gravatt
+2001,4,56,Fremantle,Paul Medhurst,Claremont
+2001,4,57,Western Bulldogs,Brent Colbert,Northern Knights
+2001,4,58,Collingwood,Dane Swan,Calder Cannons
+2001,4,59,Adelaide,Jacob Schuback,Gippsland Power
+2001,4,60,Sydney,Adam Schneider,NSW/ACT Rams
+2001,4,61,Kangaroos,Mick Martyn,Kangaroos
+2001,4,62,Port Adelaide,Damon White,Perth
+2001,4,63,Richmond,Adam Houlihan,Geelong
+2001,4,64,Essendon,Daniel McAlister,Essendon
+2001,5,65,Brisbane Lions,Pass,-
+2001,5,66,Fremantle,Pass,-
+2001,5,67,St Kilda,Pass,-
+2001,6,68,Richmond,Chris Hyde,Richmond
+2001,6,69,Geelong,Matthew McCarthy,Old Xaverians
+2001,6,70,Melbourne,Pass,-
+2001,6,71,Western Bulldogs,Brian Lake,Woodville-West Torrens
+2001,6,72,Collingwood,Tristen Walker,Claremont
+2001,6,73,Adelaide,Pass,-
+2001,6,74,Sydney,Ricky Mott,South Fremantle
+2001,6,75,Carlton,Sam Cranage,Carlton
+2001,6,76,Port Adelaide,Jared Poulton,Port Adelaide
+2001,6,77,Richmond,Marty McGrath,South Fremantle
+2001,6,78,Essendon,Pass,-
+2001,7,79,St Kilda,Pass,-
+2001,7,80,Kangaroos,Hugh Foott,Bendigo Pioneers
+2001,7,81,Geelong,David Johnson,Essendon Rookies
+2001,7,82,Melbourne,Pass,-
+2001,8,83,Western Bulldogs,Aaron James,Richmond
+2002,1,1,St Kilda,Brendon Goddard,Gippsland Power
+2002,1,2,Kangaroos,Daniel Wells,Peel Thunder
+2002,1,3,Brisbane Lions,Jared Brennan,Southern Districts
+2002,1,4,Western Bulldogs,Tim Walsh,Northern Knights
+2002,1,5,Sydney Swans,Jarrad McVeigh,NSW/ACT Rams
+2002,1,6,Port Adelaide,Steven Salopek,Dandenong Stingrays
+2002,1,7,Geelong,Andrew Mackie,Glenelg
+2002,1,8,Hawthorn,Luke Brennan,North Ballarat Rebels
+2002,1,9,Kangaroos,Hamish McIntosh,Murray Bushrangers
+2002,1,10,Essendon,Jason Laycock,Tassie Mariners
+2002,1,11,Essendon,Jason Winderlich,Gippsland Power
+2002,1,12,Richmond,Jay Schulz,Woodville-West Torrens
+2002,1,13,Fremantle,Byron Schammer,West Adelaide
+2002,1,14,Melbourne,Daniel Bell,Glenelg
+2002,1,15,Melbourne,Nicholas Smith,Norwood
+2002,2,16,Port Adelaide,Stephen Gilham,Oakleigh Chargers
+2002,2,17,Western Bulldogs,Cameron Faulkner,Central District
+2002,2,18,Kangaroos,Kris Shore,Eastern Ranges
+2002,2,19,Brisbane Lions,Troy Selwood,Bendigo Pioneers
+2002,2,20,Western Bulldogs,Will Minson,Norwood
+2002,2,21,Collingwood,Bo Nixon,Calder Cannons
+2002,2,22,St Kilda,Matthew Ferguson,Gippsland Power
+2002,2,23,Geelong,Tom Lonergan,Calder Cannons
+2002,2,24,West Coast Eagles,Paul Johnson,Dandenong Stingrays
+2002,2,25,Kangaroos,Callum Urch,Western Jets
+2002,2,26,Melbourne,Jared Rivers,North Adelaide
+2002,2,27,Essendon,Darren Walsh,Sandringham Dragons
+2002,2,28,Essendon,Tristan Cartledge,North Ballarat Rebels
+2002,2,29,Collingwood,Luke Shackleton,Tassie Mariners
+2002,2,30,Brisbane Lions,Daniel Merrett,Southport
+2002,3,31,Kangaroos,Joel Perry,Eastern Ranges
+2002,3,32,Adelaide Crows,Luke Jericho,West Adelaide
+2002,3,33,Western Bulldogs,Brad Murphy,Calder Cannons
+2002,,34,Sydney Swans,Sean Dempster,Gippsland Power
+2002,3,35,Western Bulldogs,Scott Bassett,Port Adelaide
+2002,,36,Geelong,Tim Callan,Geelong Falcons
+2002,3,37,West Coast Eagles,Brent Staker,NSW/ACT Rams
+2002,3,38,Kangaroos,Blake Grima,Eastern Ranges
+2002,3,39,Melbourne,Gary Moorcroft,Essendon
+2002,,40,Essendon,Jobe Watson,Sandringham Dragons
+2002,3,41,Richmond,Tim Fleming,Carlton
+2002,,42,Port Adelaide,Brett Ebert,Port Adelaide Magpies
+2002,,43,Collingwood,Cameron Cloke,Eastern Ranges
+2002,3,44,Brisbane Lions,Anthony Corrie,Nightcliff
+2002,4,45,Carlton,Kade Simpson,Eastern Ranges
+2002,4,46,St Kilda,Leigh Fisher,Sandringham Dragons
+2002,4,47,Richmond,Bill Nicholls,Hawthorn
+2002,4,48,Fremantle,Greg Edgcumbe,Eastern Ranges
+2002,4,49,Western Bulldogs,Cameron Wight,Calder Cannons
+2002,4,50,Sydney Swans,Josh Thewlis,Bendigo Pioneers
+2002,4,51,Hawthorn,Tim Boyle,Geelong Falcons
+2002,4,52,Geelong,Pass,
+2002,4,53,West Coast Eagles,Adam Selwood,Bendigo Pioneers
+2002,4,54,Melbourne,Cameron Hunter,Calder Cannons
+2002,4,55,Fremantle,Ryan Crowley,Calder Cannons
+2002,4,56,Adelaide,Robert Shirley,Adelaide
+2002,4,57,Port Adelaide,Wade Champion,West Adelaide
+2002,4,58,Collingwood,David King,Glenelg
+2002,4,59,Brisbane Lions,Pass,
+2002,5,60,Carlton,Cameron Croad,Oakleigh Chargers
+2002,5,61,St Kilda,Pass,
+2002,5,62,Richmond,Daniel Sipthorp,Calder Cannons
+2002,5,63,Fremantle,Brett Doswell,NSW/ACT Rams
+2002,5,64,Sydney Swans,Nick Malceski,Eastern Ranges
+2002,5,65,Hawthorn,Lochlan Veale,Geelong Falcons
+2002,5,66,Melbourne,Ryan Ferguson,Frankston
+2002,5,67,Essendon,Steven Alessio,Essendon
+2002,5,68,Adelaide Crows,James Begley,St Kilda
+2002,5,69,Port Adelaide,Pass,
+2002,5,70,Collingwood,Matthew Lokan,Port Adelaide Magpies
+2002,5,71,Brisbane Lions,Pass,
+2002,6,72,Carlton,Brad Fisher,Eastern Ranges
+2002,6,73,St Kilda,Pass,
+2002,6,74,Richmond,Pass,
+2002,6,75,Fremantle,Pass,
+2002,6,76,Sydney Swans,Pass,
+2002,6,77,Adelaide Crows,Pass,
+2002,6,78,Brisbane Lions,Pass,
+2002,7,79,Carlton,Karl Norman,Wangaratta Rovers
+2002,7,80,St Kilda,Pass,
+2002,7,81,Richmond,Pass,
+2002,7,82,Fremantle,Pass,
+2002,7,83,Sydney Swans,Pass,
+2002,8,84,Carlton,Mick Martyn,Kangaroos
+2002,8,85,St Kilda,Pass,
+2002,8,86,Richmond,Pass,
+2002,8,87,Fremantle,Pass,
+2002,9,88,St Kilda,Pass,
+2003,0,1,Western Bulldogs,Adam Cooney,West Adelaide Football Club
+2003,0,2,Carlton,Andrew Walker,Bendigo Pioneers
+2003,0,3,Melbourne,Colin Sylvia,Bendigo Pioneers
+2003,1,4,Western Bulldogs,Farren Ray,Peel Thunder Football Club
+2003,1,5,Melbourne,Brock McLean,Calder Cannons
+2003,1,6,Essendon,Kepler Bradley,West Perth Football Club
+2003,1,7,Geelong,Kane Tenace,Murray Bushrangers
+2003,1,8,St Kilda,Raphael Clarke,St Mary's Football Club
+2003,1,9,Kangaroos,David Trotter,Calder Cannons
+2003,1,10,Fremantle,Ryley Dunn,Murray Bushrangers
+2003,1,11,West Coast Eagles,Beau Waters,West Adelaide Football Club
+2003,1,12,Fremantle,Ryan Murphy,Gippsland Power
+2003,1,13,Essendon,Brent Stanton,Northern Knights
+2003,1,14,Adelaide Crows,Fergus Watts,Sandringham Dragons
+2003,1,15,Port Adelaide,Troy Chaplin,North Ballarat Rebels
+2003,1,16,Sydney Swans,Josh Willoughby,Glenelg Football Club
+2003,1,17,Collingwood,Billy Morrison,Tassie Mariners
+2003,1,18,Brisbane Lions,Llane Spaanderman,East Perth Football Club
+2003,2,19,Fremantle,David Mundy,Murray Bushrangers
+2003,2,20,West Coast Eagles,Sam Butler,Central District Bulldogs
+2003,2,21,Richmond,Alex Gilmour,Tassie Mariners
+2003,2,22,Geelong,Cameron Thurley,Tasmanian Devils Football Club
+2003,2,23,Brisbane Lions,Matthew Moody,South Fremantle Football Club
+2003,2,24,Kangaroos,Chad Jones,Claremont Football Club
+2003,2,25,Hawthorn,Harry Miller,Port Adelaide (SANFL)
+2003,2,26,West Coast Eagles,Daniel McConnell,Eastern Ranges
+2003,2,27,Fremantle,Adam Campbell,North Ballarat Rebels
+2003,2,28,Essendon,Jay Nash,Central District Bulldogs
+2003,2,29,Sydney Swans,Tim Schmidt,West Adelaide Football Club
+2003,2,30,Port Adelaide,Brad Symes,Central District Bulldogs
+2003,2,31,Adelaide Crows,Joshua Krueger,Glenelg Football Club
+2003,,32,Collingwood,Brayden Shaw,Northern Knights
+2003,2,33,Brisbane Lions,Jed Adcock,North Ballarat Rebels
+2003,3,34,Port Adelaide,Luke Peel,Sandringham Dragons
+2003,3,35,Collingwood,Brent Hall,South Fremantle Football Club
+2003,,36,Melbourne,Chris Johnson,East Fremantle Football Club
+2003,,37,Richmond,Thomas Roach,Oakleigh Chargers
+2003,,38,Geelong,Mark Blake,Geelong Falcons
+2003,3,39,Port Adelaide,Robert Forster-Knight,Essendon
+2003,3,40,Kangaroos,Eddie Sansbury,Central District Bulldogs
+2003,3,41,Hawthorn,Zac Dawson,Calder Cannons
+2003,3,42,Geelong,Matthew Spencer,Swan Districts Football Club
+2003,,43,Fremantle,Brett Peake,East Fremantle Football Club
+2003,3,44,Essendon,Ricky Dyson,Northern Knights
+2003,3,45,Sydney Swans,Amon Buchanan,Sydney Swans
+2003,3,46,Port Adelaide,Michael Pettigrew,West Perth Football Club
+2003,3,47,Sydney Swans,Andrew Eriksen,Sandringham Dragons
+2003,,48,Collingwood,Heath Shaw,Northern Knights
+2003,3,49,Brisbane Lions,Tom Logan,Waratah Football Club
+2003,4,50,Western Bulldogs,Izaac Thomson,Woodville-West Torrens Football Club
+2003,4,51,Hawthorn,Matthew Ball,Box Hill Hawks
+2003,4,52,Melbourne,Pass,
+2003,4,53,Richmond,Daniel Jackson,Oakleigh Chargers
+2003,4,54,Geelong,Pass,
+2003,4,55,St Kilda,Sam Fisher,West Adelaide Football Club
+2003,4,56,Kangaroos,Brent LeCras,West Perth Football Club
+2003,4,57,Carlton,Ricky Mott,Fremantle rookie list
+2003,4,58,Adelaide Crows,Ben Hudson,Werribee Football Club
+2003,4,59,Sydney Swans,Matthew Davis,North Adelaide Football Club
+2003,4,60,Collingwood,Julian Rowe,Oakleigh Chargers
+2003,4,61,Brisbane Lions,Michael Rischitelli,Western Jets
+2003,5,62,Western Bulldogs,Pass,
+2003,5,63,Carlton,Glen Bowyer,Hawthorn
+2003,5,64,Richmond,Shane Morrison,Brisbane Lions
+2003,5,65,St Kilda,Craig Callaghan,St Kilda
+2003,5,66,Kangaroos,Pass,
+2003,5,67,Adelaide Crows,Pass,
+2003,5,68,Brisbane Lions,Clinton Thomas,Eastern Ranges
+2003,6,69,Carlton,Jordan Bannister,Essendon
+2003,6,70,Richmond,Brent Hartigan,Calder Cannons
+2003,6,71,St Kilda,Pass,
+2003,7,72,Carlton,Adrian Deluca,Port Melbourne Football Club
+2003,7,73,Richmond,Shane Tuck,West Adelaide Football Club
+2003,7,74,St Kilda,Pass,
+2003,8,75,Carlton,Stephen Kenna,Box Hill Hawks
+2003,8,76,Richmond,Andrew Raines,Southport Australian Football Club
+2003,8,77,St Kilda,Pass,
+2003,9,78,Carlton,Pass,
+2003,9,79,Richmond,Simon Fletcher,Carlton
+2003,10,80,Carlton,Pass,
+2003,10,81,Richmond,Kyle Archibald,NSW/ACT Rams
+2003,11,82,Richmond,Pass,
+2003,12,83,Richmond,Pass,
+2004,0,1,Richmond,Brett Deledio,Murray Bushrangers
+2004,0,2,Hawthorn,Jarryd Roughead,Gippsland Power
+2004,0,3,Western Bulldogs,Ryan Griffen,South Adelaide Football Club
+2004,1,4,Richmond,Richard Tambling,Southern Districts Football Club
+2004,1,5,Hawthorn,Lance Franklin,Perth Football Club
+2004,1,6,Western Bulldogs,Tom Williams,Morningside Football Club
+2004,1,7,Hawthorn,Jordan Lewis,Geelong Falcons
+2004,1,8,Adelaide,John Meesen,Geelong Falcons
+2004,1,9,Carlton,Jordan Russell,West Adelaide Football Club
+2004,1,10,Collingwood,Chris Egan,Murray Bushrangers
+2004,1,11,Port Adelaide,Adam Thomson,Sturt Football Club
+2004,1,12,Richmond,Danny Meyer,Glenelg Football Club
+2004,1,13,Melbourne,Matthew Bate,Eastern Ranges
+2004,1,14,Essendon,Angus Monfries,Sturt Football Club
+2004,1,15,Melbourne,Lynden Dunn,Calder Cannons
+2004,1,16,Richmond,Adam Pattison,Northern Knights
+2004,1,17,St Kilda,Andrew McQualter,Gippsland Power
+2004,1,18,Brisbane Lions,Cameron Wood,West Adelaide Football Club
+2004,1,19,Port Adelaide,Ryan Willits,Northern Knights
+2004,2,20,Richmond,Dean Polo,Gippsland Power
+2004,2,21,Hawthorn,Thomas Murphy,Sandringham Dragons
+2004,2,22,Western Bulldogs,Jesse Wells,Tasmanian Devils Football Club
+2004,2,23,Collingwood,Sean Rusling,West Adelaide Football Club
+2004,2,24,Adelaide,Nathan van Berlo,West Perth Football Club
+2004,2,25,Carlton,Adam Hartlett,West Adelaide Football Club
+2004,2,26,Hawthorn,Matt Little,Calder Cannons
+2004,2,27,Brisbane Lions,Pat Garner,Western Magpies
+2004,2,28,Adelaide,Chad Gibson,Norwood Football Club
+2004,2,29,West Coast Eagles,Matt Rosa,North Ballarat Football Club
+2004,2,30,Essendon,Andrew Lee,Tasmanian Devils Football Club
+2004,2,31,Sydney Swans,Jarred Moore,Dandenong Stingrays
+2004,2,32,Geelong,Brent Prismall,Western Jets
+2004,2,33,St Kilda,Cain Ackland,Port Adelaide Football Club
+2004,2,34,Port Adelaide,James Ezard,Calder Cannons
+2004,2,35,Port Adelaide,Fabian Deluca,Eastern Ranges
+2004,3,36,Richmond,Luke McGuane,Broadbeach Football Club
+2004,3,37,West Coast Eagles,Mark LeCras,West Perth Football Club
+2004,3,38,Western Bulldogs,Damien McCormack,Dandenong Stingrays
+2004,3,40,Adelaide,Ivan Maric,Calder Cannons
+2004,3,43,Melbourne,Michael Newton,Murray Bushrangers
+2004,3,45,Brisbane Lions,Justin Sherman,Clarence Football Club
+2004,3,46,Essendon,Henry Slattery,West Adelaide Football Club
+2004,3,47,Sydney Swans,David Spriggs,Geelong
+2004,3,49,St Kilda,Mark McGough,Collingwood
+2004,3,50,Brisbane Lions,Jayden Attard,Dandenong Stingrays
+2004,3,51,Port Adelaide,Ben Eckermann,Sturt Football Club
+2004,4,52,Richmond,Dean Limbach,Calder Cannons
+2004,4,53,Hawthorn,Simon Taylor,Box Hill Hawks
+2004,4,54,Western Bulldogs,Stephen Tiller,West Adelaide Football Club
+2004,4,55,Collingwood,Adam Iacobucci,Calder Cannons
+2004,4,56,Adelaide,Chris Knights,Eastern Ranges
+2004,4,57,West Coast Eagles,Brad Smith,Subiaco Football Club
+2004,4,58,Kangaroos,Brad Moran,Southport Sharks
+2004,4,59,Fremantle,Benet Copping,Sturt Football Club
+2004,4,60,Essendon,Paul Thomas,Central District Bulldogs
+2004,4,61,Sydney Swans,Heath James,Sydney Swans
+2004,4,62,Geelong,Matthew Egan,Geelong VFL
+2004,4,63,St Kilda,James Gwilt,Noble Park Football Club
+2004,4,64,Brisbane Lions,Luke Forsyth,Dandenong Stingrays
+2004,5,65,Richmond,Mark Graham,Hawthorn
+2004,5,66,Collingwood,Pass,
+2004,5,67,Fremantle,Toby Stribling,North Adelaide Football Club
+2004,5,68,Kangaroos,Ben Schwarze,Port Melbourne Football Club
+2004,5,69,Fremantle,Daniel Haines,Fremantle
+2004,5,70,Essendon,Pass,
+2004,5,71,St Kilda,Pass,
+2004,6,72,Richmond,Pass,
+2004,6,73,Carlton,Chris Bryan,Frankston Dolphins
+2004,6,74,Kangaroos,Daniel Pratt,Brisbane Lions (rookie list)
+2004,6,75,Fremantle,Pass,
+2004,6,76,St Kilda,Pass,
+2004,6,77,Carlton,Anthony Raso,Dandenong Stingrays
+2005,0,1,Carlton,Marc Murphy,Oakleigh Chargers
+2005,0,2,Collingwood,Dale Thomas,Gippsland Power
+2005,0,3,Hawthorn,Xavier Ellis,Gippsland Power
+2005,1,4,Carlton,Josh Kennedy,East Fremantle
+2005,1,5,Collingwood,Scott Pendlebury,Gippsland Power
+2005,1,6,Hawthorn,Beau Dowler,Oakleigh Chargers
+2005,1,7,Essendon,Paddy Ryder,East Fremantle
+2005,1,8,Richmond,Jarrad Oakley-Nicholls,East Perth
+2005,1,9,Brisbane Lions,Mitch Clark,East Fremantle
+2005,1,10,Fremantle,Marcus Drum,Murray Bushrangers
+2005,1,11,Western Bulldogs,Shaun Higgins,Geelong Falcons
+2005,1,12,Melbourne,Nathan Jones,Dandenong Stingrays
+2005,1,13,West Coast,Shannon Hurn,Central District
+2005,1,14,Hawthorn,Grant Birchall,Tassie Mariners
+2005,1,15,Geelong,Travis Varcoe,Central District
+2005,1,16,Adelaide,Richard Douglas,Calder Cannons
+2005,1,17,Adelaide,Darren Pfeiffer,Norwood
+2005,1,18,Hawthorn,Max Bailey,West Perth
+2005,1,19,Essendon,Courtenay Dempsey,Morningside
+2005,2,20,Carlton,Paul Bower,Peel Thunder
+2005,2,21,Collingwood,Danny Stanley,Geelong Falcons
+2005,2,22,Hawthorn,Beau Muston,Murray Bushrangers
+2005,2,23,Collingwood,Ryan Cook,Dandenong Stingrays
+2005,2,24,Richmond,Cleve Hughes,Norwood
+2005,2,25,Brisbane Lions,Wayde Mills,Southport
+2005,2,26,Fremantle,Garrick Ibbotson,East Fremantle
+2005,2,27,Western Bulldogs,Dylan Addison,St George
+2005,2,28,Kangaroos,Matt Riggio,Peel Thunder
+2005,2,29,West Coast,Ben McKinley,Northern Knights
+2005,2,30,Port Adelaide,Nick Lower,Norwood
+2005,2,31,Geelong,Trent West,Gippsland Power
+2005,2,32,Adelaide,Bernie Vince,Woodville-West Torrens
+2005,2,33,St Kilda,Samuel Gilbert,Southport
+2005,2,34,West Coast,Matthew Spangher,Eastern Ranges
+2005,2,35,Geelong,Stephen Owen,North Ballarat Rebels
+2005,3,36,Carlton,Jake Edwards,Western Jets
+2005,3,37,Collingwood,Jack Anthony,Northern Knights
+2005,,38,Hawthorn,Travis Tuck,Dandenong Stingrays
+2005,,39,Essendon,Jay Neagle,Gippsland Power
+2005,3,40,Richmond,Travis Casserly,Swan Districts
+2005,3,41,Brisbane Lions,Rhan Hooper,Mt Gravatt
+2005,3,42,Fremantle,Robert Warnock,Sandringham Dragons
+2005,3,43,Kangaroos,Andrew Swallow,East Fremantle
+2005,3,44,Port Adelaide,Alipate Carlile,Murray Bushrangers
+2005,3,45,Kangaroos,Kasey Green,West Coast
+2005,3,46,Western Bulldogs,Travis Baird,Brisbane Lions
+2005,3,47,Geelong,Ryan Gamble,Glenelg
+2005,3,48,Adelaide,Alan Obst,Central District
+2005,3,49,St Kilda,Michael Rix,Coburg
+2005,3,50,Essendon,Sam Lonergan,Tassie Mariners
+2005,4,51,Sydney,Matthew Laidlaw,Oakleigh Chargers
+2005,4,52,Collingwood,Pass,
+2005,4,53,Melbourne,Simon Buckley,Sandringham Dragons
+2005,4,54,Sydney,Kristin Thornton,Peel Thunder
+2005,4,55,Western Bulldogs,Brett Montgomery,Port Adelaide
+2005,4,56,Brisbane Lions,Joel Patfull,Port Adelaide
+2005,4,57,Western Bulldogs,Michael West,Tassie Mariners
+2005,4,58,Port Adelaide,Hugh Minson,Norwood
+2005,4,59,Sydney,Ryan Brabazon,Claremont
+2005,4,60,Melbourne,Clint Bartram,Geelong Falcons
+2005,4,61,Geelong,Mathew Stokes,Woodville-West Torrens
+2005,4,62,Adelaide,Pass,
+2005,4,63,St Kilda,Phillip Raymond,Glenelg
+2005,5,64,Carlton,Pass,
+2005,5,65,Hawthorn,Pass,
+2005,5,66,Essendon,Austin Lucy,Suncoast Lions
+2005,5,67,Richmond,Pass,
+2005,5,68,Melbourne,Heath Neville,Tassie Mariners
+2005,5,69,Kangaroos,Tim Hutchison,Port Adelaide Magpies
+2005,5,70,Port Adelaide,Jonathan Giles,Central District
+2005,5,71,St Kilda,Justin Sweeney,Tyabb
+2005,6,72,Essendon,Pass,
+2005,6,73,Kangaroos,Pass,
+2005,6,74,Port Adelaide,Pass,
+2005,6,75,St Kilda,Pass,
+2005,6,76,Essendon,Pass,
+2006,1,1,Carlton,Bryce Gibbs,Glenelg
+2006,1,2,Essendon,Scott Gumbleton,Peel Thunder
+2006,1,3,Kangaroos,Lachlan Hansen,Gippsland Power
+2006,1,4,Brisbane Lions,Matthew Leuenberger,East Perth
+2006,1,5,Port Adelaide,Travis Boak,Geelong Falcons
+2006,1,6,Hawthorn,Mitch Thorp,Tassie Mariners
+2006,1,7,Geelong,Joel Selwood,Bendigo Pioneers
+2006,1,8,Collingwood,Ben Reid,Murray Bushrangers
+2006,1,9,St Kilda,David Armitage,Morningside
+2006,1,10,Collingwood,Nathan Brown,North Ballarat Rebels
+2006,1,11,Western Bulldogs,Andrejs Everitt,Dandenong Stingrays
+2006,1,12,Melbourne,James Frawley,North Ballarat Rebels
+2006,1,13,Richmond,Jack Riewoldt,Tassie Mariners
+2006,1,14,Adelaide,James Sellar,Glenelg
+2006,1,15,Sydney,Daniel O'Keefe,Geelong Falcons
+2006,1,16,West Coast,Mitch Brown,North Ballarat Rebels
+2006,0,17,Carlton,Shaun Hampson,Mount Gravatt
+2006,0,18,Essendon,Leroy Jetta,South Fremantle
+2006,2,19,Carlton,Shaun Grigg,North Ballarat Rebels
+2006,2,20,Essendon,Tom Hislop,Tassie Mariners
+2006,2,21,Kangaroos,Gavin Urquhart,Morningside
+2006,2,22,Brisbane Lions,Albert Proud,Mount Gravatt
+2006,2,23,Port Adelaide,Paul Stewart,Woodville-West Torrens
+2006,2,24,Hawthorn,Brent Renouf,Southport
+2006,2,25,Geelong,Nathan Djerrkura,Wanderers
+2006,2,26,Richmond,Shane Edwards,North Adelaide
+2006,2,27,St Kilda,Brad Howard,Redland
+2006,2,28,Collingwood,Chris Dawes,Sandringham Dragons
+2006,2,29,West Coast,Eric MacKenzie,Claremont
+2006,2,30,Melbourne,Ricky Petterd,Broadbeach
+2006,2,31,Fremantle,Clayton Collard,South Fremantle
+2006,2,32,Adelaide,Kurt Tippett,Southport
+2006,2,33,Hawthorn,Jarryd Morton,Claremont
+2006,2,34,Brisbane Lions,Chris Schmidt,West Adelaide
+2006,3,35,Carlton,Mark Austin,Glenelg
+2006,3,36,Essendon,Alwyn Davey,South Adelaide
+2006,3,37,Kangaroos,Todd Goldstein,Oakleigh Chargers
+2006,3,38,Brisbane Lions,James Hawksley,Peel Thunder
+2006,3,39,Port Adelaide,Nathan Krakouer,Claremont
+2006,3,40,Hawthorn,Josh Kennedy,Sandringham Dragons
+2006,3,41,Geelong,Tom Hawkins,Sandringham Dragons
+2006,3,42,Essendon,Bachar Houli,Western Jets
+2006,3,43,West Coast,Tim Houlihan,North Ballarat Rebels
+2006,3,44,Collingwood,Brad Dick,East Fremantle
+2006,3,45,Western Bulldogs,Brennan Stack,Perth
+2006,3,46,Melbourne,Colin Garland,Tassie Mariners
+2006,3,47,Essendon,Kyle Reimers,Peel Thunder
+2006,3,48,Adelaide,David Mackay,Oakleigh Chargers
+2006,3,49,Sydney,Daniel Currie,Northern Knights
+2006,3,50,West Coast,Will Schofield,Geelong Falcons
+2006,4,51,Carlton,Clint Benjamin,Claremont
+2006,4,52,Fremantle,Brock O'Brien,Peel Thunder
+2006,4,53,Kangaroos,Lindsay Thomas,Port Adelaide
+2006,4,54,Brisbane Lions,Matt Tyler,North Ballarat Rebels
+2006,4,55,Port Adelaide,Robbie Gray,Oakleigh Chargers
+2006,4,56,Hawthorn,Garry Moss,East Perth
+2006,4,57,Geelong,Simon Hogan,Geelong Falcons
+2006,4,58,Richmond,Daniel Connors,Bendigo Pioneers
+2006,4,59,St Kilda,Jarryd Allen,Calder Cannons
+2006,4,60,Richmond,Carl Peterson,Claremont
+2006,4,61,Western Bulldogs,Josh Hill,Claremont
+2006,4,62,Melbourne,Isaac Weetra,Port Adelaide
+2006,4,63,Collingwood,Tyson Goldsack,Gippsland Power
+2006,4,64,Adelaide,Nick Gill,North Adelaide
+2006,4,65,Sydney,Peter Faulks,Calder Cannons
+2006,4,66,Western Bulldogs,Malcolm Lynch,NSW/ACT Rams
+2006,5,67,Carlton,Joe Anderson,Darwin
+2006,5,68,Essendon,Pass,—
+2006,5,69,Kangaroos,Ben Warren,Zillmere Eagles
+2006,5,70,Brisbane Lions,Sam Sheldon,Oakleigh Chargers
+2006,5,71,Port Adelaide,Justin Westhoff,Central District
+2006,5,72,Hawthorn,Pass,—
+2006,5,73,Richmond,Andrew Collins,Bendigo Pioneers
+2006,5,74,St Kilda,Matthew Ferguson,St Kilda
+2006,5,75,Collingwood,Pass,—
+2006,5,76,Western Bulldogs,Paul O'Shea,Redland
+2006,5,77,Fremantle,Calib Mourish,East Fremantle
+2006,5,78,Adelaide,Bryce Campbell,Norwood
+2006,5,79,Sydney,Jesse White,Southport
+2006,5,80,West Coast,James Thomson,Claremont
+2006,6,81,Carlton,Pass,—
+2006,6,82,Kangaroos,Aaron Edwards,Frankston
+2006,6,83,Port Adelaide,Ryan Williams,Geelong Falcons
+2006,6,84,Richmond,Pass,—
+2006,6,85,St Kilda,Pass,—
+2006,7,86,Port Adelaide,David Rodan,Richmond
+2006,7,87,St Kilda,Pass,—
+2006,8,88,Port Adelaide,Pass,—
+2006,8,89,St Kilda,Pass,—
+2007,0,1,Carlton,Matthew Kreuzer,Northern Knights
+2007,1,2,Richmond,Trent Cotchin,Northern Knights
+2007,1,3,West Coast,Chris Masten,East Fremantle
+2007,1,4,Melbourne,Cale Morton,Claremont
+2007,1,5,Western Bulldogs,Jarrad Grant,Dandenong Stingrays
+2007,1,6,Essendon,David Myers,Perth
+2007,1,7,Fremantle,Rhys Palmer,East Fremantle
+2007,1,8,Brisbane Lions,Lachlan Henderson,Geelong Falcons
+2007,1,9,St Kilda,Ben McEvoy,Murray Bushrangers
+2007,1,10,Adelaide,Patrick Dangerfield,Geelong Falcons
+2007,1,11,Sydney,Patrick Veszpremi,Northern Knights
+2007,1,12,Hawthorn,Cyril Rioli,St Mary's
+2007,1,13,West Coast,Brad Ebert,Port Adelaide Magpies
+2007,1,14,Melbourne,Jack Grimes,Northern Knights
+2007,1,15,Kangaroos,Robbie Tarrant,Bendigo Pioneers
+2007,1,16,Port Adelaide,Matthew Lobbe,Eastern Ranges
+2007,1,17,Geelong,Harry Taylor,East Fremantle
+2007,0,18,Richmond,Alex Rance,Swan Districts
+2007,2,19,Western Bulldogs,Callan Ward,Western Jets
+2007,2,20,West Coast,Tony Notte,Swan Districts
+2007,2,21,Melbourne,Addam Maric,Calder Cannons
+2007,2,22,West Coast,Scott Selwood,Bendigo Pioneers
+2007,2,23,Essendon,Tayte Pears,East Perth
+2007,2,24,Fremantle,Clayton Hinkley,North Ballarat Rebels
+2007,2,25,Brisbane Lions,Tom Collier,Tassie Mariners
+2007,2,26,Sydney,Brett Meredith,Northern Knights
+2007,2,27,Adelaide,Andy Otten,Oakleigh Chargers
+2007,2,28,Port Adelaide,Marlon Motlop,Wanderers
+2007,2,29,Hawthorn,Brendan Whitecross,Zillmere
+2007,2,30,Adelaide,Jarrhan Jacky,Subiaco
+2007,2,31,Collingwood,John McCarthy,Dandenong Stingrays
+2007,2,32,Kangaroos,Levi Greenwood,Port Adelaide Magpies
+2007,2,33,Port Adelaide,Matthew Westhoff,Central District
+2007,2,34,Geelong,Dawson Simpson,Murray Bushrangers
+2007,3,35,Western Bulldogs,Sam Reid,Zillmere
+2007,3,36,Carlton,Steven Browne,West Perth
+2007,3,37,Kangaroos,Scott Thompson,Geelong
+2007,3,38,Adelaide,Myke Cook,Sandringham Dragons
+2007,,39,Essendon,Darcy Daniher,Calder Cannons
+2007,3,40,Fremantle,Chris Mayne,Perth
+2007,3,41,Brisbane Lions,James Polkinghorne,Calder Cannons
+2007,3,42,St Kilda,Jack Steven,Geelong Falcons
+2007,3,43,Western Bulldogs,Easton Wood,Camperdown / Geelong Grammar School
+2007,3,44,Geelong,Scott Simpson,Dandenong Stingrays
+2007,3,45,Hawthorn,Stuart Dew,Port Adelaide
+2007,3,46,Carlton,Dennis Armfield,Swan Districts
+2007,3,47,Collingwood,Toby Thoolen,Bendigo Pioneers
+2007,3,48,Western Bulldogs,Jarrad Boumann,Dandenong Stingrays
+2007,3,49,Port Adelaide,Mitchell Farmer,Calder Cannons
+2007,3,50,Geelong,Dan McKenna,Gippsland Power
+2007,4,51,Richmond,Dean Putt,Calder Cannons
+2007,4,52,Brisbane Lions,Bradd Dalziell,East Fremantle
+2007,4,53,Melbourne,Kyle Cheney,North Ballarat Rebels
+2007,4,54,Essendon,Cale Hooker,East Fremantle
+2007,4,55,Fremantle,Mark Johnson,Essendon
+2007,4,56,Brisbane Lions,Matt Austin,North Ballarat Rebels
+2007,4,57,St Kilda,Fraser Gehrig,St Kilda ( ret. )
+2007,4,58,Adelaide,Tony Armstrong,NSW/ACT Rams / Calder Cannons
+2007,4,59,Sydney,Craig Bird,NSW/ACT Rams /Nelson Bay
+2007,,60,Geelong,Adam Donohue,Geelong Falcons
+2007,,61,Collingwood,Jaxson Barham,Geelong Falcons
+2007,4,62,Kangaroos,Josh Smith,West Perth
+2007,4,63,Western Bulldogs,Guy O'Keefe,Geelong Falcons
+2007,5,64,Richmond,Pass,
+2007,5,65,Carlton,Pass,
+2007,5,66,Melbourne,Tom McNamara,South Adelaide
+2007,5,67,Western Bulldogs,Pass,
+2007,5,68,Essendon,Pass,
+2007,5,69,Fremantle,Kepler Bradley,Essendon
+2007,5,70,St Kilda,Eljay Connors,Bendigo Pioneers
+2007,5,71,Adelaide,Aaron Kite,Calder Cannons
+2007,5,72,Kangaroos,Blake Grima,Kangaroos
+2007,6,73,Melbourne,Pass,
+2007,6,74,Essendon,Jason D'urso,
+2007,,75,Adelaide,Taylor Walker,NSW/ACT Rams / North Broken Hill
+2008,1,1,Melbourne,Jack Watts,Sandringham Dragons
+2008,1,2,West Coast,Nic Naitanui,Swan Districts
+2008,1,3,Fremantle,Stephen Hill,West Perth
+2008,1,4,Port Adelaide,Hamish Hartlett,West Adelaide
+2008,1,5,Essendon,Michael Hurley,Northern Knights
+2008,1,6,Carlton,Chris Yarran,Swan Districts
+2008,1,7,Brisbane Lions,Daniel Rich x,Subiaco
+2008,1,8,Richmond,Ty Vickery,Sandringham Dragons
+2008,1,9,North Melbourne,Jack Ziebell,Murray Bushrangers
+2008,1,10,Adelaide,Phil Davis,North Adelaide
+2008,1,11,Collingwood,Steele Sidebottom,Murray Bushrangers
+2008,1,12,Sydney,Lewis Johnston,North Adelaide
+2008,1,13,St Kilda,Tom Lynch,Sandringham Dragons
+2008,1,15,Geelong,Mitchell Brown,Sandringham Dragons
+2008,1,16,Hawthorn,Ryan Schoenmakers,Norwood
+2008,0,17,Melbourne,Sam Blease,Eastern Ranges
+2008,0,18,West Coast,Luke Shuey,Oakleigh Chargers
+2008,2,19,Melbourne,James Strauss,Oakleigh Chargers
+2008,2,20,West Coast,Tom Swift,Claremont
+2008,2,21,Fremantle,Hayden Ballantyne,Peel Thunder
+2008,2,22,Port Adelaide,Jackson Trengove,Calder Cannons
+2008,2,23,Essendon,David Zaharakis,Northern Knights
+2008,2,24,Fremantle,Nick Suban,North Ballarat Rebels
+2008,2,25,Brisbane Lions,Jack Redden,Glenelg
+2008,2,26,Richmond,Jayden Post,Western Jets
+2008,2,27,North Melbourne,Sam Wright,Murray Bushrangers
+2008,2,28,Adelaide,Shaun McKernan,Calder Cannons
+2008,2,29,Collingwood,Dayne Beams,Southport
+2008,2,30,Sydney,Dan Hannebery,Oakleigh Chargers
+2008,2,31,Western Bulldogs,Jordan Roughead,North Ballarat Rebels
+2008,2,32,Western Bulldogs,Liam Jones,North Hobart
+2008,2,33,Geelong,Tom Gillies,Dandenong Stringrays
+2008,2,34,Hawthorn,Liam Shiels,Eastern Ranges
+2008,3,35,Melbourne,Jamie Bennell,Swan Districts
+2008,3,36,West Coast,Ashley Smith,Dandenong Stingrays
+2008,3,37,Fremantle,Zac Clarke,Oakleigh Chargers
+2008,3,38,Port Adelaide,Matthew Broadbent,Woodville-West Torrens
+2008,3,39,Geelong,Steven Motlop,Wanderers
+2008,3,40,Carlton,Mitch Robinson,Tasmanian Devils
+2008,3,41,Brisbane Lions,Todd Banfield,Swan Districts
+2008,3,42,Port Adelaide,Mitch Banner,Western Jets
+2008,3,43,North Melbourne,Liam Anthony,East Fremantle
+2008,3,44,Adelaide,Rory Sloane,Eastern Ranges
+2008,3,45,Collingwood,Jarrad Blight,Swan Districts
+2008,3,46,Collingwood,Luke Rounds,Geelong Falcons
+2008,3,47,St Kilda,Rhys Stanley,West Adelaide
+2008,3,48,St Kilda,Nicholas Heyne,Gippsland Power
+2008,3,49,Geelong,Taylor Hunt,Sandringham Dragons
+2008,3,50,Hawthorn,Jordan Lisle,Oakleigh Chargers
+2008,4,51,Melbourne,Neville Jetta,Swan Districts
+2008,4,52,West Coast,Jordan Jones,Geelong Falcons
+2008,4,53,Fremantle,Michael Walters,Swan Districts
+2008,4,54,Port Adelaide,Jarrad Redden,Woodville-West Torrens
+2008,4,55,Essendon,Michael Still,Northern Knights
+2008,4,56,Fremantle,Ben Bucovaz,Geelong Falcons
+2008,4,57,Brisbane Lions,Aaron Cornelius,Tasmanian Devils
+2008,4,58,Richmond,Tom Hislop,Essendon
+2008,4,59,North Melbourne,Nathan O'Keefe,Eastern Ranges
+2008,4,60,Adelaide,Tom Lee,Claremont
+2008,4,61,Sydney,Campbell Heath,Gippsland Power
+2008,4,62,St Kilda,Alistair Smith,Perth
+2008,4,63,Hawthorn,Luke Lowden,Sandringham Dragons
+2008,5,64,Melbourne,Rohan Bail,Mount Gravatt
+2008,5,65,Carlton,Rhys O'Keeffe,North Adelaide
+2008,5,66,Port Adelaide,Glenn Dawson,Woodville-West Torrens
+2008,5,67,Essendon,Tyson Slattery,West Adelaide
+2008,5,68,Fremantle,Tim Ruffles,North Ballarat Rebels
+2008,5,69,Brisbane Lions,Bart McCulloch,South Launceston
+2008,5,70,Richmond,Pass,
+2008,5,71,North Melbourne,Warren Benjamin,Claremont
+2008,5,72,Adelaide,Will Young,North Ballarat Rebels
+2008,5,73,Collingwood,Leigh Brown,North Melbourne
+2008,5,74,St Kilda,Paul Cahill,Sturt
+2008,5,75,Hawthorn,Shane Savage,Dandenong Stingrays
+2008,6,76,Melbourne,Pass,
+2008,6,77,Fremantle,Chris Hall,Woodville-West Torrens
+2008,6,78,Port Adelaide,Jason Davenport,Geelong
+2008,6,79,Essendon,Pass,
+2008,6,80,Carlton,Caleb Tiller,Murray Bushrangers
+2008,6,81,Brisbane Lions,Kieran King,East Fremantle
+2008,6,82,Brisbane Lions,Pass,
+2008,6,83,St Kilda,Colm Begley,Brisbane Lions
+2008,7,84,Port Adelaide,Pass,
+2008,7,85,Carlton,Pass,
+2009,0,1,Melbourne,Tom Scully,Dandenong Stingrays
+2009,1,2,Melbourne,Jack Trengove,Sturt
+2009,1,3,Richmond,Dustin Martin,Bendigo Pioneers
+2009,1,4,Fremantle,Anthony Morabito,Peel
+2009,1,5,North Melbourne,Ben Cunnington,Geelong Falcons
+2009,1,6,Sydney,Gary Rohan,Geelong Falcons
+2009,1,7,West Coast,Brad Sheppard,East Fremantle
+2009,1,8,Port Adelaide,John Butcher,Gippsland Power
+2009,1,9,Port Adelaide,Andrew Moore,Eastern Ranges
+2009,1,10,Essendon,Jake Melksham,Calder Cannons
+2009,1,11,Melbourne,Jordan Gysberts,Eastern Ranges
+2009,1,12,Carlton,Kane Lucas,East Fremantle
+2009,1,13,Adelaide,Daniel Talia,Calder Cannons
+2009,1,14,Sydney,Lewis Jetta,Swan Districts
+2009,1,15,Western Bulldogs,Christian Howard,Glenelg
+2009,1,16,Port Adelaide,Jasper McMillan-Pittard,Geelong Falcons
+2009,1,17,Geelong,Daniel Menzel,Central District
+2009,2,18,Melbourne,Luke Tapscott,North Adelaide
+2009,2,19,Richmond,Benjamin Griffiths,Eastern Ranges
+2009,2,20,Fremantle,Nathan Fyfe,Claremont
+2009,2,21,North Melbourne,Ryan Bastinac,Dandenong Stingrays
+2009,2,22,West Coast,Gerrick Weedon,Claremont
+2009,2,23,West Coast,Koby Stevens,Gippsland Power
+2009,2,24,Essendon,Jake Carlisle,Calder Cannons
+2009,2,25,North Melbourne,Aaron Black,Peel
+2009,2,26,Essendon,Travis Colyer,Claremont
+2009,2,27,Brisbane Lions,Callum Bartlett,Geelong Falcons
+2009,2,28,Geelong,Mitch Duncan,East Perth
+2009,2,29,Adelaide,Jack Gunston,Sandringham Dragons
+2009,2,30,Collingwood,Luke Ball,St Kilda
+2009,2,31,Western Bulldogs,Jason Tutt,Ainslie
+2009,2,32,St Kilda,Nicholas Winmar,Claremont
+2009,2,33,Essendon,Anthony Long,Calder Cannons
+2009,3,34,Melbourne,Max Gawn,Sandringham Dragons
+2009,3,35,Richmond,David Astbury,North Ballarat Rebels
+2009,3,36,Fremantle,Joel Houghton,Perth
+2009,3,37,North Melbourne,Jamie Macmillan,Oakleigh Chargers
+2009,3,38,Sydney,Sam Reid,Murray Bushrangers
+2009,3,39,Hawthorn,Sam Grimley,Northern Knights
+2009,3,40,Geelong,Allen Christensen,Geelong Falcons
+2009,3,41,North Melbourne,Ayden Kennedy,Eastern Ranges
+2009,3,42,Geelong,Nathan Vardy,Gippsland Power
+2009,3,43,Carlton,Marcus Davies,North Hobart
+2009,3,44,Richmond,Matthew Dea,North Ballarat Rebels
+2009,3,45,Adelaide,Sam Shaw,Oakleigh Chargers
+2009,3,46,Hawthorn,Ben Stratton,East Perth
+2009,3,47,Brisbane Lions,Ryan Harwood,Glenorchy
+2009,3,48,Fremantle,Jesse Crichton,North Launceston
+2009,3,49,Fremantle,Dylan Roberton,Dandenong Stingrays
+2009,4,50,Melbourne,Jack Fitzpatrick,Western Jets
+2009,4,51,Richmond,Troy Taylor,South Alice Springs
+2009,4,52,Fremantle,Justin Bollenhagen,South Adelaide
+2009,4,53,North Melbourne,Brayden Norris,Murray Bushrangers
+2009,4,54,Sydney,Byron Sumner,Woodville-West Torrens
+2009,4,55,Sydney,Trent Dennis-Lane,Subiaco
+2009,4,56,Geelong,Josh Cowan,North Ballarat Rebels
+2009,4,57,Hawthorn,Jordan Williams,Bendigo Pioneers
+2009,4,58,Hawthorn,Rhan Hooper,Brisbane Lions
+2009,4,59,Carlton,Rohan Kerr,Dandenong Stingrays
+2009,4,60,St Kilda,Jesse W. Smith,North Melbourne
+2009,4,61,Adelaide,James Craig,North Adelaide
+2009,4,62,Collingwood,Ben Sinclair,Oakleigh Chargers
+2009,4,63,Western Bulldogs,Lukas Markovic,Box Hill Hawks
+2009,4,64,St Kilda,Adam Pattison,Richmond
+2009,4,65,Geelong,Jeremy Laidler,(Promoted rookie)
+2009,5,66,Melbourne,Pass,
+2009,5,67,Richmond,Jeromey Webberley,Clarence
+2009,5,68,Fremantle,Pass,
+2009,5,69,Hawthorn,Taylor Duryea,Murray Bushrangers
+2009,5,70,Hawthorn,Matt Suckling,(Promoted rookie)
+2009,5,71,Richmond,Ben Nason,Central District
+2009,5,72,Carlton,Sam Jacobs,(Promoted rookie)
+2009,5,73,Brisbane Lions,Jesse O'Brien,North Adelaide
+2009,5,74,Adelaide,Brodie Martin,(Promoted rookie)
+2009,5,75,Collingwood,Josh Thomas,Redland
+2009,5,76,Western Bulldogs,Shane Thorne,Wanderers
+2009,5,77,St Kilda,Will Johnson,Sandringham
+2009,6,78,Richmond,Pass,
+2009,6,79,Fremantle,Greg Broughton,(Promoted rookie)
+2009,6,80,North Melbourne,Cruize Garlett,(Promoted rookie)
+2009,6,81,Sydney,Pass,
+2009,6,82,Port Adelaide,Daniel Stewart,(Promoted rookie)
+2009,6,83,Carlton,Aaron Joseph,(Promoted rookie)
+2009,6,84,Brisbane Lions,Bryce Retzlaff,Labrador
+2009,6,85,Collingwood,Simon Buckley,Melbourne
+2009,6,86,Western Bulldogs,Liam Picken,(Promoted rookie)
+2009,6,87,St Kilda,Zac Dawson,(Promoted rookie)
+2009,6,88,Port Adelaide,Wade Thompson,(Promoted rookie)
+2009,7,89,Richmond,Robin Nahas,(Promoted rookie)
+2009,7,90,Sydney,Kristin Thornton,(Promoted rookie)
+2009,7,91,Brisbane Lions,Matt Maguire,St Kilda
+2009,7,92,Western Bulldogs,James Mulligan,(Promoted rookie)
+2009,7,93,St Kilda,Luke Miles,(Promoted rookie)
+2009,8,94,Richmond,Andrew Browne,(Promoted rookie)
+2009,8,95,Brisbane Lions,Pearce Hanley,(Promoted rookie)
+2010,1,1,Gold Coast,David Swallow,East Fremantle
+2010,1,2,Gold Coast,Harley Bennell,Peel Thunder
+2010,1,3,Gold Coast,Sam Day,Sturt
+2010,1,4,West Coast,Andrew Gaff,Oakleigh Chargers
+2010,1,5,Brisbane Lions,Jared Polec,Woodville-West Torrens
+2010,1,6,Richmond,Reece Conca,Perth
+2010,1,7,Gold Coast,Josh Caddy,Northern Knights
+2010,1,8,Essendon,Dyson Heppell,Gippsland Power
+2010,1,9,Gold Coast,Dion Prestia,Calder Cannons
+2010,1,10,Gold Coast,Daniel Gorringe,Norwood
+2010,1,11,Gold Coast,Thomas Lynch,Dandenong Stingrays
+2010,1,12,Melbourne,Lucas Cook,North Ballarat Rebels
+2010,1,13,Gold Coast,Seb Tape,Glenelg
+2010,1,14,Adelaide,Brodie Smith,Woodville-West Torrens
+2010,1,15,Geelong,Billie Smedts,Geelong Falcons
+2010,1,16,Port Adelaide,Ben Jacobs,Sandringham Dragons
+2010,1,17,North Melbourne,Shaun Atley,Murray Bushrangers
+2010,1,18,Carlton,Matthew Watson,Calder Cannons
+2010,1,19,Hawthorn,Isaac Smith,North Ballarat
+2010,1,20,Fremantle,Jayden Pitt,Geelong Falcons
+2010,1,21,Sydney,Jed Lamb,Gippsland Power
+2010,1,22,Western Bulldogs,Mitch Wallis ( F/S ),Calder Cannons
+2010,1,23,Geelong,Cameron Guthrie,Calder Cannons
+2010,1,24,St Kilda,Jamie Cripps,East Fremantle
+2010,1,25,Brisbane Lions,Patrick Karnezis,Oakleigh Chargers
+2010,0,26,West Coast,Jack Darling,West Perth
+2010,,27,North Melbourne,Kieran Harper,Eastern Ranges
+2010,2,28,Brisbane Lions,Ryan Lester,Oakleigh Chargers
+2010,2,29,West Coast,Scott Lycett,Port Magpies
+2010,2,30,Richmond,Jake Batchelor,Dandenong Stingrays
+2010,2,31,Essendon,Ariel Steinberg,Bendigo Pioneers
+2010,2,32,Brisbane Lions,Josh Green,Clarence
+2010,2,33,Melbourne,Jeremy Howe,Hobart Football Club
+2010,2,34,Carlton,Patrick McCarthy,Glenelg
+2010,2,35,Port Adelaide,Ben Newton,South Fremantle
+2010,2,36,Port Adelaide,Aaron Young,Eastern Ranges
+2010,2,37,Geelong,George Horlin-Smith,Sturt
+2010,2,38,Hawthorn,Mitchell Hallahan,Dandenong Stingrays
+2010,2,39,Gold Coast,Jeremy Taylor,Geelong Falcons
+2010,2,40,Sydney,Luke Parker,Dandenong Stingrays
+2010,2,41,Western Bulldogs,Tom Liberatore ( F/S ),Calder Cannons
+2010,2,42,Carlton,Luke Mitchell,Calder Cannons
+2010,2,43,St Kilda,Sam Crocker,Oakleigh Chargers
+2010,2,44,Fremantle,Viv Michie,Oakleigh Chargers
+2010,3,45,Collingwood,Alex Fasolo,East Fremantle
+2010,3,46,Collingwood,Daniel Farmer,Sandringham Dragons
+2010,3,47,Richmond,Bradley Helbig,West Adelaide
+2010,3,48,Essendon,Alex Browne,Oakleigh Chargers
+2010,3,49,Gold Coast,Jacob Gillbee,Lauderdale
+2010,3,50,Melbourne,Troy Davis,Geelong Falcons
+2010,3,51,Richmond,Dean MacDonald,Gippsland Power
+2010,3,52,Port Adelaide,Cam O'Shea,Eastern Ranges
+2010,3,53,Melbourne,Tom McDonald,North Ballarat Rebels
+2010,3,54,Geelong,Jordan Schroder,Calder Cannons
+2010,3,55,Hawthorn,Angus Litherland,Claremont
+2010,3,56,Fremantle,Josh Mellington,Murray Bushrangers
+2010,3,57,Sydney,Alex Johnson,Oakleigh Chargers
+2010,3,58,Geelong,James Podsiadly,(Promoted rookie)
+2010,3,59,St Kilda,Tom Ledger,Claremont
+2010,3,60,Collingwood,Kirk Ugle,Swan Districts
+2010,4,61,Adelaide,Jarryd Lyons,Sandringham Dragons
+2010,4,62,West Coast,Jacob Brennan ( F/S ),East Fremantle
+2010,4,63,Richmond,Tom Derickx,Claremont
+2010,4,64,Essendon,Luke Davis,West Adelaide
+2010,4,65,Brisbane Lions,Claye Beams,(Promoted rookie)
+2010,4,66,Hawthorn,Paul Puopolo,Norwood
+2010,4,67,Carlton,Andrew McInnes,Dandenong Stingrays
+2010,4,68,Port Adelaide,Cameron Hitchcock,(Promoted rookie)
+2010,4,69,North Melbourne,Cameron Delaney,Geelong Falcons
+2010,4,70,Carlton,Nicholas Duigan,Norwood
+2010,4,71,North Melbourne,Ben Mabon,North Ballarat Rebels
+2010,4,72,Fremantle,Pass,Pass
+2010,4,73,Sydney,Matthew Spangher,West Coast
+2010,4,74,Western Bulldogs,Jayden Schofield,East Fremantle
+2010,4,75,St Kilda,Arryn Siposs,Dandenong Stingrays
+2010,4,76,Collingwood,Paul Seedsman,Eastern Ranges
+2010,5,77,Collingwood,Trent Stubbs,East Coast
+2010,5,78,West Coast,Lewis Stevenson,(Promoted rookie)
+2010,5,79,Richmond,Pass,Pass
+2010,5,80,Essendon,Michael Ross,Gippsland Power
+2010,5,81,Melbourne,Jordie McKenzie,(Promoted rookie)
+2010,5,82,Adelaide,Ricky Henderson,(Promoted rookie)
+2010,5,83,Port Adelaide,Danny Meyer,(Promoted rookie)
+2010,5,84,West Coast,Callum Wilson,(Promoted rookie)
+2010,5,85,Carlton,Jeff Garlett,(Promoted rookie)
+2010,5,86,Hawthorn,Pass,Pass
+2010,5,87,Fremantle,Michael Barlow,(Promoted rookie)
+2010,5,88,Western Bulldogs,Zephaniah Skinner,Nightcliff Tigers
+2010,5,89,Western Bulldogs,Tom Hill,Northern Knights
+2010,5,90,St Kilda,Ryan Gamble,Geelong
+2010,5,91,Collingwood,Jarryd Blair,(Promoted rookie)
+2010,6,92,Collingwood,Lachlan Keeffe,(Promoted rookie)
+2010,6,93,West Coast,Andrew Strijk,(Promoted rookie)
+2010,6,94,Richmond,David Gourdis,(Promoted rookie)
+2010,6,95,Essendon,Pass,Pass
+2010,6,96,Melbourne,Jake Spencer,(Promoted rookie)
+2010,6,97,Adelaide,Matthew Jaensch,(Promoted rookie)
+2010,6,98,North Melbourne,Ben Speight,(Promoted rookie)
+2010,6,99,Carlton,David Ellard,(Promoted rookie)
+2010,6,100,Fremantle,Matt de Boer,(Promoted rookie)
+2010,6,101,Sydney,Mike Pyke,(Promoted rookie)
+2010,6,102,Western Bulldogs,Brodie Moles,(Promoted rookie)
+2010,6,103,St Kilda,Dean Polo,Richmond
+2010,6,104,Collingwood,Tom Young,NSW AFL scholarship
+2010,7,105,Gold Coast,Pass,Pass
+2010,7,106,Essendon,Ben Howlett,(Promoted rookie)
+2010,7,107,Adelaide,Luke Thompson,(Promoted rookie)
+2010,7,108,Carlton,Simon White,(Promoted rookie)
+2010,7,109,Fremantle,Alex Silvagni,(Promoted rookie)
+2010,7,110,Western Bulldogs,Andrew Hooper,(Promoted rookie)
+2010,7,111,St Kilda,Tom Simpkin,(Promoted rookie)
+2010,8,112,Fremantle,Jay van Berlo,(Promoted rookie)
+2011,1,1,Greater Western Sydney,Jonathon Patton,Eastern Ranges
+2011,1,2,Greater Western Sydney,Stephen Coniglio,Swan Districts
+2011,1,3,Greater Western Sydney,Dom Tyson,Oakleigh Chargers
+2011,1,4,Greater Western Sydney,Will Hoskin-Elliott,Western Jets
+2011,1,5,Greater Western Sydney,Matt Buntine,Dandenong Stingrays
+2011,1,6,Port Adelaide,Chad Wingard,Sturt
+2011,1,7,Greater Western Sydney,Nick Haynes,Dandenong Stingrays
+2011,1,8,Brisbane Lions,Billy Longer,Northern Knights
+2011,1,9,Greater Western Sydney,Adam Tomlinson,Oakleigh Chargers
+2011,1,10,Greater Western Sydney,Liam Sumner,Sandringham Dragons
+2011,1,11,Greater Western Sydney,Toby Greene,Oakleigh Chargers
+2011,1,12,Brisbane Lions,Sam Docherty,Gippsland Power
+2011,1,13,Greater Western Sydney,Taylor Adams,Geelong Falcons
+2011,1,14,Greater Western Sydney,Devon Smith,Geelong Falcons
+2011,1,15,Richmond,Brandon Ellis,Calder Cannons
+2011,1,16,Fremantle,Tom Sheridan,Calder Cannons
+2011,1,17,Western Bulldogs,Clay Smith,Gippsland Power
+2011,1,18,North Melbourne,Brad McKenzie,Sturt
+2011,1,19,Essendon,Elliott Kavanagh,Western Jets
+2011,1,20,Fremantle,Hayden Crozier,Eastern Ranges
+2011,1,22,Carlton,Josh Bootsma,South Fremantle
+2011,1,23,West Coast,Murray Newman,Swan Districts
+2011,1,24,Gold Coast,Henry Schade,North Hobart Demons
+2011,1,25,St Kilda,Sebastian Ross,North Ballarat Rebels
+2011,1,26,Richmond,Todd Elton,Dandenong Stingrays
+2011,0,27,Adelaide,Sam Kerridge,Bendigo Pioneers
+2011,0,28,West Coast,Fraser McInnes,Perth
+2011,0,29,Fremantle,Alex Forster,Norwood
+2011,,30,Brisbane Lions,Elliot Yeo,East Fremantle
+2011,2,31,Essendon,Jackson Merrett,Geelong Falcons
+2011,2,32,Geelong,Joel Hamling,Claremont
+2011,2,33,Hawthorn,Bradley Hill,West Perth
+2011,2,34,Geelong,Shane Kersten,South Fremantle
+2011,2,35,St Kilda,Daniel Markworth,Calder Cannons
+2011,2,36,Melbourne,Rory Taggert,North Ballarat Rebels
+2011,2,37,St Kilda,Jack Newnes,Northern Knights
+2011,2,38,Hawthorn,Jordan Kelly,Dandenong Stingrays
+2011,2,39,Western Bulldogs,Michael Talia,Calder Cannons
+2011,2,40,North Melbourne,Tom Curran,Oakleigh Chargers
+2011,2,41,Adelaide,Mitchell Grigg,Norwood
+2011,2,42,St Kilda,Jimmy Webster,Glenorchy
+2011,2,43,Sydney,Jordan Lockyer,West Perth
+2011,2,44,Carlton,Sam Rowe,Norwood
+2011,2,45,Port Adelaide,Brendon Ah Chee,South Fremantle
+2011,2,46,Adelaide,Nicholas Joyce,Woodville-West Torrens
+2011,2,47,Brisbane Lions,Patrick Wearden,Murray Bushrangers
+2011,2,48,Geelong,Jordan Murdoch,Glenelg
+2011,2,49,Western Bulldogs,Daniel Pearce,Oakleigh Chargers
+2011,3,50,Collingwood,Jackson Paine,Sandringham Dragons
+2011,3,51,Port Adelaide,Nathan Blee,East Perth
+2011,3,52,Melbourne,Josh Tynan,Gippsland Power
+2011,3,53,Hawthorn,Alex Woodward,Sandringham Dragons
+2011,3,54,Melbourne,James Sellar,Adelaide
+2011,3,55,Richmond,Matthew Arnot,Oakleigh Chargers
+2011,3,56,Greater Western Sydney,Tom Downie,North Ballarat Rebels
+2011,3,57,Western Bulldogs,Tory Dickson,Bendigo Bombers
+2011,3,58,Fremantle,Lachie Neale,Glenelg
+2011,3,59,Essendon,Nick O'Brien,North Ballarat Rebels
+2011,3,60,St Kilda,Jay Lever,Geelong Falcons
+2011,3,61,Sydney,Alex Brown,Oakleigh Chargers
+2011,3,63,West Coast,Ashton Hams,(Rookie promotion)
+2011,3,64,Adelaide,Cam Ellis-Yolmen,Woodville-West Torrens
+2011,3,65,Collingwood,Corey Gault,Swan Districts
+2011,3,66,Geelong,Lincoln McCarthy,Glenelg
+2011,4,67,Collingwood,Jarrod Witts,Sydney University (NSW Scholarship)
+2011,4,68,St Kilda,Beau Maister,Claremont
+2011,4,69,Brisbane Lions,Mitchell Golby,(Rookie promotion)
+2011,4,70,Western Bulldogs,Luke Dahlhaus,(Rookie promotion)
+2011,4,71,Fremantle,Cameron Sutcliffe,Woodville-West Torrens
+2011,4,72,Fremantle,Pass,Pass
+2011,4,73,Western Bulldogs,Matthew Panos,(Rookie promotion)
+2011,4,74,North Melbourne,Luke Delaney,(Rookie promotion)
+2011,4,75,Essendon,Stewart Crameri,(Rookie promotion)
+2011,4,76,St Kilda,Jason Blake,St Kilda (redrafted)
+2011,4,77,Hawthorn,Luke Breust,(Rookie promotion)
+2011,4,78,Geelong,Orren Stephenson,North Ballarat
+2011,5,79,Greater Western Sydney,Setanta Ó hAilpín,Carlton
+2011,5,80,Gold Coast,Alik Magin,(Rookie promotion)
+2011,5,81,Port Adelaide,Pass,Pass
+2011,5,82,Adelaide,Matthew Wright,(Rookie promotion)
+2011,5,83,Fremantle,Nick Lower,(Rookie promotion)
+2011,5,84,North Melbourne,Cameron Pedersen,(Rookie promotion)
+2011,5,85,Sydney,Nathan Gordon,(Rookie promotion)
+2011,6,87,Greater Western Sydney,James McDonald,Old Xaverians
+2011,6,88,Gold Coast,Alex Sexton,Redland (Zone selection)
+2011,6,89,Adelaide,Aidan Riley,(Rookie promotion)
+2011,7,90,Greater Western Sydney,Pass,Pass
+2011,7,91,Gold Coast,Jackson Allen,Morningside (Zone selection)
+2011,8,92,Greater Western Sydney,Pass,Pass
+2011,8,93,Greater Western Sydney,Pass,Pass
+2011,8,94,Greater Western Sydney,Pass,Pass
+2011,8,95,Greater Western Sydney,Pass,Pass
+2011,8,96,Greater Western Sydney,Pass,Pass
+2012,1,1,Greater Western Sydney,Lachie Whitfield,Dandenong Stingrays
+2012,1,2,Greater Western Sydney,Jonathan O'Rourke,Calder Cannons
+2012,1,3,Greater Western Sydney,Lachie Plowman,Calder Cannons
+2012,1,4,Melbourne,Jimmy Toumpas,Woodville-West Torrens
+2012,1,5,Western Bulldogs,Jake Stringer,Bendigo Pioneers
+2012,1,6,Western Bulldogs,Jack Macrae,Oakleigh Chargers
+2012,1,7,Port Adelaide,Ollie Wines,Bendigo Pioneers
+2012,1,8,Brisbane Lions,Sam Mayes,North Adelaide
+2012,1,9,Richmond,Nick Vlastuin,Northern Knights
+2012,1,10,Essendon,Joe Daniher,Calder Cannons
+2012,1,11,Carlton,Troy Menzel,Central District
+2012,1,12,Greater Western Sydney,Kristian Jaksch,Oakleigh Chargers
+2012,1,13,Gold Coast,Jesse Lonergan,Launceston
+2012,1,14,Greater Western Sydney,Aidan Corr,Northern Knights
+2012,1,15,North Melbourne,Taylor Garner,Dandenong Stingrays
+2012,1,16,Geelong,Jackson Thurlow,Launceston
+2012,1,17,Fremantle,Josh Simpson,East Fremantle
+2012,1,18,Collingwood,Brodie Grundy,Sturt
+2012,1,19,Collingwood,Ben Kennedy,Glenelg
+2012,1,20,Collingwood,Tim Broomhead,Port Adelaide Magpies
+2012,1,21,Western Bulldogs,Nathan Hrovat,Northern Knights
+2012,1,22,Sydney,Dean Towers,North Ballarat
+2012,1,23,Brisbane Lions,Marco Paparone,East Fremantle
+2012,2,24,St Kilda,Nathan Wright,Dandenong Stingrays
+2012,2,25,St Kilda,Spencer White,Western Jets
+2012,2,26,Melbourne,Jack Viney,Oakleigh Chargers
+2012,2,27,Greater Western Sydney,James Stewart,Sandringham Dragons
+2012,2,28,Hawthorn,Tim O'Brien,Glenelg
+2012,2,29,Port Adelaide,Tom Clurey,Murray Bushrangers
+2012,2,30,Port Adelaide,Mason Shaw,South Fremantle
+2012,2,31,Richmond,Kamdyn McIntosh,Peel Thunder
+2012,2,32,Brisbane Lions,Michael Close,North Ballarat Rebels
+2012,2,33,Richmond,Liam McBean,Calder Cannons
+2012,2,34,Essendon,Jason Ashby,Oakleigh Chargers
+2012,2,35,Carlton,Tom Temay,Sandringham Dragons
+2012,2,36,Fremantle,Tanner Smith,North Ballarat Rebels
+2012,2,37,North Melbourne,Ben Jacobs,Port Adelaide
+2012,2,38,Collingwood,Jackson Ramsay,East Perth
+2012,2,39,Fremantle,Max Duffy,East Fremantle
+2012,2,40,St Kilda,Brodie Murdoch,Glenelg
+2012,2,41,North Melbourne,Mason Wood,Geelong Falcons
+2012,2,42,Richmond,Matthew McDonough,Woodville-West Torrens
+2012,2,43,St Kilda,Josh Saunders,Geelong Falcons
+2012,2,44,Sydney,Harrison Marsh,East Fremantle
+2012,3,45,West Coast,Brant Colledge,Perth
+2012,3,46,Sydney,Tim Membrey,Gippsland Power
+2012,3,47,North Melbourne,Mitchell Wilkins,Norwood
+2012,3,48,Melbourne,Dean Kent,Perth
+2012,3,49,Western Bulldogs,Lachie Hunter,Western Jets
+2012,3,50,Western Bulldogs,Josh Prudden,Murray Bushrangers
+2012,3,51,Essendon,Dylan Van Unen,Frankston
+2012,3,52,Melbourne,Matt Jones,Box Hill Hawks
+2012,3,53,Essendon,Martin Gleeson,North Ballarat Rebels
+2012,3,54,Carlton,Nick Graham,Gippsland Power
+2012,3,55,Gold Coast,Tim Sumner,Woodville-West Torrens
+2012,3,56,North Melbourne,Daniel Currie,North Adelaide
+2012,3,57,Gold Coast,Kyal Horsley,(Rookie promotion)
+2012,3,58,Gold Coast,Clay Cameron,Mount Gravatt
+2012,3,59,West Coast,Adam Carter,South Fremantle
+2012,3,60,West Coast,Mark Hutchings,West Perth
+2012,3,61,North Melbourne,Taylor Hine,Gold Coast
+2012,3,62,Adelaide,Sam Siggins,Lauderdale
+2012,3,63,Greater Western Sydney,Pass,Pass
+2012,3,64,Sydney,Matthew Dick,Calder Cannons
+2012,3,65,Sydney,Pass,Pass
+2012,4,66,Hawthorn,Kaiden Brand,West Adelaide
+2012,4,67,Greater Western Sydney,Pass,Pass
+2012,4,68,Melbourne,Dean Terlich,Norwood
+2012,4,69,Carlton,Pass,Pass
+2012,4,70,Hawthorn,Michael Osborne,Hawthorn
+2012,4,71,Melbourne,Daniel Nicholson,(Rookie promotion)
+2012,4,72,Melbourne,Michael Evans,(Rookie promotion)
+2012,4,73,Essendon,Nicholas Kommer,East Perth
+2012,4,74,Carlton,Pass,Pass
+2012,4,75,St Kilda,Lewis Pierce,Dandenong Stingrays
+2012,4,76,North Melbourne,Sam Gibson,(Rookie promotion)
+2012,4,77,Geelong,Brad Hartman,Sturt
+2012,4,78,Fremantle,Clancee Pearce,(Rookie promotion)
+2012,4,79,West Coast,Brad Dick,(Rookie promotion)
+2012,4,80,Collingwood,Pass,Pass
+2012,4,81,Adelaide,Rory Atkins,Calder Cannons
+2012,4,82,Port Adelaide,Pass,Pass
+2012,5,83,Greater Western Sydney,Sam Frost,(Rookie promotion)
+2012,5,84,Western Bulldogs,Pass,Pass
+2012,5,85,Port Adelaide,Tom Jonas,(Rookie promotion)
+2012,5,86,Brisbane Lions,Jack Crisp +,(Rookie promotion)
+2012,5,87,Richmond,Pass,Pass
+2012,5,88,Essendon,Sean Gregory,Calder Cannons
+2012,5,89,Carlton,Levi Casboult,(Rookie promotion)
+2012,5,90,St Kilda,Sam Dunell,(Rookie promotion)
+2012,5,91,North Melbourne,Aaron Mullett,(Rookie promotion)
+2012,5,92,Geelong,Jesse Stringer,(Rookie promotion)
+2012,5,93,Fremantle,Lee Spurr,(Rookie promotion)
+2012,5,94,Collingwood,Marley Williams,(Rookie promotion)
+2012,5,95,Adelaide,Ian Callinan,(Rookie promotion)
+2012,5,96,Sydney,Pass,Pass
+2012,6,97,Greater Western Sydney,Andrew Phillips,(Rookie promotion)
+2012,6,98,Western Bulldogs,Tom Campbell,(Rookie promotion)
+2012,6,99,Brisbane Lions,Niall McKeever,(Rookie promotion)
+2012,6,100,Richmond,Pass,Pass
+2012,6,101,Essendon,Pass,Pass
+2012,6,102,Carlton,Zach Tuohy,(Rookie promotion)
+2012,6,103,North Melbourne,Majak Daw,(Rookie promotion)
+2012,6,104,Sydney,Pass,Pass
+2012,7,105,Western Bulldogs,Jason Johannisen,(Rookie promotion)
+2012,7,106,Essendon,Mark Baguley,(Rookie promotion)
+2012,7,107,Sydney,Harry Cunningham,(Rookie promotion)
+2013,1,1,Greater Western Sydney,Tom Boyd,Eastern Ranges
+2013,1,2,Greater Western Sydney,Josh Kelly,Sandringham Dragons
+2013,1,3,St Kilda,Jack Billings,Oakleigh Chargers
+2013,1,4,Western Bulldogs,Marcus Bontempelli,Northern Knights
+2013,1,5,Gold Coast,Kade Kolodjashnij,Launceston
+2013,1,6,Collingwood,Matthew Scharenberg,Glenelg
+2013,1,7,Brisbane Lions,James Aish,Norwood
+2013,1,8,North Melbourne,Luke McDonald,Werribee
+2013,1,9,Melbourne,Christian Salem,Sandringham Dragons
+2013,1,10,Collingwood,Nathan Freeman,Sandringham Dragons
+2013,1,11,West Coast,Dom Sheed,Subiaco
+2013,1,12,Richmond,Ben Lennon,Northern Knights
+2013,1,13,Carlton,Patrick Cripps,East Fremantle
+2013,1,14,Greater Western Sydney,Cam McCarthy,South Fremantle
+2013,1,15,Sydney,Zak Jones,Dandenong Stingrays
+2013,1,16,Geelong,Darcy Lang,Geelong Falcons
+2013,1,17,Fremantle,Michael Apeness,Eastern Ranges
+2013,1,18,St Kilda,Luke Dunstan,Woodville-West Torrens
+2013,1,19,St Kilda,Blake Acres,West Perth
+2013,1,20,Gold Coast,Jack Leslie,Gippsland Power
+2013,2,21,Port Adelaide,Jarman Impey,Murray Bushrangers
+2013,2,22,Brisbane Lions,Darcy Gardiner,Geelong Falcons
+2013,2,23,Adelaide,Matt Crouch,North Ballarat Rebels
+2013,2,24,Hawthorn,Billy Hartung,Dandenong Stingrays
+2013,2,25,Brisbane Lions,Daniel McStay,Eastern Ranges
+2013,2,26,Essendon,Zach Merrett,Sandringham Dragons
+2013,2,27,Gold Coast,Sean Lemmens,Port Adelaide
+2013,2,28,Brisbane Lions,Lewis Taylor,Geelong Falcons
+2013,2,29,Greater Western Sydney,Rory Lobb,Swan Districts
+2013,2,30,North Melbourne,Trent Dumont,Norwood
+2013,2,31,West Coast,Malcolm Karpany,Woodville-West Torrens
+2013,2,32,Sydney,George Hewett,North Adelaide
+2013,2,33,Brisbane Lions,Tom Cutler,Oakleigh Chargers
+2013,2,34,Brisbane Lions,Nick Robertson,West Perth
+2013,2,35,Sydney,Toby Nankervis,North Launceston
+2013,2,36,Geelong,Jarrad Jansen,East Fremantle
+2013,2,37,Fremantle,Alex Pearce,Devonport
+2013,2,38,Hawthorn,Dayle Garlett,Swan Districts
+2013,3,39,Carlton,Cameron Giles,Woodville-West Torrens
+2013,3,40,Melbourne,Jay Kennedy Harris,Oakleigh Chargers
+2013,3,41,Geelong,Jake Kolodjashnij,Launceston
+2013,3,42,Western Bulldogs,Matt Fuller,Norwood
+2013,3,43,West Coast,Tom Barrass,Claremont
+2013,3,44,Sydney,Aliir Aliir,East Fremantle
+2013,3,45,Port Adelaide,Mitchell Harvey,North Adelaide
+2013,3,46,Adelaide,Riley Knight,Woodville-West Torrens
+2013,3,47,North Melbourne,Ben Brown,Werribee
+2013,3,48,Greater Western Sydney,Passed,—
+2013,3,49,West Coast,Dylan Main,South Fremantle
+2013,3,50,Richmond,Nathan Gordon,North Adelaide
+2013,3,51,Carlton,Nick Holman,Murray Bushrangers
+2013,3,52,Port Adelaide,Darcy Byrne-Jones,Oakleigh Chargers
+2013,3,53,Sydney,Passed,—
+2013,3,54,Geelong,Josh Walker,Rookie elevation
+2013,3,55,Essendon,Orazio Fantasia,Norwood
+2013,3,56,Hawthorn,James Sicily,Western Jets
+2013,4,57,Melbourne,Jayden Hunt,Brighton Grammar
+2013,4,58,Fremantle,Brady Grey,Burnie
+2013,4,59,Hawthorn,John Ceglar,Rookie elevation
+2013,4,60,Western Bulldogs,Mitch Honeychurch,Eastern Ranges
+2013,4,61,West Coast,Jamie Bennell,Rookie elevation
+2013,4,62,Brisbane Lions,Jonathan Freeman,Aspley
+2013,4,63,Geelong,George Burbury,Rookie elevation
+2013,4,64,Essendon,Lauchlan Dalgleish,Rookie elevation
+2013,4,65,Collingwood,Tom Langdon,Sandringham Dragons
+2013,4,66,Richmond,Sam Lloyd,Frankston
+2013,4,67,Carlton,Passed,—
+2013,4,68,Port Adelaide,Karl Amon,Sandringham Dragons
+2013,4,69,Sydney,Passed,—
+2013,4,70,Fremantle,Matt Taberner,Rookie elevation
+2013,4,71,Hawthorn,Will Langford,Rookie elevation
+2013,5,72,Greater Western Sydney,Passed,—
+2013,5,73,Greater Western Sydney,Passed,—
+2013,5,74,West Coast,Jeremy McGovern,Rookie elevation
+2013,5,75,Brisbane Lions,Justin Clarke,Rookie elevation
+2013,5,76,Adelaide,Kyle Hartigan,Rookie elevation
+2013,5,77,Collingwood,Jonathon Marsh,East Fremantle
+2013,5,78,Richmond,Passed,—
+2013,5,79,Carlton,Passed,—
+2013,5,80,Sydney,Brandon Jack,Rookie elevation
+2013,6,81,Greater Western Sydney,Passed,—
+2013,6,82,Melbourne,Mitch Clisby,Rookie elevation
+2013,6,83,St Kilda,Tom Curren,Rookie elevation
+2013,6,84,Western Bulldogs,Brett Goodes,Rookie elevation
+2013,6,85,West Coast,Simon Tunbridge,Rookie elevation
+2013,6,86,Adelaide,Rory Laird,Rookie elevation
+2013,6,87,Collingwood,Sam Dwyer,Rookie elevation
+2013,6,88,Richmond,Passed,—
+2013,6,89,Carlton,Ed Curnow,Rookie elevation
+2013,6,90,Sydney,Dane Rampe,Rookie elevation
+2013,7,91,Greater Western Sydney,Passed,—
+2013,7,92,Collingwood,Adam Oxley,Rookie elevation
+2013,7,93,Richmond,Ricky Petterd,Rookie elevation
+2013,7,94,Carlton,Tom Bell,Rookie elevation
+2013,8,95,Greater Western Sydney,Zac Williams,Rookie elevation
+2013,8,96,Collingwood,Passed,—
+2013,9,97,Greater Western Sydney,Jake Barrett,Temora
+2014,1,1,St Kilda,Paddy McCartin,Geelong Falcons
+2014,1,2,Melbourne,Christian Petracca *,Eastern Ranges
+2014,1,3,Melbourne,Angus Brayshaw,Sandringham Dragons
+2014,1,4,Greater Western Sydney,Jarrod Pickett,South Fremantle
+2014,1,5,Collingwood,Jordan De Goey,Oakleigh Chargers
+2014,1,6,Greater Western Sydney,Caleb Marchbank,Murray Bushrangers
+2014,1,7,Greater Western Sydney,Paul Ahern,Calder Cannons
+2014,1,8,Gold Coast,Peter Wright,Calder Cannons
+2014,1,9,Collingwood,Darcy Moore,Oakleigh Chargers
+2014,1,10,Geelong,Nakia Cockatoo,NT Thunder
+2014,1,11,West Coast,Liam Duggan,Western Jets
+2014,1,12,Richmond,Corey Ellis,Western Jets
+2014,1,13,Fremantle,Lachie Weller,Southport / Broadbeach
+2014,1,14,Adelaide,Jake Lever,Calder Cannons
+2014,1,15,Gold Coast,Jarrod Garlett,South Fremantle
+2014,1,16,North Melbourne,Sam Durdin,West Adelaide
+2014,1,17,Essendon,Kyle Langford,Northern Knights
+2014,1,18,Sydney,Isaac Heeney,Cardiff
+2014,1,19,Carlton,Blaine Boekhorst,Swan Districts
+2014,1,20,Essendon,Jayden Laverde,Western Jets
+2014,1,21,St Kilda,Hugh Goddard,Geelong Falcons
+2014,2,22,St Kilda,Daniel McKenzie,Oakleigh Chargers
+2014,2,23,Greater Western Sydney,Pat McKenna,Gisborne
+2014,2,24,Greater Western Sydney,Jack Steele,Belconnen
+2014,2,25,North Melbourne,Daniel Nielson,Eastern Ranges
+2014,2,26,Western Bulldogs,Toby McLean,Oakleigh Chargers
+2014,2,27,Western Bulldogs,Lukas Webb,Gippsland Power
+2014,2,28,Carlton,Dillon Viojo-Rainbow,Western Jets
+2014,2,29,Gold Coast,Touk Miller,Calder Cannons
+2014,2,30,Collingwood,Brayden Maynard,Sandringham Dragons
+2014,2,31,Hawthorn,Daniel Howe,Murray Bushrangers
+2014,2,32,West Coast,Tom Lamb,Dandenong Stingrays
+2014,2,33,Richmond,Connor Menadue,Western Jets
+2014,2,34,Fremantle,Connor Blakely,Swan Districts
+2014,2,35,Adelaide,Harrison Wigg,North Adelaide
+2014,2,36,North Melbourne,Ed Vickers-Willis,Sandringham Dragons
+2014,2,37,Sydney,James Rose,Sturt
+2014,2,38,Sydney,Jack Hiscox,Sydney University
+2014,2,39,Western Bulldogs,Declan Hamilton,Port Adelaide
+2014,2,40,Melbourne,Alex Neal-Bullen,Glenelg
+2014,3,41,St Kilda,Jack Lonie,Dandenong Stingrays
+2014,3,42,Melbourne,Billy Stretch,Glenelg
+2014,3,43,Adelaide,Mitch McGovern,Claremont
+2014,3,44,Brisbane Lions,Liam Dawson,Aspley
+2014,3,45,Western Bulldogs,Bailey Dale,Dandenong Stingrays
+2014,3,46,Western Bulldogs,Caleb Daniel,South Adelaide
+2014,3,47,Geelong,Cory Gregson,Glenelg
+2014,3,48,Collingwood,Matthew Goodyear,Calder Cannons
+2014,3,49,Hawthorn,Teia Miles,Geelong Falcons
+2014,3,50,Hawthorn,Marc Pittonet,Oakleigh Chargers
+2014,3,51,West Coast,Jackson Nelson,Geelong Falcons
+2014,3,52,Richmond,Nathan Drummond,Murray Bushrangers
+2014,3,53,Melbourne,Oscar McDonald,North Ballarat Rebels
+2014,3,54,Fremantle,Ed Langdon,Sandringham Dragons
+2014,3,55,Geelong,Dean Gore,Sturt
+2014,3,56,Port Adelaide,Dougal Howard,Murray Bushrangers
+2014,3,57,Sydney,Passed,—
+2014,3,58,Adelaide,Harry Dear,Sandringham Dragons
+2014,4,59,Geelong,Jordan Cunico,Gippsland Power
+2014,4,60,Carlton,Clem Smith,Perth
+2014,4,61,Brisbane Lions,Harris Andrews,Aspley
+2014,4,62,Western Bulldogs,Zaine Cordy,Geelong Falcons
+2014,4,63,Carlton,Jayden Foster,Calder Cannons
+2014,4,64,Gold Coast,Passed,—
+2014,4,65,Brisbane Lions,Josh Watts,Glenorchy
+2014,4,66,West Coast,Damien Cavka,Calder Cannons
+2014,4,67,Richmond,Dan Butler,North Ballarat Rebels
+2014,4,68,Fremantle,Josh Deluca,Subiaco
+2014,4,69,Port Adelaide,Logan Austin,Belconnen
+2014,4,70,Sydney,Abe Davis,UNSW-Eastern Suburbs
+2014,5,71,Carlton,Passed,—
+2014,5,72,Greater Western Sydney,Passed,—
+2014,5,73,Brisbane Lions,Jaden McGrath,Bendigo Pioneers
+2014,5,74,Gold Coast,Passed,—
+2014,5,75,Collingwood,Passed,—
+2014,5,76,West Coast,Alec Waterman,Claremont
+2014,5,77,Richmond,Reece McKenzie,Northern Knights
+2014,5,78,Port Adelaide,Jesse Palmer,North Ballarat Rebels
+2014,5,79,Sydney,Passed,—
+2014,6,80,Greater Western Sydney,Passed,—
+2014,6,81,Brisbane Lions,Josh McGuinness,Lauderdale
+2014,6,82,Carlton,Passed,—
+2014,6,83,Richmond,Passed,—
+2014,6,84,Port Adelaide,Billy Frampton,South Fremantle
+2014,7,85,Greater Western Sydney,Jeremy Finlayson,Sydney Hills Eagles
+2014,7,86,Brisbane Lions,Josh Clayton,Sandringham Dragons
+2014,7,87,Carlton,Passed,—
+2015,1,1,Carlton,Jacob Weitering,Dandenong Stingrays
+2015,1,2,Brisbane Lions,Josh Schache,Murray Bushrangers
+2015,1,3,Sydney,Callum Mills,North Shore
+2015,1,4,Melbourne,Clayton Oliver,Murray Bushrangers
+2015,1,5,Essendon,Darcy Parish,Geelong Falcons
+2015,1,6,Essendon,Aaron Francis,West Adelaide
+2015,1,7,Greater Western Sydney,Jacob Hopper,North Ballarat Rebels
+2015,1,8,Gold Coast,Callum Ah Chee,South Fremantle
+2015,1,9,Melbourne,Sam Weideman,Eastern Ranges
+2015,1,10,Carlton,Harry McKay,Gippsland Power
+2015,1,11,Adelaide,Wayne Milera,Central District
+2015,1,12,Carlton,Charlie Curnow,Geelong Falcons
+2015,1,13,Greater Western Sydney,Matthew Kennedy,Collingullie-Glenfield Park
+2015,1,14,Brisbane Lions,Eric Hipwood,Aspley
+2015,1,15,Richmond,Daniel Rioli,North Ballarat Rebels
+2015,1,16,Greater Western Sydney,Harry Himmelberg,Mangoplah-CUE
+2015,1,17,Adelaide,Tom Doedee,Geelong Falcons
+2015,1,18,St Kilda,Jade Gresham,Northern Knights
+2015,1,19,Hawthorn,Ryan Burton,North Adelaide
+2015,1,20,Gold Coast,Brayden Fiorini,Northern Knights
+2015,1,21,North Melbourne,Ben McKay,Gippsland Power
+2015,1,22,Hawthorn,Kieran Lovell,Kingborough
+2015,1,23,Carlton,David Cuningham,Oakleigh Chargers
+2015,2,24,Brisbane Lions,Ben Keays,Brisbane
+2015,2,25,Western Bulldogs,Josh Dunkley,Gippsland Power
+2015,2,26,Western Bulldogs,Kieran Collins,Dandenong Stingrays
+2015,2,27,Fremantle,Darcy Tucker,North Ballarat Rebels
+2015,2,28,West Coast,Luke Partington,Norwood
+2015,2,29,Essendon,Alex Morgan,Oakleigh Chargers
+2015,2,30,Essendon,Mason Redman,Glenelg
+2015,2,31,North Melbourne,Ryan Clarke,Eastern Ranges
+2015,2,32,Collingwood,Brayden Sier,Northern Knights
+2015,2,33,North Melbourne,Mitchell Hibberd,Clarence
+2015,2,34,Gold Coast,Josh Schoenfeld,Peel Thunder
+2015,2,35,Western Bulldogs,Marcus Adams,West Perth
+2015,2,36,West Coast,Tom Cole,Bendigo Pioneers
+2015,2,37,Port Adelaide,Riley Bonner,West Adelaide
+2015,2,38,Fremantle,Harley Balic,Sandringham Dragons
+2015,3,39,Brisbane Lions,Rhys Mathieson,Geelong Falcons
+2015,3,40,St Kilda,Brandon White,Dandenong Stingrays
+2015,3,41,Greater Western Sydney,Matt Flynn,Narrandera
+2015,3,42,Melbourne,Mitch King,Murray Bushrangers
+2015,3,43,North Melbourne,Corey Wagner,Aspley
+2015,3,44,Hawthorn,Blake Hardwick,Eastern Ranges
+2015,3,45,Port Adelaide,Aidyn Johnson,Bendigo Pioneers
+2015,3,46,Melbourne,Liam Hulett,Dandenong Stingrays
+2015,3,47,Brisbane Lions,Sam Skinner,Gippsland Power
+2015,3,48,Western Bulldogs,Bailey Williams,Glenelg
+2015,3,49,St Kilda,Bailey Rice,Dandenong Stingrays
+2015,3,50,Richmond,Oleg Markov,North Adelaide
+2015,3,51,Sydney,Tyrone Leonardis,Northern Knights
+2015,3,52,Gold Coast,Mackenzie Willis,Kingborough
+2015,3,53,Carlton,Jack Silvagni,Oakleigh Chargers
+2015,3,54,Essendon,Mitch Brown,Sandringham
+2015,4,55,Fremantle,Sam Collins,Box Hill
+2015,4,56,Sydney,Jordan Dawson,Sturt
+2015,4,57,West Coast,Kurt Mutimer,Dandenong Stingrays
+2015,4,58,Collingwood,Tom Phillips,Oakleigh Chargers
+2015,4,59,Geelong,Ryan Gardner,Burnie
+2015,4,60,North Melbourne,Declan Mountford,Claremont
+2015,4,61,Fremantle,Shane Yarran,Subiaco
+2015,4,62,West Coast,Matthew Allen,Glenelg
+2015,5,63,Collingwood,Rupert Wills,Collingwood
+2015,5,64,Essendon,Yestin Eades,North Ballarat Rebels
+2015,5,65,Collingwood,Ben Crocker,Oakleigh Chargers
+2015,5,66,Geelong,Sam Menegola,Subiaco
+2015,5,67,Richmond,Nathan Broad,Swan Districts
+2015,6,68,Essendon,Michael Hartley,Coburg
+2015,6,69,Geelong,Wylie Buzza,Mount Gravatt
+2015,7,70,Geelong,Matthew Hayball,West Adelaide
+2016,1,1,Essendon,Andrew McGrath,Sandringham Dragons
+2016,1,2,Greater Western Sydney,Tim Taranto,Sandringham Dragons
+2016,1,3,Brisbane Lions,Hugh McCluggage,North Ballarat Rebels
+2016,1,4,Gold Coast,Ben Ainsworth,Gippsland Power
+2016,1,5,Greater Western Sydney,Will Setterfield,Sandringham Dragons
+2016,1,6,Carlton,Sam Petrevski-Seton,Claremont
+2016,1,7,Gold Coast,Jack Scrimshaw,Sandringham Dragons
+2016,1,8,Fremantle,Griffin Logue,Swan Districts
+2016,1,9,Gold Coast,Will Brodie,Murray Bushrangers
+2016,1,10,Gold Coast,Jack Bowes,Cairns
+2016,1,11,Sydney,Oliver Florent,Sandringham Dragons
+2016,1,12,North Melbourne,Jy Simpkin,Murray Bushrangers
+2016,1,13,West Coast,Daniel Venables,Western Jets
+2016,1,14,Greater Western Sydney,Harry Perryman,Collingullie-Glenfield Park
+2016,1,15,Adelaide,Jordan Gallucci,Eastern Ranges
+2016,1,16,Port Adelaide,Todd Marshall,Murray Bushrangers
+2016,1,17,Brisbane Lions,Jarrod Berry,North Ballarat Rebels
+2016,1,18,Port Adelaide,Sam Powell-Pepper,East Perth
+2016,1,19,Western Bulldogs,Tim English,South Fremantle
+2016,1,20,Greater Western Sydney,Isaac Cumming,North Broken Hill
+2016,0,21,Sydney,Will Hayward,North Adelaide
+2016,2,22,Essendon,Jordan Ridley,Oakleigh Chargers
+2016,2,23,Brisbane Lions,Alex Witherden,Geelong Falcons
+2016,2,24,Brisbane Lions,Cedric Cox,North Ballarat Rebels
+2016,2,25,St Kilda,Ben Long,NT Thunder
+2016,2,26,Geelong,Brandan Parfitt,NT Thunder
+2016,2,27,Carlton,Zac Fisher,Perth
+2016,2,28,Western Bulldogs,Patrick Lipinski,Northern Knights
+2016,2,29,Richmond,Shai Bolton,South Fremantle
+2016,2,30,Collingwood,Sam McLarty,Oakleigh Chargers
+2016,2,31,Essendon,Josh Begley,Eastern Ranges
+2016,2,32,Port Adelaide,Joe Atley,Bendigo Pioneers
+2016,2,33,Port Adelaide,Willem Drew,North Ballarat Rebels
+2016,2,34,North Melbourne,Declan Watson,Aspley
+2016,2,35,Collingwood,Callum Brown,Eastern Ranges
+2016,2,36,North Melbourne,Josh Williams,Surfers Paradise
+2016,2,37,West Coast,Josh Rotham,West Perth
+2016,2,38,Fremantle,Sean Darcy,Geelong Falcons
+2016,2,39,St Kilda,Josh Battle,Dandenong Stingrays
+2016,2,40,Geelong,Tom Stewart,Geelong
+2016,2,41,Fremantle,Brennan Cox,Woodville-West Torrens
+2016,3,42,Essendon,Kobe Mutch,Bendigo Pioneers
+2016,3,43,Geelong,Esava Ratugolea,Murray Bushrangers
+2016,3,44,Adelaide,Myles Poholke,Dandenong Stingrays
+2016,3,45,Sydney,Jack Maibaum,Eastern Ranges
+2016,3,46,Melbourne,Mitch Hannan,Footscray
+2016,3,47,Carlton,Harrison Macreadie,Henty
+2016,3,48,Sydney,Darcy Cameron,Claremont
+2016,3,49,Western Bulldogs,Lewis Young,Sturt
+2016,3,50,Collingwood,Kayle Kirby,Bendigo Pioneers
+2016,3,51,Adelaide,Elliott Himmelberg,Redland
+2016,3,52,West Coast,Willie Rioli,Glenelg
+2016,3,53,Richmond,Jack Graham,North Adelaide
+2016,4,54,Greater Western Sydney,Lachlan Tiziani,Murray Bushrangers
+2016,4,55,Brisbane Lions,Jacob Allison,Aspley
+2016,4,56,St Kilda,Ed Phillips,Oakleigh Chargers
+2016,4,57,Collingwood,Josh Daicos,Oakleigh Chargers
+2016,4,58,Greater Western Sydney,Matt de Boer,Fremantle
+2016,4,59,Carlton,Cameron Polson,Sandringham Dragons
+2016,4,60,Geelong,Quinton Narkle,Perth
+2016,4,61,Carlton,Tom Williamson,North Ballarat Rebels
+2016,4,62,Adelaide,Matthew Signorello,Northern Knights
+2016,4,63,Essendon,Dylan Clarke,Eastern Ranges
+2016,4,64,Melbourne,Dion Johnstone,Oakleigh Chargers
+2016,4,65,Carlton,Pat Kerr,Oakleigh Chargers
+2016,4,66,Fremantle,Luke Ryan,Coburg
+2016,4,67,Gold Coast,Brad Scheer,Palm Beach Currumbin
+2016,4,68,Geelong,Timm House,Geelong
+2016,4,69,Geelong,Ryan Abbott,Grovedale
+2016,4,70,Western Bulldogs,Fergus Greene,Bendigo Pioneers
+2016,5,71,Brisbane Lions,Corey Lyons,Sandringham Dragons
+2016,5,72,Richmond,Ryan Garthwaite,Murray Bushrangers
+2016,5,73,North Melbourne,Nick Larkey,Oakleigh Chargers
+2016,5,74,Hawthorn,Harry Morrison,Murray Bushrangers
+2016,5,75,Adelaide,Ben Davis,UNSW
+2016,5,76,Hawthorn,Mitchell Lewis,Calder Cannons
+2016,6,77,West Coast,Jake Waterman,Claremont
+2017,1,1,Brisbane Lions,Cameron Rayner,Western Jets
+2017,1,2,Fremantle,Andrew Brayshaw,Sandringham Dragons
+2017,1,3,Carlton,Paddy Dow,Bendigo Pioneers
+2017,1,4,North Melbourne,Luke Davies-Uniacke,Dandenong Stingrays
+2017,1,5,Fremantle,Adam Cerra,Eastern Ranges
+2017,1,6,Collingwood,Jaidyn Stephenson,Eastern Ranges
+2017,1,7,St Kilda,Hunter Clark,Dandenong Stingrays
+2017,1,8,St Kilda,Nick Coffield,Northern Knights
+2017,1,9,Western Bulldogs,Aaron Naughton,Peel Thunder
+2017,1,10,Carlton,Lochie O'Brien,Bendigo Pioneers
+2017,1,11,Greater Western Sydney,Aiden Bonar,Dandenong Stingrays
+2017,1,12,Adelaide,Darcy Fogarty,Glenelg
+2017,1,13,West Coast,Jarrod Brander,Bendigo Pioneers
+2017,1,14,Sydney,Matthew Ling,Geelong Falcons
+2017,1,15,Brisbane Lions,Zac Bailey,Norwood
+2017,1,16,Western Bulldogs,Ed Richards,Oakleigh Chargers
+2017,1,17,Richmond,Jack Higgins,Oakleigh Chargers
+2017,1,18,Brisbane Lions,Brandon Starcevich,East Perth
+2017,1,19,Gold Coast,Wil Powell,Claremont
+2017,2,20,Richmond,Callum Coleman-Jones,Sturt
+2017,2,21,West Coast,Oscar Allen,West Perth
+2017,2,22,Geelong,Lachie Fogarty,Western Jets
+2017,2,23,North Melbourne,Will Walker,Sandringham Dragons
+2017,2,24,Geelong,Tim Kelly,South Fremantle
+2017,2,25,Richmond,Noah Balta,Calder Cannons
+2017,2,26,West Coast,Liam Ryan,Subiaco
+2017,2,27,Greater Western Sydney,Brent Daniels,Bendigo Pioneers
+2017,2,28,Greater Western Sydney,Sam Taylor,Swan Districts
+2017,2,29,Melbourne,Charlie Spargo,Murray Bushrangers
+2017,2,30,Carlton,Tom De Koning,Dandenong Stingrays
+2017,2,31,Melbourne,Bayley Fritsch,Casey
+2017,2,32,West Coast,Brayden Ainsworth,Subiaco
+2017,2,33,Sydney,Tom McCartin,Geelong Falcons
+2017,2,34,Richmond,Patrick Naish,Northern Knights
+2017,2,35,St Kilda,Oscar Clavarino,Dandenong Stingrays
+2017,2,36,Geelong,Charlie Constable,Sandringham Dragons
+2017,2,37,Melbourne,Harrison Petty,Norwood
+2017,3,38,West Coast,Jack Petruccelle,Northern Knights
+2017,3,39,Collingwood,Nathan Murphy,Sandringham Dragons
+2017,3,40,Adelaide,Andrew McPherson,Woodville-West Torrens
+2017,3,41,Brisbane Lions,Toby Wooller,Oakleigh Chargers
+2017,3,42,Gold Coast,Charlie Ballard,Sturt
+2017,3,43,Brisbane Lions,Connor Ballenden,Brisbane
+2017,3,44,Fremantle,Hugh Dixon,Tigers
+2017,3,45,Hawthorn,James Worpel,Geelong Falcons
+2017,3,46,St Kilda,Ben Paton,Murray Bushrangers
+2017,3,47,Port Adelaide,Sam Hayes,Eastern Ranges
+2017,3,48,Melbourne,Oskar Baker,Aspley
+2017,3,49,Essendon,Jordan Houlahan,Sturt
+2017,3,50,Collingwood,Tyler Brown,Eastern Ranges
+2017,3,51,Port Adelaide,Kane Farrell,Bendigo Pioneers
+2017,3,52,Gold Coast,Brayden Crossley,Palm Beach Currumbin
+2017,3,53,Sydney,Ryley Stoddart,Eastern Ranges
+2017,3,54,Brisbane Lions,Jack Payne,Noosa
+2017,3,55,Gold Coast,Connor Nutting,Broadbeach
+2017,4,56,Greater Western Sydney,Zac Langdon,Claremont
+2017,4,57,Geelong,Gryan Miers,Geelong Falcons
+2017,4,58,Port Adelaide,Jake Patmore,Claremont
+2017,4,59,Fremantle,Mitch Crowden,Sturt
+2017,4,60,Port Adelaide,Joel Garner,Eastern Ranges
+2017,4,61,Port Adelaide,Dom Barry,Glenelg
+2017,4,62,North Melbourne,Kyron Hayden,Subiaco
+2017,4,63,Richmond,Ben Miller,Subiaco
+2017,4,64,Greater Western Sydney,Nick Shipley,St George
+2017,4,65,Fremantle,Tom North,Eastern Ranges
+2017,4,66,Essendon,Brandon Zerk-Thatcher,Sturt
+2017,4,67,Hawthorn,Dylan Moore,Eastern Ranges
+2017,4,68,West Coast,Hamish Brayshaw,Sandringham Dragons
+2017,4,69,Fremantle,Lloyd Meek,Greater Western Victoria Rebels
+2017,4,70,Carlton,Angus Schumacher,Bendigo Pioneers
+2017,5,71,Hawthorn,Jackson Ross,Eastern Ranges
+2017,5,72,North Melbourne,Tristan Xerri,Western Jets
+2017,5,73,Fremantle,Sam Switkowski,Box Hill
+2017,5,74,Western Bulldogs,Callum Porter,Gippsland Power
+2017,5,75,Fremantle,Scott Jones,East Perth
+2017,5,76,Essendon,Matt Guelfi,Claremont
+2017,5,77,North Melbourne,Billy Hartung,Hawthorn
+2017,6,78,Carlton,Jarrod Garlett,South Fremantle
+2018,1,1,Carlton,Sam Walsh,Geelong Falcons
+2018,1,2,Gold Coast,Jack Lukosius,Woodville-West Torrens
+2018,1,3,Gold Coast,Izak Rankine,West Adelaide
+2018,1,4,St Kilda,Max King,Sandringham Dragons
+2018,1,5,Port Adelaide,Connor Rozee,North Adelaide
+2018,1,6,Gold Coast,Ben King,Sandringham Dragons
+2018,1,7,Western Bulldogs,Bailey Smith,Sandringham Dragons
+2018,1,8,North Melbourne,Tarryn Thomas,North Launceston
+2018,1,9,Adelaide,Chayce Jones,Launceston
+2018,1,10,Sydney,Nick Blakey,UNSW-Eastern Sub.
+2018,1,11,GWS Giants,Jye Caldwell,Bendigo Pioneers
+2018,1,12,Port Adelaide,Zak Butters,Western Jets
+2018,1,13,Collingwood,Isaac Quaynor,Oakleigh Chargers
+2018,1,14,GWS Giants,Jackson Hately,Central District
+2018,1,15,Geelong,Jordan Clark,Claremont
+2018,1,16,Adelaide,Ned McHenry,Geelong Falcons
+2018,1,17,Fremantle,Sam Sturt,Dandenong Stingrays
+2018,1,18,Port Adelaide,Xavier Duursma,Gippsland Power
+2018,1,19,Carlton,Liam Stocker,Sandringham Dragons
+2018,1,20,Richmond,Riley Collier-Dawkins,Oakleigh Chargers
+2018,1,21,Brisbane Lions,Ely Smith,Murray Bushrangers
+2018,1,22,GWS Giants,Xavier O'Halloran,Western Jets
+2018,1,23,Gold Coast,Jez McLennan,Central District
+2018,2,24,GWS Giants,Bobby Hill,Perth
+2018,2,25,Sydney,James Rowbottom,Oakleigh Chargers
+2018,2,26,Western Bulldogs,Rhylee West,Calder Cannons
+2018,2,27,Melbourne,Tom Sparrow,South Adelaide
+2018,2,28,West Coast,Xavier O'Neill,Oakleigh Chargers
+2018,2,29,Collingwood,Will Kelly,Oakleigh Chargers
+2018,2,30,Adelaide,Will Hamill,Dandenong Stingrays
+2018,2,31,West Coast,Luke Foley,Subiaco
+2018,2,32,Fremantle,Luke Valente,Norwood
+2018,2,33,Melbourne,James Jordon,Oakleigh Chargers
+2018,2,34,GWS Giants,Kieren Briggs,Pennant Hills
+2018,2,35,West Coast,Bailey Williams,Dandenong Stingrays
+2018,2,36,Brisbane Lions,Tom Berry,GWV Rebels
+2018,2,37,Western Bulldogs,Laitham Vandermeer,Murray Bushrangers
+2018,2,38,Essendon,Irving Mosquito,Gippsland Power
+2018,2,39,West Coast,Jarrod Cameron,Swan Districts
+2018,2,40,Brisbane Lions,Tom Joyce,East Fremantle
+2018,2,41,St Kilda,Jack Bytel,Calder Cannons
+2018,2,42,Brisbane Lions,Connor McFadyen,Wilston Grange
+2018,2,43,Richmond,Jack Ross,Oakleigh Chargers
+2018,3,44,Sydney,Justin McInerney,Northern Knights
+2018,3,45,Western Bulldogs,Ben Cavarra,Williamstown
+2018,3,46,North Melbourne,Curtis Taylor,Calder Cannons
+2018,3,47,St Kilda,Matthew Parker,South Fremantle
+2018,3,48,Geelong,Ben Jarvis,Norwood
+2018,3,49,North Melbourne,Bailey Scott,Broadbeach
+2018,3,50,Geelong,Jacob Kennerley,Norwood
+2018,3,51,Sydney,Zac Foot,Dandenong Stingrays
+2018,3,52,Hawthorn,Jacob Koschitzke,Murray Bushrangers
+2018,3,53,Melbourne,Aaron Nietschke,Central District
+2018,3,54,St Kilda,Nick Hind,Essendon
+2018,3,55,Brisbane Lions,Noah Answerth,Oakleigh Chargers
+2018,4,56,Melbourne,Marty Hore,Collingwood
+2018,4,57,Fremantle,Lachie Schultz,Williamstown
+2018,4,58,Richmond,Fraser Turner,Clarence
+2018,4,59,Fremantle,Brett Bewley,Williamstown
+2018,4,60,Essendon,Noah Gown,Gippsland Power
+2018,4,61,GWS Giants,Connor Idun,Geelong Falcons
+2018,4,62,Richmond,Luke English,Perth
+2018,4,63,Hawthorn,Mathew Walker,Murray Bushrangers
+2018,4,64,Adelaide,Lachlan Sholl,Calder Cannons
+2018,4,65,Geelong,Darcy Fort,Central District
+2018,4,66,Carlton,Finbar O'Dwyer,Murray Bushrangers
+2018,4,67,St Kilda,Robbie Young,North Adelaide
+2018,4,68,Geelong,Jake Tarca,South Adelaide
+2018,4,69,North Melbourne,Joel Crocker,Sandringham Dragons
+2018,5,70,Carlton,Ben Silvagni,Oakleigh Chargers
+2018,5,71,Gold Coast,Caleb Graham,Palm Beach Currumbin
+2018,5,72,Essendon,Brayden Ham,Geelong Falcons
+2018,5,73,Port Adelaide,Riley Grundy,Sturt
+2018,5,74,Geelong,Oscar Brownless,Geelong Falcons
+2018,5,75,Melbourne,Toby Bedford,Dandenong Stingrays
+2018,5,76,Port Adelaide,Boyd Woodcock,North Adelaide
+2018,5,77,Collingwood,Atu Bosenavulagi,Oakleigh Chargers
+2018,5,78,Western Bulldogs,Will Hayes,Footscray
+2019,0,1,Gold Coast,Matt Rowell,Oakleigh Chargers
+2019,1,2,Gold Coast,Noah Anderson,Oakleigh Chargers
+2019,1,3,Melbourne,Luke Jackson,East Fremantle
+2019,1,4,Greater Western Sydney,Lachlan Ash,Murray Bushrangers
+2019,1,5,Sydney,Dylan Stephens,Norwood
+2019,1,6,Adelaide,Fischer McAsey,Sandringham Dragons
+2019,1,7,Fremantle,Hayden Young,Dandenong Stingrays
+2019,1,8,Fremantle,Caleb Serong,Gippsland Power
+2019,1,9,Fremantle,Liam Henry,Claremont
+2019,1,10,Greater Western Sydney,Tom Green,Canberra Demons
+2019,1,11,Gold Coast,Sam Flanders,Gippsland Power
+2019,1,12,Melbourne,Kysaiah Pickett,Woodville-West Torrens
+2019,1,13,Hawthorn,Will Day,West Adelaide
+2019,1,14,Port Adelaide,Miles Bergman,Sandringham Dragons
+2019,1,15,Western Bulldogs,Cody Weightman,Dandenong Stingrays
+2019,1,16,Geelong,Cooper Stephens,Geelong Falcons
+2019,1,17,Carlton,Brodie Kemp,Bendigo Pioneers
+2019,1,18,Port Adelaide,Mitch Georgiades,Subiaco
+2019,1,19,Geelong,Sam De Koning,Dandenong Stingrays
+2019,1,20,Carlton,Sam Philp,Northern Knights
+2019,1,21,Richmond,Thomson Dow,Bendigo Pioneers
+2019,0,22,Brisbane Lions,Deven Robertson,Perth
+2019,2,23,Port Adelaide,Dylan Williams,Oakleigh Chargers
+2019,2,24,Adelaide,Harry Schoenberg,Woodville-West Torrens
+2019,2,25,Port Adelaide,Jackson Mead,Woodville-West Torrens
+2019,2,26,Sydney,Will Gould,Glenelg
+2019,2,27,Gold Coast,Jeremy Sharp,East Fremantle
+2019,2,28,Adelaide,Josh Worrell,Sandringham Dragons
+2019,2,29,Hawthorn,Finn Maginness,Sandringham Dragons
+2019,2,30,Essendon,Harrison Jones,Calder Cannons
+2019,2,31,North Melbourne,Charlie Comben,Gippsland Power
+2019,2,32,Melbourne,Trent Rivers,East Fremantle
+2019,2,33,Brisbane Lions,Brock Smith,Gippsland Power
+2019,2,34,North Melbourne,Jack Mahony,Sandringham Dragons
+2019,2,35,North Melbourne,Flynn Perez,Bendigo Pioneers
+2019,2,36,Sydney,Elijah Taylor,Perth
+2019,2,37,Brisbane Lions,Keidean Coleman,Brisbane Lions
+2019,2,38,Essendon,Nick Bryan,Oakleigh Chargers
+2019,2,39,Sydney,Chad Warner,East Fremantle
+2019,2,40,Collingwood,Jay Rantall,GWV Rebels
+2019,2,41,Geelong,Francis Evans,Calder Cannons
+2019,2,42,Adelaide,Ronin O'Connor,Claremont
+2019,2,43,Richmond,Noah Cumberland,Brisbane Lions
+2019,2,44,Richmond,Will Martyn,Brisbane Lions
+2019,3,45,Collingwood,Trent Bianco,Oakleigh Chargers
+2019,3,46,Richmond,Hugo Ralphsmith,Sandringham Dragons
+2019,3,47,Carlton,Sam Ramsay,Calder Cannons
+2019,3,48,Adelaide,Lachlan Gollant,Calder Cannons
+2019,3,49,West Coast,Callum Jamieson,Claremont
+2019,3,50,Geelong,Cameron Taheny,Norwood
+2019,3,51,Greater Western Sydney,Jake Riccardi,Werribee
+2019,3,52,St Kilda,Ryan Byrnes,Sandringham Dragons
+2019,3,53,Western Bulldogs,Louis Butler,Sandringham Dragons
+2019,3,54,Richmond,Bigoa Nyuon,Dandenong Stingrays
+2019,4,55,Collingwood,Trey Ruscoe,East Fremantle
+2019,4,56,Essendon,Ned Cahill,Dandenong Stingrays
+2019,4,57,Hawthorn,Josh Morris,Woodville-West Torrens
+2019,4,58,West Coast,Ben Johnson,West Perth
+2019,4,59,Brisbane Lions,Jaxon Prior,West Perth
+2019,4,60,Gold Coast,Jy Farrar,Adelaide
+2019,4,61,Fremantle,Michael Frederick,Woodville-West Torrens
+2019,4,62,Western Bulldogs,Riley Garcia,Swan Districts
+2019,5,63,Essendon,Lachlan Johnson,Oakleigh Chargers
+2019,5,64,St Kilda,Leo Connolly,Gippsland Power
+2019,5,65,Greater Western Sydney,Thomas Hutchesson,Adelaide
+2020,1,1,Western Bulldogs,Jamarra Ugle-Hagan,Oakleigh Chargers
+2020,1,2,Adelaide,Riley Thilthorpe,West Adelaide
+2020,1,3,North Melbourne,Will Phillips,Oakleigh Chargers
+2020,1,4,Sydney,Logan McDonald,Perth
+2020,1,5,Sydney,Braeden Campbell,Pennant Hills
+2020,1,6,Hawthorn,Denver Grainger-Barras,Swan Districts
+2020,1,7,Gold Coast,Elijah Hollands,Murray Bushrangers
+2020,1,8,Essendon,Nik Cox,Northern Knights
+2020,1,9,Essendon,Archie Perkins,Sandringham Dragons
+2020,1,10,Essendon,Zach Reid,Gippsland Power
+2020,1,11,Adelaide,Luke Pedlar,Glenelg
+2020,1,12,Greater Western Sydney,Tanner Bruhn,Geelong Falcons
+2020,1,13,North Melbourne,Tom Powell,Sturt
+2020,1,14,Fremantle,Heath Chapman,West Perth
+2020,0,15,Greater Western Sydney,Conor Stone,Oakleigh Chargers
+2020,1,16,Port Adelaide,Lachie Jones,Woodville-West Torrens
+2020,1,17,Collingwood,Oliver Henry,Geelong Falcons
+2020,1,18,Greater Western Sydney,Ryan Angwin,Gippsland Power
+2020,1,19,Collingwood,Finlay Macrae,Oakleigh Chargers
+2020,1,20,Geelong,Max Holmes,Sandringham Dragons
+2020,1,21,Melbourne,Jake Bowey +,Sandringham Dragons
+2020,1,22,Melbourne,Bailey Laurie,Oakleigh Chargers
+2020,1,23,Collingwood,Reef McInnes,Oakleigh Chargers
+2020,1,24,Brisbane Lions,Blake Coleman,Morningside
+2020,1,25,Adelaide,Brayden Cook,South Adelaide
+2020,1,26,St Kilda,Matthew McLeod-Allison,Calder Cannons
+2020,2,27,Fremantle,Nathan O'Driscoll,Perth
+2020,2,28,Adelaide,Sam Berry,Gippsland Power
+2020,2,29,Hawthorn,Seamus Mitchell,Bendigo Pioneers
+2020,2,30,Collingwood,Caleb Poulter,Woodville-West Torrens
+2020,2,31,Collingwood,Liam McMahon,Northern Knights
+2020,2,32,Sydney,Errol Gulden,UNSW-Eastern Suburbs Bulldogs
+2020,2,33,Geelong,Shannon Neale,South Fremantle
+2020,2,34,Melbourne,Fraser Rosman,Sandringham Dragons
+2020,2,35,Hawthorn,Connor Downie,Eastern Ranges
+2020,2,36,North Melbourne,Charlie Lazzaro,Geelong Falcons
+2020,2,37,Carlton,Corey Durdin,Central District
+2020,2,38,Adelaide,James Rowe,Woodville-West Torrens
+2020,2,39,Essendon,Josh Eyre,Calder Cannons
+2020,2,40,Richmond,Samson Ryan,Western Magpies
+2020,2,41,Carlton,Jack Carroll,East Fremantle
+2020,2,42,North Melbourne,Phoenix Spicer,South Adelaide
+2020,3,43,Brisbane Lions,Harry Sharp,GWV Rebels
+2020,3,44,Collingwood,Beau McCreery,South Adelaide
+2020,3,45,St Kilda,Tom Highmore,South Adelaide
+2020,3,46,Hawthorn,Tyler Brockman,Subiaco
+2020,3,47,Geelong,Nick Stevens,GWV Rebels
+2020,3,48,Brisbane Lions,Henry Smith,Woodville-West Torrens
+2020,3,49,Port Adelaide,Ollie Lord,Sandringham Dragons
+2020,3,50,Fremantle,Brandon Walker,East Fremantle
+2020,3,51,Richmond,Maurice Rioli Jr.,Oakleigh Chargers
+2020,4,52,West Coast,Luke Edwards,Glenelg
+2020,4,53,Essendon,Cody Brand,Calder Cannons
+2020,4,54,Fremantle,Joel Western,Claremont
+2020,4,55,Western Bulldogs,Dominic Bedendo,Murray Bushrangers
+2020,4,56,North Melbourne,Eddie Ford,Western Jets
+2020,4,57,West Coast,Isiah Winder,Peel Thunder
+2020,4,58,Greater Western Sydney,Cameron Fleeton,Geelong Falcons
+2020,4,59,Greater Western Sydney,Jacob Wehr,Woodville-West Torrens
+2021,1,1,North Melbourne,Jason Horne-Francis,South Adelaide
+2021,1,2,Western Bulldogs,Sam Darcy,Oakleigh Chargers
+2021,1,3,Greater Western Sydney,Finn Callaghan,Sandringham Dragons
+2021,1,4,Collingwood,Nick Daicos,Oakleigh Chargers
+2021,1,5,Gold Coast,Mac Andrew,Dandenong Stingrays
+2021,1,6,Adelaide,Josh Rachele,Murray Bushrangers
+2021,1,7,Hawthorn,Josh Ward,Northern Knights
+2021,1,8,Fremantle,Jye Amiss,East Perth
+2021,1,9,Richmond,Josh Gibcus,GWV Rebels
+2021,1,10,Fremantle,Neil Erasmus,Subiaco
+2021,1,11,St Kilda,Nasiah Wanganeen-Milera,Glenelg
+2021,1,12,Port Adelaide,Josh Sinn,Sandringham Dragons
+2021,1,13,Essendon,Ben Hobbs,GWV Rebels
+2021,1,14,West Coast,Campbell Chesser,Sandringham Dragons
+2021,1,15,Greater Western Sydney,Leek Aleer,Central District
+2021,1,16,Brisbane Lions,Darcy Wilmot,Northern Knights
+2021,1,17,Richmond,Tom Brown,Murray Bushrangers
+2021,1,18,Sydney,Angus Sheldrick,Claremont
+2021,1,19,Melbourne,Jacob van Rooyen,Claremont
+2021,1,20,Brisbane Lions,Kai Lohmann,GWV Rebels
+2021,2,21,Fremantle,Matthew Johnson,Subiaco
+2021,2,22,North Melbourne,Josh Goater,Calder Cannons
+2021,2,23,Hawthorn,Sam Butler,GWV Rebels
+2021,2,24,Geelong,Toby Conway,Geelong Falcons
+2021,2,25,Geelong,Mitch Knevitt,Geelong Falcons
+2021,2,26,Hawthorn,Connor MacDonald,Dandenong Stingrays
+2021,2,27,Carlton,Jesse Motlop,South Fremantle
+2021,2,28,Richmond,Tyler Sonsie,Eastern Ranges
+2021,2,29,Richmond,Sam Banks,Tasmania Devils
+2021,2,30,Richmond,Judson Clarke,Dandenong Stingrays
+2021,2,31,West Coast,Brady Hough,Peel Thunder
+2021,2,32,Geelong,James Willis,North Adelaide
+2021,2,33,St Kilda,Mitchito Owens,Sandringham Dragons
+2021,2,34,Sydney,Matthew Roberts,South Adelaide
+2021,2,35,North Melbourne,Paul Curtis,Western Jets
+2021,2,36,Adelaide,Jake Soligo,Eastern Ranges
+2021,2,37,West Coast,Rhett Bazzo,Swan Districts
+2021,2,38,North Melbourne,Miller Bergman,Dandenong Stingrays
+2021,2,39,Melbourne,Blake Howes,Sandringham Dragons
+2021,3,40,Sydney,Corey Warner,East Fremantle
+2021,3,41,Brisbane Lions,James Tunstill,East Perth
+2021,3,42,Greater Western Sydney,Josh Fahey,Queanbeyan Tigers
+2021,3,43,Western Bulldogs,Arthur Jones,Claremont
+2021,3,44,Adelaide,Zac Taylor,Calder Cannons
+2021,3,45,Collingwood,Arlo Draper,South Adelaide
+2021,3,46,Essendon,Alastair Lord,Norwood
+2021,3,47,St Kilda,Marcus Windhager,Sandringham Dragons
+2021,3,48,Geelong,Flynn Kroeger,Eastern Ranges
+2021,3,49,Collingwood,Cooper Murley,Norwood
+2021,3,50,Essendon,Garrett McDonagh,Richmond
+2021,3,51,St Kilda,Oscar Adams,Glenelg
+2021,3,52,Collingwood,Harvey Harrison,North Adelaide
+2021,4,53,Hawthorn,Jai Serong,Gippsland Power
+2021,4,54,Fremantle,Eric 'Roy' Benning,Claremont
+2021,4,55,Port Adelaide,Hugh Jackson,North Adelaide
+2021,4,56,Port Adelaide,Dante Visentini,Sandringham Dragons
+2021,4,57,West Coast,Jack Williams,East Fremantle
+2021,4,58,Sydney,Lachlan Rankin,Oakleigh Chargers
+2021,4,59,North Melbourne,Jackson Archer,Northern Knights
+2021,4,60,Port Adelaide,Jase Burgoyne,Woodville-West Torrens
+2021,4,61,Western Bulldogs,Luke Cleary,Sandringham Dragons
+2021,4,62,West Coast,Greg Clark,Subiaco
+2021,4,63,Gold Coast,Charlie Constable,Geelong
+2021,4,64,Geelong,Cooper Whyte,Geelong Falcons
+2021,4,65,Melbourne,Taj Woewodin,East Fremantle
+2022,1,1,Greater Western Sydney,Aaron Cadman,Greater Western Victoria Rebels
+2022,1,2,Brisbane Lions,Will Ashcroft,Sandringham Dragons
+2022,1,3,North Melbourne,Harry Sheezel,Sandringham Dragons
+2022,1,4,North Melbourne,George Wardlaw,Oakleigh Chargers
+2022,1,5,Essendon,Elijah Tsatas,Oakleigh Chargers
+2022,1,6,Gold Coast,Bailey Humphrey,Gippsland Power
+2022,1,7,Hawthorn,Cameron Mackenzie,Sandringham Dragons
+2022,1,8,Geelong,Jhye Clark,Geelong Falcons
+2022,1,9,West Coast,Reuben Ginbey,East Perth
+2022,1,10,St Kilda,Mattaes Phillipou,Woodville-West Torrens
+2022,1,11,Carlton,Oliver Hollands,Murray Bushrangers
+2022,1,12,Brisbane Lions,Jaspa Fletcher,Sherwood Magpies
+2022,1,13,Western Bulldogs,Jedd Busslinger,East Perth
+2022,1,14,West Coast,Elijah Hewett,Swan Districts
+2022,1,15,Melbourne,Matthew Jefferson,Oakleigh Chargers
+2022,1,16,Greater Western Sydney,Harry Rowston,Calder Cannons
+2022,1,17,Adelaide,Max Michalanney,Norwood
+2022,1,18,Hawthorn,Josh Weddle,Oakleigh Chargers
+2022,1,19,Collingwood,Ed Allan,Claremont
+2022,1,20,Sydney,Jacob Konstanty,Gippsland Power
+2022,1,21,Greater Western Sydney,Darcy Jones,Swan Districts
+2022,2,22,Greater Western Sydney,Max Gruzewski,Oakleigh Chargers
+2022,2,23,West Coast,Harry Barnett,West Adelaide
+2022,2,24,Western Bulldogs,Charlie Clarke,Sandringham Dragons
+2022,2,25,Essendon,Lewis Hayes,Eastern Ranges
+2022,2,26,North Melbourne,Brayden George,Murray Bushrangers
+2022,2,27,Sydney,Cooper Vickery,Gippsland Power
+2022,2,28,Collingwood,Jakob Ryan,Glenelg
+2022,2,29,West Coast,Coby Burgiel,Gippsland Power
+2022,2,30,Carlton,Lachie Cowan,Tasmania Devils
+2022,2,31,St Kilda,James van Es,Greater Western Victoria Rebels
+2022,2,32,Carlton,Jaxon Binns,Dandenong Stingrays
+2022,2,33,Fremantle,Hugh Davies,Claremont
+2022,2,34,Greater Western Sydney,Toby McMullin,Sandringham Dragons
+2022,2,35,St Kilda,Olli Hotton,Sandringham Dragons
+2022,2,36,Port Adelaide,Tom McCallum,Tasmania Devils
+2022,2,37,Hawthorn,Henry Hustwaite,Dandenong Stingrays
+2022,2,38,Melbourne,Jed Adams,Peel Thunder
+2022,3,39,Western Bulldogs,Harvey Gallagher,Bendigo Pioneers
+2022,3,40,Sydney,Caleb Mitchell,Murray Bushrangers
+2022,3,41,Fremantle,Tom Emmett,Sturt
+2022,3,42,Fremantle,Max Knobel,Gippsland Power
+2022,3,43,Adelaide,Billy Dowling,North Adelaide
+2022,3,44,St Kilda,Isaac Keeler,North Adelaide
+2022,3,45,Essendon,Alwyn Davey Jr.,Oakleigh Chargers
+2022,3,46,Hawthorn,Jack O'Sullivan,Oakleigh Chargers
+2022,3,47,Carlton,Harry Lemmey,West Adelaide
+2022,3,48,Collingwood,Joe Richards,Wangaratta
+2022,3,49,Richmond,Kaleb Smith,East Fremantle
+2022,3,50,Adelaide,Hugh Bond,Greater Western Victoria Rebels
+2022,3,51,Hawthorn,Bailey Macdonald,Oakleigh Chargers
+2022,3,52,Geelong,Phoenix Foster,Norwood
+2022,4,53,Port Adelaide,Thomas Scully,West Adelaide
+2022,4,54,Essendon,Jayden Davey,Oakleigh Chargers
+2022,4,55,Richmond,Steely Green,South Fremantle
+2022,4,56,North Melbourne,Cooper Harvey,Northern Knights
+2022,4,57,Fremantle,Corey Wagner,Port Melbourne
+2022,4,58,West Coast,Noah Long,Bendigo Pioneers
+2022,4,59,Port Adelaide,Kyle Marshall,South Adelaide
+2023,1,1,West Coast,Harley Reid,Bendigo Pioneers
+2023,1,2,North Melbourne,Colby McKercher,Tasmania Devils
+2023,1,3,Gold Coast,Jed Walter,Palm Beach Currumbin
+2023,1,4,North Melbourne,Zane Duursma,Gippsland Power
+2023,1,5,Hawthorn,Nick Watson,Eastern Ranges
+2023,1,6,Western Bulldogs,Ryley Sanders,Sandringham Dragons
+2023,1,7,Melbourne,Caleb Windsor,Eastern Ranges
+2023,1,8,Adelaide,Daniel Curtin,Claremont
+2023,1,9,Gold Coast,Ethan Read,Palm Beach Currumbin
+2023,1,10,Essendon,Nate Caddy,Northern Knights
+2023,1,11,Geelong,Connor O'Sullivan,Murray Bushrangers
+2023,1,12,Greater Western Sydney,Phoenix Gothard,Murray Bushrangers
+2023,1,13,Melbourne,Koltyn Tholstrup,Subiaco
+2023,1,14,Gold Coast,Jake Rogers,Broadbeach
+2023,1,15,Western Bulldogs,Jordan Croft,Calder Cannons
+2023,1,16,Sydney,Will Green,Northern Knights
+2023,1,17,Greater Western Sydney,James Leake,Tasmania Devils
+2023,1,18,St Kilda,Darcy Wilson,Murray Bushrangers
+2023,1,19,Hawthorn,Will McCabe,Central District
+2023,1,20,North Melbourne,Taylor Goad,South Adelaide
+2023,1,21,Adelaide,Charlie Edwards,Sandringham Dragons
+2023,1,22,North Melbourne,Wil Dawson,Gippsland Power
+2023,1,23,North Melbourne,Riley Hardeman,Swan Districts
+2023,1,24,Sydney,Caiden Cleary,Sydney University
+2023,1,25,Collingwood,Harry DeMattia,Dandenong Stingrays
+2023,1,26,Gold Coast,Will Graham,Palm Beach Currumbin
+2023,1,27,Adelaide,Oscar Ryan,Murray Bushrangers
+2023,1,28,St Kilda,Lance Collard,Subiaco
+2023,1,29,Carlton,Ashton Moir,Glenelg
+2023,2,30,West Coast,Archer Reid,Gippsland Power
+2023,2,31,Brisbane Lions,Logan Morris,Western Jets
+2023,2,32,Geelong,Mitchell Edwards,Peel Thunder
+2023,2,33,St Kilda,Angus Hastie,Geelong Falcons
+2023,2,34,Carlton,Billy Wilson,Dandenong Stingrays
+2023,2,35,Fremantle,Cooper Simpson,Dandenong Stingrays
+2023,2,36,Geelong,Shaun Mannagh,Werribee
+2023,2,37,Collingwood,Tew Jiath,Gippsland Power
+2023,2,38,West Coast,Clay Hall,Peel Thunder
+2023,2,39,Essendon,Luamon Lual,Greater Western Victoria Rebels
+2023,2,40,Richmond,Kane McAuliffe,North Adelaide
+2023,2,41,Fremantle,Ollie Murphy,Sandringham Dragons
+2023,2,42,Brisbane Lions,Luke Lloyd,Sandringham Dragons
+2023,2,43,Richmond,Liam Fawcett,Central District
+2023,2,44,Greater Western Sydney,Joe Fonti,Claremont
+2023,3,45,Western Bulldogs,Joel Freijah,Greater Western Victoria Rebels
+2023,3,46,Hawthorn,Bodie Ryan,Glenelg
+2023,3,47,Western Bulldogs,Lachlan Smith,Gippsland Power
+2023,3,48,Port Adelaide,Thomas Anastasopoulos,Geelong Falcons
+2023,3,49,West Coast,Harvey Johnston,Sandringham Dragons
+2023,3,50,St Kilda,Hugo Garcia,Calder Cannons
+2023,3,51,Brisbane Lions,Zane Zakostelsky,Claremont
+2023,3,52,Port Adelaide,Lachlan Charleson,Greater Western Victoria Rebels
+2023,4,53,Sydney,Patrick Snell,Wilston Grange
+2023,4,54,Essendon,Archie Roberts,Sandringham Dragons
+2023,4,55,Western Bulldogs,Aiden O'Driscoll,Perth
+2023,4,56,Hawthorn,Calsher Dear,Sandringham Dragons
+2023,4,57,Port Adelaide,Will Lorenz,Oakleigh Chargers
+2023,4,58,Geelong,George Stevens,Greater Western Victoria Rebels
+2023,4,59,Greater Western Sydney,Harvey Thomas,Oakleigh Chargers
+2023,5,60,Fremantle,Jack Delean,South Adelaide
+2023,5,61,Geelong,Oliver Wiltshire,Barwon Heads
+2023,5,62,St Kilda,Arie Schoenmaker,Tasmania Devils
+2023,5,63,Geelong,Lawson Humphries,Swan Districts
+2023,5,64,Brisbane Lions,Reece Torrent,Peel Thunder
+2024,1,1,Richmond,Sam Lalor,Greater Western Victoria Rebels
+2024,1,2,North Melbourne,Finn O'Sullivan,Oakleigh Chargers
+2024,1,3,Carlton,Jagga Smith,Oakleigh Chargers
+2024,1,4,Adelaide,Sid Draper,South Adelaide
+2024,1,5,Brisbane Lions,Levi Ashcroft,Sandringham Dragons
+2024,1,6,Melbourne,Harvey Langford,Dandenong Stingrays
+2024,1,7,Richmond,Josh Smillie,Eastern Ranges
+2024,1,8,St Kilda,Tobie Travaglia,Bendigo Pioneers
+2024,1,9,Gold Coast,Leo Lombard,Broadbeach
+2024,1,10,St Kilda,Alix Tauru,Gippsland Power
+2024,1,11,Melbourne,Xavier Lindsay,Gippsland Power
+2024,1,12,Richmond,Taj Hotton,Sandringham Dragons
+2024,1,13,Essendon,Isaac Kako,Calder Cannons
+2024,1,14,Richmond,Jonty Faull,Greater Western Victoria Rebels
+2024,1,15,Port Adelaide,Joe Berry,Murray Bushrangers
+2024,1,16,West Coast,Bo Allan,Peel Thunder
+2024,1,17,Fremantle,Murphy Reid,Sandringham Dragons
+2024,1,18,Greater Western Sydney,Oliver Hannaford,Greater Western Victoria Rebels
+2024,1,19,Greater Western Sydney,Harrison Oliver,Sandringham Dragons
+2024,1,20,Western Bulldogs,Cooper Hynes,Dandenong Stingrays
+2024,1,21,Richmond,Luke Trainor,Sandringham Dragons
+2024,1,22,Sydney,Jesse Dattoli,Northern Knights
+2024,1,23,Richmond,Harry Armstrong,Sandringham Dragons
+2024,1,24,Greater Western Sydney,Cody Angove,Claremont
+2024,1,25,Brisbane Lions,Sam Marshall,Sandringham Dragons
+2024,0,26,Sydney,Ned Bowman,Norwood
+2024,0,27,North Melbourne,Matt Whitlock,Murray Bushrangers
+2024,2,28,Richmond,Thomas Sims,Northern Knights
+2024,2,29,Western Bulldogs,Lachie Jaques,Geelong Falcons
+2024,2,30,West Coast,Jobe Shanahan,Bendigo Pioneers
+2024,2,31,Western Bulldogs,Josh Dolan,Sandringham Dragons
+2024,2,32,St Kilda,James Barrat,Bendigo Pioneers
+2024,2,33,Port Adelaide,Jack Whitlock,Murray Bushrangers
+2024,2,34,Fremantle,Charlie Nicholls,Central District
+2024,2,35,Hawthorn,Noah Mraz,Dandenong Stingrays
+2024,2,36,Greater Western Sydney,Jack Ough,Greater Western Victoria Rebels
+2024,2,37,Essendon,Kayle Gerreyn,West Perth
+2024,2,38,Port Adelaide,Christian Moraes,Eastern Ranges
+2024,2,39,Essendon,Angus Clarke,Glenelg
+2024,2,40,Carlton,Harry O'Farrell,Calder Cannons
+2024,3,41,Sydney,Riley Bice,Werribee
+2024,3,42,Brisbane Lions,Ty Gallop,Maroochydore
+2024,3,43,Carlton,Ben Camporeale,Glenelg
+2024,3,44,Geelong,Jay Polkinghorne,Norwood
+2024,3,45,St Kilda,Hugh Boxshall,Claremont
+2024,3,46,West Coast,Tom Gross,Oakleigh Chargers
+2024,3,47,Collingwood,Joel Cochran,UNSW-Eastern Suburbs
+2024,3,48,West Coast,Lucca Grego,Western Jets
+2024,3,49,Gold Coast,Cooper Bell,Belconnen
+2024,3,50,Collingwood,Charlie West,Woodville-West Torrens
+2024,3,51,Western Bulldogs,Sam Davidson,Richmond
+2024,3,52,Geelong,Jacob Molier,Sturt
+2024,3,53,St Kilda,Alex Dodson,Sturt
+2024,3,54,Carlton,Lucas Camporeale,Glenelg
+2024,3,55,Sydney,Riak Andrew,Dandenong Stingrays
+2024,3,56,Collingwood,Will Hayes,Claremont
+2024,4,57,North Melbourne,Luke Urquhart,East Fremantle
+2024,4,58,Richmond,Jasper Alger,Oakleigh Chargers
+2024,4,59,Adelaide,Tyler Welsh,Woodville-West Torrens
+2024,4,60,St Kilda,Patrick Said,Calder Cannons
+2024,4,61,Essendon,Rhys Unwin,Greater Western Victoria Rebels
+2024,4,62,Western Bulldogs,Luke Kennedy,Sandringham Dragons
+2024,4,63,Fremantle,Jaren Carr,South Fremantle
+2024,4,64,Hawthorn,Cody Anderson,Eastern Ranges
+2024,4,65,West Coast,Hamish Davis,Claremont
+2024,4,66,Geelong,Lennox Hofmann,Sandringham Dragons
+2024,5,67,North Melbourne,River Stevens,Geelong Falcons
+2024,5,68,Melbourne,Aidan Johnson,Werribee
+2024,5,69,Geelong,Keighton Matofai-Forbes,Western Jets
+2024,5,70,Essendon,Zak Johnson,Northern Knights
+2024,5,71,Greater Western Sydney,Logan Smith,Queanbeyan
+2025,1,1,West Coast,Willem Duursma,Gippsland Power
+2025,1,2,Gold Coast,Zeke Uwland,Burleigh
+2025,1,3,Carlton,Harry Dean,Murray Bushrangers
+2025,1,4,West Coast,Cooper Duff-Tytler,Calder Cannons
+2025,1,5,Gold Coast,Dylan Patterson,Palm Beach-Currumbin
+2025,1,6,Brisbane Lions,Daniel Annable,Redland-Victoria Point
+2025,1,7,Richmond,Sam Cumming,North Adelaide
+2025,1,8,Richmond,Sam Grlj,Oakleigh Chargers
+2025,1,9,Essendon,Sullivan Robey,Eastern Ranges
+2025,1,10,Essendon,Jacob Farrow,West Perth
+2025,1,11,Melbourne,Xavier Taylor,Eastern Ranges
+2025,1,12,Melbourne,Latrelle Pickett,Glenelg
+2025,1,13,Essendon,Dyson Sharp,Central District
+2025,1,14,Sydney,Harry Kyle,UNSW-Eastern Suburbs
+2025,1,15,Greater Western Sydney,Oskar Taylor,Eastern Ranges
+2025,1,16,North Melbourne,Lachy Dovaston,Eastern Ranges
+2025,1,17,Gold Coast,Jai Murray,Burleigh
+2025,1,18,Gold Coast,Beau Adinsall,Burleigh
+2025,1,19,West Coast,Josh Lindsay,Geelong Falcons
+2025,1,20,Hawthorn,Cameron Nairn,Central District
+2025,1,21,Western Bulldogs,Lachlan Carmichael,North Shore Bombers
+2025,1,22,Adelaide,Mitch Marsh,West Adelaide
+2025,1,23,Hawthorn,Aidan Schubert,Central District
+2025,1,24,Geelong,Harley Barker,Sturt
+2025,1,25,Fremantle,Adam Sweid,Calder Cannons
+2025,2,26,North Melbourne,Blake Thredgold,Sturt
+2025,2,27,Western Bulldogs,Louis Emmett,Oakleigh Chargers
+2025,2,28,Gold Coast,Avery Thomas,Tasmania Devils
+2025,2,29,West Coast,Sam Allen,Oakleigh Chargers
+2025,2,30,Melbourne,Thomas Matthews,Gippsland Power
+2025,2,31,Richmond,Zane Peucker,Woodville-West Torrens
+2025,2,32,Collingwood,Tyan Prindable,Coorparoo
+2025,2,33,Geelong,Hunter Holmes,Oakleigh Chargers
+2025,2,34,Hawthorn,Jack Dalton,Sandringham Dragons
+2025,2,35,Sydney,Jevan Phillipou,Woodville-West Torrens
+2025,2,36,Essendon,Max Kondogiannis,Oakleigh Chargers
+2025,3,37,Collingwood,Samuel Swadling,West Perth
+2025,3,38,Brisbane Lions,Koby Evans,Perth
+2025,3,39,West Coast,Tylah Williams,Swan Districts
+2025,3,40,Fremantle,Tobyn Murray,Geelong
+2025,3,41,St Kilda,Charlie Banfield,Claremont
+2025,3,42,Sydney,Billy Cootee,Norwood
+2025,3,43,Brisbane Lions,Cody Curtin,Claremont
+2025,3,44,Brisbane Lions,Tai Hayes,Southport
+2025,3,45,Carlton,Talor Byrne,Greater Western Victoria Rebels
+2025,3,46,Gold Coast,Koby Coulson,Broadbeach
+2025,3,47,Carlton,Jack Ison,Oakleigh Chargers
+2025,3,48,North Melbourne,Hugo Mikunda,Geelong Falcons
+2025,3,49,Sydney,Max King,Cardiff Hawks
+2025,3,50,Adelaide,Archie Ludowyke,Sandringham Dragons
+2025,3,51,Greater Western Sydney,Finnegan Davis,Western Jets
+2025,3,52,St Kilda,Kye Fincher,Sandringham Dragons
+2025,3,53,Essendon,Hussein El Achkar,Calder Cannons
+2025,3,54,Richmond,Noah Roberts-Thomson,Sturt
+2025,3,55,Collingwood,Zac McCarthy,Oakleigh Chargers
+2025,4,56,Hawthorn,Matthew LeRay,Central District
+2025,4,57,Collingwood,Angus Anderson,Sturt
+2025,5,58,St Kilda,Ryan Byrnes,St Kilda
+2025,5,59,Greater Western Sydney,Jake Stringer,Greater Western Sydney
+2025,6,60,Western Bulldogs,Will Darcy,Oakleigh Chargers
