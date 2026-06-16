@@ -3,6 +3,8 @@
   FootyStrategy: AUTHORED @ 2026-06-16
   Gaffer: SPLICED top-10 conversion rate section (user request) @ 2026-06-16
   FootyStrategy: AUTHORED Part 3 (brand currency thesis) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 4 (decision framework — pick cliff, school signal, club efficiency, state pipelines, late-round gold) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 5 (Is Richmond making a mistake? — dynasty void, 0/32 post-dynasty, pick-1 question) @ 2026-06-16
 -->
 # The AFL National Draft: Error, Structure, and the Shape of Talent
 
@@ -201,3 +203,143 @@ There is no gap. The school helped get the player drafted higher; it did not mak
 The peak at 27.7% **[data]** lands in 2015–19 — the window just before the AFL's expanded Next Generation Academy system, formalised from 2017, had fully propagated through the draft. The pullback to 20.5% **[data]** in 2020–25 is consistent with what genuinely widening access looks like in the data: a parallel elite pathway that reproduces the structured development environment without the school crest. As that academy infrastructure matures, the private school's structural advantage as a talent *pipeline* should keep narrowing — and the brand claim, "we produced X AFL players," becomes progressively harder to defend as the same calibre of player is drafted from other postcodes.
 
 The schools won't stop counting draft picks any more than they'll stop counting ATARs, and they're entitled not to. Both are fair indicators of the environment an institution can attract and retain. But the data says something the prospectus does not: at the top-ten level, where the claim is loudest, the school credential carries no conversion premium. The player drafted out of an APS school and the player drafted out of a country football club arrive with the same odds of becoming elite. The school got to put the pick on its website. The football club got to watch him leave.
+
+---
+
+## Part 4 — What the Data Actually Says You Should Do
+
+Parts 1 through 3 looked backward. This part looks forward. The same dataset that explains what happened can be turned into a small set of decision rules a recruiting department could apply on draft night. Four rules follow, each grounded in a measurable effect, each stated as a thing to do rather than a thing to notice.
+
+### Rule 1 — Price the cliff at pick 16, not pick 11
+
+The conventional trade market treats the end of the first round as the value cliff. The data does not. Elite (A+/A) conversion holds roughly flat from pick 6 through pick 15, then falls off a ledge at pick 16:
+
+| Pick range | A+/A rate | n picks |
+|---|--:|--:|
+| 1–5 | 37.3% **[data]** | 110 **[data]** |
+| 6–10 | 19.1% **[data]** | 110 **[data]** |
+| 11–15 | 20.0% **[data]** | 110 **[data]** |
+| 16–20 | 9.1% **[data]** | 110 **[data]** |
+| 21–30 | 10.0% **[data]** | 220 **[data]** |
+| 31–40 | 5.5% **[data]** | 220 **[data]** |
+| 41–60 | 4.7% **[data]** | 427 **[data]** |
+| 61+ | 3.9% **[data]** | 231 **[data]** |
+
+Picks 11–15 convert at 20.0% **[data]** — statistically indistinguishable from the 19.1% **[data]** of picks 6–10, and more than double the 9.1% **[data]** of picks 16–20. The real drop is between 15 and 16. The implication is a market arbitrage: any trade that treats "end of round 1" as the cliff under-prices picks 11–15. A club that correctly values pick 13 as nearly equivalent to pick 7 can cede pick 7 for pick 13 plus a future asset and extract surplus on both ends. Separately, picks 1–5 stand alone at 37.3% **[data]** — nearly two-in-five become elite. There is no substitute for a genuine top-five selection, and no trade package of later picks reliably replicates it.
+
+### Rule 2 — Apply the school signal only where it pays
+
+The school-background signal is not constant across the draft; it is pick-range dependent, and that interaction is the single most actionable finding in the dataset:
+
+| Pick range | Elite school A+/A | Non-elite A+/A |
+|---|--:|--:|
+| 1–5 | 35.3% (12/34) **[data]** | 38.2% (29/76) **[data]** |
+| 6–10 | 21.4% (6/28) **[data]** | 18.3% (15/82) **[data]** |
+| 11–15 | 30.4% (7/23) **[data]** | 17.2% (15/87) **[data]** |
+| 16–20 | 20.0% (5/25) **[data]** | 5.9% (5/85) **[data]** |
+| 21–30 | 17.3% (9/52) **[data]** | 7.7% (13/168) **[data]** |
+| 31–40 | 10.0% (5/50) **[data]** | 4.1% (7/170) **[data]** |
+| 41–60 | 6.3% (5/79) **[data]** | 4.3% (15/348) **[data]** |
+| 61+ | 8.1% (3/37) **[data]** | 3.1% (6/194) **[data]** |
+
+The decision rule the data supports:
+
+- **Picks 1–10**: school type has no meaningful predictive value (35.3% **[data]** vs 38.2% **[data]** at the top, 21.4% **[data]** vs 18.3% **[data]** next). Weight football ability only.
+- **Picks 11–30**: elite-school background carries a real signal — roughly 2× conversion (30.4% **[data]** vs 17.2% **[data]** at 11–15; 20.0% **[data]** vs 5.9% **[data]** at 16–20). Not determinative, but a legitimate tiebreaker between equally assessed players.
+- **Picks 31+**: the signal narrows but persists. Even at pick 61+, elite-school players convert at 8.1% **[data]** vs 3.1% **[data]** — a non-trivial edge in an otherwise low-signal zone.
+
+### Rule 3 — Treat drafting as a process, and benchmark it
+
+Across 2004–2025, among clubs with 30+ picks, the A+/A conversion rate varies nearly 3-to-1:
+
+| Club | Picks | A+/A | Rate |
+|---|--:|--:|--:|
+| Western Bulldogs | 90 | 14 | 15.6% **[data]** |
+| Greater Western Syd | 74 | 11 | 14.9% **[data]** |
+| Collingwood | 85 | 11 | 12.9% **[data]** |
+| Adelaide | 80 | 10 | 12.5% **[data]** |
+| Melbourne | 82 | 10 | 12.2% **[data]** |
+| Sydney | 75 | 9 | 12.0% **[data]** |
+| West Coast | 84 | 9 | 10.7% **[data]** |
+| Geelong | 89 | 9 | 10.1% **[data]** |
+| Hawthorn | 81 | 8 | 9.9% **[data]** |
+| Fremantle | 89 | 8 | 9.0% **[data]** |
+| Carlton | 80 | 7 | 8.8% **[data]** |
+| Essendon | 92 | 8 | 8.7% **[data]** |
+| Richmond | 92 | 8 | 8.7% **[data]** |
+| Port Adelaide | 83 | 7 | 8.4% **[data]** |
+| Gold Coast | 61 | 5 | 8.2% **[data]** |
+| North Melbourne | 76 | 6 | 7.9% **[data]** |
+| Brisbane Lions | 100 | 6 | 6.0% **[data]** |
+| St Kilda | 88 | 5 | 5.7% **[data]** |
+
+Two observations. First, the spread from 15.6% **[data]** to 5.7% **[data]** is not noise. Over 20-plus years and 74–100 **[data]** picks per club, the gap between the Bulldogs and St Kilda is too large and too sustained to be luck — it reflects a genuine process difference. Second, Brisbane is the cautionary case: 100 **[data]** picks, the most of any club, converted at 6.0% **[data]**. Ninety-four **[data]** of those picks returned B+ or below. Volume without a quality filter is a resource drain, not an edge.
+
+### Rule 4 — Work the state pipelines for what they actually return
+
+| State | Picks | A+/A | Rate |
+|---|--:|--:|--:|
+| NSW/ACT | 15 | 4 | 26.7% **[data]** |
+| VIC | 762 | 91 | 11.9% **[data]** |
+| WA | 252 | 29 | 11.5% **[data]** |
+| Unknown | 252 | 21 | 8.3% **[data]** |
+| SA | 205 | 11 | 5.4% **[data]** |
+| QLD | 26 | 1 | 3.8% **[data]** |
+| TAS | 22 | 0 | 0.0% **[data]** |
+| NT | 4 | 0 | 0.0% **[data]** |
+
+The WA mythology does not survive contact with the rate. WA produces elite players at 11.5% **[data]** — effectively identical to Victoria's 11.9% **[data]**. The state's reputation is a high-profile-player effect: a handful of individually remarkable careers, on top of a volume share larger than its population would predict, so more WA players appear at every grade including A+. The base rate is ordinary. The number that should draw attention is SA at 5.4% **[data]** — less than half Victoria's rate, from a historically rich football state. Whether that is a development, exposure, or depth problem, the SA pathway is underperforming expectation and is worth a club's diagnostic effort. (The NSW/ACT 26.7% **[data]** sits on just 15 **[data]** picks and is too small a sample to lean on.)
+
+### The late-round dividend
+
+Eighteen players drafted after pick 50 **[data]** reached A+/A between 2004 and 2025. A representative slice of that list:
+
+| Year | Pick | Player | Pathway | Grade | Games | Goals |
+|--|--|---|---|:-:|--:|--:|
+| 2007 | 75 | Taylor Walker | North Broken Hill / NSW-ACT U18 | A | 309 **[data]** | 693 **[data]** |
+| 2011 | 58 | Lachie Neale | Kybybolite / St Peter's College SA / Glenelg | A+ | 308 **[data]** | 139 **[data]** |
+| 2014 | 61 | Harris Andrews | Padua College QLD / Qld U18 / Aspley | A+ | 250 **[data]** | 11 **[data]** |
+| 2006 | 55 | Robbie Gray | East Burwood / Oakleigh U18 | A+ | 271 **[data]** | 367 **[data]** |
+| 2016 | 73 | Nick Larkey | Hawthorn Citizens / Trinity Grammar / Oakleigh U18 | A | 147 **[data]** | 308 **[data]** |
+| 2016 | 57 | Josh Daicos | Camberwell Grammar / Oakleigh U18 | A | 164 **[data]** | 68 **[data]** |
+| 2017 | 67 | Dylan Moore | Rowville / Caulfield Grammar / Eastern U18 | A | 138 **[data]** | 144 **[data]** |
+| 2013 | 52 | Darcy Byrne-Jones | Camberwell / Scotch College / Oakleigh U18 | A | 234 **[data]** | 76 **[data]** |
+| 2008 | 53 | Michael Walters | Midvale / Swan Districts | A | 239 **[data]** | 365 **[data]** |
+
+Three patterns recur in the late finds. First, country players with unusual athleticism who were underexposed to recruiters — Walker out of North Broken Hill, Neale out of Kybybolite, both small towns. Second, APS/GPS players taken in the 50s–70s who were correctly evaluated but dropped by other clubs for positional or projection reasons — Byrne-Jones, Moore, Larkey, Daicos. Third, WA players below the eastern-states radar who had not been sufficiently tracked — Walters. The actionable point: after pick 50 the A+/A rate is still a live 6.3–8.1% **[data]**. Clubs that treat the late draft as a formality — filling list spots rather than hunting players — leave roughly one-in-fourteen shots at an elite career unpressed.
+
+### The proposition
+
+Read together, the four rules say one thing: good drafting is a repeatable process, not a run of talent luck. The pick-value cliff sits at a knowable place, the school signal pays only in a knowable band, the state pipelines return knowable rates, and the late draft holds a knowable dividend — and the clubs at the top of the efficiency table exploit all four with enough consistency that their edge survives 90–100 **[data]** picks. A 15.6% **[data]** conversion rate sustained over ninety selections is not a hot streak; it is a system. The gap between the best and worst recruiting departments is the clearest evidence in the whole dataset that the draft rewards method over hope.
+
+---
+
+## Part 5 — Is Richmond Making a Mistake?
+
+The four rules in Part 4 were drawn from twenty years of draft history. The fairest test of any framework is whether it explains a live situation, so this section turns it on a club in real difficulty. Richmond sit at 2 wins and 11 losses through Round 15 of 2026 **[data]** — their two victories coming in Round 9 (99–88) and Round 12 (74–56) **[data]** — with seven of their losses by 50 points or more, including a 114-point defeat to Sydney in Round 13, 56 to 170 **[data]**. The on-field collapse is obvious. The interesting question is whether the draft data says it was avoidable, and what it says they should do now.
+
+### The dynasty was a concentrated bet that paid
+
+Richmond's three-premiership era was built on an unusually tight cluster of elite picks, all made inside a six-year window: Brett Deledio (2004, pick 1, A, 275 games **[data]**), Jack Riewoldt (2006, pick 13, A+, 347 games and 787 goals **[data]**), Shane Edwards (2006, pick 26, A, 303 games **[data]**), Trent Cotchin (2007, pick 2, A, 306 games **[data]**), Alex Rance (2007, pick 18, A+, 200 games **[data]**) and Dustin Martin (2009, pick 3, A+, 302 games and 338 goals **[data]**). One more elite grade followed — Ivan Soldo (2015, pick 40, A, 66 games **[data]**) — and then nothing of that calibre.
+
+That cluster is the whole story of Richmond's 8.7% career A+/A rate **[data]**, which sits tied second-worst among established clubs, above only Brisbane (6.0% **[data]**) and St Kilda (5.7% **[data]**). The dynasty did not reflect strong drafting across the board; it reflected one extraordinary five-year run of top-end selection that masked an otherwise below-average process. When six elite players are in their prime, a club does not need to draft well — and Richmond, on this evidence, did not have to.
+
+### The void behind the dynasty
+
+The damaging number is what came next. Across the post-dynasty drafts of 2018 to 2025, Richmond made 32 picks and produced zero A+/A grades **[data]**. Every selection in that window grades C+, C, B or D; the single best is a B. Sam Lalor, taken at pick 1 in 2024, currently grades C+ with 18 games **[data]**.
+
+Apply Part 4's base rate. At the ~10% conversion established clubs average, 32 picks should yield three to four elite players. Richmond have none. A run of zero over a 32-pick sample is not comfortably explained by bad luck — it is consistent with a drafting process running below the league average, which is precisely the gap Part 4 showed to be real rather than noise. The dynasty core has now largely departed — Martin last played 2024, Riewoldt 2023, Edwards 2022 **[data]** — leaving veterans such as Tom Lynch, Dion Prestia, Liam Baker and Daniel Rioli (all active to Round 15 2026 **[data]**) ahead of a replacement cohort graded B and below.
+
+### The pick-1 question, handled carefully
+
+Part 1 put picks 1–5 at a 37.3% A+/A rate **[data]** — nearly two in five become elite, and there is no trade package that reliably replicates a genuine top-five selection. Spending pick 1 in 2024 and holding a C+ grade with 18 games **[data]** sits at the unfavourable end of that distribution. It is fair to stress that 18 games is far too few to grade a career; the C+ is a present snapshot, not a verdict. But the pattern — pick 1, 18 games, C+ — is the early shape of a commission error, the most visible failure mode from Part 1, and it warrants honest monitoring rather than a presumption that time will fix it.
+
+### The structural read, not the individual one
+
+The mistake worth naming is not any single pick. It is structural: Richmond ran a dynasty on six elite players drafted inside five years, allowed that core to run to retirement without building the next cohort behind it, and now field a list whose best young talent grades B. Part 4's efficiency table shows the contrast plainly — the strongest processes (Western Bulldogs 15.6% **[data]**, GWS 14.9% **[data]**) produce elite players consistently across ninety-odd picks, not in one concentrated burst. An extraordinary peak with nothing behind it is the anti-model.
+
+### What the data says they should do
+
+The four rules apply directly. **Rule 1 (the cliff):** picks 11–15 convert at 20.0% **[data]**, statistically level with picks 6–10 and double picks 16–20 — so a rebuild does not require tanking to pick 1; consolidating multiple future assets into the 11–15 band can be the smarter buy. **Rule 2 (the school signal):** in the 11–30 range elite-school background carries a real ~2× premium (30.4% vs 17.2% at 11–15 **[data]**), a legitimate tiebreaker their recent picks should be weighting. **Rule 3 (process over luck):** the 3-to-1 spread in club efficiency is a twenty-year process story, so the fix is a process reset, not a lucky pick. **Rule 4 (pipelines):** WA (11.5% **[data]**) and VIC (11.9% **[data]**) are the most productive states, and a VIC-leaning recent draft profile is well-supported by the data; SA's 5.4% rate **[data]** is the one pathway the numbers say to approach with caution.
+
+So, is Richmond making a mistake? The honest answer is that the mistake was already made — it was the failure to build behind the dynasty, and its evidence is the 0-from-32 post-dynasty void **[data]**. What happens from here turns on whether the recruiting process improves, not on whether any one pick turns into a star.
