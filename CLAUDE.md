@@ -58,6 +58,32 @@ For multi-step tasks, state a brief plan:
 
 These guidelines are working if: fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
 
+## 5. Test-Driven Development (TDD) — Non-Negotiable
+
+**Write the test first. Make it fail. Then make it pass.**
+
+Every code change to this repo requires tests. No exceptions.
+
+### Process
+1. Before writing any new function or modifying existing logic, write a failing test that defines the expected behaviour.
+2. Implement the minimum code to make the test pass.
+3. Run the full test suite to confirm no regressions.
+4. Commit tests alongside the implementation — never separately after.
+
+### Test location
+- Unit tests: `tests/unit/test_<module_name>.py`
+- Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/ -v`
+
+### Rules
+- **No network calls in unit tests** — mock all HTTP (use `unittest.mock.patch` or `responses`)
+- Tests must run in under 10 seconds total
+- Cover: happy path, edge cases, error/failure paths (404, malformed input, empty data)
+- For scraper/audit functions: always mock the HTTP layer and test the parsing and logic separately
+- For data pipeline functions: use `tmp_path` fixtures for temp CSV files — never touch real data files
+
+### Scope
+This applies to all agents (Scientist, BriefBuilder, DataSentinel, FootyStrategy). When an agent writes code, it must also write the tests. The Gaffer will not accept a code commit without corresponding tests.
+
 ---
 
 # Project-Specific Rules
