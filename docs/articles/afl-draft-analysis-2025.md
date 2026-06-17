@@ -8,10 +8,6 @@
   FootyStrategy: AUTHORED Part 6 (Geelong model — 10.1% average drafting, late-draft extraction avg pick 27.7, trade market imports) @ 2026-06-16
   FootyStrategy: AUTHORED Part 7 (data playbook — 7 rules synthesising all parts) @ 2026-06-16
 -->
-# The AFL National Draft: Error, Structure, and the Shape of Talent
-
-> [← Back to articles](../) | [← README](../../README.md)
-
 <details>
 <summary><strong>TL;DR — The short version (click to expand)</strong></summary>
 
@@ -43,6 +39,12 @@ Geelong's drafting rate (10.1% stars per pick) is perfectly average. But they fi
 **The one-sentence version:** Good list management is about applying the right rules consistently — and the clubs at the top of the table prove it over two decades of picks.
 
 </details>
+
+---
+
+# The AFL National Draft: Error, Structure, and the Shape of Talent
+
+> [← Back to articles](../) | [← README](../../README.md)
 
 *Analytical long-form. Data layer verified by the Scientist against `data/drafts/` and `data/player_data/` on 2026-06-15. Every specific number carries a **[data]** tag.*
 
