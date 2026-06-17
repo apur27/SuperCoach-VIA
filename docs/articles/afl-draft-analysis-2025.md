@@ -1,13 +1,3 @@
-<!-- council-pipeline:
-  Scientist: PASS @ 2026-06-16 (all [data] numbers verified against data/drafts/*.csv and data/player_data/* using canonical career_games = max(row_count, max_numeric(games_played)); corrections applied — Franklin 354 games, Neale 139 goals, Fyfe 247 games, Josh Kennedy disambiguated to the Sydney/Hawthorn midfielder at 2006 pick 40 (290 games). Elite-school % = APS+GPS_WA+GPS_SA+GPS_QLD over all picks.)
-  FootyStrategy: AUTHORED @ 2026-06-16
-  Gaffer: SPLICED top-10 conversion rate section (user request) @ 2026-06-16
-  FootyStrategy: AUTHORED Part 3 (brand currency thesis) @ 2026-06-16
-  FootyStrategy: AUTHORED Part 4 (decision framework — pick cliff, school signal, club efficiency, state pipelines, late-round gold) @ 2026-06-16
-  FootyStrategy: AUTHORED Part 5 (Is Richmond making a mistake? — dynasty void, 0/32 post-dynasty, pick-1 question) @ 2026-06-16
-  FootyStrategy: AUTHORED Part 6 (Geelong model — 10.1% average drafting, late-draft extraction avg pick 27.7, trade market imports) @ 2026-06-16
-  FootyStrategy: AUTHORED Part 7 (data playbook — 7 rules synthesising all parts) @ 2026-06-16
--->
 <details>
 <summary><strong>TL;DR — The short version (click to expand)</strong></summary>
 
@@ -413,3 +403,14 @@ Everything in the previous six parts reduces to a set of rules a club could writ
 7. **Build the next cohort while the current one is still winning.** Richmond's 0-from-32 post-dynasty void **[data]** is the clearest lesson available in the dataset. The window to build the replacement core closes the moment the current core retires — and by then it is already too late. Geelong understood this and kept three pipelines feeding the list; Richmond ran a dynasty to its end and left nothing behind it. The list decision that determines the next five years is always made during the current five years.
 
 Read together, the seven rules say something deflating and freeing at once: good list management is not drafting genius, and it is not trade luck. It is the disciplined application of knowable rules across every pick in every draft, year after year, when nothing about any single selection feels decisive. The data is here. The rules are extractable. The clubs near the top of the efficiency table are not smarter than the clubs at the bottom — they are simply more consistent, and consistency is a choice a club makes long before the draft begins.
+
+<!-- council-pipeline:
+  Scientist: PASS @ 2026-06-16 (all [data] numbers verified against data/drafts/*.csv and data/player_data/* using canonical career_games = max(row_count, max_numeric(games_played)); corrections applied — Franklin 354 games, Neale 139 goals, Fyfe 247 games, Josh Kennedy disambiguated to the Sydney/Hawthorn midfielder at 2006 pick 40 (290 games). Elite-school % = APS+GPS_WA+GPS_SA+GPS_QLD over all picks.)
+  FootyStrategy: AUTHORED @ 2026-06-16
+  Gaffer: SPLICED top-10 conversion rate section (user request) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 3 (brand currency thesis) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 4 (decision framework — pick cliff, school signal, club efficiency, state pipelines, late-round gold) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 5 (Is Richmond making a mistake? — dynasty void, 0/32 post-dynasty, pick-1 question) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 6 (Geelong model — 10.1% average drafting, late-draft extraction avg pick 27.7, trade market imports) @ 2026-06-16
+  FootyStrategy: AUTHORED Part 7 (data playbook — 7 rules synthesising all parts) @ 2026-06-16
+-->
