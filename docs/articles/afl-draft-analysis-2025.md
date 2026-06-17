@@ -12,6 +12,38 @@
 
 > [← Back to articles](../) | [← README](../../README.md)
 
+<details>
+<summary><strong>TL;DR — The short version (click to expand)</strong></summary>
+
+Every November, AFL clubs pick young players in a national draft. The picks at the top are the most valuable — but clubs constantly get it wrong, and this article uses 20 years of data to explain how and why.
+
+**The big ideas, in plain English:**
+
+**1. There are two ways to stuff up a draft pick — and clubs only talk about one.**
+When a club picks a player who flops, everyone notices. But when a club *skips* a player who becomes a star, nobody talks about it. The data shows the second mistake is far more costly — and far more common.
+
+**2. The top 5 picks are gold. After pick 15, the value drops off a cliff.**
+Nearly 2 in every 5 players picked in the top 5 become genuine stars. That rate halves by picks 6–10, stays roughly the same through picks 11–15, then drops sharply after pick 15. Most clubs don't know this, which means picks 11–15 are being undervalued in trades.
+
+**3. Private school players get picked earlier than they should.**
+About 28% of top-10 picks come from elite private schools (APS/GPS). But once drafted, they become stars at exactly the same rate as players from country towns or state schools — 29% vs 28%. The school brand gets players drafted higher; it doesn't make them better footballers.
+
+**4. Some clubs are consistently better at drafting than others — by a 3-to-1 margin.**
+The Western Bulldogs turn 1 in every 6.4 picks into a star player. Brisbane Lions turn 1 in every 16.7. Over 20 years and 90+ picks each, that gap is not luck. It is a better process.
+
+**5. Western Australia is not a special talent factory.**
+WA produces elite players at 11.5% — almost exactly the same as Victoria (11.9%). South Australia is the real concern: just 5.4%. The WA mystique is built on a few famous names, not a systematically better pipeline.
+
+**6. Richmond's decline was predictable from the data.**
+Richmond won three premierships on the back of six great players all drafted between 2004 and 2009. They never built a second wave. In the seven years since 2018, they have made 32 draft picks and produced zero stars. They are now 2 wins from 13 games in 2026.
+
+**7. Geelong wins flags without being great drafters.**
+Geelong's drafting rate (10.1% stars per pick) is perfectly average. But they find stars late — their average elite pick is number 27.7 in the draft, meaning they find talent others overlooked. They also trade for proven players (Dangerfield, Jeremy Cameron) rather than waiting for the draft to deliver. The combination of late-draft skill, smart trading, and keeping players longer is what four premierships in 18 years is built on.
+
+**The one-sentence version:** Good list management is about applying the right rules consistently — and the clubs at the top of the table prove it over two decades of picks.
+
+</details>
+
 *Analytical long-form. Data layer verified by the Scientist against `data/drafts/` and `data/player_data/` on 2026-06-15. Every specific number carries a **[data]** tag.*
 
 ---
