@@ -41,6 +41,8 @@ The spread from top to bottom is nearly 3-to-1: the Western Bulldogs convert at 
 
 ---
 
+> **Trade window:** For each club's free-agency needs, salary-cap read, and specific player targets — including the Zak Butters situation — see [AFL 2026 — Free Agency and the Trade Window](2026-06-19-afl-2026-free-agency-trade-window.md). Per-club summaries are also appended to each section below.
+
 ## The 18 clubs
 
 Ordered from open premiership window to early rebuild.
@@ -90,6 +92,8 @@ Sydney sit first in disposals **[data]** (396.5/g), first in goals **[data]** (1
 
 The academy pipeline is the structural advantage that extends the window past draft position. Sydney pick late in the 20s range now; they compensate with the NSW academy, homegrown retention, and one surgical import per cycle (Curnow). The list philosophy ranking of first in the competition is earned. Realistic 2026 finish from the team list analysis: **1st–3rd, premiership favourite**.
 
+**Free agency outlook:** Need ruck succession, inside-mid depth, and half-back depth. **Target:** Jarrod Witts (Unrestricted FA, Gold Coast **[contract source: AFL.com.au]**) or Rhys Stanley (Unrestricted FA, Geelong **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** likely more room. **Outflow risk:** Dane Rampe, Jake Lloyd, Harry Cunningham, Sam McInerney (a wing other clubs are chasing **[contract source: AFL.com.au]**), and Joel Amartey are all free agents this window. See the [full free-agency read](2026-06-19-afl-2026-free-agency-trade-window.md#sydney) for detail.
+
 ---
 
 ### Brisbane Lions
@@ -137,6 +141,7 @@ The premiership core was assembled via the trade table, not the National Draft: 
 
 Realistic 2026 finish: **1st–4th, premiership contender**.
 
+**Free agency outlook:** Need small-forward pressure and midfield succession behind the ageing core. **Target:** Sam Switkowski (Unrestricted FA, Fremantle **[contract source: AFL.com.au]**) as a pressure forward. **Cap (inference):** likely more room than most. **Outflow risk:** Lachie Neale and Dayne Zorko are Unrestricted FAs **[contract source: AFL.com.au]** — a generational changeover risk in one window.
 
 ---
 
@@ -185,6 +190,8 @@ The efficiency data carries a retention asterisk: Tim Taranto (2016 pick 2, 184 
 
 Realistic 2026 finish: **3rd–7th**.
 
+**Free agency outlook:** Need ruck succession — the defining 2026 list call — and a small forward. **Target:** Witts or Stanley at ruck; Switkowski as the small forward. **Cap (inference):** likely tight — the Greene/Coniglio/Stringer core and off-contract Jesse Hogan **[contract source: ZeroHanger]** all weigh on the books. **Outflow risk:** Toby Greene, Stephen Coniglio, Jake Stringer and Kieren Briggs are free agents **[contract source: AFL.com.au]**.
+
 ---
 
 ### Fremantle
@@ -231,6 +238,8 @@ The 2026 list is built for the next three seasons: Serong (2019 pick 8, 137 game
 | 23 | Karl Worner | Rookie 2021 #8 | 43 |
 
 Realistic 2026 finish: **3rd–7th**.
+
+**Free agency outlook:** Need a contested-marking key forward and a wing. **Target:** Sam McInerney (Unrestricted FA, Sydney **[contract source: AFL.com.au]**) as a wing creator; Tim Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) at key forward. **Cap (inference):** middle of the pack. **Outflow risk:** Sam Switkowski, Oscar McDonald and Fremantle's own wing depth are free agents **[contract source: AFL.com.au]** — the club may need to buy back what it loses.
 
 ---
 
@@ -326,6 +335,8 @@ The data does not and cannot account for Dangerfield's 370 games at Geelong afte
 
 Realistic 2026 finish: **4th–9th**.
 
+**Free agency outlook:** Need inside-mid succession and ruck succession behind an ageing block. **Target:** Zak Butters (Restricted FA, Port Adelaide **[contract source: AFL.com.au]**) — reportedly leading the chase (external reporting); Witts at ruck if they enter the auction. **Cap (inference):** likely the most room in the competition, with the largest block of veteran salary expiring — Dangerfield, Blicavs, Stanley, Kolodjashnij and others all Unrestricted FAs **[contract source: AFL.com.au]**. **Outflow risk:** the same veteran block is the risk — managing their exits while landing Butters is the off-season balancing act.
+
 ---
 
 ### Gold Coast Suns
@@ -420,6 +431,8 @@ The 2026 list is one big-game contested-ball win away from a premiership tilt; t
 
 Realistic 2026 finish: **4th–9th**.
 
+**Free agency outlook:** Port project as **net sellers** this window. Need ruck succession, a second key forward, and contested-mid depth; the realistic answer for ruck is internal development of Sweet and Soldo rather than entering a thin auction. **The Butters call is the window:** matching him as a Restricted FA **[contract source: AFL.com.au]** absorbs most available cap room — the franchise-defining decision is whether to retain or take compensation. **Outflow risk:** severe — Ollie Wines (Unrestricted FA **[contract source: AFL.com.au]**), Darcy Byrne-Jones (Unrestricted FA **[contract source: AFL.com.au]**), Aliir, Zerk-Thatcher and others off-contract **[contract source: ZeroHanger]**.
+
 ---
 
 ### Hawthorn
@@ -467,6 +480,8 @@ The 2004 draft class is the standout in this dataset — Franklin (pick 5, 354 g
 
 Realistic 2026 finish: **5th–9th, rising window**.
 
+**Free agency outlook:** Need inside-mid succession and key-back depth. **Target:** Ollie Wines (Unrestricted FA, Port **[contract source: AFL.com.au]**) or Jordan Gresham (Restricted FA, Essendon **[contract source: AFL.com.au]**) in the midfield; Jordon Butts (Unrestricted FA, Adelaide **[contract source: AFL.com.au]**) or Aliir Aliir **[contract source: ZeroHanger]** at key back. **Cap (inference):** middle of the pack. **Outflow risk:** Jack Gunston (Unrestricted FA **[contract source: AFL.com.au]**) and Mitch Lewis (Unrestricted FA **[contract source: AFL.com.au]**) — the club's own key-forward options — are both on the board.
+
 ---
 
 ### Adelaide Crows
@@ -513,6 +528,8 @@ The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) 
 | 25 | James Peatling | Rookie 2021 #8 | 78 |
 
 Realistic 2026 finish: **8th–12th**.
+
+**Free agency outlook:** Need a second key forward and ruck depth. **Target:** Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a short-term marking forward, or Witts if they enter the ruck auction. **Cap (inference):** middle of the pack. **Outflow risk:** Taylor Walker (Unrestricted FA **[contract source: AFL.com.au]**) and Jordon Butts (worth retaining as a key back) are the headline names; Chayce Jones and Lachlan Sholl also free agents **[contract source: AFL.com.au]**.
 
 ---
 
@@ -608,6 +625,8 @@ The 2026 list-building challenge is twofold: the draft pipeline has produced no 
 
 Realistic 2026 finish: **7th–12th**.
 
+**Free agency outlook:** Need a top-line ruck (post-De Koning) and a second key forward. **Target:** Witts at ruck; Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) or Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a marking forward. **Cap (inference):** likely tight — the Cripps/Walsh/McKay core commits significant salary. **Outflow risk:** Mitch McGovern, Nick Haynes (Unrestricted FA **[contract source: AFL.com.au]**) and Nic Newman are on the board — Carlton are net losers in this window without decisive action.
+
 ---
 
 ### Melbourne
@@ -654,6 +673,8 @@ Gawn at pick 34 is Melbourne's most important data point: the best ruck of his g
 | 2 | Jacob Rooyen | ND 2021 #19 | 71 |
 
 Realistic 2026 finish: **8th–13th**.
+
+**Free agency outlook:** Need a contested-ball midfielder (a generational gap), a second marking forward, and ruck succession. **Target:** Butters or Ollie Wines (Unrestricted FA, Port **[contract source: AFL.com.au]**) in the midfield; Membrey or Mitch Lewis up forward; Witts at ruck. **Cap (inference):** middle of the pack. **Outflow risk:** Tom McDonald, Christian Salem, Bayley Fritsch, Kade Chandler and Tom Sparrow are all free agents **[contract source: AFL.com.au]** — the list needs major inflow to replace what it may lose.
 
 ---
 
@@ -702,6 +723,8 @@ The list philosophy is sound — Wanganeen-Milera and Marshall are genuine corne
 
 Realistic 2026 finish: **7th–12th**.
 
+**Free agency outlook:** Need an inside-mid superstar (a draft priority, not a realistic free-agency target) and a second key forward. **Target:** Jordan Gresham (Restricted FA, Essendon **[contract source: AFL.com.au]**) as midfield depth — retaining him is the priority; the ruck is covered by Tom De Koning internally, so St Kilda sit out the ruck auction. **Cap (inference):** middle of the pack. **Outflow risk:** Byrnes, Carroll and Stocker are younger free agents **[contract source: AFL.com.au]** — fringe names, not headline losses.
+
 ---
 
 ### Essendon
@@ -748,6 +771,8 @@ The supplements-era shadow is visible in the data: the elite picks cluster in th
 | 23 | Harry Jones | Rookie 2017 #7 | 1 |
 
 Realistic 2026 finish: **11th–15th**.
+
+**Free agency outlook:** Need a marking key forward and a ruck. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) at key forward; Witts at ruck, with Jordan Sweet (off-contract Port **[contract source: ZeroHanger]**) or Rhys Stanley as cheaper options. **Cap (inference):** middle of the pack. **Outflow risk:** Jordan Gresham (Restricted FA **[contract source: AFL.com.au]**), Matt Guelfi, Will Setterfield and Liam McMahon (Restricted FA **[contract source: AFL.com.au]**) are all on the board.
 
 ---
 
@@ -796,6 +821,8 @@ Jason Horne-Francis (2021 pick 1, 93 games, A) **[data]** was traded to Port Ade
 
 Realistic 2026 finish: **13th–17th**.
 
+**Free agency outlook:** Need an intercepting key back. **Target:** Aliir Aliir **[contract source: ZeroHanger]**, Brandon Zerk-Thatcher **[contract source: ZeroHanger]** or Jordon Butts (Unrestricted FA, Adelaide **[contract source: AFL.com.au]**) — the deep key-back market is North's best chance to solve this in one move. **Cap (inference):** likely more room — a young, low-committed-salary rebuild list. **Outflow risk:** Luke McDonald, Bailey Scott (Unrestricted FA **[contract source: AFL.com.au]**), Aidan Corr (Restricted FA **[contract source: AFL.com.au]**, a key back worth retaining), and off-contract Zane Duursma, Cooper Harvey and Luke Parker **[contract source: ZeroHanger]**.
+
 ---
 
 ### Richmond
@@ -842,6 +869,8 @@ The post-dynasty void is equally stark: from 2010 to 2025, Richmond drafted 60+ 
 | 36 | James Trezise | Rookie 2023 #13 | 32 |
 
 Realistic 2026 finish: **16th–18th**.
+
+**Free agency outlook:** Need a key forward (acute), a key back, and a ruck. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a bridging forward; Rhys Stanley (Unrestricted FA, Geelong **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** middle of the pack. **Outflow risk:** Tom Lynch, Dion Prestia and Nathan Broad are free agents **[contract source: AFL.com.au]**; Toby Nankervis is off-contract **[contract source: ZeroHanger]**.
 
 ---
 
@@ -890,6 +919,8 @@ The 2018 flag was the endpoint. The 2018–2024 window produced no confirmed A/A
 
 Realistic 2026 finish: **16th–18th**.
 
+**Free agency outlook:** Need a key forward (a genuine crisis), a contested midfielder, and a key back as the rebuild deepens. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Tim Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) up forward; Aliir Aliir **[contract source: ZeroHanger]** or Brandon Zerk-Thatcher **[contract source: ZeroHanger]** in defence; Jarrod Witts (Unrestricted FA, Gold Coast **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** likely more room — a young rebuild list with low committed veteran salary. **Outflow risk:** Jamie Cripps, Tom Cole, Matthew Flynn and Harry Schoenberg are free agents **[contract source: AFL.com.au]**.
+
 ---
 
 ## What the data says across the competition
@@ -927,4 +958,5 @@ Realistic 2026 finish: **16th–18th**.
   DataSentinel: PASS @ 2026-06-17
   Skeptic: PASS @ 2026-06-17
   Gaffer: APPROVED @ 2026-06-17
+  Updated: 2026-06-19 — free agency outlook added per club (cross-ref: 2026-06-19-afl-2026-free-agency-trade-window.md)
 -->
