@@ -9,6 +9,8 @@
 - [Finals doc stale round labels 2026](project_finals_doc_stale_2026.md) — afl-finals-2026.md ladder data correct but prose says "Round 8"/"7 games" vs actual Round 12; script-template bug, not hand-fixable
 - [Script health backlog](project_script_health_backlog.md) — charts.py Era KeyError (needs Scientist); live_analysis_pipeline.py --help auto-starts poll loop; chart re-render churn
 - [BriefBuilder defect classes](project_briefbuilder_defects.md) — round-13 cycle: sort-order (Clayton/Harvey), NaN-handling (needs Scientist convention), win-count source; + DataSentinel arithmetic slip
+- [FootyStrategy name hallucination](project_footystrategy_name_hallucination.md) — attaches correct stats to WRONG first names + falsely claims cleanup; DataSentinel must full-name-sweep EVERY name not just numbered ones
+- [AFL contract data sources](project_afl_contract_data_sources.md) — afl.com.au + zerohanger WebFetch OK (others blocked); live Python scrape hits SPA shells, scraper falls back to verified fixtures; cap=inference only
 - [Briefs are user-initiated only](feedback_brief_user_initiated.md) — NEVER autonomously publish a coaches-strategy-corner brief; wait for explicit user instruction
 - [Backtest n filtering](project_backtest_n_filtering.md) — doc headline n is late-out-filtered (~9 below raw CSV pool); gap expected, doc figure is canonical; per-round canonical run timestamps
 - [Eval surface auto-update](project_eval_surface_autoupdate.md) — update_eval_surface.sh refreshes README eval + banner.svg; backtest CSVs are split per-run, MUST merge all + dedupe by (year,round)
