@@ -64,7 +64,7 @@ Sydney sit first in disposals **[data]** (396.5/g), first in goals **[data]** (1
 | 26 | Riley Bice | 2024 | 41 | C+ | 30 |
 | 22 | Nick Blakey | 2018 | 10 | A | 165 |
 | 33 | Caiden Cleary | 2023 | 24 | C | 22 |
-| 7 | Harry Cunningham | 2012 | 107 | — | 227 |
+| 7 | Harry Cunningham | 2012 | 107 | A+† | 227 |
 | 35 | Charlie Curnow | 2015 | 12 | A | 162 |
 | 4 | Brodie Grundy | 2012 | 18 | A | 255 |
 | 29 | Joel Hamling | 2011 | 32 | C+ | 108 |
@@ -80,19 +80,21 @@ Sydney sit first in disposals **[data]** (396.5/g), first in goals **[data]** (1
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 36 | Joel Amartey | Rookie 2017 #28 | 75 |
-| 28 | Will Edwards | — | 8 |
-| 44 | Jake Lloyd | Rookie 2012 #16 | 285 |
-| 2 | Hayden Mclean | — | 102 |
-| 34 | Matt Roberts | ND 2021 #34 | 59 |
-| 10 | Malcolm Rosas | Rookie 2019 #37 | 61 |
-| 15 | Sam Wicks | — | 101 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 36 | Joel Amartey | Rookie 2017 #28 | B† | 75 |
+| 28 | Will Edwards | — | D† | 8 |
+| 44 | Jake Lloyd | Rookie 2012 #16 | A+† | 285 |
+| 2 | Hayden Mclean | — | B+† | 102 |
+| 34 | Matt Roberts | ND 2021 #34 | C+† | 59 |
+| 10 | Malcolm Rosas | Rookie 2019 #37 | C+† | 61 |
+| 15 | Sam Wicks | — | B+† | 101 |
 
 The academy pipeline is the structural advantage that extends the window past draft position. Sydney pick late in the 20s range now; they compensate with the NSW academy, homegrown retention, and one surgical import per cycle (Curnow). The list philosophy ranking of first in the competition is earned. Realistic 2026 finish from the team list analysis: **1st–3rd, premiership favourite**.
 
 **Free agency outlook:** Need ruck succession, inside-mid depth, and half-back depth. **Target:** Jarrod Witts (Unrestricted FA, Gold Coast **[contract source: AFL.com.au]**) or Rhys Stanley (Unrestricted FA, Geelong **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** likely more room. **Outflow risk:** Dane Rampe, Jake Lloyd, Harry Cunningham, Sam McInerney (a wing other clubs are chasing **[contract source: AFL.com.au]**), and Joel Amartey are all free agents this window. See the [full free-agency read](2026-06-19-afl-2026-free-agency-trade-window.md#sydney) for detail.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -130,18 +132,20 @@ The premiership core was assembled via the trade table, not the National Draft: 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 34 | Shadeau Brain | — | 11 |
-| 23 | Charlie Cameron | — | 264 |
-| 2 | Sam Draper | Rookie 2016 #1 | 91 |
-| 26 | Conor Mckenna | Rookie 2014 #62 | 136 |
-| 16 | Cam Rayner | ND 2017 #1 | 181 |
-| 38 | Bruce Reville | — | 36 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 34 | Shadeau Brain | — | D† | 11 |
+| 23 | Charlie Cameron | — | A+† | 264 |
+| 2 | Sam Draper | Rookie 2016 #1 | B† | 91 |
+| 26 | Conor Mckenna | Rookie 2014 #62 | B+† | 136 |
+| 16 | Cam Rayner | ND 2017 #1 | A† | 181 |
+| 38 | Bruce Reville | — | C† | 36 |
 
 Realistic 2026 finish: **1st–4th, premiership contender**.
 
 **Free agency outlook:** Need small-forward pressure and midfield succession behind the ageing core. **Target:** Sam Switkowski (Unrestricted FA, Fremantle **[contract source: AFL.com.au]**) as a pressure forward. **Cap (inference):** likely more room than most. **Outflow risk:** Lachie Neale and Dayne Zorko are Unrestricted FAs **[contract source: AFL.com.au]** — a generational changeover risk in one window.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -183,14 +187,16 @@ The efficiency data carries a retention asterisk: Tim Taranto (2016 pick 2, 184 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 7 | Lachie Ash | ND 2019 #4 | 138 |
-| 23 | Jesse Hogan | — | 188 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 7 | Lachie Ash | ND 2019 #4 | B+† | 138 |
+| 23 | Jesse Hogan | — | A† | 188 |
 
 Realistic 2026 finish: **3rd–7th**.
 
 **Free agency outlook:** Need ruck succession — the defining 2026 list call — and a small forward. **Target:** Witts or Stanley at ruck; Switkowski as the small forward. **Cap (inference):** likely tight — the Greene/Coniglio/Stringer core and off-contract Jesse Hogan **[contract source: ZeroHanger]** all weigh on the books. **Outflow risk:** Toby Greene, Stephen Coniglio, Jake Stringer and Kieren Briggs are free agents **[contract source: AFL.com.au]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -227,19 +233,21 @@ The 2026 list is built for the next three seasons: Serong (2019 pick 8, 137 game
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 18 | Mason Cox | Rookie 2014 #60 | 145 |
-| 43 | Isaiah Dudley | — | 28 |
-| 17 | Judd Mcvee | Rookie 2021 #18 | 77 |
-| 2 | Jaeger Omeara | — | 203 |
-| 35 | Josh Treacy | Rookie 2020 #7 | 92 |
-| 20 | Patrick Voss | Rookie 2021 #11 | 38 |
-| 23 | Karl Worner | Rookie 2021 #8 | 43 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 18 | Mason Cox | Rookie 2014 #60 | B+† | 145 |
+| 43 | Isaiah Dudley | — | C† | 28 |
+| 17 | Judd Mcvee | Rookie 2021 #18 | B† | 77 |
+| 2 | Jaeger Omeara | — | A+† | 203 |
+| 35 | Josh Treacy | Rookie 2020 #7 | B† | 92 |
+| 20 | Patrick Voss | Rookie 2021 #11 | C† | 38 |
+| 23 | Karl Worner | Rookie 2021 #8 | C† | 43 |
 
 Realistic 2026 finish: **3rd–7th**.
 
 **Free agency outlook:** Need a contested-marking key forward and a wing. **Target:** Sam McInerney (Unrestricted FA, Sydney **[contract source: AFL.com.au]**) as a wing creator; Tim Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) at key forward. **Cap (inference):** middle of the pack. **Outflow risk:** Sam Switkowski, Oscar McDonald and Fremantle's own wing depth are free agents **[contract source: AFL.com.au]** — the club may need to buy back what it loses.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -259,7 +267,7 @@ The tension in the 2026 picture is clear: a 12.9% historical efficiency rate and
 |---|---|---|---|---|---|
 | 41 | Angus Anderson | 2025 | 57 | D | 8 |
 | 14 | Darcy Cameron | 2016 | 48 | B+ | 132 |
-| 25 | Jack Crisp | 2012 | 86 | — | 285 |
+| 25 | Jack Crisp | 2012 | 86 | A+† | 285 |
 | 7 | Josh Daicos | 2016 | 57 | A | 164 |
 | 35 | Nick Daicos | 2021 | 4 | A+ | 107 |
 | 17 | Billy Frampton | 2014 | 84 | C+ | 87 |
@@ -277,16 +285,18 @@ The tension in the 2026 picture is clear: a 12.9% historical efficiency rate and
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 16 | Edward Allan | ND 2022 #19 | 23 |
-| 34 | Jack Buller | Rookie 2023 #15 | 16 |
-| 2 | Jordan Goey | ND 2014 #5 | 192 |
-| 9 | Dan Houston | Rookie 2015 #45 | 200 |
-| 46 | Mitch Podhajski | — | 1 |
-| 45 | Roan Steele | Rookie 2025 #8 | 18 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 16 | Edward Allan | ND 2022 #19 | D† | 23 |
+| 34 | Jack Buller | Rookie 2023 #15 | D† | 16 |
+| 2 | Jordan Goey | ND 2014 #5 | A† | 192 |
+| 9 | Dan Houston | Rookie 2015 #45 | A+† | 200 |
+| 46 | Mitch Podhajski | — | D† | 1 |
+| 45 | Roan Steele | Rookie 2025 #8 | D† | 18 |
 
 Realistic 2026 finish: **4th–9th**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -306,7 +316,7 @@ The data does not and cannot account for Dangerfield's 370 games at Geelong afte
 |---|---|---|---|---|---|
 | 4 | Tanner Bruhn | 2020 | 12 | C+ | 79 |
 | 35 | Patrick Dangerfield | 2007 | 10 | A+ | 370 |
-| 11 | Mitchell Edwards | 2023 | 32 | — | 11 |
+| 11 | Mitchell Edwards | 2023 | 32 | D | 11 |
 | 36 | Oliver Henry | 2020 | 17 | B | 98 |
 | 9 | Max Holmes | 2020 | 20 | A | 116 |
 | 17 | Lawson Humphries | 2023 | 63 | C+ | 49 |
@@ -316,26 +326,28 @@ The data does not and cannot account for Dangerfield's 370 games at Geelong afte
 | 14 | Connor Osullivan | 2023 | 11 | B | 40 |
 | 3 | Bailey Smith | 2018 | 7 | A | 140 |
 | 15 | George Stevens | 2023 | 58 | D | 3 |
-| 21 | Oliver Wiltshire | 2023 | 61 | — | 8 |
+| 21 | Oliver Wiltshire | 2023 | 61 | D | 8 |
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 30 | Tom Atkins | Rookie 2018 #11 | 164 |
-| 46 | Mark Blicavs | Rookie 2011 #54 | 303 |
-| 5 | Jeremy Cameron | — | 290 |
-| 16 | Sam Koning | ND 2019 #19 | 95 |
-| 28 | Oliver Dempsey | Rookie 2021 #15 | 69 |
-| 39 | Zach Guthrie | Rookie 2016 #33 | 139 |
-| 38 | Jack Henry | Rookie 2016 #16 | 4 |
-| 19 | Jack Martin | — | 173 |
-| 34 | Oisin Mullin | International | 54 |
-| 42 | Mark Oconnor | International | 156 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 30 | Tom Atkins | Rookie 2018 #11 | A† | 164 |
+| 46 | Mark Blicavs | Rookie 2011 #54 | A+† | 303 |
+| 5 | Jeremy Cameron | — | A+† | 290 |
+| 16 | Sam Koning | ND 2019 #19 | B† | 95 |
+| 28 | Oliver Dempsey | Rookie 2021 #15 | C+† | 69 |
+| 39 | Zach Guthrie | Rookie 2016 #33 | B+† | 139 |
+| 38 | Jack Henry | Rookie 2016 #16 | D† | 4 |
+| 19 | Jack Martin | — | A† | 173 |
+| 34 | Oisin Mullin | International | C+† | 54 |
+| 42 | Mark Oconnor | International | A† | 156 |
 
 Realistic 2026 finish: **4th–9th**.
 
 **Free agency outlook:** Need inside-mid succession and ruck succession behind an ageing block. **Target:** Zak Butters (Restricted FA, Port Adelaide **[contract source: AFL.com.au]**) — reportedly leading the chase (external reporting); Witts at ruck if they enter the auction. **Cap (inference):** likely the most room in the competition, with the largest block of veteran salary expiring — Dangerfield, Blicavs, Stanley, Kolodjashnij and others all Unrestricted FAs **[contract source: AFL.com.au]**. **Outflow risk:** the same veteran block is the risk — managing their exits while landing Butters is the off-season balancing act.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -372,17 +384,19 @@ The 61-pick sample is the smallest in the dataset — Gold Coast's short competi
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 33 | Sam Clohesy | Rookie 2023 #4 | 42 |
-| 39 | Lachlan Gulbin | — | 9 |
-| 16 | Joel Jeffrey | — | 62 |
-| 44 | Ben Jepson | Rookie 2025 #10 | 3 |
-| 23 | Ned Moyle | Rookie 2021 #5 | 19 |
-| 2 | John Noble | Rookie 2019 #14 | 147 |
-| 6 | Bodhi Uwland | Rookie 2021 #37 | 59 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 33 | Sam Clohesy | Rookie 2023 #4 | C† | 42 |
+| 39 | Lachlan Gulbin | — | D† | 9 |
+| 16 | Joel Jeffrey | — | C+† | 62 |
+| 44 | Ben Jepson | Rookie 2025 #10 | D† | 3 |
+| 23 | Ned Moyle | Rookie 2021 #5 | D† | 19 |
+| 2 | John Noble | Rookie 2019 #14 | B+† | 147 |
+| 6 | Bodhi Uwland | Rookie 2021 #37 | C+† | 59 |
 
 Realistic 2026 finish: **4th–8th, first finals appearance with the new spine**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -420,18 +434,20 @@ The 2026 list is one big-game contested-ball win away from a premiership tilt; t
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 46 | Xavier Bamert | — | 1 |
-| 26 | Tom Cochrane | Rookie 2024 #13 | 5 |
-| 22 | Logan Evans | Rookie 2024 #12 | 36 |
-| 31 | Ewan Mackinlay | Rookie 2025 #11 | 14 |
-| 32 | Harrison Ramm | Rookie 2025 #3 | 2 |
-| 24 | Jordon Sweet | Rookie 2018 #23 | 59 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 46 | Xavier Bamert | — | D† | 1 |
+| 26 | Tom Cochrane | Rookie 2024 #13 | D† | 5 |
+| 22 | Logan Evans | Rookie 2024 #12 | C† | 36 |
+| 31 | Ewan Mackinlay | Rookie 2025 #11 | D† | 14 |
+| 32 | Harrison Ramm | Rookie 2025 #3 | D† | 2 |
+| 24 | Jordon Sweet | Rookie 2018 #23 | C+† | 59 |
 
 Realistic 2026 finish: **4th–9th**.
 
 **Free agency outlook:** Port project as **net sellers** this window. Need ruck succession, a second key forward, and contested-mid depth; the realistic answer for ruck is internal development of Sweet and Soldo rather than entering a thin auction. **The Butters call is the window:** matching him as a Restricted FA **[contract source: AFL.com.au]** absorbs most available cap room — the franchise-defining decision is whether to retain or take compensation. **Outflow risk:** severe — Ollie Wines (Unrestricted FA **[contract source: AFL.com.au]**), Darcy Byrne-Jones (Unrestricted FA **[contract source: AFL.com.au]**), Aliir, Zerk-Thatcher and others off-contract **[contract source: ZeroHanger]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -458,7 +474,7 @@ The 2004 draft class is the standout in this dataset — Franklin (pick 5, 354 g
 | 9 | Connor Macdonald | 2021 | 26 | B | 103 |
 | 17 | Lloyd Meek | 2017 | 69 | B+ | 90 |
 | 8 | Dylan Moore | 2017 | 67 | A | 138 |
-| 22 | Cameron Nairn | 2025 | 20 | — | 3 |
+| 22 | Cameron Nairn | 2025 | 20 | D | 3 |
 | 26 | Bodie Ryan | 2023 | 46 | D | 4 |
 | 6 | James Sicily | 2013 | 56 | A | 191 |
 | 25 | Josh Ward | 2021 | 7 | C+ | 80 |
@@ -467,20 +483,22 @@ The 2004 draft class is the standout in this dataset — Franklin (pick 5, 354 g
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 18 | Mabior Chol | Rookie 2015 #30 | 113 |
-| 16 | Massimo Dambrosio | Rookie 2022 #3 | 76 |
-| 33 | Jack Ginnivan | Rookie 2020 #13 | 100 |
-| 2 | Mitch Lewis | ND 2016 #76 | 91 |
-| 28 | Cam Mackenzie | ND 2022 #7 | 57 |
-| 3 | Jai Newcombe | Rookie 2021 #2 | 112 |
-| 39 | Unknown #39 | — |
-| 7 | Ned Reeves | 55 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 18 | Mabior Chol | Rookie 2015 #30 | B+† | 113 |
+| 16 | Massimo Dambrosio | Rookie 2022 #3 | B† | 76 |
+| 33 | Jack Ginnivan | Rookie 2020 #13 | B+† | 100 |
+| 2 | Mitch Lewis | ND 2016 #76 | B† | 91 |
+| 28 | Cam Mackenzie | ND 2022 #7 | C+† | 57 |
+| 3 | Jai Newcombe | Rookie 2021 #2 | B+† | 112 |
+| 39 | Unknown #39 | — | — | — |
+| 7 | Ned Reeves | — | C+† | 55 |
 
 Realistic 2026 finish: **5th–9th, rising window**.
 
 **Free agency outlook:** Need inside-mid succession and key-back depth. **Target:** Ollie Wines (Unrestricted FA, Port **[contract source: AFL.com.au]**) or Jordan Gresham (Restricted FA, Essendon **[contract source: AFL.com.au]**) in the midfield; Jordon Butts (Unrestricted FA, Adelaide **[contract source: AFL.com.au]**) or Aliir Aliir **[contract source: ZeroHanger]** at key back. **Cap (inference):** middle of the pack. **Outflow risk:** Jack Gunston (Unrestricted FA **[contract source: AFL.com.au]**) and Mitch Lewis (Unrestricted FA **[contract source: AFL.com.au]**) — the club's own key-forward options — are both on the board.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -500,11 +518,11 @@ The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) 
 |---|---|---|---|---|---|
 | 3 | Sam Berry | 2020 | 28 | C+ | 89 |
 | 15 | Brayden Cook | 2020 | 25 | C | 43 |
-| 6 | Daniel Curtin | 2023 | 8 | — | 35 |
+| 6 | Daniel Curtin | 2023 | 8 | B | 35 |
 | 12 | Jordan Dawson | 2015 | 56 | A | 166 |
 | 32 | Darcy Fogarty | 2017 | 12 | B | 133 |
 | 2 | Ben Keays | 2015 | 24 | B+ | 174 |
-| 29 | Rory Laird | 2013 | 86 | — | 277 |
+| 29 | Rory Laird | 2013 | 86 | A+† | 277 |
 | 16 | Max Michalanney | 2022 | 17 | B | 79 |
 | 30 | Wayne Milera | 2015 | 11 | B | 136 |
 | 28 | Alex Neal-Bullen | 2014 | 40 | B | 213 |
@@ -517,19 +535,21 @@ The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 35 | James Borlase | Rookie 2023 #20 | 23 |
-| 40 | Hugo Hall-Kahan | Rookie 2022 #11 | 2 |
-| 42 | Lachlan Mcandrew | Rookie 2021 #12 | 6 |
-| 9 | Nick Murray | — | 74 |
-| 39 | Toby Murray | Rookie 2024 #7 | 7 |
-| 27 | Luke Nankervis | — | 38 |
-| 25 | James Peatling | Rookie 2021 #8 | 78 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 35 | James Borlase | Rookie 2023 #20 | D† | 23 |
+| 40 | Hugo Hall-Kahan | Rookie 2022 #11 | D† | 2 |
+| 42 | Lachlan Mcandrew | Rookie 2021 #12 | D† | 6 |
+| 9 | Nick Murray | — | C+† | 74 |
+| 39 | Toby Murray | Rookie 2024 #7 | D† | 7 |
+| 27 | Luke Nankervis | — | C† | 38 |
+| 25 | James Peatling | Rookie 2021 #8 | B† | 78 |
 
 Realistic 2026 finish: **8th–12th**.
 
 **Free agency outlook:** Need a second key forward and ruck depth. **Target:** Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a short-term marking forward, or Witts if they enter the ruck auction. **Cap (inference):** middle of the pack. **Outflow risk:** Taylor Walker (Unrestricted FA **[contract source: AFL.com.au]**) and Jordon Butts (worth retaining as a key back) are the headline names; Chayce Jones and Lachlan Sholl also free agents **[contract source: AFL.com.au]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -566,17 +586,19 @@ The paradox of 15.6% efficiency and late-window list thinning is the story of th
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 29 | Lachlan Bramble | — | 91 |
-| 19 | Connor Budarick | Rookie 2019 #16 | 63 |
-| 24 | Buku Khamis | International | 55 |
-| 28 | Will Lewis | — | 10 |
-| 18 | James Odonnell | — | 58 |
-| 37 | Michael Sellwood | Rookie 2025 #5 | 14 |
-| 1 | Adam Treloar | — | 263 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 29 | Lachlan Bramble | — | B† | 91 |
+| 19 | Connor Budarick | Rookie 2019 #16 | C+† | 63 |
+| 24 | Buku Khamis | International | C+† | 55 |
+| 28 | Will Lewis | — | D† | 10 |
+| 18 | James Odonnell | — | C+† | 58 |
+| 37 | Michael Sellwood | Rookie 2025 #5 | D† | 14 |
+| 1 | Adam Treloar | — | A+† | 263 |
 
 Realistic 2026 finish: **6th–11th**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -616,16 +638,18 @@ The 2026 list-building challenge is twofold: the draft pipeline has produced no 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 2 | Lachlan Cowan | ND 2022 #30 | 50 |
-| 47 | Wade Derksen | Rookie 2022 #5 | 4 |
-| 24 | Nic Newman | Rookie 2014 #35 | 144 |
-| 45 | Flynn Young | Rookie 2025 #4 | 11 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 2 | Lachlan Cowan | ND 2022 #30 | C+† | 50 |
+| 47 | Wade Derksen | Rookie 2022 #5 | D† | 4 |
+| 24 | Nic Newman | Rookie 2014 #35 | B+† | 144 |
+| 45 | Flynn Young | Rookie 2025 #4 | D† | 11 |
 
 Realistic 2026 finish: **7th–12th**.
 
 **Free agency outlook:** Need a top-line ruck (post-De Koning) and a second key forward. **Target:** Witts at ruck; Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) or Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a marking forward. **Cap (inference):** likely tight — the Cripps/Walsh/McKay core commits significant salary. **Outflow risk:** Mitch McGovern, Nick Haynes (Unrestricted FA **[contract source: AFL.com.au]**) and Nic Newman are on the board — Carlton are net losers in this window without decisive action.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -661,20 +685,22 @@ Gawn at pick 34 is Melbourne's most important data point: the best ruck of his g
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 37 | Kade Chandler | Rookie 2018 #15 | 93 |
-| 46 | Lukas Cooke | — | 1 |
-| 41 | Paddy Cross | — | 8 |
-| 47 | Joel Fitzgerald | — | 1 |
-| 44 | Luker Kentfield | Rookie 2024 #11 | 2 |
-| 35 | Harry Petty | ND 2017 #37 | 114 |
-| 10 | Daniel Turner | Rookie 2021 #24 | 49 |
-| 2 | Jacob Rooyen | ND 2021 #19 | 71 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 37 | Kade Chandler | Rookie 2018 #15 | B† | 93 |
+| 46 | Lukas Cooke | — | D† | 1 |
+| 41 | Paddy Cross | — | D† | 8 |
+| 47 | Joel Fitzgerald | — | D† | 1 |
+| 44 | Luker Kentfield | Rookie 2024 #11 | D† | 2 |
+| 35 | Harry Petty | ND 2017 #37 | B+† | 114 |
+| 10 | Daniel Turner | Rookie 2021 #24 | C† | 49 |
+| 2 | Jacob Rooyen | ND 2021 #19 | C+† | 71 |
 
 Realistic 2026 finish: **8th–13th**.
 
 **Free agency outlook:** Need a contested-ball midfielder (a generational gap), a second marking forward, and ruck succession. **Target:** Butters or Ollie Wines (Unrestricted FA, Port **[contract source: AFL.com.au]**) in the midfield; Membrey or Mitch Lewis up forward; Witts at ruck. **Cap (inference):** middle of the pack. **Outflow risk:** Tom McDonald, Christian Salem, Bayley Fritsch, Kade Chandler and Tom Sparrow are all free agents **[contract source: AFL.com.au]** — the list needs major inflow to replace what it may lose.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -696,7 +722,7 @@ The list philosophy is sound — Wanganeen-Milera and Marshall are genuine corne
 | 13 | Ryan Byrnes | 2025 | 58 | C+ | 86 |
 | 34 | Hugo Garcia | 2023 | 50 | C+ | 40 |
 | 24 | Angus Hastie | 2023 | 33 | C | 16 |
-| 8 | Bradley Hill | 2011 | 33 | — | 291 |
+| 8 | Bradley Hill | 2011 | 33 | B+ | 291 |
 | 6 | Jack Macrae | 2012 | 6 | A+ | 279 |
 | 31 | Liam Ryan | 2017 | 26 | A | 134 |
 | 3 | Jack Silvagni | 2015 | 53 | B | 142 |
@@ -709,21 +735,23 @@ The list philosophy is sound — Wanganeen-Milera and Marshall are genuine corne
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 47 | Anthony Caminiti | — | 67 |
-| 21 | Tom Koning | ND 2017 #30 | 114 |
-| 40 | Max Hall | Rookie 2024 #4 | 37 |
-| 39 | Campbell Lake | — | 2 |
-| 19 | Rowan Marshall | Rookie 2016 #10 | 169 |
-| 10 | Mitch Owens | ND 2021 #33 | 83 |
-| 43 | Cooper Sharman | Rookie 2021 #21 | 84 |
-| 35 | Jack Sinclair | Rookie 2014 #1 | 224 |
-| 44 | Callum Wilkie | Rookie 2018 #3 | 169 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 47 | Anthony Caminiti | — | C+† | 67 |
+| 21 | Tom Koning | ND 2017 #30 | B+† | 114 |
+| 40 | Max Hall | Rookie 2024 #4 | C† | 37 |
+| 39 | Campbell Lake | — | D† | 2 |
+| 19 | Rowan Marshall | Rookie 2016 #10 | A† | 169 |
+| 10 | Mitch Owens | ND 2021 #33 | B† | 83 |
+| 43 | Cooper Sharman | Rookie 2021 #21 | B† | 84 |
+| 35 | Jack Sinclair | Rookie 2014 #1 | A+† | 224 |
+| 44 | Callum Wilkie | Rookie 2018 #3 | A† | 169 |
 
 Realistic 2026 finish: **7th–12th**.
 
 **Free agency outlook:** Need an inside-mid superstar (a draft priority, not a realistic free-agency target) and a second key forward. **Target:** Jordan Gresham (Restricted FA, Essendon **[contract source: AFL.com.au]**) as midfield depth — retaining him is the priority; the ruck is covered by Tom De Koning internally, so St Kilda sit out the ruck auction. **Cap (inference):** middle of the pack. **Outflow risk:** Byrnes, Carroll and Stocker are younger free agents **[contract source: AFL.com.au]** — fringe names, not headline losses.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -762,17 +790,19 @@ The supplements-era shadow is visible in the data: the elite picks cluster in th
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 46 | Lachlan Blakiston | Rookie 2025 #13 | 24 |
-| 44 | Archer Day-Wicks | Rookie 2024 #6 | 17 |
-| 22 | Sam Durham | Rookie 2021 #9 | 103 |
-| 33 | Hussien Achkar | — | 4 |
-| 23 | Harry Jones | Rookie 2017 #7 | 1 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 46 | Lachlan Blakiston | Rookie 2025 #13 | D† | 24 |
+| 44 | Archer Day-Wicks | Rookie 2024 #6 | D† | 17 |
+| 22 | Sam Durham | Rookie 2021 #9 | B+† | 103 |
+| 33 | Hussien Achkar | — | D† | 4 |
+| 23 | Harry Jones | Rookie 2017 #7 | D† | 1 |
 
 Realistic 2026 finish: **11th–15th**.
 
 **Free agency outlook:** Need a marking key forward and a ruck. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) at key forward; Witts at ruck, with Jordan Sweet (off-contract Port **[contract source: ZeroHanger]**) or Rhys Stanley as cheaper options. **Cap (inference):** middle of the pack. **Outflow risk:** Jordan Gresham (Restricted FA **[contract source: AFL.com.au]**), Matt Guelfi, Will Setterfield and Liam McMahon (Restricted FA **[contract source: AFL.com.au]**) are all on the board.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -813,15 +843,17 @@ Jason Horne-Francis (2021 pick 1, 93 games, A) **[data]** was traded to Port Ade
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 39 | Tom Blamires | — | 10 |
-| 47 | Cooper Trembath | Rookie 2025 #10 | 16 |
-| 44 | Cameron Zurhaar | Rookie 2016 #11 | 156 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 39 | Tom Blamires | — | D† | 10 |
+| 47 | Cooper Trembath | Rookie 2025 #10 | D† | 16 |
+| 44 | Cameron Zurhaar | Rookie 2016 #11 | A† | 156 |
 
 Realistic 2026 finish: **13th–17th**.
 
 **Free agency outlook:** Need an intercepting key back. **Target:** Aliir Aliir **[contract source: ZeroHanger]**, Brandon Zerk-Thatcher **[contract source: ZeroHanger]** or Jordon Butts (Unrestricted FA, Adelaide **[contract source: AFL.com.au]**) — the deep key-back market is North's best chance to solve this in one move. **Cap (inference):** likely more room — a young, low-committed-salary rebuild list. **Outflow risk:** Luke McDonald, Bailey Scott (Unrestricted FA **[contract source: AFL.com.au]**), Aidan Corr (Restricted FA **[contract source: AFL.com.au]**, a key back worth retaining), and off-contract Zane Duursma, Cooper Harvey and Luke Parker **[contract source: ZeroHanger]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -855,22 +887,26 @@ The post-dynasty void is equally stark: from 2010 to 2025, Richmond drafted 60+ 
 | 14 | Tim Taranto | 2016 | 2 | A | 184 |
 | 1 | Nick Vlastuin | 2012 | 9 | A | 267 |
 
+> **Not named in the Round 15 selected side:** **Sam Lalor** — #4, 2024 National Draft pick 1, grade C+, 18 career games **[data]**. Richmond's pick-1 anchor of the rebuild; his most recent 2026 senior appearance was Round 8 **[data]**, which is why he does not appear in the Round 15 side above.
+
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 41 | Kye Annand | — | 1 |
-| 44 | Seth Campbell | Rookie 2022 #12 | 55 |
-| 47 | Oliver Hayes-Brown | — | 6 |
-| 42 | Mykelti Lefau | — | 22 |
-| 33 | Patrick Retschko | Rookie 2024 #23 | 7 |
-| 17 | Maurice Rioli | ND 2020 #51 | 56 |
-| 15 | Jayden Short | Rookie 2014 #11 | 201 |
-| 36 | James Trezise | Rookie 2023 #13 | 32 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 41 | Kye Annand | — | D† | 1 |
+| 44 | Seth Campbell | Rookie 2022 #12 | C+† | 55 |
+| 47 | Oliver Hayes-Brown | — | D† | 6 |
+| 42 | Mykelti Lefau | — | D† | 22 |
+| 33 | Patrick Retschko | Rookie 2024 #23 | D† | 7 |
+| 17 | Maurice Rioli | ND 2020 #51 | C+† | 56 |
+| 15 | Jayden Short | Rookie 2014 #11 | A+† | 201 |
+| 36 | James Trezise | Rookie 2023 #13 | C† | 32 |
 
 Realistic 2026 finish: **16th–18th**.
 
 **Free agency outlook:** Need a key forward (acute), a key back, and a ruck. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Jack Gunston (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) as a bridging forward; Rhys Stanley (Unrestricted FA, Geelong **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** middle of the pack. **Outflow risk:** Tom Lynch, Dion Prestia and Nathan Broad are free agents **[contract source: AFL.com.au]**; Toby Nankervis is off-contract **[contract source: ZeroHanger]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -909,17 +945,19 @@ The 2018 flag was the endpoint. The 2018–2024 window produced no confirmed A/A
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Pathway | Games |
-|---|---|---|---|
-| 3 | Liam Baker | Rookie 2017 #18 | 164 |
-| 51 | Marcus Herbert | — | 1 |
-| 23 | Ryan Maric | Rookie 2023 #1 | 60 |
-| 47 | Milan Murdock | — | 11 |
-| 20 | Tylar Young | Rookie 2022 #26 | 49 |
+| # | Player | Pathway | Grade | Games |
+|---|---|---|---|---|
+| 3 | Liam Baker | Rookie 2017 #18 | A† | 164 |
+| 51 | Marcus Herbert | — | D† | 1 |
+| 23 | Ryan Maric | Rookie 2023 #1 | C+† | 60 |
+| 47 | Milan Murdock | — | D† | 11 |
+| 20 | Tylar Young | Rookie 2022 #26 | C† | 49 |
 
 Realistic 2026 finish: **16th–18th**.
 
 **Free agency outlook:** Need a key forward (a genuine crisis), a contested midfielder, and a key back as the rebuild deepens. **Target:** Mitch Lewis (Unrestricted FA, Hawthorn **[contract source: AFL.com.au]**) or Tim Membrey (Unrestricted FA, Collingwood **[contract source: AFL.com.au]**) up forward; Aliir Aliir **[contract source: ZeroHanger]** or Brandon Zerk-Thatcher **[contract source: ZeroHanger]** in defence; Jarrod Witts (Unrestricted FA, Gold Coast **[contract source: AFL.com.au]**) at ruck. **Cap (inference):** likely more room — a young rebuild list with low committed veteran salary. **Outflow risk:** Jamie Cripps, Tom Cole, Matthew Flynn and Harry Schoenberg are free agents **[contract source: AFL.com.au]**.
+
+*† Grades marked † are derived from career games (not DraftGuru) — see the grade-scale note at the end of this article.*
 
 ---
 
@@ -939,7 +977,7 @@ Realistic 2026 finish: **16th–18th**.
 
 ## Methodology and caveats
 
-**Files read:** `data/drafts/draftguru_enrichment.csv` and `data/drafts/afl_draft_history.csv`, joined on `(year, pick)`, 2004–2025 National Draft only. Grades (A+/A/B+/B/C+/C) from DraftGuru.com.au as captured in `draftguru_enrichment.csv`. List quality assessment from `docs/coaches-strategy-corner/afl-2026-team-list-analysis.md`. 2026 team stat rankings from `docs/afl-team-analysis-2026.md` via the team list analysis cross-reference section (rounds 1–9 season-to-date).
+**Files read:** `data/drafts/draftguru_enrichment.csv` and `data/drafts/afl_draft_history.csv`, joined on `(year, pick)`, 2004–2025 National Draft only. Grades (A+/A/B+/B/C+/C) from DraftGuru.com.au as captured in `draftguru_enrichment.csv`. List quality assessment from `docs/coaches-strategy-corner/afl-2026-team-list-analysis.md`. 2026 team stat rankings from `docs/afl-team-analysis-2026.md` via the team list analysis cross-reference section (rounds 1–9 season-to-date). Round 14/15 selected sides — and the player-availability note (e.g. Sam Lalor) — are derived from `data/lineups/team_lineups_<club>.csv`, with jersey numbers mapped to players and per-round appearances confirmed against `data/player_data/`.
 
 **Join caveat:** The join on (year, pick) between the Wikipedia draft history and DraftGuru produced 1,529 matched rows from 1,733 Wikipedia rows and 1,538 DraftGuru rows. Unmatched rows reflect year-pick misalignments from priority picks, compensation picks, and cross-source naming differences. The 1,529 matched rows are the analysis population; picks outside this population are excluded. This is a lower bound on the total National Draft picks across the window.
 
@@ -950,6 +988,8 @@ Realistic 2026 finish: **16th–18th**.
 **2026 stat rankings are season-to-date (rounds 1–9) and subject to change.** All tagged **[data]** stat anchors from the team list analysis reflect the state of play at mid-2026 and may differ from full-season rankings.
 
 **No causal claims.** The association between draft efficiency and on-field success is observable in this data; it is not established as causal. Multiple confounding factors (list depth, coaching, trade-table activity, salary-cap management, injuries) affect on-field outcomes independently of draft conversion rates.
+
+*† **Grade-scale note.** Grades marked † are derived from career games using the scale A+ (200+) / A (150–199) / B+ (100–149) / B (75–99) / C+ (50–74) / C (25–49) / D (<25). This derivation covers players outside DraftGuru's National-Draft grading: rookie-draft picks, pre-2004 and deep National-Draft selections, internationals, and trades. Grades without a † are DraftGuru.com.au National-Draft grades as captured in `data/drafts/draftguru_enrichment.csv`. Career-game counts are read from `data/player_data/` performance files. Players that could not be resolved to a person (e.g. an unidentified jersey number) are left as —.*
 
 <!-- council-pipeline:
   BriefBuilder: DONE
