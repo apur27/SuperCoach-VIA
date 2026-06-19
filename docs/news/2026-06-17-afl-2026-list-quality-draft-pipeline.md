@@ -78,15 +78,15 @@ Sydney sit first in disposals **[data]** (396.5/g), first in goals **[data]** (1
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 36 | Joel Amartey | 75 |
-| 28 | Will Edwards | 8 |
-| 44 | Jake Lloyd | 285 |
-| 2 | Hayden Mclean | 102 |
-| 34 | Matt Roberts | 59 |
-| 10 | Malcolm Rosas | 61 |
-| 15 | Sam Wicks | 101 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 36 | Joel Amartey | Rookie 2017 #28 | 75 |
+| 28 | Will Edwards | — | 8 |
+| 44 | Jake Lloyd | Rookie 2012 #16 | 285 |
+| 2 | Hayden Mclean | — | 102 |
+| 34 | Matt Roberts | ND 2021 #34 | 59 |
+| 10 | Malcolm Rosas | Rookie 2019 #37 | 61 |
+| 15 | Sam Wicks | — | 101 |
 
 The academy pipeline is the structural advantage that extends the window past draft position. Sydney pick late in the 20s range now; they compensate with the NSW academy, homegrown retention, and one surgical import per cycle (Curnow). The list philosophy ranking of first in the competition is earned. Realistic 2026 finish from the team list analysis: **1st–3rd, premiership favourite**.
 
@@ -126,14 +126,14 @@ The premiership core was assembled via the trade table, not the National Draft: 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 34 | Shadeau Brain | 11 |
-| 23 | Charlie Cameron | 264 |
-| 2 | Sam Draper | 91 |
-| 26 | Conor Mckenna | 136 |
-| 16 | Cam Rayner | 181 |
-| 38 | Bruce Reville | 36 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 34 | Shadeau Brain | — | 11 |
+| 23 | Charlie Cameron | — | 264 |
+| 2 | Sam Draper | Rookie 2016 #1 | 91 |
+| 26 | Conor Mckenna | Rookie 2014 #62 | 136 |
+| 16 | Cam Rayner | ND 2017 #1 | 181 |
+| 38 | Bruce Reville | — | 36 |
 
 Realistic 2026 finish: **1st–4th, premiership contender**.
 
@@ -178,10 +178,10 @@ The efficiency data carries a retention asterisk: Tim Taranto (2016 pick 2, 184 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 7 | Lachie Ash | 138 |
-| 23 | Jesse Hogan | 188 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 7 | Lachie Ash | ND 2019 #4 | 138 |
+| 23 | Jesse Hogan | — | 188 |
 
 Realistic 2026 finish: **3rd–7th**.
 
@@ -220,15 +220,15 @@ The 2026 list is built for the next three seasons: Serong (2019 pick 8, 137 game
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 18 | Mason Cox | 145 |
-| 43 | Isaiah Dudley | 28 |
-| 17 | Judd Mcvee | 77 |
-| 2 | Jaeger Omeara | 203 |
-| 35 | Josh Treacy | 92 |
-| 20 | Patrick Voss | 38 |
-| 23 | Karl Worner | 43 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 18 | Mason Cox | Rookie 2014 #60 | 145 |
+| 43 | Isaiah Dudley | — | 28 |
+| 17 | Judd Mcvee | Rookie 2021 #18 | 77 |
+| 2 | Jaeger Omeara | — | 203 |
+| 35 | Josh Treacy | Rookie 2020 #7 | 92 |
+| 20 | Patrick Voss | Rookie 2021 #11 | 38 |
+| 23 | Karl Worner | Rookie 2021 #8 | 43 |
 
 Realistic 2026 finish: **3rd–7th**.
 
@@ -268,14 +268,14 @@ The tension in the 2026 picture is clear: a 12.9% historical efficiency rate and
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 16 | Edward Allan | 23 |
-| 34 | Jack Buller | 16 |
-| 2 | Jordan Goey | 192 |
-| 9 | Dan Houston | 200 |
-| 46 | Mitch Podhajski | 1 |
-| 45 | Roan Steele | 18 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 16 | Edward Allan | ND 2022 #19 | 23 |
+| 34 | Jack Buller | Rookie 2023 #15 | 16 |
+| 2 | Jordan Goey | ND 2014 #5 | 192 |
+| 9 | Dan Houston | Rookie 2015 #45 | 200 |
+| 46 | Mitch Podhajski | — | 1 |
+| 45 | Roan Steele | Rookie 2025 #8 | 18 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -311,18 +311,18 @@ The data does not and cannot account for Dangerfield's 370 games at Geelong afte
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 30 | Tom Atkins | 164 |
-| 46 | Mark Blicavs | 303 |
-| 5 | Jeremy Cameron | 290 |
-| 16 | Sam Koning | 95 |
-| 28 | Oliver Dempsey | 69 |
-| 39 | Zach Guthrie | 139 |
-| 38 | Jack Henry | 4 |
-| 19 | Jack Martin | 173 |
-| 34 | Oisin Mullin | 54 |
-| 42 | Mark Oconnor | 156 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 30 | Tom Atkins | Rookie 2018 #11 | 164 |
+| 46 | Mark Blicavs | Rookie 2011 #54 | 303 |
+| 5 | Jeremy Cameron | — | 290 |
+| 16 | Sam Koning | ND 2019 #19 | 95 |
+| 28 | Oliver Dempsey | Rookie 2021 #15 | 69 |
+| 39 | Zach Guthrie | Rookie 2016 #33 | 139 |
+| 38 | Jack Henry | Rookie 2016 #16 | 4 |
+| 19 | Jack Martin | — | 173 |
+| 34 | Oisin Mullin | International | 54 |
+| 42 | Mark Oconnor | International | 156 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -361,15 +361,15 @@ The 61-pick sample is the smallest in the dataset — Gold Coast's short competi
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 33 | Sam Clohesy | 42 |
-| 39 | Lachlan Gulbin | 9 |
-| 16 | Joel Jeffrey | 62 |
-| 44 | Ben Jepson | 3 |
-| 23 | Ned Moyle | 19 |
-| 2 | John Noble | 147 |
-| 6 | Bodhi Uwland | 59 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 33 | Sam Clohesy | Rookie 2023 #4 | 42 |
+| 39 | Lachlan Gulbin | — | 9 |
+| 16 | Joel Jeffrey | — | 62 |
+| 44 | Ben Jepson | Rookie 2025 #10 | 3 |
+| 23 | Ned Moyle | Rookie 2021 #5 | 19 |
+| 2 | John Noble | Rookie 2019 #14 | 147 |
+| 6 | Bodhi Uwland | Rookie 2021 #37 | 59 |
 
 Realistic 2026 finish: **4th–8th, first finals appearance with the new spine**.
 
@@ -409,14 +409,14 @@ The 2026 list is one big-game contested-ball win away from a premiership tilt; t
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 46 | Xavier Bamert | 1 |
-| 26 | Tom Cochrane | 5 |
-| 22 | Logan Evans | 36 |
-| 31 | Ewan Mackinlay | 14 |
-| 32 | Harrison Ramm | 2 |
-| 24 | Jordon Sweet | 59 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 46 | Xavier Bamert | — | 1 |
+| 26 | Tom Cochrane | Rookie 2024 #13 | 5 |
+| 22 | Logan Evans | Rookie 2024 #12 | 36 |
+| 31 | Ewan Mackinlay | Rookie 2025 #11 | 14 |
+| 32 | Harrison Ramm | Rookie 2025 #3 | 2 |
+| 24 | Jordon Sweet | Rookie 2018 #23 | 59 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -454,14 +454,14 @@ The 2004 draft class is the standout in this dataset — Franklin (pick 5, 354 g
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 18 | Mabior Chol | 113 |
-| 16 | Massimo Dambrosio | 76 |
-| 33 | Jack Ginnivan | 100 |
-| 2 | Mitch Lewis | 91 |
-| 28 | Cam Mackenzie | 57 |
-| 3 | Jai Newcombe | 112 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 18 | Mabior Chol | Rookie 2015 #30 | 113 |
+| 16 | Massimo Dambrosio | Rookie 2022 #3 | 76 |
+| 33 | Jack Ginnivan | Rookie 2020 #13 | 100 |
+| 2 | Mitch Lewis | ND 2016 #76 | 91 |
+| 28 | Cam Mackenzie | ND 2022 #7 | 57 |
+| 3 | Jai Newcombe | Rookie 2021 #2 | 112 |
 | 39 | Unknown #39 | — |
 | 7 | Ned Reeves | 55 |
 
@@ -502,15 +502,15 @@ The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 35 | James Borlase | 23 |
-| 40 | Hugo Hall-Kahan | 2 |
-| 42 | Lachlan Mcandrew | 6 |
-| 9 | Nick Murray | 74 |
-| 39 | Toby Murray | 7 |
-| 27 | Luke Nankervis | 38 |
-| 25 | James Peatling | 78 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 35 | James Borlase | Rookie 2023 #20 | 23 |
+| 40 | Hugo Hall-Kahan | Rookie 2022 #11 | 2 |
+| 42 | Lachlan Mcandrew | Rookie 2021 #12 | 6 |
+| 9 | Nick Murray | — | 74 |
+| 39 | Toby Murray | Rookie 2024 #7 | 7 |
+| 27 | Luke Nankervis | — | 38 |
+| 25 | James Peatling | Rookie 2021 #8 | 78 |
 
 Realistic 2026 finish: **8th–12th**.
 
@@ -549,15 +549,15 @@ The paradox of 15.6% efficiency and late-window list thinning is the story of th
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 29 | Lachlan Bramble | 91 |
-| 19 | Connor Budarick | 63 |
-| 24 | Buku Khamis | 55 |
-| 28 | Will Lewis | 10 |
-| 18 | James Odonnell | 58 |
-| 37 | Michael Sellwood | 14 |
-| 1 | Adam Treloar | 263 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 29 | Lachlan Bramble | — | 91 |
+| 19 | Connor Budarick | Rookie 2019 #16 | 63 |
+| 24 | Buku Khamis | International | 55 |
+| 28 | Will Lewis | — | 10 |
+| 18 | James Odonnell | — | 58 |
+| 37 | Michael Sellwood | Rookie 2025 #5 | 14 |
+| 1 | Adam Treloar | — | 263 |
 
 Realistic 2026 finish: **6th–11th**.
 
@@ -599,12 +599,12 @@ The 2026 list-building challenge is twofold: the draft pipeline has produced no 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 2 | Lachlan Cowan | 50 |
-| 47 | Wade Derksen | 4 |
-| 24 | Nic Newman | 144 |
-| 45 | Flynn Young | 11 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 2 | Lachlan Cowan | ND 2022 #30 | 50 |
+| 47 | Wade Derksen | Rookie 2022 #5 | 4 |
+| 24 | Nic Newman | Rookie 2014 #35 | 144 |
+| 45 | Flynn Young | Rookie 2025 #4 | 11 |
 
 Realistic 2026 finish: **7th–12th**.
 
@@ -642,16 +642,16 @@ Gawn at pick 34 is Melbourne's most important data point: the best ruck of his g
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 37 | Kade Chandler | 93 |
-| 46 | Lukas Cooke | 1 |
-| 41 | Paddy Cross | 8 |
-| 47 | Joel Fitzgerald | 1 |
-| 44 | Luker Kentfield | 2 |
-| 35 | Harry Petty | 114 |
-| 10 | Daniel Turner | 49 |
-| 2 | Jacob Rooyen | 71 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 37 | Kade Chandler | Rookie 2018 #15 | 93 |
+| 46 | Lukas Cooke | — | 1 |
+| 41 | Paddy Cross | — | 8 |
+| 47 | Joel Fitzgerald | — | 1 |
+| 44 | Luker Kentfield | Rookie 2024 #11 | 2 |
+| 35 | Harry Petty | ND 2017 #37 | 114 |
+| 10 | Daniel Turner | Rookie 2021 #24 | 49 |
+| 2 | Jacob Rooyen | ND 2021 #19 | 71 |
 
 Realistic 2026 finish: **8th–13th**.
 
@@ -688,17 +688,17 @@ The list philosophy is sound — Wanganeen-Milera and Marshall are genuine corne
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 47 | Anthony Caminiti | 67 |
-| 21 | Tom Koning | 114 |
-| 40 | Max Hall | 37 |
-| 39 | Campbell Lake | 2 |
-| 19 | Rowan Marshall | 169 |
-| 10 | Mitch Owens | 83 |
-| 43 | Cooper Sharman | 84 |
-| 35 | Jack Sinclair | 224 |
-| 44 | Callum Wilkie | 169 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 47 | Anthony Caminiti | — | 67 |
+| 21 | Tom Koning | ND 2017 #30 | 114 |
+| 40 | Max Hall | Rookie 2024 #4 | 37 |
+| 39 | Campbell Lake | — | 2 |
+| 19 | Rowan Marshall | Rookie 2016 #10 | 169 |
+| 10 | Mitch Owens | ND 2021 #33 | 83 |
+| 43 | Cooper Sharman | Rookie 2021 #21 | 84 |
+| 35 | Jack Sinclair | Rookie 2014 #1 | 224 |
+| 44 | Callum Wilkie | Rookie 2018 #3 | 169 |
 
 Realistic 2026 finish: **7th–12th**.
 
@@ -739,13 +739,13 @@ The supplements-era shadow is visible in the data: the elite picks cluster in th
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 46 | Lachlan Blakiston | 24 |
-| 44 | Archer Day-Wicks | 17 |
-| 22 | Sam Durham | 103 |
-| 33 | Hussien Achkar | 4 |
-| 23 | Harry Jones | 1 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 46 | Lachlan Blakiston | Rookie 2025 #13 | 24 |
+| 44 | Archer Day-Wicks | Rookie 2024 #6 | 17 |
+| 22 | Sam Durham | Rookie 2021 #9 | 103 |
+| 33 | Hussien Achkar | — | 4 |
+| 23 | Harry Jones | Rookie 2017 #7 | 1 |
 
 Realistic 2026 finish: **11th–15th**.
 
@@ -788,11 +788,11 @@ Jason Horne-Francis (2021 pick 1, 93 games, A) **[data]** was traded to Port Ade
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 39 | Tom Blamires | 10 |
-| 47 | Cooper Trembath | 16 |
-| 44 | Cameron Zurhaar | 156 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 39 | Tom Blamires | — | 10 |
+| 47 | Cooper Trembath | Rookie 2025 #10 | 16 |
+| 44 | Cameron Zurhaar | Rookie 2016 #11 | 156 |
 
 Realistic 2026 finish: **13th–17th**.
 
@@ -830,16 +830,16 @@ The post-dynasty void is equally stark: from 2010 to 2025, Richmond drafted 60+ 
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 41 | Kye Annand | 1 |
-| 44 | Seth Campbell | 55 |
-| 47 | Oliver Hayes-Brown | 6 |
-| 42 | Mykelti Lefau | 22 |
-| 33 | Patrick Retschko | 7 |
-| 17 | Maurice Rioli | 56 |
-| 15 | Jayden Short | 201 |
-| 36 | James Trezise | 32 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 41 | Kye Annand | — | 1 |
+| 44 | Seth Campbell | Rookie 2022 #12 | 55 |
+| 47 | Oliver Hayes-Brown | — | 6 |
+| 42 | Mykelti Lefau | — | 22 |
+| 33 | Patrick Retschko | Rookie 2024 #23 | 7 |
+| 17 | Maurice Rioli | ND 2020 #51 | 56 |
+| 15 | Jayden Short | Rookie 2014 #11 | 201 |
+| 36 | James Trezise | Rookie 2023 #13 | 32 |
 
 Realistic 2026 finish: **16th–18th**.
 
@@ -880,13 +880,13 @@ The 2018 flag was the endpoint. The 2018–2024 window produced no confirmed A/A
 
 **Via trade, rookie draft, or non-National-Draft pathway** **[data]**
 
-| # | Player | Games |
-|---|---|---|
-| 3 | Liam Baker | 164 |
-| 51 | Marcus Herbert | 1 |
-| 23 | Ryan Maric | 60 |
-| 47 | Milan Murdock | 11 |
-| 20 | Tylar Young | 49 |
+| # | Player | Pathway | Games |
+|---|---|---|---|
+| 3 | Liam Baker | Rookie 2017 #18 | 164 |
+| 51 | Marcus Herbert | — | 1 |
+| 23 | Ryan Maric | Rookie 2023 #1 | 60 |
+| 47 | Milan Murdock | — | 11 |
+| 20 | Tylar Young | Rookie 2022 #26 | 49 |
 
 Realistic 2026 finish: **16th–18th**.
 

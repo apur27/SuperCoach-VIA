@@ -1,0 +1,1240 @@
+year,draft_type,pick,club,player_name,recruited_from
+2004,end_season,1,Richmond,Will Thursfield,Sandringham U18
+2004,end_season,2,Hawthorn,Ruory Kirkby,Bendigo U18
+2004,end_season,3,Western Bulldogs,Rowan Nayna,Dandenong U18
+2004,end_season,4,Collingwood,Ben Davies,Western U18
+2004,end_season,5,Adelaide,Ryan Nye,Peel Thunder
+2004,end_season,6,Carlton,Daniel Batson,North Ballarat U18
+2004,end_season,7,North Melbourne,Josh Gibson,Port Melbourne
+2004,end_season,8,Fremantle,Joseph Krieger,Sandringham U18
+2004,end_season,9,West Coast,Ben Sharp,Oakleigh U18
+2004,end_season,10,Melbourne,Brendan Van Schaik,Murray U18
+2004,end_season,11,Essendon,Ryan Bain,Oakleigh U18
+2004,end_season,12,Sydney,Guy Campbell,Bendigo Bombers
+2004,end_season,13,Geelong,Jarrod Garth,Tasmania U18
+2004,end_season,14,St Kilda,Luke Mullins,Collingwood
+2004,end_season,15,Brisbane Lions,Travis Baird,Bendigo U18
+2004,end_season,16,Port Adelaide,Danyle Pearce,Sturt
+2004,end_season,17,Richmond,Pass,
+2004,end_season,18,Hawthorn,Clinton Young,North Ballarat U18
+2004,end_season,19,Western Bulldogs,Dale Morris,Werribee
+2004,end_season,20,Collingwood,Heritier Lumumba,Claremont
+2004,end_season,21,Adelaide,Jonathon Griffin,East Fremantle
+2004,end_season,22,Carlton,Jesse D. Smith,Calder U18
+2004,end_season,23,North Melbourne,Josh Thewlis,Sydney
+2004,end_season,24,Fremantle,Jack Juniper,Glenelg
+2004,end_season,25,West Coast,Beau Maister,Claremont
+2004,end_season,26,Melbourne,Matthew Warnock,Sandringham
+2004,end_season,27,Essendon,Ben Jolley,Calder U18
+2004,end_season,28,Sydney,Luke Vogels,Terang Mortlake
+2004,end_season,29,Geelong,Nick Batchelor,Norwood
+2004,end_season,30,St Kilda,Ed McDonnell,Western Magpies
+2004,end_season,31,Brisbane Lions,Pass,
+2004,end_season,32,Port Adelaide,Robert Forster-Knight,Port Adelaide
+2004,end_season,33,Richmond,Pass,
+2004,end_season,34,Hawthorn,Thomas Willday,Perth
+2004,end_season,35,Western Bulldogs,Pass,
+2004,end_season,36,Adelaide,John Hinge,Glenelg
+2004,end_season,37,Carlton,Nick Becker,Calder U18
+2004,end_season,38,North Melbourne,Scott McMahon,Woodville-West Torrens
+2004,end_season,39,Fremantle,Ryan Crowley,Fremantle
+2004,end_season,40,West Coast,Ashley Thornton,Peel Thunder
+2004,end_season,41,Melbourne,Pass,
+2004,end_season,42,Sydney,Heath Grundy,Norwood
+2004,end_season,43,Geelong,Tim Sheringham,Geelong Falcons
+2004,end_season,44,St Kilda,Pass,
+2004,end_season,45,Brisbane Lions,Pass,
+2004,end_season,46,Port Adelaide,Pass,
+2004,end_season,47,Richmond,Pass,
+2004,end_season,48,Hawthorn,Kristan Height,Box Hill Hawks
+2004,end_season,49,Western Bulldogs,Pass,
+2004,end_season,50,Carlton,Aisake O'hAilpin,Cork (Ireland)
+2004,end_season,51,North Melbourne,Justin Perkins,Perth
+2004,end_season,52,West Coast,Aaron Edwards,West Coast
+2004,end_season,53,Melbourne,Pass,
+2004,end_season,54,Sydney,Stefan Garrubba,Dandenong U18
+2004,end_season,55,St Kilda,Pass,
+2004,end_season,56,Brisbane Lions,Pass,
+2004,end_season,57,North Melbourne,Pass,
+2004,end_season,58,Melbourne,Pass,
+2004,end_season,59,Sydney,Earl Shaw,Campbelltown
+2004,end_season,60,Brisbane Lions,Josh Drummond,Northern Eagles
+2004,end_season,61,Sydney,Ed Clarke,North Shore
+2004,end_season,62,Brisbane Lions,Marcus Allan,Northern Eagles
+2004,end_season,63,Sydney,Andrew Hayes,Balmain
+2004,end_season,64,Brisbane Lions,Will Hamill,Mt Gravatt
+2004,end_season,65,Brisbane Lions,Marty Pask,Western Magpies
+2004,end_season,66,Brisbane Lions,Scott Harding,Morningside
+2005,end_season,1,Carlton,Ryan Jackson,Northern Knights
+2005,end_season,2,Collingwood,Alan Toovey,Claremont
+2005,end_season,3,Hawthorn,Luke McEntee,North Adelaide
+2005,end_season,4,Essendon,Lachlan McKinnon,Calder Cannons
+2005,end_season,5,Richmond,Angus Graham,Tassie Mariners
+2005,end_season,6,Brisbane Lions,Jason Roe,North Adelaide
+2005,end_season,7,Fremantle,Paul Duffield,Fremantle
+2005,end_season,8,Western Bulldogs,Tom Davidson,Collingwood
+2005,end_season,9,Melbourne,Jace Bode,Sturt
+2005,end_season,10,Kangaroos,Ed Lower,Norwood
+2005,end_season,11,Port Adelaide,Thomas Rischbieth,Sturt
+2005,end_season,12,Geelong,Todd Grima,Tassie Mariners
+2005,end_season,13,Adelaide,Brad Sugars,Glenelg
+2005,end_season,14,St Kilda,Cathal Corr,Northern Knights
+2005,end_season,15,West Coast,Steven Armstrong,Melbourne
+2005,end_season,16,Sydney,Jonathan Simpkin,Geelong
+2005,end_season,17,Carlton,Craig Flint,Gippsland Power
+2005,end_season,18,Collingwood,Daniel Nicholls,Dandenong Stingrays
+2005,end_season,19,Hawthorn,Lukas Markovic,Eastern Ranges
+2005,end_season,20,Essendon,Heath Hocking,East Ringwood
+2005,end_season,21,Richmond,Jeremy Humm,West Coast
+2005,end_season,22,Brisbane Lions,Leonard Clark,West Adelaide
+2005,end_season,23,Fremantle,Toby Stribling,Fremantle
+2005,end_season,24,Western Bulldogs,Pass,
+2005,end_season,25,Melbourne,Daniel Hughes,Sandringham Dragons
+2005,end_season,26,Kangaroos,Djaran Whyman,North Ballarat
+2005,end_season,27,Port Adelaide,Greg Bentley,Dandenong Stingrays
+2005,end_season,28,Geelong,Will Slade,Geelong
+2005,end_season,29,Adelaide,Tom Redden,Glenelg
+2005,end_season,30,St Kilda,Dylan Pfitzner,St Kilda
+2005,end_season,31,West Coast,Matthew Priddis,Subiaco
+2005,end_season,32,Sydney,James Wall,Calder Cannons
+2005,end_season,33,Collingwood,Shannon Cox,South Fremantle
+2005,end_season,34,Hawthorn,Stephen Gilham,Port Adelaide
+2005,end_season,35,Essendon,Matthew Firman,Belconnen
+2005,end_season,36,Richmond,Cameron Howat,Oakleigh Chargers
+2005,end_season,37,Brisbane Lions,Luke Forsyth,Brisbane Lions
+2005,end_season,38,Western Bulldogs,Pass,
+2005,end_season,39,Melbourne,Shane Neaves,Calder Cannons
+2005,end_season,40,Port Adelaide,Tim Looby,Murray Bushrangers
+2005,end_season,41,Geelong,Sam Hunt,Essendon
+2005,end_season,42,Adelaide,Adrian Bonaddio,Oakleigh Chargers
+2005,end_season,43,St Kilda,Pass,
+2005,end_season,44,West Coast,Michael Embley,West Coast
+2005,end_season,45,Sydney,Paul Currie,Northern Knights
+2005,end_season,46,Hawthorn,Ben Kane,Hawthorn
+2005,end_season,47,Essendon,Tim O'Keefe,Calder Cannons
+2005,end_season,48,Richmond,Pass,
+2005,end_season,49,Brisbane Lions,Cheynee Stiller,Northern Eagles
+2005,end_season,50,Western Bulldogs,Pass,
+2005,end_season,51,Melbourne,Andre Gianfagna,Northern Knights
+2005,end_season,52,Port Adelaide,Tom Logan,Brisbane Lions
+2005,end_season,53,Adelaide,Sam Elliott,South Adelaide
+2005,end_season,54,Sydney,Simon Phillips,Sandringham Dragons
+2005,end_season,55,Hawthorn,Ben McGlynn,Box Hill Hawks
+2005,end_season,56,Richmond,Pass,
+2005,end_season,57,Brisbane,Colm Begley,Ireland
+2005,end_season,58,Sydney,Kieren Jack,NSW-ACT Rams
+2005,end_season,59,Brisbane,Brendan Quigley,Ireland
+2005,end_season,60,Sydney,Ed Barlow,Oakleigh Chargers
+2005,end_season,61,Sydney,Adam Prior,Murray Bushrangers
+2005,end_season,62,Sydney,Sam Rowe,Murray Bushrangers
+2006,end_season,1,Carlton,Sam Jacobs,Woodville-West Torrens
+2006,end_season,2,Essendon,Dean Dick,Perth
+2006,end_season,3,Kangaroos,Leigh Adams,Eastern Ranges
+2006,end_season,4,Brisbane Lions,Anthony Corrie,Brisbane Lions
+2006,end_season,5,Port Adelaide,Alex Lee,Dandenong Stingrays
+2006,end_season,6,Hawthorn,Brett Collins,St Bedes
+2006,end_season,7,Geelong,Joel Reynolds,Essendon
+2006,end_season,8,Richmond,Tasman Clingan,North Ballarat Rebels
+2006,end_season,9,St Kilda,Clinton Jones,South Fremantle
+2006,end_season,10,Collingwood,Sharrod Wellingham,Perth
+2006,end_season,11,Western Bulldogs,Gavin Hughes,Norwood
+2006,end_season,12,Melbourne,Daniel Hayes,Eastern Ranges
+2006,end_season,13,Fremantle,Chris Smith,Mount Gravatt
+2006,end_season,14,Adelaide,Andrew McIntyre,North Adelaide
+2006,end_season,15,Sydney,Nick Smith,Oakleigh Chargers
+2006,end_season,16,West Coast,Jamie McNamara,East Fremantle
+2006,end_season,17,Carlton,Michael Jamison,North Ballarat
+2006,end_season,18,Essendon,Danny Chartres,Peel Thunder
+2006,end_season,19,Kangaroos,Ben Hughes,Gippsland Power
+2006,end_season,20,Brisbane Lions,Scott Clouston,Morningside
+2006,end_season,21,Port Adelaide,Gavin Grose,Mount Gravatt
+2006,end_season,22,Hawthorn,Matt Suckling,Wagga Tigers
+2006,end_season,23,Geelong,Liam Bedford,Claremont
+2006,end_season,24,Richmond,Jake King,Coburg
+2006,end_season,25,St Kilda,Luke van Rheenen,Scoresby
+2006,end_season,26,Collingwood,Brent Macaffer,Gippsland Power
+2006,end_season,27,Western Bulldogs,Jarrod Harbrow,Murray Bushrangers
+2006,end_season,28,Fremantle,Andrew Foster,East Fremantle
+2006,end_season,29,Adelaide,James Turner,South Adelaide
+2006,end_season,30,Sydney,Matthew O'Dwyer,Oakleigh Chargers
+2006,end_season,31,West Coast,Llane Spaanderman,East Perth
+2006,end_season,32,Carlton,Ross Young,Northern Bullants
+2006,end_season,33,Essendon,Adam Ramanauskas,Essendon
+2006,end_season,34,Kangaroos,Matt Campbell,Pioneers
+2006,end_season,35,Brisbane Lions,Daniel Dzufer,Suncoast Lions
+2006,end_season,36,Port Adelaide,Nathan Batsanis,Oakleigh Chargers
+2006,end_season,37,Hawthorn,Sam Gibson,Oakleigh Chargers
+2006,end_season,38,Geelong,Jason Davenport,Geelong
+2006,end_season,39,St Kilda,Robert Eddy,Gippsland Power
+2006,end_season,40,Collingwood,Martin Clarke,International rookie
+2006,end_season,41,Western Bulldogs,Marty Pask,Brisbane Lions
+2006,end_season,42,Fremantle,Darren Rumble,Subiaco
+2006,end_season,43,Adelaide,Rhys Archard,South Adelaide
+2006,end_season,44,Sydney,Luke Brennan,Hawthorn
+2006,end_season,45,West Coast,Chad Jones,Kangaroos
+2006,end_season,46,Carlton,Pass,
+2006,end_season,47,Kangaroos,Tim Hutchison,Kangaroos
+2006,end_season,48,Brisbane Lions,Haydyn Kiel,Southport
+2006,end_season,49,Port Adelaide,Peter Hardy,Geelong Falcons
+2006,end_season,50,Geelong,Tom Lonergan,Geelong
+2006,end_season,51,St Kilda,James Wall,Sydney
+2006,end_season,52,Western Bulldogs,Michael West,Western Bulldogs
+2006,end_season,53,Fremantle,Benet Copping,Fremantle
+2006,end_season,54,Adelaide,Greg Gallman,North Adelaide
+2006,end_season,55,Sydney,Matthew Davis,Sydney
+2006,end_season,56,West Coast,Ben Sharp,West Coast
+2006,end_season,57,Brisbane Lions,Joel Tippett,Southport
+2006,end_season,58,St Kilda,Jarryn Geary,Bendigo Pioneers
+2006,end_season,59,Sydney,Earl Shaw,Sydney
+2006,end_season,60,West Coast,Ashley Thornton,West Coast
+2006,end_season,61,Brisbane Lions,Will Hamill,Brisbane Lions
+2006,end_season,62,St Kilda,Jayden Attard,Brisbane Lions
+2006,end_season,63,Sydney,Pass,
+2006,end_season,64,West Coast,Beau Maister,West Coast
+2007,end_season,1,Richmond,Clayton Collard,Fremantle
+2007,end_season,2,Carlton,Aaron Joseph,Tassie Mariners
+2007,end_season,3,Melbourne,Trent Zomer,Eastern Ranges
+2007,end_season,4,Western Bulldogs,James Mulligan,Southport
+2007,end_season,5,Essendon,Rhys Magin,Zillmere
+2007,end_season,6,Fremantle,Brent Connelly,Gippsland Power
+2007,end_season,7,Brisbane Lions,Phil Smith,Calder Cannons
+2007,end_season,8,St Kilda,Glenn Chivers,Oakleigh Chargers
+2007,end_season,9,Adelaide,James Moss,Central District
+2007,end_season,10,Sydney,Matthew O'Dwyer,Sydney
+2007,end_season,11,Hawthorn,Hugh Sandilands,Oakleigh Chargers
+2007,end_season,12,West Coast,Lewis Stevenson,Claremont
+2007,end_season,13,Collingwood,Luke Casey-Leigh,Sandringham Dragons
+2007,end_season,14,Kangaroos,Nathan Grima,Central District
+2007,end_season,15,Port Adelaide,Nick Salter,Woodville-West Torrens
+2007,end_season,16,Geelong,Brodie Moles,Tasmania
+2007,end_season,17,Richmond,Jarrod Silvester,Coburg Tigers
+2007,end_season,18,Carlton,Lachlan Hill,Oakleigh Chargers
+2007,end_season,19,Melbourne,Austin Wonaeamirri,St Mary's Football Club
+2007,end_season,20,Western Bulldogs,Henry White,North Adelaide
+2007,end_season,21,Essendon,Jarrod Atkinson,Bendigo Bombers
+2007,end_season,22,Fremantle,Luke Pratt,Swan Districts
+2007,end_season,23,Brisbane Lions,Pat Garner,Brisbane Lions
+2007,end_season,24,St Kilda,Luke Miles,Swan Districts
+2007,end_season,25,Adelaide,Jared Petrenko,Woodville-West Torrens
+2007,end_season,26,Sydney,Brendan Murphy,County Carlow ( Gaelic football )
+2007,end_season,27,Hawthorn,Timothy Walsh,Port Adelaide Magpies
+2007,end_season,28,West Coast,Ashley Arrowsmith,Calder Cannons
+2007,end_season,29,Collingwood,Kevin Dyas,County Armagh ( Gaelic football )
+2007,end_season,30,Kangaroos,Cruize Garlett,Perth
+2007,end_season,31,Port Adelaide,Daniel Boyle,Murray Bushrangers
+2007,end_season,32,Geelong,Jeremy Laidler,Calder Cannons
+2007,end_season,33,Richmond,Tristan Cartledge,Essendon
+2007,end_season,34,Carlton,David Ellard,Swan Districts
+2007,end_season,35,Melbourne,Jake Spencer,Redland Bombers
+2007,end_season,36,Western Bulldogs,John Shaw,Sandringham Dragons
+2007,end_season,37,Fremantle,Calib Mourish,Fremantle
+2007,end_season,38,Brisbane Lions,Pearce Hanley,County Mayo ( Gaelic football )
+2007,end_season,39,St Kilda,Andrew McQualter,St Kilda
+2007,end_season,40,Adelaide,Ed Curnow,Geelong Falcons
+2007,end_season,41,Sydney,Jake Orreal,Unregistered
+2007,end_season,42,Hawthorn,Alex Grima,Tassie Mariners
+2007,end_season,43,West Coast,Will Sullivan,Western Jets
+2007,end_season,44,Kangaroos,Alan Obst,Adelaide
+2007,end_season,45,Port Adelaide,Ryan Willits,Port Adelaide
+2007,end_season,46,Geelong,Chris Kangars,Geelong Falcons
+2007,end_season,47,Richmond,Cameron Howat,Richmond
+2007,end_season,48,Carlton,Michael Shields,County Cork ( Gaelic football )
+2007,end_season,49,Melbourne,Shane Valenti,Sandringham Zebras
+2007,end_season,50,Fremantle,Ryley Dunn,Fremantle
+2007,end_season,51,St Kilda,Khan Haretuku,UNSW Eastern Suburbs
+2007,end_season,52,Adelaide,Brodie Martin,Sturt
+2007,end_season,53,Sydney,Matthew Beckmans,Turvey Park
+2007,end_season,54,Hawthorn,Cameron Stokes,Darwin
+2007,end_season,55,West Coast,Callum Wilson,South Fremantle
+2007,end_season,56,Kangaroos,Michael Wundke,North Adelaide
+2007,end_season,57,Geelong,Shane Mumford,Geelong ( VFL )
+2007,end_season,58,Sydney,Aaron Bruce,Eastlake
+2007,end_season,59,West Coast,Beau Maister,West Coast
+2007,end_season,60,Kangaroos,James Wilsen,St George
+2007,end_season,61,Sydney,Dean Terlich,Murray Bushrangers
+2007,end_season,62,West Coast,Ryan Davis,North Shore Bombers
+2008,end_season,1,Melbourne,Jordie McKenzie,Geelong Falcons
+2008,end_season,2,West Coast,Liam Bedford,Geelong Football Club
+2008,end_season,3,Fremantle,Casey Sibosado,Oakleigh Chargers
+2008,end_season,4,Port Adelaide,Wade Thompson,North Adelaide
+2008,end_season,5,Essendon,Bryce Carroll,Western Jets
+2008,end_season,6,Carlton,Jeff Garlett,Swan Districts
+2008,end_season,7,Brisbane Lions,Daniel Murray,East Perth
+2008,end_season,8,Richmond,Robin Nahas,Oakleigh Chargers
+2008,end_season,9,North Melbourne,Marcus White,Calder Cannons
+2008,end_season,10,Adelaide,Ricky Henderson,Trentham
+2008,end_season,11,Collingwood,Tristan Francis,Gippsland Power
+2008,end_season,12,Sydney,Kristin Thornton,Sydney Swans
+2008,end_season,13,St Kilda,Zac Dawson,Hawthorn
+2008,end_season,14,Western Bulldogs,Jamason Daniels,Murray Bushrangers
+2008,end_season,15,Geelong,Adam Varcoe,Central District
+2008,end_season,16,Hawthorn,Riley Milne,Murray Bushrangers
+2008,end_season,17,Melbourne,Rhys Healey,Bendigo Pioneers
+2008,end_season,18,West Coast,Adam Cockie,Subiaco
+2008,end_season,19,Fremantle,Matt de Boer,Claremont
+2008,end_season,20,Port Adelaide,Danny Meyer,Richmond
+2008,end_season,21,Essendon,Thomas German,Calder Cannons
+2008,end_season,22,Carlton,Luke Stanton,Northern Knights
+2008,end_season,23,Brisbane Lions,Pass,Pass
+2008,end_season,24,Richmond,David Gourdis,Richmond
+2008,end_season,25,North Melbourne,Luke Delaney,Geelong Falcons
+2008,end_season,26,Adelaide,Chris Schmidt,Brisbane Lions
+2008,end_season,27,Collingwood,Jarryd Blair,Gippsland Power
+2008,end_season,28,Sydney,Taylor Gilchrist,Sandringham Dragons
+2008,end_season,29,St Kilda,Tom Simpkin,Geelong Falcons
+2008,end_season,30,Western Bulldogs,Liam Picken,Williamstown
+2008,end_season,31,Geelong,Bryn Weadon,North Ballarat Rebels
+2008,end_season,32,Hawthorn,Haydn Kiel,Brisbane Lions
+2008,end_season,33,Melbourne,Daniel Hughes,Melbourne
+2008,end_season,34,Fremantle,Hamish Shepheard,East Perth
+2008,end_season,35,Port Adelaide,Daniel Stewart,Labrador
+2008,end_season,36,Essendon,Christian Bock,Woodville-West Torrens
+2008,end_season,37,Carlton,Greg Bentley,Port Adelaide
+2008,end_season,38,Brisbane Lions,Pass,Pass
+2008,end_season,39,Richmond,Andrew Browne,Murray Bushrangers
+2008,end_season,40,North Melbourne,Ben Speight,Norwood
+2008,end_season,41,Adelaide,Pass,Pass
+2008,end_season,42,Collingwood,Johnny Bennell,Peel Thunder
+2008,end_season,43,Sydney,Kyle Coney,Tyrone GAA ( Ireland )
+2008,end_season,44,St Kilda,Brad Howard,St Kilda
+2008,end_season,45,Western Bulldogs,Pass,Pass
+2008,end_season,46,Geelong,Tom Allwright,North Hobart Demons
+2008,end_season,47,Hawthorn,Luke Breust,Temora
+2008,end_season,48,Fremantle,Clancee Pearce,Swan Districts
+2008,end_season,49,Port Adelaide,Matthew Martin,West Adelaide
+2008,end_season,50,Essendon,Kade Klemke,Murray Bushrangers
+2008,end_season,51,Carlton,Darren Pfeiffer,Carlton
+2008,end_season,52,Brisbane Lions,Pass,Pass
+2008,end_season,53,Richmond,Alroy Gilligan,Claremont
+2008,end_season,54,North Melbourne,Alan Obst,North Melbourne
+2008,end_season,55,Adelaide,Brian Donnelly,Louth GAA ( Ireland )
+2008,end_season,56,Collingwood,Tobais Thoolen,Collingwood
+2008,end_season,57,Sydney,Mike Pyke,Canada ( international rookie )
+2008,end_season,58,St Kilda,Steven Gaertner,Dandenong Stingrays
+2008,end_season,59,Western Bulldogs,Pass,Pass
+2008,end_season,60,Geelong,Ranga Ediriwickrama,NSW AFL scholarship program
+2008,end_season,61,Hawthorn,Carl Peterson,Richmond
+2008,end_season,62,Fremantle,Jay van Berlo,West Perth
+2008,end_season,63,Port Adelaide,Jesse Laurie,Claremont
+2008,end_season,64,Essendon,Michael Quinn,Longford GAA ( Ireland )
+2008,end_season,65,Carlton,Lachie Hill,Carlton
+2008,end_season,66,Brisbane Lions,Adam Spackman,Morningside
+2008,end_season,67,Richmond,Pass,Pass
+2008,end_season,68,North Melbourne,Conor Meredith,Laois GAA ( Ireland )
+2008,end_season,69,Collingwood,Lachlan Keeffe,3-year non-registration
+2008,end_season,70,Sydney,Pass,Pass
+2008,end_season,71,St Kilda,Ross Tungatulum,St Mary's
+2008,end_season,72,Western Bulldogs,Christopher Ogle,NSW AFL scholarship program
+2008,end_season,73,Hawthorn,Garry Moss,Hawthorn
+2008,end_season,74,Fremantle,Greg Broughton,Subiaco
+2008,end_season,75,Port Adelaide,Pass,Pass
+2008,end_season,76,Carlton,Sam Jacobs,Carlton
+2008,end_season,77,Brisbane Lions,Daniel Dzufer,Brisbane Lions
+2008,end_season,78,Collingwood,Scott Reed,NSW AFL scholarship program
+2008,end_season,79,Sydney,Pass,Pass
+2008,end_season,80,St Kilda,Samuel McGarry,Sandringham Dragons
+2008,end_season,81,Hawthorn,Matt Suckling,Sandringham Dragons
+2008,end_season,82,Brisbane Lions,Joel Tippett,Brisbane Lions
+2008,end_season,83,Sydney,Pass,Pass
+2008,end_season,84,St Kilda,Blake McGrath,NSW AFL scholarship program
+2008,end_season,85,Hawthorn,Will Sierakowski,NSW AFL scholarship program
+2009,end_season,1,Gold Coast,Daniel Harris,North Melbourne
+2009,end_season,2,Gold Coast,Michael Coad,Sturt
+2009,end_season,3,Gold Coast,Sam Iles,Box Hill Hawks
+2009,end_season,4,Gold Coast,Roland Ah Chee,Norwood
+2009,end_season,5,Gold Coast,Danny Stanley,Collingwood
+2009,end_season,6,Melbourne,Michael Newton,Melbourne
+2009,end_season,7,Richmond,Robert Hicks,Calder Cannons
+2009,end_season,8,Fremantle,Michael Barlow,Werribee
+2009,end_season,9,North Melbourne,Majak Daw,Western Jets
+2009,end_season,10,Sydney Swans,Henry Playfair,Sydney Swans
+2009,end_season,11,West Coast,Lewis Broome,Claremont
+2009,end_season,12,Port Adelaide,Cameron Hitchcock,Glenelg
+2009,end_season,13,Hawthorn,Wayde Skipper,Western Bulldogs
+2009,end_season,14,Essendon,Taite Silverlock,West Adelaide
+2009,end_season,15,Carlton,Jaryd Cachia,Northern Knights
+2009,end_season,16,Brisbane Lions,Mitchell Golby,Gippsland Power
+2009,end_season,17,Adelaide,Luke Thompson,Geelong Falcons
+2009,end_season,18,Collingwood,Tom Hunter,Calder Cannons
+2009,end_season,19,Western Bulldogs,Brodie Moles,Geelong
+2009,end_season,20,St Kilda,Mark Hutchings,East Perth
+2009,end_season,21,Geelong,Jack Weston,Gippsland Power
+2009,end_season,22,Melbourne,John Meesen,Melbourne
+2009,end_season,23,Richmond,Pat Contin,Glenelg
+2009,end_season,24,Fremantle,Alex Silvagni,Casey Scorpions
+2009,end_season,25,North Melbourne,Matthew Scott,Eastern Ranges
+2009,end_season,26,Sydney Swans,Pass,
+2009,end_season,27,West Coast,Andrew Strijk,West Perth
+2009,end_season,28,Port Adelaide,Daniel Webb,West Adelaide
+2009,end_season,29,Hawthorn,Jarrod Kayler-Thomson,Perth
+2009,end_season,30,Essendon,Ben Howlett,Peel Thunder
+2009,end_season,31,Carlton,Joe Dare,Geelong Falcons
+2009,end_season,32,Brisbane Lions,Josh Dyson,Eastern Ranges
+2009,end_season,33,Adelaide,Matthew Wright,North Adelaide
+2009,end_season,34,Collingwood,Jack Carter,West Adelaide
+2009,end_season,35,Western Bulldogs,Andrew Hooper,North Ballarat Rebels
+2009,end_season,36,St Kilda,Daniel Archer,Clarence
+2009,end_season,37,Geelong,Ben Johnson,Geelong
+2009,end_season,38,Richmond,Relton Roberts,Wanderers
+2009,end_season,39,Sydney Swans,Pass,
+2009,end_season,40,West Coast,Ashton Hams,South Fremantle
+2009,end_season,41,Port Adelaide,Cameron Cloke,Carlton
+2009,end_season,42,Hawthorn,Michael Johnston,East Coast Eagles
+2009,end_season,43,Essendon,Stewart Crameri,Bendigo Bombers
+2009,end_season,44,Carlton,Levi Casboult,Dandenong Stingrays
+2009,end_season,45,Brisbane Lions,Pass,
+2009,end_season,46,Adelaide,Matthew Jaensch,Sturt
+2009,end_season,47,Collingwood,Seamus McNamara,Milwaukee
+2009,end_season,48,Western Bulldogs,Matthew Panos,Norwood
+2009,end_season,49,St Kilda,Jarryd Allen,St Kilda
+2009,end_season,50,Geelong,James Podsiadly,Geelong VFL
+2009,end_season,51,Richmond,Nicholas Westhoff,West Adelaide
+2009,end_season,52,Sydney Swans,Pass,
+2009,end_season,53,West Coast,Jarrad Oakley-Nicholls,Richmond
+2009,end_season,54,Port Adelaide,Glenn Dawson,Port Adelaide
+2009,end_season,55,Essendon,Marcus Marigliani,Frankston
+2009,end_season,56,Carlton,Simon White,Subiaco
+2009,end_season,57,Brisbane Lions,Pass,
+2009,end_season,58,Adelaide,Aidan Riley,Wollongong Lions
+2009,end_season,59,Western Bulldogs,Eddie Prato,Maryborough
+2009,end_season,60,St Kilda,Leigh Fisher,St Kilda
+2009,end_season,61,Geelong,Jesse Stringer,Port Adelaide Magpies
+2009,end_season,62,Richmond,Graham Polak,Richmond
+2009,end_season,63,Sydney Swans,Chrissy McKaigue,Derry
+2009,end_season,64,Port Adelaide,Daniel Bass,non-registered
+2009,end_season,65,Essendon,John Williams,Essendon
+2009,end_season,66,Carlton,Joshua Donaldson,West Perth
+2009,end_season,67,Brisbane Lions,Niall McKeever,Antrim
+2009,end_season,68,Western Bulldogs,Patrick Rose,Williamstown
+2009,end_season,69,St Kilda,Tommy Walsh,Kerry
+2009,end_season,70,Richmond,Jamie O'Reilly,Down
+2009,end_season,71,Sydney Swans,Nathan Gordon,East Coast Eagles
+2009,end_season,72,Port Adelaide,Jordon Johns,South Broken Hill
+2009,end_season,73,Carlton,Zach Tuohy,Laois
+2009,end_season,74,Brisbane Lions,Sean Yoshuira,Mt Gravatt
+2009,end_season,75,Sydney Swans,Dylan McNeil,Murray Bushrangers
+2009,end_season,76,Brisbane Lions,Claye Beams,Labrador
+2009,end_season,77,Sydney Swans,Pass,
+2009,end_season,78,Brisbane Lions,Broc McCauley,Southport
+2010,end_season,1,Greater Western Sydney,Steve Clifton,North Ballarat
+2010,end_season,2,Greater Western Sydney,Rhys Cooyou,East Fremantle
+2010,end_season,3,Greater Western Sydney,Jonathan Giles,Sturt
+2010,end_season,4,Greater Western Sydney,Andrew Phillips,Lauderdale
+2010,end_season,5,Greater Western Sydney,Jimmi Savage,Norwood
+2010,end_season,6,Greater Western Sydney,Isiah Stevens,Swan Districts
+2010,end_season,7,Greater Western Sydney,Pass,Pass
+2010,end_season,8,Greater Western Sydney,Pass,Pass
+2010,end_season,9,Gold Coast,Joel Tippett,Brisbane Lions
+2010,end_season,10,West Coast,Tim Houlihan,West Coast
+2010,end_season,11,Richmond,Ben Jakobi,Coburg
+2010,end_season,12,Essendon,Josh Jenkins,Lake Boga
+2010,end_season,13,Brisbane Lions,Brad Harvey,Eastern Ranges
+2010,end_season,14,Melbourne,Daniel Nicholson,University Blues
+2010,end_season,15,Adelaide,Timothy Milera,Port Adelaide Magpies
+2010,end_season,16,Port Adelaide,Tom Jonas,Norwood
+2010,end_season,17,North Melbourne,Cameron Pedersen,Box Hill
+2010,end_season,18,Carlton,Ed Curnow,Box Hill
+2010,end_season,19,Hawthorn,Sam Menegola,East Fremantle
+2010,end_season,20,Fremantle,Gavin Roberts,Norwood
+2010,end_season,21,Sydney,Max Otten,Oakleigh Chargers
+2010,end_season,22,Western Bulldogs,Luke Dahlhaus,Geelong Falcons
+2010,end_season,23,Geelong,Josh Walker,Geelong Falcons
+2010,end_season,24,St Kilda,Thomas Curren,Dandenong Stingrays
+2010,end_season,25,Collingwood,Thomas Gordon,Oakleigh Chargers
+2010,end_season,26,Gold Coast,Pass,Pass
+2010,end_season,27,West Coast,Anton Hamp,Claremont
+2010,end_season,28,Richmond,Brad Miller,Melbourne
+2010,end_season,29,Essendon,Jay Neagle,Essendon
+2010,end_season,30,Brisbane Lions,Bart McCulloch,Brisbane Lions
+2010,end_season,31,Melbourne,Michael Evans,Claremont
+2010,end_season,32,Adelaide,Jake von Bertouch,Woodville-West Torrens
+2010,end_season,33,Port Adelaide,Callum Hay,North Adelaide
+2010,end_season,34,North Melbourne,Aaron Mullett,Eastern Ranges
+2010,end_season,35,Carlton,Rhys O'Keeffe,Carlton
+2010,end_season,36,Hawthorn,Thomas Schneider,Oakleigh Chargers
+2010,end_season,37,Fremantle,Nick Lower,Norwood
+2010,end_season,38,Sydney,Ben Haren,Port Adelaide Magpies
+2010,end_season,39,Western Bulldogs,Jason Johannisen,East Fremantle
+2010,end_season,40,Geelong,George Burbury,Hobart
+2010,end_season,41,St Kilda,Warrick Andreoli,South Fremantle
+2010,end_season,42,Collingwood,Declan Reilly,Sandringham Dragons
+2010,end_season,43,Gold Coast,Pass,Pass
+2010,end_season,44,West Coast,Jeremy McGovern,Claremont
+2010,end_season,45,Richmond,Tom Hislop,Richmond
+2010,end_season,46,Essendon,Tyson Slattery,Essendon
+2010,end_season,47,Brisbane Lions,Albert Proud,Brisbane Lions
+2010,end_season,48,Melbourne,Kelvin Lawrence,Peel Thunder
+2010,end_season,49,Adelaide,Lachlan Roach,North Adelaide
+2010,end_season,50,Port Adelaide,Jarrad Irons,Perth
+2010,end_season,51,Carlton,Wayde Twomey,Swan Districts
+2010,end_season,52,Hawthorn,Derick Wanganeen,Port Adelaide Magpies
+2010,end_season,53,Fremantle,Ben Bucovaz,Fremantle
+2010,end_season,54,Sydney,Pass,Pass
+2010,end_season,55,Western Bulldogs,Ed Barlow,Sydney
+2010,end_season,56,Geelong,Jonathan Simpkin,Geelong
+2010,end_season,57,St Kilda,Robert Eddy,St Kilda
+2010,end_season,58,Collingwood,Jack Perham,East Fremantle
+2010,end_season,59,Gold Coast,Pass,Pass
+2010,end_season,60,Richmond,Pass,Pass
+2010,end_season,61,Essendon,James Webster,Woy Woy Peninsula
+2010,end_season,62,Brisbane Lions,Broc McCauley,Brisbane Lions
+2010,end_season,63,Melbourne,Cameron Johnston,Geelong Falcons
+2010,end_season,64,Adelaide,Ian Callinan,Central District
+2010,end_season,65,Port Adelaide,Mitchell Curnow,Sturt
+2010,end_season,66,Carlton,Mitchell Carter,South Fremantle
+2010,end_season,67,Hawthorn,Pass,Pass
+2010,end_season,68,Fremantle,Tim Ruffles,Fremantle
+2010,end_season,69,Sydney,Pass,Pass
+2010,end_season,70,Western Bulldogs,Mitch Hahn,Western Bulldogs
+2010,end_season,71,Geelong,Ryan Bathie,Melbourne Tigers
+2010,end_season,72,St Kilda,Jackson Ferguson,Pennant Hills
+2010,end_season,73,Collingwood,Jye Bolton,Leopold
+2010,end_season,74,Gold Coast,Pass,Pass
+2010,end_season,75,Melbourne,Robert Campbell,Box Hill
+2010,end_season,76,Adelaide,Pass,Pass
+2010,end_season,77,Port Adelaide,Matthew Westhoff,Port Adelaide
+2010,end_season,78,Carlton,Blake Bray,Western Suburbs
+2010,end_season,79,Hawthorn,Pass,Pass
+2010,end_season,80,Sydney,Pass,Pass
+2010,end_season,81,Collingwood,Paul Cribbin,Kildare
+2010,end_season,82,Gold Coast,Jake Crawford,Southport
+2010,end_season,83,Melbourne,Tom McNamara,Melbourne
+2010,end_season,84,Adelaide,Sam Martyn,NSW/ACT Rams
+2010,end_season,85,Hawthorn,Will Langford,UNSW-Eastern Suburbs
+2010,end_season,86,Sydney,Pass,Pass
+2010,end_season,87,Hawthorn,Jack Mahony,Wollongong
+2010,end_season,88,Sydney,Eugene Krueger,East Coast
+2011,end_season,1,Greater Western Sydney,Sam Frost,Sandringham Dragons
+2011,end_season,2,Gold Coast,Kyal Horsley,Subiaco
+2011,end_season,3,Port Adelaide,Darren Pfeiffer,Norwood
+2011,end_season,4,Brisbane Lions,Justin Clarke,Booleroo Centre/Melrose/Wilmington
+2011,end_season,5,Adelaide,Rory Laird,West Adelaide
+2011,end_season,6,Melbourne,Jai Sheehan,Geelong Falcons
+2011,end_season,7,Richmond,Addam Maric,Melbourne
+2011,end_season,8,Fremantle,Lee Spurr,Central District
+2011,end_season,9,Western Bulldogs,Lin Jong,Oakleigh Chargers
+2011,end_season,10,North Melbourne,Max Warren,Eastern Ranges
+2011,end_season,11,Essendon,Lauchlan Dalgleish,North Ballarat Rebels
+2011,end_season,12,St Kilda,Sam Dunell,Bendigo Bombers
+2011,end_season,13,Sydney,Shane Biggs,Bendigo Bombers
+2011,end_season,14,Carlton,Tom Bell,Morningside
+2011,end_season,15,West Coast,Michael Mascoulis,Northern Knights
+2011,end_season,16,Hawthorn,Broc McCauley,Brisbane Lions
+2011,end_season,17,Collingwood,Lachlan Smith,Murray Bushrangers
+2011,end_season,18,Geelong,Cam Eardley,East Fremantle
+2011,end_season,19,Greater Western Sydney,Pass,Pass
+2011,end_season,20,Gold Coast,Andrew McQualter,St Kilda
+2011,end_season,21,Port Adelaide,Danny Butcher,Gippsland Power
+2011,end_season,22,Brisbane Lions,Stephen Wrigley,Labrador
+2011,end_season,23,Adelaide,Dylan Orval,Oakleigh Chargers
+2011,end_season,24,Melbourne,Tom Couch,Collingwood (VFL)
+2011,end_season,25,Richmond,Ben Darrou,Sandringham Dragons
+2011,end_season,26,Fremantle,Haiden Schloithe,South Fremantle
+2011,end_season,27,Western Bulldogs,Tom Campbell,Bendigo Bombers
+2011,end_season,28,North Melbourne,Brad Mangan,Werribee
+2011,end_season,29,Essendon,Cory Dell'Olio,South Fremantle
+2011,end_season,30,St Kilda,Cameron Shenton,Norwood
+2011,end_season,31,Sydney,Campbell Heath,Sydney
+2011,end_season,32,Carlton,Nicholas Heyne,St Kilda
+2011,end_season,33,West Coast,Callum Papertalk,East Fremantle
+2011,end_season,34,Hawthorn,Amos Frank,Woodville-West Torrens
+2011,end_season,35,Collingwood,Marley Williams,Claremont
+2011,end_season,36,Geelong,Jackson Sheringham,Geelong (VFL)
+2011,end_season,37,Greater Western Sydney,Pass,Pass
+2011,end_season,38,Gold Coast,Michael Coad,Gold Coast
+2011,end_season,39,Port Adelaide,Pass,Pass
+2011,end_season,40,Brisbane Lions,Jack Crisp,Murray Bushrangers
+2011,end_season,41,Adelaide,Tim McIntyre,Sturt
+2011,end_season,42,Melbourne,James Magner,Sandringham
+2011,end_season,43,Richmond,Steven Verrier,South Fremantle
+2011,end_season,44,Fremantle,Sam Menegola,Hawthorn
+2011,end_season,45,Western Bulldogs,Alex Greenwood,Eastern Ranges
+2011,end_season,46,North Melbourne,Malcolm Lynch,Port Melbourne
+2011,end_season,47,Essendon,Mark Baguley,Frankston
+2011,end_season,48,St Kilda,Jordan Staley,Gippsland Power
+2011,end_season,49,Sydney,Pass,Pass
+2011,end_season,50,Carlton,Frazer Dale,Calder Cannons
+2011,end_season,51,West Coast,Simon Tunbridge,Greater Western Sydney
+2011,end_season,52,Hawthorn,Andrew Boseley,Geelong Falcons
+2011,end_season,53,Collingwood,Trent Stubbs,Collingwood
+2011,end_season,54,Geelong,Mark Blicavs,Unregistered player
+2011,end_season,55,Greater Western Sydney,Pass,Pass
+2011,end_season,56,Gold Coast,Pass,Pass
+2011,end_season,57,Brisbane Lions,Richard Newell NSW Scholarship elevation,Brisbane Lions reserves
+2011,end_season,58,Adelaide,Will Young,Adelaide
+2011,end_season,59,Melbourne,Leigh Williams,Norwood
+2011,end_season,60,Richmond,Gibson Turner,Glenelg
+2011,end_season,61,Fremantle,Jordan Wilson-King,North Adelaide
+2011,end_season,62,Western Bulldogs,Jack Redpath,Kyneton
+2011,end_season,63,North Melbourne,Sam Gibson,Box Hill Hawks
+2011,end_season,64,Essendon,Hal Hunter,Calder Cannons
+2011,end_season,65,St Kilda,Darren Minchington,Dandenong Stingrays
+2011,end_season,66,Sydney,Pass,Pass
+2011,end_season,67,Carlton,Matthew Lodge NSW Scholarship elevation,Riverview
+2011,end_season,68,West Coast,Brad Dick,Collingwood
+2011,end_season,69,Hawthorn,Adam Pattison,Box Hill Hawks
+2011,end_season,70,Collingwood,Daniel Farmer,Collingwood
+2011,end_season,71,Greater Western Sydney,Pass,Pass
+2011,end_season,72,Greater Western Sydney,Pass,Pass
+2011,end_season,73,Adelaide,James Craig,Adelaide
+2011,end_season,74,Richmond,Piva Wright,Dandenong Stingrays
+2011,end_season,75,Fremantle,Clancee Pearce,Fremantle
+2011,end_season,76,Western Bulldogs,Mark Austin,Carlton
+2011,end_season,77,North Melbourne,Gavin Urquhart,North Melbourne
+2011,end_season,78,Essendon,Brendan Lee,East Perth
+2011,end_season,79,St Kilda,Pass,Pass
+2011,end_season,80,Sydney,Pass,Pass
+2011,end_season,81,Collingwood,Caolan Mooney,Down
+2011,end_season,82,Gold Coast,Pass,Pass
+2011,end_season,83,Adelaide,Pass,Pass
+2011,end_season,84,Richmond,Pass,Pass
+2011,end_season,85,Essendon,Anthony Long,Essendon
+2011,end_season,86,Sydney,Pass,Pass
+2011,end_season,87,Collingwood,Michael Hartley NSW Scholarship elevation,Sydney University
+2011,end_season,88,Gold Coast,Pass,Pass
+2011,end_season,89,Adelaide,Ben Dowdell,Alternative talent
+2011,end_season,90,Richmond,John Heslin,Westmeath
+2011,end_season,91,Sydney,Pass,Pass
+2011,end_season,92,Gold Coast,Pass,Pass
+2011,end_season,93,Sydney,Harry Cunningham,Turvey Park
+2011,end_season,94,Gold Coast,Josh Hall,Gold Coast reserves
+2011,end_season,95,Sydney,Jack Lynch NSW Scholarship elevation,Sydney reserves
+2011,end_season,96,Brisbane Lions,Sam Michael Queensland priority selection,Redland
+2012,end_season,1,Greater Western Sydney,Pass,Pass
+2012,end_season,2,Gold Coast,Leigh Osborne,Frankston
+2012,end_season,3,Melbourne,Nathan Stark,Glenelg
+2012,end_season,4,Western Bulldogs,Brett Goodes,Williamstown
+2012,end_season,5,Port Adelaide,Kane Mitchell,Claremont
+2012,end_season,6,Brisbane Lions,Nicholas Hayes,Woodville West Torrens
+2012,end_season,7,Richmond,Ricky Petterd,Melbourne
+2012,end_season,8,Essendon,Ariel Steinberg,Essendon
+2012,end_season,9,Carlton,Jaryd Cachia,Norwood
+2012,end_season,10,North Melbourne,Tim McGenniss,Dandenong Stingrays
+2012,end_season,11,Fremantle,Matt Taberner,Murray Bushrangers
+2012,end_season,12,West Coast,Callum Sinclair,Subiaco
+2012,end_season,13,Collingwood,Kyle Martin,Frankston
+2012,end_season,14,Adelaide,Kyle Hartigan,Werribee
+2012,end_season,15,Hawthorn,John Ceglar,Collingwood
+2012,end_season,16,Sydney,Jake Lloyd,North Ballarat Rebels
+2012,end_season,17,Greater Western Sydney,Pass,Pass
+2012,end_season,18,Gold Coast,Pass,Pass
+2012,end_season,19,Melbourne,Mitch Clisby,North Adelaide
+2012,end_season,20,Port Adelaide,Justin Hoskin,Port Adelaide Magpies
+2012,end_season,21,Brisbane Lions,Callum Bartlett,Brisbane Lions
+2012,end_season,22,Richmond,Sam Lonergan,Essendon
+2012,end_season,23,Carlton,Andrew Collins,Carlton
+2012,end_season,24,North Melbourne,Ben Speight,North Melbourne
+2012,end_season,25,Fremantle,Alex Howson,East Fremantle
+2012,end_season,26,West Coast,Jamie Bennell,Melbourne
+2012,end_season,27,Collingwood,Sam Dwyer,Port Melbourne
+2012,end_season,28,Hawthorn,Ciarán Kilkenny,Dublin GAA
+2012,end_season,29,Sydney,Xavier Richards,Sandringham Dragons
+2012,end_season,30,Greater Western Sydney,Pass,Pass
+2012,end_season,31,Gold Coast,Pass,Pass
+2012,end_season,32,Brisbane Lions,Pass,Pass
+2012,end_season,33,Richmond,Orren Stephenson,Geelong
+2012,end_season,34,North Melbourne,Cameron Richardson,North Melbourne
+2012,end_season,35,Collingwood,Adam Oxley,Redland
+2012,end_season,36,Adelaide,Jack Osborn,Alternative talent
+2012,end_season,37,Sydney,Dane Rampe,UNSW-Eastern Suburbs
+2012,end_season,38,Greater Western Sydney,Pass,Pass
+2012,end_season,39,Gold Coast,Pass,Pass
+2012,end_season,40,Richmond,Cadeyn Williams,Murray Bushrangers
+2012,end_season,41,Collingwood,Jack Frost,Williamstown
+2012,end_season,42,Adelaide,Tim Klaosen,Alternative talent
+2012,end_season,43,St Kilda,Pass,Pass
+2012,end_season,44,Greater Western Sydney,Pass,Pass
+2012,end_season,45,Gold Coast,Pass,Pass
+2012,end_season,46,Fremantle,Craig Moller,Sydney Uni
+2012,end_season,47,Collingwood,Ben Hudson,Brisbane Lions
+2012,end_season,48,Gold Coast,Pass,Pass
+2012,end_season,49,Collingwood,Peter Yagmoor,Collingwood
+2012,end_season,50,Sydney,Daniel Robinson,NSW/ACT Rams
+2012,end_season,51,Greater Western Sydney,Joseph Redfern,Sydney Hills Eagles
+2012,end_season,52,Gold Coast,Pass,Pass
+2012,end_season,53,Collingwood,Ben Richmond,Alternative Talent
+2012,end_season,54,Greater Western Sydney,Zac Williams,Narrandera
+2012,end_season,55,Gold Coast,Andrew Boston,Broadbeach
+2012,end_season,58,Sydney,Brandon Jack,Pennant Hills
+2012,end_season,59,Sydney,Sam Naismith,North Shore
+2012,end_season,63,Brisbane Lions,Jordon Bourke,Morningside
+2013,end_season,1,,Sam Schulz,
+2013,end_season,2,,James Harmes,
+2013,end_season,3,,Eli Templeton,
+2013,end_season,4,,Louis Herbert,
+2013,end_season,5,,Will Maginness,
+2013,end_season,6,,Isaac Conway,
+2013,end_season,7,,Charlie Cameron,
+2013,end_season,8,,Joel Tippett,
+2013,end_season,9,,Fraser Thurlow,
+2013,end_season,10,,Corey Gault,
+2013,end_season,11,,Todd Banfield,
+2013,end_season,12,,Luke Reynolds,
+2013,end_season,13,,Samuel Russell,
+2013,end_season,15,,James Toohey,
+2013,end_season,16,,Michael Wood,
+2013,end_season,17,,Dallas Willsmore,
+2013,end_season,19,,Max King,
+2013,end_season,20,,Maverick Weller,
+2013,end_season,22,,Rowen Powell,
+2013,end_season,23,,Zac O'Brien,
+2013,end_season,24,,James Battersby,
+2013,end_season,25,,Kayne Turner,
+2013,end_season,26,,Patrick Ambrose,
+2013,end_season,27,,Anthony Miles,
+2013,end_season,28,,Cameron Wood,
+2013,end_season,29,,Sam Gray,
+2013,end_season,31,,Nick Bourke,
+2013,end_season,32,,Tom Vandeleur,
+2013,end_season,33,,Derick Wanganeen,
+2013,end_season,35,,Alexis Georgiou,
+2013,end_season,36,,Jason Holmes,
+2013,end_season,38,,Murray Newman,
+2013,end_season,40,,Jake Kelly,
+2013,end_season,41,,Johnny Rayner,
+2013,end_season,42,,Matt Thomas,
+2013,end_season,43,,Blaine Johnson,
+2013,end_season,44,,Brent Renouf,
+2013,end_season,45,,Patrick Mitchell,
+2013,end_season,46,,Zachary Bates,
+2013,end_season,47,,Jacob Ballard,
+2013,end_season,48,,Zac Webster,
+2013,end_season,50,,Neville Jetta,
+2013,end_season,52,,Alex Spina,
+2013,end_season,53,,Heath Scotland,
+2013,end_season,54,,Daniel Flynn,
+2013,end_season,55,,Lloyd Perris,
+2013,end_season,56,,Michael Luxford,
+2013,end_season,57,,Ben Ross,
+2013,end_season,60,,Ciarán Sheehan,
+2013,end_season,61,,Kurt Heatherley,
+2013,end_season,63,,Jarred Ellis,
+2013,end_season,64,,Ciarán Byrne,
+2013,end_season,65,,Shem-Kalvin Tatupu,
+2013,end_season,69,,Archie Smith,
+2014,end_season,1,St Kilda,Jack Sinclair,Oakleigh Chargers
+2014,end_season,2,Melbourne,Aaron vandenBerg,Ainslie
+2014,end_season,4,Brisbane Lions,Billy Evans,Bendigo Pioneers
+2014,end_season,5,Western Bulldogs,Roarke Smith,Calder Cannons
+2014,end_season,6,Carlton,Billy Gowers,Oakleigh Chargers
+2014,end_season,7,Gold Coast,Josh Glenn,Central District
+2014,end_season,8,Collingwood,Michael Manteit,Sandringham Dragons
+2014,end_season,9,Adelaide,Reilly O'Brien,Calder Cannons
+2014,end_season,10,West Coast,Kane Lucas,Carlton
+2014,end_season,11,Richmond,Jayden Short,Northern Knights
+2014,end_season,12,Essendon,Shaun McKernan,Adelaide
+2014,end_season,13,Fremantle,Ethan Hughes,Swan Districts
+2014,end_season,14,Geelong,Tom Read,Sturt
+2014,end_season,15,North Melbourne,Braydon Preuss,Hermit Park / Surfers Paradise
+2014,end_season,16,Port Adelaide,Nathan Krakouer,Port Adelaide
+2014,end_season,17,Sydney,Sean McLaren,Sandringham Dragons
+2014,end_season,18,Hawthorn,Jared Hardisty,Claremont
+2014,end_season,19,St Kilda,Ahmed Saad,St Kilda
+2014,end_season,20,Melbourne,Mitch White,Dandenong Stingrays
+2014,end_season,22,Brisbane Lions,Hugh Beasley,Oakleigh Chargers
+2014,end_season,23,Western Bulldogs,Jordan Kelly,Hawthorn
+2014,end_season,24,Carlton,Brad Walsh,Peel Thunder
+2014,end_season,25,Gold Coast,Adam Saad,Coburg
+2014,end_season,26,Collingwood,Brenden Abbott,Claremont
+2014,end_season,27,Adelaide,Keenan Ramsey,Port Adelaide
+2014,end_season,28,West Coast,Corey Adamson,San Diego
+2014,end_season,29,Richmond,Jason Castagna,Northern Knights
+2014,end_season,30,Essendon,Kurt Aylett,Essendon
+2014,end_season,31,Fremantle,Tanner Smith,Fremantle
+2014,end_season,32,Geelong,Cameron Delaney,North Melbourne
+2014,end_season,33,North Melbourne,Will Fordham,Sandringham Dragons
+2014,end_season,34,Port Adelaide,Tom Logan,Port Adelaide
+2014,end_season,35,Sydney,Nic Newman,Frankston
+2014,end_season,36,Hawthorn,Jermaine Miller-Lewis,South Fremantle
+2014,end_season,37,St Kilda,Brenton Payne,Western Jets
+2014,end_season,40,Western Bulldogs,Daniel Pearce,Western Bulldogs
+2014,end_season,41,Carlton,Tom Fields,South Adelaide
+2014,end_season,42,Gold Coast,Keegan Brooksby,South Adelaide
+2014,end_season,43,Collingwood,Tony Armstrong,Collingwood
+2014,end_season,44,Adelaide,Anthony Wilson,Norwood
+2014,end_season,45,West Coast,Patrick Brophy,Kildare GAA
+2014,end_season,46,Richmond,Kane Lambert,Williamstown
+2014,end_season,47,Essendon,Jake Long,St Mary's Football Club
+2014,end_season,48,Fremantle,Sean Hurley,Kildare GAA
+2014,end_season,49,Geelong,Padraig Lucey,Kerry GAA
+2014,end_season,50,North Melbourne,Max Warren,North Ballarat
+2014,end_season,51,Port Adelaide,Johann Wagner,Tasman FC / Central District
+2014,end_season,52,Sydney,Lewis Melican,Geelong Falcons
+2014,end_season,53,Hawthorn,Lachlan Langford,Melbourne Grammar School
+2014,end_season,54,St Kilda,Adam Schneider,St Kilda
+2014,end_season,56,Brisbane Lions,Cian Hanley,Mayo GAA
+2014,end_season,57,Western Bulldogs,Brett Goodes,Western Bulldogs
+2014,end_season,58,Carlton,Fraser Russell,Deakin Athletics Club
+2014,end_season,59,Gold Coast,Tyrone Downie,Bendigo Gold
+2014,end_season,60,Collingwood,Mason Cox,Oklahoma State
+2014,end_season,61,Richmond,Matthew Arnot,Richmond
+2014,end_season,62,Essendon,Conor McKenna,Tyrone GAA
+2014,end_season,63,North Melbourne,Robin Nahas,North Melbourne
+2014,end_season,65,Hawthorn,Sam Grimley,Hawthorn
+2014,end_season,67,Gold Coast,Greg Broughton,Gold Coast
+2014,end_season,68,Richmond,Ivan Soldo,
+2014,end_season,71,Gold Coast,Andrew Raines,Brisbane Lions
+2014,end_season,75,Brisbane Lions,Matthew Hammelmann,Morningside
+2014,end_season,76,Sydney,Jordan Foote,UNSW-Easts
+2015,end_season,1,Carlton,Jesse Glass-McCasker,Swan Districts
+2015,end_season,2,Brisbane Lions,Jackson Paine,Brisbane Lions
+2015,end_season,3,Gold Coast,Tom Keough,West Adelaide
+2015,end_season,4,Essendon,Gach Nyuon,Dandenong Stingrays
+2015,end_season,5,St Kilda,Nick O'Kearney,Calder Cannons
+2015,end_season,6,Melbourne,Josh Wagner,Aspley
+2015,end_season,7,Collingwood,Lachlan Keeffe,Collingwood
+2015,end_season,8,Greater Western Sydney,Sam Reid,UWS Giants
+2015,end_season,9,Geelong,Jock Cornell,Mangoplah-CUE
+2015,end_season,10,Port Adelaide,Will Snelling,West Adelaide
+2015,end_season,11,Western Bulldogs,Brad Lynch,Swan Districts
+2015,end_season,12,Richmond,Callum Moore,Calder Cannons
+2015,end_season,13,Adelaide,Paul Hunter,Redland
+2015,end_season,14,Sydney,Tom Papley,Gippsland Power
+2015,end_season,15,North Melbourne,Farren Ray,St Kilda
+2015,end_season,16,Fremantle,Matt Uebergang,Redland
+2015,end_season,17,West Coast,Jordan Snadden,East Fremantle
+2015,end_season,18,Hawthorn,Luke Surman,Norwood
+2015,end_season,19,Carlton,Andrew Gallucci,Williamstown
+2015,end_season,20,Brisbane Lions,Reuben William,Zillmere
+2015,end_season,21,Gold Coast,Darcy Macpherson,Northern Knights
+2015,end_season,22,Essendon,Anthony McDonald-Tipungwuti,Essendon
+2015,end_season,23,St Kilda,Nick Coughlan,Albury
+2015,end_season,24,Melbourne,Viv Michie,Melbourne
+2015,end_season,25,Collingwood,Josh Smith,Redland
+2015,end_season,26,Greater Western Sydney,Daniel Lloyd,Killarney Vale
+2015,end_season,27,Geelong,James Parsons,Eastern Ranges
+2015,end_season,28,Port Adelaide,Cameron Hewett,North Adelaide
+2015,end_season,29,Western Bulldogs,Luke Goetz,Western Jets
+2015,end_season,30,Richmond,Mabior Chol,Aspley
+2015,end_season,31,Adelaide,Jonathon Beech,West Adelaide
+2015,end_season,32,Sydney,Harrison Marsh,Sydney
+2015,end_season,33,North Melbourne,Majak Daw,North Melbourne
+2015,end_season,34,Fremantle,Ryan Nyhuis,Nightcliff
+2015,end_season,35,West Coast,Brant Colledge,West Coast
+2015,end_season,36,Hawthorn,Kade Stewart,South Fremantle
+2015,end_season,37,Carlton,Matthew Korcheck,Arizona
+2015,end_season,38,Gold Coast,Ryan Davis,Swan Districts
+2015,end_season,39,Essendon,Will Hams,Essendon
+2015,end_season,40,St Kilda,Josh Saunders,St Kilda
+2015,end_season,41,Melbourne,Joel Smith,Geelong Supercats
+2015,end_season,42,Collingwood,Josh Thomas,Collingwood
+2015,end_season,44,Geelong,Tom Ruggles,Geelong
+2015,end_season,45,Port Adelaide,Dan Houston,Oakleigh Chargers
+2015,end_season,46,Western Bulldogs,Jed Adcock,Brisbane Lions
+2015,end_season,47,Richmond,Adam Marcon,Williamstown
+2015,end_season,48,Adelaide,Hugh Greenwood,Perth Wildcats
+2015,end_season,50,Fremantle,Anthony Morabito,Fremantle
+2015,end_season,51,West Coast,Alec Waterman,West Coast
+2015,end_season,52,Hawthorn,Alex Woodward,Hawthorn
+2015,end_season,53,Gold Coast,Cameron Loersch,South Fremantle
+2015,end_season,54,Essendon,Tom Wallis,Calder Cannons
+2015,end_season,55,Collingwood,Tim Golds,Greater Western Sydney
+2015,end_season,57,Port Adelaide,Kane Mitchell,Port Adelaide
+2015,end_season,58,Adelaide,Alex Keath,Victoria
+2015,end_season,59,Sydney,Kyle Galloway,Shepparton
+2015,end_season,60,Fremantle,Josh Deluca,Fremantle
+2015,end_season,61,West Coast,Simon Tunbridge,West Coast
+2015,end_season,62,Hawthorn,Conor Glass,Derry GAA
+2015,end_season,63,Gold Coast,Danny Stanley,Gold Coast
+2015,end_season,64,Collingwood,Darrean Wyatt,Coastal Georgia
+2015,end_season,66,Sydney,Sam Murray,Wodonga
+2015,end_season,67,Gold Coast,Jesse Joyce,Palm Beach Currumbin
+2015,end_season,69,Sydney,Colin O'Riordan,Tipperary GAA
+2016,end_season,1,Essendon,Sam Draper,South Adelaide
+2016,end_season,2,Brisbane Lions,Jake Barrett,Greater Western Sydney
+2016,end_season,3,Fremantle,Taylin Duman,Oakleigh Chargers
+2016,end_season,4,Gold Coast,Keegan Brooksby,Gold Coast
+2016,end_season,5,Carlton,Kym LeBois,North Adelaide
+2016,end_season,6,Richmond,Tyson Stengle,Woodville-West Torrens
+2016,end_season,7,Collingwood,Mitch McCarthy,Dandenong Stingrays
+2016,end_season,8,Melbourne,Lachlan Filipovic,Sandringham Dragons
+2016,end_season,9,Port Adelaide,Peter Ladhams,Norwood
+2016,end_season,10,St Kilda,Rowan Marshall,North Ballarat
+2016,end_season,11,North Melbourne,Cameron Zurhaar,East Fremantle
+2016,end_season,12,West Coast,Thomas Gorter,East Perth
+2016,end_season,13,Adelaide,Sam Shaw,Adelaide
+2016,end_season,14,Hawthorn,Oliver Hanrahan,St Kevin's College
+2016,end_season,15,Greater Western Sydney,Tendai Mzungu,Fremantle
+2016,end_season,16,Geelong,Jack Henry,Geelong Falcons
+2016,end_season,17,Sydney,Ben Ronke,Calder Cannons
+2016,end_season,18,Western Bulldogs,Nathan Mullenger-McHugh,Eastern Ranges
+2016,end_season,19,Essendon,Shaun McKernan,Essendon
+2016,end_season,20,Brisbane Lions,Mitch Hinge,Glenelg
+2016,end_season,21,Fremantle,Luke Strnadica,East Fremantle
+2016,end_season,22,Gold Coast,Cameron Loersch,Gold Coast
+2016,end_season,23,Carlton,Alex Silvagni,Fremantle
+2016,end_season,24,Collingwood,Henry Schade,Gold Coast
+2016,end_season,25,Melbourne,Tim Smith,Casey
+2016,end_season,26,Port Adelaide,Brett Eddy,South Adelaide
+2016,end_season,28,North Melbourne,Oscar Junker,Western Jets
+2016,end_season,29,West Coast,Drew Petrie,North Melbourne
+2016,end_season,31,Hawthorn,Jack Fitzpatrick,Hawthorn
+2016,end_season,32,Greater Western Sydney,Joel Patfull,Greater Western Sydney
+2016,end_season,33,Geelong,Zach Guthrie,Calder Cannons
+2016,end_season,34,Sydney,Robbie Fox,Coburg
+2016,end_season,35,Western Bulldogs,Josh Prudden,Western Bulldogs
+2016,end_season,36,Essendon,Yestin Eades,Essendon
+2016,end_season,37,Brisbane Lions,Oscar McInerney,Casey
+2016,end_season,38,Fremantle,Brady Grey,Fremantle
+2016,end_season,39,Carlton,Andrew Gallucci,Carlton
+2016,end_season,40,Collingwood,Liam Mackie,Glenelg
+2016,end_season,41,Melbourne,Declan Keilty,Casey
+2016,end_season,42,Port Adelaide,Jarrod Lienert,Sturt
+2016,end_season,43,North Melbourne,Matthew Taylor,Perth
+2016,end_season,44,West Coast,Fraser McInnes,West Coast
+2016,end_season,45,Adelaide,Ben Jarman,North Adelaide
+2016,end_season,46,Hawthorn,James Cousins,Murray Bushrangers
+2016,end_season,48,Geelong,Jamaine Jones,North Ballarat Rebels
+2016,end_season,49,Sydney,Shaun Edwards,Essendon
+2016,end_season,50,Fremantle,Josh Deluca,Fremantle
+2016,end_season,51,Collingwood,Max Lynch,Murray Bushrangers
+2016,end_season,53,Geelong,Sam Simpson,Geelong Falcons
+2016,end_season,54,Sydney,Toby Pink,Glenelg
+2017,end_season,1,Brisbane Lions,Claye Beams,Brisbane Lions
+2017,end_season,2,Gold Coast,Josh Jaska,Geelong Falcons
+2017,end_season,3,Carlton,Matt Shaw,Gold Coast
+2017,end_season,4,North Melbourne,Tom Murphy,Dandenong Stingrays
+2017,end_season,5,Fremantle,Bailey Banfield,Claremont
+2017,end_season,6,Collingwood,Flynn Appleby,Greater Western Victoria Rebels
+2017,end_season,7,Hawthorn,Harry Jones,Murray Bushrangers
+2017,end_season,8,St Kilda,Doulton Langlands,Murray Bushrangers
+2017,end_season,9,Western Bulldogs,Billy Gowers,Footscray
+2017,end_season,11,Essendon,Trent Mynott,Eastern Ranges
+2017,end_season,12,Port Adelaide,Lindsay Thomas,North Melbourne
+2017,end_season,13,West Coast,Ryan Burrows,South Fremantle
+2017,end_season,14,Sydney,Angus Styles,Sandringham Dragons
+2017,end_season,15,Greater Western Sydney,Dylan Buckley,Carlton
+2017,end_season,16,Geelong,Stewart Crameri,Western Bulldogs
+2017,end_season,17,Adelaide,Patrick Wilson,Sturt
+2017,end_season,18,Richmond,Liam Baker,Subiaco
+2017,end_season,19,Gold Coast,Nick Holman,Central District
+2017,end_season,20,North Melbourne,Gordon Narrier,Perth
+2017,end_season,21,Fremantle,Stefan Giro,Norwood
+2017,end_season,22,Collingwood,Brody Mihocek,Port Melbourne
+2017,end_season,23,Hawthorn,David Mirra,Box Hill
+2017,end_season,24,St Kilda,Lewis Pierce,St Kilda
+2017,end_season,25,Western Bulldogs,Roarke Smith,Western Bulldogs
+2017,end_season,27,West Coast,Tony Olango,NT Thunder
+2017,end_season,28,Sydney,Joel Amartey,Sandringham Dragons
+2017,end_season,29,Greater Western Sydney,Sam Reid,Greater Western Sydney
+2017,end_season,30,Geelong,Matthew Hayball,Geelong
+2017,end_season,31,Adelaide,Cam Ellis-Yolmen,Adelaide
+2017,end_season,32,Gold Coast,Mackenzie Willis,Gold Coast
+2017,end_season,33,Collingwood,Adam Oxley,Collingwood
+2017,end_season,34,Hawthorn,Dallas Willsmore,Hawthorn
+2017,end_season,35,West Coast,Callan England,Claremont
+2017,end_season,36,Sydney,Alex Johnson,Sydney
+2017,end_season,38,Adelaide,Lachlan Murphy,Adelaide
+2017,end_season,41,Adelaide,Jackson Edwards,Glenelg
+2018,end_season,1,Carlton,Hugh Goddard,St Kilda
+2018,end_season,2,Gold Coast,Michael Rischitelli,Gold Coast
+2018,end_season,3,St Kilda,Callum Wilkie,North Adelaide
+2018,end_season,4,Brisbane Lions,Ryan Bastinac,Brisbane Lions
+2018,end_season,5,Fremantle,Ethan Hughes,Fremantle
+2018,end_season,6,Western Bulldogs,Lachie Young,Dandenong Stingrays
+2018,end_season,7,Adelaide,Kieran Strachan,Port Melbourne
+2018,end_season,8,Essendon,Tom Jok,Collingwood
+2018,end_season,9,Port Adelaide,Tobin Cox,Glenelg
+2018,end_season,10,North Melbourne,Tom McKenzie,Northern Knights
+2018,end_season,11,Geelong,Tom Atkins,Geelong
+2018,end_season,12,Sydney,Durak Tucker,Peel Thunder
+2018,end_season,14,Hawthorn,Damon Greaves,East Perth
+2018,end_season,15,Melbourne,Kade Chandler,Norwood
+2018,end_season,16,Richmond,Jake Aarts,Richmond
+2018,end_season,17,Collingwood,Tim Broomhead,Collingwood
+2018,end_season,18,West Coast,Harry Edwards,Swan Districts
+2018,end_season,19,Carlton,Tomas Bugg,Melbourne
+2018,end_season,20,Gold Coast,Jack Leslie,Gold Coast
+2018,end_season,21,Brisbane Lions,Jacob Allison,Brisbane Lions
+2018,end_season,22,Fremantle,Tobe Watson,Swan Districts
+2018,end_season,23,Western Bulldogs,Jordon Sweet,North Adelaide
+2018,end_season,24,Adelaide,Paul Hunter,Adelaide
+2018,end_season,25,Essendon,Matt Dea,Essendon
+2018,end_season,26,Port Adelaide,Cam Hewett,Port Adelaide
+2018,end_season,27,North Melbourne,Kyron Hayden,North Melbourne
+2018,end_season,28,Sydney,Harry Reynolds,Sandringham Dragons
+2018,end_season,30,Hawthorn,Will Golds,Oakleigh Chargers
+2018,end_season,32,Richmond,Jacob Townsend,Richmond
+2018,end_season,33,Collingwood,Sam Murray,Collingwood
+2018,end_season,34,West Coast,Josh Smith,Collingwood
+2018,end_season,36,Gold Coast,Brad Scheer,Gold Coast
+2018,end_season,37,Fremantle,Ryan Nyhuis,Fremantle
+2018,end_season,39,Adelaide,Jordon Butts,Murray Bushrangers
+2018,end_season,41,North Melbourne,Tom Wilkinson,Southport
+2018,end_season,42,Sydney,Kurt Tippett,Sydney
+2018,end_season,43,Hawthorn,Tim Mohr,Greater Western Sydney
+2018,end_season,45,Richmond,Mabior Chol,Richmond
+2018,end_season,47,Gold Coast,Harrison Wigg,Gold Coast
+2018,end_season,49,Hawthorn,Will Langford,Hawthorn
+2019,end_season,1,Gold Coast,Josh Schoenfeld,Gold Coast
+2019,end_season,3,Carlton,Josh Honey,Western Jets
+2019,end_season,4,Sydney,Brady Rowles,Bendigo Pioneers
+2019,end_season,5,St Kilda,Jack Bell,Sandringham Dragons
+2019,end_season,6,Fremantle,Jarvis Pina,Peel Thunder
+2019,end_season,7,Adelaide,Ben Keays,Brisbane Lions
+2019,end_season,8,Port Adelaide,Jake Pasini,Swan Districts
+2019,end_season,9,Hawthorn,Emerson Jeka,Western Jets
+2019,end_season,10,Essendon,Mitchell Hibberd,Williamstown
+2019,end_season,11,West Coast,Anthony Treacy,Claremont
+2019,end_season,12,Brisbane Lions,Sam Skinner,Brisbane Lions
+2019,end_season,14,Geelong,Bradley Close +,Glenelg
+2019,end_season,15,Greater Western Sydney,Jake Stein,Greater Western Sydney
+2019,end_season,16,Gold Coast,Connor Budarick,Gold Coast
+2019,end_season,18,Carlton,Fraser Phillips,Gippsland Power
+2019,end_season,19,Sydney,Jack Maibaum,Sydney
+2019,end_season,20,Fremantle,Tom North,Fremantle
+2019,end_season,21,Adelaide,Ben Crocker,Collingwood
+2019,end_season,22,Port Adelaide,Trent Burgoyne,Woodville-West Torrens
+2019,end_season,25,West Coast,Mitch O'Neill,Tasmania Devils
+2019,end_season,26,Brisbane Lions,Corey Lyons,Brisbane Lions
+2019,end_season,27,Geelong,Oscar Brownless,Geelong
+2019,end_season,28,Greater Western Sydney,Tom Sheridan,Greater Western Sydney
+2019,end_season,29,Gold Coast,Matt Conroy,Gold Coast
+2019,end_season,30,Fremantle,Hugh Dixon,Fremantle
+2019,end_season,32,Port Adelaide,Boyd Woodcock,Port Adelaide
+2019,end_season,33,West Coast,Brendon Ah Chee,West Coast
+2019,end_season,34,Brisbane Lions,Archie Smith,Brisbane Lions
+2019,end_season,35,Geelong,Lachie Henderson,Geelong
+2019,end_season,36,Greater Western Sydney,Zach Sproule,Greater Western Sydney
+2019,end_season,37,Gold Coast,Malcolm Rosas Jr,NT Thunder
+2019,end_season,38,Port Adelaide,Riley Grundy,Port Adelaide
+2019,end_season,39,West Coast,Hamish Brayshaw,West Coast
+2019,mid_season,1,Carlton,Josh Deluca,Subiaco
+2019,mid_season,2,Gold Coast,Mitch Riordan,Dandenong Stingrays
+2019,mid_season,3,Melbourne,Kyle Dunkley,Footscray
+2019,mid_season,4,Sydney,Michael Knoll,South Adelaide
+2019,mid_season,5,North Melbourne,Lachlan Hosie,Glenelg
+2019,mid_season,6,Western Bulldogs,Ryan Gardner,Footscray
+2019,mid_season,7,Essendon,Will Snelling,West Adelaide
+2019,mid_season,8,St Kilda,Jack Mayo,Subiaco
+2019,mid_season,9,Port Adelaide,Cameron Sutcliffe,Port Adelaide
+2019,mid_season,11,Fremantle,Dillon O'Reilly,East Fremantle
+2019,mid_season,13,Richmond,Marlion Pickett +,South Fremantle
+2019,mid_season,14,Collingwood,John Noble,West Adelaide
+2019,mid_season,16,Sydney,Cody Hirst,Eastern Ranges
+2020,end_season,1,Adelaide,Bryce Gibbs,Adelaide
+2020,end_season,2,North Melbourne,Patrick Walker,North Hobart
+2020,end_season,3,Sydney,Malachy Carruthers,Sturt
+2020,end_season,4,Hawthorn,Jack Saunders,Norwood
+2020,end_season,5,Gold Coast,Jacob Townsend,Essendon
+2020,end_season,6,Essendon,Martin Gleeson,Essendon
+2020,end_season,7,Fremantle,Josh Treacy,Bendigo Pioneers
+2020,end_season,8,Carlton,Luke Parks,Glenelg
+2020,end_season,9,Greater Western Sydney,Sam Reid,Greater Western Sydney
+2020,end_season,11,Western Bulldogs,Lachlan McNeil,Woodville-West Torrens
+2020,end_season,12,West Coast,Zane Trew,Swan Districts
+2020,end_season,13,Collingwood,Jack Ginnivan +,Bendigo Pioneers
+2020,end_season,15,Brisbane Lions,Grant Birchall,Brisbane Lions
+2020,end_season,16,Port Adelaide,Tyson Goldsack,Port Adelaide
+2020,end_season,18,North Melbourne,Connor Menadue,Werribee
+2020,end_season,20,Gold Coast,Jack Hombsch,Gold Coast
+2020,end_season,21,Essendon,Dylan Clarke,Essendon
+2020,end_season,22,Fremantle,Bailey Banfield,Fremantle
+2020,end_season,24,Greater Western Sydney,Zach Sproule,Greater Western Sydney
+2020,end_season,26,Western Bulldogs,Roarke Smith,Western Bulldogs
+2020,end_season,27,West Coast,Daniel Venables,West Coast
+2020,end_season,28,Collingwood,Isaac Chugg,Launceston
+2020,end_season,33,Gold Coast,Jordan Murdoch,Gold Coast
+2020,end_season,37,Port Adelaide,Taj Schofield,Woodville-West Torrens
+2020,end_season,38,Gold Coast,Aiden Fyfe,Broadbeach
+2020,end_season,40,Gold Coast,Rhys Nicholls,Labrador
+2021,end_season,1,North Melbourne,Jared Polec,North Melbourne
+2021,end_season,2,Collingwood,Charlie Dean,Williamstown
+2021,end_season,3,Gold Coast,Levi Casboult,Carlton
+2021,end_season,4,Adelaide,Ben Davis,Adelaide
+2021,end_season,5,Hawthorn,Ned Long,Northern Knights
+2021,end_season,6,Carlton,Lochie O'Brien,Carlton
+2021,end_season,7,Richmond,Bigoa Nyuon,Richmond
+2021,end_season,8,Fremantle,Karl Worner,Oakleigh Chargers
+2021,end_season,11,Essendon,Patrick Voss,Oakleigh Chargers
+2021,end_season,12,Sydney,Lewis Taylor,Sydney
+2021,end_season,13,Greater Western Sydney,Cooper Hamilton,Bendigo Pioneers
+2021,end_season,14,Brisbane Lions,Cam Ellis-Yolmen,Brisbane Lions
+2021,end_season,15,Geelong,Oliver Dempsey,Old Carey Grammarians
+2021,end_season,16,Port Adelaide,Trent Dumont,North Melbourne
+2021,end_season,17,Western Bulldogs,Charlie Parker,Sturt
+2021,end_season,18,Melbourne,Judd McVee,East Fremantle
+2021,end_season,20,Collingwood,Isaac Chugg,Collingwood
+2021,end_season,21,Gold Coast,Jez McLennan,Gold Coast
+2021,end_season,24,Carlton,Matt Cottrell,Carlton
+2021,end_season,25,Fremantle,Mitch Crowden,Fremantle
+2021,end_season,29,Greater Western Sydney,Jacob Wehr,Greater Western Sydney
+2021,end_season,31,Port Adelaide,Sam Mayes,Port Adelaide
+2021,end_season,32,Western Bulldogs,Robbie McComb,Footscray
+2021,end_season,34,Fremantle,Connor Blakely,Fremantle
+2021,end_season,36,Gold Coast,Sandy Brock,Peel Thunder
+2021,end_season,37,Gold Coast,Bodhi Uwland,Broadbeach
+2021,mid_season,1,North Melbourne,Jacob Edwards,Sandringham Dragons
+2021,mid_season,2,Hawthorn,Jai Newcombe,Box Hill Hawks
+2021,mid_season,3,Collingwood,Ash Johnson,Sturt
+2021,mid_season,4,Adelaide,Patrick Parnell,Murray Bushrangers
+2021,mid_season,5,Gold Coast,Ned Moyle,Oakleigh Chargers
+2021,mid_season,6,Carlton,Alex Mirkov,Carlton
+2021,mid_season,7,St Kilda,Max Heath,Sandringham Dragons
+2021,mid_season,8,Greater Western Sydney,James Peatling,Greater Western Sydney
+2021,mid_season,9,Essendon,Sam Durham,Richmond
+2021,mid_season,10,Richmond,Matthew Parker,South Fremantle
+2021,mid_season,11,West Coast,William Collins,Swan Districts
+2021,mid_season,12,Sydney,Lachlan McAndrew,Sydney
+2021,mid_season,13,Port Adelaide,Jed McEntee,Sturt
+2021,mid_season,14,Brisbane Lions,Kalin Lane,Claremont
+2021,mid_season,15,Melbourne,Kye Declase,Werribee
+2021,mid_season,16,North Melbourne,Charlie Ham,Geelong Falcons
+2021,mid_season,17,Hawthorn,Jackson Callow,Norwood
+2021,mid_season,18,Collingwood,Aiden Begg,Eastern Ranges
+2021,mid_season,20,Carlton,Jordan Boyd,Footscray
+2021,mid_season,21,St Kilda,Cooper Sharman,Woodville-West Torrens
+2021,mid_season,23,West Coast,Connor West,West Perth
+2021,mid_season,24,Melbourne,Daniel Turner,Murray Bushrangers
+2022,end_season,1,North Melbourne,Blake Drury,Oakleigh Chargers
+2022,end_season,2,West Coast,Isiah Winder,West Coast
+2022,end_season,3,Greater Western Sydney,Phil Davis,Greater Western Sydney
+2022,end_season,4,Essendon,Rhett Montgomerie,Central District
+2022,end_season,5,Adelaide,Andrew McPherson,Adelaide
+2022,end_season,6,Hawthorn,Seamus Mitchell,Hawthorn
+2022,end_season,7,Gold Coast,Connor Blakely,Fremantle
+2022,end_season,8,Port Adelaide,Dylan Williams,Port Adelaide
+2022,end_season,10,Carlton,Ed Curnow,Carlton
+2022,end_season,12,Richmond,Seth Campbell,Tasmania Devils
+2022,end_season,13,Fremantle,Liam Reidy,Frankston
+2022,end_season,14,Melbourne,Will Verrall,South Adelaide
+2022,end_season,15,Brisbane Lions,Ryan Lester,Brisbane Lions
+2022,end_season,16,Collingwood,Cooper Murley,Collingwood
+2022,end_season,17,Sydney,Cameron Owen,Tasmania Devils
+2022,end_season,18,Geelong,Oscar Murdoch,Geelong Falcons
+2022,end_season,19,North Melbourne,Hamish Free,South Fremantle
+2022,end_season,20,West Coast,Zane Trew,West Coast
+2022,end_season,21,Adelaide,Paul Seedsman,Adelaide
+2022,end_season,23,Gold Coast,Jake Stein,Greater Western Sydney
+2022,end_season,26,Richmond,Tylar Young,Richmond
+2022,end_season,28,Melbourne,Oliver Sestan,Mansfield
+2022,end_season,29,Brisbane Lions,Nakia Cockatoo,Brisbane Lions
+2022,end_season,31,Sydney,Jaiden Magor,South Adelaide
+2022,end_season,32,Geelong,Osca Riccardi,Geelong Falcons
+2022,end_season,33,North Melbourne,Daniel Howe,Hawthorn
+2022,end_season,39,North Melbourne,Kayne Turner,North Melbourne
+2022,mid_season,1,West Coast,Jai Culley,Dandenong Stingrays
+2022,mid_season,2,North Melbourne,Kallan Dawson,Williamstown
+2022,mid_season,3,Essendon,Massimo D'Ambrosio,Richmond
+2022,mid_season,4,Adelaide,Brett Turner,Glenelg
+2022,mid_season,5,Greater Western Sydney,Wade Derksen,Peel Thunder
+2022,mid_season,6,Hawthorn,Max Ramsden,Sandringham Dragons
+2022,mid_season,7,Gold Coast,Oskar Faulkhead,Geelong
+2022,mid_season,8,Port Adelaide,Brynn Teakle,East Fremantle
+2022,mid_season,9,Collingwood,Josh Carmichael,West Adelaide
+2022,mid_season,10,Richmond,Jacob Bauer,North Adelaide
+2022,mid_season,11,Sydney,Hugo Hall-Kahan,Sandringham Dragons
+2022,mid_season,12,Geelong,Zane Williams,Woodville-West Torrens
+2022,mid_season,13,Carlton,Sam Durdin,Glenelg
+2022,mid_season,15,Fremantle,Sebit Kuek,East Perth
+2022,mid_season,18,Essendon,Jye Menzie,South Adelaide
+2022,mid_season,20,Hawthorn,James Blanck,Box Hill Hawks
+2022,mid_season,22,Carlton,Will Hayes,Carlton
+2023,end_season,1,West Coast,Loch Rawlinson,Sturt
+2023,end_season,2,North Melbourne,Finnbar Maley,Northern Bullants
+2023,end_season,3,Hawthorn,Cooper Stephens,Hawthorn
+2023,end_season,4,Gold Coast,Sam Clohesy,Werribee
+2023,end_season,5,Fremantle,Odin Jones,West Perth
+2023,end_season,7,Geelong,Emerson Jeka,Hawthorn
+2023,end_season,8,Essendon,Vigo Visentini,Sandringham Dragons
+2023,end_season,9,Adelaide,Will Hamill,Adelaide
+2023,end_season,10,Western Bulldogs,Lachlan McNeil,Western Bulldogs
+2023,end_season,11,Sydney,Sam Reid,Sydney
+2023,end_season,12,Melbourne,Jake Melksham,Melbourne
+2023,end_season,13,Port Adelaide,Xavier Walsh,East Perth
+2023,end_season,14,Greater Western Sydney,Adam Kennedy,Greater Western Sydney
+2023,end_season,15,Carlton,Matt Carroll,Sandringham Dragons
+2023,end_season,18,Gold Coast,Will Rowlands,Norwood
+2023,end_season,20,Adelaide,James Borlase,Adelaide
+2023,end_season,21,Western Bulldogs,Taylor Duryea,Western Bulldogs
+2023,end_season,22,Melbourne,Kynan Brown,Oakleigh Chargers
+2023,end_season,24,Gold Coast,Jack Mahony,North Melbourne
+2023,mid_season,1,West Coast,Ryan Maric,Gippsland Power
+2023,mid_season,2,North Melbourne,Robert Hansen Jr.,Subiaco
+2023,mid_season,3,Hawthorn,Clay Tucker,Eastern Ranges
+2023,mid_season,4,Richmond,Matt Coulthard,Glenelg
+2023,mid_season,6,Sydney,Harry Arnold,Brisbane Lions
+2023,mid_season,7,Geelong,Mitch Hardie,Woodville-West Torrens
+2023,mid_season,8,Fremantle,Ethan Stanley,Box Hill Hawks
+2023,mid_season,9,Essendon,Jaiden Hunter,Perth
+2023,mid_season,10,Western Bulldogs,Caleb Poulter,Footscray
+2023,mid_season,11,Port Adelaide,Quinton Narkle,Essendon
+2023,mid_season,12,Hawthorn,Brandon Ryan,Northern Bullants
+2023,mid_season,13,Richmond,James Trezise,Richmond
+2023,mid_season,15,Sydney,Jack Buller,Claremont
+2024,end_season,1,North Melbourne,Toby Pink,North Melbourne
+2024,end_season,3,Adelaide,Harry Schoenberg,Adelaide
+2024,end_season,4,Gold Coast,Max Knobel,Fremantle
+2024,end_season,5,St Kilda,Brad Crouch,St Kilda
+2024,end_season,6,Essendon,Archer Day-Wicks,Bendigo Pioneers
+2024,end_season,7,Fremantle,Aiden Riddle,Claremont
+2024,end_season,8,Collingwood,Oleg Markov,Collingwood
+2024,end_season,9,Carlton,Harry Charleson,Greater Western Victoria Rebels
+2024,end_season,11,Greater Western Sydney,Lachlan Keeffe,Greater Western Sydney
+2024,end_season,12,Geelong,Xavier Ivisic,Geelong Falcons
+2024,end_season,13,Port Adelaide,Tom Cochrane,Central District
+2024,end_season,14,Sydney,Blake Leidler,Oakleigh Chargers
+2024,end_season,15,Brisbane Lions,Darragh Joyce,Brisbane Lions
+2024,end_season,16,Adelaide,Chris Burgess,Adelaide
+2024,end_season,17,Gold Coast,Asher Eastham,Gippsland Power
+2024,end_season,20,Collingwood,Ash Johnson,Collingwood
+2024,end_season,22,Greater Western Sydney,Jacob Wehr,Greater Western Sydney
+2024,end_season,23,Geelong,Patrick Retschko,Oakleigh Chargers
+2024,end_season,25,Sydney,Ben Paton,St Kilda
+2024,end_season,26,Brisbane Lions,Darcy Craven,Brisbane Lions
+2024,end_season,30,Greater Western Sydney,Josh Fahey,Greater Western Sydney
+2024,end_season,31,Geelong,Joe Pike,Geelong Falcons
+2024,end_season,32,Sydney,Aaron Francis,Sydney
+2024,end_season,33,Sydney,Joel Hamling,Sydney
+2024,mid_season,1,North Melbourne,Geordie Payne,Tasmania Devils
+2024,mid_season,2,Richmond,Jacob Blight,Peel Thunder
+2024,mid_season,3,West Coast,Jack Hutchinson,Collingwood
+2024,mid_season,4,St Kilda,Max Hall,Box Hill Hawks
+2024,mid_season,5,Hawthorn,Jasper Scaife,West Perth
+2024,mid_season,6,Brisbane Lions,Will McLachlan,Geelong Falcons
+2024,mid_season,7,Adelaide,Toby Murray,Adelaide
+2024,mid_season,8,Western Bulldogs,Kelsey Rypstra,North Adelaide
+2024,mid_season,9,Carlton,Cooper Lord,North Melbourne
+2024,mid_season,10,Collingwood,Iliro Smit,Eastern Ranges
+2024,mid_season,11,Melbourne,Luker Kentfield,Subiaco
+2024,mid_season,12,Port Adelaide,Logan Evans,Port Adelaide
+2024,mid_season,13,Essendon,Saad El-Hawli,Northern Bullants
+2024,mid_season,14,Sydney,Tom Hanily,Gippsland Power
+2024,mid_season,15,North Melbourne,Brynn Teakle,East Fremantle
+2024,mid_season,16,Richmond,Campbell Gray,Essendon
+2024,mid_season,17,Brisbane Lions,Luke Beecken,Woodville-West Torrens
+2024,mid_season,19,Collingwood,Ned Long,Collingwood
+2024,mid_season,21,Brisbane Lions,Darcy Craven,East Perth
+2025,end_season,1,West Coast,Fred Rodriguez,South Fremantle
+2025,end_season,3,Melbourne,Riley Onley,Murray Bushrangers
+2025,end_season,4,Port Adelaide,Jack Watkins,Port Adelaide
+2025,end_season,5,St Kilda,Patrick Said,St Kilda
+2025,end_season,7,Sydney,Jake Lloyd,Sydney
+2025,end_season,8,Fremantle,Leon Kickett,Swan Districts
+2025,end_season,9,Greater Western Sydney,Conor Stone,Greater Western Sydney
+2025,end_season,10,Gold Coast,Ben Jepson,Gold Coast
+2025,end_season,11,Adelaide,Tyler Welsh,Adelaide
+2025,end_season,12,Hawthorn,Ollie Greeves,Eastern Ranges
+2025,end_season,13,Geelong,George Stevens,Geelong
+2025,end_season,14,Brisbane Lions,Lincoln McCarthy,Brisbane Lions
+2025,end_season,18,Sydney,Dane Rampe,Sydney
+2025,end_season,23,Geelong,Keighton Matofai-Forbes,Geelong
+2025,end_season,28,Geelong,Nick Driscoll,Northern Knights
+2025,mid_season,1,West Coast,Tom McCarthy,Richmond
+2025,mid_season,2,North Melbourne,Zac Banch,Werribee
+2025,mid_season,3,Port Adelaide,Harrison Ramm,Glenelg
+2025,mid_season,4,Carlton,Flynn Young,Werribee
+2025,mid_season,5,Western Bulldogs,Michael Sellwood,Peel Thunder
+2025,mid_season,6,Essendon,Archer May,Subiaco
+2025,mid_season,7,Gold Coast,Oscar Adams,Glenelg
+2025,mid_season,8,Collingwood,Roan Steele,West Perth
+2025,mid_season,9,West Coast,Jacob Newton,Norwood
+2025,mid_season,10,North Melbourne,Cooper Trembath,North Melbourne
+2025,mid_season,11,Port Adelaide,Ewan Mackinlay,North Adelaide
+2025,mid_season,12,Western Bulldogs,Zac Walker,Gippsland Power
+2025,mid_season,13,Essendon,Lachlan Blakiston,East Fremantle
+2025,mid_season,14,Gold Coast,Caleb Lewis,Casey Demons
+2025,mid_season,15,Collingwood,Noah Howes,South Adelaide
+2025,mid_season,16,Port Adelaide,Mani Liddy,Central District
+2025,mid_season,17,Essendon,Oskar Smartt,Essendon
+2025,mid_season,18,Essendon,Liam McMahon,Carlton
