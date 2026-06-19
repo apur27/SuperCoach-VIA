@@ -999,4 +999,5 @@ Realistic 2026 finish: **16th–18th**.
   Skeptic: PASS @ 2026-06-17
   Gaffer: APPROVED @ 2026-06-17
   Updated: 2026-06-19 — free agency outlook added per club (cross-ref: 2026-06-19-afl-2026-free-agency-trade-window.md)
+  Updated: 2026-06-19 — Richmond: added Sam Lalor (#4, 2024 pick 1) absentee note beneath Round 15 table + methodology source line; re-gated DataSentinel:PASS @ 2026-06-19, Skeptic:PASS @ 2026-06-19, Gaffer:SHIP @ 2026-06-19
 -->
