@@ -183,9 +183,9 @@ Full per-round table (all 13 rounds), team-level breakdown for every club, bigge
 Long-form footy journalism where the numbers are not decoration — they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [The AFL National Draft: Error, Structure, and the Shape of Talent](docs/articles/afl-draft-analysis-2025.md) - 7-part comprehensive analysis: error taxonomy, school pipeline, brand-currency thesis, data decision framework, Richmond case study (0/32 post-dynasty void), the Geelong model (average drafting + late-extraction + trade imports = 4 premierships), and a 7-rule data playbook for clubs. 1,538 National picks, 2004–2025. *(2026-06-16)*
+**Latest:** [AFL 2026 — List Quality and Draft Pipeline: Where Every Club Stands](docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md) - All 18 clubs: 2026 list identity, full selected-22 squad annotated with draft pick/grade/games, and 22-year draft efficiency per club (1,529 tracked picks, 2004–2025). The 3-to-1 efficiency spread — Bulldogs 15.6% to St Kilda 5.7% — explained club by club. *(2026-06-17)*
 
-[List Management 101 — Is the Top-10 Draft Pick Strategy a Path to Premiership Dominance?](docs/list-management-101.md) - Strategic analysis across 127 premierships and 13,329 player careers: premiership cores are built on retained, experienced players (17-21 of the top 22 with 150+ game careers), not on draft position *(2026-06-05)*
+[The AFL National Draft: Error, Structure, and the Shape of Talent](docs/articles/afl-draft-analysis-2025.md) - 7-part comprehensive analysis: error taxonomy, school pipeline, brand-currency thesis, data decision framework, Richmond case study (0/32 post-dynasty void), the Geelong model, and a 7-rule data playbook. 1,538 National picks, 2004–2025. *(2026-06-16)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
