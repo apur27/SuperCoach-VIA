@@ -53,6 +53,39 @@ Sydney sit first in disposals **[data]** (396.5/g), first in goals **[data]** (1
 
 **[data]** Draft efficiency: 11.7% elite from 77 tracked picks (2 A+, 7 A), average pick 36.4, average career 68.6 games per pick — 6th in the competition. The 11.7% rate significantly understates the quality because Sydney's most productive picks are among the deepest in the dataset: Warner at pick 39 **[data]** (122 games, A), Parker at pick 40 **[data]** (328 games, A), Aliir at pick 44 **[data]** (191 games, A), Dawson at pick 56 **[data]** (166 games, A), Hannebery at pick 30 **[data]** (226 games, A+), Gulden at pick 32 **[data]** (105 games, A). Six of Sydney's nine elite National Draft players since 2004 came from picks after 25. The Bloods identify and develop overlooked talent from the back of the draft at a rate no other club matches at those pick depths.
 
+
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
+|---|---|---|---|---|---|
+| 26 | Riley Bice | 2024 | 41 | C+ | 30 |
+| 22 | Nick Blakey | 2018 | 10 | A | 165 |
+| 25 | Billy Cootee | 2025 | 42 | D | 4 |
+| 35 | Charlie Curnow | 2015 | 12 | A | 162 |
+| 4 | Brodie Grundy | 2012 | 18 | A | 255 |
+| 5 | Isaac Heeney | 2014 | 18 | A+ | 236 |
+| 17 | James Jordon | 2018 | 33 | B | 128 |
+| 6 | Logan Mcdonald | 2020 | 4 | C+ | 84 |
+| 27 | Justin Mcinerney | 2018 | 44 | B | 122 |
+| 14 | Callum Mills | 2015 | 3 | A | 187 |
+| 24 | Dane Rampe | 2013 | 90 | — | 280 |
+| 8 | James Rowbottom | 2018 | 25 | B | 154 |
+| 13 | Jai Serong | 2021 | 53 | C | 23 |
+| 12 | Angus Sheldrick | 2021 | 18 | C+ | 42 |
+| 1 | Chad Warner | 2019 | 39 | A | 122 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 36 | Joel Amartey | 75 |
+| 28 | Will Edwards | 8 |
+| 44 | Jake Lloyd | 285 |
+| 43 | Lewis Melican | 110 |
+| 11 | Tom Papley | 207 |
+| 34 | Matt Roberts | 59 |
+| 10 | Malcolm Rosas | 61 |
+
 The academy pipeline is the structural advantage that extends the window past draft position. Sydney pick late in the 20s range now; they compensate with the NSW academy, homegrown retention, and one surgical import per cycle (Curnow). The list philosophy ranking of first in the competition is earned. Realistic 2026 finish from the team list analysis: **1st–3rd, premiership favourite**.
 
 ---
@@ -65,45 +98,17 @@ Brisbane are built for marks and clearances — 1st for kicks **[data]** (252.5/
 
 The premiership core was assembled via the trade table, not the National Draft: Neale from Fremantle, Cameron from Adelaide, Dunkley from the Bulldogs. That is not a criticism — it is the most defensible list-building model at the competent end of the trade cycle. Brisbane draft functionally, import elite, and retain. The model is proven by three consecutive grand final appearances.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
-|---|---|---|---|---|---|
-| 36 | Joel Amartey | — | — | — | — |
-| 26 | Riley Bice | 2024 | 41 | C+ | 30 |
-| 22 | Nick Blakey | 2018 | 10 | A | 165 |
-| 25 | Billy Cootee | 2025 | 42 | D | 4 |
-| 35 | Charlie Curnow | 2015 | 12 | A | 162 |
-| 28 | Will Edwards | — | — | — | — |
-| 4 | Brodie Grundy | 2012 | 18 | A | 255 |
-| 5 | Isaac Heeney | 2014 | 18 | A+ | 236 |
-| 17 | James Jordon | 2018 | 33 | B | 128 |
-| 44 | Jake Lloyd | — | — | — | — |
-| 6 | Logan Mcdonald | 2020 | 4 | C+ | 84 |
-| 27 | Justin Mcinerney | 2018 | 44 | B | 122 |
-| 43 | Lewis Melican | — | — | — | — |
-| 14 | Callum Mills | 2015 | 3 | A | 187 |
-| 11 | Tom Papley | — | — | — | — |
-| 24 | Dane Rampe | — | — | — | — |
-| 34 | Matt Roberts | — | — | — | — |
-| 10 | Malcolm Rosas | — | — | — | — |
-| 8 | James Rowbottom | 2018 | 25 | B | 154 |
-| 13 | Jai Serong | 2021 | 53 | C | 23 |
-| 12 | Angus Sheldrick | 2021 | 18 | C+ | 42 |
-| 1 | Chad Warner | 2019 | 39 | A | 122 |
+**National Draft players — Round 9 selected 22** **[data]**
 
-**Selected 22 — Round 9** **[data]**
-
-| # | Player | Drafted | Pick | Grade | Games |
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 31 | Harris Andrews | 2014 | 61 | A+ | 250 |
 | 10 | Levi Ashcroft | 2024 | 5 | C+ | 41 |
 | 8 | Will Ashcroft | 2022 | 2 | B+ | 72 |
 | 33 | Zac Bailey | 2017 | 15 | A | 179 |
-| 23 | Charlie Cameron | — | — | — | — |
 | 18 | Keidean Coleman | 2019 | 37 | B | 78 |
 | 37 | Cody Curtin | 2025 | 43 | D | 4 |
-| 2 | Sam Draper | — | — | — | — |
 | 5 | Josh Dunkley | 2015 | 25 | A | 208 |
 | 3 | Jaspa Fletcher | 2022 | 12 | B | 82 |
 | 32 | Darcy Fort | 2018 | 65 | C+ | 70 |
@@ -112,20 +117,22 @@ The premiership core was assembled via the trade table, not the National Draft: 
 | 1 | Kai Lohmann | 2021 | 20 | B | 67 |
 | 11 | Lincoln Mccarthy | 2011 | 66 | B | 159 |
 | 6 | Hugh Mccluggage | 2016 | 3 | A | 218 |
-| 26 | Conor Mckenna | — | — | — | — |
 | 13 | Logan Morris | 2023 | 31 | B | 58 |
 | 9 | Lachie Neale | 2011 | 58 | A+ | 308 |
-| 16 | Cam Rayner | — | — | — | — |
-| 38 | Bruce Reville | — | — | — | — |
 | 44 | Darcy Wilmot | 2021 | 16 | B | 97 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 23 | Charlie Cameron | 264 |
+| 2 | Sam Draper | 91 |
+| 26 | Conor Mckenna | 136 |
+| 16 | Cam Rayner | 181 |
+| 38 | Bruce Reville | 36 |
 
 Realistic 2026 finish: **1st–4th, premiership contender**.
 
----
-
-### Sydney note on Dawson
-
-One data integrity point worth flagging: **Jordan Dawson** is credited as a Sydney pick (2015 pick 56, 166 games, A) **[data]** in the efficiency table — he was drafted by Sydney but delivered most of his elite career at Adelaide after a 2021 trade. This is consistent with the caveat above: the table credits the drafting club, not the retaining club. Adelaide's 12.5% efficiency rate does not credit them for Dawson; Sydney's 11.7% does include him. The underlying talent identification is Sydney's; the career games are Adelaide's.
 
 ---
 
@@ -137,16 +144,15 @@ GWS are 2nd in disposals **[data]** (395.8/g), 1st in rebound-50s **[data]** (42
 
 The efficiency data carries a retention asterisk: Tim Taranto (2016 pick 2, 184 games, A) **[data]** moved to Richmond; Taylor Adams (2011 pick 13, 229 games, A) **[data]** moved to Collingwood; Jack Steele (2014 pick 24, 216 games, A) **[data]** moved via St Kilda to Melbourne. The salary cap has forced exits that a less constrained expansion club would not have made. The model develops well and exports well — sometimes involuntarily.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 21 | Leek Aleer | 2021 | 15 | C+ | 30 |
 | 9 | Ryan Angwin | 2020 | 18 | C+ | 40 |
-| 7 | Lachie Ash | — | — | — | — |
 | 14 | Toby Bedford | 2018 | 75 | B | 92 |
 | 32 | Kieren Briggs | 2018 | 34 | B | 80 |
-| 44 | Jack Buckley | — | — | — | — |
 | 5 | Aaron Cadman | 2022 | 1 | B | 67 |
 | 17 | Finn Callaghan | 2021 | 3 | A | 84 |
 | 3 | Stephen Coniglio | 2011 | 2 | A | 238 |
@@ -155,14 +161,21 @@ The efficiency data carries a retention asterisk: Tim Taranto (2016 pick 2, 184 
 | 11 | Phoenix Gothard | 2023 | 12 | D | 13 |
 | 4 | Toby Greene | 2011 | 11 | A+ | 274 |
 | 27 | Harry Himmelberg | 2015 | 16 | B | 214 |
-| 23 | Jesse Hogan | — | — | — | — |
 | 39 | Connor Idun | 2018 | 61 | B | 130 |
 | 25 | Jayden Laverde | 2014 | 20 | C+ | 158 |
 | 30 | James Leake | 2023 | 17 | D | 8 |
 | 33 | Xavier Ohalloran | 2018 | 22 | C+ | 98 |
 | 10 | Clayton Oliver | 2015 | 4 | A+ | 218 |
-| 20 | Jake Stringer | 2012 | 5 | A | 240 |
+| 20 | Jake Stringer | 2025 | 59 | A | 240 |
 | 1 | Harvey Thomas | 2023 | 59 | C+ | 53 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 7 | Lachie Ash | 138 |
+| 44 | Jack Buckley | 5 |
+| 23 | Jesse Hogan | 188 |
 
 Realistic 2026 finish: **3rd–7th**.
 
@@ -176,9 +189,10 @@ Fremantle are 2nd in contested possessions **[data]** (137.6/g), 3rd in tackles 
 
 The 2026 list is built for the next three seasons: Serong (2019 pick 8, 137 games, A+) **[data]** and Brayshaw (2017 pick 2, 183 games, A) **[data]** are both inside 26 and signed long-term. Murphy Reid's arrival via recent draft adds the next-generation creator. The trade-table answer to the forward-tall question is the single acquisition that separates this list from premiership favourite.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 24 | Jye Amiss | 2021 | 8 | B | 84 |
 | 10 | Shai Bolton | 2016 | 29 | A | 171 |
@@ -186,22 +200,27 @@ The 2026 list is built for the next three seasons: Serong (2019 pick 8, 137 game
 | 5 | Heath Chapman | 2020 | 14 | B | 78 |
 | 6 | Jordan Clark | 2018 | 15 | A | 139 |
 | 36 | Brennan Cox | 2016 | 41 | B+ | 145 |
-| 18 | Mason Cox | — | — | — | — |
-| 43 | Isaiah Dudley | — | — | — | — |
 | 28 | Neil Erasmus | 2021 | 10 | C+ | 52 |
 | 32 | Michael Frederick | 2019 | 61 | B | 110 |
 | 9 | Luke Jackson | 2019 | 3 | A | 132 |
-| 44 | Matthew Johnson | 2021 | 21 | C+ | 67 |
+| 44 | Matthew Johnson | 2021 | 21 | — | 67 |
 | 25 | Alex Pearce | 2013 | 37 | B | 149 |
 | 16 | Murphy Reid | 2024 | 17 | B | 37 |
 | 13 | Luke Ryan | 2016 | 66 | A | 191 |
 | 3 | Caleb Serong | 2019 | 8 | A+ | 137 |
 | 14 | Jeremy Sharp | 2019 | 27 | C+ | 62 |
 | 39 | Sam Switkowski | 2017 | 73 | B | 118 |
-| 35 | Josh Treacy | — | — | — | — |
-| 20 | Patrick Voss | — | — | — | — |
 | 34 | Corey Wagner | 2022 | 57 | C | 50 |
-| 23 | Karl Worner | — | — | — | — |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 18 | Mason Cox | 145 |
+| 43 | Isaiah Dudley | 28 |
+| 35 | Josh Treacy | 92 |
+| 20 | Patrick Voss | 38 |
+| 23 | Karl Worner | 43 |
 
 Realistic 2026 finish: **3rd–7th**.
 
@@ -215,32 +234,38 @@ Collingwood sit 4th for disposals **[data]** (388.4/g) and 2nd for marks **[data
 
 The tension in the 2026 picture is clear: a 12.9% historical efficiency rate and a 40.1 average pick means the club has been extraordinarily efficient with relatively modest draft assets — but the ageing curve now requires those picks to replace Pendlebury-and-Sidebottom tier players. No draft produces two A+ players per cycle on average.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 41 | Angus Anderson | 2025 | 57 | D | 8 |
-| 34 | Jack Buller | — | — | — | — |
 | 14 | Darcy Cameron | 2016 | 48 | B+ | 132 |
-| 25 | Jack Crisp | — | — | — | — |
+| 25 | Jack Crisp | 2012 | 86 | — | 285 |
 | 7 | Josh Daicos | 2016 | 57 | A | 164 |
 | 35 | Nick Daicos | 2021 | 4 | A+ | 107 |
-| 2 | Jordan Goey | — | — | — | — |
-| 5 | Jamie Elliott | — | — | — | — |
 | 17 | Billy Frampton | 2014 | 84 | C+ | 87 |
 | 39 | Will Hayes | 2024 | 56 | D | 10 |
-| 9 | Dan Houston | — | — | — | — |
 | 1 | Patrick Lipinski | 2016 | 28 | B | 153 |
-| 44 | Ned Long | — | — | — | — |
 | 4 | Brayden Maynard | 2014 | 30 | A | 242 |
 | 11 | Daniel Mcstay | 2013 | 25 | B | 211 |
 | 30 | Darcy Moore | 2014 | 9 | A | 199 |
-| 15 | Wil Parker | — | — | — | — |
 | 12 | Harry Perryman | 2016 | 14 | B | 163 |
 | 3 | Isaac Quaynor | 2018 | 13 | B+ | 146 |
 | 8 | Lachie Schultz | 2018 | 57 | B | 139 |
 | 22 | Steele Sidebottom | 2008 | 11 | A | 365 |
-| 45 | Roan Steele | — | — | — | — |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 34 | Jack Buller | 16 |
+| 2 | Jordan Goey | 192 |
+| 5 | Jamie Elliott | 228 |
+| 9 | Dan Houston | 200 |
+| 44 | Ned Long | 46 |
+| 15 | Wil Parker | 13 |
+| 45 | Roan Steele | 18 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -254,32 +279,38 @@ Geelong sit 9th for disposals **[data]**, 5th for contested possessions **[data]
 
 The data does not and cannot account for Dangerfield's 370 games at Geelong after leaving Adelaide **[data]**, or Cameron's 200+ games after leaving GWS **[historical record — career games split not verified in data]**, or Smith's arrival from the Bulldogs. Those players are credited to the clubs that drafted them — Adelaide, GWS, and the Bulldogs respectively — in the efficiency table. Geelong's actual on-field elite-player count is materially higher than 10.1% suggests because the club imports elite players the draft credits elsewhere.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
-| 30 | Tom Atkins | — | — | — | — |
 | 12 | Jack Bowes | 2016 | 10 | B | 150 |
 | 4 | Tanner Bruhn | 2020 | 12 | C+ | 79 |
-| 5 | Jeremy Cameron | — | — | — | — |
-| 45 | Brad Close | — | — | — | — |
 | 35 | Patrick Dangerfield | 2007 | 10 | A+ | 370 |
-| 16 | Sam Koning | — | — | — | — |
-| 28 | Oliver Dempsey | — | — | — | — |
-| 11 | Mitchell Edwards | 2023 | 32 | D | 11 |
-| 39 | Zach Guthrie | — | — | — | — |
+| 11 | Mitchell Edwards | 2023 | 32 | — | 11 |
 | 36 | Oliver Henry | 2020 | 17 | B | 98 |
 | 9 | Max Holmes | 2020 | 20 | A | 116 |
 | 17 | Lawson Humphries | 2023 | 63 | C+ | 49 |
 | 8 | Jake Kolodjashnij | 2013 | 41 | C+ | 206 |
 | 7 | Shaun Mannagh | 2023 | 36 | B+ | 49 |
-| 19 | Jack Martin | — | — | — | — |
-| 34 | Oisin Mullin | — | — | — | — |
 | 33 | Shannon Neale | 2020 | 33 | B | 59 |
-| 42 | Mark Oconnor | — | — | — | — |
 | 14 | Connor Osullivan | 2023 | 11 | B | 40 |
 | 3 | Bailey Smith | 2018 | 7 | A | 140 |
 | 44 | Tom Stewart | 2016 | 40 | A+ | 204 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 30 | Tom Atkins | 164 |
+| 5 | Jeremy Cameron | 290 |
+| 45 | Brad Close | 134 |
+| 16 | Sam Koning | 95 |
+| 28 | Oliver Dempsey | 69 |
+| 39 | Zach Guthrie | 139 |
+| 19 | Jack Martin | 173 |
+| 34 | Oisin Mullin | 54 |
+| 42 | Mark Oconnor | 156 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -293,32 +324,38 @@ Gold Coast have been transformed in 18 months. Christian Petracca from Melbourne
 
 The 61-pick sample is the smallest in the dataset — Gold Coast's short competition history thins the denominator. The 8.2% rate is the most likely to change as the 2020–2025 cohort matures. Whether Ben King, Elijah Hollands, and the incoming trade players grade A is the live question.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 48 | Oscar Adams | 2021 | 51 | C | 18 |
 | 15 | Noah Anderson | 2019 | 2 | A | 141 |
 | 1 | Mac Andrew | 2021 | 5 | B+ | 78 |
-| 33 | Sam Clohesy | — | — | — | — |
 | 25 | Sam Collins | 2015 | 55 | A | 162 |
-| 5 | Alex Davies | — | — | — | — |
 | 26 | Will Graham | 2023 | 26 | C+ | 36 |
-| 39 | Lachlan Gulbin | — | — | — | — |
 | 19 | Bailey Humphrey | 2022 | 6 | B | 73 |
-| 16 | Joel Jeffrey | — | — | — | — |
 | 34 | Ben King | 2018 | 6 | B+ | 133 |
 | 8 | Leo Lombard | 2024 | 9 | D | 17 |
 | 22 | Ben Long | 2016 | 25 | B+ | 147 |
 | 11 | Touk Miller | 2014 | 29 | A | 227 |
-| 23 | Ned Moyle | — | — | — | — |
-| 2 | John Noble | — | — | — | — |
 | 3 | Christian Petracca | 2014 | 2 | A+ | 223 |
 | 27 | Wil Powell | 2017 | 19 | B | 142 |
 | 20 | Ethan Read | 2023 | 9 | C+ | 34 |
 | 17 | Daniel Rioli | 2015 | 15 | B+ | 216 |
 | 9 | Jamarra Ugle-Hagan | 2020 | 1 | B | 70 |
-| 6 | Bodhi Uwland | — | — | — | — |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 33 | Sam Clohesy | 42 |
+| 5 | Alex Davies | 43 |
+| 39 | Lachlan Gulbin | 9 |
+| 16 | Joel Jeffrey | 62 |
+| 23 | Ned Moyle | 19 |
+| 2 | John Noble | 147 |
+| 6 | Bodhi Uwland | 59 |
 
 Realistic 2026 finish: **4th–8th, first finals appearance with the new spine**.
 
@@ -332,9 +369,10 @@ Port's list is built for mark-and-control football — 4th for kicks **[data]** 
 
 The 2026 list is one big-game contested-ball win away from a premiership tilt; the structural ceiling is whether Horne-Francis can consistently deliver the centre-bounce dominance that was promised with pick 1 from North Melbourne.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 21 | Aliir Aliir | 2013 | 44 | A | 191 |
 | 14 | Miles Bergman | 2019 | 14 | B | 110 |
@@ -344,20 +382,25 @@ The 2026 list is one big-game contested-ball win away from a premiership tilt; t
 | 33 | Darcy Byrne-Jones | 2013 | 52 | A | 234 |
 | 28 | Willem Drew | 2016 | 33 | B+ | 143 |
 | 44 | Corey Durdin | 2020 | 37 | C+ | 77 |
-| 22 | Logan Evans | — | — | — | — |
 | 6 | Kane Farrell | 2017 | 51 | C+ | 126 |
 | 19 | Mitch Georgiades | 2019 | 18 | B+ | 105 |
 | 18 | Jason Horne-Francis | 2021 | 1 | A | 93 |
 | 34 | Lachie Jones | 2020 | 16 | C+ | 85 |
-| 43 | Josh Lai | — | — | — | — |
-| 31 | Ewan Mackinlay | — | — | — | — |
 | 4 | Todd Marshall | 2016 | 16 | B+ | 124 |
 | 11 | Christian Moraes | 2024 | 38 | C | 21 |
 | 35 | Joe Richards | 2022 | 48 | C+ | 44 |
-| 24 | Jordon Sweet | — | — | — | — |
 | 38 | Dante Visentini | 2021 | 56 | C | 20 |
 | 15 | Jacob Wehr | 2020 | 59 | C | 50 |
 | 17 | Jack Whitlock | 2024 | 33 | D | 17 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 22 | Logan Evans | 36 |
+| 43 | Josh Lai | 9 |
+| 31 | Ewan Mackinlay | 14 |
+| 24 | Jordon Sweet | 59 |
 
 Realistic 2026 finish: **4th–9th**.
 
@@ -371,32 +414,38 @@ Hawthorn are 3rd for disposals **[data]** (388.4/g), 1st for hit-outs **[data]**
 
 The 2004 draft class is the standout in this dataset — Franklin (pick 5, 354 games, A+) **[data]**, Roughead (pick 2, 283 games, A), Lewis (pick 7, 319 games, A) — three A/A+ players from one year, two of whom anchored four premierships. Whether the 2019–2024 rebuild cohort matches that concentration is the 2028 question.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 10 | Karl Amon | 2013 | 68 | B+ | 207 |
 | 37 | Tom Barrass | 2013 | 43 | B+ | 184 |
 | 24 | Josh Battle | 2016 | 39 | A | 162 |
-| 16 | Massimo Dambrosio | — | — | — | — |
 | 13 | Calsher Dear | 2023 | 56 | C | 30 |
-| 33 | Jack Ginnivan | — | — | — | — |
 | 19 | Jack Gunston | 2009 | 29 | A | 292 |
 | 15 | Blake Hardwick | 2015 | 44 | B | 211 |
 | 4 | Jarman Impey | 2013 | 21 | B | 234 |
-| 2 | Mitch Lewis | — | — | — | — |
 | 9 | Connor Macdonald | 2021 | 26 | B | 103 |
-| 28 | Cam Mackenzie | — | — | — | — |
 | 20 | Finn Maginness | 2019 | 29 | B | 63 |
 | 17 | Lloyd Meek | 2017 | 69 | B+ | 90 |
 | 8 | Dylan Moore | 2017 | 67 | A | 138 |
-| 11 | Conor Nash | — | — | — | — |
-| 3 | Jai Newcombe | — | — | — | — |
-| 7 | Ned Reeves | — | — | — | — |
 | 14 | Jack Scrimshaw | 2016 | 7 | B | 129 |
 | 6 | James Sicily | 2013 | 56 | A | 191 |
 | 25 | Josh Ward | 2021 | 7 | C+ | 80 |
 | 5 | Nick Watson | 2023 | 5 | B | 56 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 16 | Massimo Dambrosio | 76 |
+| 33 | Jack Ginnivan | 100 |
+| 2 | Mitch Lewis | 91 |
+| 28 | Cam Mackenzie | 57 |
+| 11 | Conor Nash | 127 |
+| 3 | Jai Newcombe | 112 |
+| 7 | Ned Reeves | 55 |
 
 Realistic 2026 finish: **5th–9th, rising window**.
 
@@ -410,25 +459,21 @@ Adelaide sit 2nd for rebound-50s **[data]** (41.8/g) and 4th for tackles **[data
 
 The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) **[data]** was drafted and developed by Adelaide; his elite career happened at Geelong after a 2015 trade. Gunston (2009 pick 29, 292 games, A) **[data]** played the majority of his Hawthorn career before returning to Adelaide late. The club's 12.5% efficiency credits the drafting; the retention story is more complicated. The data says Adelaide find talent reliably and above the league average — the list management question is whether they can extract more value from what they find in the next two trade periods.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 3 | Sam Berry | 2020 | 28 | C+ | 89 |
 | 21 | Hugh Bond | 2022 | 50 | C | 19 |
-| 35 | James Borlase | — | — | — | — |
-| 41 | Jordon Butts | — | — | — | — |
 | 15 | Brayden Cook | 2020 | 25 | C | 43 |
 | 44 | Isaac Cumming | 2016 | 20 | B | 114 |
-| 6 | Daniel Curtin | 2023 | 8 | B | 38 |
+| 6 | Daniel Curtin | 2023 | 8 | — | 35 |
 | 2 | Ben Keays | 2015 | 24 | B+ | 174 |
-| 29 | Rory Laird | — | — | — | — |
-| 42 | Lachlan Mcandrew | — | — | — | — |
+| 29 | Rory Laird | 2013 | 86 | — | 277 |
 | 16 | Max Michalanney | 2022 | 17 | B | 79 |
 | 30 | Wayne Milera | 2015 | 11 | B | 136 |
-| 39 | Toby Murray | — | — | — | — |
 | 28 | Alex Neal-Bullen | 2014 | 40 | B | 213 |
-| 25 | James Peatling | — | — | — | — |
 | 10 | Luke Pedlar | 2020 | 11 | C+ | 49 |
 | 8 | Josh Rachele | 2021 | 6 | B | 83 |
 | 23 | Izak Rankine | 2018 | 3 | B+ | 115 |
@@ -436,6 +481,16 @@ The retention story cuts differently. Dangerfield (2007 pick 10, 370 games, A+) 
 | 19 | Zac Taylor | 2021 | 44 | C | 37 |
 | 7 | Riley Thilthorpe | 2020 | 2 | A | 89 |
 | 13 | Taylor Walker | 2007 | 75 | A | 309 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 35 | James Borlase | 23 |
+| 41 | Jordon Butts | 94 |
+| 42 | Lachlan Mcandrew | 6 |
+| 39 | Toby Murray | 7 |
+| 25 | James Peatling | 78 |
 
 Realistic 2026 finish: **8th–12th**.
 
@@ -449,12 +504,12 @@ The Bulldogs sit 11th for disposals **[data]**, 2nd for clearances **[data]** (3
 
 The paradox of 15.6% efficiency and late-window list thinning is the story of the Bulldogs' last two seasons: they develop elite players and then lose them on the trade table. Smith, Macrae, Ugle-Hagan, and Daniel were all A or A+ picks developed at Footscray — and all four departed. The infrastructure that finds and develops talent has not been matched by a salary-cap strategy that retains it.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 4 | Marcus Bontempelli | 2013 | 4 | A+ | 272 |
-| 29 | Lachlan Bramble | — | — | — | — |
 | 5 | Jedd Busslinger | 2022 | 13 | C | 11 |
 | 17 | Nick Coffield | 2017 | 8 | B | 71 |
 | 31 | Bailey Dale | 2014 | 45 | A | 192 |
@@ -466,15 +521,21 @@ The paradox of 15.6% efficiency and late-window list thinning is the story of th
 | 12 | Harvey Gallagher | 2022 | 39 | C+ | 28 |
 | 32 | Arthur Jones | 2021 | 43 | C | 27 |
 | 8 | Matthew Kennedy | 2015 | 13 | B | 155 |
-| 24 | Buku Khamis | — | — | — | — |
-| 28 | Will Lewis | — | — | — | — |
-| 30 | Lachlan Mcneil | — | — | — | — |
 | 33 | Aaron Naughton | 2017 | 9 | B+ | 180 |
 | 20 | Ed Richards | 2017 | 16 | A | 161 |
 | 9 | Ryley Sanders | 2023 | 6 | C+ | 48 |
-| 37 | Michael Sellwood | — | — | — | — |
 | 23 | Laitham Vandermeer | 2018 | 37 | C+ | 88 |
 | 14 | Rhylee West | 2018 | 26 | C+ | 95 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 29 | Lachlan Bramble | 91 |
+| 24 | Buku Khamis | 55 |
+| 28 | Will Lewis | 10 |
+| 30 | Lachlan Mcneil | 82 |
+| 37 | Michael Sellwood | 14 |
 
 Realistic 2026 finish: **6th–11th**.
 
@@ -488,15 +549,13 @@ Carlton are 3rd for contested possessions **[data]** (134.2/g) and 12th for disp
 
 The 2026 list-building challenge is twofold: the draft pipeline has produced no A/A+ player in a decade, and the trade table has just exported its forward line. The ruck acquisition this off-season is the immediate priority; the pipeline question is a 3-year structural problem.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 12 | Ben Ainsworth | 2016 | 4 | B | 171 |
-| 32 | Matt Carroll | — | — | — | — |
 | 5 | Adam Cerra | 2017 | 5 | B+ | 158 |
-| 46 | Matthew Cottrell | — | — | — | — |
-| 2 | Lachlan Cowan | — | — | — | — |
 | 9 | Patrick Cripps | 2013 | 13 | A+ | 243 |
 | 35 | Harry Dean | 2025 | 3 | D | 11 |
 | 44 | Francis Evans | 2019 | 41 | B | 55 |
@@ -507,13 +566,21 @@ The 2026 list-building challenge is twofold: the draft pipeline has produced no 
 | 17 | Brodie Kemp | 2019 | 17 | C+ | 62 |
 | 11 | Mitch Mcgovern | 2014 | 43 | B | 158 |
 | 10 | Harry Mckay | 2015 | 10 | A | 152 |
-| 24 | Nic Newman | — | — | — | — |
 | 27 | Marc Pittonet | 2014 | 50 | B | 92 |
-| 25 | Liam Reidy | — | — | — | — |
-| 42 | Adam Saad | — | — | — | — |
 | 7 | Jagga Smith | 2024 | 3 | D | 13 |
 | 18 | Sam Walsh | 2018 | 1 | A+ | 146 |
 | 23 | Jacob Weitering | 2015 | 1 | A | 214 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 32 | Matt Carroll | 27 |
+| 46 | Matthew Cottrell | 76 |
+| 2 | Lachlan Cowan | 50 |
+| 24 | Nic Newman | 144 |
+| 25 | Liam Reidy | 6 |
+| 42 | Adam Saad | 219 |
 
 Realistic 2026 finish: **7th–12th**.
 
@@ -527,32 +594,38 @@ Melbourne are 15th for disposals **[data]**, 3rd for goals **[data]** (15.1/g), 
 
 Gawn at pick 34 is Melbourne's most important data point: the best ruck of his generation, found at pick 34 in the 2009 draft, is proof the development infrastructure works deep into the board. The challenge is that the infrastructure is now being asked to rebuild after losing three of its four A+ outcomes (Petracca, Oliver, and effectively Grundy who was imported not drafted). The picks acquired in the Petracca and Oliver trades are the actual replacement assets; their 2025–2026 deployment defines the next phase.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
-| 37 | Kade Chandler | — | — | — | — |
-| 41 | Paddy Cross | — | — | — | — |
 | 31 | Bayley Fritsch | 2017 | 31 | A | 184 |
 | 11 | Max Gawn | 2009 | 34 | A+ | 261 |
-| 27 | Max Heath | — | — | — | — |
 | 22 | Blake Howes | 2021 | 39 | C | 42 |
 | 21 | Matthew Jefferson | 2022 | 15 | C | 14 |
-| 14 | Changkuoth Jiath | — | — | — | — |
 | 15 | Ed Langdon | 2014 | 54 | B | 216 |
 | 4 | Harvey Langford | 2024 | 6 | B | 36 |
 | 16 | Bailey Laurie | 2020 | 22 | C | 21 |
 | 8 | Jake Lever | 2014 | 14 | A | 199 |
-| 28 | Brody Mihocek | — | — | — | — |
-| 35 | Harry Petty | — | — | — | — |
 | 36 | Kysaiah Pickett | 2019 | 12 | A | 140 |
 | 33 | Latrelle Pickett | 2025 | 12 | D | 12 |
 | 30 | Harry Sharp | 2020 | 43 | C | 48 |
 | 32 | Tom Sparrow | 2018 | 27 | C+ | 131 |
 | 9 | Jack Steele | 2014 | 24 | A | 216 |
 | 12 | Koltyn Tholstrup | 2023 | 13 | C | 33 |
-| 10 | Daniel Turner | — | — | — | — |
-| 2 | Jacob Rooyen | — | — | — | — |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 37 | Kade Chandler | 93 |
+| 41 | Paddy Cross | 8 |
+| 27 | Max Heath | 10 |
+| 14 | Changkuoth Jiath | 81 |
+| 28 | Brody Mihocek | 167 |
+| 35 | Harry Petty | 114 |
+| 10 | Daniel Turner | 49 |
+| 2 | Jacob Rooyen | 71 |
 
 Realistic 2026 finish: **8th–13th**.
 
@@ -566,32 +639,38 @@ St Kilda sit 6th for disposals **[data]** and 2nd for kicks **[data]** (232.9/g)
 
 The list philosophy is sound — Wanganeen-Milera and Marshall are genuine cornerstones — but the 5.7% efficiency rate over 88 picks is not a small-sample anomaly. It is a two-decade pattern. The absence of a top-five pick window (average pick 41.2) contributes, but clubs using comparable average pick positions (Collingwood at 40.1, Port at 40.0) convert at 12.9% and 8.4% respectively. The efficiency gap is structural, not purely positional.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 16 | Dan Butler | 2014 | 67 | B+ | 157 |
-| 47 | Anthony Caminiti | — | — | — | — |
 | 18 | Jack Carroll | 2020 | 41 | C | 36 |
-| 21 | Tom Koning | — | — | — | — |
 | 9 | Sam Flanders | 2019 | 11 | B+ | 101 |
 | 34 | Hugo Garcia | 2023 | 50 | C+ | 40 |
-| 40 | Max Hall | — | — | — | — |
 | 23 | Liam Henry | 2019 | 9 | C+ | 66 |
-| 8 | Bradley Hill | 2011 | 33 | B+ | 291 |
+| 8 | Bradley Hill | 2011 | 33 | — | 291 |
 | 20 | Dougal Howard | 2014 | 56 | C+ | 144 |
 | 6 | Jack Macrae | 2012 | 6 | A+ | 279 |
-| 19 | Rowan Marshall | — | — | — | — |
-| 45 | Liam Oconnell | — | — | — | — |
-| 10 | Mitch Owens | — | — | — | — |
 | 25 | Mattaes Phillipou | 2022 | 10 | B | 57 |
-| 43 | Cooper Sharman | — | — | — | — |
 | 3 | Jack Silvagni | 2015 | 53 | B | 142 |
-| 35 | Jack Sinclair | — | — | — | — |
 | 14 | Liam Stocker | 2018 | 19 | C+ | 93 |
 | 7 | Nasiah Wanganeen-Milera | 2021 | 11 | A | 96 |
-| 44 | Callum Wilkie | — | — | — | — |
 | 2 | Marcus Windhager | 2021 | 47 | B | 89 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 47 | Anthony Caminiti | 67 |
+| 21 | Tom Koning | 114 |
+| 40 | Max Hall | 37 |
+| 19 | Rowan Marshall | 169 |
+| 45 | Liam Oconnell | 12 |
+| 10 | Mitch Owens | 83 |
+| 43 | Cooper Sharman | 84 |
+| 35 | Jack Sinclair | 224 |
+| 44 | Callum Wilkie | 169 |
 
 Realistic 2026 finish: **7th–12th**.
 
@@ -605,19 +684,15 @@ Essendon sit 13th for disposals **[data]**, 18th for inside-50s **[data]** (45.9
 
 The supplements-era shadow is visible in the data: the elite picks cluster in the 2005–2015 window; the 2016–2025 cohort has not yet produced a confirmed A/A+ career. Five seasons of developmental disruption produced a gap in the pipeline that has not been filled. Whether Nate Caddy at key forward and the 2021–2025 draft cohort finally deliver an A-grade suggests the mid-2020s drought is ending — but it has not ended yet.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
-| 46 | Lachlan Blakiston | — | — | — | — |
 | 30 | Nate Caddy | 2023 | 10 | C | 40 |
 | 6 | Jye Caldwell | 2018 | 11 | B | 99 |
 | 13 | Nik Cox | 2020 | 8 | C+ | 59 |
-| 44 | Archer Day-Wicks | — | — | — | — |
-| 22 | Sam Durham | — | — | — | — |
 | 28 | Xavier Duursma | 2018 | 18 | C+ | 124 |
-| 45 | Tom Edwards | — | — | — | — |
-| 41 | Saad El-Hawli | — | — | — | — |
 | 2 | Jacob Farrow | 2025 | 10 | D | 12 |
 | 11 | Jade Gresham | 2015 | 18 | B+ | 184 |
 | 29 | Max Kondogiannis | 2025 | 36 | D | 5 |
@@ -625,12 +700,22 @@ The supplements-era shadow is visible in the data: the elite picks cluster in th
 | 1 | Andrew Mcgrath | 2016 | 1 | B+ | 191 |
 | 32 | Ben Mckay | 2015 | 21 | B | 116 |
 | 7 | Zach Merrett | 2013 | 26 | A+ | 265 |
-| 42 | Jayden Nguyen | — | — | — | — |
 | 25 | Jaxon Prior | 2019 | 59 | C+ | 75 |
 | 31 | Zach Reid | 2020 | 10 | C+ | 33 |
 | 21 | Archie Roberts | 2023 | 54 | C+ | 41 |
 | 9 | Sullivan Robey | 2025 | 9 | D | 10 |
 | 15 | Dyson Sharp | 2025 | 13 | D | 6 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 46 | Lachlan Blakiston | 24 |
+| 44 | Archer Day-Wicks | 17 |
+| 22 | Sam Durham | 103 |
+| 45 | Tom Edwards | 9 |
+| 41 | Saad El-Hawli | 15 |
+| 42 | Jayden Nguyen | 9 |
 
 Realistic 2026 finish: **11th–15th**.
 
@@ -644,11 +729,11 @@ North Melbourne sit 7th for disposals **[data]**, 4th for clearances **[data]** 
 
 Jason Horne-Francis (2021 pick 1, 93 games, A) **[data]** was traded to Port Adelaide in 2023 — North's most significant retention failure in this period. The club used the top pick in the competition and did not keep him. Rebuilds that lose pick-1 outcomes cannot afford to repeat the pattern.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
-| 39 | Tom Blamires | — | — | — | — |
 | 30 | Charlie Comben | 2019 | 31 | B | 60 |
 | 4 | Aidan Corr | 2012 | 14 | C+ | 178 |
 | 25 | Paul Curtis | 2021 | 35 | C+ | 91 |
@@ -668,8 +753,14 @@ Jason Horne-Francis (2021 pick 1, 93 games, A) **[data]** was traded to Port Ade
 | 12 | Jy Simpkin | 2016 | 12 | B+ | 186 |
 | 13 | Charlie Spargo | 2017 | 29 | C+ | 117 |
 | 15 | Dylan Stephens | 2019 | 5 | C+ | 94 |
-| 47 | Cooper Trembath | — | — | — | — |
 | 38 | Tristan Xerri | 2017 | 72 | A | 86 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 39 | Tom Blamires | 10 |
+| 47 | Cooper Trembath | 16 |
 
 Realistic 2026 finish: **13th–17th**.
 
@@ -683,32 +774,38 @@ Richmond sit 18th for disposals **[data]** (328.9/g), 18th for goals **[data]** 
 
 The post-dynasty void is equally stark: from 2010 to 2025, Richmond drafted 60+ players and produced two confirmed A-grade outcomes — Vlastuin (2012 pick 9) **[data]** and Bolton (2016 pick 29). From 2018 to 2025 — zero confirmed A/A+ grades from 32 National Draft picks. **[data]** Sam Lalor (2024 pick 1, graded C+ at 18 games) **[data]** is the current return from the highest-value pick available. The data does not say Lalor cannot grade A+; it says 18 games is too small a sample to know. What the data does say is that the rebuilding operation has had 32 picks since 2017 without an elite outcome — a more extended drought than the premiership era that preceded it.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
 | 21 | Noah Balta | 2017 | 25 | B | 129 |
 | 35 | Nathan Broad | 2015 | 67 | C+ | 182 |
 | 30 | Tom Brown | 2021 | 17 | C+ | 50 |
-| 45 | Tom Burton | — | — | — | — |
-| 44 | Seth Campbell | — | — | — | — |
 | 22 | Sam Cumming | 2025 | 7 | D | 7 |
 | 8 | Jonty Faull | 2024 | 14 | C | 26 |
-| 50 | Campbell Gray | — | — | — | — |
 | 48 | Steely Green | 2022 | 55 | C | 38 |
 | 24 | Sam Grlj | 2025 | 8 | D | 12 |
-| 47 | Oliver Hayes-Brown | — | — | — | — |
 | 2 | Jacob Hopper | 2015 | 7 | B+ | 177 |
-| 42 | Mykelti Lefau | — | — | — | — |
-| 19 | Tom Lynch | 2008 | 13 | A | 164 |
+| 19 | Tom Lynch | 2008 | 13 | A | 243 |
 | 28 | Kane Mcauliffe | 2023 | 40 | C | 20 |
 | 12 | Ben Miller | 2017 | 63 | C+ | 82 |
 | 3 | Dion Prestia | 2010 | 9 | A | 246 |
-| 33 | Patrick Retschko | — | — | — | — |
 | 5 | Jack Ross | 2018 | 43 | B | 105 |
-| 15 | Jayden Short | — | — | — | — |
 | 40 | Tyler Sonsie | 2021 | 28 | C+ | 51 |
-| 36 | James Trezise | — | — | — | — |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 45 | Tom Burton | 4 |
+| 44 | Seth Campbell | 55 |
+| 50 | Campbell Gray | 11 |
+| 47 | Oliver Hayes-Brown | 6 |
+| 42 | Mykelti Lefau | 22 |
+| 33 | Patrick Retschko | 7 |
+| 15 | Jayden Short | 201 |
+| 36 | James Trezise | 32 |
 
 Realistic 2026 finish: **16th–18th**.
 
@@ -722,12 +819,11 @@ West Coast sit 17th for disposals **[data]** (329.6/g), 17th for goals **[data]*
 
 The 2018 flag was the endpoint. The 2018–2024 window produced no confirmed A/A+ picks. The infrastructure that delivered 11.5% efficiency appears to have not survived the list exodus: Allen, Barrass, Chesser all departed in 2024–2025, hollowing the senior tall and outside-class stocks at the exact moment the young core (Reid, Ginbey) needs experienced players around it. Whether the 11.5% historical efficiency reflects a permanent capability or a dynasty-era asset that has since declined is the key question. Reid's grade, when sufficient games are played, will be the first answer.
 
-**Selected 22 — Round 9** **[data]**
 
-| # | Player | Drafted | Pick | Grade | Games |
+**National Draft players — Round 9 selected 22** **[data]**
+
+| # | Player | Draft year | Pick | Grade | Games |
 |---|---|---|---|---|---|
-| 3 | Liam Baker | — | — | — | — |
-| 37 | Malakai Champion | — | — | — | — |
 | 28 | Tom Cole | 2015 | 36 | C+ | 139 |
 | 38 | Hamish Davis | 2024 | 65 | C | 22 |
 | 21 | Cooper Duff-Tytler | 2025 | 4 | D | 11 |
@@ -738,16 +834,23 @@ The 2018 flag was the endpoint. The 2018–2024 window produced no confirmed A/A
 | 19 | Brady Hough | 2021 | 31 | B | 89 |
 | 11 | Tim Kelly | 2017 | 24 | A | 177 |
 | 5 | Josh Lindsay | 2025 | 19 | D | 12 |
-| 23 | Ryan Maric | — | — | — | — |
-| 18 | Tom Mccarthy | — | — | — | — |
-| 47 | Milan Murdock | — | — | — | — |
-| 16 | Matthew Owies | — | — | — | — |
 | 9 | Harley Reid | 2023 | 1 | B | 53 |
 | 48 | Harry Schoenberg | 2019 | 24 | C+ | 67 |
 | 35 | Jobe Shanahan | 2024 | 30 | C | 23 |
 | 2 | Jake Waterman | 2016 | 77 | A | 126 |
 | 32 | Bailey Williams | 2018 | 35 | B | 98 |
 | 6 | Elliot Yeo | 2011 | 30 | A | 224 |
+
+**Via trade, rookie draft, or non-National-Draft pathway** **[data]**
+
+| # | Player | Games |
+|---|---|---|
+| 3 | Liam Baker | 164 |
+| 37 | Malakai Champion | 10 |
+| 23 | Ryan Maric | 60 |
+| 18 | Tom Mccarthy | 23 |
+| 47 | Milan Murdock | 11 |
+| 16 | Matthew Owies | 91 |
 
 Realistic 2026 finish: **16th–18th**.
 
