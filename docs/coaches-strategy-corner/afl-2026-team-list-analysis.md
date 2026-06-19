@@ -1,6 +1,6 @@
 # AFL 2026 team list analysis - all 18 clubs
 
-> [← Back to Coaches Strategy Corner](README.md) | [← Back to main README](../../README.md)
+> [← Back to Coaches Strategy Corner](README.md) | [← Back to main README](../../README.md) | [Draft & Trade Strategy →](afl-2026-draft-trade-strategy.md)
 
 This is a detailed list-construction read of every AFL club heading into mid-2026. Each section is built around nine load-bearing questions: list identity and recruiting philosophy, the cornerstone tier, the contributor tier, the development pipeline, position-by-position depth, the structural vulnerabilities, the tactical identity the personnel forces on the coach, the draft-pick trajectory ahead, and the cycle-stage outlook for 2026. Stat anchors (disposal volume, contested possessions, scoring, identity tags) are pulled from `docs/afl-team-analysis-2026.md`. Draft-pedigree details rely on football knowledge - where specific pick numbers are uncertain, the language is hedged ("approx. pick N", "early second round").
 

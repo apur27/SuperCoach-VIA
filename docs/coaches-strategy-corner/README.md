@@ -41,6 +41,8 @@ After each live read, the **FootyStrategy agent** provides a tactical interpreta
 
 For list-construction analysis of each club (who their Tier 1 players are, what draft pick they were, how list depth explains their tactical identity), see the [AFL 2026 team list analysis](afl-2026-team-list-analysis.md).
 
+For a data-grounded view of each club's draft and trade strategy — efficiency rankings, elite pick conversion rates, named A/A+ players, and what the data says each club needs — see the [AFL 2026 draft & trade strategy](afl-2026-draft-trade-strategy.md). Data source: `data/drafts/draftguru_enrichment.csv` + `data/drafts/afl_draft_history.csv`, 2004–2025.
+
 ## How to run a live match analysis
 
 End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pipeline. All commands assume the repo root as the working directory and use the project venv: `/home/abhi/sourceCode/python/coding/.venv/bin/python`.
