@@ -1,18 +1,16 @@
 ---
 name: no-agent-dispatch-tool
-description: This session env has NO Agent/Task subagent-dispatch tool — the 6 council agents cannot be spawned; Gaffer runs single-operator cycles with deterministic gates instead
+description: Agent/council dispatch availability is SESSION-DEPENDENT — sometimes the Agent tool + full council are live, sometimes absent; check the system-reminder agent-types list each session before deciding mode
 metadata:
   type: project
 ---
 
-There is no `Task`/Agent subagent-dispatch tool exposed in this Claude Code environment. Searching `select:Task` and "agent dispatch council" returns nothing — only cron/worktree/monitor/remote-trigger deferred tools exist.
+The Agent/council-dispatch capability is NOT stable across sessions. Check the `<system-reminder>` "Available agent types" block at the start of EACH session before choosing operating mode.
 
-**Why:** My contract says "commission the council chain via the Agent tool; you do not author." But with no dispatch tool, the 7-agent chain (BriefBuilder -> DataSentinel x2 -> FootyStrategy -> Skeptic -> Codex) cannot be spawned. I am the only execution surface.
+**Two observed states:**
+- **Council LIVE (e.g. 2026-06-19 free-agency cycle):** the Agent tool is exposed and lists the full council — BriefBuilder, DataSentinel, FootyStrategy, Skeptic, Scientist, plus Explore/Plan/general-purpose. Run the GENUINE chain: commission Scientist for engineering+data derivation, FootyStrategy for prose, DataSentinel to gate, Skeptic for adversarial review. Stamp honestly as a real multi-agent chain.
+- **Council ABSENT (earlier sessions):** no Task/Agent dispatch tool at all — `select:Task` and "agent dispatch" return nothing. Then run a SINGLE-OPERATOR cycle preserving the substance of every gate (deterministic Python number-matching = DataSentinel-self, adversarial control test = Skeptic-self) and stamp honestly as "single-operator cycle (no Agent dispatch tool available)" — NEVER fake a 7-agent chain.
 
-**How to apply:** When asked to orchestrate the council and no Agent tool is present, run a SINGLE-OPERATOR cycle that preserves the *substance* of every gate, and be transparent about it:
-- Do all data derivation DETERMINISTICALLY in Python — every `[data]` number re-read from the CSV, never in-token arithmetic. This is DataSentinel-style verification, which is mechanical/auditable, not interpretive authorship — it stays inside the ONE RULE.
-- Run a hard-coded DataSentinel pass that re-reads every tagged number and compares (claimed vs csv) with a PASS/FAIL table. On any FAIL, fix the doc and re-run — never ship around it. (2026-06-05 list-management-101 cycle: this caught two rank-tie overstatements — "ranked 3rd" was really "tied 3rd-4th" / "tied 2nd-3rd". Ties are the classic trap: a looser exploratory filter said one rank, the strict full-22 filter said another.)
-- Run a Skeptic-style adversarial CONTROL test (e.g. premier vs league-average) to stop the narrative overclaiming, and document concerns in a Methodology section.
-- STAMP HONESTLY: the provenance footer must say "single-operator cycle (no Agent dispatch tool available)", DataSentinel-self:PASS, Skeptic-self verdict — NOT a fabricated 7-agent chain. Faking the stamp violates the ONE RULE.
+**Why this matters:** the provenance stamp must reflect what actually happened. Faking the chain (claiming agents ran when they didn't, or vice versa) violates the ONE RULE. The mode is dictated by the tooling actually present, not by the contract's assumption that Agent always exists.
 
-If the human wants the genuine multi-agent chain, escalate: the dispatch tool must be wired into this env first. See [[council-stamp-gate-scope]] and [[enforcement-substrate-state]].
+**How to apply:** First action each cycle — read the agent-types list. If the council is there, dispatch it. If not, single-operator with honest stamp. Never assume from a prior session. See [[council-stamp-gate-scope]] and [[enforcement-substrate-state]].

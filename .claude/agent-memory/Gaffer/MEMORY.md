@@ -12,6 +12,6 @@
 - [Briefs are user-initiated only](feedback_brief_user_initiated.md) — NEVER autonomously publish a coaches-strategy-corner brief; wait for explicit user instruction
 - [Backtest n filtering](project_backtest_n_filtering.md) — doc headline n is late-out-filtered (~9 below raw CSV pool); gap expected, doc figure is canonical; per-round canonical run timestamps
 - [Eval surface auto-update](project_eval_surface_autoupdate.md) — update_eval_surface.sh refreshes README eval + banner.svg; backtest CSVs are split per-run, MUST merge all + dedupe by (year,round)
-- [No Agent dispatch tool](project_no_agent_dispatch_tool.md) — this env can't spawn the 6 council agents; run single-operator cycles w/ deterministic gates + honest stamp, never fake the 7-agent chain
+- [Agent dispatch is session-dependent](project_no_agent_dispatch_tool.md) — council availability varies per session; check system-reminder agent list first, run genuine chain if live else single-operator, stamp honestly either way
 - [Player finals data lag](project_player_finals_data_lag.md) — player CSVs lack current-season finals rounds though matches CSV has the GF; scope player-level premiership metrics to completed seasons
 - [Matches vs player-data sync](project_matches_player_sync.md) — R10 2026 truncation FIXED + fixture-aware audit live in refresh cycle; residual: R10 quarter scores=0 lower-fidelity, 2025 R1/R2 ±1 labeling boundary
