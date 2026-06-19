@@ -1,6 +1,6 @@
 # AFL 2026 — Draft & Trade Strategy by Club
 
-> [← Back to Coaches Strategy Corner](README.md) | [← Team List Analysis](afl-2026-team-list-analysis.md)
+> [← Back to Coaches Strategy Corner](README.md) | [← List Quality & Draft Pipeline](../news/2026-06-17-afl-2026-list-quality-draft-pipeline.md)
 
 Data source: `data/drafts/draftguru_enrichment.csv` joined with `data/drafts/afl_draft_history.csv`, 2004–2025 National Draft. Grades (A+/A/B+/B/C+/C) from DraftGuru.com.au. Elite = A+ or A.
 

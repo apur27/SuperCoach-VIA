@@ -35,7 +35,7 @@ The FootyStrategy agent is a tactical AFL brainstorming specialist. Where the Sc
 
 **Worked examples:**
 - Tactical brainstorm with Scientist: [Richmond vs Adelaide R9 full-time verdict](coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md) - see the "Strategic brainstorm - Scientist x FootyStrategy" section
-- All-18-club list analysis: [AFL 2026 team list analysis](coaches-strategy-corner/afl-2026-team-list-analysis.md)
+- All-18-club list analysis: [AFL 2026 list quality and draft pipeline](news/2026-06-17-afl-2026-list-quality-draft-pipeline.md)
 
 **Data limitations:** Same as Scientist - no GPS, no video, no positional data. FootyStrategy brings football knowledge, not additional data sources.
 

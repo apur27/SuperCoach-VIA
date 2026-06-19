@@ -39,7 +39,7 @@ From Round 9, briefs are now supplemented with **in-game live reads** pulled dir
 
 After each live read, the **FootyStrategy agent** provides a tactical interpretation of what the data shows - converting structural anomalies (Q3 AF collapses, positional resets, tackle-interaction effects) into coaching-language answers. FootyStrategy is invoked with `@"FootyStrategy (agent)"` and works alongside Scientist: Scientist reads the numbers, FootyStrategy answers "what does a coach actually do about this?" The post-match brainstorm for Richmond vs Adelaide R9 is the worked example - see the [full-time verdict](richmond-vs-adelaide-round-9-2026-full-time-verdict.md).
 
-For list-construction analysis of each club (who their Tier 1 players are, what draft pick they were, how list depth explains their tactical identity), see the [AFL 2026 team list analysis](afl-2026-team-list-analysis.md).
+For list-construction analysis of each club (squad union R1–R15, draft pedigree, grades, and free agency outlook), see the [AFL 2026 list quality and draft pipeline](../news/2026-06-17-afl-2026-list-quality-draft-pipeline.md).
 
 For a data-grounded view of each club's draft and trade strategy — efficiency rankings, elite pick conversion rates, named A/A+ players, and what the data says each club needs — see the [AFL 2026 draft & trade strategy](afl-2026-draft-trade-strategy.md). Data source: `data/drafts/draftguru_enrichment.csv` + `data/drafts/afl_draft_history.csv`, 2004–2025.
 

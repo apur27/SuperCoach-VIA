@@ -422,7 +422,7 @@ All paths relative to `docs/`.
 
 ### 5.2 `docs/coaches-strategy-corner/` — per-game tactical briefs
 
-**Index:** `README.md` documents the layout, methodology, and live-pipeline recipe. Also includes `afl-2026-team-list-analysis.md` (all 18 clubs by list quality / Tier 1 draft pedigree) and `generate_strategy_charts.py`.
+**Index:** `README.md` documents the layout, methodology, and live-pipeline recipe. Also includes `generate_strategy_charts.py`.
 
 **Game: Richmond vs Adelaide, Round 9 2026, M.C.G., 10 May 2026** — 10 docs:
 

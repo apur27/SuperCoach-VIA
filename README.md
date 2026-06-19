@@ -74,7 +74,7 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 | **Look up a footy or data term** | [docs/glossary.md](docs/glossary.md) | None - browser only |
 | **See how accurate the model has been (backtest + pre-registered report card)** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
-| **Get tactical analysis on an AFL team's list and draft picks** | [docs/coaches-strategy-corner/afl-2026-team-list-analysis.md](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) | None - browser only |
+| **Get tactical analysis on an AFL team's list and draft picks** | [docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md](docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md) | None - browser only |
 | **Read the AFL news desk - data-grounded long-form on current stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
 | **AI design patterns — how this maps to a production deployment (RAG, MCP, eval harness, AI Ethics, sovereign deployment)** | [docs/ai-architecture.md](docs/ai-architecture.md) | None - browser only |
 | **AI security — risks, controls, prompt injection, data poisoning, governance and secure design** | [docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo) | None - browser only |
@@ -231,7 +231,7 @@ Long-form footy journalism where the numbers are not decoration — they are the
   - [AFL history - 130 years](docs/afl-history.md)
   - [For the footy expert](docs/footy-expert-guide.md)
   - [For the coaching staff](docs/coaching-guide.md)
-  - [AFL 2026 team list analysis](docs/coaches-strategy-corner/afl-2026-team-list-analysis.md) - all 18 clubs
+  - [AFL 2026 list quality and draft pipeline](docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md) - all 18 clubs
 
 ### Further reading
 - [AI Harness 101: How to Turn a Language Model Into a System That Actually Ships](https://medium.com/@abh1shek/ai-harness-101-how-to-turn-a-language-model-into-a-system-that-actually-ships-b4d0ab5bdf21) *(Medium)* — uses this repo as the worked example: deterministic Python + bounded agent tasks + Git as audit trail

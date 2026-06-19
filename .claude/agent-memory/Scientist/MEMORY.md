@@ -22,3 +22,4 @@
 - [HoF games counter must use games_played col, not row count](hof_games_counter_gotcha.md) - compute_stat_leaders.py was patched: rank ties get `rank_label` "1=" and chart_wall_of_records joins tied co-holders.
 - [GPU "no device" = kernel module missing, not CUDA](gpu_kernel_module_missing.md) - This laptop's nvidia.ko is not built for the running kernel after kernel upgrades; userspace is fine. Also: CUDA_VISIBLE_DEVICES='' is exported in this shell.
 - [Team-profiles doc staleness is expected](team_profiles_staleness_is_expected.md) - Old mtime on afl-team-profiles.md is NOT a bug; 5yr window (2021-2025) is frozen seasons so regen no-ops. Verify by re-running the generator, not by mtime.
+- [Squad pipeline cross-club same-name collision](squad_pipeline_name_collision.md) - jersey->stats lookup must be team+era-scoped; PICK column is drift-immune detector; 5 collisions fixed 2026-06-19; small per-club games-drift is NOT a collision
