@@ -2,13 +2,12 @@
 #
 # pre-commit — council-pipeline provenance gate (harness Gap 1 + Gap 4).
 #
-# This file lives at .githooks/pre-commit and IS version-controlled.
-# To activate it after cloning, run once:
+# This hook lives in .githooks/ (version-controlled) so every fresh clone inherits
+# the gate automatically. Git is wired via:
 #
 #     git config core.hooksPath .githooks
 #
-# The check logic lives in scripts/check-council-stamp.sh (also committed)
-# so it is reviewable and shared.
+# The check logic lives in scripts/check-council-stamp.sh (also committed).
 #
 set -uo pipefail
 
