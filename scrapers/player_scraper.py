@@ -8,6 +8,9 @@ import concurrent.futures
 import requests
 import time
 
+_FINALS_WEEK = {'QF': 24, 'EF': 24, 'SF': 25, 'PF': 26, 'GF': 27}
+
+
 def get_soup(url: str) -> BeautifulSoup:
     """
     Gets a BeautifulSoup object from the given URL with a delay to avoid rate limiting.
@@ -205,7 +208,8 @@ class PlayerScraper:
                 # Infer date from year and round if 'date' column is missing
                 last_row = df.loc[df['year'].idxmax()]  # Get latest year
                 year = int(last_row['year'])
-                round_num = int(re.sub(r'\D', '', last_row['round'])) if re.sub(r'\D', '', last_row['round']) else 1
+                _numeric = re.sub(r'\D', '', last_row['round'])
+                round_num = int(_numeric) if _numeric else _FINALS_WEEK.get(str(last_row['round']).upper().strip(), 24)
                 approx_date = datetime(year, 3, 1) + timedelta(weeks=round_num - 1)  # Assume season starts March 1
                 return approx_date
             return None
@@ -247,7 +251,7 @@ class PlayerScraper:
                 # Ensure 'date' column exists in existing data
                 if 'date' not in existing_df.columns and 'year' in existing_df.columns and 'round' in existing_df.columns:
                     existing_df['date'] = existing_df.apply(
-                        lambda row: (datetime(int(row['year']), 3, 1) + timedelta(weeks=int(re.sub(r'\D', '', row['round'] or '1')) - 1)).strftime("%Y-%m-%d"),
+                        lambda row: (datetime(int(row['year']), 3, 1) + timedelta(weeks=(int(re.sub(r'\D', '', row['round'])) if re.sub(r'\D', '', str(row['round'] or '')) else _FINALS_WEEK.get(str(row['round']).upper().strip(), 24)) - 1)).strftime("%Y-%m-%d"),
                         axis=1
                     )
                 combined_df = pd.concat([existing_df, new_df]).drop_duplicates(subset=['team', 'year', 'round', 'opponent'], keep='last')
@@ -294,7 +298,8 @@ class PlayerScraper:
                 cells = [td.text.strip() for td in row.find_all('td')]
                 if len(cells) >= 26:  # Ensure enough columns for stats
                     round_str = cells[2]  # 'round' is 3rd column after team, year
-                    round_num = int(re.sub(r'\D', '', round_str)) if re.sub(r'\D', '', round_str) else 1
+                    _numeric = re.sub(r'\D', '', round_str)
+                    round_num = int(_numeric) if _numeric else _FINALS_WEEK.get(round_str.upper().strip(), 24)
                     game_date = datetime(year_int, 3, 1) + timedelta(weeks=round_num - 1)  # Approximate date
                     if since_date and game_date <= since_date:
                         continue  # Skip games before since_date
