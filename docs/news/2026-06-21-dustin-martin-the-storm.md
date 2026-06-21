@@ -183,7 +183,22 @@ What the table makes visible: Martin's 1.12 goals per game is the second-highest
 
 Across the full dataset of every player file in `data/player_data/` (13,000+ files, VFL/AFL history from 1897), three thresholds applied simultaneously — 200+ career games, 20+ disposals per game, 300+ career goals — return **12 players in the entire recorded history of the game** **[data: data/player_data/ ; filter=games≥200,disposals/game≥20,goals≥300 ; aggregation=count]**.
 
-Martin is one of those 12 **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; membership confirmed against threshold]**. Among players whose careers fall in the modern era (from 2000 onward), the group contains three: Gary Ablett Jr, Patrick Dangerfield, and Dustin Martin.
+| Player | Games | Disp/g | Goals | Era |
+|---|---:|---:|---:|---|
+| Leigh Matthews | 332 **[data: matthews_leigh_01031952_performance_details.csv]** | 22.2 **[data: matthews_leigh_01031952_performance_details.csv]** | 915 **[data: matthews_leigh_01031952_performance_details.csv]** | 1969–1985 |
+| Kevin Bartlett | 403 **[data: bartlett_kevin_06031947_performance_details.csv]** | 22.7 **[data: bartlett_kevin_06031947_performance_details.csv]** | 778 **[data: bartlett_kevin_06031947_performance_details.csv]** | 1965–1983 |
+| Brent Harvey | 432 **[data: harvey_brent_14051978_performance_details.csv]** | 21.3 **[data: harvey_brent_14051978_performance_details.csv]** | 518 **[data: harvey_brent_14051978_performance_details.csv]** | 1996–2016 |
+| Garry Wilson | 268 **[data: wilson_garry_17071953_performance_details.csv]** | 25.0 **[data: wilson_garry_17071953_performance_details.csv]** | 452 **[data: wilson_garry_17071953_performance_details.csv]** | 1971–1984 |
+| Gary Ablett Jr | 357 **[data: ablett_gary_14051984_performance_details.csv]** | 24.9 **[data: ablett_gary_14051984_performance_details.csv]** | 445 **[data: ablett_gary_14051984_performance_details.csv]** | 2002–2020 |
+| Patrick Dangerfield | 370 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 377 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 2008–2026 |
+| John Murphy | 246 **[data: murphy_john_20111949_performance_details.csv]** | 24.6 **[data: murphy_john_20111949_performance_details.csv]** | 374 **[data: murphy_john_20111949_performance_details.csv]** | 1967–1980 |
+| Dale Weightman | 274 **[data: weightman_dale_03101959_performance_details.csv]** | 20.8 **[data: weightman_dale_03101959_performance_details.csv]** | 344 **[data: weightman_dale_03101959_performance_details.csv]** | 1978–1993 |
+| James Hird | 253 **[data: hird_james_04021973_performance_details.csv]** | 20.1 **[data: hird_james_04021973_performance_details.csv]** | 343 **[data: hird_james_04021973_performance_details.csv]** | 1992–2007 |
+| **Dustin Martin** | **302** **[data: martin_dustin_26061991_performance_details.csv]** | **24.2** **[data: martin_dustin_26061991_performance_details.csv]** | **338** **[data: martin_dustin_26061991_performance_details.csv]** | **2010–2024** |
+| Wayne Richardson | 277 **[data: richardson_wayne_08121946_performance_details.csv]** | 23.6 **[data: richardson_wayne_08121946_performance_details.csv]** | 323 **[data: richardson_wayne_08121946_performance_details.csv]** | 1966–1978 |
+| David Clarke | 211 **[data: clarke_david_31121952_performance_details.csv]** | 21.4 **[data: clarke_david_31121952_performance_details.csv]** | 319 **[data: clarke_david_31121952_performance_details.csv]** | 1971–1982 |
+
+Among players whose careers fall in the modern era (from 2000 onward), the group contains three: Gary Ablett Jr, Patrick Dangerfield, and Dustin Martin.
 
 The three thresholds are stated precisely because the count is threshold-sensitive — shifting any boundary changes the membership. This is not a "greatest ever" claim. It is a data-defined description of what made his style distinctive: accumulating disposals at elite-midfielder volume while also finishing at a rate that belongs in a different position type. That combination, across 302 games and fifteen seasons, is what the 12-in-history count records.
 
