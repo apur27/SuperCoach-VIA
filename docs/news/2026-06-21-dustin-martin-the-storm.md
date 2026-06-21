@@ -206,18 +206,6 @@ Three premierships is not a number many AFL players carry. To be the common thre
 
 ---
 
-## 7. What Richmond Needs Now
-
-Martin is not playing in 2026 **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=year=2026 ; column=row_count ; aggregation=count]**. For Richmond's forward path from here, see the five-year strategic analysis: [2026 AFL Grand Final Strategy — all 18 clubs](./2026-06-19-afl-2026-5yr-grand-final-strategy.md).
-
-What Martin's absence creates is a structural gap that cannot be filled by adding a single player. He was not a positional role player whose responsibilities can be reassigned; he was a zone-of-influence midfielder whose game bent the shape of the opposition around him. Defenders who had to account for him as both a midfield bull and a forward-50 target were drawn away from their primary assignments. That displacement effect disappears when he does.
-
-For Richmond's five-year forward plan, the question is not "who plays his role" — that framing leads to drafting or trading for someone who superficially resembles him. The structural question is how Richmond rebuilds the quality of midfield possession (his 24.2 disposal average was the engine of their ball movement in the flag years) and how they address forward-50 conversion without the player who could manufacture goals from broken play.
-
-The five-year strategy article at the link above addresses Richmond's current list construction and what they most need from here. The Dustin Martin gap is part of the backdrop for that analysis — a five-year flag window that closed at the same time their most influential player stopped playing.
-
----
-
 ## Footnotes
 
 ¹ **Brownlow votes caveat.** The figure of 213 **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=all ; column=brownlow_votes ; aggregation=sum]** is the arithmetic sum of the `brownlow_votes` column in this repo's per-game CSV. It has not been cross-checked against the AFL's official Brownlow Medal records or any external register. Treat as a data-derived approximation, not an externally verified career total.
