@@ -79,6 +79,7 @@ for f in "${FILES[@]}"; do
   # Operational meta-docs inside docs/news/ are not council articles — skip them.
   case "$f" in
     docs/news/README.md)              SKIPPED=$((SKIPPED + 1)); continue ;;
+    docs/news/page-*.md)              SKIPPED=$((SKIPPED + 1)); continue ;;
     docs/news/sentinel-log-*.md)      SKIPPED=$((SKIPPED + 1)); continue ;;
     docs/news/council-meeting-*.md)   SKIPPED=$((SKIPPED + 1)); continue ;;
   esac
