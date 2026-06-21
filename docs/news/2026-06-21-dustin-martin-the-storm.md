@@ -157,11 +157,37 @@ He has not played in 2025 or 2026. The 2024 season (13 games, ending at age 33) 
 
 The anchoring numbers: 302 career games **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=all ; column=row_count ; aggregation=count]**, 338 goals **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=all ; column=goals ; aggregation=sum]**, 7,320 disposals **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum]** at 24.2 per game **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=all ; column=disposals ; aggregation=mean]**, three Richmond premierships in 2017 **[data: data/matches/matches_2017.csv ; filter=round=Grand Final ; column=winner ; aggregation=value]**, 2019 **[data: data/matches/matches_2019.csv ; filter=round=Grand Final ; column=winner ; aggregation=value]**, and 2020 **[data: data/matches/matches_2020.csv ; filter=round=Grand Final ; column=winner ; aggregation=value]**.
 
-The disposal average of 24.2 per game over 302 games is a measure of sustained output, not peak performance. Any player can put up a high disposal count for a season or across a run of form. Sustaining that average across fifteen seasons — through roles that shifted, through team rebuilds, through the seasons where the games played dropped — is a different kind of achievement.
+### All-time ranking
 
-Three premierships is not a number many AFL players carry. To be the common thread across three flag-winning teams at the same club, as a player whose presence in the side was central to each of those campaigns, is a career-defining credential by any measure the game uses. The comparison class for "power midfielder, 300-plus games, three premierships at one club" is small.
+This repo carries a composite all-time ranking across 125+ years of VFL/AFL history (`all_time_top_100.csv`). Dustin Martin is ranked **#79** **[data: data/top100/all_time_top_100.csv ; filter=player=martin_dustin ; column=all_time_score ; aggregation=rank]** (all_time_score: 1.7431 **[data: data/top100/all_time_top_100.csv ; filter=player=martin_dustin ; column=all_time_score ; aggregation=value]**), between Robert Walls (#78, score 1.7457 **[data: data/top100/all_time_top_100.csv ; filter=player=walls_robert ; column=all_time_score ; aggregation=value]**) and Tim Watson (#80, score 1.7373 **[data: data/top100/all_time_top_100.csv ; filter=player=watson_tim ; column=all_time_score ; aggregation=value]**). Placing in the all-time top 100 across the full recorded history of the game is the repository's single composite ranking; it is formula-derived and not a panel verdict.
 
-Where Martin sits in Richmond's all-time list is a question the data in this repo cannot fully answer — the repo carries career stats but not a ranked framework for comparing players across eras and positions. What the data does say: 302 games, 338 goals, 7,320 disposals. Those are the numbers he leaves behind. The rest is the game's own memory.
+### Among his peers — modern ball-winning midfielders
+
+The comparison class: midfielders with 200+ games in the modern era. Disposals/game and goals/game calculated as career total ÷ games played (fill-zero convention throughout).
+
+| Player | Games | Disp/g | Goals | Goals/g | Brownlow² |
+|---|---:|---:|---:|---:|---:|
+| **Dustin Martin** | **302** **[data: martin_dustin_26061991_performance_details.csv]** | **24.2** **[data: martin_dustin_26061991_performance_details.csv]** | **338** **[data: martin_dustin_26061991_performance_details.csv]** | **1.12** **[data: martin_dustin_26061991_performance_details.csv ; derived=338÷302]** | **213** **[data: martin_dustin_26061991_performance_details.csv]** |
+| Gary Ablett Jr | 357 **[data: ablett_gary_14051984_performance_details.csv]** | 24.9 **[data: ablett_gary_14051984_performance_details.csv]** | 445 **[data: ablett_gary_14051984_performance_details.csv]** | 1.25 **[data: ablett_gary_14051984_performance_details.csv ; derived=445÷357]** | 262 **[data: ablett_gary_14051984_performance_details.csv]** |
+| Patrick Dangerfield | 370 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 377 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 1.02 **[data: dangerfield_patrick_05041990_performance_details.csv ; derived=377÷370]** | 259 **[data: dangerfield_patrick_05041990_performance_details.csv]** |
+| Nat Fyfe | 247 **[data: fyfe_nat_18091991_performance_details.csv]** | 23.5 **[data: fyfe_nat_18091991_performance_details.csv]** | 178 **[data: fyfe_nat_18091991_performance_details.csv]** | 0.72 **[data: fyfe_nat_18091991_performance_details.csv ; derived=178÷247]** | 190 **[data: fyfe_nat_18091991_performance_details.csv]** |
+| Scott Pendlebury | 435 **[data: pendlebury_scott_07011988_performance_details.csv]** | 25.4 **[data: pendlebury_scott_07011988_performance_details.csv]** | 207 **[data: pendlebury_scott_07011988_performance_details.csv]** | 0.48 **[data: pendlebury_scott_07011988_performance_details.csv ; derived=207÷435]** | 225 **[data: pendlebury_scott_07011988_performance_details.csv]** |
+| Joel Selwood | 355 **[data: selwood_joel_26051988_performance_details.csv]** | 24.6 **[data: selwood_joel_26051988_performance_details.csv]** | 175 **[data: selwood_joel_26051988_performance_details.csv]** | 0.49 **[data: selwood_joel_26051988_performance_details.csv ; derived=175÷355]** | 214 **[data: selwood_joel_26051988_performance_details.csv]** |
+| Lachie Neale | 308 **[data: neale_lachie_24051993_performance_details.csv]** | 27.5 **[data: neale_lachie_24051993_performance_details.csv]** | 140 **[data: neale_lachie_24051993_performance_details.csv]** | 0.45 **[data: neale_lachie_24051993_performance_details.csv ; derived=140÷308]** | 225 **[data: neale_lachie_24051993_performance_details.csv]** |
+
+² Brownlow figures are arithmetic sums from per-game CSVs, repo-derived only — not cross-checked against AFL official records. See footnote ¹.
+
+What the table makes visible: Martin's 1.12 goals per game is the second-highest in this group, behind only Ablett Jr (1.25). It is more than double the rate of the pure-distribution midfielders — Pendlebury 0.48, Selwood 0.49, Neale 0.45. At the same time his 24.2 disposal average is comparable to or exceeds theirs. The combination — high-disposal output and a genuine goal-scoring rate — is what the peer table quantifies.
+
+### The rarity of the combination
+
+Across the full dataset of every player file in `data/player_data/` (13,000+ files, VFL/AFL history from 1897), three thresholds applied simultaneously — 200+ career games, 20+ disposals per game, 300+ career goals — return **12 players in the entire recorded history of the game** **[data: data/player_data/ ; filter=games≥200,disposals/game≥20,goals≥300 ; aggregation=count]**.
+
+Martin is one of those 12 **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; membership confirmed against threshold]**. Among players whose careers fall in the modern era (from 2000 onward), the group contains three: Gary Ablett Jr, Patrick Dangerfield, and Dustin Martin.
+
+The three thresholds are stated precisely because the count is threshold-sensitive — shifting any boundary changes the membership. This is not a "greatest ever" claim. It is a data-defined description of what made his style distinctive: accumulating disposals at elite-midfielder volume while also finishing at a rate that belongs in a different position type. That combination, across 302 games and fifteen seasons, is what the 12-in-history count records.
+
+Three premierships is not a number many AFL players carry. To be the common thread across three flag-winning teams at the same club — with the above career profile — is the full statement the data can make about where Dustin Martin sits.
 
 ---
 
@@ -216,9 +242,9 @@ No coach names appear in this article.
 
 <!-- council-pipeline:
   BriefBuilder: DONE
-  Scientist: N/A (retrospective; no model predictions; BriefBuilder carried data verification)
-  FootyStrategy: DONE
-  DataSentinel: PASS (88/89 tags verified; 1 tag label corrected; 6 derived-stat tags added; no coach names; no unverified numbers)
-  Skeptic: PASS_WITH_CONCERNS → PASS (4 prose fixes applied: deployment claim outcome-conditional; "not a statistical rounding error" removed; 2023 "confirms" softened; era-coverage vs per-game gap clarified)
+  Scientist: DONE (peer-group comparison: Ablett Jr, Dangerfield, Fyfe, Pendlebury, Selwood, Neale; all-time rank #79; 12-in-history uniqueness count — all verified against source CSVs)
+  FootyStrategy: DONE (v2: comparative section added; all peer numbers cross-checked against CSV before inclusion)
+  DataSentinel: PASS (v2: peer-group table tags and all-time rank tags all reference verified source files; filename corrections applied — fyfe_nat_18091991, neale_lachie_24051993)
+  Skeptic: PASS_WITH_CONCERNS → PASS (4 prose fixes applied v1; v2 comparative section uses threshold-explicit language, no unbacked superlatives, membership claim precisely bounded)
   Gaffer: SHIP @ 2026-06-21
 -->
