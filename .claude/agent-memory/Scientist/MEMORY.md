@@ -2,6 +2,7 @@
 
 - [Match-round audit (R10 2026 bug guard)](match_round_audit.md) - audit_match_rounds() in game_scraper.py; fixture-aware (fetch_round_fixture from afltables season page), exact, names missing matchups, no threshold
 - [Reconciliation source: afltables player page](reconciliation_source_afltables_player.md) - all-season Totals row maps 1:1 to our CSV cols; second source of truth for missing PLAYER stat rows (Pendlebury bug); career-level not per-game
+- [AFL data source URL map](afl_data_source_urls.md) - afltables = only scrapable structured source (ladder/stats); AFL.com.au /ladder & /stats are empty SPA shells; FA status is article prose only
 - [Backtest doc verification](backtest_doc_verification.md) - afl-backtest-2026.md has 3 sections that drift to different round windows; canonical sources + 4486/4806 (NaN-actual) reconciliation
 - [All-time ranking formula constraints](all_time_formula.md) - Rank-based formula trade-offs; data supports Matthews #1 over Carey, expert lists don't
 - [No position column in player data](data_no_position.md) - Player CSVs lack a `position` field; per-position analysis requires a new data source
@@ -22,4 +23,6 @@
 - [HoF games counter must use games_played col, not row count](hof_games_counter_gotcha.md) - compute_stat_leaders.py was patched: rank ties get `rank_label` "1=" and chart_wall_of_records joins tied co-holders.
 - [GPU "no device" = kernel module missing, not CUDA](gpu_kernel_module_missing.md) - This laptop's nvidia.ko is not built for the running kernel after kernel upgrades; userspace is fine. Also: CUDA_VISIBLE_DEVICES='' is exported in this shell.
 - [Team-profiles doc staleness is expected](team_profiles_staleness_is_expected.md) - Old mtime on afl-team-profiles.md is NOT a bug; 5yr window (2021-2025) is frozen seasons so regen no-ops. Verify by re-running the generator, not by mtime.
+- [games_played gap detector false positives](games_played_gap_detector.md) - to_numeric+dropna scan flags ~1453 phantom gaps from ↓/↑ sub markers; extract leading digits instead; real count was 17
 - [Squad pipeline cross-club same-name collision](squad_pipeline_name_collision.md) - jersey->stats lookup must be team+era-scoped; PICK column is drift-immune detector; 5 collisions fixed 2026-06-19; small per-club games-drift is NOT a collision
+- [Finals-round games_played gap: detect + re-scrape recipe](finals_gap_rescrape_recipe.md) - games_played=afltables career counter; gap=missing rows; repair via delete+full _process_player (fresh write skips dedup, preserves drawn-GF); link resolution + born-date disambig for same-name; 202 files fixed 2026-06-21
