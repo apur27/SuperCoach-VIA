@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-15 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-15. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -39,7 +39,7 @@ Goals are the simplest, oldest, most reliable stat in AFL/VFL history. Every tea
 | 13 | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 | 796 | 2.22 |
 | 14 | Jack Riewoldt **[data]** | Richmond | 2007-2023 | 347 | 787 | 2.27 |
 | 15 | Kevin Bartlett **[data]** | Richmond | 1965-1983 | 403 | 778 | 1.93 |
-| 16 | Jeremy Cameron **[data]** | Geelong - Greater Western Sydney | 2012-2026 | 293 | 768 | 2.62 |
+| 16 | Jeremy Cameron **[data]** | Geelong - Greater Western Sydney | 2012-2026 | 294 | 775 | 2.64 |
 | 17 | Saverio Rocca **[data]** | Collingwood - Kangaroos | 1992-2006 | 257 | 748 | 2.91 |
 | 18 | Barry Hall **[data]** | St Kilda - Sydney - Western Bulldogs | 1996-2011 | 289 | 746 | 2.58 |
 | 19 | Stephen Kernahan **[data]** | Carlton | 1986-1997 | 251 | 738 | 2.94 |

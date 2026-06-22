@@ -19,12 +19,12 @@ Live season data, historical analysis, and guides for footy fans and coaches.
 
 ## Round 9 — Week in Review
 
-**Disposal leaders (season through Round 15):** Nick Daicos (Collingwood) leads the competition at **34.9 per game** [data], with Bailey Smith (Geelong) at **32.3** [data] and Clayton Oliver (GWS) at **31.7** [data] — all more than double the league average of 15.3 [data].
+**Disposal leaders (rounds 1–16):** Nick Daicos (Collingwood) leads the competition at **35.4 per game** [data], with Bailey Smith (Geelong) at **32.3** [data] and Clayton Oliver (GWS) at **31.5** [data] — all more than double the league mean of **15.2 per game** [data].
 
-**Ladder:** Sydney's average winning margin of **+36.3 points** [data] places them 2.1 points clear of second-placed Fremantle (**+34.2** [data]), with a steep drop to Geelong in third (**+16.1** [data]) — the clearest sign of a two-team tier forming at the top.
+**Ladder:** Sydney sit atop the margin table with a **+36.3-point average margin** [data], 4.1 points clear of Fremantle (**+32.2** [data]) — the two-team tier at the top is the clearest structural shift of the half-season.
 
-**Watch in Round 16:** Bailey Smith (Geelong) tops the model's next-round projections at **29.0 predicted disposals** [data] — consistent with his 32.3 season average and second-ranked inside-50 delivery rate (**6.86 per game** [data]).
+**Watch in Round 17:** Nick Daicos (Collingwood) is the model's top projected disposal getter at **29.0** [data] — the only player reaching that threshold in next-round forecasts, consistent with his league-leading season average.
 
-**Tactical note:** Marks inside 50 carries the strongest predictive link to forward output in this dataset (r = +0.68 with goals [data]) — teams generating marking contests inside the arc, not just entries, are where the scoring gaps between the ladder's top and bottom have opened.
+**Tactical note:** Marks inside 50 is the dataset's strongest single predictor of forward output (r = +0.67 with goals [data]); Jack Gunston leads that leaderboard at **4.56 per game** [data], with Hawthorn's **99.1-point scoring average** [data] reflecting the compounding value of manufacturing marking contests inside the arc.
 
 The **FootyStrategy agent** (`@"FootyStrategy (agent)"` in Claude Code) complements Scientist with AFL tactical knowledge - use it to interpret what the data means on the ground. See [coaching-guide.md](coaching-guide.md#leveraging-the-footystrategy-agent) for the full workflow.

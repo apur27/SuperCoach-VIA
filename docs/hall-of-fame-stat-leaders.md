@@ -2,7 +2,7 @@
   BriefBuilder: N/A (navigation hub, no data skeleton required)
   Scientist: N/A (no [data] tags to derive)
   FootyStrategy: N/A (no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-15 (link integrity verified — all 13 sub-pages exist on disk; no untagged data claims found)
+  DataSentinel: PASS @ 2026-06-22 (link integrity verified — all 13 sub-pages exist on disk; no untagged data claims found)
   Skeptic: PASS @ 2026-05-30 (navigation-only page; no causal claims, no "forgotten" framing to probe)
   Gaffer: APPROVED @ 2026-05-30
 -->
@@ -12,7 +12,7 @@
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
-*Last refreshed: 2026-06-15. Every number on every sub-page is re-aggregated from 13,329 player career files in `data/player_data/`.*
+*Last refreshed: 2026-06-22. Every number on every sub-page is re-aggregated from 13,329 player career files in `data/player_data/`.*
 
 The [top 100 list](hall-of-fame-top100.md) is era-normalised: it asks who was furthest above the standard of their own era. This hub asks the simpler, blunter question - **who has the biggest career numbers, full stop.** No z-scores, no era adjustments. Just the raw ledger.
 
@@ -28,15 +28,15 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 |------|------|-----------------------------------------|
 | Career goals | [Goals leaderboard](hall-of-fame-stat-goals.md) | Tony Lockett 1,360 **[data]** |
 | Career games | [Games leaderboard](hall-of-fame-stat-games.md) | Scott Pendlebury 435 **[data]** |
-| Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 10,986 **[data]** |
+| Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 11,028 **[data]** |
 | Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |
-| Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,001 **[data]** |
-| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,655 **[data]** |
-| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,970 **[data]** |
+| Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |
+| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,704 **[data]** |
+| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,979 **[data]** |
 | Career hit-outs | [Hit-outs leaderboard](hall-of-fame-stat-hitouts.md) | Todd Goldstein 10,597 **[data]** |
 | Career Brownlow votes | [Brownlow leaderboard](hall-of-fame-stat-brownlow.md) | Gary Ablett jnr 262 **[data]** |
 | Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 328 **[data]** |
-| Career kicks and handballs | [Kicks & handballs split](hall-of-fame-stat-kicks-handballs.md) | Bartlett (kicks) 8,293; Pendlebury (handballs) 5,504 **[data]** |
+| Career kicks and handballs | [Kicks & handballs split](hall-of-fame-stat-kicks-handballs.md) | Bartlett (kicks) 8,293; Pendlebury (handballs) 5,531 **[data]** |
 | Single-season peaks | [Single-season records](hall-of-fame-stat-single-season.md) | Hudson/Pratt 150 goals; Macrae 880 disposals; Cripps 45 Brownlow votes **[data]** |
 | Forgotten heroes | [100 Forgotten Heroes](hall-of-fame-forgotten-heroes.md) | Underappreciated players across 8 categories — Quiet Workhorses, Ruck Gods, Defensive Anchors, Goal Machines, One-Club Servants, Pre-TV Era, Handball Kings, Short But Brilliant |
 
@@ -62,7 +62,7 @@ Three structural shifts visible across multiple sub-pages.
 
 **The goals leaderboard is a museum; the disposal leaderboard is a stock exchange.** Of the top six career goalkickers (Lockett, Coventry, Dunstall, Franklin, Wade, Ablett snr), exactly one - Franklin - played a game after the year 2000. Of the top twenty career disposal-getters, exactly one - Bartlett - played a game before 1988. These two lists do not overlap because they are measuring two different sports. The structural read is on the [goals page](hall-of-fame-stat-goals.md) and the [disposals page](hall-of-fame-stat-disposals.md).
 
-**The kick-to-handball ratio has flipped over 50 years.** Bartlett's career ratio: 8,293 kicks / 858 handballs ≈ 9.7-to-1 **[data]**. Pendlebury's career ratio: 5,482 kicks / 5,504 handballs ≈ 1-to-1 **[data]**. The AFL has moved from a kicking sport with occasional handballs to a handball-chains sport with kicks used as territory-changing moments. See the [kicks-and-handballs page](hall-of-fame-stat-kicks-handballs.md) for the full breakdown.
+**The kick-to-handball ratio has flipped over 50 years.** Bartlett's career ratio: 8,293 kicks / 858 handballs ≈ 9.7-to-1 **[data]**. Pendlebury's career ratio: 5,497 kicks / 5,531 handballs ≈ 1-to-1 **[data]**. The AFL has moved from a kicking sport with occasional handballs to a handball-chains sport with kicks used as territory-changing moments. See the [kicks-and-handballs page](hall-of-fame-stat-kicks-handballs.md) for the full breakdown.
 
 **The Pendlebury name appears on six of the twelve sub-pages.** #1 in games **[data]**, #1 in disposals **[data]**, #1 in tackles **[data]**, #1 in handballs **[data]**, #1 in goal assists **[data]**, #4 in Brownlow votes **[data]**, #2 in contested possessions **[data]**, #3 in clearances **[data]**. No other player in football history has appeared at the top of so many career stat tables. Whether this is a measurement of greatness or of longevity-with-volume is the question the [top 100](hall-of-fame-top100.md) page is built to answer. The volume tables tell one half of the story; the era-normalised list tells the other.
 

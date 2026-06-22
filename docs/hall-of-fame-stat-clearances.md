@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-15 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Published: 2026-05-25. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Published: 2026-05-25. Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -24,34 +24,34 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 
 | # | Player | Club(s) | Span | Games | Clearances | Per game |
 |--:|--------|---------|------|------:|-----------:|---------:|
-| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,970 | 6.40 |
-| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 370 | 1,900 | 5.14 |
-| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 1,887 | 4.34 |
+| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,979 | 6.43 |
+| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 1,916 | 5.16 |
+| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 1,891 | 4.35 |
 | 4 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,846 | 5.20 |
 | 5 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 1,809 | 6.24 |
 | 6 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 1,801 | 5.47 |
-| 7 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 243 | 1,720 | 7.08 |
+| 7 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 244 | 1,727 | 7.08 |
 | 8 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 1,715 | 5.33 |
-| 9 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 261 | 1,646 | 6.31 |
+| 9 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 262 | 1,651 | 6.30 |
 | 10 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,585 | 4.10 |
-| 11 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 328 | 1,580 | 4.82 |
+| 11 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 1,581 | 4.81 |
 | 12 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,545 | 4.33 |
 | 13 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 1,499 | 5.37 |
 | 14 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 1,494 | 3.97 |
 | 15 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,473 | 6.14 |
 | 16 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 1,441 | 4.71 |
-| 17 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 218 | 1,435 | 6.58 |
-| 18 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 272 | 1,432 | 5.26 |
+| 17 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 219 | 1,440 | 6.58 |
+| 18 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 1,445 | 5.29 |
 | 19 | Scott Thompson **[data]** | Adelaide - Melbourne | 2001-2017 | 308 | 1,423 | 4.62 |
 | 20 | Callan Ward **[data]** | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 1,420 | 4.34 |
 
 ## FootyStrategy tactical read
 
-**Neale's run at 2,000.** Lachie Neale 1,970 clearances **[data]** in 308 games is the active leader, on a per-game rate of 6.38 that no full-career midfielder has matched. Dangerfield 1,900 **[data]** and Pendlebury 1,887 **[data]** sit close behind, but neither will overhaul Neale's lead if he plays out another season. *Structuralist lens:* Neale's role at Brisbane has been the textbook centre-square clearance midfielder - first option at every centre bounce, first body to the stoppage, with the disposal skill to redirect under pressure. The 6-clearance-per-game ceiling that 2000s midfielders rarely cleared is now Neale's floor.
+**Neale's run at 2,000.** Lachie Neale 1,979 clearances **[data]** in 308 games is the active leader, on a per-game rate of 6.38 that no full-career midfielder has matched. Dangerfield 1,916 **[data]** and Pendlebury 1,891 **[data]** sit close behind, but neither will overhaul Neale's lead if he plays out another season. *Structuralist lens:* Neale's role at Brisbane has been the textbook centre-square clearance midfielder - first option at every centre bounce, first body to the stoppage, with the disposal skill to redirect under pressure. The 6-clearance-per-game ceiling that 2000s midfielders rarely cleared is now Neale's floor.
 
 **Cripps and Oliver are the rate kings.** Cripps 7.08/game **[data]** and Oliver 6.58 **[data]** lead the per-game rates among players with 200+ games. *Tempo Architect lens:* these rates suggest the modern clearance midfielder ceiling has shifted upward by ~1 per game in the last decade. The shift correlates with rule changes (less third-man-up, more direct ruck-to-rover hand-offs) and with team structures that increasingly concentrate centre-bounce work on a single dominant midfielder rather than spreading it across three. If Cripps stays at 7+/game and plays another 5 years, his career total will clear 2,500 and break Neale's mark.
 
-**The Pendlebury volume premium.** Pendlebury 1,887 clearances **[data]** in 435 games is the lowest rate (4.34) **[data]** in the top 10. He sits #3 by accumulating moderate-rate clearance work across the longest career on the list. *Match-up Tactician lens:* his role has not been the primary centre-bounce attack midfielder for several years - in his thirties he has shifted to the back-of-the-square distribution role, where the clearance count is lower but the post-clearance disposal value is higher. The 1,878 reflects two decades of being on-field for stoppages, not high density per stoppage.
+**The Pendlebury volume premium.** Pendlebury 1,891 clearances **[data]** in 435 games is the lowest rate (4.35) **[data]** in the top 10. He sits #3 by accumulating moderate-rate clearance work across the longest career on the list. *Match-up Tactician lens:* his role has not been the primary centre-bounce attack midfielder for several years - in his thirties he has shifted to the back-of-the-square distribution role, where the clearance count is lower but the post-clearance disposal value is higher. The 1,878 reflects two decades of being on-field for stoppages, not high density per stoppage.
 
 **The Brownlow Medallist overlap.** Of the top 20, twelve are Brownlow Medallists or runners-up: Neale, Dangerfield, Selwood, Mitchell, Black, Cripps, Liberatore (was top 3 in voting), Judd, Priddis, Ablett, Cotchin (RM 2017), Fyfe (not on this list because he sits at #16 on contested possessions). *Culture Custodian lens:* the clearance midfielder is the position the Brownlow rewards because clearances correlate strongly with the umpire's contested-ball impression. The vote-getting profile is built around stoppage work; the players who win stoppages win medals.
 
