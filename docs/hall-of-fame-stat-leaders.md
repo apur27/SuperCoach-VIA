@@ -2,7 +2,7 @@
   BriefBuilder: N/A (navigation hub, no data skeleton required)
   Scientist: N/A (no [data] tags to derive)
   FootyStrategy: N/A (no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (games count corrected 435→434 to match phantom-row-corrected pendlebury CSV; link integrity re-verified)
+  DataSentinel: PASS @ 2026-06-23 (games count restored to 435; R10 Geelong game confirmed real via afltables; link integrity verified)
   Skeptic: PASS @ 2026-05-30 (navigation-only page; no causal claims, no "forgotten" framing to probe)
   Gaffer: APPROVED @ 2026-05-30
 -->
@@ -26,16 +26,16 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 
 | Stat | Page | All-time #1 (from `_stat_leaders.json`) |
 |------|------|-----------------------------------------|
-| Career goals | [Goals leaderboard](hall-of-fame-stat-goals.md) | Tony Lockett 1,360 **[data]** |
-| Career games | [Games leaderboard](hall-of-fame-stat-games.md) | Scott Pendlebury 434 **[data]** |
-| Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 11,028 **[data]** |
-| Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |
-| Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |
-| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,704 **[data]** |
-| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,979 **[data]** |
-| Career hit-outs | [Hit-outs leaderboard](hall-of-fame-stat-hitouts.md) | Todd Goldstein 10,597 **[data]** |
-| Career Brownlow votes | [Brownlow leaderboard](hall-of-fame-stat-brownlow.md) | Gary Ablett jnr 262 **[data]** |
-| Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 328 **[data]** |
+| Career goals | [Goals leaderboard](hall-of-fame-stat-goals.md) | Tony Lockett 1,360 **[data]** |<!-- HOF-HUB:career_goals -->
+| Career games | [Games leaderboard](hall-of-fame-stat-games.md) | Scott Pendlebury 435 **[data]** |<!-- HOF-HUB:career_games -->
+| Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 11,028 **[data]** |<!-- HOF-HUB:career_disposals -->
+| Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |<!-- HOF-HUB:career_marks -->
+| Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |<!-- HOF-HUB:career_tackles -->
+| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,704 **[data]** |<!-- HOF-HUB:career_contested_possessions -->
+| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,979 **[data]** |<!-- HOF-HUB:career_clearances -->
+| Career hit-outs | [Hit-outs leaderboard](hall-of-fame-stat-hitouts.md) | Todd Goldstein 10,597 **[data]** |<!-- HOF-HUB:career_hit_outs -->
+| Career Brownlow votes | [Brownlow leaderboard](hall-of-fame-stat-brownlow.md) | Gary Ablett jnr 262 **[data]** |<!-- HOF-HUB:career_brownlow_votes -->
+| Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 328 **[data]** |<!-- HOF-HUB:career_goal_assists -->
 | Career kicks and handballs | [Kicks & handballs split](hall-of-fame-stat-kicks-handballs.md) | Bartlett (kicks) 8,293; Pendlebury (handballs) 5,531 **[data]** |
 | Single-season peaks | [Single-season records](hall-of-fame-stat-single-season.md) | Hudson/Pratt 150 goals; Macrae 880 disposals; Cripps 45 Brownlow votes **[data]** |
 | Forgotten heroes | [100 Forgotten Heroes](hall-of-fame-forgotten-heroes.md) | Underappreciated players across 8 categories — Quiet Workhorses, Ruck Gods, Defensive Anchors, Goal Machines, One-Club Servants, Pre-TV Era, Handball Kings, Short But Brilliant |

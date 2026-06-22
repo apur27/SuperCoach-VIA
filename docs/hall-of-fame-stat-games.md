@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (games count corrected 435→434; phantom R10-Geelong row removed from pendlebury CSV; all [data] tags re-verified against pendlebury_scott_07011988_performance_details.csv row count = 434)
+  DataSentinel: PASS @ 2026-06-23 (games count restored to 435; R10 Collingwood vs Geelong (9 May, MCG) confirmed via afltables — was missing from matches_2026.csv not a phantom; all [data] tags verified against pendlebury CSV row count = 435)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,7 +24,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 | # | Player | Club(s) | Span | Games |
 |--:|--------|---------|------|------:|
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 434 |
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 |<!-- HOF-TOP:career_games -->
 | 2 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 |
 | 3 | Michael Tuck **[data]** | Hawthorn | 1972-1991 | 426 |
 | 4 | Shaun Burgoyne **[data]** | Hawthorn - Port Adelaide | 2002-2021 | 407 |
@@ -47,7 +47,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 ## FootyStrategy tactical read
 
-**The Pendlebury record is now outright.** Pendlebury 434 games **[data]**, Harvey 432 **[data]**, Tuck 426 **[data]**. Pendlebury drew level with Harvey at 432 in Round 12, 2026 (West Coast), missed Rounds 5, 9, 11, and 16, and holds the outright games record as of Round 14, 2026. The first 21-year career in VFL/AFL history. *Conditioner lens:* he reached this on the back of a body type ideally suited to longevity (lean midfielder, low contact mass, minimal hit-out exposure), an injury history clean of multi-month absences, and a coaching environment that has rotated his role from contested-ball winner in his twenties to outside distributor and tactical leader in his thirties.
+**The Pendlebury record is now outright.** Pendlebury 435 games **[data]**, Harvey 432 **[data]**, Tuck 426 **[data]**. Pendlebury drew level with Harvey at 432 in Round 10, 2026 (Geelong, MCG), missed Rounds 5, 9, 11, and 16, and holds the outright games record as of Round 14, 2026. The first 21-year career in VFL/AFL history. *Conditioner lens:* he reached this on the back of a body type ideally suited to longevity (lean midfielder, low contact mass, minimal hit-out exposure), an injury history clean of multi-month absences, and a coaching environment that has rotated his role from contested-ball winner in his twenties to outside distributor and tactical leader in his thirties.
 
 **Who is missing from this list - the body-type filter.** Across the top 20, exactly two are ruckmen (Madden, Tuck spent meaningful time in the ruck), one is a key forward (Hawkins), and one is a key defender (Fletcher). The remaining sixteen are smalls or mediums - flankers, midfielders, half-backs. *Match-up Tactician lens:* the position determines the contact load. Key forwards take repeated marking contests; key defenders absorb spoiling collisions; ruckmen take direct contact every centre bounce. None of these positions historically produces 400-game careers because the body cannot sustain that contact frequency for two decades. The four exceptions - Fletcher, Hawkins, Madden, Tuck - are extreme outliers whose career arcs were unusually clean of major surgeries.
 
