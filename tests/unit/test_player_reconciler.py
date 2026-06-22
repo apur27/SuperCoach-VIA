@@ -100,9 +100,21 @@ def _write_player_csv(
     return str(path)
 
 
-def _totals(**kwargs):
-    """Build an afltables-style Totals Series indexed by column codes (GM, DI...)."""
-    return pd.Series(kwargs)
+def _totals(*, year_min=1985, year_max=2026, **kwargs):
+    """
+    Build the payload ``_get_player_totals`` now returns:
+    ``{'totals': Series, 'year_min': int, 'year_max': int}``.
+
+    The default 1985-2026 year range is intentionally wide so it overlaps every
+    CSV career window used in these tests, keeping the name-collision guard
+    inert -- these tests exercise stat reconciliation, not the guard (which has
+    its own suite in test_game_scraper.py).
+    """
+    return {
+        "totals": pd.Series(kwargs),
+        "year_min": year_min,
+        "year_max": year_max,
+    }
 
 
 # ---------------------------------------------------------------------------

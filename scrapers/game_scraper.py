@@ -229,10 +229,11 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
 # the locally-scraped per-game CSV against.
 PLAYER_PROFILE_BASE_URL = "https://afltables.com/afl/stats/players/"
 
-# Per-process cache of (initial, First_Last) -> Totals row (pd.Series) or None,
-# mirroring _SEASON_SOUP_CACHE so re-auditing the same player in one run does
-# not refetch. Value is None when the page 404s or has no parseable Totals row.
-_PLAYER_TOTALS_CACHE: Dict[str, Optional["pd.Series"]] = {}
+# Per-process cache of player_url -> {'totals': Series|None, 'year_min', 'year_max'}
+# or None, mirroring _SEASON_SOUP_CACHE so re-auditing the same player in one run
+# does not refetch. Value is None when the page 404s or cannot be fetched at all;
+# the dict's 'totals' is None when no parseable Totals row exists.
+_PLAYER_TOTALS_CACHE: Dict[str, Optional[Dict[str, Any]]] = {}
 
 # Earliest season each stat is recorded league-wide on afltables. A stat is only
 # reconciled when the player's career started on/after its era floor, because a
@@ -270,12 +271,38 @@ def _player_url_from_csv_path(player_csv_path: str) -> Optional[str]:
     return f"{PLAYER_PROFILE_BASE_URL}{initial}/{first_cap}_{last_cap}.html"
 
 
-def _get_player_totals(player_url: str) -> Optional["pd.Series"]:
+def _extract_year_range(table: "pd.DataFrame") -> Tuple[Optional[int], Optional[int]]:
     """
-    Fetch the afltables profile at `player_url` and return its career "Totals"
-    row as a pandas Series (indexed by afltables column codes: GM, DI, GL, ...),
-    cached per process. Returns None if the page 404s, can't be fetched, or has
-    no table with a parseable Totals row.
+    Pull the (min, max) season year from an afltables player season table.
+
+    The season block lists one row per year with a 4-digit season (1897-2099) in
+    one of the early columns; the trailing "Totals" row carries no year. We scan
+    every cell for plausible season values and take their min/max. Returns
+    (None, None) when no year-like cell is found, so the caller can fall back to
+    running the comparison rather than misfiring the collision guard.
+    """
+    years: List[int] = []
+    year_pat = re.compile(r"^(18\d{2}|19\d{2}|20\d{2})$")
+    for val in table.to_numpy().ravel():
+        m = year_pat.match(str(val).strip())
+        if m:
+            years.append(int(m.group(1)))
+    if not years:
+        return None, None
+    return min(years), max(years)
+
+
+def _get_player_totals(player_url: str) -> Optional[Dict[str, Any]]:
+    """
+    Fetch the afltables profile at `player_url` and return a dict
+    ``{'totals': pd.Series|None, 'year_min': int|None, 'year_max': int|None}``,
+    cached per process. Returns None only if the page 404s or can't be fetched.
+
+    - ``totals`` is the career "Totals" row as a Series (indexed by afltables
+      column codes: GM, DI, GL, ...), or None when no parseable Totals row exists.
+    - ``year_min`` / ``year_max`` are the career year range parsed from the
+      season table, used by the caller's name-collision guard. Both are None when
+      no year-like cell can be found.
 
     afltables 404s pandas' default urllib User-Agent, so we fetch with requests
     (same client the rest of this module uses) and hand the HTML to read_html.
@@ -286,6 +313,8 @@ def _get_player_totals(player_url: str) -> Optional["pd.Series"]:
         return _PLAYER_TOTALS_CACHE[player_url]
 
     totals: Optional["pd.Series"] = None
+    year_min: Optional[int] = None
+    year_max: Optional[int] = None
     try:
         resp = requests.get(player_url, timeout=30)
         if resp.status_code == 404:
@@ -302,13 +331,16 @@ def _get_player_totals(player_url: str) -> Optional["pd.Series"]:
             mask = first_col.str.contains("Total", case=False, na=False)
             if mask.any():
                 totals = t[mask].iloc[0]
+                year_min, year_max = _extract_year_range(t)
                 break
     except Exception as e:
         print(f"[player-audit][info] could not parse {player_url}: {e}; skipping")
-        totals = None
+        _PLAYER_TOTALS_CACHE[player_url] = None
+        return None
 
-    _PLAYER_TOTALS_CACHE[player_url] = totals
-    return totals
+    result = {"totals": totals, "year_min": year_min, "year_max": year_max}
+    _PLAYER_TOTALS_CACHE[player_url] = result
+    return result
 
 
 def audit_player_career_totals(player_csv_path: str) -> List[Dict[str, Any]]:
@@ -349,7 +381,9 @@ def audit_player_career_totals(player_csv_path: str) -> List[Dict[str, Any]]:
     if "year" not in df.columns or df["year"].isna().all():
         print(f"[player-audit] {player}: no usable year column; skipping")
         return issues
-    career_start = int(pd.to_numeric(df["year"], errors="coerce").min())
+    csv_years = pd.to_numeric(df["year"], errors="coerce")
+    career_start = int(csv_years.min())
+    career_end = int(csv_years.max())
     if career_start < 1897:
         print(f"[player-audit] {player}: implausible career start {career_start}; skipping")
         return issues
@@ -359,9 +393,33 @@ def audit_player_career_totals(player_csv_path: str) -> List[Dict[str, Any]]:
         print(f"[player-audit] {player}: cannot derive profile URL; skipping")
         return issues
 
-    totals = _get_player_totals(player_url)
+    result = _get_player_totals(player_url)
+    if result is None:
+        return issues
+    totals = result["totals"]
     if totals is None:
         return issues
+
+    # Name-collision guard. _player_url_from_csv_path builds the profile URL from
+    # NAME ONLY, discarding the DOB in the filename, so two same-named players
+    # (Maurice Rioli Sr/Jr, the two Matthew Kennedys) resolve to the SAME page --
+    # and one of them gets reconciled against the other's career, manufacturing
+    # spurious WARNING deltas. If afltables' career year range and our CSV's range
+    # do not overlap (within a 2-year slack to tolerate a one-season scraping
+    # gap), it's the wrong player: log it and emit zero issues. When the year
+    # range is unparseable (None), fall through to the comparison so real deltas
+    # are still caught.
+    src_year_min = result.get("year_min")
+    src_year_max = result.get("year_max")
+    if src_year_min is not None and src_year_max is not None:
+        if src_year_max < career_start - 2 or src_year_min > career_end + 2:
+            print(
+                f"[player-audit][info] {player}: afltables page covers "
+                f"{src_year_min}-{src_year_max} but CSV covers "
+                f"{career_start}-{career_end}; skipped (name collision, career "
+                f"years don't overlap)"
+            )
+            return issues
 
     # (afltables Totals column, our CSV column, aggregator). Games uses max of
     # the cumulative games_played counter (object dtype); counting stats sum.
