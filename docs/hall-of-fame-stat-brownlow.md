@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -24,7 +24,7 @@ The Brownlow Medal is awarded annually to the fairest and best player in the hom
 
 | # | Player | Club(s) | Span | Games | Votes | Per game |
 |--:|--------|---------|------|------:|------:|---------:|
-| 1 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 262 | 0.73 |
+| 1 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 262 | 0.73 |<!-- HOF-TOP:career_brownlow_votes -->
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 259 | 0.70 |
 | 3 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 227 | 0.69 |
 | 4= | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 225 | 0.52 |

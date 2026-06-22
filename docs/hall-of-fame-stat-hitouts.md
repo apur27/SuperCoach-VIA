@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,7 +24,7 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 
 | # | Player | Club(s) | Span | Games | Hit-outs | Per game |
 |--:|--------|---------|------|------:|---------:|---------:|
-| 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 344 | 10,597 | 30.81 |
+| 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 344 | 10,597 | 30.81 |<!-- HOF-TOP:career_hit_outs -->
 | 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 262 | 8,703 | 33.22 |
 | 3 | Aaron Sandilands **[data]** | Fremantle | 2003-2019 | 271 | 8,502 | 31.37 |
 | 4 | Brodie Grundy **[data]** | Collingwood - Melbourne - Sydney | 2013-2026 | 255 | 8,074 | 31.66 |

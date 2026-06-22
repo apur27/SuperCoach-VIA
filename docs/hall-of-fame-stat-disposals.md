@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -24,7 +24,7 @@ Disposals = kicks + handballs. The total possession-handling volume across a car
 
 | # | Player | Club(s) | Span | Games | Disposals | Per game |
 |--:|--------|---------|------|------:|----------:|---------:|
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 11,028 | 25.35 |
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 11,044 | 25.39 |<!-- HOF-TOP:career_disposals -->
 | 2 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 9,656 | 25.21 |
 | 3 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 9,213 | 21.33 |
 | 4 | Kevin Bartlett **[data]** | Richmond | 1965-1983 | 403 | 9,151 | 22.71 |

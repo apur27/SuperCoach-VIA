@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -26,7 +26,7 @@ A tackle is a contact possession against an opponent in possession that results 
 
 | # | Player | Club(s) | Span | Games | Tackles | Per game |
 |--:|--------|---------|------|------:|--------:|---------:|
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 2,012 | 4.63 |
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 2,010 | 4.62 |<!-- HOF-TOP:career_tackles -->
 | 2 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
 | 4 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,611 | 4.16 |

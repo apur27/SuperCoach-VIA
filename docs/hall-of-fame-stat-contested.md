@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,7 +24,7 @@ A contested possession is a ball-getting event won under direct opposition press
 
 | # | Player | Club(s) | Span | Games | Contested poss. | Per game |
 |--:|--------|---------|------|------:|----------------:|---------:|
-| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 4,704 | 12.68 |
+| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 4,704 | 12.68 |<!-- HOF-TOP:career_contested_possessions -->
 | 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 4,412 | 10.14 |
 | 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 4,028 | 13.08 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |

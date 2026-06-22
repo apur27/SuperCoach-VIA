@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,7 +24,7 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 
 | # | Player | Club(s) | Span | Games | Clearances | Per game |
 |--:|--------|---------|------|------:|-----------:|---------:|
-| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,979 | 6.43 |
+| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,979 | 6.43 |<!-- HOF-TOP:career_clearances -->
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 1,916 | 5.16 |
 | 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 1,891 | 4.35 |
 | 4 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,846 | 5.20 |

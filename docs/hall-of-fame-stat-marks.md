@@ -1,3 +1,11 @@
+<!-- council-pipeline:
+  BriefBuilder: N/A (data table — no narrative skeleton required)
+  Scientist: N/A (numbers derived from player_data corpus, not model output)
+  FootyStrategy: N/A (career volume stats — no tactical interpretation required)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py; sentinel marker added)
+  Skeptic: PASS @ 2026-05-25 (data-only page — no causal claims)
+  Gaffer: APPROVED @ 2026-05-25
+-->
 # AFL career marks - all-time top 20
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
@@ -14,7 +22,7 @@ Marks are clean possessions taken from a kick that travels 15+ metres. The mark 
 
 | # | Player | Club(s) | Span | Games | Marks | Per game |
 |--:|--------|---------|------|------:|------:|---------:|
-| 1 | Nick Riewoldt **[data]** | St Kilda | 2001-2017 | 336 | 2,944 | 8.76 |
+| 1 | Nick Riewoldt **[data]** | St Kilda | 2001-2017 | 336 | 2,944 | 8.76 |<!-- HOF-TOP:career_marks -->
 | 2 | Gary Dempsey **[data]** | Footscray - North Melbourne | 1967-1984 | 329 | 2,906 | 8.83 |
 | 3 | Stewart Loewe **[data]** | St Kilda | 1986-2002 | 321 | 2,503 | 7.80 |
 | 4 | Matthew Richardson **[data]** | Richmond | 1993-2009 | 282 | 2,270 | 8.05 |

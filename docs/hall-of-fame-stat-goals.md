@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-22. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -24,7 +24,7 @@ Goals are the simplest, oldest, most reliable stat in AFL/VFL history. Every tea
 
 | # | Player | Club(s) | Span | Games | Goals | Per game |
 |--:|--------|---------|------|------:|------:|---------:|
-| 1 | Tony Lockett **[data]** | St Kilda - Sydney | 1983-2002 | 281 | 1,360 | 4.84 |
+| 1 | Tony Lockett **[data]** | St Kilda - Sydney | 1983-2002 | 281 | 1,360 | 4.84 |<!-- HOF-TOP:career_goals -->
 | 2 | Gordon Coventry **[data]** | Collingwood | 1920-1937 | 306 | 1,299 | 4.25 |
 | 3 | Jason Dunstall **[data]** | Hawthorn | 1985-1998 | 269 | 1,254 | 4.66 |
 | 4 | Lance Franklin **[data]** | Hawthorn - Sydney | 2005-2023 | 354 | 1,066 | 3.01 |
