@@ -11,27 +11,27 @@ The **Brownlow Medal** is the AFL's individual award for the "fairest and best" 
 
 ![2026 Brownlow predictor](../assets/charts/brownlow_predictor_2026.png)
 
-#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 15)
+#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 16)
 
 | Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | Goals/g | Proxy | Proj. votes |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | Clayton Oliver | Greater Western Sydney | 13 | 31.7 | 8.3 | 15.5 | 0.15 | +2.87 | +63.2 |
-| 2 | Lachie Neale | Brisbane Lions | 14 | 30.4 | 7.4 | 12.9 | 0.29 | +2.53 | +55.6 |
-| 3 | Nick Daicos | Collingwood | 12 | 34.9 | 5.1 | 10.1 | 1.17 | +2.50 | +55.0 |
-| 4 | Isaac Heeney | Sydney | 12 | 27.2 | 6.2 | 13.2 | 1.92 | +2.49 | +54.7 |
-| 5 | Bailey Smith | Geelong | 14 | 32.3 | 5.5 | 11.6 | 0.43 | +2.32 | +51.1 |
-| 6 | Patrick Cripps | Carlton | 13 | 26.0 | 6.9 | 14.4 | 0.62 | +2.23 | +49.0 |
-| 7 | Zak Butters | Port Adelaide | 13 | 30.2 | 5.7 | 12.3 | 0.31 | +2.21 | +48.5 |
-| 8 | Jai Newcombe | Hawthorn | 13 | 26.2 | 7.7 | 12.3 | 0.31 | +2.16 | +47.4 |
-| 9 | Christian Petracca | Gold Coast | 11 | 25.3 | 6.0 | 11.7 | 1.55 | +2.12 | +46.6 |
-| 10 | Marcus Bontempelli | Western Bulldogs | 14 | 26.9 | 5.4 | 11.4 | 1.36 | +2.09 | +45.9 |
-| 11 | Harry Sheezel | North Melbourne | 13 | 30.5 | 4.9 | 9.9 | 0.46 | +1.98 | +43.6 |
-| 12 | Tim Taranto | Richmond | 10 | 24.5 | 6.1 | 13.1 | 0.50 | +1.94 | +42.7 |
-| 13 | Caleb Serong | Fremantle | 10 | 24.9 | 6.3 | 12.2 | 0.50 | +1.92 | +42.2 |
-| 14 | Matt Rowell | Gold Coast | 8 | 24.2 | 6.4 | 12.2 | 0.38 | +1.82 | +40.1 |
-| 15 | Max Gawn | Melbourne | 14 | 21.1 | 6.2 | 13.6 | 0.71 | +1.77 | +39.0 |
+| 1 | Clayton Oliver | Greater Western Sydney | 14 | 31.5 | 8.1 | 15.3 | 0.14 | +2.81 | +61.9 |
+| 2 | Nick Daicos | Collingwood | 13 | 35.4 | 5.4 | 10.4 | 1.15 | +2.61 | +57.5 |
+| 3 | Lachie Neale | Brisbane Lions | 14 | 30.4 | 7.4 | 12.9 | 0.29 | +2.54 | +55.8 |
+| 4 | Isaac Heeney | Sydney | 12 | 27.2 | 6.2 | 13.2 | 1.92 | +2.51 | +55.2 |
+| 5 | Bailey Smith | Geelong | 14 | 32.3 | 5.5 | 11.6 | 0.43 | +2.33 | +51.4 |
+| 6 | Patrick Cripps | Carlton | 14 | 26.5 | 6.9 | 14.5 | 0.57 | +2.28 | +50.2 |
+| 7 | Jai Newcombe | Hawthorn | 14 | 26.6 | 7.9 | 12.6 | 0.43 | +2.27 | +49.8 |
+| 8 | Marcus Bontempelli | Western Bulldogs | 15 | 27.4 | 5.9 | 11.6 | 1.33 | +2.22 | +48.8 |
+| 9 | Zak Butters | Port Adelaide | 14 | 29.8 | 5.8 | 12.0 | 0.36 | +2.19 | +48.3 |
+| 10 | Christian Petracca | Gold Coast | 12 | 25.8 | 5.8 | 12.3 | 1.50 | +2.17 | +47.8 |
+| 11 | Harry Sheezel | North Melbourne | 14 | 30.5 | 4.9 | 10.1 | 0.43 | +2.01 | +44.2 |
+| 12 | Caleb Serong | Fremantle | 11 | 24.6 | 6.1 | 11.8 | 0.55 | +1.86 | +41.0 |
+| 13 | Max Gawn | Melbourne | 15 | 21.6 | 6.3 | 13.7 | 0.67 | +1.82 | +40.1 |
+| 14 | Tim Taranto | Richmond | 12 | 23.5 | 6.0 | 12.6 | 0.50 | +1.82 | +40.0 |
+| 15 | Noah Anderson | Gold Coast | 13 | 28.5 | 5.2 | 9.7 | 0.31 | +1.81 | +39.9 |
 
-On the proxy, **Clayton Oliver** (Greater Western Sydney) leads the field — built on 8.3 clearances/g, 15.5 contested poss/g across 13 games. The composite score (+2.87) sits 0.35 clear of second place. **Lachie Neale** (Brisbane Lions) is the closest challenger at +2.53, with 30.4 disposals/g and 7.4 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
+On the proxy, **Clayton Oliver** (Greater Western Sydney) leads the field — built on 8.1 clearances/g, 15.3 contested poss/g across 14 games. The composite score (+2.81) sits 0.20 clear of second place. **Nick Daicos** (Collingwood) is the closest challenger at +2.61, with 35.4 disposals/g and 5.4 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
 <!-- 2026-BROWNLOW-PREDICTOR-END -->
 
 ---
