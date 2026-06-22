@@ -1,0 +1,2 @@
+round,year,n_players,mae,rmse,median_abs_error,bias,pct_within_5,pct_within_10,top_10_mae,bottom_10_mae
+16,2026,322,3.981366459627329,5.415643317887899,3.0,-0.6211180124223602,75.77639751552795,95.03105590062113,13.9,8.2
