@@ -37,3 +37,5 @@
 - [H2H window — North Melbourne vs Fremantle](h2h_window_nm_fremantle.md) — 7 meetings 2019–2026; Frem 6-1; NM absent from R14 predictions; use form-data for NM player tracking
 - [H2H window — Adelaide vs Geelong](h2h_window_adelaide_geelong.md) — Last 8 meetings 2021–2026; Geelong 6-2; Adelaide's 2 wins both at Adelaide Oval; 2020 COVID game excluded
 - [Adelaide trackers — bye-round workflow](adelaide_trackers_bye_round.md) — When Adelaide has no prediction CSV output, select trackers by 2026 season disposal mean from performance_details.csv; filter "Port Adelaide,2026" carefully
+- [News article dossier workflow](news_article_dossier_workflow.md) — Medal awards=[historical record]; vote counts=[data]; large tables use source-note not per-cell tags; GF round_num="Grand Final" string not numeric
+- [DATA BLOCK rounding discipline](feedback_data_block_rounding.md) — Use DATA BLOCK's pre-rounded values exactly (24.2 not 24.24); note rounding in Methodology; recomputed decimals caused prior Dustin Martin brief violations

@@ -19,3 +19,5 @@
 - [Player finals data lag](project_player_finals_data_lag.md) — player CSVs lack current-season finals rounds though matches CSV has the GF; scope player-level premiership metrics to completed seasons
 - [List-quality article + grade system](project_list_quality_article.md) — 2026-06-17 draft-pipeline article: DraftGuru grades by (year,pick) + †-derived-from-games; concurrent rebuild agent leaves malformed rows, pull --rebase before push
 - [Matches vs player-data sync](project_matches_player_sync.md) — R10 2026 truncation FIXED + fixture-aware audit live in refresh cycle; residual: R10 quarter scores=0 lower-fidelity, 2025 R1/R2 ±1 labeling boundary
+- [Player-audit URL-collision FPs](project_audit_url_collision_fp.md) — career-total WARNINGs often FALSE: URL builder discards DOB, collides same-name players; triage by DOB-stamped filename before re-scraping
+- [2024 finals duplicate rows](project_2024_finals_dup_rows.md) — GENUINE DEFECT: backfill appended real-date 2024 finals rows but left the YYYY-03-01 placeholders; 241 dup rows, double-counts 2024 finals stats (Scientist fix)

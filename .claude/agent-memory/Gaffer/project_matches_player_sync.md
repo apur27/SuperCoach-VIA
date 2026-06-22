@@ -31,4 +31,32 @@ nothing cross-checked match files against the known fixture or against player CS
 - Residual: 2025 R1/R2 shows a ±1 row delta vs player-data matchup counts —
   consistent with the AFL Opening Round labeling boundary, NOT a truncation. Low
   severity, not fully reconciled; confirm before treating as a real gap.
+
+**Finals-date fix (b47b06088) — VERIFIED working forward, stale residue remains
+(checked 2026-06-22).** The `_FINALS_WEEK` map correctly stamps Aug-Sep dates for
+NEWLY-scraped finals rows (wilmot/amon/gunston/laird now show 2024-08-09 EF etc.).
+BUT 122 player files carry 243 stale 2024-finals rows still dated `2024-03-01`
+(the old `datetime(year,3,1)+weeks` approximation) — they haven't been re-scraped
+since the fix landed 2026-06-20, and the weekly DELTA won't touch them (their
+finals rows already exist, just mis-dated). Cosmetic date-only: round labels and
+years are correct, no games dropped. Pre-2024 finals (27,580 rows) were ALWAYS
+March-1 approximations and are NOT the regression — the `date` col in player CSVs
+is a known-unreliable synthetic field; rounds/years are the real keys.
+- **How to apply:** Do NOT treat the 4,537-file raw March-1 scan count as a bug —
+  filter to year>=2024 to isolate the actionable 122. A full re-scrape of just
+  those 122 corrects the dates; only worth it if a downstream consumer reads the
+  finals `date` field for time-ordering. Backtest/briefs key on round+year, so
+  it's currently harmless. keane_mark_17032000 was a GENUINE gap (2025 QF+SF rows
+  lost to the pre-fix bug) and was re-scraped + committed (dfbe8448e);
+  sidebottom_steele game-35 "gap" is the 2010 drawn-GF+replay collapse and is
+  CORRECT — leave it. Rioli Jr/Sr is a name-collision false positive (see below).
+
+**Maurice Rioli name collision (audit false positive, 2026-06-22).**
+`rioli_maurice_01092002` = Jr (57 games, Richmond 2021-26, jersey 49→17) is a
+SEPARATE player from `rioli_maurice_01091957` = Sr (118 games, 1980s Richmond).
+The player-audit compared Jr's CSV to Sr's afltables page (csv=57 vs afltables=118).
+Tell: tackles csv=161 (Jr, modern) vs afltables=55 (Sr — tackles weren't recorded
+pre-late-1980s). Both CSVs correct; the audit keyed the wrong afltables URL.
+Don't "fix" either file. See [[project_player_data_quirks]] (Ablett snr/jnr
+surname collision is the same class).
 - Related: [[project_finals_doc_stale_2026]], [[project_player_finals_data_lag]].
