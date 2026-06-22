@@ -2,7 +2,7 @@
   BriefBuilder: N/A (navigation hub, no data skeleton required)
   Scientist: N/A (no [data] tags to derive)
   FootyStrategy: N/A (no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (link integrity verified — all 13 sub-pages exist on disk; no untagged data claims found)
+  DataSentinel: PASS @ 2026-06-23 (games count corrected 435→434 to match phantom-row-corrected pendlebury CSV; link integrity re-verified)
   Skeptic: PASS @ 2026-05-30 (navigation-only page; no causal claims, no "forgotten" framing to probe)
   Gaffer: APPROVED @ 2026-05-30
 -->
@@ -27,7 +27,7 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 | Stat | Page | All-time #1 (from `_stat_leaders.json`) |
 |------|------|-----------------------------------------|
 | Career goals | [Goals leaderboard](hall-of-fame-stat-goals.md) | Tony Lockett 1,360 **[data]** |
-| Career games | [Games leaderboard](hall-of-fame-stat-games.md) | Scott Pendlebury 435 **[data]** |
+| Career games | [Games leaderboard](hall-of-fame-stat-games.md) | Scott Pendlebury 434 **[data]** |
 | Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 11,028 **[data]** |
 | Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |
 | Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |
