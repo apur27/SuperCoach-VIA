@@ -132,3 +132,99 @@ def test_no_since_date_returns_all_rows():
 
     rows = _scrape("R1", since_date=None)
     assert len(rows) == 1
+
+
+# ---------------------------------------------------------------------------
+# Fixture-accurate finals dates — root-cause fix for the recurring date drift.
+#
+# The _FINALS_WEEK approximation places finals in late August, ~1 month BEFORE
+# their real September fixture dates. Every re-scrape therefore overwrites the
+# fixture-accurate dates (corrected offline in commit 58f1a4f20) with wrong
+# August approximations. The fix: resolve the real date from
+# data/matches/matches_<year>.csv when the fixture is found.
+# ---------------------------------------------------------------------------
+
+_DATE_COL = PlayerScraper.PLAYER_COL_TITLES.index("date")
+_OPP_COL = PlayerScraper.PLAYER_COL_TITLES.index("opponent")
+
+
+def _write_matches_csv(tmp_path, year, rows):
+    """rows: list of (round_num_fullname, date, team_1, team_2)."""
+    import csv
+    d = tmp_path / "matches"
+    d.mkdir(exist_ok=True)
+    p = d / f"matches_{year}.csv"
+    with open(p, "w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["round_num", "venue", "date", "year", "attendance",
+                    "team_1_team_name", "team_2_team_name"])
+        for rn, date, t1, t2 in rows:
+            w.writerow([rn, "M.C.G.", date, year, 90000, t1, t2])
+    return str(d)
+
+
+def _scrape_with_matches(team, opponent, year, round_str, matches_dir):
+    """Scrape a single finals row, resolving date against matches_dir."""
+    scraper = PlayerScraper()
+    soup = _make_player_soup(team, year, round_str)
+    # opponent in _make_player_soup is hardcoded to 'Richmond'; rebuild with the
+    # opponent we want for the fixture lookup.
+    html = str(soup).replace("Richmond", opponent, 1)
+    soup = BeautifulSoup(html, "html.parser")
+    return scraper._scrape_player_performance_details(
+        soup, since_date=None, matches_dir=matches_dir)
+
+
+def test_finals_date_resolved_from_matches_fixture(tmp_path):
+    """A GF row must carry the REAL fixture date, not the August approximation."""
+    matches_dir = _write_matches_csv(tmp_path, 2024, [
+        ("Grand Final", "2024-09-28 14:30", "Sydney", "Brisbane Lions"),
+    ])
+    rows = _scrape_with_matches("Brisbane Lions", "Sydney", 2024, "GF", matches_dir)
+    assert len(rows) == 1
+    assert rows[0][_DATE_COL] == "2024-09-28", (
+        f"GF date should be the fixture date 2024-09-28, got {rows[0][_DATE_COL]}")
+
+
+def test_finals_date_team_order_independent(tmp_path):
+    """Fixture lookup matches regardless of team/opponent ordering in the fixture."""
+    matches_dir = _write_matches_csv(tmp_path, 2024, [
+        ("Preliminary Final", "2024-09-21 17:15", "Geelong", "Brisbane Lions"),
+    ])
+    # player is Brisbane, opponent Geelong; fixture has Geelong as team_1
+    rows = _scrape_with_matches("Brisbane Lions", "Geelong", 2024, "PF", matches_dir)
+    assert len(rows) == 1
+    assert rows[0][_DATE_COL] == "2024-09-21"
+
+
+def test_finals_date_falls_back_to_approximation_when_no_fixture(tmp_path):
+    """If the fixture is absent, fall back to the _FINALS_WEEK approximation
+    (must still be in finals territory, never March)."""
+    matches_dir = _write_matches_csv(tmp_path, 2024, [])  # empty fixtures
+    rows = _scrape_with_matches("Brisbane Lions", "Sydney", 2024, "GF", matches_dir)
+    assert len(rows) == 1
+    # approximation: week 27 -> late Aug; must NOT be March, must be a finals month
+    month = int(rows[0][_DATE_COL].split("-")[1])
+    assert month >= 8, f"fallback date {rows[0][_DATE_COL]} is not in finals territory"
+
+
+def test_regular_round_ignores_matches_lookup(tmp_path):
+    """Home-and-away rounds keep the approximation even when a matches file exists."""
+    matches_dir = _write_matches_csv(tmp_path, 2024, [
+        ("Grand Final", "2024-09-28 14:30", "Sydney", "Brisbane Lions"),
+    ])
+    rows = _scrape_with_matches("Brisbane Lions", "Sydney", 2024, "R5", matches_dir)
+    assert len(rows) == 1
+    # R5 approximates to ~early May
+    assert rows[0][_DATE_COL].startswith("2024-0"), rows[0][_DATE_COL]
+    assert int(rows[0][_DATE_COL].split("-")[1]) <= 5
+
+
+def test_no_matches_dir_uses_approximation():
+    """Backwards-compat: with no matches_dir, behaviour is the pure approximation."""
+    scraper = PlayerScraper()
+    soup = _make_player_soup("Collingwood", 2025, "GF")
+    rows = scraper._scrape_player_performance_details(soup, since_date=None)
+    assert len(rows) == 1
+    month = int(rows[0][_DATE_COL].split("-")[1])
+    assert month >= 8

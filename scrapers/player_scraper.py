@@ -10,6 +10,22 @@ import time
 
 _FINALS_WEEK = {'QF': 24, 'EF': 24, 'SF': 25, 'PF': 26, 'GF': 27}
 
+# Maps the afltables finals round codes to the full round_num labels used in
+# data/matches/matches_<year>.csv, so finals rows can be stamped with their
+# real fixture date instead of the ~1-month-early _FINALS_WEEK approximation.
+_FINALS_ROUND_NAMES = {
+    'QF': 'Qualifying Final',
+    'EF': 'Elimination Final',
+    'SF': 'Semi Final',
+    'PF': 'Preliminary Final',
+    'GF': 'Grand Final',
+}
+
+# Default location of the match-results CSVs (the fixture-date source of truth).
+_DEFAULT_MATCHES_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'matches'
+)
+
 
 def get_soup(url: str) -> BeautifulSoup:
     """
@@ -160,7 +176,7 @@ class PlayerScraper:
                     return
 
             # Scrape performance details since the last game date
-            performance_details = self._scrape_player_performance_details(player_soup, since_date=last_game_date)
+            performance_details = self._scrape_player_performance_details(player_soup, since_date=last_game_date, matches_dir=_DEFAULT_MATCHES_DIR)
             if not performance_details and last_game_date:
                 print(f"No new data for {filename} since {last_game_date}")
                 return
@@ -260,7 +276,50 @@ class PlayerScraper:
                 new_df.to_csv(performance_details_file, index=False)
             print(f"Updated performance details to {performance_details_file} with {len(player_performance_details)} new rows")
 
-    def _scrape_player_performance_details(self, player_soup: BeautifulSoup, since_date: Optional[datetime] = None) -> List[List[str]]:
+    def _resolve_finals_date(
+        self, year: int, team: str, opponent: str, round_code: str, matches_dir: str
+    ) -> Optional[datetime]:
+        """
+        Looks up the real fixture date for a finals game from
+        matches_<year>.csv, keyed on the round name and the unordered team pair.
+
+        Returns the fixture date, or None if the match cannot be found (caller
+        then falls back to the _FINALS_WEEK approximation).
+        """
+        round_name = _FINALS_ROUND_NAMES.get(round_code.upper().strip())
+        if not round_name or not matches_dir:
+            return None
+
+        cache = getattr(self, '_matches_cache', None)
+        if cache is None:
+            cache = self._matches_cache = {}
+
+        if year not in cache:
+            path = os.path.join(matches_dir, f"matches_{year}.csv")
+            lookup: Dict[tuple, datetime] = {}
+            if os.path.exists(path):
+                try:
+                    mdf = pd.read_csv(path, dtype=str)
+                    for _, m in mdf.iterrows():
+                        try:
+                            d = datetime.strptime(str(m['date'])[:10], "%Y-%m-%d")
+                        except (ValueError, TypeError):
+                            continue
+                        key = (
+                            str(m.get('round_num', '')).strip(),
+                            frozenset({str(m.get('team_1_team_name', '')).strip(),
+                                       str(m.get('team_2_team_name', '')).strip()}),
+                        )
+                        lookup[key] = d
+                except Exception as e:
+                    print(f"Error reading matches file {path}: {e}")
+            cache[year] = lookup
+
+        return cache[year].get(
+            (round_name, frozenset({team.strip(), opponent.strip()}))
+        )
+
+    def _scrape_player_performance_details(self, player_soup: BeautifulSoup, since_date: Optional[datetime] = None, matches_dir: Optional[str] = None) -> List[List[str]]:
         """
         Scrapes the player's performance details from the player's page, optionally since a given date.
 
@@ -301,6 +360,15 @@ class PlayerScraper:
                     _numeric = re.sub(r'\D', '', round_str)
                     round_num = int(_numeric) if _numeric else _FINALS_WEEK.get(round_str.upper().strip(), 24)
                     game_date = datetime(year_int, 3, 1) + timedelta(weeks=round_num - 1)  # Approximate date
+                    # For finals, prefer the real fixture date so re-scrapes don't
+                    # overwrite correct September dates with the August approximation.
+                    if not _numeric:
+                        opponent = cells[1]
+                        fixture_date = self._resolve_finals_date(
+                            year_int, team, opponent, round_str, matches_dir
+                        )
+                        if fixture_date is not None:
+                            game_date = fixture_date
                     if since_date and game_date <= since_date:
                         continue  # Skip games before since_date
 
