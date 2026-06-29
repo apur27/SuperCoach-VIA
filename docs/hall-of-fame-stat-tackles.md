@@ -27,7 +27,7 @@ A tackle is a contact possession against an opponent in possession that results 
 | # | Player | Club(s) | Span | Games | Tackles | Per game |
 |--:|--------|---------|------|------:|--------:|---------:|
 <!-- HOF-TABLE-START:career_tackles -->
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 2,010 | 4.62 |<!-- HOF-TOP:career_tackles -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 2,012 | 4.61 |<!-- HOF-TOP:career_tackles -->
 | 2 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
 | 4 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,611 | 4.16 |

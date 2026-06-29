@@ -26,7 +26,7 @@ A contested possession is a ball-getting event won under direct opposition press
 |--:|--------|---------|------|------:|----------------:|---------:|
 <!-- HOF-TABLE-START:career_contested_possessions -->
 | 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 4,704 | 12.68 |<!-- HOF-TOP:career_contested_possessions -->
-| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 4,420 | 10.16 |
+| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 4,420 | 10.14 |
 | 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 4,028 | 13.08 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
 | 5 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |

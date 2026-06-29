@@ -25,7 +25,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 | # | Player | Club(s) | Span | Games |
 |--:|--------|---------|------|------:|
 <!-- HOF-TABLE-START:career_games -->
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 |<!-- HOF-TOP:career_games -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 |<!-- HOF-TOP:career_games -->
 | 2 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 |
 | 3 | Michael Tuck **[data]** | Hawthorn | 1972-1991 | 426 |
 | 4 | Shaun Burgoyne **[data]** | Hawthorn - Port Adelaide | 2002-2021 | 407 |
@@ -49,7 +49,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 ## FootyStrategy tactical read
 
-**The Pendlebury record is now outright.** Pendlebury 435 games **[data]**, Harvey 432 **[data]**, Tuck 426 **[data]**. Pendlebury entered 2026 on 425 career games **[data]**, drew level with Harvey at 432 in Round 10 (Geelong, MCG, 9 May 2026), then broke the all-time VFL/AFL record outright with game 433 in Round 12 (West Coast, MCG, 23 May 2026) **[data]**. Missed Rounds 5, 9, 11 and 16 in 2026; total of 435 confirmed as of Round 15 (Collingwood bye). The first 21-year AFL career in history. *Conditioner lens:* he reached this on the back of a body type ideally suited to longevity (lean midfielder, low contact mass, minimal hit-out exposure), an injury history clean of multi-month absences, and a coaching environment that has rotated his role from contested-ball winner in his twenties to outside distributor and tactical leader in his thirties.
+**The Pendlebury record is now outright.** Pendlebury 436 games **[data]**, Harvey 432 **[data]**, Tuck 426 **[data]**. Pendlebury entered 2026 on 425 career games **[data]**, drew level with Harvey at 432 in Round 10 (Geelong, MCG, 9 May 2026), then broke the all-time VFL/AFL record outright with game 433 in Round 12 (West Coast, MCG, 23 May 2026) **[data]**. Missed Rounds 5, 9, 11 and 16 in 2026; total of 436 confirmed as of Round 17 (Richmond, MCG, 27 Jun 2026) **[data]**. The first 21-year AFL career in history. *Conditioner lens:* he reached this on the back of a body type ideally suited to longevity (lean midfielder, low contact mass, minimal hit-out exposure), an injury history clean of multi-month absences, and a coaching environment that has rotated his role from contested-ball winner in his twenties to outside distributor and tactical leader in his thirties.
 
 **Who is missing from this list - the body-type filter.** Across the top 20, exactly two are ruckmen (Madden, Tuck spent meaningful time in the ruck), one is a key forward (Hawkins), and one is a key defender (Fletcher). The remaining sixteen are smalls or mediums - flankers, midfielders, half-backs. *Match-up Tactician lens:* the position determines the contact load. Key forwards take repeated marking contests; key defenders absorb spoiling collisions; ruckmen take direct contact every centre bounce. None of these positions historically produces 400-game careers because the body cannot sustain that contact frequency for two decades. The four exceptions - Fletcher, Hawkins, Madden, Tuck - are extreme outliers whose career arcs were unusually clean of major surgeries.
 
@@ -57,7 +57,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 **The 21st-century shift in availability.** Of the top 20, nine started their careers in 2002 or later (Pendlebury, Burgoyne, Boak, Mundy, Goodes, Dangerfield, Sidebottom, Hawkins, Ablett jnr). The professionalisation of fitness, nutrition, and recovery has measurably extended career length. *Talent Developer lens:* the post-2000 first-round draft pick is now expected to play 200+ games as the baseline outcome rather than the elite outcome. The 400-game career, which required a once-a-generation body and total injury luck in the 1970s-90s, is now a realistic ambition for a top-five pick who stays at one club and avoids major surgeries.
 
-**Active watch.** Three names on the list are still active in 2026: Pendlebury 435 **[data]**, Dangerfield 371 **[data]**, Sidebottom 366 **[data]**. If Pendlebury plays out 2026 and a 2027 season, his record could push toward 460 - a number that would require a generation to overhaul. Sidebottom and Dangerfield, both 36, are unlikely to reach 400 themselves but will end among the top dozen.
+**Active watch.** Three names on the list are still active in 2026: Pendlebury 436 **[data]**, Dangerfield 371 **[data]**, Sidebottom 366 **[data]**. If Pendlebury plays out 2026 and a 2027 season, his record could push toward 460 - a number that would require a generation to overhaul. Sidebottom and Dangerfield, both 36, are unlikely to reach 400 themselves but will end among the top dozen.
 
 ## Data coverage
 

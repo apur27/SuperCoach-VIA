@@ -24,7 +24,7 @@ Disposals = kicks + handballs. The total possession-handling volume across a car
 
 | # | Player | Club(s) | Span | Games | Disposals | Per game |
 |--:|--------|---------|------|------:|----------:|---------:|
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 11,044 | 25.39 |<!-- HOF-TOP:career_disposals -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 11,069 | 25.39 |<!-- HOF-TOP:career_disposals -->
 | 2 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 9,656 | 25.21 |
 | 3 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 9,213 | 21.33 |
 | 4 | Kevin Bartlett **[data]** | Richmond | 1965-1983 | 403 | 9,151 | 22.71 |

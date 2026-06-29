@@ -27,7 +27,7 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 <!-- HOF-TABLE-START:career_clearances -->
 | 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,979 | 6.43 |<!-- HOF-TOP:career_clearances -->
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 1,916 | 5.16 |
-| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 1,891 | 4.35 |
+| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 1,891 | 4.34 |
 | 4 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,846 | 5.20 |
 | 5 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 1,809 | 6.24 |
 | 6 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 1,801 | 5.47 |

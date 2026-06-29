@@ -28,7 +28,7 @@ The Brownlow Medal is awarded annually to the fairest and best player in the hom
 | 1 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 262 | 0.73 |<!-- HOF-TOP:career_brownlow_votes -->
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 259 | 0.70 |
 | 3 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 227 | 0.69 |
-| 4= | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 225 | 0.52 |
+| 4= | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 225 | 0.52 |
 | 4= | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 225 | 0.73 |
 | 6 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 215 | 0.56 |
 | 7 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 214 | 0.60 |

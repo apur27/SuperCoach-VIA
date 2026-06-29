@@ -25,7 +25,7 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 | # | Player | Club(s) | Span | Games | Goal assists | Per game |
 |--:|--------|---------|------|------:|-------------:|---------:|
 <!-- HOF-TABLE-START:career_goal_assists -->
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 330 | 0.76 |<!-- HOF-TOP:career_goal_assists -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 330 | 0.76 |<!-- HOF-TOP:career_goal_assists -->
 | 2 | Eddie Betts **[data]** | Adelaide - Carlton | 2005-2021 | 350 | 318 | 0.91 |
 | 3 | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 | 296 | 0.82 |
 | 4 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 282 | 0.76 |
