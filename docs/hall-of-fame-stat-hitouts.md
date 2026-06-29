@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,6 +24,7 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 
 | # | Player | Club(s) | Span | Games | Hit-outs | Per game |
 |--:|--------|---------|------|------:|---------:|---------:|
+<!-- HOF-TABLE-START:career_hit_outs -->
 | 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 344 | 10,597 | 30.81 |<!-- HOF-TOP:career_hit_outs -->
 | 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 262 | 8,703 | 33.22 |
 | 3 | Aaron Sandilands **[data]** | Fremantle | 2003-2019 | 271 | 8,502 | 31.37 |
@@ -38,12 +39,13 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 | 12 | Nic Naitanui **[data]** | West Coast | 2009-2022 | 213 | 5,549 | 26.05 |
 | 13 | Ben McEvoy **[data]** | Hawthorn - St Kilda | 2008-2022 | 252 | 5,277 | 20.94 |
 | 14 | Simon Madden **[data]** | Essendon | 1974-1992 | 378 | 5,226 | 13.83 |
-| 15 | Reilly O'Brien **[data]** | Adelaide | 2016-2026 | 147 | 5,202 | 35.39 |
+| 15 | Reilly OBrien **[data]** | Adelaide | 2016-2026 | 147 | 5,202 | 35.39 |
 | 16 | Jeff White **[data]** | Fremantle - Melbourne | 1995-2008 | 268 | 5,000 | 18.66 |
 | 17 | Darren Jolly **[data]** | Collingwood - Melbourne - Sydney | 2001-2013 | 237 | 4,968 | 20.96 |
 | 18 | Peter Everitt **[data]** | Hawthorn - St Kilda - Sydney | 1993-2008 | 291 | 4,961 | 17.05 |
 | 19 | Toby Nankervis **[data]** | Richmond - Sydney | 2015-2026 | 182 | 4,695 | 25.80 |
 | 20 | Stefan Martin **[data]** | Brisbane Lions - Melbourne - Western Bulldogs | 2008-2022 | 203 | 4,661 | 22.96 |
+<!-- HOF-TABLE-END:career_hit_outs -->
 
 ## FootyStrategy tactical read
 

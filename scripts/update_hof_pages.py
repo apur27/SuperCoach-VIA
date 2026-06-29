@@ -107,6 +107,20 @@ CATEGORIES: dict[str, dict] = {
 
 _STAMP = "auto-updated from _stat_leaders.json by update_hof_pages.py"
 
+# Categories with clean single-stat-column tables that support full body regeneration.
+# TODO: add career_disposals and career_goals once per-page prose is also driven from JSON.
+# TODO: add career_kicks / career_handballs (two-leader-per-row format needs custom handling).
+_FULL_TABLE_CATS: frozenset[str] = frozenset({
+    "career_games",
+    "career_marks",
+    "career_tackles",
+    "career_hit_outs",
+    "career_brownlow_votes",
+    "career_goal_assists",
+    "career_clearances",
+    "career_contested_possessions",
+})
+
 
 def fmt_value(value: float, fmt: str) -> str:
     if fmt == "thousands":
@@ -135,6 +149,55 @@ def build_subpage_row(key: str, cat: dict, leader: dict) -> str:
         f"| 1 | {name} **[data]** | {teams} | {span} | {games} | {count} | {per_game} |"
         f"<!-- HOF-TOP:{key} -->"
     )
+
+
+def build_full_table_row(key: str, cat: dict, leader: dict) -> str:
+    """Build a markdown table row for any rank. Appends HOF-TOP sentinel on rank 1."""
+    rank_label = leader["rank_label"]
+    name = leader["name"]
+    teams = leader["teams"]
+    span = f"{leader['year_min']}-{leader['year_max']}"
+    total_str = fmt_value(leader["total"], cat["fmt"])
+    sentinel = f"<!-- HOF-TOP:{key} -->" if leader["rank"] == 1 else ""
+
+    if cat.get("games_only"):
+        return f"| {rank_label} | {name} **[data]** | {teams} | {span} | {total_str} |{sentinel}"
+    else:
+        games_str = str(int(leader["games"]))
+        per_game_str = f"{leader['per_game']:.2f}"
+        return f"| {rank_label} | {name} **[data]** | {teams} | {span} | {games_str} | {total_str} | {per_game_str} |{sentinel}"
+
+
+def build_full_table_body(key: str, cat: dict, leaders: list) -> list[str]:
+    """Return markdown rows for all leaders with rank <= 20."""
+    return [
+        build_full_table_row(key, cat, leader)
+        for leader in leaders
+        if leader["rank"] <= 20
+    ]
+
+
+def replace_table_body(text: str, key: str, rows: list[str]) -> tuple[str, bool]:
+    """Replace content between HOF-TABLE-START/END markers with rows."""
+    start_marker = f"<!-- HOF-TABLE-START:{key} -->"
+    end_marker = f"<!-- HOF-TABLE-END:{key} -->"
+
+    lines = text.splitlines(keepends=True)
+    start_idx = end_idx = None
+    for i, line in enumerate(lines):
+        stripped = line.rstrip("\n").rstrip("\r")
+        if stripped == start_marker:
+            start_idx = i
+        elif stripped == end_marker:
+            end_idx = i
+            break
+
+    if start_idx is None or end_idx is None:
+        return text, False
+
+    new_lines = lines[: start_idx + 1] + [r + "\n" for r in rows] + lines[end_idx:]
+    new_text = "".join(new_lines)
+    return new_text, new_text != text
 
 
 def update_file(path: Path, replacements: dict[str, str], today: str) -> bool:
@@ -252,7 +315,7 @@ def run_updates(
     else:
         print(f"  WARN: hub file not found: {hub_path}")
 
-    # Apply subpage updates
+    # Apply subpage updates (rank-1 sentinel rows)
     for subpage, reps in subpage_replacements.items():
         changed = update_file(subpage, reps, today)
         if changed:
@@ -261,6 +324,25 @@ def run_updates(
             for s in reps:
                 if s not in subpage.read_text():
                     print(f"  WARN: sentinel not found in {subpage.name}: {s}")
+
+    # Full table body regeneration (ranks 1-20 from JSON)
+    for key, cat in CATEGORIES.items():
+        if key not in _FULL_TABLE_CATS:
+            continue
+        if key not in categories_data:
+            continue
+        leaders = categories_data[key].get("leaders", [])
+        if not leaders:
+            continue
+        subpage = repo_root / cat["subpage"]
+        if not subpage.exists():
+            continue
+        rows = build_full_table_body(key, cat, leaders)
+        text = subpage.read_text()
+        new_text, changed = replace_table_body(text, key, rows)
+        if changed:
+            subpage.write_text(new_text)
+            print(f"  full-table updated: {subpage.relative_to(repo_root)}")
 
     print("HOF pages update complete.")
     return 0

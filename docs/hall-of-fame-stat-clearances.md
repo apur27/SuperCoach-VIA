@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,6 +24,7 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 
 | # | Player | Club(s) | Span | Games | Clearances | Per game |
 |--:|--------|---------|------|------:|-----------:|---------:|
+<!-- HOF-TABLE-START:career_clearances -->
 | 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 1,979 | 6.43 |<!-- HOF-TOP:career_clearances -->
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 1,916 | 5.16 |
 | 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 1,891 | 4.35 |
@@ -35,15 +36,16 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 | 9 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 262 | 1,651 | 6.30 |
 | 10 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,585 | 4.10 |
 | 11 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 1,581 | 4.81 |
-| 12 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,545 | 4.33 |
+| 12 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,545 | 4.33 |
 | 13 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 1,499 | 5.37 |
 | 14 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 1,494 | 3.97 |
 | 15 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,473 | 6.14 |
-| 16 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 1,441 | 4.71 |
-| 17 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 219 | 1,440 | 6.58 |
-| 18 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 1,445 | 5.29 |
+| 16 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 1,445 | 5.29 |
+| 17 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 1,441 | 4.71 |
+| 18 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 219 | 1,440 | 6.58 |
 | 19 | Scott Thompson **[data]** | Adelaide - Melbourne | 2001-2017 | 308 | 1,423 | 4.62 |
 | 20 | Callan Ward **[data]** | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 1,420 | 4.34 |
+<!-- HOF-TABLE-END:career_clearances -->
 
 ## FootyStrategy tactical read
 

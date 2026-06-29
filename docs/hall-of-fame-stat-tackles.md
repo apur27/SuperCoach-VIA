@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-29. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -26,6 +26,7 @@ A tackle is a contact possession against an opponent in possession that results 
 
 | # | Player | Club(s) | Span | Games | Tackles | Per game |
 |--:|--------|---------|------|------:|--------:|---------:|
+<!-- HOF-TABLE-START:career_tackles -->
 | 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 2,010 | 4.62 |<!-- HOF-TOP:career_tackles -->
 | 2 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
@@ -34,7 +35,7 @@ A tackle is a contact possession against an opponent in possession that results 
 | 6 | Liam Shiels **[data]** | Hawthorn - North Melbourne | 2009-2024 | 288 | 1,560 | 5.42 |
 | 7 | Jack Steele **[data]** | Greater Western Sydney - Melbourne - St Kilda | 2015-2026 | 217 | 1,555 | 7.17 |
 | 8 | Dayne Zorko **[data]** | Brisbane Lions | 2012-2026 | 311 | 1,535 | 4.94 |
-| 9 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,534 | 4.30 |
+| 9 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,534 | 4.30 |
 | 10 | Lenny Hayes **[data]** | St Kilda | 1999-2014 | 297 | 1,496 | 5.04 |
 | 11 | Shaun Burgoyne **[data]** | Hawthorn - Port Adelaide | 2002-2021 | 407 | 1,492 | 3.67 |
 | 12 | Jude Bolton **[data]** | Sydney | 1999-2013 | 325 | 1,490 | 4.58 |
@@ -46,6 +47,7 @@ A tackle is a contact possession against an opponent in possession that results 
 | 18 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 1,422 | 3.78 |
 | 19 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 1,417 | 5.19 |
 | 20 | Scott Thompson **[data]** | Adelaide - Melbourne | 2001-2017 | 308 | 1,409 | 4.57 |
+<!-- HOF-TABLE-END:career_tackles -->
 
 ## FootyStrategy tactical read
 

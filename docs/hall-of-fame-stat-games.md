@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-29. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -24,6 +24,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 
 | # | Player | Club(s) | Span | Games |
 |--:|--------|---------|------|------:|
+<!-- HOF-TABLE-START:career_games -->
 | 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 |<!-- HOF-TOP:career_games -->
 | 2 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 |
 | 3 | Michael Tuck **[data]** | Hawthorn | 1972-1991 | 426 |
@@ -42,8 +43,9 @@ Career games played is the longevity-and-availability stat. It measures three th
 | 16 | Brad Johnson **[data]** | Footscray - Western Bulldogs | 1994-2010 | 364 |
 | 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |
 | 17= | John Blakey **[data]** | Fitzroy - Kangaroos - North Melbourne | 1985-2002 | 359 |
-| 19 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 |
+| 19 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 |
 | 20 | Bruce Doull **[data]** | Carlton | 1969-1986 | 356 |
+<!-- HOF-TABLE-END:career_games -->
 
 ## FootyStrategy tactical read
 

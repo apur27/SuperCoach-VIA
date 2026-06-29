@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,11 +24,12 @@ A contested possession is a ball-getting event won under direct opposition press
 
 | # | Player | Club(s) | Span | Games | Contested poss. | Per game |
 |--:|--------|---------|------|------:|----------------:|---------:|
+<!-- HOF-TABLE-START:career_contested_possessions -->
 | 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 4,704 | 12.68 |<!-- HOF-TOP:career_contested_possessions -->
-| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 4,412 | 10.14 |
+| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 4,420 | 10.16 |
 | 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 4,028 | 13.08 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
-| 5 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
+| 5 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
 | 6 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 3,984 | 11.22 |
 | 7 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 3,743 | 9.67 |
 | 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 3,640 | 11.06 |
@@ -44,6 +45,7 @@ A contested possession is a ball-getting event won under direct opposition press
 | 18 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 262 | 3,201 | 12.22 |
 | 19 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 3,176 | 13.23 |
 | 20 | Callan Ward **[data]** | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 3,134 | 9.58 |
+<!-- HOF-TABLE-END:career_contested_possessions -->
 
 ## FootyStrategy tactical read
 

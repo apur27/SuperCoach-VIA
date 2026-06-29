@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py; sentinel marker added)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-05-25 (data-only page — no causal claims)
   Gaffer: APPROVED @ 2026-05-25
 -->
@@ -22,6 +22,7 @@ Marks are clean possessions taken from a kick that travels 15+ metres. The mark 
 
 | # | Player | Club(s) | Span | Games | Marks | Per game |
 |--:|--------|---------|------|------:|------:|---------:|
+<!-- HOF-TABLE-START:career_marks -->
 | 1 | Nick Riewoldt **[data]** | St Kilda | 2001-2017 | 336 | 2,944 | 8.76 |<!-- HOF-TOP:career_marks -->
 | 2 | Gary Dempsey **[data]** | Footscray - North Melbourne | 1967-1984 | 329 | 2,906 | 8.83 |
 | 3 | Stewart Loewe **[data]** | St Kilda | 1986-2002 | 321 | 2,503 | 7.80 |
@@ -42,6 +43,7 @@ Marks are clean possessions taken from a kick that travels 15+ metres. The mark 
 | 18 | Mitch Duncan **[data]** | Geelong | 2010-2025 | 305 | 1,909 | 6.26 |
 | 19 | Barry Hall **[data]** | St Kilda - Sydney - Western Bulldogs | 1996-2011 | 289 | 1,897 | 6.56 |
 | 20 | David Cloke **[data]** | Collingwood - Richmond | 1974-1991 | 333 | 1,882 | 5.65 |
+<!-- HOF-TABLE-END:career_marks -->
 
 ## FootyStrategy tactical read
 

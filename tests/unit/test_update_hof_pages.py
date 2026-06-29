@@ -167,3 +167,90 @@ def test_number_formatting_int_vs_thousands():
     assert uohp.fmt_value(1360.0, "thousands") == "1,360"
     assert uohp.fmt_value(262.0, "int") == "262"
     assert uohp.fmt_value(10597.0, "thousands") == "10,597"
+
+
+# ── Full-table tests (Task A) ─────────────────────────────────────────────────
+
+_LEADERS_20 = [
+    {
+        "rank": i, "rank_label": str(i), "tied": False,
+        "name": f"Player {i}", "teams": f"Club {i}",
+        "year_min": 2000, "year_max": 2020,
+        "games": 400 - i * 5, "total": float(400 - i * 10), "per_game": 1.23,
+    }
+    for i in range(1, 21)
+]
+
+
+def _page_with_table_sentinels(key="career_games", body=None):
+    if body is None:
+        body = (
+            "| 1 | OldPlayer **[data]** | OldClub | 2000-2020 | 400 |\n"
+            "| 2 | OldPlayer2 **[data]** | OldClub | 2000-2020 | 390 |\n"
+        )
+    return (
+        "| # | Player | Club(s) | Span | Games |\n"
+        "|--:|--------|---------|------|------:|\n"
+        f"<!-- HOF-TABLE-START:{key} -->\n"
+        + body
+        + f"<!-- HOF-TABLE-END:{key} -->\n"
+        "Some prose below.\n"
+    )
+
+
+# ── test 7 ────────────────────────────────────────────────────────────────────
+
+def test_full_table_body_regenerated_from_json(tmp_path):
+    sub = tmp_path / "stat-games.md"
+    sub.write_text(_page_with_table_sentinels("career_games"))
+
+    cat = uohp.CATEGORIES["career_games"]
+    rows = uohp.build_full_table_body("career_games", cat, _LEADERS_20)
+    text, changed = uohp.replace_table_body(sub.read_text(), "career_games", rows)
+
+    assert changed
+    assert len(rows) == 20
+    assert "Player 1 **[data]**" in text
+    assert "Player 20 **[data]**" in text
+    assert "OldPlayer" not in text
+    assert "<!-- HOF-TABLE-START:career_games -->" in text
+    assert "<!-- HOF-TABLE-END:career_games -->" in text
+
+
+# ── test 8 ────────────────────────────────────────────────────────────────────
+
+def test_full_table_idempotency(tmp_path):
+    sub = tmp_path / "stat-games.md"
+    sub.write_text(_page_with_table_sentinels("career_games"))
+
+    cat = uohp.CATEGORIES["career_games"]
+    rows = uohp.build_full_table_body("career_games", cat, _LEADERS_20)
+    text1 = sub.read_text()
+    text2, _ = uohp.replace_table_body(text1, "career_games", rows)
+    text3, changed_second = uohp.replace_table_body(text2, "career_games", rows)
+
+    assert not changed_second
+    assert text2 == text3
+
+
+# ── test 9 ────────────────────────────────────────────────────────────────────
+
+def test_full_table_missing_sentinel_skips_gracefully():
+    text = "| # | Player | Span | Games |\n|--:|---------|------|------:|\n| 1 | A **[data]** | 2000-2020 | 400 |\n"
+    cat = uohp.CATEGORIES["career_games"]
+    rows = uohp.build_full_table_body("career_games", cat, _LEADERS_20)
+    new_text, changed = uohp.replace_table_body(text, "career_games", rows)
+
+    assert not changed
+    assert new_text == text
+
+
+# ── test 10 ───────────────────────────────────────────────────────────────────
+
+def test_full_table_data_tags_on_all_rows():
+    cat = uohp.CATEGORIES["career_games"]
+    rows = uohp.build_full_table_body("career_games", cat, _LEADERS_20)
+
+    assert len(rows) == 20
+    for row in rows:
+        assert "**[data]**" in row

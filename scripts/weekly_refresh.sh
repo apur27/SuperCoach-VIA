@@ -105,9 +105,17 @@ log "[2b/5] Regenerating stat records charts..."
 $PYTHON "$REPO_ROOT/docs/hall-of-fame/generate_records_charts.py" 2>&1 | tee -a "$LOG_FILE"
 log "[2b/5] Charts regenerated."
 
-log "[2b/5] Updating HOF stat pages from JSON (deterministic)..."
+log "[2b/5] Updating HOF stat pages from JSON (deterministic — full leaderboard body + rank-1 sentinels)..."
 $PYTHON "$REPO_ROOT/scripts/update_hof_pages.py" 2>&1 | tee -a "$LOG_FILE"
 log "[2b/5] HOF pages updated."
+
+log "[2b/5] Running deterministic HOF numeric gate..."
+$PYTHON "$REPO_ROOT/scripts/check_hof_numbers.py" 2>&1 | tee -a "$LOG_FILE"
+if [ $? -ne 0 ]; then
+  log "ERROR: HOF numeric gate failed — aborting Phase 2b. Fix mismatches before shipping."
+  exit 1
+fi
+log "[2b/5] HOF numeric gate passed."
 
 # ---------------------------------------------------------------------------
 # Phase 3 — FootyStrategy agent: round recap + insights update

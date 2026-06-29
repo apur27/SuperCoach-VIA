@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -24,13 +24,14 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 
 | # | Player | Club(s) | Span | Games | Goal assists | Per game |
 |--:|--------|---------|------|------:|-------------:|---------:|
+<!-- HOF-TABLE-START:career_goal_assists -->
 | 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 435 | 330 | 0.76 |<!-- HOF-TOP:career_goal_assists -->
 | 2 | Eddie Betts **[data]** | Adelaide - Carlton | 2005-2021 | 350 | 318 | 0.91 |
 | 3 | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 | 296 | 0.82 |
 | 4 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 282 | 0.76 |
 | 5 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 264 | 0.74 |
 | 6 | Robbie Gray **[data]** | Port Adelaide | 2007-2022 | 271 | 262 | 0.97 |
-| 7 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 261 | 0.73 |
+| 7 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 261 | 0.73 |
 | 8 | Steve Johnson **[data]** | Geelong - Greater Western Sydney | 2002-2017 | 293 | 256 | 0.87 |
 | 9 | Jack Riewoldt **[data]** | Richmond | 2007-2023 | 347 | 249 | 0.72 |
 | 10 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 248 | 0.64 |
@@ -44,6 +45,7 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 | 18 | Toby Greene **[data]** | Greater Western Sydney | 2012-2026 | 275 | 218 | 0.79 |
 | 19 | Matthew Pavlich **[data]** | Fremantle | 2000-2016 | 353 | 216 | 0.61 |
 | 20 | Shane Edwards **[data]** | Richmond | 2007-2022 | 303 | 211 | 0.70 |
+<!-- HOF-TABLE-END:career_goal_assists -->
 
 ## FootyStrategy tactical read
 
