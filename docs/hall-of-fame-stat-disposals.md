@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-23 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -10,7 +10,7 @@
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-23. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-06-29. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -36,7 +36,7 @@ Disposals = kicks + handballs. The total possession-handling volume across a car
 | 10 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 8,467 | 27.49 |
 | 11 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 8,427 | 22.71 |
 | 12 | Michael Tuck **[data]** | Hawthorn | 1972-1991 | 426 | 8,423 | 19.77 |
-| 13 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 366 | 8,367 | 22.86 |
+| 13 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 366 | 8,386 | 22.91 |
 | 14 | Scott West **[data]** | Footscray - Western Bulldogs | 1993-2008 | 324 | 8,222 | 25.38 |
 | 15 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 8,042 | 21.39 |
 | 16 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 7,664 | 23.29 |
@@ -47,9 +47,9 @@ Disposals = kicks + handballs. The total possession-handling volume across a car
 
 ## FootyStrategy tactical read
 
-**Pendlebury leads, narrowly.** Pendlebury 11,028 **[data]** is the first 11,000-disposal career, and the only one. Robert Harvey 9,656 **[data]** sits second, 1,372 disposals back; Brent Harvey 9,213 **[data]** and Bartlett 9,151 **[data]** are next in line. Lachie Neale at 27.49 disposals per game **[data]** is the highest per-game rate in the top 20, ahead of Sam Mitchell's 26.40 **[data]** and West's 25.38 **[data]**. *Structuralist lens:* Pendlebury's volume is the product of a 21-year career, not an unusually high per-game rate - his 25.35 average **[data]** is mid-pack against the modern midfielders. The combination of moderate-high rate sustained across an unbroken career is what distinguishes him from Harvey and Bartlett, both of whom averaged similar disposal rates over comparable career lengths.
+**Pendlebury leads, narrowly.** Pendlebury 11,044 **[data]** is the first 11,000-disposal career, and the only one. Robert Harvey 9,656 **[data]** sits second, 1,388 disposals back; Brent Harvey 9,213 **[data]** and Bartlett 9,151 **[data]** are next in line. Lachie Neale at 27.49 disposals per game **[data]** is the highest per-game rate in the top 20, ahead of Sam Mitchell's 26.40 **[data]** and West's 25.38 **[data]**. *Structuralist lens:* Pendlebury's volume is the product of a 21-year career, not an unusually high per-game rate - his 25.39 average **[data]** is mid-pack against the modern midfielders. The combination of moderate-high rate sustained across an unbroken career is what distinguishes him from Harvey and Bartlett, both of whom averaged similar disposal rates over comparable career lengths.
 
-**Kick-to-handball composition has flipped.** This list contains both Bartlett (the all-time kicks leader at 8,293 **[data]**, see [kicks page](hall-of-fame-stat-kicks-handballs.md)) and Pendlebury (the all-time handballs leader at 5,531 **[data]**). Bartlett's career: 8,293 kicks + 858 handballs ≈ 9,151 disposals - 90% by foot. Pendlebury's career: 5,497 kicks + 5,531 handballs **[data]** ≈ 11,028 disposals **[data]** - 50/50 by composition. *Tempo Architect lens:* the modern midfielder is structurally a handballer-distributor first; the 1970s midfielder was a kicker-finder. The "disposal" stat treats both equally but they are functionally different actions - a kick advances territory, a handball maintains possession. The fact that Pendlebury sits above Bartlett on disposals while Bartlett still leads kicks reflects a sport that has shifted from territory to retention as the primary midfield function.
+**Kick-to-handball composition has flipped.** This list contains both Bartlett (the all-time kicks leader at 8,293 **[data]**, see [kicks page](hall-of-fame-stat-kicks-handballs.md)) and Pendlebury (the all-time handballs leader at 5,543 **[data]**). Bartlett's career: 8,293 kicks + 858 handballs ≈ 9,151 disposals - 90% by foot. Pendlebury's career: 5,501 kicks + 5,543 handballs **[data]** ≈ 11,044 disposals **[data]** - 50/50 by composition. *Tempo Architect lens:* the modern midfielder is structurally a handballer-distributor first; the 1970s midfielder was a kicker-finder. The "disposal" stat treats both equally but they are functionally different actions - a kick advances territory, a handball maintains possession. The fact that Pendlebury sits above Bartlett on disposals while Bartlett still leads kicks reflects a sport that has shifted from territory to retention as the primary midfield function.
 
 **The pre-2000 understatement.** Bartlett **[data]** is the only 1980s-or-earlier player in the top 20 - and he barely qualifies, retiring in 1983. Tuck (1991) **[data]**, Shaw (1994) **[data]** are the only other "career ended before 2000" entrants. Every other name played at least some football in the 21st century. *Conditioner lens:* this is not because earlier midfielders were less productive per game, but because handballs were under-recorded league-wide before the late 1960s; the disposals stat for any pre-1965 ball-getter materially undercounts their actual involvement. Polly Farmer, Bill Hutchison, Ted Whitten, Ron Barassi - all of them would compete for top-20 spots if handball data existed. The list above is genuinely a "what we can measure" list rather than a "best ever" list, and the data coverage note below makes that explicit.
 

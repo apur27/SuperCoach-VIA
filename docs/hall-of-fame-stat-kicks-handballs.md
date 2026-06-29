@@ -2,7 +2,7 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-22 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
+  DataSentinel: PASS @ 2026-06-29 (all [data]-tagged numbers verified against docs/hall-of-fame/_stat_leaders.json)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
@@ -40,7 +40,7 @@ The [disposals page](hall-of-fame-stat-disposals.md) shows the combined leaderbo
 | 14 | Greg Wells **[data]** | Carlton - Melbourne | 1969-1982 | 267 | 4,890 | 18.31 |
 | 15 | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 | 4,849 | 13.25 |
 | 16 | Luke Hodge **[data]** | Brisbane Lions - Hawthorn | 2002-2019 | 346 | 4,834 | 13.97 |
-| 17 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 366 | 4,799 | 13.11 |
+| 17 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 366 | 4,813 | 13.15 |
 | 18 | Kade Simpson **[data]** | Carlton | 2003-2020 | 342 | 4,766 | 13.94 |
 | 19 | Dayne Zorko **[data]** | Brisbane Lions | 2012-2026 | 311 | 4,706 | 15.13 |
 | 20 | Gary Ablett jnr **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,696 | 13.15 |
@@ -78,7 +78,7 @@ The [disposals page](hall-of-fame-stat-disposals.md) shows the combined leaderbo
 
 **Pendlebury's handball record.** Pendlebury 5,531 career handballs **[data]** at 12.71/game **[data]** is the all-time mark. *Tempo Architect lens:* his disposal mix has been roughly 50/50 across his career, with the handball share rising in his thirties as his role shifted to outside-distributor. The fact that he leads kicks #9 and handballs #1 makes him the most balanced ball-user in the top-20 of either list - the only player who is genuinely elite at both halves of the disposal split.
 
-**The kick-to-handball ratio has flipped over 50 years.** Bartlett's career ratio: 8,293 kicks / 858 handballs ≈ 9.7-to-1. Pendlebury's career ratio: 5,456 kicks / 5,477 handballs ≈ 1-to-1. *Tempo Architect lens:* the AFL has moved from a kicking sport with occasional handballs to a handball-chains sport with kicks used as territory-changing moments. The shift is structural - the abolition of zone defence in the 1980s, the introduction of interchange rotations that allowed midfielders to maintain handball pace for longer stretches, and the post-2000 emphasis on possession retention all push toward more handballs and fewer kicks per chain. Bartlett's record stands because the sport no longer produces 20-kick midfielders; Pendlebury's record stands because the sport began producing 12+ handball-per-game midfielders only in the late 1990s.
+**The kick-to-handball ratio has flipped over 50 years.** Bartlett's career ratio: 8,293 kicks / 858 handballs ≈ 9.7-to-1. Pendlebury's career ratio: 5,501 kicks / 5,543 handballs ≈ 1-to-1. *Tempo Architect lens:* the AFL has moved from a kicking sport with occasional handballs to a handball-chains sport with kicks used as territory-changing moments. The shift is structural - the abolition of zone defence in the 1980s, the introduction of interchange rotations that allowed midfielders to maintain handball pace for longer stretches, and the post-2000 emphasis on possession retention all push toward more handballs and fewer kicks per chain. Bartlett's record stands because the sport no longer produces 20-kick midfielders; Pendlebury's record stands because the sport began producing 12+ handball-per-game midfielders only in the late 1990s.
 
 **The all-time kicks list as a historical document.** Bartlett, Tuck, Matthews, Bradley, Richardson, Brent Harvey, Robert Harvey, Nankervis, Murphy, Buckley - ten of the top twelve kicks leaders had their primary careers before 2005. *Culture Custodian lens:* this list reads as a roll-call of the kicking generation. The kick was the unit of football play; midfielders were measured by how cleanly and how often they could deliver. The modern game's structural preference for handball retention has demoted the kick to a punctuation mark in possession chains, not their main verb. The kicking-only leaderboard above is partly a snapshot of a sport that has moved on.
 
