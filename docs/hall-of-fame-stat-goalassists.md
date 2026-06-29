@@ -36,13 +36,13 @@ A goal assist is the disposal immediately preceding a teammate's goal - the kick
 | 9 | Jack Riewoldt **[data]** | Richmond | 2007-2023 | 347 | 249 | 0.72 |
 | 10 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 248 | 0.64 |
 | 11 | Luke Breust **[data]** | Hawthorn | 2011-2025 | 308 | 246 | 0.80 |
-| 12 | Taylor Walker **[data]** | Adelaide | 2009-2026 | 310 | 243 | 0.78 |
+| 12 | Taylor Walker **[data]** | Adelaide | 2009-2026 | 311 | 243 | 0.78 |
 | 13 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 239 | 0.88 |
 | 14 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 233 | 0.54 |
 | 15 | Lance Franklin **[data]** | Hawthorn - Sydney | 2005-2023 | 354 | 231 | 0.65 |
 | 16 | Nick Riewoldt **[data]** | St Kilda | 2001-2017 | 336 | 224 | 0.67 |
 | 17 | Dustin Martin **[data]** | Richmond | 2010-2024 | 302 | 221 | 0.73 |
-| 18 | Toby Greene **[data]** | Greater Western Sydney | 2012-2026 | 275 | 218 | 0.79 |
+| 18 | Toby Greene **[data]** | Greater Western Sydney | 2012-2026 | 276 | 219 | 0.79 |
 | 19 | Matthew Pavlich **[data]** | Fremantle | 2000-2016 | 353 | 216 | 0.61 |
 | 20 | Shane Edwards **[data]** | Richmond | 2007-2022 | 303 | 211 | 0.70 |
 <!-- HOF-TABLE-END:career_goal_assists -->

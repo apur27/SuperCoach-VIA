@@ -38,13 +38,13 @@ Career games played is the longevity-and-availability stat. It measures three th
 | 11 | Craig Bradley **[data]** | Carlton | 1986-2002 | 375 |
 | 12 | Adam Goodes **[data]** | Sydney | 1999-2015 | 372 |
 | 13 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 |
-| 14= | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 366 |
-| 14= | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 |
+| 14 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 367 |
+| 15 | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 |
 | 16 | Brad Johnson **[data]** | Footscray - Western Bulldogs | 1994-2010 | 364 |
 | 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |
 | 17= | John Blakey **[data]** | Fitzroy - Kangaroos - North Melbourne | 1985-2002 | 359 |
 | 19 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 |
-| 20 | Bruce Doull **[data]** | Carlton | 1969-1986 | 356 |
+| 20 | Paul Roos **[data]** | Fitzroy - Sydney | 1982-1998 | 356 |
 <!-- HOF-TABLE-END:career_games -->
 
 ## FootyStrategy tactical read

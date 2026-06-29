@@ -29,15 +29,15 @@ The Brownlow Medal is awarded annually to the fairest and best player in the hom
 | 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 259 | 0.70 |
 | 3 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 227 | 0.69 |
 | 4= | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 225 | 0.52 |
-| 4= | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 225 | 0.73 |
+| 4= | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 309 | 225 | 0.73 |
 | 6 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 215 | 0.56 |
 | 7 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 214 | 0.60 |
 | 8 | Dustin Martin **[data]** | Richmond | 2010-2024 | 302 | 213 | 0.71 |
 | 9 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 210 | 0.75 |
 | 10= | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 191 | 0.44 |
 | 10= | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 191 | 0.70 |
-| 12 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 247 | 190 | 0.77 |
-| 13 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 244 | 189 | 0.77 |
+| 12 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 248 | 190 | 0.77 |
+| 13 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 245 | 189 | 0.77 |
 | 14= | Lance Franklin **[data]** | Hawthorn - Sydney | 2005-2023 | 354 | 186 | 0.53 |
 | 14= | Dane Swan **[data]** | Collingwood | 2003-2016 | 258 | 186 | 0.72 |
 | 16 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 184 | 0.57 |

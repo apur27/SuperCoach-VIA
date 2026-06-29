@@ -32,7 +32,7 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 | Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |<!-- HOF-HUB:career_marks -->
 | Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |<!-- HOF-HUB:career_tackles -->
 | Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,704 **[data]** |<!-- HOF-HUB:career_contested_possessions -->
-| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,979 **[data]** |<!-- HOF-HUB:career_clearances -->
+| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,986 **[data]** |<!-- HOF-HUB:career_clearances -->
 | Career hit-outs | [Hit-outs leaderboard](hall-of-fame-stat-hitouts.md) | Todd Goldstein 10,597 **[data]** |<!-- HOF-HUB:career_hit_outs -->
 | Career Brownlow votes | [Brownlow leaderboard](hall-of-fame-stat-brownlow.md) | Gary Ablett 262 **[data]** |<!-- HOF-HUB:career_brownlow_votes -->
 | Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 330 **[data]** |<!-- HOF-HUB:career_goal_assists -->

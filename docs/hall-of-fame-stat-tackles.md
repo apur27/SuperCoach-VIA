@@ -31,7 +31,7 @@ A tackle is a contact possession against an opponent in possession that results 
 | 2 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
 | 4 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,611 | 4.16 |
-| 5 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 1,582 | 4.81 |
+| 5 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 330 | 1,584 | 4.80 |
 | 6 | Liam Shiels **[data]** | Hawthorn - North Melbourne | 2009-2024 | 288 | 1,560 | 5.42 |
 | 7 | Jack Steele **[data]** | Greater Western Sydney - Melbourne - St Kilda | 2015-2026 | 217 | 1,555 | 7.17 |
 | 8 | Dayne Zorko **[data]** | Brisbane Lions | 2012-2026 | 311 | 1,535 | 4.94 |

@@ -27,21 +27,21 @@ A contested possession is a ball-getting event won under direct opposition press
 <!-- HOF-TABLE-START:career_contested_possessions -->
 | 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 4,704 | 12.68 |<!-- HOF-TOP:career_contested_possessions -->
 | 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 4,420 | 10.14 |
-| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 308 | 4,028 | 13.08 |
+| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 309 | 4,040 | 13.07 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
 | 5 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
 | 6 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 3,984 | 11.22 |
 | 7 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 3,743 | 9.67 |
-| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 329 | 3,640 | 11.06 |
-| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 244 | 3,542 | 14.52 |
+| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 330 | 3,643 | 11.04 |
+| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 245 | 3,558 | 14.52 |
 | 10 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 3,523 | 10.94 |
 | 11 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 3,418 | 9.09 |
 | 12 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 3,401 | 10.34 |
-| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 283 | 3,301 | 11.66 |
+| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 284 | 3,308 | 11.65 |
 | 14 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 3,276 | 11.74 |
 | 15 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 3,262 | 10.66 |
-| 16 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 219 | 3,233 | 14.76 |
-| 17 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 247 | 3,204 | 12.97 |
+| 16 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 220 | 3,245 | 14.75 |
+| 17 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 248 | 3,206 | 12.93 |
 | 18 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 262 | 3,201 | 12.22 |
 | 19 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 3,176 | 13.23 |
 | 20 | Callan Ward **[data]** | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 3,134 | 9.58 |

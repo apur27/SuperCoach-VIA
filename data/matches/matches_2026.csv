@@ -122,3 +122,6 @@ round_num,venue,date,year,attendance,team_1_team_name,team_1_q1_goals,team_1_q1_
 16,M.C.G.,2026-06-21 13:10,2026,41806,Richmond,1,2,3,4,3,8,6,12,North Melbourne,1,2,4,6,7,10,10,13
 16,Docklands,2026-06-21 15:15,2026,30194,St Kilda,3,4,4,7,6,8,8,13,Western Bulldogs,3,2,7,5,8,10,12,11
 17,M.C.G.,2026-06-27 16:15,2026,0,Collingwood,2,3,8,6,11,10,15,16,Richmond,2,3,3,3,7,6,11,6
+17,Adelaide Oval,2026-06-27 19:05,2026,50087,Port Adelaide,3,4,8,6,12,13,13,19,Adelaide,4,2,6,2,8,4,11,5
+17,Docklands,2026-06-28 15:15,2026,37054,North Melbourne,2,6,5,9,8,15,10,19,Essendon,2,2,4,6,5,8,9,11
+17,Perth Stadium,2026-06-28 15:10,2026,50602,Fremantle,4,4,4,7,8,12,11,14,Gold Coast,0,2,1,5,2,8,3,11
