@@ -82,7 +82,7 @@ if git diff --cached --quiet; then
     echo "No doc changes to commit."
 else
     TODAY=$(date '+%Y-%m-%d')
-    git commit -m "Auto-update: refresh AFL insights, predictions and backtest (${TODAY})"
+    scripts/git_commit_safe.sh commit -m "Auto-update: refresh AFL insights, predictions and backtest (${TODAY})"
     git push origin main
     echo "Pushed to origin/main"
 fi

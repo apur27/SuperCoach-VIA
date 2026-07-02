@@ -1,0 +1,33 @@
+# Coach-anonymity lint list — READ-ONLY GATE CONFIG
+#
+# Load-bearing for the council's coach-anonymity rule: names on this list must
+# NOT appear in the council's own structural prose in published docs. DataSentinel,
+# Skeptic, and FootyStrategy consult THIS FILE (not agent memory) as the canonical
+# list. Rationale lives in .claude/agent-memory/FootyStrategy/coach_anonymity_lint.md,
+# but that memory is advisory guidance; enforcement reads this file.
+#
+# Maintenance: this file is repo config, changed only via reviewed commits — never
+# written by an agent mid-run. Add/curate names here as the coaching landscape changes.
+#
+# Scope notes:
+#  - Player names are NOT coach names and are always allowed (Cripps, Walsh, Milera, ...).
+#  - When a coach IS the named subject of an article (e.g. a "steps down" news piece),
+#    the headline subject may be named; the council's structural reads inside still cannot.
+#  - Codex-attributed external-commentary sections may name names (explicitly attributed).
+#
+# One name (or surname) per line. Matching is case-insensitive substring on word boundary.
+
+# --- Named in the anonymity-lint memory (current + recent-era senior coaches) ---
+Neeld
+Roos
+Goodwin
+Ross Lyon
+Lyon
+Matthew Nicks
+Nicks
+Damien Hardwick
+Hardwick
+Mark Williams
+Buckley
+Bolton
+Voss

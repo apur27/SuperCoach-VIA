@@ -108,7 +108,10 @@ CATEGORIES: dict[str, dict] = {
 _STAMP = "auto-updated from _stat_leaders.json by update_hof_pages.py"
 
 # Categories with clean single-stat-column tables that support full body regeneration.
-# TODO: add career_disposals and career_goals once per-page prose is also driven from JSON.
+# career_disposals and career_goals use the same standard 7-column layout
+# (# | Player | Club(s) | Span | Games | <Stat> | Per game) rendered by the
+# non-`games_only` branch of build_full_table_row — the disposal/goal total simply
+# uses `thousands` formatting; kick/handball composition lives in prose, not the table.
 # TODO: add career_kicks / career_handballs (two-leader-per-row format needs custom handling).
 _FULL_TABLE_CATS: frozenset[str] = frozenset({
     "career_games",
@@ -119,6 +122,8 @@ _FULL_TABLE_CATS: frozenset[str] = frozenset({
     "career_goal_assists",
     "career_clearances",
     "career_contested_possessions",
+    "career_disposals",
+    "career_goals",
 })
 
 

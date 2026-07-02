@@ -1,5 +1,6 @@
 # Memory Index
 
+- [HOF full-table regen wiring](hof_full_table_regen.md) - whitelist inert without HOF-TABLE-START/END doc markers; table=bare names, prose=jnr/snr; disposals/goals are standard 7-col not multi-column
 - [Match-round audit (R10 2026 bug guard)](match_round_audit.md) - audit_match_rounds() in game_scraper.py; fixture-aware (fetch_round_fixture from afltables season page), exact, names missing matchups, no threshold
 - [Reconciliation source: afltables player page](reconciliation_source_afltables_player.md) - all-season Totals row maps 1:1 to our CSV cols; second source of truth for missing PLAYER stat rows (Pendlebury bug); career-level not per-game
 - [AFL data source URL map](afl_data_source_urls.md) - afltables = only scrapable structured source (ladder/stats); AFL.com.au /ladder & /stats are empty SPA shells; FA status is article prose only

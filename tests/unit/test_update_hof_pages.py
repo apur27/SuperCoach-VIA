@@ -254,3 +254,144 @@ def test_full_table_data_tags_on_all_rows():
     assert len(rows) == 20
     for row in rows:
         assert "**[data]**" in row
+
+
+# ── Full-table for disposals & goals (Task: close deferred TODO) ───────────────
+#
+# These two categories use the SAME standard 7-column layout as the already-
+# whitelisted career_marks / career_tackles pages:
+#   | # | Player | Club(s) | Span | Games | <Stat> | Per game |
+# (There is no multi-column kicks+handballs / seasons+career-totals table on the
+#  live pages — the disposal total renders with `thousands` formatting, and the
+#  kick/handball composition lives only in prose, not the table.)
+# So build_full_table_row's non-`games_only` branch already renders them; the fix
+# is to add both keys to _FULL_TABLE_CATS.
+
+_LEADERS_DISPOSALS = [
+    {
+        "rank": 1, "rank_label": "1", "tied": False,
+        "name": "Scott Pendlebury", "teams": "Collingwood",
+        "year_min": 2006, "year_max": 2026,
+        "games": 436, "total": 11069.0, "per_game": 25.39,
+    },
+    {
+        "rank": 2, "rank_label": "2", "tied": False,
+        "name": "Robert Harvey", "teams": "St Kilda",
+        "year_min": 1988, "year_max": 2008,
+        "games": 383, "total": 9656.0, "per_game": 25.21,
+    },
+    {
+        "rank": 3, "rank_label": "3", "tied": False,
+        "name": "Brent Harvey", "teams": "Kangaroos - North Melbourne",
+        "year_min": 1996, "year_max": 2016,
+        "games": 432, "total": 9213.0, "per_game": 21.33,
+    },
+]
+
+_LEADERS_GOALS = [
+    {
+        "rank": 1, "rank_label": "1", "tied": False,
+        "name": "Tony Lockett", "teams": "St Kilda - Sydney",
+        "year_min": 1983, "year_max": 2002,
+        "games": 281, "total": 1360.0, "per_game": 4.84,
+    },
+    {
+        "rank": 2, "rank_label": "2", "tied": False,
+        "name": "Gordon Coventry", "teams": "Collingwood",
+        "year_min": 1920, "year_max": 1937,
+        "games": 306, "total": 1299.0, "per_game": 4.25,
+    },
+    {
+        "rank": 3, "rank_label": "3", "tied": False,
+        "name": "Jason Dunstall", "teams": "Hawthorn",
+        "year_min": 1985, "year_max": 1998,
+        "games": 269, "total": 1254.0, "per_game": 4.66,
+    },
+]
+
+
+# ── test 11 ───────────────────────────────────────────────────────────────────
+
+def test_disposals_and_goals_whitelisted_for_full_table():
+    assert "career_disposals" in uohp._FULL_TABLE_CATS
+    assert "career_goals" in uohp._FULL_TABLE_CATS
+
+
+# ── test 12 ───────────────────────────────────────────────────────────────────
+
+def test_full_table_body_disposals_standard_format():
+    cat = uohp.CATEGORIES["career_disposals"]
+    rows = uohp.build_full_table_body("career_disposals", cat, _LEADERS_DISPOSALS)
+
+    assert rows == [
+        "| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 11,069 | 25.39 |<!-- HOF-TOP:career_disposals -->",
+        "| 2 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 9,656 | 25.21 |",
+        "| 3 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 9,213 | 21.33 |",
+    ]
+
+
+# ── test 13 ───────────────────────────────────────────────────────────────────
+
+def test_full_table_body_goals_standard_format():
+    cat = uohp.CATEGORIES["career_goals"]
+    rows = uohp.build_full_table_body("career_goals", cat, _LEADERS_GOALS)
+
+    assert rows == [
+        "| 1 | Tony Lockett **[data]** | St Kilda - Sydney | 1983-2002 | 281 | 1,360 | 4.84 |<!-- HOF-TOP:career_goals -->",
+        "| 2 | Gordon Coventry **[data]** | Collingwood | 1920-1937 | 306 | 1,299 | 4.25 |",
+        "| 3 | Jason Dunstall **[data]** | Hawthorn | 1985-1998 | 269 | 1,254 | 4.66 |",
+    ]
+
+
+# ── test 14 ───────────────────────────────────────────────────────────────────
+
+def test_full_table_disposals_end_to_end_with_markers(tmp_path):
+    """A page carrying HOF-TABLE markers gets its body regenerated for disposals."""
+    sub = tmp_path / "stat-disposals.md"
+    sub.write_text(
+        "| # | Player | Club(s) | Span | Games | Disposals | Per game |\n"
+        "|--:|--------|---------|------|------:|----------:|---------:|\n"
+        "<!-- HOF-TABLE-START:career_disposals -->\n"
+        "| 1 | StalePlayer **[data]** | StaleClub | 2000-2020 | 400 | 9,999 | 24.99 |<!-- HOF-TOP:career_disposals -->\n"
+        "<!-- HOF-TABLE-END:career_disposals -->\n"
+        "Prose below.\n"
+    )
+
+    cat = uohp.CATEGORIES["career_disposals"]
+    rows = uohp.build_full_table_body("career_disposals", cat, _LEADERS_DISPOSALS)
+    text, changed = uohp.replace_table_body(sub.read_text(), "career_disposals", rows)
+
+    assert changed
+    assert "StalePlayer" not in text
+    assert "Scott Pendlebury **[data]**" in text
+    assert "11,069" in text
+    assert "<!-- HOF-TOP:career_disposals -->" in text  # sentinel preserved on rank-1
+    assert "<!-- HOF-TABLE-START:career_disposals -->" in text
+    assert "<!-- HOF-TABLE-END:career_disposals -->" in text
+
+
+# ── test 15 ───────────────────────────────────────────────────────────────────
+
+def test_full_table_goals_end_to_end_with_markers(tmp_path):
+    """A page carrying HOF-TABLE markers gets its body regenerated for goals."""
+    sub = tmp_path / "stat-goals.md"
+    sub.write_text(
+        "| # | Player | Club(s) | Span | Games | Goals | Per game |\n"
+        "|--:|--------|---------|------|------:|------:|---------:|\n"
+        "<!-- HOF-TABLE-START:career_goals -->\n"
+        "| 1 | StaleForward **[data]** | StaleClub | 1980-2000 | 250 | 999 | 3.99 |<!-- HOF-TOP:career_goals -->\n"
+        "<!-- HOF-TABLE-END:career_goals -->\n"
+        "Prose below.\n"
+    )
+
+    cat = uohp.CATEGORIES["career_goals"]
+    rows = uohp.build_full_table_body("career_goals", cat, _LEADERS_GOALS)
+    text, changed = uohp.replace_table_body(sub.read_text(), "career_goals", rows)
+
+    assert changed
+    assert "StaleForward" not in text
+    assert "Tony Lockett **[data]**" in text
+    assert "1,360" in text
+    assert "<!-- HOF-TOP:career_goals -->" in text
+    assert "<!-- HOF-TABLE-START:career_goals -->" in text
+    assert "<!-- HOF-TABLE-END:career_goals -->" in text

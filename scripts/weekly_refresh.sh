@@ -228,7 +228,7 @@ git add \
 if git diff --cached --quiet; then
     log "[4/5] No new changes to commit — everything already up to date."
 else
-    git commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)"
+    scripts/git_commit_safe.sh commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)"
     git push origin main
     log "[4/5] Pushed to origin/main."
 fi

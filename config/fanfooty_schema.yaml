@@ -1,0 +1,59 @@
+# FanFooty live-snapshot schema facts — READ-ONLY GATE CONFIG
+#
+# Load-bearing for DataSentinel's FanFooty schema check. Promoted out of agent memory
+# (.claude/agent-memory/Scientist/snapshot_data_quality.md) so the gate reads a
+# reviewed config file, not memory writable by the agents being gated.
+#
+# Source of truth for the FULL per-player column order is the snapshot JSON itself:
+# data/live_snapshots/<gameid>_<date>_<time>_*.json -> snapshot.schema.column_order
+# (65-column per-player schema). This file records only the gate-relevant facts.
+#
+# Applies to any [data] tag whose declared source is data/live_snapshots/*.json|csv.
+
+source_glob: "data/live_snapshots/*"
+
+# Fields that MISINDEX in the FanFooty feed — never accept a snapshot-sourced value for
+# these; the authoritative source must be afltables-derived (data/player_data/, data/matches/).
+# Verified R10 2026 Richmond v Adelaide: 102 mismatches vs afltables, concentrated here.
+unreliable_fields:
+  goals:    { snapshot_index: 15 }
+  behinds:  { snapshot_index: 16 }
+  clangers: { snapshot_index: 39 }
+
+# Fields NOT present in the FanFooty per-player snapshot at all — any snapshot-sourced
+# [data] tag for these is a schema violation.
+unavailable_fields:
+  - inside_50s
+  - clearances
+  - contested_possessions
+
+# Fields that DO agree exactly with afltables and MAY be sourced from the snapshot.
+reliable_fields:
+  - af
+  - sc
+  - proj_af
+  - proj_low
+  - proj_sc
+  - kicks
+  - handballs
+  - marks
+  - tackles
+  - hitouts
+  - frees_for
+  - frees_against
+  - status
+  - position
+  - jumper
+  - de_pct
+  - tog_pct
+  - af_q1
+  - af_q2
+  - af_q3
+  - af_q4
+  - sc_q1
+  - sc_q2
+  - sc_q3
+  - sc_q4
+
+# Reproducibility tripwire: re-sum snapshot per-player goals to a team total and compare
+# to the scoreboard. Disagreement > 1-2 => the goals column is misindexed for that snapshot.

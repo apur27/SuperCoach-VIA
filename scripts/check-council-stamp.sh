@@ -23,6 +23,69 @@
 #
 set -uo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HASH_SCRIPT="$SCRIPT_DIR/council-content-hash.sh"
+AUDIT_DIR="${COUNCIL_AUDIT_DIR:-$SCRIPT_DIR/../.claude/audit}"
+# AUDIT_ENFORCE=1 makes a stamp with NO matching audit record a hard FAIL.
+# Default (0) warns instead, so the gate is safe to land before the DataSentinel
+# producer side (scripts/record-sentinel-verdict.sh) is wired into the agent.
+# A record that EXISTS but disagrees (tamper / non-PASS) always fails, both modes.
+AUDIT_ENFORCE="${AUDIT_ENFORCE:-0}"
+
+# verify_stamp_against_audit <file> -> 0 verified/ok, 1 hard-fail
+# Cross-checks a `DataSentinel: PASS` stamp against the content-hash-keyed audit
+# records. This is what makes the stamp unforgeable in practice: the PASS text is
+# only trusted if a sentinel record was written for THIS doc's current content.
+verify_stamp_against_audit() {
+  local f="$1"
+  if [ ! -x "$HASH_SCRIPT" ]; then
+    echo "NOTE: $HASH_SCRIPT missing — cannot audit-verify stamp for $f (presence check only)." >&2
+    return 0
+  fi
+  local hash; hash="$("$HASH_SCRIPT" "$f" 2>/dev/null)"
+  if [ -z "$hash" ]; then
+    echo "NOTE: could not compute content hash for $f — skipping audit cross-check." >&2
+    return 0
+  fi
+
+  local rec verdict rhash rpath
+  local matched_pass=0 records_for_doc=0
+  shopt -s nullglob
+  for rec in "$AUDIT_DIR"/sentinel-*.json; do
+    rpath="$(grep -o '"doc_path":"[^"]*"' "$rec" | head -1 | cut -d'"' -f4)"
+    [ "$rpath" = "$f" ] || continue
+    records_for_doc=$((records_for_doc + 1))
+    rhash="$(grep -o '"doc_hash":"[^"]*"' "$rec" | head -1 | cut -d'"' -f4)"
+    verdict="$(grep -o '"verdict":"[^"]*"' "$rec" | head -1 | cut -d'"' -f4)"
+    if [ "$rhash" = "$hash" ] && [ "$verdict" = "PASS" ]; then
+      matched_pass=1
+    fi
+  done
+  shopt -u nullglob
+
+  if [ "$matched_pass" -eq 1 ]; then
+    echo "OK: $f stamp verified against audit record (content hash $hash)."
+    return 0
+  fi
+
+  if [ "$records_for_doc" -gt 0 ]; then
+    echo "ERROR: $f carries a DataSentinel: PASS stamp, but no audit record matches its" >&2
+    echo "       current content hash ($hash). The doc changed after verification, or the" >&2
+    echo "       recorded verdict was not PASS. Re-run DataSentinel on the current content." >&2
+    return 1
+  fi
+
+  # No record at all for this doc.
+  if [ "$AUDIT_ENFORCE" -eq 1 ]; then
+    echo "ERROR: $f stamp cannot be verified — no DataSentinel audit record exists for it." >&2
+    echo "       (AUDIT_ENFORCE=1) Run scripts/record-sentinel-verdict.sh via DataSentinel." >&2
+    return 1
+  fi
+  echo "WARNING: $f stamp is unverified against the audit log (no sentinel record yet)." >&2
+  echo "         The stamp is trusted on text alone until DataSentinel emits audit records." >&2
+  return 0
+}
+
 DRY_RUN=0
 FILES=()
 
@@ -119,6 +182,14 @@ for f in "${FILES[@]}"; do
   elif ! printf '%s' "$sk_line" | grep -qi 'PASS'; then
     echo "ERROR: $f Skeptic verdict is not PASS ->$sk_line" >&2
     file_failed=1
+  fi
+
+  # Stamp text is present and says PASS. Now cross-check it against the audit log:
+  # the text alone is forgeable; a content-hash-keyed sentinel record is not.
+  if [ "$file_failed" -eq 0 ]; then
+    if ! verify_stamp_against_audit "$f"; then
+      file_failed=1
+    fi
   fi
 
   if [ "$file_failed" -ne 0 ]; then
