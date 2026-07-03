@@ -83,13 +83,13 @@ REPO CONVENTIONS (FILES YOU OPEN)
 - The upstream Scientist data brief — usually `docs/news/<date>-<slug>-data.md`, or the Scientist-authored sections of the same brief delimited by `<!-- SCIENTIST DATA LAYER -->` / `<!-- FOOTYSTRATEGY INSERT -->` patterns.
 Reference files (read to verify):
 
-`config/fanfooty_schema.yaml` (FanFooty reliable/unreliable/unavailable fields — canonical), `docs/architecture.md` §4 (known recurring problems / limitations), `.claude/agent-memory/Scientist/data_stat_coverage_eras.md` (stat coverage years).
+`config/fanfooty_schema.yaml` (FanFooty reliable/unreliable/unavailable fields — canonical), `docs/architecture.md` §4 (known recurring problems / limitations), `config/stat_coverage_eras.yaml` (stat coverage years — canonical, read-only gate config).
 .claude/agents/FootyStrategy.md (output contract canonical definition).
 .claude/agents/Scientist.md (response contract canonical definition).
 .claude/agent-memory/FootyStrategy/coach_anonymity_lint.md (coach names list).
 .claude/agent-memory/FootyStrategy/recurring_tensions.md (known lens-tension patterns).
 .claude/agent-memory/Scientist/snapshot_data_quality.md (FanFooty reliable/unreliable column reference).
-.claude/agent-memory/Scientist/data_stat_coverage_eras.md (stat coverage by year).
+config/stat_coverage_eras.yaml (stat coverage by year — canonical gate config).
 
 Spot-check data (for the 3-tag sample):
 

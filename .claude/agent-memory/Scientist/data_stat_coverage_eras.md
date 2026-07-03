@@ -8,12 +8,16 @@ The player_data CSVs have inconsistent stat coverage across history. Forgetting 
 
 **First year with a non-trivial mean (>0.01) for each metric** (verified by aggregating data/player_data/*_performance_details.csv across all 13,320 player files, May 2026):
 
-- **kicks, marks, handballs, disposals**: 1965 (no AFL stats kept before that)
+- **kicks, marks, handballs, disposals, behinds**: 1965 (no AFL stats kept before that)
 - **hit_outs**: 1966
 - **tackles**: 1987
-- **clearances, inside_50s**: 1998
-- **contested_possessions, uncontested_possessions**: 1999
-- **goals, behinds**: tracked from 1897 (the entire dataset)
+- **clearances, inside_50s, rebound_50s, clangers**: 1998
+- **contested_possessions, uncontested_possessions, contested_marks, marks_inside_50, one_percenters, bounces**: 1999
+- **goal_assist** (column is SINGULAR, not `goal_assists`): 2003
+- **goals**: 1897 (the entire dataset)
+- **brownlow_votes**: coverage is patchy — data present 1931-1934, then a GAP 1935-1983 (all NaN/0), then continuous 1984-2025. No pre-1931 data despite the medal starting 1924. 2026 NaN (votes counted at season end). Lives only in performance_details.csv (also career-aggregated in all_time_top_100.csv). For a hard era gate use **1984** (first continuously-populated year); the 1931-1934 fragment is real but isolated and unreliable.
+
+**CORRECTION (2026-07, re-verified 691,687 player-game rows across 13,343 files):** behinds is 1965, NOT 1897 — behinds is entirely NaN before 1965; only **goals** goes back to 1897. Earlier version of this note wrongly grouped behinds with goals.
 
 **Known recording-method change that's NOT a real on-field shift:**
 

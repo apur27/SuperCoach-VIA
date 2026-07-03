@@ -1,0 +1,55 @@
+# Canonical stat coverage era table. Read-only gate config.
+# DataSentinel and Skeptic read this file — do not edit without Scientist sign-off.
+#
+# `recorded_from` = the first match `year` at which the column carries real data
+# at scale (mean > 0.01 across all player-game rows). It is an availability
+# boundary for the gate: a [data] tag citing a stat for a player-game before its
+# `recorded_from` year is a schema violation (the column is not populated then).
+#
+# Verified by the Scientist against 691,687 player-game rows in
+# data/player_data/*_performance_details.csv (pandas 2.2.3, deterministic
+# aggregation). Supersedes the prose table formerly in
+# .claude/agent-memory/Scientist/data_stat_coverage_eras.md.
+stats:
+  kicks:
+    recorded_from: 1965
+  marks:
+    recorded_from: 1965
+  handballs:
+    recorded_from: 1965
+  disposals:
+    recorded_from: 1965
+  goals:
+    recorded_from: 1897        # only stat reaching back to the full dataset
+  behinds:
+    recorded_from: 1965        # NOT 1897 — behinds are all-NaN pre-1965
+  hit_outs:
+    recorded_from: 1966        # separate 2016->2017 counting-method jump; do not compare across that boundary
+  tackles:
+    recorded_from: 1987
+  rebound_50s:
+    recorded_from: 1998
+  inside_50s:
+    recorded_from: 1998
+  clearances:
+    recorded_from: 1998
+  clangers:
+    recorded_from: 1998
+  contested_possessions:
+    recorded_from: 1999
+  uncontested_possessions:
+    recorded_from: 1999
+  contested_marks:
+    recorded_from: 1999
+  marks_inside_50:
+    recorded_from: 1999
+  one_percenters:
+    recorded_from: 1999
+  bounces:
+    recorded_from: 1999
+  goal_assist:                 # column is SINGULAR goal_assist; all-NaN 1998-2002
+    recorded_from: 2003
+  brownlow_votes:              # strict gate: continuous from 1984. An isolated
+    recorded_from: 1984        # 1931-1934 fragment exists then a 1935-1983 dead
+                               # zone; keying to 1931 would falsely certify that
+                               # empty span. Special-case 1931-1934 if ever needed.
