@@ -46,6 +46,38 @@ def get_soup(url: str) -> BeautifulSoup:
         print(f"Error fetching URL {url}: {e}")
         return BeautifulSoup("", 'html.parser')
 
+
+def dedup_player_performance(df: pd.DataFrame) -> pd.DataFrame:
+    """Collapse exact re-scrapes of the same game while preserving genuinely
+    distinct games that share (team, year, round, opponent).
+
+    A drawn Grand Final and its replay have identical team/year/round/opponent
+    (e.g. Collingwood v St Kilda, 2010 'GF') but are two separate games with
+    different stat lines. The authoritative distinguisher is ``games_played`` --
+    afltables' running career game counter (35 for the draw, 36 for the replay).
+    Including it in the dedup key keeps both games while still removing a true
+    duplicate (an identical re-scrape carrying the same counter).
+
+    The counter can carry debut/milestone arrows (↑/↓) or be blank; those are
+    normalised before keying so an arrow-annotated re-scrape does not masquerade
+    as a distinct game. ``keep='last'`` preserves the newest scrape of a row.
+    """
+    key = ['team', 'year', 'round', 'opponent']
+    if 'games_played' not in df.columns:
+        return df.drop_duplicates(subset=key, keep='last')
+    gp_key = (
+        df['games_played'].astype(str)
+        .str.replace('↑', '', regex=False)
+        .str.replace('↓', '', regex=False)
+        .str.strip()
+    )
+    return (
+        df.assign(_gp_key=gp_key)
+        .drop_duplicates(subset=key + ['_gp_key'], keep='last')
+        .drop(columns='_gp_key')
+    )
+
+
 class PlayerScraper:
     base_url: str = 'https://afltables.com/afl/stats/'
     team_alltime_urls: List[str] = [
@@ -270,7 +302,7 @@ class PlayerScraper:
                         lambda row: (datetime(int(row['year']), 3, 1) + timedelta(weeks=(int(re.sub(r'\D', '', row['round'])) if re.sub(r'\D', '', str(row['round'] or '')) else _FINALS_WEEK.get(str(row['round']).upper().strip(), 24)) - 1)).strftime("%Y-%m-%d"),
                         axis=1
                     )
-                combined_df = pd.concat([existing_df, new_df]).drop_duplicates(subset=['team', 'year', 'round', 'opponent'], keep='last')
+                combined_df = dedup_player_performance(pd.concat([existing_df, new_df]))
                 combined_df.to_csv(performance_details_file, index=False)
             else:
                 new_df.to_csv(performance_details_file, index=False)

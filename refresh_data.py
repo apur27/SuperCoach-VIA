@@ -32,6 +32,7 @@ from scrapers.game_scraper import (
     audit_player_career_totals,
 )
 from scrapers.player_scraper import PlayerScraper, get_soup
+from scripts.phantom_row_validator import check_counter_gaps, gaps_in_season
 
 import config
 
@@ -208,6 +209,53 @@ def refresh_players() -> None:
             )
         else:
             logging.info("Player audit clean across %d updated file(s)", len(grown_paths))
+
+        # Phantom-row gate: verify each updated player's games_played counter is
+        # a contiguous {1..max} with no gaps/dups. A gap == a silently dropped
+        # game row (the drawn-GF dedup collapse that lost Sidebottom's 2010 draw).
+        # HARD ABORT if a gap lands in the current season -- that is a live data
+        # loss we must not ship. Historical gaps are WARNING-only (they predate
+        # the fix and are backfilled separately).
+        current_season = datetime.now().year
+        historical_gap_files = 0
+        current_gap_files = []
+        for path in grown_paths:
+            try:
+                gaps = check_counter_gaps(path)
+            except Exception as e:
+                logging.error("phantom-row check error for %s: %s", path, e)
+                continue
+            if gaps["ok"]:
+                continue
+            season_gaps = gaps_in_season(path, current_season)
+            if season_gaps:
+                current_gap_files.append(path)
+                logging.error(
+                    "Phantom-row gate: %s has a %d-season counter gap %s "
+                    "(missing=%s duplicated=%s) -- a current-season game row was dropped",
+                    gaps["player"], current_season, season_gaps,
+                    gaps["missing"], gaps["duplicated"],
+                )
+            else:
+                historical_gap_files += 1
+                logging.warning(
+                    "Phantom-row check: %s has historical counter gap(s) "
+                    "missing=%s duplicated=%s (pre-existing, needs backfill)",
+                    gaps["player"], gaps["missing"], gaps["duplicated"],
+                )
+        if current_gap_files:
+            raise RuntimeError(
+                f"Phantom-row gate ABORT: {len(current_gap_files)} updated player "
+                f"file(s) lost a {current_season}-season game row: "
+                + ", ".join(os.path.basename(p) for p in current_gap_files)
+            )
+        if historical_gap_files:
+            logging.warning(
+                "Phantom-row check found %d file(s) with pre-existing historical gaps",
+                historical_gap_files,
+            )
+        else:
+            logging.info("Phantom-row check clean across %d updated file(s)", len(grown_paths))
 
 
 def refresh_matches() -> None:

@@ -23,4 +23,5 @@
 - [2024 finals duplicate rows](project_2024_finals_dup_rows.md) — GENUINE DEFECT: backfill appended real-date 2024 finals rows but left the YYYY-03-01 placeholders; 241 dup rows, double-counts 2024 finals stats (Scientist fix)
 - [Canonical games metric](feedback_canonical_games_metric.md) — career games = max(rowcount, games_played.max()), NOT len(df); naive rowcount induces false DataSentinel FAILs
 - [Drawn-GF dedup defect + hub drift](project_drawn_gf_dedup_defect.md) — (year,round,opponent) dedup deletes drawn-and-replayed finals rows; leaders-hub ranks 2-20 + kicks/handballs hand-written and drift
+- [Phantom-row dedup gate](project_phantom_row_dedup_gate.md) — (team,year,round,opponent) dedup collapsed drawn-GF+replay & dropped a real row; fix = games_played key + phantom-row validator; single-player gap = missing-gate symptom
 - [LLM DataSentinel arithmetic untrustworthy](feedback_llm_datasentinel_arithmetic.md) — LLM DataSentinel mis-sums CSVs (4 false mismatches in one run); re-measure disputed numbers in pandas yourself; use it as a line-locator only
