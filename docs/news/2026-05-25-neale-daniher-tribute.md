@@ -1,4 +1,5 @@
 # Neale Daniher — Why Not
+> ✓ All 3 stats verified against source data · council-pipeline-gated · 2026-07-03
 
 <!-- council-pipeline:
   BriefBuilder: DONE

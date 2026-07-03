@@ -11,6 +11,19 @@
 #
 set -uo pipefail
 
+# --- only-Gaffer-commits guard (harness Q6) --------------------------------
+# All automated commits must be serialised through scripts/git_commit_safe.sh,
+# which sets COUNCIL_COMMIT_AUTHORIZED=1. A raw `git commit` (e.g. a council agent
+# committing directly and racing the git index) carries no marker and is blocked.
+# Human escape hatch: `git commit --no-verify` (bypasses all hooks, by design).
+if [ "${COUNCIL_COMMIT_AUTHORIZED:-0}" != "1" ]; then
+  echo "pre-commit: direct commits are disabled (only-Gaffer-commits protocol)." >&2
+  echo "  Route the commit through scripts/git_commit_safe.sh — it serialises on the" >&2
+  echo "  git lock and authorises the commit. Human override: git commit --no-verify." >&2
+  exit 1
+fi
+# ---------------------------------------------------------------------------
+
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
 

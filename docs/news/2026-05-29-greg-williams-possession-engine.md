@@ -1,4 +1,5 @@
 # Greg Williams — The Possession Engine
+> ✓ All 50 stats verified against source data · council-pipeline-gated · 2026-07-03
 
 <!-- council-pipeline:
   BriefBuilder: DONE

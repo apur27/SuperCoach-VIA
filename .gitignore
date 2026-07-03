@@ -166,3 +166,5 @@ cython_debug/
 
 # Claude Code agent audit logs (operational; keep .gitkeep tracked)
 .claude/audit/*.jsonl
+# DataSentinel content-hash verdict records — local-only, machine-specific (Q1).
+.claude/audit/sentinel-*.json

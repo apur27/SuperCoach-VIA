@@ -83,6 +83,11 @@ Primary readers: SuperCoach / fantasy football players choosing captains, pickin
   * Respect all subjects. No mockery, no inflammatory framing.
 - TRUST BADGE: every published council doc must include a visible verification line —
   `✓ All [N] stats verified against source data · council-pipeline-gated · [date]`.
+  Inject it at ship time with `scripts/inject_trust_badge.py <doc> --date <ship-date>`:
+  it counts the doc's genuine [data] tags (all three forms), writes the badge under
+  the H1, and — because the badge line carries `council-pipeline-gated` — is stripped
+  by `council-content-hash.sh`, so badging never invalidates the DataSentinel record.
+  A doc with zero tagged stats gets no badge (an "All 0 stats" line would be a false claim).
   This is not decoration; it is the product's differentiator in a market of unverified content.
 
 ## WHAT YOU MUST NEVER DO

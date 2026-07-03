@@ -7,6 +7,7 @@
   Gaffer: APPROVED @ 2026-05-30
 -->
 # AFL all-time statistical leaders - hub
+> ✓ All 30 stats verified against source data · council-pipeline-gated · 2026-07-03
 
 > [← Back to main README](../README.md) · [← Hall of Fame hub](hall-of-fame.md)
 

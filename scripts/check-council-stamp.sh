@@ -26,23 +26,30 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HASH_SCRIPT="$SCRIPT_DIR/council-content-hash.sh"
 AUDIT_DIR="${COUNCIL_AUDIT_DIR:-$SCRIPT_DIR/../.claude/audit}"
-# AUDIT_ENFORCE=1 makes a stamp with NO matching audit record a hard FAIL.
-# Default (0) warns instead, so the gate is safe to land before the DataSentinel
-# producer side (scripts/record-sentinel-verdict.sh) is wired into the agent.
+# AUDIT_ENFORCE=1 (now the DEFAULT) makes a stamp with NO matching audit record a
+# hard FAIL. The DataSentinel producer side (scripts/record-sentinel-verdict.sh) is
+# wired into the agent turn and the deterministic HOF lane, so every legitimately
+# shipped council doc has a backing record. Set AUDIT_ENFORCE=0 ONLY for a
+# controlled backfill of legacy docs that predate the record system.
 # A record that EXISTS but disagrees (tamper / non-PASS) always fails, both modes.
-AUDIT_ENFORCE="${AUDIT_ENFORCE:-0}"
+AUDIT_ENFORCE="${AUDIT_ENFORCE:-1}"
 
 # verify_stamp_against_audit <file> -> 0 verified/ok, 1 hard-fail
 # Cross-checks a `DataSentinel: PASS` stamp against the content-hash-keyed audit
 # records. This is what makes the stamp unforgeable in practice: the PASS text is
 # only trusted if a sentinel record was written for THIS doc's current content.
+# verify_stamp_against_audit <logical_path> [<content_file>]
+#   logical_path — the repo-relative path recorded in audit records (rpath match).
+#   content_file — the bytes to hash (the STAGED blob under F4); defaults to the
+#                  logical path so manual/CI use and the unit tests still work.
 verify_stamp_against_audit() {
   local f="$1"
+  local content="${2:-$1}"
   if [ ! -x "$HASH_SCRIPT" ]; then
     echo "NOTE: $HASH_SCRIPT missing — cannot audit-verify stamp for $f (presence check only)." >&2
     return 0
   fi
-  local hash; hash="$("$HASH_SCRIPT" "$f" 2>/dev/null)"
+  local hash; hash="$("$HASH_SCRIPT" "$content" 2>/dev/null)"
   if [ -z "$hash" ]; then
     echo "NOTE: could not compute content hash for $f — skipping audit cross-check." >&2
     return 0
@@ -118,10 +125,27 @@ fi
 requires_stamp() {
   local f="$1"
   case "$f" in
+    # Legacy pre-gate news docs, exempted by EXACT filename (first-commit dates
+    # inline). A brand-new unstamped docs/news/*.md must still hard-FAIL, so this
+    # allowlist is deliberately exact — it cannot silently absorb a future doc.
+    docs/news/2026-05-13-voss-carlton.md|\
+    docs/news/2026-05-15-carlton-next-coach.md|\
+    docs/news/2026-05-15-richmond-vs-stkilda-r11.md|\
+    docs/news/2026-05-19-pendlebury-stormrider.md|\
+    docs/news/2026-05-27-hird-essendon-coach.md)
+      # committed 2026-05-13 / 05-15 / 05-15 / 05-19 / 05-27 — predate the stamp gate.
+      return 1 ;;
     docs/news/*.md)              return 0 ;;
     docs/hall-of-fame-stat-*.md) return 0 ;;
     docs/hall-of-fame-*.md)
       # Require a stamp only if the file already declares itself a council doc.
+      [ -f "$f" ] && grep -q '<!-- council-pipeline:' "$f" && return 0
+      return 1
+      ;;
+    docs/coaches-strategy-corner/*.md)
+      # Opt-in-sticky (human decision: prospective-only). Gate only briefs that
+      # already carry a stamp; the 38 legacy briefs are acknowledged unverified
+      # historical surface and are not retroactively blocked.
       [ -f "$f" ] && grep -q '<!-- council-pipeline:' "$f" && return 0
       return 1
       ;;
@@ -132,6 +156,10 @@ requires_stamp() {
 FAILED=0
 CHECKED=0
 SKIPPED=0
+
+# F4: temp area for materialised staged blobs; cleaned on any exit.
+WORKDIR="$(mktemp -d)"
+trap 'rm -rf "$WORKDIR"' EXIT
 
 for f in "${FILES[@]}"; do
   if ! requires_stamp "$f"; then
@@ -149,13 +177,31 @@ for f in "${FILES[@]}"; do
 
   CHECKED=$((CHECKED + 1))
 
-  if [ ! -f "$f" ]; then
-    # Staged deletion or rename target that no longer exists — nothing to check.
+  # F4: verify the STAGED bytes that will actually land in history, not the working
+  # tree — otherwise `git add <good>` then editing the file to <bad> would pass the
+  # gate on bytes that never get committed. Materialise the staged blob once and run
+  # every content check against it; keep $f as the logical path for record matching.
+  # Fall back to the working file when there is no index entry (manual/CI use and the
+  # unit tests, which run outside a git index).
+  target="$f"
+  if git rev-parse --git-dir >/dev/null 2>&1 && git cat-file -e ":$f" 2>/dev/null; then
+    mode="$(git ls-files -s -- "$f" | cut -c1-6)"
+    if [ "$mode" = "120000" ]; then
+      # A symlink in the index cannot be a council doc; fail-closed rather than
+      # follow the link and verify the wrong bytes.
+      echo "ERROR: $f is a symlink in the git index — refusing to verify (fail-closed)." >&2
+      FAILED=$((FAILED + 1))
+      continue
+    fi
+    target="$WORKDIR/blob.$CHECKED"
+    git cat-file blob ":$f" > "$target"
+  elif [ ! -f "$f" ]; then
+    # No staged blob and no working file (staged deletion / rename target gone).
     continue
   fi
 
   # 1. The stamp block must exist.
-  if ! grep -q '<!-- council-pipeline:' "$f"; then
+  if ! grep -q '<!-- council-pipeline:' "$target"; then
     echo "ERROR: $f is missing the <!-- council-pipeline: ... --> provenance stamp." >&2
     echo "       Council-authored docs must record the six-agent chain before commit." >&2
     FAILED=$((FAILED + 1))
@@ -165,7 +211,7 @@ for f in "${FILES[@]}"; do
   file_failed=0
 
   # 2. DataSentinel line must contain PASS.
-  ds_line="$(grep -i 'DataSentinel:' "$f" | head -1)"
+  ds_line="$(grep -i 'DataSentinel:' "$target" | head -1)"
   if [ -z "$ds_line" ]; then
     echo "ERROR: $f stamp is missing a DataSentinel: line." >&2
     file_failed=1
@@ -175,7 +221,7 @@ for f in "${FILES[@]}"; do
   fi
 
   # 3. Skeptic line must contain PASS.
-  sk_line="$(grep -i 'Skeptic:' "$f" | head -1)"
+  sk_line="$(grep -i 'Skeptic:' "$target" | head -1)"
   if [ -z "$sk_line" ]; then
     echo "ERROR: $f stamp is missing a Skeptic: line." >&2
     file_failed=1
@@ -186,8 +232,9 @@ for f in "${FILES[@]}"; do
 
   # Stamp text is present and says PASS. Now cross-check it against the audit log:
   # the text alone is forgeable; a content-hash-keyed sentinel record is not.
+  # Hash the STAGED blob ($target), match records on the logical path ($f).
   if [ "$file_failed" -eq 0 ]; then
-    if ! verify_stamp_against_audit "$f"; then
+    if ! verify_stamp_against_audit "$f" "$target"; then
       file_failed=1
     fi
   fi

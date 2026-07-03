@@ -29,12 +29,14 @@ def _make_doc(tmp_path: Path, body: str = "Prose with no stats here.") -> Path:
     return doc
 
 
-def _run_check(tmp_path: Path, audit_dir: Path, enforce: str = "0"):
+def _run_check(tmp_path: Path, audit_dir: Path, enforce: str | None = "0"):
     env = {
         "COUNCIL_AUDIT_DIR": str(audit_dir),
-        "AUDIT_ENFORCE": enforce,
         "PATH": "/usr/bin:/bin",
     }
+    # enforce=None means "do not set AUDIT_ENFORCE at all" — exercises the script default.
+    if enforce is not None:
+        env["AUDIT_ENFORCE"] = enforce
     return subprocess.run(
         [str(CHECK), "docs/news/foo.md"],
         cwd=tmp_path, env=env, capture_output=True, text=True,
@@ -51,10 +53,22 @@ def _record(tmp_path: Path, audit_dir: Path, verdict: str = "PASS"):
     return r
 
 
-def test_no_record_warns_but_passes_by_default(tmp_path):
+def test_no_record_hard_fails_by_default(tmp_path):
+    # AUDIT_ENFORCE now defaults to 1 (Sprint-1 flip): a stamp with no backing
+    # audit record is a hard FAIL even when the env var is not set at all.
     _make_doc(tmp_path)
     audit = tmp_path / "audit"; audit.mkdir()
-    r = _run_check(tmp_path, audit)
+    r = _run_check(tmp_path, audit, enforce=None)
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "cannot be verified" in r.stderr
+
+
+def test_no_record_warns_when_enforce_explicitly_off(tmp_path):
+    # AUDIT_ENFORCE=0 remains an explicit opt-out (warn, do not block) — used only
+    # for controlled backfills of legacy docs that predate the record system.
+    _make_doc(tmp_path)
+    audit = tmp_path / "audit"; audit.mkdir()
+    r = _run_check(tmp_path, audit, enforce="0")
     assert r.returncode == 0, r.stderr
     assert "WARNING" in r.stderr and "unverified" in r.stderr
 
