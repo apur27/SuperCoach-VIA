@@ -27,23 +27,27 @@ fi
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
 
-if [ ! -x "$CHECK_SCRIPT" ]; then
-  echo "pre-commit: council-stamp check script missing or not executable at $CHECK_SCRIPT." >&2
-  echo "  BLOCKING commit (fail-closed): an enforcement gate that cannot run must not wave commits through." >&2
-  echo "  Restore the script, or human override with: git commit --no-verify." >&2
-  exit 1
+# Staged Markdown files only. The check script decides which ones require a stamp.
+# If nothing Markdown is staged, the council-stamp gate is irrelevant to this commit
+# — proceed regardless of whether the check script is present.
+staged_md="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.md$' || true)"
+
+if [ -z "$staged_md" ]; then
+  exit 0
 fi
 
+# There ARE Markdown files to gate. From here the gate MUST be able to run — an
+# enforcement hook that cannot run its check must fail CLOSED, never wave commits through.
 if [ -z "$REPO_ROOT" ]; then
   echo "pre-commit: could not resolve repo root (git rev-parse failed) — BLOCKING commit (fail-closed)." >&2
   exit 1
 fi
 
-# Staged Markdown files only. The check script decides which ones require a stamp.
-staged_md="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.md$' || true)"
-
-if [ -z "$staged_md" ]; then
-  exit 0
+if [ ! -x "$CHECK_SCRIPT" ]; then
+  echo "pre-commit: council-stamp check script missing or not executable at $CHECK_SCRIPT." >&2
+  echo "  BLOCKING commit (fail-closed): an enforcement gate that cannot run must not wave commits through." >&2
+  echo "  Restore the script, or human override with: git commit --no-verify." >&2
+  exit 1
 fi
 
 printf '%s\n' "$staged_md" | "$CHECK_SCRIPT"
