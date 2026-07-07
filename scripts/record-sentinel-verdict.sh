@@ -13,7 +13,19 @@
 # different content) fails the cross-check.
 #
 # Usage:
-#   scripts/record-sentinel-verdict.sh --doc <path> --verdict <PASS|FAIL> [--agent <id>]
+#   scripts/record-sentinel-verdict.sh --doc <path> --verdict <VERDICT> [--agent <id>]
+#
+# CANONICAL VERDICT VOCABULARY (F07 — one enum across DataSentinel, Skeptic, QA):
+#   PASS                 — clears the gate.
+#   PASS_WITH_CONCERNS   — Skeptic: clears, caveats logged (Gaffer records them in the retro).
+#   PASS_WITH_WARNINGS   — QA: clears, warnings logged.
+#   FAIL                 — DataSentinel/QA: halts the ship.
+#   BLOCK                — Skeptic: halts the ship.
+# Per-agent subset: DataSentinel {PASS,FAIL}; Skeptic {PASS,PASS_WITH_CONCERNS,BLOCK};
+# QA {PASS,PASS_WITH_WARNINGS,FAIL}. The pre-commit stamp gate (check-council-stamp.sh)
+# trusts only an exact "PASS" DataSentinel record; the clearing PASS_WITH_* verdicts are
+# recorded for audit trail and Gaffer-side retro logging, not stamp-gate enforcement.
+# Skeptic records its verdict here (--agent Skeptic) so both gates are auditable.
 #
 # Env:
 #   COUNCIL_AUDIT_DIR   override the audit directory (default: <repo>/.claude/audit)
@@ -35,7 +47,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -n "$doc" && -n "$verdict" ]] || { echo "record-sentinel-verdict.sh: --doc and --verdict are required" >&2; exit 2; }
-case "$verdict" in PASS|FAIL) ;; *) echo "record-sentinel-verdict.sh: --verdict must be PASS or FAIL" >&2; exit 2 ;; esac
+case "$verdict" in
+  PASS|FAIL|BLOCK|PASS_WITH_CONCERNS|PASS_WITH_WARNINGS) ;;
+  *) echo "record-sentinel-verdict.sh: --verdict must be one of PASS|FAIL|BLOCK|PASS_WITH_CONCERNS|PASS_WITH_WARNINGS (canonical vocabulary, F07)" >&2; exit 2 ;;
+esac
 [ -f "$doc" ] || { echo "record-sentinel-verdict.sh: no such doc: $doc" >&2; exit 2; }
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

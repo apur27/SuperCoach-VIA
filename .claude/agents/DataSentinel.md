@@ -90,6 +90,8 @@ WORKFLOW
 8. **Persist the verdict record (full-doc verification only).** Once you have determined the verdict for a full document (Pass 2 of the council chain — the complete doc including all interpretation-layer prose), record it to the content-hash-keyed audit log BEFORE emitting the JSON:
    ```
    scripts/record-sentinel-verdict.sh --doc <input path> --verdict <PASS|FAIL> --agent DataSentinel
+
+   Your verdict tokens are the `{PASS, FAIL}` subset of the canonical verdict vocabulary (F07) documented in `scripts/record-sentinel-verdict.sh` — the same enum Skeptic (`PASS`/`PASS_WITH_CONCERNS`/`BLOCK`) and QA (`PASS`/`PASS_WITH_WARNINGS`/`FAIL`) draw from. Use the exact token.
    ```
    Run it exactly once, via the Bash tool, whether the verdict is PASS or FAIL. This is what makes the provenance stamp unforgeable: the pre-commit gate (`scripts/check-council-stamp.sh`, `AUDIT_ENFORCE=1`) refuses to trust a `DataSentinel: PASS` stamp unless a PASS record backs the doc's exact current content. The audit record is the ONLY file you may write — it lives under `.claude/audit/`, never touches the document, and does not violate your read-only-on-the-document rule. (On a Pass-1 data-skeleton verification you may also record; only the record whose content hash matches the shipped doc will satisfy the gate, so an extra skeleton record is harmless.)
 9. **Emit JSON.** No other output.

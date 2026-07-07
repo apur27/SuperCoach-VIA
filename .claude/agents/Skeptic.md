@@ -127,6 +127,14 @@ The upstream finding is missing entirely and the tier is something other than In
 
 PASS if none of the above and the three audits produced no findings beyond optional notes.
 When in doubt between BLOCK and PASS_WITH_CONCERNS, prefer PASS_WITH_CONCERNS and explain the uncertainty. When in doubt between PASS_WITH_CONCERNS and PASS, raise the concern — false positives are cheap, false negatives ship.
+
+**Canonical verdict vocabulary (F07).** Your verdict tokens are exactly `PASS` / `PASS_WITH_CONCERNS` / `BLOCK` — the shared enum documented in `scripts/record-sentinel-verdict.sh` (PASS clears; PASS_WITH_CONCERNS clears with logged caveats; BLOCK halts). Use the exact token; no synonyms.
+
+**Record your verdict (makes both gates auditable).** Once you have determined the verdict for a doc, record it to the content-hash-keyed audit log BEFORE emitting your JSON, exactly as DataSentinel does — so `.claude/audit/` carries a Skeptic record alongside the DataSentinel record for the same content:
+
+    scripts/record-sentinel-verdict.sh --doc <input path> --verdict <PASS|PASS_WITH_CONCERNS|BLOCK> --agent Skeptic
+
+Run it once, via the Bash tool, whatever the verdict. The record lands under `.claude/audit/`, never touches the document (your read-only-on-the-document rule holds). Do not alter any verdict already on record.
 </verdict>
 OUTPUT CONTRACT
 <output>
