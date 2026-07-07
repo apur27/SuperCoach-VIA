@@ -131,6 +131,8 @@ json{
     { "claim": "...", "declared_source": "...", "rule_broken": "<which hard rule, e.g. 'FanFooty goals column is unreliable per snapshot_data_quality.md'>", "line": 0 }
   ]
 }
+AS-OF VERIFICATION (F02a): if the doc's methodology contains a `<!-- verify-asof: round=N -->` directive, it is a SNAPSHOT frozen at end-of-round N. Cap EVERY source-table read at that basis — filter both `data/matches/matches_<year>.csv` and every `data/player_data/*.csv` to rows with round ≤ N (and the season implied by the directive) BEFORE computing any comparison. A tag that matches the round-N-capped data PASSES even if it disagrees with current live data; a tag that fails at the capped basis FAILS. The directive is part of the content hash (council-content-hash.sh does not strip it), so it cannot be silently removed. Confirm the doc renders an as-of trust badge ("verified as of Round N"). Do NOT apply this cap to a doc with no directive — those verify against live data.
+
 Verdict rule: verdict = "PASS" if and only if tags_failed == 0 && untagged_numbers_flagged == 0 && coach_names_flagged == 0 && schema_violations == 0. A player-stat-shaped untagged number is a FAIL — the tag is mandatory; an untagged specific stat is treated as an unverifiable (potentially fabricated) claim. (Structural references — round numbers, years, quarter labels, model parameters — are never flagged and never counted here.) tags_unverifiable_by_design (i.e. [historical record] and [unverified]) never fail.
 All counts must reconcile with the array lengths.
 </output>

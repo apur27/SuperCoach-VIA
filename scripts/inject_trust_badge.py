@@ -20,9 +20,10 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import re
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 # Single source of truth for the tag vocabulary — the badge's N must never diverge
 # from what DataSentinel/Skeptic recognise, so we delegate counting to the shared
@@ -31,6 +32,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tag_vocabulary import count_tags  # noqa: E402
 
 MARK = "council-pipeline-gated"
+
+# F02a — as-of directive. A doc frozen at a snapshot round declares its basis with
+# `<!-- verify-asof: round=N -->`. council-content-hash.sh does NOT strip this line
+# (it strips only council-pipeline:/council-pipeline-gated), so the directive is part
+# of the canonical content hash — removing it changes the hash and fails the audit.
+ASOF_RE = re.compile(r"<!--\s*verify-asof:\s*round=(\d+)\s*-->", re.IGNORECASE)
+
+
+def parse_asof_round(text: str) -> Optional[int]:
+    m = ASOF_RE.search(text)
+    return int(m.group(1)) if m else None
 
 
 def count_verified_stats(text: str) -> int:
@@ -42,9 +54,12 @@ def count_verified_stats(text: str) -> int:
     return count_tags(text)
 
 
-def make_badge(n: int, date: str) -> str:
+def make_badge(n: int, date: str, asof_round: Optional[int] = None) -> str:
     noun = "stat" if n == 1 else "stats"
-    return f"> ✓ All {n} {noun} verified against source data · {MARK} · {date}"
+    # F02a: a snapshot doc must render its as-of round visibly so it cannot masquerade
+    # as current-data-verified.
+    basis = f"verified as of Round {asof_round}" if asof_round is not None else "verified against source data"
+    return f"> ✓ All {n} {noun} {basis} · {MARK} · {date}"
 
 
 def _strip_badge(lines: List[str]) -> List[str]:
@@ -55,7 +70,7 @@ def inject_badge(text: str, n: int, date: str) -> str:
     """Insert (or replace) the trust badge directly after the first H1. Idempotent."""
     trailing_nl = text.endswith("\n")
     lines = _strip_badge(text.splitlines())
-    badge = make_badge(n, date)
+    badge = make_badge(n, date, parse_asof_round(text))
 
     out: List[str] = []
     inserted = False
