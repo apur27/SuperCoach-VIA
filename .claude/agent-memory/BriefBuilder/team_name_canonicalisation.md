@@ -1,21 +1,27 @@
 ---
 name: team-name-canonicalisation
-description: AFL team name normalisation oddities encountered in BriefBuilder runs
+description: Read canonical AFL team names LIVE from the data, never hardcode; slug rule + the recurring gotchas
 metadata:
   type: feedback
 ---
 
-## Confirmed canonical forms (as used in data/matches/ and data/lineups/)
+**Rule: never hardcode team names — read the canonical form live from the data at the start of every brief.** (Consolidates three former duplicate memories, A-01.)
 
-- "Brisbane Lions" (not "Brisbane", not "Lions")
+**Live source of truth (pick one, don't trust memory):**
+- `data/matches/matches_<year>.csv` — columns `team_1_team_name` / `team_2_team_name`.
+- or the `team` column of the latest `data/prediction/backtest/backtest_by_team_*.csv`.
+
+With Bash now available, verify with an executed command, e.g.:
+`python -c "import pandas as pd; d=pd.read_csv('data/matches/matches_2026.csv'); print(sorted(set(d.team_1_team_name)|set(d.team_2_team_name)))"`
+
+**Recurring gotchas (verify live, but these are the ones that bite):**
 - "Greater Western Sydney" (not "GWS", not "Giants")
-- "Fremantle" (not "Fremantle Dockers")
 - "St Kilda" (not "St. Kilda")
-- "Western Bulldogs" (not "Bulldogs", not "Western Dogs")
-- "North Melbourne" (not "Kangaroos")
-- "Gold Coast" (not "Gold Coast Suns")
-- "Port Adelaide" (not "Port")
+- "Western Bulldogs" (not "Bulldogs" / "Footscray")
+- "Brisbane Lions" (not "Brisbane" alone)
+- "North Melbourne" (not "Kangaroos"), "Gold Coast" (not "Suns"), "Port Adelaide" (not "Port")
+- "West Coast" (not "West Coast Eagles"), "Essendon" (not "Essendon Bombers"), "Fremantle" (not "Dockers")
 
-**How to apply:** Always cross-check user input against data/lineups/ filenames and matches_2026.csv team_1_team_name column before beginning any brief. Correct silently and note in confirmation line.
+**Slug rule (filenames):** lowercase, hyphen-separated, drop spaces/dots — "St Kilda" → `stkilda` (no hyphen), "Greater Western Sydney" → `greater-western-sydney`, "West Coast" → `west-coast`.
 
-Related: [[h2h-window-patterns]]
+**How to apply:** cross-check the user's two team inputs against the live source before assembling; correct silently and note the canonical form in the confirmation line.

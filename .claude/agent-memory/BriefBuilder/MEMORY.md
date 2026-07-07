@@ -1,7 +1,7 @@
 # BriefBuilder Memory Index
 
 - [H2H window — Hawthorn matchups post-2020](h2h_window_hawthorn.md) — Use last 8 meetings for Hawthorn: spans their dynasty-end to rebuild arc; pre-2021 data structurally unrepresentative
-- [Team name canonicalisation](team_names.md) — Canonical forms from matches_2026.csv: "St Kilda", "Hawthorn", "Greater Western Sydney" (not GWS)
+- [Team name canonicalisation](team_name_canonicalisation.md) — read canonical team names LIVE from matches_<year>.csv / backtest_by_team CSV, never hardcode; slug rule + recurring gotchas
 - [Hawthorn model bias — material under-prediction](model_bias_hawthorn.md) — As of R13 2026 backtest, Hawthorn per-team bias = −2.64 disposals; triggers SCIENTIST REVIEW on every Hawthorn brief
 - [Flanders Sam — cross-club 2025 context](player_flanders_crossclub.md) — Flanders at Gold Coast 2025, moved to St Kilda 2026; 2025 baseline not comparable to 2026 role
 - [H2H window — Sydney vs Richmond](h2h_window_sydney_richmond.md) — Last 8 meetings (2020–2026); SCG 2–0 Sydney, MCG 3–0 Richmond in this window
