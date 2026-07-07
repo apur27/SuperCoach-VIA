@@ -47,9 +47,9 @@ For a weekly-refresh cycle, all of the following must exist and be non-empty:
 |----------|-------------|-------|
 | Prediction CSV | `data/prediction/next_round_*_prediction_*.csv` | exists, >10 rows, columns: player/team/predicted_disposals |
 | Backtest summary | `data/prediction/backtest/backtest_summary_*.csv` | exists, >0 rows |
-| HOF JSON | `docs/hall-of-fame/_stat_leaders.json` | exists, valid JSON, has `career_games` key |
+| HOF JSON | `docs/hall-of-fame/_stat_leaders.json` | exists, valid JSON, has `categories.career_games` key (top-level keys are `meta`/`categories`/`single_season`) |
 | HOF charts | `assets/charts/hall/alltime_top20_*.png` | at least 6 chart files exist |
-| Stat leaders JSON | `docs/hall-of-fame/_stat_leaders.json` | `career_games.rank_1.total` > 400 (sanity floor) |
+| Stat leaders JSON | `docs/hall-of-fame/_stat_leaders.json` | `categories.career_games.leaders[0].total` > 400 (sanity floor) |
 | All-time top 100 | `all_time_top_100.csv` | exists, >=100 rows |
 
 Missing or empty artifact = QA FAIL.
@@ -81,13 +81,19 @@ Non-zero exit = QA FAIL. Also independently verify rank-1 career_games total mat
 
 ```python
 import pandas as pd, json, glob
-with open('docs/hall-of-fame/_stat_leaders.json') as f: leaders = json.load(f)
-rank1 = leaders['career_games']['leaders'][0]
-files = glob.glob(f"data/player_data/{rank1['player_id']}_performance_details.csv")
+with open('docs/hall-of-fame/_stat_leaders.json') as f: doc = json.load(f)
+# Real schema: top-level keys are meta/categories/single_season; career stats live
+# under categories.<stat>.leaders. Leader objects = {rank,name,teams,games,total,per_game}
+# — there is NO player_id, so glob the player CSV by surname_firstname from `name`.
+rank1 = doc['categories']['career_games']['leaders'][0]
+parts = rank1['name'].split()
+surname, first = parts[-1].lower(), parts[0].lower()
+files = glob.glob(f"data/player_data/{surname}_{first}_*_performance_details.csv")
 if files:
     df = pd.read_csv(files[0])
-    csv_games = int(df['games_played'].max())
-    json_games = rank1['total']
+    # Canonical games = max(rowcount, games_played.max()) — a naive rowcount can under-count.
+    csv_games = max(len(df), int(df['games_played'].max()))
+    json_games = int(rank1['total'])
     assert csv_games == json_games, f"HOF JSON says {json_games}, CSV says {csv_games}"
     print(f"OK: {rank1['name']} games verified {csv_games}")
 ```
@@ -117,9 +123,11 @@ For the top-5 players by career games (from HOF JSON), verify their CSV row coun
 
 ```python
 import pandas as pd, json, glob
-with open('docs/hall-of-fame/_stat_leaders.json') as f: leaders = json.load(f)
-for player in leaders['career_games']['leaders'][:5]:
-    files = glob.glob(f"data/player_data/{player['player_id']}_performance_details.csv")
+with open('docs/hall-of-fame/_stat_leaders.json') as f: doc = json.load(f)
+for player in doc['categories']['career_games']['leaders'][:5]:
+    parts = player['name'].split()
+    surname, first = parts[-1].lower(), parts[0].lower()
+    files = glob.glob(f"data/player_data/{surname}_{first}_*_performance_details.csv")
     if not files: print(f"WARN: No file for {player['name']}"); continue
     df = pd.read_csv(files[0])
     print(f"{player['name']}: {len(df)} rows, last game {df['date'].max()}")
