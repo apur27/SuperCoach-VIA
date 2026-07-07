@@ -26,7 +26,7 @@ These are the questions the predictions and the team profiles are reasonably goo
 - "Player A is averaging 28 disposals this year. Should I expect that this week given the matchup?"
 - "Is this midfielder trending up or down going into the bye?"
 
-The model handles rolling form, opponent strength, venue effects, and game context. Latest 2026 backtest performance is around **MAE 4.1 disposals** with **68% of predictions within 5 disposals** of actual.
+The model handles rolling form (3-game, 5-game, season-to-date) and opponent strength. Latest 2026 backtest performance is around **MAE 4.1 disposals** with **68% of predictions within 5 disposals** of actual.
 
 ### Form and trend questions
 

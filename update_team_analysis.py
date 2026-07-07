@@ -3671,7 +3671,7 @@ def generate_stat_leaders_section(
         "form your own view rather than just reading a leaderboard:\n\n"
         "1. The **disposal prediction model** (`prediction.py` / "
         "`prediction_cpu.py`) forecasts a player's next-round disposal "
-        "count using rolling form, opponent context and venue effects. "
+        "count using rolling form (3/5-game, season-to-date) and opponent context. "
         "Run it with `--player surname_first --rounds 1` to see how "
         "uncertainty is quantified for any of the leaders shown above.\n"
         "2. The **backtest framework** (`backtest.py`) replays a season "
