@@ -157,7 +157,7 @@ AFLTables ─▶ refresh_data.py ─▶ data/matches, data/player_data
 
 ## 3. Agent council
 
-Six LLM agents plus the human operator. The operator is the named, accountable owner (Australia's AI Ethics Principle 8); every agent is a delegate, never a replacement for that accountability.
+Nine LLM agents plus the human operator (BriefBuilder, DataSentinel, FootyStrategy, Skeptic, QA, Gaffer, Chronicler, Scientist, Surveyor). The operator is the named, accountable owner (Australia's AI Ethics Principle 8); every agent is a delegate, never a replacement for that accountability.
 
 ### The canonical chain
 
@@ -169,9 +169,13 @@ BriefBuilder
       → FootyStrategy
          → DataSentinel (Pass 2: full doc, incl. all interpretation prose)
             → Skeptic
-               → Gaffer (SHIP)
-                  → (optional) Codex blind read
+               → QA (gate — FAIL blocks ship with DataSentinel authority)
+                  → Gaffer (SHIP)
+                     → Chronicler (run report + expansion recommendations)
+                     → (optional) Codex blind read
 ```
+
+Scientist (data/model/derivation) and Surveyor (read-only advisory diagnostician) sit outside the linear chain: Scientist is the only author of `[data]` numbers; Surveyor is consulted before structural changes and never edits pipeline files or verdicts.
 
 **DataSentinel runs twice.** Pass 1 gates the numeric skeleton before FootyStrategy is allowed to interpret it; Pass 2 gates the whole document — every interpretive sentence included — before the Skeptic sees it. A Pass-1 PASS is **not** final clearance; the ship is gated on Pass 2.
 
