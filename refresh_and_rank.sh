@@ -92,7 +92,14 @@ git add \
     assets/charts/ \
     all_time_top_100.csv \
     data/top100/all_time_top_100.csv \
+    data/matches/ \
+    data/player_data/ \
     2>/dev/null || true
+# data/matches + data/player_data ARE the scraped ground truth the published docs cite;
+# they MUST be committed or a remote clone fails DataSentinel re-verification (Surveyor D3,
+# 2026-07-07 — the R18 actuals were stranded uncommitted for a full cycle). Still explicit
+# paths, never `git add .` (which would sweep scratch CSVs under data/prediction/). Lineups
+# are intentionally excluded until their scraper corruption is fixed (S3).
 
 if git diff --cached --quiet; then
     echo "No doc changes to commit."
