@@ -230,8 +230,9 @@ Keep it tight: 150–200 words maximum. Use data-backed claims only.
 Tag any specific stat with the bold **[data]** form (literally two asterisks each
 side, e.g. \`**[data]**\`), never plain unbold [data] — the verification vocabulary
 (scripts/tag_vocabulary.py) only recognises the bold form, so a plain [data] tag is
-invisible to DataSentinel and the Skeptic sampler. This is required before this doc
-can be gated (Sprint 2).
+invisible to DataSentinel and the Skeptic sampler. This is REQUIRED: immediately after
+you write, DataSentinel gates this doc (Phase 3b) and a non-PASS aborts the whole cycle —
+an untagged specific stat number is a FAIL, so tag every one or omit the claim.
 
 ## Hard rules
 - Do NOT touch the navigation table, intro text, or any link in the file.
@@ -245,6 +246,27 @@ can be gated (Sprint 2).
     2>&1 | tee -a "$LOG_FILE"
 
 log "[3/5] FootyStrategy agent complete."
+
+# ---------------------------------------------------------------------------
+# Phase 3b — Gate the insights lane (F05). afl-insights.md is LLM-authored prose
+# carrying [data]-tagged numbers; it must not ship ungated. DataSentinel verifies
+# every tag against source, flags untagged specific numbers and coach names, and
+# records a content-hash-keyed verdict via record-sentinel-verdict.sh. A non-PASS
+# (or a gate that cannot run) aborts before Phase 4 stages the file — fail-closed.
+# ---------------------------------------------------------------------------
+log "[3b/5] Gating afl-insights.md through DataSentinel (F05)..."
+DS_OUT="$LOG_DIR/insights_datasentinel_${TODAY}.json"
+$CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Verify docs/afl-insights.md as a full-doc (Pass 2) check. Walk every **[data]** tag against the source CSV named in the methodology, flag any untagged specific player-stat number, and flag coach-name violations (config/coach_names.txt). Record your verdict once via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|FAIL> --agent DataSentinel. Then emit ONLY the JSON verdict object." \
+    --agent DataSentinel \
+    --allowedTools "Read,Grep,Glob,Bash" \
+    --permission-mode bypassPermissions \
+    2>&1 | tee "$DS_OUT" | tee -a "$LOG_FILE"
+
+if ! grep -Eq '"verdict"[[:space:]]*:[[:space:]]*"PASS"' "$DS_OUT"; then
+    log "FATAL: DataSentinel did not return PASS for afl-insights.md — aborting before commit (F05). Route the failing tags to FootyStrategy."
+    exit 1
+fi
+log "[3b/5] afl-insights.md gated: DataSentinel PASS recorded."
 
 # ---------------------------------------------------------------------------
 # Phase 4 — commit and push all phase 2/3 outputs
