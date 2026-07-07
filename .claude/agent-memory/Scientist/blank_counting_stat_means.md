@@ -1,9 +1,11 @@
 ---
 name: blank-counting-stat-means
-description: Blank/NaN in a counting stat (tackles, marks, hit-outs) means "zero in a played game", not "data not recorded" — within the stat's recorded era. Use fill-zero for season means.
+description: Blank/NaN in a counting stat (tackles, marks, hit-outs) means "zero in a played game", not "data not recorded" — WITHIN the stat's recorded era. Use fill-zero for within-era season means. (Era-boundary threshold queries are a separate case — see scope boundary + Decision 3.)
 metadata:
   type: project
 ---
+
+> **SCOPE BOUNDARY (read first — this is NOT contradicted by Decision 3).** This memory governs the **within-recorded-era season/career per-game MEAN** of a counting stat, where a blank = a genuine zero in a played game, so **fill-zero** is the honest mean. It does NOT govern the separate **era-boundary threshold-qualification** question (does a player whose career spans a stat-recording *gap* qualify for a "200+ games AND 20+ disp/g AND 300+ goals" rarity scan). That case is settled by **Decision 3 (human, 2026-07-07) → INCLUDE via dropna-qualify with a coverage annotation**, implemented in `scripts/era_boundary_threshold.py` — see [[dropna-denominator-coverage-bias]]. Two different regimes, two different rules; apply this one only to within-era means.
 
 When computing a player's season mean for a counting stat (tackles, marks, hit-outs, contested marks, goals), a blank/NaN row in the modern recording era means **zero in a game the player actually played**, not "data not recorded" and not "did not play".
 
