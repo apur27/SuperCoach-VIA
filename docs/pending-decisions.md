@@ -6,6 +6,8 @@ Decisions required before blocked work can proceed. Pick up this file to resume.
 
 ## 1. `5yr-grand-final-strategy` — data basis
 
+> **RESOLVED 2026-07-07 → Option A.** Re-derive all 18 clubs to end of R17; cap DataSentinel verify at round 17.
+
 **Blocked work:** Scientist has the doc ready to re-derive; DataSentinel cannot re-verify until the round basis is set.
 
 **Context:** The R15 fix targets are already stale (live data is R17). No single round reconciles the current figures cleanly.
@@ -18,6 +20,8 @@ Decisions required before blocked work can proceed. Pick up this file to resume.
 
 ## 2. `list-quality-draft-pipeline` — frozen vs live
 
+> **RESOLVED 2026-07-07 → Option B.** Re-derive per-player figures to live (R18): Pendlebury, Neale, Butters, etc. Team figures may remain at R1–9 if the article framing requires it, but per-player stats re-derive to R18.
+
 **Blocked work:** Scientist froze the 24 team figures to R1–9. Per-player squad figures (Pendlebury 435, Neale 308, Butters 152) are also frozen and will false-FAIL a current-data verify.
 
 **Options:**
@@ -27,6 +31,8 @@ Decisions required before blocked work can proceed. Pick up this file to resume.
 ---
 
 ## 3. Era-boundary player inclusion in threshold counts
+
+> **RESOLVED 2026-07-07 → Include.** Use dropna over recorded games only (current gate behaviour → threshold count = **16**, not 12). Scientist must build the deterministic helper that encodes this rule and emits `N of M` alongside averages — a script requirement, not a prompt rule. The published dustin-martin figure of 12 is wrong and must be corrected to 16 once the helper is built. Do NOT flip DataSentinel to fill-zero.
 
 **Blocked work:** dustin-martin re-verification will keep FAILing under the current DataSentinel rule until this convention is settled. Affects any published threshold-count claim over era-boundary players.
 
@@ -58,4 +64,4 @@ Owner: Gaffer (directive parse + prompt rule) + Scientist (round-cap compute). D
 
 ---
 
-*Last updated: 2026-07-03. Route questions to Gaffer.*
+*Last updated: 2026-07-07 (Decisions 1–3 RESOLVED by human; F02 unblocked). Route questions to Gaffer.*
