@@ -1,4 +1,5 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Greater Western Sydney,2026,1,West Coast,11,L,19,9,1,4,13,1.0,,,3,,2.0,1,4,4.0,2,,3,11,,,1,,,68,2026-05-10
-Greater Western Sydney,2026,2,Brisbane Lions,12,W,19,6,3,4,10,,,,2,,,1,2,,1,,2,8,,,1,,,63,2026-05-17
-Greater Western Sydney,2026,3,Hawthorn,17,L,19,3,1,5,8,,,,2,2,1,,1,,,,2,6,,,2,,1,62,2026-06-21
+Greater Western Sydney,2026,1,West Coast,11,L,19,9,1,4,13,1.0,,,3,,2.0,1.0,4,4.0,2.0,,3,11,,,1,,,68,2026-05-10
+Greater Western Sydney,2026,2,Brisbane Lions,12,W,19,6,3,4,10,,,,2,,,1.0,2,,1.0,,2,8,,,1,,,63,2026-05-17
+Greater Western Sydney,2026,3,Hawthorn,17,L,19,3,1,5,8,,,,2,2.0,1.0,,1,,,,2,6,,,2,,1.0,62,2026-06-21
+Greater Western Sydney,2026,4,Fremantle,18,W,19,4,1,1,5,,,,2,1,1,,1,,1,,,6,,,,,,58,2026-06-28

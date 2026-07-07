@@ -1,3 +1,4 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Gold Coast,2026,1,Hawthorn,16,L,38,6,4,13,19,,,,2,,3,3,2,2,,,9,9,1,,,,,57,2026-06-14
-Gold Coast,2026,2,Fremantle,17,L,38,1,2,14,15,,,,5,,,2,3,1,2,,7,9,,,1,,,66,2026-06-21
+Gold Coast,2026,1,Hawthorn,16,L,38,6,4,13,19,,,,2,,3.0,3,2,2,,,9,9,1.0,,,,,57,2026-06-14
+Gold Coast,2026,2,Fremantle,17,L,38,1,2,14,15,,,,5,,,2,3,1,2.0,,7,9,,,1.0,,,66,2026-06-21
+Gold Coast,2026,3,Collingwood,18,L,38,12,6,14,26,,,,1,,5,3,1,,,,5,18,,,,,1,67,2026-06-28
