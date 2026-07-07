@@ -6,6 +6,22 @@ REPO_ROOT=/home/abhi/git/SuperCoach-VIA
 
 cd "$REPO_ROOT"
 
+# --- single-entry-point discipline (F04) -----------------------------------
+# scripts/weekly_refresh.sh is the sole sanctioned cycle entry point; it runs
+# this script as an internal phase (and adds the phantom-row gate, HOF pipeline,
+# QA, and the completion sentinel around it). Running this directly does a PARTIAL
+# refresh with no gates. Allowed only with the parent env var (set by weekly_refresh.sh
+# and the /weekly-cycle skill) or an explicit --allow-direct override.
+if [ "${WEEKLY_REFRESH_PARENT:-0}" != "1" ] && [[ "$*" != *--allow-direct* ]]; then
+  echo "refresh_and_rank.sh is an internal phase of the weekly cycle, not an entry point." >&2
+  echo "  Run:  bash scripts/weekly_refresh.sh            (full gated cycle)" >&2
+  echo "  Or, for a deliberate partial run:  bash refresh_and_rank.sh --allow-direct" >&2
+  exit 1
+fi
+# Past the guard — propagate to child scripts (refresh_data.py) so they don't re-block.
+export WEEKLY_REFRESH_PARENT=1
+# ---------------------------------------------------------------------------
+
 echo "=========================================="
 echo "[1/6] Refreshing match and player data..."
 echo "=========================================="

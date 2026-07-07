@@ -297,4 +297,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # Single-entry-point discipline (F04): refresh_data.py is an internal phase of
+    # the weekly cycle (invoked by refresh_and_rank.sh, itself invoked by
+    # scripts/weekly_refresh.sh). Running it directly does a partial, ungated scrape.
+    if os.environ.get("WEEKLY_REFRESH_PARENT") != "1" and "--allow-direct" not in sys.argv:
+        sys.stderr.write(
+            "refresh_data.py is an internal phase of the weekly cycle, not an entry point.\n"
+            "  Run:  bash scripts/weekly_refresh.sh            (full gated cycle)\n"
+            "  Or, for a deliberate partial scrape:  python refresh_data.py --allow-direct\n"
+        )
+        sys.exit(1)
     main()

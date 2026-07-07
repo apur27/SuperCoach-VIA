@@ -26,7 +26,7 @@ Before doing anything, check the calendar:
 
 ## Phase 1 — refresh_and_rank.sh
 
-- **Run:** `bash refresh_and_rank.sh` — scrape matches + players → rank → predict → backtest → refresh docs → commit its own auto-update. This script handles its own git add/commit/push for the data-refresh outputs.
+- **Run:** `WEEKLY_REFRESH_PARENT=1 bash refresh_and_rank.sh` — scrape matches + players → rank → predict → backtest → refresh docs → commit its own auto-update. This script handles its own git add/commit/push for the data-refresh outputs. (The `WEEKLY_REFRESH_PARENT=1` prefix is required post-F04: `refresh_and_rank.sh` is an internal phase and blocks a bare direct run to prevent an accidental partial refresh. `scripts/weekly_refresh.sh` sets this automatically; this skill is the other sanctioned orchestrator.) **Never wrap the backtest step in `timeout`** — it needs ~24 min/round of Optuna tuning.
 - **Long-running (~30–60 min).** Run in the background and wait for completion before Phase 2.
 - **Watch for:** a player game-count drop or other clearly-wrong data (the "wrong data" escalation trigger). If the scrape produces obviously broken numbers, halt and route to Scientist — do not build HOF pages on corrupt actuals.
 

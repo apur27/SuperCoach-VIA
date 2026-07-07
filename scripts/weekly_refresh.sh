@@ -54,7 +54,7 @@ log "=================================================================="
 #   assets/charts/, all_time_top_100.csv, data/top100/
 # ---------------------------------------------------------------------------
 log "[1/5] Running refresh_and_rank.sh (data + model + season docs)..."
-bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
+WEEKLY_REFRESH_PARENT=1 bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1/5] refresh_and_rank.sh complete."
 
 # ---------------------------------------------------------------------------
@@ -284,3 +284,12 @@ fi
 log "=================================================================="
 log "Weekly refresh complete — round $ROUND — $TODAY"
 log "=================================================================="
+
+# --- completion sentinel (F04) ---------------------------------------------
+# Written ONLY when the full cycle reaches this point. A killed/partial run
+# leaves the previous sentinel untouched, so Chronicler can detect a partial run
+# by comparing the sentinel's round to the max round actually in the data.
+SENTINEL="$LOG_DIR/last_refresh_complete.json"
+printf '{"round": "%s", "completed_at": "%s", "date": "%s"}\n' \
+  "$ROUND" "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$TODAY" > "$SENTINEL"
+log "Completion sentinel written: $SENTINEL (round $ROUND)."
