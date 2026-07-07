@@ -32,7 +32,9 @@ Decisions required before blocked work can proceed. Pick up this file to resume.
 
 ## 3. Era-boundary player inclusion in threshold counts
 
-> **RESOLVED 2026-07-07 → Include.** Use dropna over recorded games only (current gate behaviour → threshold count = **16**, not 12). Scientist must build the deterministic helper that encodes this rule and emits `N of M` alongside averages — a script requirement, not a prompt rule. The published dustin-martin figure of 12 is wrong and must be corrected to 16 once the helper is built. Do NOT flip DataSentinel to fill-zero.
+> **RESOLVED 2026-07-07 → Include.** Use dropna over recorded games only. Scientist must build the deterministic helper that encodes this rule and emits `N of M` alongside averages — a script requirement, not a prompt rule. Do NOT flip DataSentinel to fill-zero.
+>
+> **⚠ RE-OPENED for a publish call — helper built, live count is 17, not 16** (`scripts/era_boundary_threshold.py`, verified 2026-07-07). Two stacked movements: (a) the dropna-vs-fill-zero rule adds 4 era-boundary players, 3 of them **partial coverage** where dropna materially overstates the true career rate — Barassi (50 of 254 recorded → 22.6 dropna vs **4.45** fill-zero), Skilton (98/237), Bisset (179/207); (b) **Toby Greene** crossed the threshold live during 2026 (full coverage, qualifies under both conventions) and will keep moving each round. **Human call needed:** publish live **17** with the partial-coverage table, or freeze the rarity claim at a round where it is 16 via F02a. Also: the dustin-martin "genuinely combined disposal volume with goal-scoring" prose is contradicted by the coverage note for the partial-coverage players — needs FootyStrategy rework before ship. No doc corrected pending this call.
 
 **Blocked work:** dustin-martin re-verification will keep FAILing under the current DataSentinel rule until this convention is settled. Affects any published threshold-count claim over era-boundary players.
 
