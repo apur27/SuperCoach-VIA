@@ -105,6 +105,50 @@ Source: Survey 1 (full-repo health, 18 findings, IDs F01–F18) and Survey 2 (de
 
 ---
 
+## Sprint 2 — Agent Architecture Fixes (Surveyor prompt/memory review, 2026-07-07)
+
+Full survey: `.claude/surveys/2026-07-07-survey.md`. All Gaffer-owned prompt/memory/skills edits. **HANDOFF CONTRACT** template (add to FootyStrategy, Scientist, BriefBuilder; Gaffer + DataSentinel have partial):
+```
+## HANDOFF CONTRACT
+- Invoked by: <agent/skill/user> at <chain step>
+- Receives: <exact inputs — paths, round, cycle type, verdicts; nothing else>
+- Reads: <files opened itself; canonical configs by path>
+- Produces: <artifact path + format, or verdict schema>
+- Hands off to: <next agent> with <what exactly>
+- On failure: <verdict/halt> — routed to <owning agent> by <who>
+- Never: <top 3 scope violations for this seat>
+```
+
+### [Sprint 2] A-01 — BriefBuilder: add Bash tool + executed-computation rule
+**Owner:** Gaffer · **Depends on:** F16 (same session) · **Blocked by decision:** none
+BriefBuilder.md frontmatter has no Bash, yet its rule (line 70) requires means computed from raw rows — forcing in-token LLM arithmetic. Add Bash to frontmatter + rule "every derived number from an executed venv Python one-liner; never compute in-token." Remove 3 duplicate team-name memories (team_names.md, team_name_canon.md, team_name_canonicalisation.md) → one rule-memory pointing to latest backtest_by_team CSV. **Criterion:** frontmatter includes Bash; executed-computation rule present; next brief's [data] numbers traceable to a Bash command.
+
+### [Sprint 2] A-02 — QA: fix embedded verification code to real JSON schema
+**Owner:** Gaffer · **Depends on:** none · **Blocked by decision:** none
+QA.md lines 50, 52, 85, 86, 121–122 reference `career_games.rank_1.total`, `leaders['career_games']['leaders'][0]`, `rank1['player_id']` — real top-level keys are `['meta','categories','single_season']`; career stats at `categories.career_games.leaders`; leader objects have `{rank,name,teams,games,total,per_game}` — **no `player_id`**. Fix snippets to real paths (glob player CSV by `name`, not id); ship with a test. Same fix as F03/CR-2. **Criterion:** snippets run without exception against real JSON; QA memory patch obsolete.
+
+### [Sprint 2] A-03 — FootyStrategy: write its pipeline contract into the prompt
+**Owner:** Gaffer · **Depends on:** none · **Blocked by decision:** none
+FootyStrategy.md never mentions FOOTYSTRATEGY INSERT filling, coaches-strategy-corner, afl-insights, [data]-tag rules, or config/coach_names.txt. Add HANDOFF CONTRACT; INSERT-placeholder instructions with [data]-tag + coach-name prohibition; pointer to config/coach_names.txt; weekly-recap responsibility for afl-insights; fix description to reflect chain role. **Criterion:** grep "INSERT\|coaches-strategy-corner\|coach_names" returns hits.
+
+### [Sprint 2] A-04 — Scientist: reconcile contradictory NaN memories + promote backtest invariant
+**Owner:** Gaffer (memory) + Scientist (confirm) · **Depends on:** none · **Blocked by decision:** none
+Contradictory live memories: `blank_counting_stat_means.md` (fill-zero) vs `dropna_denominator_coverage_bias.md` (dropna, Decision 3). Rewrite blank_counting to record the fill-zero *fact* but state the operative Decision-3 convention (dropna). Also promote the backtest temporal-cutoff invariant ("Violated TWICE") verbatim into Scientist.md body. **Criterion:** no contradictory NaN memories; invariant appears in Scientist.md.
+
+### [Sprint 2] A-05 — DataSentinel: relocate its false-FAIL lessons to its own memory
+**Owner:** Gaffer · **Depends on:** none · **Blocked by decision:** none
+Three DataSentinel lessons live in other agents' dirs: canonical games metric (Gaffer/feedback_canonical_games_metric.md), non-chronological CSVs (Skeptic/feedback_player_csv_not_chronological.md), DOB-collision false-WARNINGs (Gaffer/project_audit_url_collision_fp.md). Copy to `.claude/agent-memory/DataSentinel/`, update its MEMORY.md; confirm bootstrap has canonical games = max(rowcount, games_played.max()), sort_values(['year','round']) before last-N, DOB/URL collision triage. **Criterion:** DataSentinel dir has the 3 lessons; index reflects them.
+
+### [Sprint 2] A-06 — Gaffer: add Surveyor consult point to prompt; fix architecture §3
+**Owner:** Gaffer · **Depends on:** F08 (but §3 chain fix small enough now) · **Blocked by decision:** none
+(1) "Consult Surveyor before complex implementations" lives only in memory; Gaffer.md has zero Surveyor mentions. Add SURVEYOR INTEGRATION section (when to consult, what to pass, advisory-never-blocking). (2) Architecture §3 says "Six LLM agents", omits QA + Chronicler. Update to nine agents + full chain. **Criterion:** grep "Surveyor" in Gaffer.md hits; architecture §3 shows 9 agents incl QA/Chronicler.
+
+### [Sprint 2] A-07 — council-brief + weekly-cycle: fix routing gaps and stale hardcodes
+**Owner:** Gaffer · **Depends on:** none · **Blocked by decision:** none
+(1) council-brief.md has no step routing `<!-- SCIENTIST REVIEW -->` markers — add a Scientist bias-marker resolution step between BriefBuilder and DataSentinel Pass 1. (2) Skeptic BLOCK routing always → FootyStrategy; add a table: BLOCK-on-data-error → DataSentinel/BriefBuilder; BLOCK-on-interpretation → FootyStrategy. (3) weekly-cycle.md line 18 hardcodes "R18 plays this weekend — next run Tuesday 2026-07-07"; delete — the evergreen Tuesday-settlement rule suffices. **Criterion:** council-brief has Scientist-review step; BLOCK routing is a table; weekly-cycle.md has no hardcoded round/date.
+
+---
+
 ## Sprint 3 — Model improvements and data-source repair
 
 ### [Sprint 3] S1b — Resolve the phantom model features
