@@ -33,6 +33,13 @@ BriefBuilder → DataSentinel(Pass 1) → FootyStrategy → DataSentinel(Pass 2)
 - **Expected output:** a draft file path. No prose interpretation yet.
 - **Failure:** if BriefBuilder cannot source a required table (missing prediction CSV, missing player file), it says so explicitly rather than inventing a number. Route the gap back to BriefBuilder or escalate the missing data — do not proceed with a hole.
 
+## Step 1b — Scientist review of bias markers (before Pass 1)
+
+- BriefBuilder may leave `<!-- SCIENTIST REVIEW: … -->` markers where a derived figure looks anomalous (e.g. a model bias flag with `|bias| > 0.5`, a suspicious H2H gap, a coverage-era boundary case).
+- **Invoke:** Scientist to resolve every such marker before DataSentinel Pass 1. Scientist either corrects the figure (re-derived from `data/`, quoted) or annotates why it stands.
+- **No `<!-- SCIENTIST REVIEW -->` marker may survive into Pass 1.** An unresolved bias flag shipping to the reader is exactly what this step exists to stop.
+- If there are no markers, this step is a no-op — proceed to Pass 1.
+
 ## Step 2 — DataSentinel Pass 1 (data skeleton gate)
 
 - **Invoke:** DataSentinel agent on the BriefBuilder output.
@@ -63,7 +70,15 @@ BriefBuilder → DataSentinel(Pass 1) → FootyStrategy → DataSentinel(Pass 2)
 - **Pass:** the doc path. Skeptic probes tripwire observability in this repo's data, caveat-hierarchy fidelity vs upstream findings, and lens-tension smoothing.
 - **Verdict:** `PASS` / `PASS_WITH_CONCERNS` / `BLOCK`. Skeptic never silently edits the doc.
 - **On PASS or PASS_WITH_CONCERNS:** proceed to QA. Log concerns in the retro.
-- **On BLOCK:** halt. Route the specific finding **back to FootyStrategy** (Step 3), then re-run Step 3 → Step 4 (Pass 2) → Step 5. A BLOCK never reaches the user as an open problem, and is never overridden.
+- **On BLOCK:** halt, and route by the *nature* of the finding — not always to FootyStrategy. A BLOCK never reaches the user as an open problem, and is never overridden.
+
+  | BLOCK cause | Route to | Re-run segment |
+  |-------------|----------|----------------|
+  | Interpretation error — lens-tension smoothing, caveat exceeded, unfalsifiable claim, manufactured certainty | FootyStrategy (Step 3) | Step 3 → Pass 2 → Skeptic |
+  | Data error — CRITICAL smoke-test mismatch, a `[data]` number wrong at source, a skeleton figure | DataSentinel / BriefBuilder (Step 1–2) | Step 1 → Pass 1 → Step 3 → Pass 2 → Skeptic |
+  | Missing/limited data the prose leaned on | BriefBuilder or escalate the data gap | from Step 1 |
+
+  A data-layer BLOCK routed to FootyStrategy would be unfixable there (FootyStrategy cannot correct a skeleton number) — always route a data-error BLOCK back to the data layer.
 
 ## Step 6 — QA
 

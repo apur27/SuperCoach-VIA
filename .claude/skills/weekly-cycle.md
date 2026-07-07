@@ -15,7 +15,7 @@ Gaffer owns process, not truth: never override a QA FAIL or a `check_hof_numbers
 
 ## Cadence rule
 
-Run **on Tuesday after the round settles.** afltables does not have the weekend's actuals until then. R18 plays this weekend — **the next run is Tuesday 2026-07-07.**
+Run **on Tuesday after the round settles.** afltables does not have the weekend's actuals until then — the round that just played is available from the Tuesday after. Do not hardcode a specific round or date here; the evergreen Tuesday-settlement rule is the whole cadence.
 
 ## Phase 0 — Timing guard
 
