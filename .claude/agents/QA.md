@@ -57,8 +57,11 @@ Missing or empty artifact = QA FAIL.
 ### 3. Prediction CSV Schema Validation
 
 ```python
-import pandas as pd, glob, sys
-files = sorted(glob.glob('data/prediction/next_round_*_prediction_*.csv'))
+import pandas as pd, glob, os, sys
+# Select the NEWEST prediction CSV by mtime, NOT a lexicographic sort — a plain
+# sorted()[-1] ranks next_round_9_* above next_round_18_* ("9" > "1") and would
+# schema-check a stale round-9 file (the CR-1 / F01 bug — do not reintroduce it here).
+files = sorted(glob.glob('data/prediction/next_round_*_prediction_*.csv'), key=os.path.getmtime)
 if not files: sys.exit('NO PREDICTION FILE')
 df = pd.read_csv(files[-1])
 assert set(['player','team','predicted_disposals']).issubset(df.columns), f"Missing cols: {df.columns.tolist()}"

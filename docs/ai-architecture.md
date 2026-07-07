@@ -34,7 +34,7 @@ flowchart TB
     end
 
     subgraph Pipeline["Feature engineering pipeline"]
-        B1[Rolling-window features<br/>form / opponent / venue / context]
+        B1[Rolling-window features<br/>form / opponent]
         B2[Target: disposals<br/>log1p transform until 2026]
     end
 
@@ -606,7 +606,7 @@ The system processes only publicly-published AFL match and player statistics. Pl
 
 > *"Throughout their lifecycle, AI systems should be inclusive and accessible, and should not involve or result in unfair discrimination against individuals, communities or groups."*
 
-The prediction model uses only on-field statistical features (rolling form, opponent, venue, context) and does not ingest demographic attributes. **Honest framing:** absence of demographic features rules out one specific class of risk (direct discrimination on a protected attribute) but is not by itself a fairness audit — proxy variables can still encode group membership, and equal-accuracy across groups has not been measured. The closest available slice is performance tier: top-10 player MAE sits at ~10.8 disposals vs the global 4.06, meaning the model is meaningfully less accurate for elite players. This is disclosed in the eval-results table and in `agent-memory/Scientist/prediction_top_end_compression.md`. **Partial gap:** no formal slice analysis has been run across player position, age, team, or era. Per-position analysis is blocked by a known data limitation (no position column in player CSVs, noted in `agent-memory/Scientist/data_no_position.md`); other slices have not been prioritised. A regulator-grade fairness review is not on the artefact list.
+The prediction model uses only on-field statistical features (rolling form and opponent) and does not ingest demographic attributes. **Honest framing:** absence of demographic features rules out one specific class of risk (direct discrimination on a protected attribute) but is not by itself a fairness audit — proxy variables can still encode group membership, and equal-accuracy across groups has not been measured. The closest available slice is performance tier: top-10 player MAE sits at ~10.8 disposals vs the global 4.06, meaning the model is meaningfully less accurate for elite players. This is disclosed in the eval-results table and in `agent-memory/Scientist/prediction_top_end_compression.md`. **Partial gap:** no formal slice analysis has been run across player position, age, team, or era. Per-position analysis is blocked by a known data limitation (no position column in player CSVs, noted in `agent-memory/Scientist/data_no_position.md`); other slices have not been prioritised. A regulator-grade fairness review is not on the artefact list.
 
 ### 4. Privacy protection and security
 
