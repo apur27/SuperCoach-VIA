@@ -58,6 +58,19 @@ bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1/5] refresh_and_rank.sh complete."
 
 # ---------------------------------------------------------------------------
+# Phantom-row gate (F12) — run the moment the scrape has written player CSVs,
+# BEFORE anything downstream (HOF, stat leaders, briefs) reads them. A counter-gap
+# means a real player game row was silently dropped or doubled (the drawn-GF dedup
+# class). Non-zero exit aborts the whole run. `if !` avoids the tee exit-code mask.
+# ---------------------------------------------------------------------------
+log "[1c/5] Phantom-row gate: validating scraped player CSVs for dropped/doubled rows..."
+if ! $PYTHON "$REPO_ROOT/scripts/phantom_row_validator.py" 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: phantom-row validator found dropped/doubled player rows — aborting before any downstream read. Route to Scientist."
+    exit 1
+fi
+log "[1c/5] Phantom-row gate passed."
+
+# ---------------------------------------------------------------------------
 # Detect round AFTER Phase 1 so we read the CSV that prediction.py just wrote,
 # not whatever was on disk before the run.
 # ---------------------------------------------------------------------------
