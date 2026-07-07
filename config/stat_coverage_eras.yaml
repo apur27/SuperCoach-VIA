@@ -23,6 +23,10 @@ stats:
     recorded_from: 1897        # only stat reaching back to the full dataset
   behinds:
     recorded_from: 1965        # NOT 1897 — behinds are all-NaN pre-1965
+  free_kicks_for:
+    recorded_from: 1965        # continuous from 1965 with the core AFL-stats era; all-NaN pre-1965
+  free_kicks_against:
+    recorded_from: 1965        # continuous from 1965 with the core AFL-stats era; all-NaN pre-1965
   hit_outs:
     recorded_from: 1966        # separate 2016->2017 counting-method jump; do not compare across that boundary
   tackles:
@@ -48,6 +52,8 @@ stats:
   bounces:
     recorded_from: 1999
   goal_assist:                 # column is SINGULAR goal_assist; all-NaN 1998-2002
+    recorded_from: 2003
+  percentage_of_game_played:   # time-on-ground %; all-NaN pre-2003 (same boundary as goal_assist)
     recorded_from: 2003
   brownlow_votes:              # strict gate: continuous from 1984. An isolated
     recorded_from: 1984        # 1931-1934 fragment exists then a 1935-1983 dead
