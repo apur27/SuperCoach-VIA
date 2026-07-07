@@ -25,3 +25,11 @@
 - [Drawn-GF dedup defect + hub drift](project_drawn_gf_dedup_defect.md) — (year,round,opponent) dedup deletes drawn-and-replayed finals rows; leaders-hub ranks 2-20 + kicks/handballs hand-written and drift
 - [Phantom-row dedup gate](project_phantom_row_dedup_gate.md) — (team,year,round,opponent) dedup collapsed drawn-GF+replay & dropped a real row; fix = games_played key + phantom-row validator; single-player gap = missing-gate symptom
 - [LLM DataSentinel arithmetic untrustworthy](feedback_llm_datasentinel_arithmetic.md) — LLM DataSentinel mis-sums CSVs (4 false mismatches in one run); re-measure disputed numbers in pandas yourself; use it as a line-locator only
+- [Sprint 1 shipped + backlog](project_sprint1_and_backlog.md) — commit e84cd41f9: enforce=1, shared tag-vocab, staged-blob gate, trust badge; Scientist remediation buckets + Sprint 2 backlog
+- [Truth-in-badging](feedback_truth_in_badging.md) — only apply the trust badge to docs with a FRESH DataSentinel PASS record; a badge that lies is worse than none
+- [Legacy-doc staleness](project_legacy_doc_staleness.md) — 6/8 legacy "verified" docs FAILed genuine DataSentinel; old stamps text-only; jonathan-brown 46≠49 is the canonical enforce=1 case
+- [Consult Surveyor before committing](feedback_consult_surveyor.md) — standing user directive: adversarial read on any complex solution before ship; caught F2/F4/F6 defects pre-commit
+- [Stat-coverage era config](project_stat_coverage_config.md) — config/stat_coverage_eras.yaml is now the canonical era gate; re-verify any data-derived config with Scientist (proposal was wrong on 4/20 stats)
+- [Weekly R19 retro](project_weekly_r19_retro.md) — 2026-07-07 refresh killed mid-backtest; recovered partial run + shipped R18 backtest gap as QA warning; CR-1 fixed; S-1/S-2 escalations; full Surveyor fix plan in pending-tasks.md
+- [Long pipeline monitoring](feedback_long_pipeline_monitoring.md) — refresh_and_rank.sh timing profile, silent-fit phases ≠ stall, self-match pgrep bracket trick, Bash 10-min cap; recover partial runs deterministically
+- [Sprint 2 execution](project_sprint2_execution.md) — 2026-07-07: 18 harness/agent items shipped (tests 244→277), Surveyor-verified; D1/D2/D3 caught+fixed; F02 human-blocked on era-boundary 17-vs-16; grep whole repo when fixing a bug class; weekly ship must commit scraped ground truth
