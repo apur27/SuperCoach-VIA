@@ -67,13 +67,13 @@
   <g font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
     <!-- Pill 1 -->
     <rect x="92" y="196" width="178" height="48" rx="24" fill="#e8eef9"/>
-    <text x="181" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">R1&#8211;R16 &#183; 2026</text>
+    <text x="181" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">R1&#8211;R17 &#183; 2026</text>
     <!-- Pill 2 -->
     <rect x="286" y="196" width="158" height="48" rx="24" fill="#e8eef9"/>
-    <text x="365" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">MAE 3.983</text>
+    <text x="365" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#0c1322">MAE 3.975</text>
     <!-- Pill 3 -->
     <rect x="460" y="196" width="206" height="48" rx="24" fill="#FFB300"/>
-    <text x="563" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#3a2a00">73.8% within 5</text>
+    <text x="563" y="226" text-anchor="middle" font-size="20" font-weight="700" fill="#3a2a00">74.0% within 5</text>
   </g>
 
   <!-- Right-side mark -->
@@ -140,7 +140,7 @@
     <line x1="1108" y1="490" x2="1108" y2="506" stroke="#FFB300" stroke-width="2"/>
     <text x="1108" y="528" text-anchor="middle" font-size="15" font-weight="600" fill="#c6d2e6">2026</text>
 
-    <text x="600" y="550" text-anchor="middle" font-size="17" font-weight="500" fill="#9fb0cd">130 seasons &#183; 13,343 player files &#183; 16,900+ match records</text>
+    <text x="600" y="550" text-anchor="middle" font-size="17" font-weight="500" fill="#9fb0cd">130 seasons &#183; 13,350 player files &#183; 16,900+ match records</text>
   </g>
 
   <!-- ============================================================= -->
@@ -150,15 +150,15 @@
     <rect x="0" y="560" width="1200" height="160" fill="url(#bandGradAlt)"/>
     <line x1="0" y1="560" x2="1200" y2="560" stroke="#1c2c4d" stroke-opacity="0.6" stroke-width="1"/>
 
-    <text x="92" y="600" font-size="13" font-weight="700" fill="#7f8db0" letter-spacing="3">PREDICTION ACCURACY &#8212; 2026 SEASON (R1&#8211;R16 &#183; 5,817 player-rounds)</text>
+    <text x="92" y="600" font-size="13" font-weight="700" fill="#7f8db0" letter-spacing="3">PREDICTION ACCURACY &#8212; 2026 SEASON (R1&#8211;R17 &#183; 6,137 player-rounds)</text>
 
     <!-- MAE 4.020 — teal -->
-    <text x="300" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">3.983</text>
+    <text x="300" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">3.975</text>
     <rect x="240" y="678" width="120" height="4" rx="2" fill="#1fb6c9"/>
     <text x="300" y="704" text-anchor="middle" font-size="16" font-weight="500" fill="#9fb0cd">Mean absolute error</text>
 
     <!-- 73.0% — gold -->
-    <text x="600" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">73.8%</text>
+    <text x="600" y="665" text-anchor="middle" font-size="54" font-weight="800" fill="#ffffff">74.0%</text>
     <rect x="540" y="678" width="120" height="4" rx="2" fill="#FFB300"/>
     <text x="600" y="704" text-anchor="middle" font-size="16" font-weight="500" fill="#9fb0cd">Predictions within 5 disposals</text>
 

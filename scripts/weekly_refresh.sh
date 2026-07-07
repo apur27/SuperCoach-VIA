@@ -61,8 +61,14 @@ log "[1/5] refresh_and_rank.sh complete."
 # Detect round AFTER Phase 1 so we read the CSV that prediction.py just wrote,
 # not whatever was on disk before the run.
 # ---------------------------------------------------------------------------
-LATEST_PRED=$(ls "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
-    | sort | tail -1 || true)
+# Select by mtime (newest first), NOT lexicographic sort. A plain `sort` ranks
+# next_round_9_* above next_round_18_* because "9" > "1" as a string, which
+# published weekly recaps under the wrong round label for weeks (Surveyor CR-1).
+# `ls -t` orders by mtime — the same getmtime semantics generate_weekly_cheat_sheet.py
+# uses in find_latest_prediction(), so the cheat sheet and this recap always agree
+# on the round. Regression-guarded by tests/unit/test_prediction_selection.py.
+LATEST_PRED=$(ls -t "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
+    | head -1 || true)
 if [ -n "$LATEST_PRED" ]; then
     ROUND=$(basename "$LATEST_PRED" | grep -oP 'next_round_\K[0-9]+' || echo "unknown")
 else

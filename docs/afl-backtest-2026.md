@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-06-29 · 17 rounds backtested · auto-generated*
+*Last updated: 2026-07-07 · 17 rounds backtested · auto-generated*
 
 ### What is a backtest?
 

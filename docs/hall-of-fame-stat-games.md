@@ -2,16 +2,16 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career games played - all-time top 20
-> ✓ All 29 stats verified against source data · council-pipeline-gated · 2026-07-03
+> ✓ All 29 stats verified against source data · council-pipeline-gated · 2026-07-07
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-29. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-07-07. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -37,9 +37,9 @@ Career games played is the longevity-and-availability stat. It measures three th
 | 9 | Simon Madden **[data]** | Essendon | 1974-1992 | 378 |
 | 10 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 |
 | 11 | Craig Bradley **[data]** | Carlton | 1986-2002 | 375 |
-| 12 | Adam Goodes **[data]** | Sydney | 1999-2015 | 372 |
-| 13 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 |
-| 14 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 367 |
+| 12= | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 372 |
+| 12= | Adam Goodes **[data]** | Sydney | 1999-2015 | 372 |
+| 14 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 368 |
 | 15 | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 |
 | 16 | Brad Johnson **[data]** | Footscray - Western Bulldogs | 1994-2010 | 364 |
 | 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |

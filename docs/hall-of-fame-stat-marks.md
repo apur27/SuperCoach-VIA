@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-05-25 (data-only page — no causal claims)
   Gaffer: APPROVED @ 2026-05-25
 -->
 # AFL career marks - all-time top 20
-> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-07-03
+> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-07-07
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 

@@ -2,18 +2,18 @@
   BriefBuilder: N/A (navigation hub, no data skeleton required)
   Scientist: N/A (no [data] tags to derive)
   FootyStrategy: N/A (no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-05-30 (navigation-only page; no causal claims, no "forgotten" framing to probe)
   Gaffer: APPROVED @ 2026-05-30
 -->
 # AFL all-time statistical leaders - hub
-> ✓ All 30 stats verified against source data · council-pipeline-gated · 2026-07-03
+> ✓ All 30 stats verified against source data · council-pipeline-gated · 2026-07-07
 
 > [← Back to main README](../README.md) · [← Hall of Fame hub](hall-of-fame.md)
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
-*Last refreshed: 2026-06-29. Every number on every sub-page is re-aggregated from 13,343 player career files in `data/player_data/`.*
+*Last refreshed: 2026-07-07. Every number on every sub-page is re-aggregated from 13,343 player career files in `data/player_data/`.*
 
 The [top 100 list](hall-of-fame-top100.md) is era-normalised: it asks who was furthest above the standard of their own era. This hub asks the simpler, blunter question - **who has the biggest career numbers, full stop.** No z-scores, no era adjustments. Just the raw ledger.
 
@@ -32,8 +32,8 @@ The two answers do not agree, and that is the point. Tony Lockett's 1,360 goals 
 | Career disposals | [Disposals leaderboard](hall-of-fame-stat-disposals.md) | Scott Pendlebury 11,069 **[data]** |<!-- HOF-HUB:career_disposals -->
 | Career marks | [Marks leaderboard](hall-of-fame-stat-marks.md) | Nick Riewoldt 2,944 **[data]** |<!-- HOF-HUB:career_marks -->
 | Career tackles | [Tackles leaderboard](hall-of-fame-stat-tackles.md) | Scott Pendlebury 2,012 **[data]** |<!-- HOF-HUB:career_tackles -->
-| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,704 **[data]** |<!-- HOF-HUB:career_contested_possessions -->
-| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,986 **[data]** |<!-- HOF-HUB:career_clearances -->
+| Career contested possessions | [Contested poss. leaderboard](hall-of-fame-stat-contested.md) | Patrick Dangerfield 4,712 **[data]** |<!-- HOF-HUB:career_contested_possessions -->
+| Career clearances | [Clearances leaderboard](hall-of-fame-stat-clearances.md) | Lachie Neale 1,992 **[data]** |<!-- HOF-HUB:career_clearances -->
 | Career hit-outs | [Hit-outs leaderboard](hall-of-fame-stat-hitouts.md) | Todd Goldstein 10,597 **[data]** |<!-- HOF-HUB:career_hit_outs -->
 | Career Brownlow votes | [Brownlow leaderboard](hall-of-fame-stat-brownlow.md) | Gary Ablett 262 **[data]** |<!-- HOF-HUB:career_brownlow_votes -->
 | Career goal assists | [Goal assists leaderboard](hall-of-fame-stat-goalassists.md) | Scott Pendlebury 330 **[data]** |<!-- HOF-HUB:career_goal_assists -->

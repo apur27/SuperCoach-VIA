@@ -2,16 +2,16 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-06-29 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career Brownlow votes - all-time top 20
-> ✓ All 34 stats verified against source data · council-pipeline-gated · 2026-07-03
+> ✓ All 34 stats verified against source data · council-pipeline-gated · 2026-07-07
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-06-29. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-07-07. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -27,18 +27,18 @@ The Brownlow Medal is awarded annually to the fairest and best player in the hom
 |--:|--------|---------|------|------:|------:|---------:|
 <!-- HOF-TABLE-START:career_brownlow_votes -->
 | 1 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 262 | 0.73 |<!-- HOF-TOP:career_brownlow_votes -->
-| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 371 | 259 | 0.70 |
+| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 372 | 259 | 0.70 |
 | 3 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 227 | 0.69 |
 | 4= | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 225 | 0.52 |
-| 4= | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 309 | 225 | 0.73 |
+| 4= | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 310 | 225 | 0.73 |
 | 6 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 | 215 | 0.56 |
 | 7 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 214 | 0.60 |
 | 8 | Dustin Martin **[data]** | Richmond | 2010-2024 | 302 | 213 | 0.71 |
 | 9 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 210 | 0.75 |
 | 10= | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 | 191 | 0.44 |
-| 10= | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 273 | 191 | 0.70 |
+| 10= | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 274 | 191 | 0.70 |
 | 12 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 248 | 190 | 0.77 |
-| 13 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 245 | 189 | 0.77 |
+| 13 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 246 | 189 | 0.77 |
 | 14= | Lance Franklin **[data]** | Hawthorn - Sydney | 2005-2023 | 354 | 186 | 0.53 |
 | 14= | Dane Swan **[data]** | Collingwood | 2003-2016 | 258 | 186 | 0.72 |
 | 16 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 184 | 0.57 |
