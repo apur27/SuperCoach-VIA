@@ -96,6 +96,13 @@ Source: Survey 1 (full-repo health, 18 findings, IDs F01–F18) and Survey 2 (de
 **Fix brief:** The model does not use the venue features its published description claims. Gaffer corrects the claim wherever it appears on the user surface (model description docs, README, report card) to describe what the model actually does, with Scientist confirming the corrected wording against the training code before ship. Do not soften into ambiguity; the correction states what is and is not in the model.
 **Acceptance criterion:** No published doc claims venue effects (or any phantom feature) as a model input, verified by grep across `docs/` and README, and the corrected wording is confirmed by Scientist against the actual feature list in code.
 
+### [Sprint 2] F-26 — Backtest silently fails and pipeline ships anyway
+**Owner:** Scientist (code fixes) + Gaffer (harness gate)
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** The backtest can die silently (SIGKILL from timeout, empty round window exit-0, or predictor writes nothing) and the pipeline ships anyway — it never checks the artifact was written. This is the exact failure that shipped the R18 eval-surface gap on 2026-07-07 (two killed runs; `refresh_and_rank.sh` never noticed the missing summary). Three Scientist fixes: (1) artifact gate in `refresh_and_rank.sh` after the backtest call — check a new `backtest_summary_*.csv` exists with today's timestamp, abort with FATAL if not; (2) `backtest.py:571` — change `return 0` to nonzero for an empty round window; (3) `backtest.py:365–370` — verify the picked prediction CSV was created after this predictor run started (mtime check), hard-fail if stale. One Gaffer fix: `check_backtest_freshness.py` gate wired into both harness scripts before any doc regeneration step — same pattern as `check_hof_numbers.py`. **Standing anti-pattern rule:** *never wrap `backtest.py` in `timeout N` or a bounded foreground call — background + artifact gate only* (backtest.py needs ~24 min per round of Optuna tuning; June 29 log: 22:28:49→22:53:02).
+**Acceptance criterion:** A deliberately killed backtest run causes `refresh_and_rank.sh` to abort before touching any doc, demonstrated by a test; `docs/afl-backtest-2026.md` date cannot exceed its max backtested round.
+
 ---
 
 ## Sprint 3 — Model improvements and data-source repair
