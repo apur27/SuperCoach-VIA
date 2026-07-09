@@ -169,11 +169,11 @@ The comparison class: midfielders with 200+ games in the modern era. Disposals/g
 |---|---:|---:|---:|---:|---:|
 | **Dustin Martin** | **302** **[data: martin_dustin_26061991_performance_details.csv]** | **24.2** **[data: martin_dustin_26061991_performance_details.csv]** | **338** **[data: martin_dustin_26061991_performance_details.csv]** | **1.12** **[data: martin_dustin_26061991_performance_details.csv ; derived=338÷302]** | **213** **[data: martin_dustin_26061991_performance_details.csv]** |
 | Gary Ablett Jr | 357 **[data: ablett_gary_14051984_performance_details.csv]** | 24.9 **[data: ablett_gary_14051984_performance_details.csv]** | 445 **[data: ablett_gary_14051984_performance_details.csv]** | 1.25 **[data: ablett_gary_14051984_performance_details.csv ; derived=445÷357]** | 262 **[data: ablett_gary_14051984_performance_details.csv]** |
-| Patrick Dangerfield | 370 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 377 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 1.02 **[data: dangerfield_patrick_05041990_performance_details.csv ; derived=377÷370]** | 259 **[data: dangerfield_patrick_05041990_performance_details.csv]** |
-| Nat Fyfe | 247 **[data: fyfe_nat_18091991_performance_details.csv]** | 23.5 **[data: fyfe_nat_18091991_performance_details.csv]** | 178 **[data: fyfe_nat_18091991_performance_details.csv]** | 0.72 **[data: fyfe_nat_18091991_performance_details.csv ; derived=178÷247]** | 190 **[data: fyfe_nat_18091991_performance_details.csv]** |
-| Scott Pendlebury | 435 **[data: pendlebury_scott_07011988_performance_details.csv]** | 25.4 **[data: pendlebury_scott_07011988_performance_details.csv]** | 207 **[data: pendlebury_scott_07011988_performance_details.csv]** | 0.48 **[data: pendlebury_scott_07011988_performance_details.csv ; derived=207÷435]** | 225 **[data: pendlebury_scott_07011988_performance_details.csv]** |
+| Patrick Dangerfield | 372 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 382 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 1.03 **[data: dangerfield_patrick_05041990_performance_details.csv ; derived=382÷372]** | 259 **[data: dangerfield_patrick_05041990_performance_details.csv]** |
+| Nat Fyfe | 248 **[data: fyfe_nat_18091991_performance_details.csv]** | 23.5 **[data: fyfe_nat_18091991_performance_details.csv]** | 178 **[data: fyfe_nat_18091991_performance_details.csv]** | 0.72 **[data: fyfe_nat_18091991_performance_details.csv ; derived=178÷248]** | 190 **[data: fyfe_nat_18091991_performance_details.csv]** |
+| Scott Pendlebury | 436 **[data: pendlebury_scott_07011988_performance_details.csv]** | 25.5 **[data: pendlebury_scott_07011988_performance_details.csv]** | 208 **[data: pendlebury_scott_07011988_performance_details.csv]** | 0.48 **[data: pendlebury_scott_07011988_performance_details.csv ; derived=208÷436]** | 225 **[data: pendlebury_scott_07011988_performance_details.csv]** |
 | Joel Selwood | 355 **[data: selwood_joel_26051988_performance_details.csv]** | 24.6 **[data: selwood_joel_26051988_performance_details.csv]** | 175 **[data: selwood_joel_26051988_performance_details.csv]** | 0.49 **[data: selwood_joel_26051988_performance_details.csv ; derived=175÷355]** | 214 **[data: selwood_joel_26051988_performance_details.csv]** |
-| Lachie Neale | 308 **[data: neale_lachie_24051993_performance_details.csv]** | 27.5 **[data: neale_lachie_24051993_performance_details.csv]** | 140 **[data: neale_lachie_24051993_performance_details.csv]** | 0.45 **[data: neale_lachie_24051993_performance_details.csv ; derived=140÷308]** | 225 **[data: neale_lachie_24051993_performance_details.csv]** |
+| Lachie Neale | 310 **[data: neale_lachie_24051993_performance_details.csv]** | 27.5 **[data: neale_lachie_24051993_performance_details.csv]** | 140 **[data: neale_lachie_24051993_performance_details.csv]** | 0.45 **[data: neale_lachie_24051993_performance_details.csv ; derived=140÷310]** | 225 **[data: neale_lachie_24051993_performance_details.csv]** |
 
 ² Brownlow figures are arithmetic sums from per-game CSVs, repo-derived only — not cross-checked against AFL official records. See footnote ¹.
 
@@ -181,26 +181,36 @@ What the table makes visible: Martin's 1.12 goals per game is the second-highest
 
 ### The rarity of the combination
 
-Across the full dataset of every player file in `data/player_data/` (13,000+ files, VFL/AFL history from 1897), three thresholds applied simultaneously — 200+ career games, 20+ disposals per game, 300+ career goals — return **12 players in the entire recorded history of the game** **[data: data/player_data/ ; filter=games≥200,disposals/game≥20,goals≥300 ; aggregation=count]**.
+Across the full dataset of every player file in `data/player_data/` (13,000+ files, VFL/AFL history from 1897), three thresholds applied simultaneously — 200+ career games, 20+ disposals per game (dropna, i.e. averaged over games where disposals were actually recorded), 300+ career goals — return **17 players in the entire recorded history of the game** **[data: scripts/era_boundary_threshold.py --min-games 200 --rate-col disposals --min-rate 20 --count-col goals --min-count 300 ; N of M = 17 of 13,350 considered ; aggregation=count]**.
 
-| Player | Games | Disp/g | Goals | Era |
-|---|---:|---:|---:|---|
-| Leigh Matthews | 332 **[data: matthews_leigh_01031952_performance_details.csv]** | 22.2 **[data: matthews_leigh_01031952_performance_details.csv]** | 915 **[data: matthews_leigh_01031952_performance_details.csv]** | 1969–1985 |
-| Kevin Bartlett | 403 **[data: bartlett_kevin_06031947_performance_details.csv]** | 22.7 **[data: bartlett_kevin_06031947_performance_details.csv]** | 778 **[data: bartlett_kevin_06031947_performance_details.csv]** | 1965–1983 |
-| Brent Harvey | 432 **[data: harvey_brent_14051978_performance_details.csv]** | 21.3 **[data: harvey_brent_14051978_performance_details.csv]** | 518 **[data: harvey_brent_14051978_performance_details.csv]** | 1996–2016 |
-| Garry Wilson | 268 **[data: wilson_garry_17071953_performance_details.csv]** | 25.0 **[data: wilson_garry_17071953_performance_details.csv]** | 452 **[data: wilson_garry_17071953_performance_details.csv]** | 1971–1984 |
-| Gary Ablett Jr | 357 **[data: ablett_gary_14051984_performance_details.csv]** | 24.9 **[data: ablett_gary_14051984_performance_details.csv]** | 445 **[data: ablett_gary_14051984_performance_details.csv]** | 2002–2020 |
-| Patrick Dangerfield | 370 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 377 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 2008–2026 |
-| John Murphy | 246 **[data: murphy_john_20111949_performance_details.csv]** | 24.6 **[data: murphy_john_20111949_performance_details.csv]** | 374 **[data: murphy_john_20111949_performance_details.csv]** | 1967–1980 |
-| Dale Weightman | 274 **[data: weightman_dale_03101959_performance_details.csv]** | 20.8 **[data: weightman_dale_03101959_performance_details.csv]** | 344 **[data: weightman_dale_03101959_performance_details.csv]** | 1978–1993 |
-| James Hird | 253 **[data: hird_james_04021973_performance_details.csv]** | 20.1 **[data: hird_james_04021973_performance_details.csv]** | 343 **[data: hird_james_04021973_performance_details.csv]** | 1992–2007 |
-| **Dustin Martin** | **302** **[data: martin_dustin_26061991_performance_details.csv]** | **24.2** **[data: martin_dustin_26061991_performance_details.csv]** | **338** **[data: martin_dustin_26061991_performance_details.csv]** | **2010–2024** |
-| Wayne Richardson | 277 **[data: richardson_wayne_08121946_performance_details.csv]** | 23.6 **[data: richardson_wayne_08121946_performance_details.csv]** | 323 **[data: richardson_wayne_08121946_performance_details.csv]** | 1966–1978 |
-| David Clarke | 211 **[data: clarke_david_31121952_performance_details.csv]** | 21.4 **[data: clarke_david_31121952_performance_details.csv]** | 319 **[data: clarke_david_31121952_performance_details.csv]** | 1971–1982 |
+Because the disposals-per-game threshold crosses the AFL stat-recording boundary, the qualifying rate is computed over each player's *recorded* games only (dropna), per the era-boundary rule in `scripts/era_boundary_threshold.py`. The coverage column (recorded games of career games) makes visible when a rate rests on only a fraction of a career: for a partial-coverage player, the dropna rate is **not** a full-career volume figure. The fill-zero column (rate over all games) is shown alongside so the divergence is always legible — e.g. Ron Barassi's 22.6 dropna rate is computed over just 50 of 254 games and falls to 4.45 fill-zero.
 
-Among players whose careers fall in the modern era (from 2000 onward), the group contains three: Gary Ablett Jr, Patrick Dangerfield, and Dustin Martin.
+| Player | Games | Disp/g (dropna) | Disp/g (fill-zero) | Coverage | Goals | Era |
+|---|---:|---:|---:|---:|---:|---|
+| Bob Skilton | 237 **[data: skilton_bob_08111938_performance_details.csv]** | 26.6 | 11.01 | 98 of 237 **[PARTIAL]** | 412 | 1956–1971 |
+| Garry Wilson | 268 **[data: wilson_garry_17071953_performance_details.csv]** | 25.0 | 25.03 | 268 of 268 | 452 | 1971–1984 |
+| Gary Ablett Jr | 357 **[data: ablett_gary_14051984_performance_details.csv]** | 24.9 | 24.92 | 357 of 357 | 445 | 2002–2020 |
+| John Murphy | 246 **[data: murphy_john_20111949_performance_details.csv]** | 24.6 | 24.59 | 246 of 246 | 374 | 1967–1980 |
+| **Dustin Martin** | **302** **[data: martin_dustin_26061991_performance_details.csv]** | **24.2** | **24.24** | **302 of 302** | **338** | **2010–2024** |
+| Wayne Richardson | 277 **[data: richardson_wayne_08121946_performance_details.csv]** | 23.8 | 23.65 | 275 of 277 | 323 | 1966–1978 |
+| George Bisset | 207 **[data: bisset_george_10031943_performance_details.csv]** | 22.9 | 19.81 | 179 of 207 **[PARTIAL]** | 337 | 1963–1974 |
+| Kevin Bartlett | 403 **[data: bartlett_kevin_06031947_performance_details.csv]** | 22.8 | 22.71 | 402 of 403 | 778 | 1965–1983 |
+| Patrick Dangerfield | 372 **[data: dangerfield_patrick_05041990_performance_details.csv]** | 22.7 | 22.70 | 372 of 372 | 382 | 2008–2026 |
+| Ron Barassi | 254 **[data: barassi_ron_27021936_performance_details.csv]** | 22.6 | 4.45 | 50 of 254 **[PARTIAL]** | 330 | 1953–1969 |
+| Leigh Matthews | 332 **[data: matthews_leigh_01031952_performance_details.csv]** | 22.3 | 22.21 | 331 of 332 | 915 | 1969–1985 |
+| Brent Harvey | 432 **[data: harvey_brent_14051978_performance_details.csv]** | 21.4 | 21.33 | 431 of 432 | 518 | 1996–2016 |
+| David Clarke | 211 **[data: clarke_david_31121952_performance_details.csv]** | 21.4 | 21.35 | 211 of 211 | 319 | 1971–1982 |
+| Dale Weightman | 274 **[data: weightman_dale_03101959_performance_details.csv]** | 20.8 | 20.77 | 274 of 274 | 344 | 1978–1993 |
+| James Hird | 253 **[data: hird_james_04021973_performance_details.csv]** | 20.1 | 20.06 | 252 of 253 | 343 | 1992–2007 |
+| Rodney Ashman | 236 **[data: ashman_rodney_03121954_performance_details.csv]** | 20.1 | 19.99 | 235 of 236 | 370 | 1973–1986 |
+| Toby Greene | 277 **[data: greene_toby_25091993_performance_details.csv]** | 20.0 | 20.01 | 277 of 277 | 443 | 2012–2026 |
 
-The three thresholds are stated precisely because the count is threshold-sensitive — shifting any boundary changes the membership. This is not a "greatest ever" claim. It is a data-defined description of what made his style distinctive: accumulating disposals at elite-midfielder volume while also finishing at a rate that belongs in a different position type. That combination, across 302 games and fifteen seasons, is what the 12-in-history count records.
+`[data]` — all rows emitted by `scripts/era_boundary_threshold.py` against current `data/player_data/`. Three rows (Skilton, Bisset, Barassi) are **partial-coverage**: their qualifying dropna rate rests on well under 90% of career games and diverges materially from the true full-career (fill-zero) rate. Toby Greene crossed the threshold live in 2026.
+
+Among players whose careers began in the modern era (from 2000 onward), the group contains four: Gary Ablett Jr, Patrick Dangerfield, Dustin Martin, and Toby Greene.
+
+The three thresholds are stated precisely because the count is threshold-sensitive — shifting any boundary changes the membership. This is not a "greatest ever" claim.
+For Martin himself, that description is exact. His disposal coverage is complete — every one of his 302 games has disposals recorded — so his disposal rate, the stat that clears the threshold, is a genuine full-career figure and not an artefact of a partial sample. Across fifteen seasons he accumulated at elite-midfielder volume while finishing at a rate that belongs to a different position type. The 17-in-history count is the rarity signal that frames that profile, but it should be read with the coverage table, not around it: three of the seventeen — Skilton, Bisset and Barassi, flagged **[PARTIAL]** above — clear the disposal threshold only on a dropna rate drawn from a fraction of their careers, and their full-career fill-zero rates fall well short of it. The count marks how uncommon the combination is; it is not seventeen players who each sustained both rates across a whole career. Martin is one of the members whose disposal threshold rests on full career coverage rather than a partial sample.
 
 Three premierships is not a number many AFL players carry. To be the common thread across three flag-winning teams at the same club — with the above career profile — is the full statement the data can make about where Dustin Martin sits.
 

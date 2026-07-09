@@ -135,7 +135,7 @@ The verdict: a two-way run-with midfielder who denied opponents and accumulated 
 
 A contested-ball specialist on premiership midfields who never became the name on the team sheet.
 
-[data]: 199 games, 32 career goals, 21.2 disposal average **[data]** — 32 goals in 199 games is among the purest inside-midfielder profiles in this list. His 2009 peak of 25.8 disposals a game **[data]** was a heavy contested-ball season.
+[data]: 200 games, 32 career goals, 21.2 disposal average **[data]** — 32 goals in 200 games is among the purest inside-midfielder profiles in this list. His 2009 peak of 25.8 disposals a game **[data]** was a heavy contested-ball season.
 
 Sewell did the work that lets flashier teammates shine: win the hard ball at the coalface, take the tackle, free the hands for an outside runner. A midfielder kicking a goal every six games is spending his entire game inside the contest, and that role is the foundation a free-flowing side is built on.
 
@@ -167,9 +167,9 @@ The verdict: a dependable accumulating midfielder whose consistency was his cont
 
 A one-club midfielder who gave a young franchise fifteen seasons of unglamorous contested work.
 
-[data]: 247 games, all for Gold Coast **[data]**, at 19.3 disposals per game **[data]** and 111 career goals **[data]**.
+[data]: 249 games, all for Gold Coast **[data]**, at 19.2 disposals per game **[data]** and 111 career goals **[data]**.
 
-A near-20-disposal average held across fifteen seasons at a single expansion club is the statistical fingerprint of a durable, dependable midfielder — the player a developing list sets its clock by rather than the one who tops the stats sheet. Sustaining that output for 247 games through the franchise's entire early arc is associated with the kind of structural reliability a young side builds around. The volume is honest; the value is in the longevity and the consistency of it.
+A near-20-disposal average held across fifteen seasons at a single expansion club is the statistical fingerprint of a durable, dependable midfielder — the player a developing list sets its clock by rather than the one who tops the stats sheet. Sustaining that output for 249 games through the franchise's entire early arc is associated with the kind of structural reliability a young side builds around. The volume is honest; the value is in the longevity and the consistency of it.
 
 The verdict: a one-club midfielder whose fifteen seasons of close to twenty disposals a game anchored a young Gold Coast structure that the box score rounds down to a possession.
 
@@ -327,7 +327,7 @@ The verdict: an intercepting full-back whose defensive reads made him his team's
 
 A versatile defender-midfielder whose contested marking anchored a back line.
 
-[data]: 254 games, 179 career goals, 18.3 disposal average **[data]** — with 603 rebound-50s, 425 contested marks and 6.5 marks a game **[data]**. The 425 contested marks is elite for a defender.
+[data]: 255 games, 179 career goals, 18.2 disposal average **[data]** — with 603 rebound-50s, 425 contested marks and 6.5 marks a game **[data]**. The 425 contested marks is elite for a defender.
 
 A defender taking 425 contested marks is winning the ball in the air in the most dangerous part of the ground, killing entries before they become shots. Cornes paired that with the disposal volume of a midfielder, which let his side use him as a rebounding defender, a stopper, or a midfield body as the game demanded — positional flexibility that is worth a list spot in itself.
 
@@ -493,9 +493,9 @@ The verdict: a strong leading full-forward whose career haul puts him among the 
 
 ### Brian Taylor (1980-1990, Collingwood)
 
-A booming-kicked full-forward with the best strike rate in this group.
+A booming-kicked full-forward with one of the highest strike rates in this group, level with Mark Jackson and behind only Lindsay White.
 
-[data]: 140 games, 527 career goals, 9.2 disposal average **[data]** — a rate of 3.76 goals per game (527 in 140) **[data]**, the highest here. His 1986 season of 100 goals **[data]** reached the ton.
+[data]: 140 games, 527 career goals, 9.2 disposal average **[data]** — a rate of 3.76 goals per game (527 in 140) **[data]**, equal-second in this group with Mark Jackson at the same rate, both behind Lindsay White's 3.80. His 1986 season of 100 goals **[data]** reached the ton.
 
 A 3.76 goals-per-game career rate is exceptional, and the low disposal average marks Taylor as a pure inside-50 finisher. A forward converting at that clip turns a modest number of entries into a winning score, which means a team can win without dominating the ball if it simply gets the ball to him.
 
@@ -536,9 +536,9 @@ The verdict: a stationary marking spearhead whose contested grab inside 50 ancho
 
 A spearhead who kicked at an elite clip across five seasons and faded from the record almost entirely.
 
-[data]: 96 games, 289 career goals, 3.01 goals per game **[data]** — a strike rate that sits among the best in this group. His 1979 season of 87 goals **[data]** was a genuine top-end haul.
+[data]: 96 games, 291 career goals, 3.03 goals per game **[data]** — a dependable deep-forward strike rate. His 1979 season of 87 goals **[data]** was a genuine top-end haul.
 
-A 3.01 goals-per-game career rate is associated with the kind of deep-forward reliability a forward line is built around. The compact 96-game career is the tell: a short window, but one in which Beecroft was the focal target a midfield could kick long to and trust the one-on-one. An 87-goal season tends to anchor a forward structure rather than merely feature in it.
+A 3.03 goals-per-game career rate is associated with the kind of deep-forward reliability a forward line is built around. The compact 96-game career is the tell: a short window, but one in which Beecroft was the focal target a midfield could kick long to and trust the one-on-one. An 87-goal season tends to anchor a forward structure rather than merely feature in it.
 
 The verdict: a high-conversion deep forward whose brief career masks a strike rate that belongs in the conversation.
 
@@ -547,9 +547,9 @@ The verdict: a high-conversion deep forward whose brief career masks a strike ra
 
 A post-war full-forward whose goals-per-game rate would headline most eras, now barely a footnote.
 
-[data]: 87 games, 280 career goals, 3.22 goals per game **[data]** — the highest strike rate in this group. His 1951 season of 86 goals **[data]** was a dominant return for the period.
+[data]: 87 games, 289 career goals, 3.32 goals per game **[data]** — an elite conversion rate, though not the top mark in this group: both Lindsay White and Brian Taylor finished ahead of him. His 1951 season of 86 goals **[data]** was a dominant return for the period.
 
-A 3.22 goals-per-game career rate is associated with elite full-forward production in any era, and an 86-goal season in the early 1950s reflects a player carrying a forward line's scoreboard load. The short career across two clubs is the kind of profile that tends to slip out of the all-time picture despite a conversion rate few have matched.
+A 3.32 goals-per-game career rate is associated with elite full-forward production in any era, and an 86-goal season in the early 1950s reflects a player carrying a forward line's scoreboard load. The short career across two clubs is the kind of profile that tends to slip out of the all-time picture despite a conversion rate few have matched.
 
 The verdict: a pre-television spearhead whose strike rate reads as elite against any benchmark the data offers.
 
@@ -576,9 +576,9 @@ The verdict: a dependable post-war spearhead whose career strike rate holds up a
 ### Mark Jackson (1981-1986, Melbourne)
 *(also appears in Short But Brilliant)*
 
-A combustible full-forward whose strike rate matches the very best here.
+A combustible full-forward whose strike rate sits equal-second in this group, behind only Lindsay White.
 
-[data]: 82 games, 308 career goals, 8.9 disposal average **[data]** — a rate of 3.76 goals per game (308 in 82) **[data]**, level with the best in this group. His 1981 season of 76 goals **[data]** announced him.
+[data]: 82 games, 308 career goals, 8.9 disposal average **[data]** — a rate of 3.76 goals per game (308 in 82) **[data]**, second in this group only to Lindsay White's 3.80 and level with Brian Taylor at the same rate. His 1981 season of 76 goals **[data]** announced him.
 
 A 3.76 goals-per-game rate across 82 games is elite finishing compressed into a short career. The low disposal average marks Jackson as a pure goalsquare forward — get the ball inside 50, give it to him, watch it go through. Few players ever matched that conversion rate over any sample.
 
@@ -861,7 +861,7 @@ The verdict: a high-volume wartime-era spearhead whose scoring rate stands among
 
 A contested midfielder whose game is built on giving rather than getting the glory.
 
-[data]: 209 games, 55 career goals, 20.6 disposal average **[data]** — a handball-to-kick ratio of 1.39 **[data]**, the highest among the longer careers here. His 2022 peak of 28.5 disposals a game **[data]** was an elite ball-winning season.
+[data]: 214 games, 62 career goals, 20.7 disposal average **[data]** — a handball-to-kick ratio of 1.39 **[data]**, the highest among the longer careers here. His 2022 peak of 28.5 disposals a game **[data]** was an elite ball-winning season.
 
 A handball ratio of 1.39 means Hewett gives off by hand far more than he kicks — the fingerprint of a player who wins the ball in traffic and immediately distributes to a teammate in space. That is the work that breaks a stoppage open, and it never registers as a highlight because the kick and the goal belong to someone else.
 
@@ -940,7 +940,7 @@ The verdict: a contested-winning distributor whose ball-winning was elite from t
 
 A contested midfielder whose game grew steadily across a decade.
 
-[data]: 175 games, 58 career goals, 22.6 disposal average **[data]** — a handball-to-kick ratio of 1.15 **[data]**. His 2025 peak of 26.4 disposals a game **[data]** came late in his career.
+[data]: 177 games, 58 career goals, 22.6 disposal average **[data]** — a handball-to-kick ratio of 1.14 **[data]**. His 2025 peak of 26.4 disposals a game **[data]** came late in his career.
 
 Hopper's late-career peak and handball-heavy profile describe a contested midfielder who got better with experience — winning the hard ball and distributing by hand to keep his side moving forward. The 2025 best season shows a player still adding to his game more than a decade in.
 
@@ -959,7 +959,7 @@ The verdict: a high-running link midfielder whose legs and quick hands kept his 
 ### Brad Sewell (2004-2014, Hawthorn)
 *(also appears in Quiet Workhorses — see that entry for the full tactical read)*
 
-[data]: 199 games, 32 career goals, 21.2 disposal average **[data]** — a handball-to-kick ratio of 1.19 **[data]**, with a 2009 peak of 25.8 disposals a game **[data]**.
+[data]: 200 games, 32 career goals, 21.2 disposal average **[data]** — a handball-to-kick ratio of 1.19 **[data]**, with a 2009 peak of 25.8 disposals a game **[data]**.
 
 A coalface contested winner whose hard-ball wins and quick release created the space others were credited for using.
 
@@ -979,7 +979,7 @@ The verdict: a contested-extraction midfielder whose ability to win and release 
 
 A two-way contested midfielder whose distribution keeps his side's ball moving.
 
-[data]: 201 games, 78 career goals, 23.2 disposal average **[data]** — a handball-to-kick ratio of 1.16 **[data]**. His 2019 peak of 28.3 disposals a game **[data]** was an elite season.
+[data]: 210 games, 82 career goals, 23.1 disposal average **[data]** — a handball-to-kick ratio of 1.15 **[data]**. His 2019 peak of 28.3 disposals a game **[data]** was an elite season.
 
 Dunkley combines heavy contested volume with a handball-first release — the profile of a midfielder who does the defensive work, wins his own ball and distributes to a runner. A 28-disposal peak from a two-way midfielder is the kind of season that lets a coach trust the contest and build around it.
 
@@ -1044,7 +1044,7 @@ The verdict: a short-career spearhead whose strike rate hints at the haul a long
 
 A high-volume midfielder who also kicked goals — a dual profile packed into a five-season career.
 
-[data]: 108 games, with a 1981 peak of 25.8 disposals a game across 22 games plus 42 goals **[data]**, followed by 1982 (41 goals, 23.0 disposals) and 1983 (39 goals, 24.7 disposals) **[data]**.
+[data]: 108 games, with a 1981 peak of 25.0 disposals a game across 22 games plus 42 goals **[data]**, followed by 1982 (41 goals, 23.6 disposals) and 1983 (39 goals, 24.3 disposals) **[data]**.
 
 A midfielder averaging 24-plus disposals while kicking 40 goals a season is associated with the forward-of-centre hybrid role — win it at the stoppage, then push forward to be the next receiver and finish. That combination, sustained across three peak years, tends to do scoreboard damage that pure accumulators never approach. The compact career is why the output went largely unrecorded.
 
@@ -1095,11 +1095,11 @@ The verdict: an early-era spearhead whose 109-goal peak is among the most explos
 
 A prolific ball-winner whose best years sit just outside the game's collective memory.
 
-[data]: 113 games, with a 1980 peak of 26.3 disposals a game across 22 games **[data]**, and a 1982 season of 50 goals at a 25.4 disposal average **[data]**.
+[data]: 113 games, with a 1980 peak of 25.7 disposals a game across 22 games **[data]**, and a 1982 season of 40 goals at a 24.5 disposal average **[data]**.
 
-A 26.3-disposal season in 1980 is associated with genuine top-tier ball-winning for its era, and a 50-goal season at that same volume is extraordinary — a midfielder accumulating at an elite rate while also kicking the goals of a frontline forward. Half a hundred from the midfield is a return few in any era have matched. Carrying that output across two clubs in a compact career is the kind of profile that tends to disappear from the record despite peaks that stand up against the period's best.
+A 25.7-disposal season in 1980 is associated with genuine top-tier ball-winning for its era, and a 40-goal season at that same volume of possession is a rare scoring return from a midfielder — not full-forward output, but a scoring edge most pure ball-winners never add to their game. Carrying that across two clubs in a compact career is the kind of profile that tends to disappear from the record despite peaks that stand up against the period's best.
 
-The verdict: a high-volume midfielder whose 1982 season — 50 goals at better than 25 disposals — reads as elite ball-winning with a rare scoring edge attached.
+The verdict: a high-volume midfielder whose 1982 season — 40 goals at close to 25 disposals — reads as elite ball-winning with a rare scoring edge attached.
 
 ### Fred Fanning (1940-1947, Melbourne)
 *(also appears in Pre-TV Era — see that entry for the full tactical read)*
@@ -1154,7 +1154,7 @@ The verdict: a short-career spearhead whose strike rate marks a forward of the h
 ---
 
 ## Methodology and sources
-- Player data: `data/player_data/<surname>_<firstname>_<DDMMYYYY>_performance_details.csv` (13,328 files)
+- Player data: `data/player_data/<surname>_<firstname>_<DDMMYYYY>_performance_details.csv` (13,350 files)
 - Selection criteria: statistically notable career + excluded from all_time_top_100.csv top-20 and existing Hall of Fame stat pages (215 names excluded from the candidate pool)
 - Cross-category players: a handful qualify for two categories and are listed in both (Fred Fanning, Sel Murray, Nathan Foley, Brad Sewell, Mark Jackson, Wayne Campbell, Ben Hart, Kelvin Moore, Chris Langford); unique players = 95
 - Data coverage notes: disposals/marks reliable from 1965; tackles from 1987; contested marks, clearances and rebound_50s from 1998; hit-outs from 1965 but ruck-role dependent. Pre-1965 entries carry `[historical record - goals/games only]` and rest on games and goals alone
