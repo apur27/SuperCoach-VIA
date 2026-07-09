@@ -14,6 +14,18 @@ from lightgbm import LGBMRegressor
 import optuna
 import warnings
 
+try:
+    from scripts.feature_engineering import (
+        compute_age_years,
+        compute_career_games_to_date,
+    )
+except ModuleNotFoundError:  # direct-path invocation: put repo root on sys.path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.feature_engineering import (
+        compute_age_years,
+        compute_career_games_to_date,
+    )
+
 
 def _detect_lgbm_device() -> str:
     """Probe LightGBM GPU support and return the appropriate device string.
@@ -104,7 +116,8 @@ DTYPES = {
     'bounces': 'Int16',
     'goal_assists': 'Int16',
     'percentage_time_played': 'float32',
-    'cba_percent': 'float32'
+    # NOTE: 'cba_percent' (centre-bounce-attendance %) removed — no such
+    # column, nor any equivalent, exists in data/player_data/ (Task S1b).
 }
 
 NA_VALUES = ['NA', 'N/A', '', 'nan']
@@ -114,6 +127,10 @@ RENAMES = {
     'hit_outs': 'hitouts',
     'free_kicks_for': 'frees_for',
     'free_kicks_against': 'frees_against',
+    # Time-on-ground %: the raw CSV column is 'percentage_of_game_played';
+    # the model declares it as 'percentage_time_played'. Without this rename
+    # the feature never resolved and was silently dropped (Task S1b).
+    'percentage_of_game_played': 'percentage_time_played',
 }
 
 # Required columns for the model
@@ -159,12 +176,18 @@ def extract_round_number(round_str):
     return np.nan
 
 class AFLDisposalPredictor:
-    def __init__(self, data_dir: str, target_year: int | None = None, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False):
+    def __init__(self, data_dir: str, target_year: int | None = None, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False, include_age_experience: bool = False):
         """Initialize predictor with data directory, target year, rolling window sizes, and debug mode.
 
         If ``target_year`` is None, it is auto-detected as the maximum ``year``
         observed across all player_data CSVs (falling back to the current
         calendar year if detection fails).
+
+        ``include_age_experience`` (default False) is an OPT-IN switch for the
+        Task S7 features (player_age_at_match, career_games_to_date). It is off
+        by default so production predictions are unchanged until a backtest
+        comparison validates the features (see docs/experiment-log.md). Both
+        features are leak-proof; see scripts/feature_engineering.py.
         """
         self.data_dir = Path(data_dir)
         if not self.data_dir.exists():
@@ -180,11 +203,15 @@ class AFLDisposalPredictor:
         self.rolling_window = rolling_window
         self.within_season_window = within_season_window
         self.debug_mode = debug_mode
+        self.include_age_experience = include_age_experience
         self.models = {}
         self.base_rolling_features = [
             'disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s'
         ]
-        self.extra_features = ['cba_percent', 'percentage_time_played']
+        # 'percentage_time_played' is wired from the raw 'percentage_of_game_played'
+        # column via RENAMES. 'cba_percent' was dropped: no centre-bounce data
+        # exists anywhere in data/player_data/ (Task S1b).
+        self.extra_features = ['percentage_time_played']
         self.feature_columns = []
         self.best_name = None
         self.training_feature_columns = None
@@ -235,6 +262,10 @@ class AFLDisposalPredictor:
         try:
             player_name, dob = extract_dob_and_name(filepath)
             df['player'] = player_name
+            # Carry DOB (from the filename token, verified == personal_details
+            # born_date) as the join channel for the opt-in age feature.
+            if self.include_age_experience:
+                df['born_date'] = dob
             df = clean_columns(df)
         except Exception as e:
             print(f"❌ Failed to process player data for {filepath.name}: {e}")
@@ -361,6 +392,26 @@ class AFLDisposalPredictor:
             print(f"❌ Expanding mean failed for {col} with group_by {group_by}: {e}")
             return pd.Series(np.nan, index=df.index)
 
+    # Names of the opt-in Task S7 features (kept as a constant so training and
+    # prediction paths reference the exact same identifiers).
+    AGE_EXPERIENCE_FEATURES = ['player_age_at_match', 'career_games_to_date']
+
+    def _add_age_experience_features(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Attach the opt-in leak-proof age/experience features in place.
+
+        Requires a 'round_number' column (added by the caller before this runs)
+        and, for age, a 'born_date' column (added in load_player when
+        include_age_experience is on). Both features use only current-row-and-
+        earlier information — see scripts/feature_engineering.py for the
+        temporal-cutoff invariant.
+        """
+        if 'born_date' in df.columns:
+            df.loc[:, 'player_age_at_match'] = compute_age_years(df['date'], df['born_date'])
+        else:
+            df.loc[:, 'player_age_at_match'] = np.nan
+        df.loc[:, 'career_games_to_date'] = compute_career_games_to_date(df).astype('float64')
+        return df
+
     def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
         """Engineer features for training, including rolling averages and more."""
         df.loc[:, 'round_number'] = df['round'].apply(extract_round_number)
@@ -377,14 +428,18 @@ class AFLDisposalPredictor:
             )
         
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
-        
+
+        if self.include_age_experience:
+            df = self._add_age_experience_features(df)
+
         across_season_features = [f'across_season_rolling_avg_{col}_{self.rolling_window}' for col in rolling_cols_available]
         within_season_features = [f'within_season_rolling_avg_{col}_{self.within_season_window}' for col in rolling_cols_available]
         season_to_date_features = [f'season_to_date_mean_{col}' for col in rolling_cols_available]
         recent_form_features = [f'recent_form_{col}' for col in rolling_cols_available]
         extra_feats = [feat for feat in self.extra_features if feat in df.columns]
+        age_exp_feats = list(self.AGE_EXPERIENCE_FEATURES) if self.include_age_experience else []
         dummy_cols = [c for c in df.columns if c.startswith(('venue_', 'opponent_'))]
-        self.feature_columns = across_season_features + within_season_features + season_to_date_features + recent_form_features + ['round_number', 'days_since_last_game'] + extra_feats + dummy_cols
+        self.feature_columns = across_season_features + within_season_features + season_to_date_features + recent_form_features + ['round_number', 'days_since_last_game'] + extra_feats + age_exp_feats + dummy_cols
         
         if self.debug_mode:
             print(f"Engineered features: {self.feature_columns}")
@@ -411,7 +466,10 @@ class AFLDisposalPredictor:
             )
         
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
-        
+
+        if self.include_age_experience:
+            df = self._add_age_experience_features(df)
+
         return df
 
     def prepare_features_and_target(self, df: pd.DataFrame) -> tuple:
@@ -1009,6 +1067,16 @@ def _parse_cli_args(argv: list[str]) -> argparse.Namespace:
         action="store_true",
         help="Print verbose feature / model diagnostics.",
     )
+    parser.add_argument(
+        "--include-age-experience",
+        action="store_true",
+        help=(
+            "Opt-in: add the Task S7 leak-proof features "
+            "(player_age_at_match, career_games_to_date). Off by default so "
+            "production predictions are unchanged until a backtest validates "
+            "them (see docs/experiment-log.md)."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -1023,6 +1091,7 @@ if __name__ == "__main__":
             rolling_window=args.rolling_window,
             within_season_window=args.within_season_window,
             debug_mode=args.debug,
+            include_age_experience=args.include_age_experience,
         )
         predictor.run()
     except Exception as e:

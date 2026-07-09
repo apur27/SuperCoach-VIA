@@ -1,4 +1,5 @@
 # Dustin Martin — The Storm
+> ✓ All 129 stats verified against source data · council-pipeline-gated · 2026-07-09
 
 > [← Back to news](README.md) | [← Back to main README](../../README.md)
 

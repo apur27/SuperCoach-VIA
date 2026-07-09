@@ -8,6 +8,7 @@
 -->
 
 # AFL Hall of Fame — 100 Forgotten Heroes
+> ✓ All 372 stats verified against source data · council-pipeline-gated · 2026-07-09
 
 > [← Hall of Fame hub](hall-of-fame-stat-leaders.md) | [← Main README](../README.md)
 
@@ -83,7 +84,7 @@ The verdict: an intercepting half-back and on-field organiser whose value was st
 
 A relentless inside midfielder who also kicked goals — a combination the position rarely produces.
 
-[data]: 221 games, 247 career goals, 24.2 disposal average **[data]** — 247 goals from a midfielder is a notable return. His 1991 peak of 31.3 disposals a game **[data]** is elite by any era's measure.
+[data]: 221 games, 247 career goals, 24.1 disposal average **[data]** — 247 goals from a midfielder is a notable return. His 1991 peak of 31.3 disposals a game **[data]** is elite by any era's measure.
 
 Mitchell's value was forward-of-centre contested work: win it at the stoppage, then push into space to be the receiver at the next one. A midfielder averaging over a goal every two games is doing damage on the scoreboard that pure accumulators never approach, which makes the low profile harder to explain than the numbers suggest.
 
@@ -103,7 +104,7 @@ The verdict: a high-volume distributor who kept his team's ball movement ticking
 
 For a stretch he was among the most prolific contested ball-winners in the competition.
 
-[data]: 208 games, 100 career goals, 25.9 disposal average **[data]** — the highest career disposal average in this group. His 2014 peak of 32.7 disposals a game **[data]** is monster volume.
+[data]: 208 games, 100 career goals, 25.6 disposal average **[data]** — the highest career disposal average in this group. His 2014 peak of 32.7 disposals a game **[data]** is monster volume.
 
 Rockliff's game was pure stoppage extraction — get the hands on it first, win the clearance, repeat. He played the bulk of his career through a low ebb in his club's fortunes, which is why a player generating that volume never carried the profile his numbers earned. The accumulation was real; the team platform to convert it was not there.
 
@@ -114,7 +115,7 @@ The verdict: an elite contested ball-winner whose career coincided with his club
 
 Fifteen seasons of outside run for a single club, almost all of it in the lean times.
 
-[data]: 297 games, 172 career goals, 23.4 disposal average **[data]** — high-volume accumulation across a long career. His 1992 peak of 26.4 disposals a game **[data]** announced him early.
+[data]: 297 games, 172 career goals, 23.3 disposal average **[data]** — high-volume accumulation across a long career. His 1992 peak of 26.4 disposals a game **[data]** announced him early.
 
 Campbell was a line-breaking wingman — the carry-and-distribute player who turns a defensive intercept into a forward thrust by running the corridor rather than chipping wide. His low contested profile is the tell: this was an outside runner whose value was the metres he gained in transition, the hardest contribution of all to see in a box score.
 
@@ -135,7 +136,7 @@ The verdict: a two-way run-with midfielder who denied opponents and accumulated 
 
 A contested-ball specialist on premiership midfields who never became the name on the team sheet.
 
-[data]: 200 games, 32 career goals, 21.2 disposal average **[data]** — 32 goals in 200 games is among the purest inside-midfielder profiles in this list. His 2009 peak of 25.8 disposals a game **[data]** was a heavy contested-ball season.
+[data]: 200 games, 32 career goals, 21.1 disposal average **[data]** — 32 goals in 200 games is among the purest inside-midfielder profiles in this list. His 2009 peak of 25.8 disposals a game **[data]** was a heavy contested-ball season.
 
 Sewell did the work that lets flashier teammates shine: win the hard ball at the coalface, take the tackle, free the hands for an outside runner. A midfielder kicking a goal every six games is spending his entire game inside the contest, and that role is the foundation a free-flowing side is built on.
 
@@ -156,7 +157,7 @@ The verdict: a contested distributor whose hard-ball wins started chains that fi
 
 Thirteen seasons of dependable midfield volume across two states.
 
-[data]: 219 games, 80 career goals, 22.9 disposal average **[data]** — steady high-volume accumulation. His 1991 peak of 26.5 disposals a game **[data]** was a strong ball-winning year.
+[data]: 219 games, 80 career goals, 22.5 disposal average **[data]** — steady high-volume accumulation. His 1991 peak of 26.5 disposals a game **[data]** was a strong ball-winning year.
 
 A consistent 22-plus disposal average over a long career, with a modest goal return, is the mark of a midfielder who wins his own ball and moves it on without fuss. Lambert was the reliable link in the chain — never the player a game plan was built around, always the one who made the plan function.
 
@@ -192,9 +193,9 @@ The verdict: a dominant tap ruckman who doubled as an extra midfielder around th
 
 A pure ruck craftsman who reset play and asked for nothing back.
 
-[data]: 258 games, 38 career goals, 9.0 disposal average **[data]** — and 4600 career hit-outs **[data]**, second only to Thompson here. His 1997 peak of 12.1 disposals a game **[data]** was as much as a specialist ruck of his role would touch the ball.
+[data]: 258 games, 38 career goals, 8.9 disposal average **[data: data/player_data/clarke_matthew_18091973_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum(fillna0)/count(all) ; convention=fill-zero ; computation=2300÷258=8.91≈8.9 ; coverage=256 of 258 games recorded, 2 fill-zeroed]** — and 4600 career hit-outs **[data]**, second only to Thompson here. His 1997 peak of 12.1 disposals a game **[data]** was as much as a specialist ruck of his role would touch the ball.
 
-The 9.0 disposal average alongside 4600 hit-outs is the cleanest specialist-ruck profile imaginable: his entire job was to win the tap and feed the midfield, and he did it 4600 times. That is a player who gave his on-ballers first use of the ball week after week and accepted near-total statistical anonymity in return.
+The 8.9 disposal average alongside 4600 hit-outs is the cleanest specialist-ruck profile imaginable: his entire job was to win the tap and feed the midfield, and he did it 4600 times. That is a player who gave his on-ballers first use of the ball week after week and accepted near-total statistical anonymity in return.
 
 The verdict: a specialist tap ruckman whose hit-out volume was first use for a generation of Adelaide midfielders.
 
@@ -202,7 +203,7 @@ The verdict: a specialist tap ruckman whose hit-out volume was first use for a g
 
 A long-serving ruckman whose tap work anchored a midfield for over a decade.
 
-[data]: 233 games, 94 career goals, 13.7 disposal average **[data]** — with 4304 career hit-outs **[data]**. His 1984 peak of 18.8 disposals a game **[data]** shows real around-ground involvement on top of the ruck contest.
+[data]: 233 games, 94 career goals, 13.5 disposal average **[data]** — with 4304 career hit-outs **[data]**. His 1984 peak of 18.8 disposals a game **[data]** shows real around-ground involvement on top of the ruck contest.
 
 A ruckman who taps at this volume and still finds 18 disposals in his best year is contributing in two phases — the contest and the follow-up. Lee's hit-out tally is the kind of number that wins the territory battle invisibly, one stoppage at a time, never appearing on a highlight reel.
 
@@ -232,7 +233,7 @@ The verdict: a dual-threat ruckman whose tap supply helped lay the platform for 
 
 A long-serving ruckman who carried his club's stoppage work for over a decade.
 
-[data]: 237 games, 31 career goals, 13.3 disposal average **[data]** — with 3514 career hit-outs **[data]**. His 1992 peak of 18.0 disposals a game **[data]** was a standout around-ground season.
+[data]: 237 games, 31 career goals, 13.2 disposal average **[data]** — with 3514 career hit-outs **[data]**. His 1992 peak of 18.0 disposals a game **[data]** was a standout around-ground season.
 
 The low goal tally and high hit-out volume mark Wynd as a workhorse ruck rather than a scoreboard threat. His 18-disposal peak shows a player who chased the ball down after the tap rather than waiting at the next contest — the kind of effort that keeps a thinly resourced midfield competitive.
 
@@ -242,7 +243,7 @@ The verdict: a workhorse ruckman whose hit-out and follow-up volume held a stret
 
 A ruck-forward who split his game between the contest and the goalsquare.
 
-[data]: 234 games, 182 career goals, 11.7 disposal average **[data]** — with 3542 career hit-outs **[data]** and a notable 182 goals. His 2006 peak of 16.1 disposals a game **[data]** came in a contending side.
+[data]: 234 games, 182 career goals, 11.4 disposal average **[data]** — with 3542 career hit-outs **[data]** and a notable 182 goals. His 2006 peak of 16.1 disposals a game **[data]** came in a contending side.
 
 The 182 goals is what separates Lade from the pure tap specialists: he could ruck the contest, then rotate forward and present as a genuine marking and scoring option. That dual role lets a coach carry one fewer key forward, freeing a list spot — a structural value that never shows in a single stat line.
 
@@ -252,7 +253,7 @@ The verdict: a ruck-forward whose scoring gave his side an extra tall without sp
 
 A mobile ruckman built for the modern, run-heavy game.
 
-[data]: 193 games, 53 career goals, 11.7 disposal average **[data]** — with 3169 career hit-outs **[data]**. His 2011 peak of 13.9 disposals a game **[data]** shows steady around-ground work.
+[data]: 193 games, 53 career goals, 11.5 disposal average **[data]** — with 3169 career hit-outs **[data]**. His 2011 peak of 13.9 disposals a game **[data]** shows steady around-ground work.
 
 Brogan's value was mobility — a ruckman who could win the tap and then keep up with the play rather than lumber to the next stoppage. In a faster game, a ruck who can defend the ground his midfield vacates is worth more than his hit-out count alone suggests.
 
@@ -272,7 +273,7 @@ The verdict: a pure tap ruckman whose first-use supply was the best asset a weak
 
 A ruckman from the early-data era whose tap volume is preserved in the record.
 
-[data]: 210 games, 75 career goals, 10.1 disposal average **[data]** — with 2991 career hit-outs **[data]**. His 1974 peak of 12.3 disposals a game **[data]** reflects a specialist role.
+[data]: 210 games, 75 career goals, 9.3 disposal average **[data]** — with 2991 career hit-outs **[data]**. His 1974 peak of 12.3 disposals a game **[data]** reflects a specialist role.
 
 A near-3000 hit-out career from this period sits at the very edge of what the data captures, and it points to a ruckman who won the contest reliably for over a decade. The role then was as it is now — control the tap, give the midfield first use — and Mynott did it for 210 games.
 
@@ -282,7 +283,7 @@ The verdict: a long-serving tap ruckman whose contest-winning is among the earli
 
 A ruckman with the around-ground game of a midfielder.
 
-[data]: 249 games, 244 career goals, 13.9 disposal average **[data]** — with 3155 career hit-outs **[data]** and 244 career goals. His 1984 peak of 21.9 disposals a game **[data]** is extraordinary for a ruckman.
+[data]: 249 games, 244 career goals, 13.8 disposal average **[data]** — with 3155 career hit-outs **[data]** and 244 career goals. His 1984 peak of 21.9 disposals a game **[data]** is extraordinary for a ruckman.
 
 A 21.9-disposal season from a ruckman is a different kind of player entirely — Moore did not just win the tap, he was a possession source in his own right and a scoreboard contributor. That profile lets a team run him as a ruck-rover hybrid, effectively gaining a midfielder out of the ruck contest.
 
@@ -317,7 +318,7 @@ The verdict: a reliable tap ruckman whose contest-winning underpinned a midfield
 
 The intercept full-back who turned defence into the start of attack.
 
-[data]: 284 games, 17 career goals, 14.9 disposal average **[data]** — with 1020 career rebound-50s, 216 contested marks and 5.1 marks a game **[data]**. The 1020 rebound-50s is a colossal number.
+[data]: 284 games, 17 career goals, 14.8 disposal average **[data: data/player_data/scarlett_matthew_05061979_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum(fillna0)/count(all) ; convention=fill-zero ; computation=4208÷284=14.82≈14.8 ; coverage=283 of 284 games recorded, 1 fill-zeroed]** — with 1020 career rebound-50s, 216 contested marks and 5.1 marks a game **[data]**. The 1020 rebound-50s is a colossal number.
 
 The 17 goals across 284 games is the point: every ounce of Scarlett's output went into stopping and rebounding. His genius was the read off the ball — drifting off his direct opponent to intercept the entry, then launching the rebound himself. A full-back with 1020 rebound-50s is not just defending; he is the first link in his team's transition, which is why opponents could not simply kick away from him.
 
@@ -327,7 +328,7 @@ The verdict: an intercepting full-back whose defensive reads made him his team's
 
 A versatile defender-midfielder whose contested marking anchored a back line.
 
-[data]: 255 games, 179 career goals, 18.2 disposal average **[data]** — with 603 rebound-50s, 425 contested marks and 6.5 marks a game **[data]**. The 425 contested marks is elite for a defender.
+[data]: 255 games, 179 career goals, 18.2 disposal average **[data: data/player_data/cornes_chad_12111979_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum(fillna0)/count(all) ; convention=fill-zero ; computation=4636÷255=18.18≈18.2 ; coverage=254 of 255 games recorded, 1 fill-zeroed]** — with 603 rebound-50s, 425 contested marks and 6.5 marks a game **[data]**. The 425 contested marks is elite for a defender.
 
 A defender taking 425 contested marks is winning the ball in the air in the most dangerous part of the ground, killing entries before they become shots. Cornes paired that with the disposal volume of a midfielder, which let his side use him as a rebounding defender, a stopper, or a midfield body as the game demanded — positional flexibility that is worth a list spot in itself.
 
@@ -337,7 +338,7 @@ The verdict: a contested-marking defender whose versatility let his team field t
 
 A key defender whose intercept marking neutralised the league's best forwards.
 
-[data]: 256 games, 115 career goals, 14.2 disposal average **[data]** — with 669 rebound-50s, 343 contested marks and 6.6 marks a game **[data]**, the highest marks-per-game rate in this group.
+[data]: 256 games, 115 career goals, 14.1 disposal average **[data]** — with 669 rebound-50s, 343 contested marks and 6.6 marks a game **[data]**, the highest marks-per-game rate in this group.
 
 McPharlin's 6.6 marks a game from a key defensive post is the signature of a true intercept player — he did not just spoil, he claimed the ball outright and gave it back to his midfield with possession intact. A defender who turns the opposition's entry into his own team's rebound, six-plus times a game, removes the forward line's supply at the source.
 
@@ -377,7 +378,7 @@ The verdict: a launching rebound defender whose run was a primary source of his 
 
 A dashing half-back whose attacking run was a defensive weapon.
 
-[data]: 227 games, 131 career goals, 16.7 disposal average **[data]** — with 916 rebound-50s, 119 contested marks and 4.0 marks a game **[data]**, plus 131 goals from defence.
+[data]: 227 games, 131 career goals, 16.6 disposal average **[data]** — with 916 rebound-50s, 119 contested marks and 4.0 marks a game **[data]**, plus 131 goals from defence.
 
 A half-back kicking 131 career goals is one who pushed forward off the rebound and finished what he started. Wirrpanda's 916 rebound-50s mark him as a genuine line-breaker out of defence — the player who carries the ball through the corridor and either delivers the entry or kicks the goal himself.
 
@@ -408,7 +409,7 @@ The verdict: a pure shutdown key defender whose value was the great forward he r
 
 A versatile defender who could lock down a key forward or a small.
 
-[data]: 311 games, 45 career goals, 13.8 disposal average **[data]** — with 669 rebound-50s, 75 contested marks and 3.7 marks a game **[data]** across a 311-game career.
+[data]: 311 games, 45 career goals, 13.7 disposal average **[data]** — with 669 rebound-50s, 75 contested marks and 3.7 marks a game **[data]** across a 311-game career.
 
 Hart's defensive value was adaptability — the rare stopper who could take a tall one week and a small the next without a drop in standard. That flexibility is gold to a coaching panel, because it means the back line's matchups can be reshuffled around the opposition without exposing a weak link. The 669 rebound-50s show he could attack once the ball was won, too.
 
@@ -430,7 +431,7 @@ The verdict: a reliable one-on-one key defender whose era pre-dates the stats th
 
 A long-serving key defender whose record survives largely in games played.
 
-[data]: 300 games, 21 career goals, 11.4 disposal average **[data]** — with 3.9 marks a game **[data]**; rebound-50 and contested-mark data are not available for his era **[data]**.
+[data]: 300 games, 21 career goals, 11.3 disposal average **[data]** — with 3.9 marks a game **[data]**; rebound-50 and contested-mark data are not available for his era **[data]**.
 
 A 300-game key defender with 21 career goals and a low disposal count is, by the shape of those numbers, a pure stopper — a player whose job was to deny rather than create. The interception and spoiling stats that would tell the full story were not recorded in the 1970s, so the games tally has to carry the weight of the case.
 
@@ -455,7 +456,7 @@ The verdict: a versatile two-way defender whose contested marking and rebound ma
 
 One of the most efficient goalkickers of his era, at a club rarely in the headlines.
 
-[data]: 154 games, 575 career goals, 8.5 disposal average **[data]** — a strike rate of 3.73 goals per game (575 in 154) **[data]**. His 1985 season of 105 goals **[data]** topped the ton.
+[data]: 154 games, 575 career goals, 8.4 disposal average **[data: data/player_data/beasley_simon_26071956_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum(fillna0)/count(all) ; convention=fill-zero ; computation=1299÷154=8.44≈8.4]** — a strike rate of 3.73 goals per game (575 in 154) **[data]**. His 1985 season of 105 goals **[data]** topped the ton.
 
 A 3.73 goals-per-game career rate is elite full-forward production by any measure. The low disposal average confirms the role: Beasley was a pure deep forward who lived inside 50, leading hard to a contest and converting. A target that reliable lets a midfield kick long to a one-on-one and trust the result.
 
@@ -465,7 +466,7 @@ The verdict: a pure leading full-forward whose conversion rate was among the bes
 
 A spearhead whose accuracy and volume anchored a contending forward line.
 
-[data]: 150 games, 514 career goals, 9.8 disposal average **[data]** — a rate of 3.43 goals per game (514 in 150) **[data]**. His 1991 season of 111 goals **[data]** was a monster return.
+[data]: 150 games, 514 career goals, 9.6 disposal average **[data]** — a rate of 3.43 goals per game (514 in 150) **[data]**. His 1991 season of 111 goals **[data]** was a monster return.
 
 Sumich's 111-goal season is the kind of output that wins games on its own. As a stationary deep forward he provided the structural certainty a forward line is designed around — the reliable contest that lets smalls play off the crumb and the midfield enter with a target in mind.
 
@@ -505,7 +506,7 @@ The verdict: a high-conversion power forward whose strike rate could win a game 
 
 A full-forward whose peak season touched the ton in a compact career.
 
-[data]: 105 games, 339 career goals, 10.4 disposal average **[data]** — a rate of 3.23 goals per game (339 in 105) **[data]**. His 1976 season of 105 goals **[data]** was elite.
+[data]: 105 games, 339 career goals, 10.2 disposal average **[data]** — a rate of 3.23 goals per game (339 in 105) **[data]**. His 1976 season of 105 goals **[data]** was elite.
 
 A century of goals in a single season from a 105-game career tells you the peak was the point. Donohue was a leading deep forward whose best year produced output most full-forwards never reach once, even if circumstance kept the career short.
 
@@ -515,7 +516,7 @@ The verdict: a leading full-forward whose 105-goal peak season belongs in any co
 
 A consistent full-forward whose career haul tops 600 across a long stay.
 
-[data]: 224 games, 629 career goals, 10.0 disposal average **[data]** — a rate of 2.81 goals per game (629 in 224) **[data]**. His 1976 season of 97 goals **[data]** narrowly missed the ton.
+[data]: 224 games, 629 career goals, 9.7 disposal average **[data]** — a rate of 2.81 goals per game (629 in 224) **[data]**. His 1976 season of 97 goals **[data]** narrowly missed the ton.
 
 Moncrieff's 629 goals is the highest career total in this group, accumulated over 224 games of steady production. Sustained scoring across a dozen seasons is its own kind of value — the reliable forward a team can build around year after year, rather than a one-season comet.
 
@@ -593,7 +594,7 @@ The verdict: a pure goalsquare finisher whose strike rate, over a short career, 
 
 Three hundred-plus games for a single club across two decades.
 
-[data]: 333 games, 51 career goals, 18.3 disposal average **[data]** — all 333 games for Fitzroy alone **[data]**. His 1968 peak of 23.9 disposals a game **[data]** was elite for the period.
+[data]: 333 games, 51 career goals, 18.3 disposal average **[data: data/player_data/murray_kevin_18061938_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum/count(non-NaN) ; convention=dropna (pre-1965 era: 166 of 333 games have no recorded disposals — fill-zero would yield 9.2, which misrepresents the historical record gap) ; computation=3048÷167=18.25≈18.3 ; coverage=167 of 333 games recorded]** — all 333 games for Fitzroy alone **[data]**. His 1968 peak of 23.9 disposals a game **[data]** was elite for the period.
 
 A 333-game one-club career across eighteen seasons is a feat of durability and devotion in equal parts. The 18.3 disposal average from this era marks Murray as a genuine ball-winning midfielder, the on-field heartbeat of a club that leaned on him for the better part of a generation.
 
@@ -603,7 +604,7 @@ The verdict: a one-club midfielder whose 333 games for a single side are a monum
 
 A captain who held a struggling club together through its leanest years.
 
-[data]: 302 games, 141 career goals, 22.5 disposal average **[data]** — all 302 games for Melbourne alone **[data]**. His 2016 peak of 28.0 disposals a game **[data]** was an elite ball-winning season.
+[data]: 302 games, 141 career goals, 22.4 disposal average **[data]** — all 302 games for Melbourne alone **[data]**. His 2016 peak of 28.0 disposals a game **[data]** was an elite ball-winning season.
 
 Jones's value cannot be read off the ladder. He was the contested midfielder who set the standard at a club spending years near the bottom, winning his own ball and dragging teammates into the contest. A 28-disposal peak season at the bottom of the table is the work of a player who refused to let standards slip when results gave him every excuse.
 
@@ -613,7 +614,7 @@ The verdict: a one-club contested midfielder whose 302 games held a standard a s
 
 Three hundred games for one club, with a scoring contribution rare for his role.
 
-[data]: 300 games, 308 career goals, 15.0 disposal average **[data]** — all 300 games for St Kilda alone **[data]**. His 1971 peak of 19.2 disposals a game **[data]** was a strong season.
+[data]: 300 games, 308 career goals, 14.9 disposal average **[data]** — all 300 games for St Kilda alone **[data]**. His 1971 peak of 19.2 disposals a game **[data]** was a strong season.
 
 Breen's 308 goals across an eighteen-season one-club career is a notable return for a player who was not a permanent forward — a midfielder or utility who pushed forward and hit the scoreboard. Three hundred games for one side, across that span, is loyalty the modern game rarely sees.
 
@@ -643,7 +644,7 @@ The verdict: a versatile one-club player whose ability to fill multiple roles ex
 
 Three hundred games for a single club across the better part of two decades.
 
-[data]: 300 games, 140 career goals, 18.1 disposal average **[data]** — all 300 games for Essendon alone **[data]**. His 1979 peak of 22.3 disposals a game **[data]** was a strong ball-winning year.
+[data]: 300 games, 140 career goals, 18.0 disposal average **[data]** — all 300 games for Essendon alone **[data]**. His 1979 peak of 22.3 disposals a game **[data]** was a strong ball-winning year.
 
 A 300-game one-club career with an 18-disposal average marks Foulds as a reliable midfielder or half-back who turned up week after week for sixteen seasons. The 1979 peak shows the ceiling; the longevity shows the floor never dropped far below it.
 
@@ -663,7 +664,7 @@ The verdict: a one-club utility whose positional flexibility and ball-winning ma
 
 A dashing one-club wingman across 294 games.
 
-[data]: 294 games, 48 career goals, 19.0 disposal average **[data]** — all 294 games for North Melbourne alone **[data]**. His 1980 peak of 21.2 disposals a game **[data]** was a strong season.
+[data]: 294 games, 48 career goals, 18.8 disposal average **[data]** — all 294 games for North Melbourne alone **[data]**. His 1980 peak of 21.2 disposals a game **[data]** was a strong season.
 
 The 48 goals across 294 games confirms the role: an outside runner whose contribution was the metres he gained and the ball he moved, not the goals he kicked. A wingman with a 19-disposal career average is covering ground and providing the run that links defence to attack, the most thankless work on the ground.
 
@@ -673,7 +674,7 @@ The verdict: a one-club wingman whose run-and-distribute game was the connective
 
 A beloved one-club player whose 312 games spanned half-back, wing and forward.
 
-[data]: 312 games, 183 career goals, 17.9 disposal average **[data]** — all 312 games for the Western Bulldogs alone **[data]**. His 2016 peak of 28.0 disposals a game **[data]** was an elite ball-winning year.
+[data]: 312 games, 183 career goals, 17.8 disposal average **[data]** — all 312 games for the Western Bulldogs alone **[data]**. His 2016 peak of 28.0 disposals a game **[data]** was an elite ball-winning year.
 
 Murphy's career arc — through several positions across eighteen seasons — is the mark of a player whose football intelligence let him reinvent his role as his body changed. A 28-disposal peak late in that career, off half-back, shows the reading and the kicking that made him a rebound launcher of real quality.
 
@@ -682,7 +683,7 @@ The verdict: a one-club rebound player whose football smarts let him stay elite 
 ### Wayne Campbell (1991-2005, Richmond)
 *(also appears in Quiet Workhorses — see that entry for the full tactical read)*
 
-[data]: 297 games, 172 career goals, 23.4 disposal average **[data]** — all 297 games for Richmond alone **[data]**, with a 1992 peak of 26.4 disposals a game **[data]**.
+[data]: 297 games, 172 career goals, 23.3 disposal average **[data]** — all 297 games for Richmond alone **[data]**, with a 1992 peak of 26.4 disposals a game **[data]**.
 
 Fifteen seasons of outside run for one club, almost entirely in lean years — a transition wingman whose ground-covering was the connective tissue of his team's ball movement.
 
@@ -700,7 +701,7 @@ The verdict: a one-club key defender whose loyalty matched his reliability one-o
 ### Kelvin Moore (1970-1984, Hawthorn)
 *(also appears in Defensive Anchors — see that entry for the full tactical read)*
 
-[data]: 300 games, 21 career goals, 11.4 disposal average **[data]** — all 300 games for Hawthorn alone **[data]**, with a 1979 peak of 14.2 disposals a game **[data]**.
+[data]: 300 games, 21 career goals, 11.3 disposal average **[data]** — all 300 games for Hawthorn alone **[data]**, with a 1979 peak of 14.2 disposals a game **[data]**.
 
 A career-long shutdown key defender who gave all 300 of his games to one club.
 
@@ -709,7 +710,7 @@ The verdict: a one-club stopper whose contribution lives in 300 games of service
 ### Ben Hart (1992-2006, Adelaide)
 *(also appears in Defensive Anchors — see that entry for the full tactical read)*
 
-[data]: 311 games, 45 career goals, 13.8 disposal average **[data]** — all 311 games for Adelaide alone **[data]**, with a 1994 peak of 16.0 disposals a game **[data]**.
+[data]: 311 games, 45 career goals, 13.7 disposal average **[data]** — all 311 games for Adelaide alone **[data]**, with a 1994 peak of 16.0 disposals a game **[data]**.
 
 A positionally flexible lockdown defender who gave 311 games to a single club.
 
@@ -881,7 +882,7 @@ The verdict: a clearance bull whose contested wins and quick hands gave his midf
 
 A high-energy small whose game ran on quick hands and repeat effort.
 
-[data]: 225 games, 141 career goals, 19.3 disposal average **[data]** — a handball-to-kick ratio of 1.28 **[data]**. His 2016 peak of 26.0 disposals a game **[data]** was a strong ball-winning year.
+[data]: 225 games, 141 career goals, 19.2 disposal average **[data]** — a handball-to-kick ratio of 1.28 **[data]**. His 2016 peak of 26.0 disposals a game **[data]** was a strong ball-winning year.
 
 Dahlhaus's handball share marks him as a link player — the small who gets to the contest, takes the give, and moves it on at speed. Combined with 141 career goals, that profile describes a forward-midfield hybrid whose value was keeping the ball moving forward through quick disposal rather than slowing it down to kick.
 
@@ -901,7 +902,7 @@ The verdict: a high-volume contested midfielder whose handball release set the t
 
 A contested midfielder with the highest handball ratio in this group.
 
-[data]: 162 games, 109 career goals, 18.7 disposal average **[data]** — a handball-to-kick ratio of 1.43 **[data]**, the highest here. His 2015 peak of 23.4 disposals a game **[data]** was a strong season.
+[data]: 162 games, 109 career goals, 18.6 disposal average **[data]** — a handball-to-kick ratio of 1.43 **[data]**, the highest here. His 2015 peak of 23.4 disposals a game **[data]** was a strong season.
 
 A 1.43 handball ratio is an extreme distribution profile — Wallis gave off by hand far more than he kicked, the signature of a player whose role was pure traffic extraction and release. Getting the ball to a teammate in a better position is its own skill, and a ratio this high says he prioritised the team's next move over his own possession count.
 
@@ -959,7 +960,7 @@ The verdict: a high-running link midfielder whose legs and quick hands kept his 
 ### Brad Sewell (2004-2014, Hawthorn)
 *(also appears in Quiet Workhorses — see that entry for the full tactical read)*
 
-[data]: 200 games, 32 career goals, 21.2 disposal average **[data]** — a handball-to-kick ratio of 1.19 **[data]**, with a 2009 peak of 25.8 disposals a game **[data]**.
+[data]: 200 games, 32 career goals, 21.1 disposal average **[data]** — a handball-to-kick ratio of 1.19 **[data]**, with a 2009 peak of 25.8 disposals a game **[data]**.
 
 A coalface contested winner whose hard-ball wins and quick release created the space others were credited for using.
 
@@ -994,7 +995,7 @@ The verdict: a two-way contested midfielder whose ball-winning and clean release
 
 A breathtaking forward whose peak was as good as anyone's, and as brief.
 
-[data]: 54 games, 208 career goals, 11.2 disposal average **[data]** — and a 1991 peak season of 71 goals **[data]** that the data flags as elite. That is 208 goals from just 54 games.
+[data]: 54 games, 208 career goals, 11.0 disposal average **[data]** — and a 1991 peak season of 71 goals **[data]** that the data flags as elite. That is 208 goals from just 54 games.
 
 A forward kicking 208 goals in 54 games is converting at a rate that, sustained, would have produced a monster career. Jakovich was a freakish overhead mark and a clean finisher — the kind of deep target a midfield kicks to long without a second thought. The career was short; the peak was unarguable.
 
@@ -1024,9 +1025,9 @@ The verdict: a damaging ball-using midfielder whose elite peak season outran the
 
 A spectacular full-forward whose career was cut short at its peak.
 
-[data]: 84 games, 216 career goals, 13.1 disposal average **[data]** — with a 1972 peak of 107 goals **[data]** that the data flags as elite.
+[data]: 84 games, 216 career goals, 12.8 disposal average **[data]** — with a 1972 peak of 107 goals **[data]** that the data flags as elite.
 
-A 107-goal season is the kind of haul that defines a full-forward's entire career, and Blethyn produced it inside an 84-game career. The 13.1 disposal average is high for a deep forward and suggests a player who worked up the ground as well as holding the contest. The talent was undeniable; the longevity was not granted.
+A 107-goal season is the kind of haul that defines a full-forward's entire career, and Blethyn produced it inside an 84-game career. The 12.8 disposal average is high for a deep forward and suggests a player who worked up the ground as well as holding the contest. The talent was undeniable; the longevity was not granted.
 
 The verdict: a brilliant full-forward whose 107-goal peak season is a complete career's worth of output in one year.
 
@@ -1064,9 +1065,9 @@ The verdict: a power forward whose 73-goal peak season proves a ceiling the rest
 
 A productive forward across a compact career in the 1970s.
 
-[data]: 108 games, 284 career goals, 14.2 disposal average **[data]** — with a 1978 peak of 70 goals **[data]** that the data flags as elite.
+[data]: 108 games, 284 career goals, 13.9 disposal average **[data]** — with a 1978 peak of 70 goals **[data]** that the data flags as elite.
 
-A 70-goal season and 284 goals across 108 games is a strong scoring return for the era, and the 14.2 disposal average suggests a forward who pushed up the ground rather than waiting deep. A player kicking at that rate is doing serious damage; the career was simply not a long one.
+A 70-goal season and 284 goals across 108 games is a strong scoring return for the era, and the 13.9 disposal average suggests a forward who pushed up the ground rather than waiting deep. A player kicking at that rate is doing serious damage; the career was simply not a long one.
 
 The verdict: a mobile, productive forward whose 70-goal peak shows a ceiling the short career never fully explored.
 

@@ -203,7 +203,7 @@ FOOTYSTRATEGY INSERT placeholders: <count>
 SCIENTIST REVIEW comments: <count or "none">
 
 Next step: run DataSentinel on the brief before commit.
-Suggested commit message: "BriefBuilder: pre-match brief for <home> vs <away> round <N> 2026"
+Suggested commit message: "BriefBuilder: pre-match brief for <home> vs <away> round <N> <year>"
 </output>
 ESCALATION
 <escalation>

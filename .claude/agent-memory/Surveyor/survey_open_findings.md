@@ -8,41 +8,56 @@ metadata:
 Re-check these first on the next survey; retire each line only after verifying the
 fix by content, not by claim.
 
-## Verified fixed 2026-07-07 (Sprint 2 verification pass, HEAD 798ff2557)
-Retired: F1 (BriefBuilder Bash+executed-computation), F2 (Step 1b in council-brief),
-F3 (team-name trio → 1 memory), F4 (DataSentinel memories, 4 files + index),
-F6/F7 (FootyStrategy HANDOFF CONTRACT + description), F10 (Skeptic BLOCK routing
-table by nature), F11-schema (QA.md stat-leaders snippets), F13 (SURVEYOR
-INTEGRATION in Gaffer.md), F14 (architecture.md §3 = nine agents), F16 (scope
-boundary in both Scientist memories), F17 (Scientist.md hard rule 13), F21
-(weekly-cycle date removed). Also verified: CR-1/F01 (ls -t), F04, F05, F07,
-F12, F13-withdrawal, F14a, F02a, era yaml F11. Suite: 277 passed.
+## OPEN — from 2026-07-09 STANDARD survey (see .claude/surveys/2026-07-09-survey.md)
+- **F1 CRITICAL — entire Sprint 3 uncommitted** (prediction.py, game_scraper.py,
+  conceded CSV repair, BriefBuilder F06, 5 test files, 2 scripts, experiment-log,
+  five badge-passed docs) while experiment-log:100 and pending-decisions:71 claim
+  "committed/shipped". Verify: `git ls-files tests/unit/test_lineup_scraper.py` etc.
+  non-empty AND the claiming docs now true. Owner Gaffer.
+- **F2 HIGH — S3 lineup backfill unrun**: 700 garbage rows (2025:412, 2026:288 =
+  100% of 2026). Verify by the semicolon fingerprint scan (experiment-log:126) → 0,
+  AND the lineups exclusion lifted from refresh_and_rank.sh allowlist. Owner Scientist.
+- **F3 HIGH — S6 position-source assumption false**: lineup schema is
+  [year,date,round_num,team_name,players] — NO position field. Verify pending-tasks
+  S6 card re-scoped to a verified source. Owner Scientist+Gaffer.
+- **F4 MED — backtest queue serialization**: S1b-effect run → S7 ON-vs-OFF → S4 →
+  S5, one change per comparison. Verify experiment-log entries per run. Owner Scientist.
+- **F5 MED — afl-insights.md:18 "latest brief" pointer stale at R9** (R13 briefs
+  exist). Fold into F17. Owner Gaffer.
+- **F6 MED — conceded stats orphaned**: 2025-only, no consumer computes from it,
+  4 columns unverifiable, yet listed as BriefBuilder/DataSentinel source. Verify a
+  recorded load-bearing-or-demote decision. Owner Scientist+Gaffer.
+- **F7 LOW — 3 stale worktrees ~560MB** (June 16; branches 524fa0ffe/04216cd2c/
+  9293d831a unmerged but likely superseded on main). Verify .claude/worktrees/ empty.
+  Owner Gaffer.
+- **WATCH — F04 first live test**: after Tuesday 2026-07-14 cycle, BOTH
+  .claude/audit/weekly_refresh_2026-07-14.log and
+  .claude/audit/last_refresh_complete.json must exist. If sentinel absent → escalate
+  (single-entry discipline failed first exercise).
+- **WATCH — TOG% era coverage** (unaudited, per experiment-log S1b "NOT verified");
+  **prediction double-runs** each round (2 CSVs per cycle — flaky phase?);
+  **sentinel-*.json accumulation** (~70 files, no retention rule).
 
-## NEW from 2026-07-07 verification pass
-- D1 **QA.md §3 prediction-CSV snippet uses lexicographic sorted(glob)[-1]** —
-  executed proof: selects next_round_9_prediction_20260511 (stale round 9), not
-  mtime-latest next_round_19. Same CR-1 class F01 just fixed, living inside the
-  QA gate itself (.claude/agents/QA.md:61-63). HIGH, gate defect → escalated to
-  human, routed Gaffer.
-- D2 **S1a residuals in docs/ai-architecture.md** — line 37 mermaid node B1 lists
-  "venue" as a model feature; line 609 says model "uses ... (rolling form,
-  opponent, venue, context)". Contradicts corrected line 129. LOW-MED, Gaffer.
-- D3 **Scraped ground truth never committed by harness** — 426 data/ files
-  (matches_2026.csv, all lineups, player_data) modified 12:13 2026-07-07,
-  uncommitted; neither weekly_refresh.sh Phase 4 nor refresh_and_rank.sh
-  allowlist stages data/matches|player_data|lineups. R17 cycle DID commit them
-  (commit "Weekly refresh R17: scrape actuals..."), so a step regressed or was
-  manual. origin/main docs claim R18 actuals its data lacks. MED-HIGH, Gaffer.
-- OBS: 7 round-13 briefs still carry footer "Interpretation pending FootyStrategy
-  fill of `<!-- FOOTYSTRATEGY INSERT -->` markers" (string, not live markers).
-- OBS: F02-blocked docs (dustin-martin, 3 news, hall-of-fame-forgotten-heroes)
-  sit modified-uncommitted in the tree while the decision is pending.
+## Still open, carried from earlier surveys
+- F8 (07-07) FootyStrategy tripwire learning loop never fired — re-verified dormant
+  2026-07-09 (no fired-tripwire memory exists). MEDIUM, Gaffer+FootyStrategy.
+- F19 (07-07) Chronicler commit ownership rule still unwritten (its outputs landed
+  only via catch-all commit 0b07b3048). MEDIUM, Gaffer.
+- 0703-F2 HOF stamp attribution — still unverified (no stamp lines grep-matched in
+  hall-of-fame-stat-leaders.md 2026-07-09). LOW.
 
-## Still open / not yet re-verified
-- F8 FootyStrategy tripwire learning loop never fired — MEDIUM
-- F19 Chronicler output commit ownership ambiguous — MEDIUM (not re-checked)
-- F02 unstrand 5 stat docs — BLOCKED on human (pending-decisions.md, count 17 vs 16)
-- F02a Scientist half: deterministic round-cap helper + skip as-of docs in live lanes
-- From 2026-07-03: F1 skeptic_sample_tags spec-form blindness; F2 HOF stamp
-  attribution; F3 AUDIT_ENFORCE=1 record-less envs; F4 commit marker doesn't
-  serialize — all still unverified.
+## Verified fixed 2026-07-09
+Retired: 0703-F1 (skeptic_sample_tags spec-form — fixed, script line 28),
+0703-F3 (AUDIT_ENFORCE defaults 1 — check-council-stamp.sh:35),
+0703-F4/F04 (single-entry guard refresh_and_rank.sh:9-22 + sentinel code
+weekly_refresh.sh:310-317 — code verified; live exercise pending, see WATCH),
+D1 (QA mtime selector, commit 7d6a4e40f), D2 (ai-architecture venue residuals),
+D3 (R18 ground truth committed + auto-stage allowlist e525b82c7; lineups exclusion
+deliberate pending F2). Fill-zero-vs-Decision-3 checked: NO conflict (per-game
+averages use fill-zero; threshold-scan inclusion uses dropna+coverage — context-
+separated correctly). Suite 315 passed; HOF gate PASS; prompt drift fully explained.
+
+## Prior retirements (2026-07-07, HEAD 798ff2557)
+F1-F21 of the 07-07 DEEP survey verified/retired as recorded in that survey file;
+F02 five-doc correction committed 5a5789bd1 (the 07-09 badge pass on those docs is
+part of the new F1 above).

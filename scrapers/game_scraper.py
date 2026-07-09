@@ -8,6 +8,15 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
 
+
+class LineupParseError(Exception):
+    """Raised when a match-stats table is present but yields no valid player
+    names -- i.e. the afltables page structure changed again. Raising (rather
+    than returning an empty/garbage list) makes a future regression fail loudly
+    instead of silently writing jersey numbers into the lineup CSVs, which is
+    exactly how the 2025-R3 corruption went unnoticed for months."""
+
+
 def get_soup(url: str) -> BeautifulSoup:
     """
     Gets a BeautifulSoup object from the given URL.
@@ -943,29 +952,80 @@ class MatchScraper:
                 self.team_lineups[team] = []
             self.team_lineups[team].append(lineup_entry)
 
+    def _find_player_column(self, rows: List[BeautifulSoup]) -> int:
+        """
+        Locates the 0-based index of the "Player" column from the table header.
+
+        The afltables match-stats table is `#`, `Player`, KI, MK, HB, ... -- the
+        first column is the jersey number, the second is the player name. We
+        detect the column by header text rather than hard-coding an index so the
+        parser survives a future column reorder. Falls back to index 1 (the
+        long-standing afltables default) if no "Player" header is found.
+        """
+        for row in rows:
+            for idx, cell in enumerate(row.find_all(['th', 'td'])):
+                if cell.text.strip().lower() == 'player':
+                    return idx
+        return 1
+
+    def _normalise_player_name(self, raw: str) -> str:
+        """
+        Converts an afltables "Surname, Firstname" cell into "Firstname Surname"
+        to match the historical lineup-CSV format. Returns "" for anything that
+        is not a real player name -- header labels ("Player"), sub markers, and
+        footer rows ("Rushed", "Totals", "Opposition"), whose Player-column value
+        is a bare number and therefore has no comma.
+        """
+        raw = raw.replace('↑', '').replace('↓', '').strip()
+        if ',' not in raw:
+            return ''
+        surname, _, first = raw.partition(',')
+        surname, first = surname.strip(), first.strip()
+        if not surname or not first or not any(c.isalpha() for c in surname):
+            return ''
+        return f"{first} {surname}"
+
     def _extract_player_names(self, table: BeautifulSoup) -> List[str]:
         """
-        Extracts player names from a team detail table.
+        Extracts player names from a team match-stats table.
+
+        Reads the "Player" column (not column 0, which is the jersey number) and
+        reverses "Surname, Firstname" -> "Firstname Surname". Header and footer
+        rows are skipped. If the table has data rows but none yield a valid name,
+        raises LineupParseError instead of returning garbage.
 
         Args:
-            table (BeautifulSoup): The BeautifulSoup table object containing player data.
+            table (BeautifulSoup): The table element containing player data.
 
         Returns:
-            List[str]: A list of player names.
+            List[str]: Player names in "Firstname Surname" form.
+
+        Raises:
+            LineupParseError: The table is populated but no valid names were
+                found -- a signal the page structure changed.
         """
-        try:
-            player_names = []
-            rows = table.find_all('tr')[1:]  # Skip header row
-            for row in rows:
-                cells = row.find_all('td')
-                if cells and len(cells) > 0:
-                    player_name = cells[0].text.strip()  # Assuming first column is player name
-                    if player_name:
-                        player_names.append(player_name)
-            return player_names
-        except Exception as e:
-            print(f"Error extracting player names: {e}")
-            return []
+        rows = table.find_all('tr')
+        name_col = self._find_player_column(rows)
+
+        player_names: List[str] = []
+        data_rows = 0
+        for row in rows:
+            cells = row.find_all('td')  # header rows use <th>, so are skipped
+            if not cells:
+                continue
+            data_rows += 1
+            if name_col < len(cells):
+                name = self._normalise_player_name(cells[name_col].text)
+                if name:
+                    player_names.append(name)
+
+        if data_rows and not player_names:
+            raise LineupParseError(
+                f"Match-stats table had {data_rows} data row(s) but no valid "
+                f"player names in column {name_col}; afltables structure may "
+                f"have changed."
+            )
+        return player_names
 
 if __name__ == "__main__":
     # Standalone audit mode: `python game_scraper.py --audit [matches_dir]`
