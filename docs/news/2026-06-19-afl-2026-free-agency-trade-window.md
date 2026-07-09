@@ -1,4 +1,5 @@
 # AFL 2026 — Free Agency and the Trade Window: Where the Market Is Thin, Where It Is Deep, and Who Each Club Should Chase
+> ✓ All 99 stats verified against source data · council-pipeline-gated · 2026-07-09
 
 > [← Back to News](README.md) | [← Back to main README](../../README.md)
 

@@ -1,4 +1,5 @@
 # Jonathan Brown — The Fist of God
+> ✓ All 47 stats verified against source data · council-pipeline-gated · 2026-07-09
 
 <!-- council-pipeline:
   BriefBuilder: DONE

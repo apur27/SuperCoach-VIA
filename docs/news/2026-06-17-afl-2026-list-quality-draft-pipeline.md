@@ -1,4 +1,5 @@
 # AFL 2026 — List Quality and Draft Pipeline: Where Every Club Stands
+> ✓ All 221 stats verified against source data · council-pipeline-gated · 2026-07-09
 
 > [← Back to News](README.md) | [← Back to main README](../../README.md)
 

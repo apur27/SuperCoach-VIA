@@ -68,4 +68,4 @@ Owner: Gaffer (directive parse + prompt rule) + Scientist (round-cap compute). D
 
 ---
 
-*Last updated: 2026-07-07 (Decisions 1–4 RESOLVED by human; F02 fully unblocked — era-boundary count = live 17, Option A. Route questions to Gaffer.)*
+*Last updated: 2026-07-09 (Decisions 1–4 RESOLVED by human; F02 PARTIAL SHIP 2026-07-09 — three DataSentinel-clean docs committed (jonathan-brown, list-quality-draft-pipeline, free-agency-trade-window; R17/R18 basis, era-boundary count = live 17). dustin-martin + forgotten-heroes HELD: untagged prose stat-numbers (restatements of already-verified [data] figures) trigger a DataSentinel FAIL on the current content; routed to Scientist for comprehensive tagging + re-gate before ship. Open harness issue: DataSentinel applies the untagged-number sweep non-deterministically. Route questions to Gaffer.)*
