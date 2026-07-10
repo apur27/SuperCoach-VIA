@@ -1,8 +1,9 @@
 import argparse
+import json
 import sys
 import numpy as np
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor, VotingRegressor
@@ -69,6 +70,74 @@ def _detect_lgbm_device() -> str:
 
 
 LGBM_DEVICE = _detect_lgbm_device()
+
+# --- Optuna best-params cache (F6) -----------------------------------------
+# The two Optuna studies (HGB + LGBM, ~100 trials) re-tune from scratch on
+# every run even though the training corpus grows only ~0.5%/week and the best
+# params are stable week to week. We cache the tuned params and reuse them when
+# the data has barely changed and the cache is recent, saving ~20 min/cycle.
+# Cache is INVALID (re-tune) when the row count moved >5% OR the cache is >28
+# days old (monthly re-tune cadence). To force a re-tune, delete the file.
+OPTUNA_CACHE_PATH = Path("data/prediction/optuna_best_params.json")
+OPTUNA_CACHE_ROW_TOLERANCE = 0.05   # re-tune if |Δrows| / cached_rows >= 5%
+OPTUNA_CACHE_MAX_AGE_DAYS = 28      # re-tune if cache older than this
+
+
+def _load_optuna_cache(cache_key, current_n_rows, cache_path=OPTUNA_CACHE_PATH):
+    """Return the cached entry for ``cache_key`` if it is still valid, else None.
+
+    Valid means: the entry exists, the training-row count is within
+    ``OPTUNA_CACHE_ROW_TOLERANCE`` of ``current_n_rows``, and it was tuned less
+    than ``OPTUNA_CACHE_MAX_AGE_DAYS`` ago. A missing/corrupt file or any
+    malformed field is treated as a cache miss (returns None) so a bad cache
+    can never poison a run — worst case we simply re-tune.
+    """
+    try:
+        with open(cache_path) as f:
+            cache = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+    entry = cache.get(cache_key)
+    if not isinstance(entry, dict):
+        return None
+    cached_rows = entry.get("n_training_rows")
+    if not cached_rows:
+        return None
+    if abs(current_n_rows - cached_rows) / cached_rows >= OPTUNA_CACHE_ROW_TOLERANCE:
+        return None
+    try:
+        tuned_at = datetime.fromisoformat(entry["tuned_at"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    if datetime.now() - tuned_at > timedelta(days=OPTUNA_CACHE_MAX_AGE_DAYS):
+        return None
+    if not isinstance(entry.get("params"), dict):
+        return None
+    return entry
+
+
+def _save_optuna_cache(cache_key, params, n_training_rows, cache_path=OPTUNA_CACHE_PATH):
+    """Merge a freshly-tuned entry for ``cache_key`` into the JSON cache.
+
+    Reads the existing cache (so the sibling model's entry is preserved),
+    updates just ``cache_key``, and writes it back.
+    """
+    cache_path = Path(cache_path)
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with open(cache_path) as f:
+            cache = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        cache = {}
+    cache[cache_key] = {
+        "params": params,
+        "n_training_rows": int(n_training_rows),
+        "tuned_at": datetime.now().isoformat(),
+        "optuna_version": optuna.__version__,
+    }
+    with open(cache_path, "w") as f:
+        json.dump(cache, f, indent=2)
+
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore', category=DeprecationWarning)
@@ -204,6 +273,9 @@ class AFLDisposalPredictor:
         self.within_season_window = within_season_window
         self.debug_mode = debug_mode
         self.include_age_experience = include_age_experience
+        # Path to the Optuna best-params cache (F6). An instance attribute so
+        # tests can point it at a tmp file; production uses the module default.
+        self.optuna_cache_path = OPTUNA_CACHE_PATH
         self.models = {}
         self.base_rolling_features = [
             'disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s'
@@ -602,6 +674,20 @@ class AFLDisposalPredictor:
             ).mean()
             return score
 
+        cached = _load_optuna_cache('hgb', len(X), self.optuna_cache_path)
+        if cached is not None:
+            best_params = cached['params']
+            print(
+                f"Using cached Optuna params (hgb): {cached['n_training_rows']} "
+                f"rows, tuned {cached['tuned_at'][:10]}"
+            )
+            self.models['hgb_tuned'] = Pipeline([
+                ('scaler', StandardScaler()),
+                ('regressor', HistGradientBoostingRegressor(**best_params, random_state=42))
+            ])
+            print(f"Best parameters: {best_params}")
+            return None
+
         study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=42))
         study.optimize(objective, n_trials=50)
         best_params = study.best_params
@@ -610,6 +696,7 @@ class AFLDisposalPredictor:
             ('regressor', HistGradientBoostingRegressor(**best_params, random_state=42))
         ])
         print(f"Best parameters: {best_params}")
+        _save_optuna_cache('hgb', best_params, len(X), self.optuna_cache_path)
         return study.best_value
 
     def tune_lgbm_gpu(self, X, y):
@@ -662,6 +749,20 @@ class AFLDisposalPredictor:
 
             return score
 
+        cached = _load_optuna_cache('lgbm', len(X), self.optuna_cache_path)
+        if cached is not None:
+            best_params = cached['params']
+            print(
+                f"Using cached Optuna params (lgbm): {cached['n_training_rows']} "
+                f"rows, tuned {cached['tuned_at'][:10]}"
+            )
+            self.models['lgbm_gpu_tuned'] = Pipeline([
+                ('scaler', StandardScaler()),
+                ('regressor', LGBMRegressor(**best_params, device=LGBM_DEVICE, verbose=-1, random_state=42))
+            ])
+            print(f"Best LGBM GPU parameters: {best_params}")
+            return None
+
         study = optuna.create_study(
             direction='maximize',
             sampler=optuna.samplers.TPESampler(seed=42),
@@ -674,6 +775,7 @@ class AFLDisposalPredictor:
             ('scaler', StandardScaler()),
             ('regressor', LGBMRegressor(**study.best_params, device=LGBM_DEVICE, verbose=-1, random_state=42))
         ])
+        _save_optuna_cache('lgbm', study.best_params, len(X), self.optuna_cache_path)
 
         return study.best_value
 

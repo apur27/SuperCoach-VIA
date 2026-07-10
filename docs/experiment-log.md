@@ -6,6 +6,65 @@ changed, why, how it was verified, and what was deliberately *not* verified.
 
 ---
 
+## 2026-07-10 — Optuna best-params cache (monthly re-tune cadence)
+
+**Author:** Scientist agent
+**Files:** `supercoach/prediction.py`, `tests/unit/test_optuna_cache.py`
+**Blast radius:** MEDIUM (changes when tuning runs; does not change the params
+themselves on a cache hit — they are the exact params a prior tune produced)
+
+### What changed
+
+`prediction.py` ran two Optuna studies from scratch on every invocation:
+HGB (`tune_model`, 50 trials) and LGBM (`tune_lgbm_gpu`, 50 trials / 600s
+timeout). On this CPU-only host that is ~20 min of tuning per weekly cycle,
+spent re-deriving params that are stable week to week while the training
+corpus grows only ~0.5%/week (135,473 → 136,208 rows over 3 weeks).
+
+Both tuning methods now consult a JSON cache before creating the study:
+
+- **Cache file:** `data/prediction/optuna_best_params.json`, one entry per
+  model key (`hgb`, `lgbm`), each storing `params`, `n_training_rows`,
+  `tuned_at` (ISO), and `optuna_version`.
+- **Cache HIT** (skip Optuna, reuse params) requires BOTH:
+  `abs(current_rows - cached_rows) / cached_rows < 0.05` (row growth <5%) AND
+  `now - tuned_at < 28 days` (monthly re-tune cadence).
+- **Cache MISS** (first run, stale, corrupt, or >5% row growth): run Optuna
+  normally, then write the tuned params back to the cache.
+
+Both save/load preserve the sibling model's entry (read-modify-write on the
+merged dict), so tuning one model never clobbers the other's cache.
+
+### Design choices / non-goals
+
+- **No `--force-retune` flag.** To force a re-tune, delete the cache file.
+  Keeps the surface minimal (no speculative config).
+- **Fail-open on a bad cache.** A missing/corrupt file or any malformed field
+  is treated as a miss and re-tunes — a poisoned cache can never degrade a run.
+- Cache-hit path returns `None` in place of `study.best_value`; both callers
+  (`train_models`) already discard that return value, so this is inert.
+
+### Verified
+
+- 5 new unit tests (`test_optuna_cache.py`), all mocking the Optuna study so
+  no real tuning runs (suite <1s, no network): cache hit skips study creation;
+  stale age (29 days) forces a tune; >5% row growth forces a tune; a tune
+  writes the cache with the documented schema; absent file → tune then save.
+- Full suite green: **326 passed** (321 prior + 5 new).
+
+### Not verified
+
+- The end-to-end wall-clock saving (~20 min/cycle) was reasoned from the trial
+  counts and prior run timings, not measured in this change — the tests mock
+  the study rather than time a real tune. Expected saving realised whenever
+  consecutive weekly runs stay within the 5%-row / 28-day window (the common
+  case between monthly re-tunes).
+- Whether cached params remain near-optimal across a full month of ~0.5%/week
+  growth is an assumption (params are historically stable); the 28-day ceiling
+  bounds the staleness risk and forces a monthly re-derivation regardless.
+
+---
+
 ## 2026-07-10 — Backtest-by-archive: score the published forward CSV
 
 **Author:** Scientist agent
