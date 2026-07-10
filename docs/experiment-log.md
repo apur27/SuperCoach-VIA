@@ -109,7 +109,7 @@ after. Full suite **317 passed** (`pytest tests/`), no regressions. Guard test
 also pins `percentage_time_played` and `cba_percent` OUT of `feature_columns`
 to prevent recurrence.
 
-**Git SHA:** _added after commit._
+**Git SHA:** `b5cc4db17`
 
 ---
 
