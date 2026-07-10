@@ -88,6 +88,10 @@ else
     ROUND="unknown"
 fi
 log "Detected next round: $ROUND"
+if [ "$ROUND" = "unknown" ]; then
+    log "ERROR: Could not detect next round from prediction CSVs. Run Phase 1 (refresh_and_rank.sh) first, then re-run this script."
+    exit 1
+fi
 
 # ---------------------------------------------------------------------------
 # Phase 1b — refresh the README "Eval results" section + docs/banner.svg from

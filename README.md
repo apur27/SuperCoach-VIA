@@ -51,12 +51,10 @@ cd SuperCoach-VIA
 # Install venv
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# Refresh data + predictions
+# Full weekly refresh (data + predictions + backtest + docs + commit)
+bash scripts/weekly_refresh.sh
+# Or: data + predictions only (no gates, no commit — for quick local checks)
 bash refresh_and_rank.sh
-# Run backtest (latest round only - incremental)
-python backtest.py --start-year 2026 --start-round 12 --end-year 2026 --end-round 12
-# Generate weekly fan pack
-python scripts/generate_weekly_cheat_sheet.py --year 2026
 ```
 
 Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/installation.md](docs/installation.md).
