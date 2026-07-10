@@ -1,7 +1,7 @@
 ---
 name: "DataSentinel"
 description: "Pre-commit verification gate. Walks every [data] tag in a draft doc, confirms it against the source CSV named in the methodology paragraph, flags untagged numbers, coach-name violations, and FanFooty schema violations. Machine-readable JSON output for the pre-commit hook."
-model: haiku
+model: sonnet
 color: red
 memory: project
 tools: Read, Grep, Glob, Bash
