@@ -23,6 +23,8 @@ column after RENAMES are applied to the canonical raw CSV schema.
 import importlib.util
 import pathlib
 
+import numpy as np
+import pandas as pd
 import pytest
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -99,6 +101,59 @@ def test_cba_percent_not_declared_without_data(mod, predictor):
     assert "cba_percent" not in predictor.base_rolling_features
     # And it must not be in RENAMES targets either.
     assert "cba_percent" not in set(mod.RENAMES.values())
+
+
+def _synthetic_engineered_df():
+    """A minimal cleaned (post-RENAMES) frame with two players over four
+    rounds each — enough history for the shift(1)/rolling features to
+    resolve on at least one surviving row. Uses canonical column names
+    (the model consumes data after clean_columns has applied RENAMES)."""
+    rows = []
+    for player in ("Alpha Player", "Beta Player"):
+        for r in range(1, 5):
+            rows.append({
+                "player": player,
+                "year": 2025,
+                "round": f"Round {r}",
+                "date": pd.Timestamp("2025-03-01") + pd.Timedelta(days=7 * r),
+                "disposals": 20 + r,
+                "kicks": 10 + r,
+                "handballs": 10,
+                "tackles": 4,
+                "clearances": 3,
+                "inside_50s": 5,
+                "percentage_time_played": 80 + r,
+            })
+    return pd.DataFrame(rows)
+
+
+def test_no_unlagged_raw_feature_in_feature_columns(predictor):
+    """Guard against target leakage / train-serve skew: no raw same-game
+    feature may enter feature_columns. percentage_time_played must appear
+    only in its shift(1) lagged form; cba_percent must never reappear."""
+    predictor._engineer_features(_synthetic_engineered_df())
+
+    # Raw same-game TOG% must NOT be a feature (would leak game-i info into
+    # the game-i prediction; also causes train/serve skew in production).
+    assert "percentage_time_played" not in predictor.feature_columns
+
+    # cba_percent regression guard — phantom feature, must stay out.
+    assert "cba_percent" not in predictor.feature_columns
+
+    # The lagged (prior-round) TOG% IS a legitimate conditioning signal.
+    assert "percentage_time_played_lag1" in predictor.feature_columns
+
+
+def test_tog_lag_uses_prior_game_only(predictor):
+    """The lagged TOG% column must equal the player's previous-game value
+    (strictly prior information), never the same game's value."""
+    df = predictor._engineer_features(_synthetic_engineered_df())
+    df = df.sort_values(["player", "round"])
+    alpha = df[df["player"] == "Alpha Player"]
+    # Round 4 row's lag must be Round 3's raw TOG% (83), not Round 4's (84).
+    r4 = alpha[alpha["round"] == "Round 4"].iloc[0]
+    assert r4["percentage_time_played_lag1"] == 83
+    assert r4["percentage_time_played"] == 84
 
 
 def test_existing_renames_still_resolve(mod):

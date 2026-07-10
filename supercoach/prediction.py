@@ -208,10 +208,13 @@ class AFLDisposalPredictor:
         self.base_rolling_features = [
             'disposals', 'kicks', 'handballs', 'tackles', 'clearances', 'inside_50s'
         ]
-        # 'percentage_time_played' is wired from the raw 'percentage_of_game_played'
-        # column via RENAMES. 'cba_percent' was dropped: no centre-bounce data
-        # exists anywhere in data/player_data/ (Task S1b).
-        self.extra_features = ['percentage_time_played']
+        # TOG% ('percentage_time_played', wired from raw 'percentage_of_game_played'
+        # via RENAMES) is NOT a raw same-game feature: it enters the model only
+        # as a shift(1) lag ('percentage_time_played_lag1', engineered below).
+        # Raw same-game TOG% caused target leakage in training and train/serve
+        # skew in production (S1b fix, 2026-07-10). 'cba_percent' was dropped:
+        # no centre-bounce data exists anywhere in data/player_data/ (Task S1b).
+        self.extra_features = []
         self.feature_columns = []
         self.best_name = None
         self.training_feature_columns = None
@@ -429,6 +432,13 @@ class AFLDisposalPredictor:
         
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
 
+        # Prior-round TOG% as a strictly-lagged (shift(1)) conditioning signal.
+        # Same temporal treatment as base_rolling_features — never same-game.
+        tog_lag_features = []
+        if 'percentage_time_played' in df.columns:
+            df.loc[:, 'percentage_time_played_lag1'] = df.groupby('player', observed=False)['percentage_time_played'].shift(1)
+            tog_lag_features = ['percentage_time_played_lag1']
+
         if self.include_age_experience:
             df = self._add_age_experience_features(df)
 
@@ -439,7 +449,7 @@ class AFLDisposalPredictor:
         extra_feats = [feat for feat in self.extra_features if feat in df.columns]
         age_exp_feats = list(self.AGE_EXPERIENCE_FEATURES) if self.include_age_experience else []
         dummy_cols = [c for c in df.columns if c.startswith(('venue_', 'opponent_'))]
-        self.feature_columns = across_season_features + within_season_features + season_to_date_features + recent_form_features + ['round_number', 'days_since_last_game'] + extra_feats + age_exp_feats + dummy_cols
+        self.feature_columns = across_season_features + within_season_features + season_to_date_features + recent_form_features + ['round_number', 'days_since_last_game'] + tog_lag_features + extra_feats + age_exp_feats + dummy_cols
         
         if self.debug_mode:
             print(f"Engineered features: {self.feature_columns}")
@@ -466,6 +476,12 @@ class AFLDisposalPredictor:
             )
         
         df['days_since_last_game'] = df.groupby('player', observed=False)['date'].diff().dt.days.fillna(0)
+
+        # Mirror the training-time lag so the predict frame carries the same
+        # shift(1) TOG% column (else the reindex to training_feature_columns
+        # would fill it with 0 — silent train/serve skew).
+        if 'percentage_time_played' in df.columns:
+            df.loc[:, 'percentage_time_played_lag1'] = df.groupby('player', observed=False)['percentage_time_played'].shift(1)
 
         if self.include_age_experience:
             df = self._add_age_experience_features(df)

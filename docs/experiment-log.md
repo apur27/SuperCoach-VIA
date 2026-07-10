@@ -73,6 +73,44 @@ schema is uniform across all sampled files. Presence of each declared feature:
 validated by a backtest; the removal of `cba_percent`/documenting `venue` is
 behaviour-neutral and low-risk.
 
+### 2026-07-10 — S1b follow-up fix: TOG% was leaking (raw → shift(1) lag)
+
+**Defect found.** The S1b wiring (above) put `percentage_time_played` into
+`extra_features`, so it entered `feature_columns` **unlagged** — the raw
+*same-game* TOG% of game *i* was a feature used to predict disposals of game
+*i*. Every other model feature is `.shift(1)` (strictly prior information).
+Two consequences:
+- **Target leakage in training.** Same-game TOG% correlates with same-game
+  disposals (a player subbed off early has both low). The model learned a
+  contemporaneous relationship that does not exist at serve time.
+- **Train/serve skew in production.** At predict time the pipeline supplies the
+  *last played* game's stats on the predict row, so the served TOG% is a prior
+  game's value while the model was trained on the same-game value — the
+  coefficient is miscalibrated. The prior backtest would also have been falsely
+  optimistic (it retains the cutoff-round raw row, consuming the actual TOG% of
+  the round being predicted).
+
+**Fix applied (2026-07-10).** TOG% is now a strictly-lagged conditioning signal,
+same temporal treatment as `base_rolling_features`:
+- Removed `percentage_time_played` from `extra_features` (now `[]`).
+- `_engineer_features` and `_engineer_features_for_prediction` compute
+  `percentage_time_played_lag1 = groupby('player')['percentage_time_played'].shift(1)`,
+  and `percentage_time_played_lag1` (not the raw column) enters `feature_columns`.
+- `RENAMES` (`percentage_of_game_played → percentage_time_played`) and the
+  `float32` DTYPES entry are unchanged — the raw column still exists as the lag
+  source, it just never reaches the model unlagged.
+- Prior-round TOG% remains a legitimate signal (a player who played 60% last
+  week may be injured/managed); it is now prior information only.
+
+**Verification.** TDD: `test_no_unlagged_raw_feature_in_feature_columns` +
+`test_tog_lag_uses_prior_game_only` added to
+`tests/unit/test_prediction_features.py`, confirmed RED before the fix, GREEN
+after. Full suite **317 passed** (`pytest tests/`), no regressions. Guard test
+also pins `percentage_time_played` and `cba_percent` OUT of `feature_columns`
+to prevent recurrence.
+
+**Git SHA:** _added after commit._
+
 ---
 
 ## 2026-07-09 — Lineup scraper fix (garbage names since 2025 R3) [Task S3]
