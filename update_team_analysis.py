@@ -4646,6 +4646,232 @@ def replace_top100_section(hof_text: str, body: str) -> str:
     return new_text
 
 
+# ---------------------------------------------------------------------------
+# Top-100 player-profile regeneration + consistency gate
+#
+# The table above (marker block) is regenerated weekly from all_time_top_100.csv.
+# The narrative "Player profiles" section below the markers used to be frozen
+# prose and drifted out of sync (stale stat-lines, wrong rank headings, rankings
+# that no longer matched the table). The functions below keep the profile
+# headings, italic stat-lines and rank ORDER in sync with the same bio_df the
+# table is built from — so table and profiles are consistent by construction —
+# while never editing a player's narrative prose. Players who drop out of the
+# ranking are moved (prose intact) to an "Honourable Mention" section; players
+# who newly enter get a placeholder profile with a FOOTYSTRATEGY INSERT marker.
+# ---------------------------------------------------------------------------
+
+PROFILES_HEADING = "## Player profiles - FootyStrategy tactical reads"
+HONOURABLE_HEADING = "## Honourable Mention — Just Outside the Top 100"
+HONOURABLE_NOTE = (
+    "*These players held a top-100 position when this document was authored. "
+    "Updated rankings place them just outside; their profiles are preserved here "
+    "and they may re-enter as new season data is scraped.*"
+)
+
+
+def _norm_name(s: str) -> str:
+    """Lowercase, strip everything but a-z0-9 (folds apostrophes, spaces, Jr/Sr)."""
+    import re
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def _format_top100_stat_line(stats: dict, score: float) -> str:
+    """Italic stat-line matching the doc convention.
+
+    Components are omitted exactly as the table does: disposals/brownlow only
+    appear when recorded for that era. Thousands separators appear on any value
+    >= 1000 (Python's ``:,`` no-ops below 1000).
+    """
+    parts = [f"{stats['games']:,} games", f"{stats['goals']:,} goals"]
+    if "disposals" in stats:
+        parts.append(f"{stats['disposals']:,} disposals")
+    if "brownlow" in stats:
+        parts.append(f"{stats['brownlow']:,} Brownlow votes")
+    parts.append(f"Score: {score:.3f}")
+    return "*" + " · ".join(parts) + "*"
+
+
+def _top100_score_map(scores_df: pd.DataFrame) -> dict:
+    """Rank (1-based row order) -> era-normalised score."""
+    return {i + 1: float(row["all_time_score"]) for i, row in scores_df.iterrows()}
+
+
+def _match_profile_to_serial(name: str, club: str, bio_df: pd.DataFrame) -> int | None:
+    """Resolve a profile heading (display name + club) to a bio Serial Number.
+
+    Handles the two duplicate "Gary Ablett" rows via a distinguishing club
+    token, and the "O'Loughlin"/"OLoughlin" apostrophe difference via _norm_name.
+    Returns None if the player is not in the current ranking.
+    """
+    import re
+    base = name.replace(" Jr", "").replace(" Sr", "")
+    key = _norm_name(base)
+    cands = [
+        (int(r["Serial Number"]), str(r["Footy Teams"]))
+        for _, r in bio_df.iterrows()
+        if _norm_name(str(r["Player Name"])) == key
+    ]
+    if not cands:
+        return None
+    if len(cands) == 1:
+        return cands[0][0]
+    # Duplicate names: pick the row whose club has a token the OTHER row lacks
+    # and that appears in this profile's club string.
+    pc = _norm_name(club)
+    all_tok_sets = [
+        set(_norm_name(t) for t in re.split(r"\s*-\s*", teams)) for _, teams in cands
+    ]
+    for (ser, teams), toks in zip(cands, all_tok_sets):
+        others = set().union(*[s for s in all_tok_sets if s is not toks])
+        distinct = toks - others
+        if any(d and d in pc for d in distinct):
+            return ser
+    return cands[0][0]
+
+
+def _parse_profile_blocks(region: str) -> list[dict]:
+    """Parse every ``### [#N ]Name — Club`` block in the profiles region.
+
+    Captures rank (optional), display name, club and the trailing prose (up to
+    the next ``###``/``##`` heading). Stat-lines are dropped — they are always
+    regenerated. Blocks with no rank (e.g. an honourable-mention block on a
+    re-run) are still captured so the pass is idempotent.
+    """
+    import re
+    block_re = re.compile(
+        r"###\s+(?:#(\d+)\s+)?(.+?)\s+—\s+(.+?)\n"   # heading
+        r"(?:\*[^\n]*\*\n)?"                            # optional stat-line (discarded)
+        r"(.*?)"                                        # prose
+        r"(?=\n###\s|\n##\s|\Z)",
+        re.S,
+    )
+    blocks = []
+    for m in block_re.finditer(region):
+        _rank, name, club, prose = m.groups()
+        blocks.append({"name": name.strip(), "club": club.strip(),
+                       "prose": prose.strip("\n")})
+    return blocks
+
+
+def regenerate_top100_profiles(hof_text: str, bio_df: pd.DataFrame,
+                               scores_df: pd.DataFrame) -> tuple[str, list[str]]:
+    """Rebuild the profiles section in current-ranking order.
+
+    Returns ``(new_text, warnings)``. Prose is preserved verbatim; only rank
+    headings, stat-lines and block ORDER change. New entrants get a placeholder
+    profile; dropped players are moved to an Honourable Mention section.
+    """
+    if PROFILES_HEADING not in hof_text:
+        return hof_text, ["profiles heading not found — section left unchanged"]
+
+    start = hof_text.index(PROFILES_HEADING) + len(PROFILES_HEADING)
+    # The profiles region runs until the next top-level (## ) section that is
+    # NOT the honourable-mention block we ourselves emit.
+    tail = hof_text[start:]
+    end_rel = len(tail)
+    import re
+    for m in re.finditer(r"\n##\s+(.+)", tail):
+        if m.group(1).strip() == HONOURABLE_HEADING[3:].strip():
+            continue
+        end_rel = m.start()
+        break
+    prefix = hof_text[:start]
+    suffix = tail[end_rel:]
+    region = tail[:end_rel]
+
+    blocks = _parse_profile_blocks(region)
+    score_map = _top100_score_map(scores_df)
+
+    serial_to_block: dict[int, dict] = {}
+    dropped: list[dict] = []
+    warnings_out: list[str] = []
+    for b in blocks:
+        ser = _match_profile_to_serial(b["name"], b["club"], bio_df)
+        if ser is None:
+            dropped.append(b)
+        else:
+            serial_to_block[ser] = b
+
+    # Emit ranked profiles 1..N in bio order.
+    out_blocks: list[str] = []
+    for _, r in bio_df.sort_values("Serial Number").iterrows():
+        ser = int(r["Serial Number"])
+        stats = _parse_top100_comment(str(r["Comment"]))
+        stat_line = _format_top100_stat_line(stats, score_map.get(ser, 0.0))
+        if ser in serial_to_block:
+            b = serial_to_block[ser]
+            name, club, prose = b["name"], b["club"], b["prose"]
+        else:
+            # New entrant with no existing profile: placeholder prose only.
+            name = str(r["Player Name"])
+            club = str(r["Footy Teams"]).replace(" - ", "-")
+            surname = name.split()[-1]
+            prose = f"<!-- FOOTYSTRATEGY INSERT: {surname} tactical read -->"
+            warnings_out.append(
+                f"new entrant #{ser} {name}: placeholder profile inserted "
+                f"(FOOTYSTRATEGY INSERT pending)"
+            )
+        out_blocks.append(f"### #{ser} {name} — {club}\n{stat_line}\n\n{prose}")
+
+    body = "\n\n".join(out_blocks)
+
+    if dropped:
+        hm = [HONOURABLE_HEADING, "", HONOURABLE_NOTE]
+        for b in dropped:
+            # Heading kept without a rank number so it is not treated as ranked;
+            # prose preserved verbatim.
+            hm.append("")
+            hm.append(f"### {b['name']} — {b['club']}")
+            if b["prose"]:
+                hm.append("")
+                hm.append(b["prose"])
+            warnings_out.append(
+                f"dropped from top-100: {b['name']} moved to Honourable Mention "
+                f"(prose preserved)"
+            )
+        body = body + "\n\n" + "\n".join(hm)
+
+    new_text = f"{prefix}\n\n{body}\n\n{suffix.lstrip(chr(10))}"
+    return new_text, warnings_out
+
+
+def check_top100_consistency(hof_text: str, bio_df: pd.DataFrame,
+                             scores_df: pd.DataFrame) -> tuple[list[str], list[str]]:
+    """Gate: verify every RANKED profile matches the current ranking.
+
+    Returns ``(hard_mismatches, warnings)``. A hard mismatch is a ranked profile
+    whose heading rank or stat-line disagrees with bio_df — the pipeline must
+    fail on these. Ranked profiles for a player not in the ranking are warnings
+    (should not happen after regeneration, since dropped players lose their
+    rank number). Placeholder (FOOTYSTRATEGY INSERT) prose is not checked here.
+    """
+    import re
+    score_map = _top100_score_map(scores_df)
+    serial_stats = {
+        int(r["Serial Number"]): _parse_top100_comment(str(r["Comment"]))
+        for _, r in bio_df.iterrows()
+    }
+
+    hard: list[str] = []
+    warnings_out: list[str] = []
+    block_re = re.compile(r"^### #(\d+) (.+?) — (.+?)\n(\*[^\n]*\*)", re.M)
+    for m in block_re.finditer(hof_text):
+        rank = int(m.group(1))
+        name, club, stat_line = m.group(2).strip(), m.group(3).strip(), m.group(4)
+        ser = _match_profile_to_serial(name, club, bio_df)
+        if ser is None:
+            warnings_out.append(f"profile '{name}' (#{rank}) is not in the current ranking")
+            continue
+        if rank != ser:
+            hard.append(f"rank mismatch: profile '{name}' heading #{rank} vs ranking #{ser}")
+        expected = _format_top100_stat_line(serial_stats[ser], score_map.get(ser, 0.0))
+        if stat_line != expected:
+            hard.append(
+                f"stat-line mismatch for '{name}' (#{ser}): have {stat_line} want {expected}"
+            )
+    return hard, warnings_out
+
+
 def main() -> None:
     print("[1/14] Loading player game data...")
     games = load_all_player_games()
@@ -4770,6 +4996,23 @@ def main() -> None:
         with open(HALL_OF_FAME_PATH, "r", encoding="utf-8") as f:
             hof_text = f.read()
         new_hof = replace_top100_section(hof_text, top100_body)
+        # Second pass: keep the narrative profile headings, stat-lines and rank
+        # order in sync with the same ranking the table is built from.
+        if os.path.exists(TOP100_CSV) and os.path.exists(TOP100_SCORES_CSV):
+            bio_df = pd.read_csv(TOP100_CSV)
+            scores_df = pd.read_csv(TOP100_SCORES_CSV)
+            new_hof, prof_warnings = regenerate_top100_profiles(new_hof, bio_df, scores_df)
+            for w in prof_warnings:
+                print(f"      [profile] {w}")
+            hard, gate_warnings = check_top100_consistency(new_hof, bio_df, scores_df)
+            for w in gate_warnings:
+                print(f"      [profile] {w}")
+            if hard:
+                for h in hard:
+                    print(f"      [profile][FAIL] {h}", file=sys.stderr)
+                raise SystemExit(
+                    f"top-100 profile consistency gate failed: {len(hard)} mismatch(es)"
+                )
         if new_hof != hof_text:
             with open(HALL_OF_FAME_PATH, "w", encoding="utf-8") as f:
                 f.write(new_hof)

@@ -213,9 +213,9 @@ Two Brownlow Medals, two premierships at Geelong, and the highest Brownlow vote 
 A six-time All-Australian who played both ends of the ground and the midfield - the most positionally versatile elite key forward of his generation. 700 goals from 353 games and a 6,109 disposal count for a tall is a rare combination. Pavlich captained Fremantle to their only Grand Final and remained the club's career goalkicker, games-leader, and emotional spine. Legacy: the proof that you can be the best player at a club that never quite gets there, and the value is real regardless.
 
 ### #19 Scott Pendlebury — Collingwood
-*432 games · 207 goals · 10,955 disposals · 223 Brownlow votes · Score: 2.091*
+*436 games · 208 goals · 11,069 disposals · 225 Brownlow votes · Score: 2.091*
 
-**[data]** 10,955 career disposals - the highest in VFL/AFL history - across 432 games of midfield craft. He drew level with Brent Harvey's all-time games record (432) in Round 10, 2026 (v Geelong, 2026-05-09) and missed Collingwood's Round 11 loss to Sydney; he will pass the record the next time he runs out. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
+**[data]** 10,955 career disposals - the highest in VFL/AFL history - across 432 games of midfield craft. He drew level with Brent Harvey's all-time games record (432) in Round 10, 2026 (v Geelong, 2026-05-09) and missed Collingwood's Round 11 loss to Sydney, then broke the record outright in Round 12, 2026 (v West Coast, 2026-05-17) and now holds the all-time games mark at 436 **[data]**. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
 
 ### #20 Simon Madden — Essendon
 *378 games · 575 goals · 4,611 disposals · 58 Brownlow votes · Score: 2.091*
@@ -262,35 +262,35 @@ A 1960s-70s Collingwood centreman and rover whose 277 games and 6,550 disposals 
 
 Collingwood premiership captain (1953) and one of the most charismatic figures the game has produced - a rover whose 250 games and 423 goals built a career at a club where roving was the most heavily contested position in football. Disposal records for his era are incomplete. The score reflects games and goals, era-normalised. Legacy: the bridge between the Magpies' Coventry-Collier dynasty era and the modern game, and a media presence who shaped how the public talked about football for half a century.
 
-### #29 John Murphy — Fitzroy-South Melbourne-North Melbourne
+### #29 Patrick Dangerfield — Adelaide-Geelong
+*372 games · 382 goals · 8,444 disposals · 259 Brownlow votes · Score: 2.012*
+
+2016 Brownlow Medallist, eight-time All-Australian, and the most explosive inside-outside midfielder of his era - a 187cm centre-bounce specialist who could break a stoppage and kick goals in equal measure. 251 Brownlow votes reflects sustained peer respect across two clubs. The score captures a midfielder who combined contested-ball volume with outright scoreboard threat - a profile that is genuinely rare. Legacy: the standard for the modern hybrid midfielder, equally credible at the coalface and on the lead.
+
+### #30 John Murphy — Fitzroy-South Melbourne-North Melbourne
 *246 games · 374 goals · 6,050 disposals · Score: 2.006*
 
 A 1960s-70s wingman and rover across three clubs whose 6,050 disposals reflect a midfield runner whose engine carried him through eras of escalating tactical complexity. The score rewards consistent ball-winning across a long career at non-powerhouse clubs. Legacy: the journeyman elite, the player whose career numbers held up regardless of the colours, and a reminder that all-time greatness is sometimes assembled in transit rather than at a single emotional home.
 
-### #30 Joel Selwood — Geelong
+### #31 Joel Selwood — Geelong
 *355 games · 175 goals · 8,746 disposals · 214 Brownlow votes · Score: 2.002*
 
 Four Geelong premierships, six-time All-Australian, and the most decorated captain of the modern era. Selwood's game was built on the contested ball and an inside-midfield aggression that drew tags from his second season. 214 Brownlow votes is extraordinary for a player who rarely played outside the centre square. The score rewards a player whose statistical profile and team success are perfectly aligned. Legacy: the standard by which captaincy is now measured - present at every contest, vocal in every huddle, available for every Round 1.
 
-### #31 Craig Bradley — Carlton
+### #32 Craig Bradley — Carlton
 *375 games · 247 goals · 8,776 disposals · 144 Brownlow votes · Score: 1.993*
 
 375 games and 8,776 disposals - one of the great wing/midfielder careers, sustained by elite running power deep into his thirties. Bradley played in two Carlton premierships (1987, 1995) and was the Blues' games record holder. The score rewards consistent disposal volume across nearly two decades at a single club. Legacy: the player who proved that the wingman's role - mobility, repeat efforts, late-quarter availability - is one of the most durable engines for a long, high-output career.
 
-### #32 Matthew Lloyd — Essendon
+### #33 Matthew Lloyd — Essendon
 *270 games · 926 goals · 3,522 disposals · 97 Brownlow votes · Score: 1.986*
 
 926 goals from 270 games - a strike rate of 3.43 - and three Coleman medals built on a set-shot routine so clinical it remains a coaching teaching aid. Lloyd was the technical archetype: positioning, marking strength inside 50, and a goalkicking accuracy unmatched at volume. A 2000 Essendon premiership and the rare distinction of leading the goalkicking in three different decades' worth of football. Legacy: proof that a single elite skill - set-shot conversion - can underwrite an entire career.
 
-### #33 Jack Riewoldt — Richmond
+### #34 Jack Riewoldt — Richmond
 *347 games · 787 goals · 4,108 disposals · 62 Brownlow votes · Score: 1.985*
 
 Three Coleman medals across an era of escalating defensive sophistication, and three Richmond premierships as the deep-target spine of a midfield-pressure team. Riewoldt evolved his role twice - high-mark target, then leading forward, then high half-forward in the Tigers' contested-pressure era. 787 goals from 347 games is a number that survives changing structures. Legacy: the modern centre-half-forward who proved the position could remain elite even as the league tried multiple times to legislate it out of existence.
-
-### #34 Patrick Dangerfield — Adelaide-Geelong
-*361 games · 367 goals · 8,236 disposals · 251 Brownlow votes · Score: 1.978*
-
-2016 Brownlow Medallist, eight-time All-Australian, and the most explosive inside-outside midfielder of his era - a 187cm centre-bounce specialist who could break a stoppage and kick goals in equal measure. 251 Brownlow votes reflects sustained peer respect across two clubs. The score captures a midfielder who combined contested-ball volume with outright scoreboard threat - a profile that is genuinely rare. Legacy: the standard for the modern hybrid midfielder, equally credible at the coalface and on the lead.
 
 ### #35 Jimmy Freake — Fitzroy
 *174 games · 442 goals · Score: 1.975*
@@ -317,15 +317,15 @@ A 1960s Geelong rover whose 248 games and 3,614 disposals carried the Cats' midf
 
 "Soapy" Vallence kicked 722 goals from 204 games across the 1920s and 30s - a strike rate above 3.5 in an era of dramatically lower scoring than the modern game. Three Carlton premierships and the rare distinction of being a key-forward target before the role was codified. Disposal records for his era are absent. Legacy: a forward whose scoreboard volume, era-normalised, places him among the dominant attacking players of football's first half-century, and a foundational figure in Carlton's identity.
 
-### #40 Ron Barassi — Melbourne-Carlton
+### #40 Lachie Neale — Fremantle-Brisbane Lions
+*310 games · 140 goals · 8,522 disposals · 225 Brownlow votes · Score: 1.940*
+
+Two Brownlow Medals (2020, 2023) and a 2024 premiership at Brisbane - the most decorated inside-midfielder of the late 2010s and 2020s. Neale's game is built on stoppage craft and a refusal to leave the contest, and 8,237 disposals reflect a player who has averaged above 27/game across his career. The score rewards a midfielder whose Brownlow vote density (209 from 300 games) is among the highest in the game's history. Legacy: a clean-handed contested-ball benchmark for the modern inside role.
+
+### #41 Ron Barassi — Melbourne-Carlton
 *254 games · 330 goals · 1,130 disposals · Score: 1.936*
 
 Six premierships across two clubs and the player whose mid-career inter-club move (Melbourne to Carlton in 1965) reset the game's labour economics. A ruck-rover whose physical commitment was the load-bearing element of Melbourne's late-1950s/early-60s dynasty. The 1,130 disposal count is an artefact of incomplete statistical records for his era - the on-field reality was substantially higher. Legacy: a player and coach whose name became synonymous with the game itself, and whose impact extends well beyond what any career score can capture.
-
-### #41 Lachie Neale — Fremantle-Brisbane Lions
-*300 games · 136 goals · 8,237 disposals · 209 Brownlow votes · Score: 1.935*
-
-Two Brownlow Medals (2020, 2023) and a 2024 premiership at Brisbane - the most decorated inside-midfielder of the late 2010s and 2020s. Neale's game is built on stoppage craft and a refusal to leave the contest, and 8,237 disposals reflect a player who has averaged above 27/game across his career. The score rewards a midfielder whose Brownlow vote density (209 from 300 games) is among the highest in the game's history. Legacy: a clean-handed contested-ball benchmark for the modern inside role.
 
 ### #42 Stephen Kernahan — Carlton
 *251 games · 738 goals · 3,578 disposals · 67 Brownlow votes · Score: 1.934*
@@ -342,90 +342,90 @@ A 1960s Hawthorn goalkicker whose 475 goals from 213 games and three goalkicking
 
 A 195cm centre-half-forward / centre-half-back hybrid who captained Essendon's 1984-85 premiership era, Daniher's positional flexibility was load-bearing in an era when most clubs used talls in one role only. 313 games at a position with high contact load reflects extraordinary durability. The score captures a player whose disposal volume for a tall (5,278) is rare. Legacy: the patriarch of the most famous brothers' run in modern football, and an Essendon culture-setter whose standards outlasted his playing days.
 
-### #45 Luke Parker — Sydney-North Melbourne
-*323 games · 227 goals · 7,509 disposals · 152 Brownlow votes · Score: 1.895*
-
-A three-time Sydney best-and-fairest and a contested-ball midfielder whose career was built on stoppage work and inside-50 forward bursts. 7,509 disposals across 323 games reflects consistent midfield output across more than a decade. The score rewards a player whose Brownlow recognition (152 votes) outstrips his All-Australian recognition - a profile that suggests opposition coaches and umpires saw more than the selection panels did. Legacy: a Sydney premiership midfielder and one of the era's most underrated contested-ball workers.
-
-### #46 Keith Forbes — Essendon-North Melbourne-Fitzroy
+### #45 Keith Forbes — Essendon-North Melbourne-Fitzroy
 *187 games · 475 goals · 24 Brownlow votes · Score: 1.893*
 
 A 1930s-40s forward across three clubs whose 475 goals from 187 games - a strike rate above 2.5 - reflect a high-volume scoreboard impact across an era of variable team strength. Disposal records for his era are largely absent. The score works from games, goals, and contemporary Brownlow recognition. Legacy: a journeyman forward whose career numbers held up across multiple club environments - a profile that is genuinely rare in any era and was particularly so in the inter-war period when most players stayed put.
 
-### #47 Bill Mohr — St Kilda
+### #46 Bill Mohr — St Kilda
 *195 games · 735 goals · 15 Brownlow votes · Score: 1.892*
 
 A 1930s St Kilda full-forward whose 735 goals from 195 games - a strike rate above 3.7 - made him one of the dominant scoreboard players of the pre-war era. Disposal records for the period are incomplete. The 1937 Coleman-equivalent leading goalkicker title sits at the top of his honour list. Legacy: a reminder that St Kilda's forward-line tradition is older and deeper than the post-1966 era is usually credited with, and that Saints history contains forwards whose era-normalised output sits at all-time-top-50 level.
 
-### #48 Norm Smith — Melbourne-Fitzroy
+### #47 Norm Smith — Melbourne-Fitzroy
 *227 games · 572 goals · Score: 1.891*
 
 Four-time Melbourne premiership player and the architect, as coach, of the Demons' 1955-60 dynasty. 572 goals from 227 games as a centre-half-forward, and a coaching legacy whose name now sits on the Grand Final's medal. Disposal records for his era are absent. The score captures playing output only; the coaching impact compounds the legacy further. Legacy: a player whose football mind was load-bearing both before and after his playing days, and whose coaching template shaped the Demons' identity for a generation.
 
-### #49 Greg Wells — Melbourne-Carlton
+### #48 Greg Wells — Melbourne-Carlton
 *267 games · 275 goals · 6,071 disposals · Score: 1.889*
 
 A 1970s-80s midfielder across Melbourne and Carlton whose 267 games and 6,071 disposals reflect a long, high-volume career as a centreman / rover. Two All-Australian selections and a reputation for clean below-the-knees skill in the heaviest traffic. The score rewards a midfielder whose disposal-per-game profile remained high deep into his career. Legacy: the kind of decade-long midfield career whose consistency only registers when the full data is era-normalised - an example of why volume across longevity is undervalued by single-season honour boards.
 
-### #50 Stewart Loewe — St Kilda
+### #49 Stewart Loewe — St Kilda
 *321 games · 594 goals · 4,859 disposals · 126 Brownlow votes · Score: 1.876*
 
 A 200cm centre-half-forward / pinch-hit ruckman whose 321 games at St Kilda included the 1997 Grand Final loss and a decade of dual-role responsibility. 594 goals and 4,859 disposals for a key tall reflects significant midfield-and-forward overlap. The score captures a player whose role flexibility was load-bearing for a Saints side that lacked tall depth. Legacy: a St Kilda one-club leader whose career value was structurally important rather than scoreboard-glamorous, and one of the modern era's most underrated tall forwards.
 
-### #51 Chris Grant — Western Bulldogs
+### #50 Chris Grant — Western Bulldogs
 *341 games · 554 goals · 5,014 disposals · 112 Brownlow votes · Score: 1.874*
 
 Two-time Brownlow Medal runner-up (1996, controversially the highest vote-getter but ineligible due to suspension) and a 341-game one-club Western Bulldogs leader. Grant played key forward, half-forward and even half-back in his back-end years - a positional flexibility that few key forwards manage to extend. The score rewards his disposal-per-game profile for a tall (5,014 disposals). Legacy: a Bulldogs leader whose Brownlow-near-miss is one of the great what-ifs, and a player whose career honours never quite caught up to his actual output.
 
-### #52 Percy Martini — Geelong-Richmond
+### #51 Percy Martini — Geelong-Richmond
 *159 games · 355 goals · Score: 1.860*
 
 A 1920s forward across Geelong and Richmond whose 355 goals from 159 games - a strike rate above 2.2 - reflect significant scoreboard volume in the lower-scoring inter-war period. Disposal records are absent for his era. The score works from era-normalised goals and games. Legacy: one of the cross-club forwards of the early VFL who demonstrated that scoreboard impact could survive changes of colours, environment and coaching staff - a profile that was structurally unusual in his time and shapes the all-time view of forward versatility.
 
-### #53 Marcus Bontempelli — Western Bulldogs
-*266 games · 265 goals · 6,446 disposals · 191 Brownlow votes · Score: 1.854*
+### #52 Marcus Bontempelli — Western Bulldogs
+*274 games · 273 goals · 6,657 disposals · 191 Brownlow votes · Score: 1.847*
 
 The 2016 premiership's most influential midfielder at age 20 and now the standard-bearer for the modern hybrid midfielder. 193cm, contested-ball dominant, capable of changing a game with a single piece of skill at half-forward. 191 Brownlow votes across 266 games reflects extraordinary vote density. The score rewards a player whose statistical profile has been elite for nearly a decade with no signs of decline. Legacy: the Western Bulldogs' generational captain, and the player whose all-time placing is likely to rise substantially with the data yet to come.
 
-### #54 Mark Ricciuto — Adelaide
+### #53 Mark Ricciuto — Adelaide
 *312 games · 292 goals · 6,569 disposals · 146 Brownlow votes · Score: 1.844*
 
 2003 Brownlow Medallist and Adelaide's foundational captain - 312 games of contested midfield brutality and forward-50 burst. Ricciuto's game was built on bursts of physical dominance and a willingness to take the ball into traffic at speed few midfielders managed. The score rewards a player whose contested-ball numbers and 1998 premiership presence sat at the centre of the Crows' identity through their first dynasty. Legacy: Adelaide's most decorated player and the captaincy template the club has spent two decades trying to replace.
 
-### #55 Nathan Buckley — Brisbane Bears-Collingwood
+### #54 Nathan Buckley — Brisbane Bears-Collingwood
 *280 games · 284 goals · 6,887 disposals · 178 Brownlow votes · Score: 1.843*
 
 2003 Brownlow Medallist (shared) and one of the most aesthetically clean midfielders of the modern era - Buckley's game was built on outside speed, kicking precision, and an extraordinary work rate at the wing-rotation. Six All-Australian selections and a captaincy that defined Collingwood's late-1990s through 2003 era. The score rewards consistent high-end midfield output. Legacy: a player whose Brownlow and individual recognition outstripped his team's flag count, and the prototype for the elegant, kicking-oriented outside midfielder.
 
-### #56 Arthur Olliver — Footscray
+### #55 Arthur Olliver — Footscray
 *272 games · 354 goals · Score: 1.842*
 
 Footscray's 1954 premiership captain and a one-club leader whose 272 games anchored the Bulldogs' first - and for decades only - VFL flag. Disposal records for his era are incomplete. The score reflects games, goals, and era-normalised career length. Legacy: the captain who delivered Footscray's foundational moment, and a Bulldogs figure whose name remains structurally tied to the club's identity. A reminder that one well-led campaign can carry a player's all-time legacy further than a decade of statistical accumulation.
 
-### #57 Michael O'Loughlin — Sydney
+### #56 Michael O'Loughlin — Sydney
 *303 games · 521 goals · 4,198 disposals · 40 Brownlow votes · Score: 1.824*
 
 303 games at Sydney, 521 goals, and a 2005 premiership as one of the most balanced half-forwards of his generation. O'Loughlin's game combined a small-forward's pressure with a tall's marking - a hybrid that the Swans built sustained finals appearances around. The score rewards a player whose disposal-and-goal balance is genuinely unusual for a half-forward. Legacy: a foundational Indigenous Swans figure and one of the club's most loved one-club players, whose career numbers continue to look better with every era-normalising recalculation.
 
-### #58 Alan Ruthven — Fitzroy
+### #57 Alan Ruthven — Fitzroy
 *222 games · 442 goals · Score: 1.824*
 
 A 1940s-50s Fitzroy forward whose 442 goals from 222 games reflect a long, high-output career across one of the league's least successful eras at the Lions. Disposal records for his era are largely absent. The score works from games, goals, and era-normalised attacking volume. Legacy: a reminder that Fitzroy's history contains forwards whose individual brilliance was repeatedly unrewarded by team outcomes, and whose names sit on the all-time list because output is output, regardless of the colour the team finishes on the ladder.
 
-### #59 Peter Daicos — Collingwood
+### #58 Peter Daicos — Collingwood
 *250 games · 549 goals · 4,500 disposals · 60 Brownlow votes · Score: 1.812*
 
 "The Macedonian Marvel" - a half-forward whose ball-handling craft and impossible-angle goalkicking redefined what a small forward could do inside fifty. 549 goals from 250 games at a position with limited service is an extraordinary number. The score rewards a player whose individual moments - the banana, the snap from the pocket, the curling left-foot - were structurally important to Collingwood's 1990 premiership. Legacy: the small-forward template whose technical legacy persists through every modern crumb-and-snap player, including his sons.
 
-### #60 George Bisset — Footscray-Collingwood
+### #59 George Bisset — Footscray-Collingwood
 *207 games · 337 goals · 4,101 disposals · Score: 1.810*
 
 A 1930s wingman across Footscray and Collingwood whose 207 games and 4,101 disposals reflect significant midfield output in an era of incomplete statistical records. The score works from era-normalised disposal volume. Legacy: a wingman whose name persists because his career numbers, era-adjusted, hold up against players from much more recent eras - a reminder that the wing role's statistical signature has remained surprisingly stable across a century of rule changes, and that elite running has always been worth what the data eventually proves it to be.
 
-### #61 Rodney Ashman — Carlton
+### #60 Rodney Ashman — Carlton
 *236 games · 370 goals · 4,717 disposals · 16 Brownlow votes · Score: 1.808*
 
 A 1970s-80s Carlton rover / half-forward across the 1979, 1981 and 1982 premierships - a three-flag player whose game was built on roving craft and a goal sense around stoppages. 236 games and 4,717 disposals reflect a consistent midfield-forward hybrid role. The score rewards a player whose individual statistical profile understates his structural contribution to a sustained Carlton premiership era. Legacy: a Blues triple-premiership figure whose name belongs in any conversation about the most successful rovers of the modern era.
+
+### #61 Luke Parker — Sydney-North Melbourne
+*331 games · 227 goals · 7,722 disposals · 152 Brownlow votes · Score: 1.806*
+
+A three-time Sydney best-and-fairest and a contested-ball midfielder whose career was built on stoppage work and inside-50 forward bursts. 7,509 disposals across 323 games reflects consistent midfield output across more than a decade. The score rewards a player whose Brownlow recognition (152 votes) outstrips his All-Australian recognition - a profile that suggests opposition coaches and umpires saw more than the selection panels did. Legacy: a Sydney premiership midfielder and one of the era's most underrated contested-ball workers.
 
 ### #62 Albert Pannam — Collingwood-Richmond
 *183 games · 459 goals · Score: 1.803*
@@ -577,20 +577,20 @@ A 1920s-30s Essendon centreman whose 224 games included two Bombers premierships
 
 Port Adelaide's record games-holder at 387 and a midfielder whose career sustained elite output deep into his mid-thirties. 8,976 disposals across a long, consistent inside-midfield career. The score rewards extraordinary longevity at AFL-level midfield workload. Legacy: a Port Adelaide foundational AFL-era leader whose career numbers, particularly the disposal volume across two decades, place him among the more durable midfielders of the modern era - and a captaincy template whose post-playing legacy at the club continues to shape the next generation.
 
-### #92 Josh Kennedy — Hawthorn-Sydney
+### #92 Patrick Cripps — Carlton
+*246 games · 137 goals · 6,314 disposals · 189 Brownlow votes · Score: 1.697*
+
+2022 Brownlow Medallist and Carlton's contested-ball captain - a 195cm inside midfielder whose stoppage dominance and aerial presence at the bounce make him a structural anomaly for the role. 189 Brownlow votes across 238 games reflects extraordinary vote density. The score rewards a player whose peer recognition has remained elite through inconsistent team performance. Legacy: Carlton's most decorated captain of the modern era and the contested-ball benchmark for tall midfielders - a profile that is genuinely rare and whose all-time placing has room to climb with the data still to come.
+
+### #93 Josh Kennedy — Hawthorn-Sydney
 *290 games · 157 goals · 7,372 disposals · 146 Brownlow votes · Score: 1.696*
 
 A four-time Sydney best-and-fairest and a contested-ball midfielder whose game was built on stoppage work and inside-50 forward bursts. 290 games and 7,372 disposals across Hawthorn and Sydney. The score rewards a player whose Brownlow recognition (146 votes) reflects sustained peer respect for inside-midfield craft. Legacy: a Swans midfield captain whose contested-ball game was one of the era's most punishing, and a player whose career profile underlines that Sydney's late-2000s and 2010s identity was built on stoppage dominance as much as on its tall-forward stars.
 
-### #93 Nicky Winmar — St Kilda-Western Bulldogs
+### #94 Nicky Winmar — St Kilda-Western Bulldogs
 *251 games · 317 goals · 4,996 disposals · 82 Brownlow votes · Score: 1.695*
 
 A St Kilda half-forward / midfielder whose 251 games and 317 goals were built on speed, balance and one of the cleanest kicking feet of the 1990s. Two All-Australian selections. The score rewards a player whose individual game was structurally important at a Saints side whose finals success was inconsistent. Legacy: an on-field career whose individual brilliance is anchored in the data, and an off-field moment - the lifted jumper at Victoria Park, 1993 - that reshaped the game's conversation about racism and remains one of the most-replayed images in football's history.
-
-### #94 Patrick Cripps — Carlton
-*238 games · 130 goals · 6,079 disposals · 189 Brownlow votes · Score: 1.690*
-
-2022 Brownlow Medallist and Carlton's contested-ball captain - a 195cm inside midfielder whose stoppage dominance and aerial presence at the bounce make him a structural anomaly for the role. 189 Brownlow votes across 238 games reflects extraordinary vote density. The score rewards a player whose peer recognition has remained elite through inconsistent team performance. Legacy: Carlton's most decorated captain of the modern era and the contested-ball benchmark for tall midfielders - a profile that is genuinely rare and whose all-time placing has room to climb with the data still to come.
 
 ### #95 Peter McKenna — Collingwood-Carlton
 *191 games · 874 goals · 2,244 disposals · Score: 1.682*
@@ -612,17 +612,25 @@ A 195cm key forward / centre-half-back hybrid whose 270 games included Essendon'
 
 A 1980s-90s forward across four clubs whose 574 goals from 283 games reflect a sustained scoreboard career across constantly changing environments. The score rewards a forward whose strike rate of just over two goals per game held up across four clubs and shifting forward-line structures. Legacy: a journeyman key-and-half forward whose career sits as a reminder that scoreboard output, sustained across changing colours, is a genuinely difficult statistical achievement - and whose all-time placing is defended cleanly by per-game output even without a single dominant team-era to anchor it.
 
-### #99 Jeremy Cameron — GWS-Geelong
-*284 games · 754 goals · 3,814 disposals · 105 Brownlow votes · Score: 1.667*
-
-Three Coleman medals (2019, 2023, 2024) and 754 goals from 284 games - a strike rate above 2.6 sustained across two clubs. Cameron's game is built on lead patterns, an extraordinary running capacity for a 196cm forward, and goalkicking accuracy that holds up at long range. The score rewards a forward whose contemporary peak years are still being added to. Legacy: the modern key forward whose hybrid of mobility, marking and long-range goalkicking has redefined what the position can look like, and a player whose all-time placing has substantial upside in future updates.
-
-### #100 Darren Jarman — Hawthorn-Adelaide
+### #99 Darren Jarman — Hawthorn-Adelaide
 *230 games · 386 goals · 4,307 disposals · 95 Brownlow votes · Score: 1.666*
 
 Adelaide's 1997 and 1998 Grand Final hero whose late-career move from Hawthorn to the Crows produced two of the most decisive finals performances of the modern era - including five goals in the third quarter of the 1997 Grand Final. 386 goals from 230 games and a kicking foot considered one of the cleanest of his generation. The score rewards a player whose finals output was disproportionately weighted toward the moments that mattered most. Legacy: the Crows premiership match-winner, and the half-forward whose Grand Final brilliance defined Adelaide's first dynasty.
 
 ---
+
+### #100 Dane Swan — Collingwood
+*258 games · 211 goals · 6,928 disposals · 186 Brownlow votes · Score: 1.665*
+
+<!-- FOOTYSTRATEGY INSERT: Swan tactical read -->
+
+## Honourable Mention — Just Outside the Top 100
+
+*These players held a top-100 position when this document was authored. Updated rankings place them just outside; their profiles are preserved here and they may re-enter as new season data is scraped.*
+
+### Jeremy Cameron — GWS-Geelong
+
+Three Coleman medals (2019, 2023, 2024) and 754 goals from 284 games - a strike rate above 2.6 sustained across two clubs. Cameron's game is built on lead patterns, an extraordinary running capacity for a 196cm forward, and goalkicking accuracy that holds up at long range. The score rewards a forward whose contemporary peak years are still being added to. Legacy: the modern key forward whose hybrid of mobility, marking and long-range goalkicking has redefined what the position can look like, and a player whose all-time placing has substantial upside in future updates.
 
 ## Related
 
