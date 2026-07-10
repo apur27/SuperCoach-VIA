@@ -76,7 +76,7 @@ The disposal number requires context. A 2.4 per game drop in finals is present i
 
 What this suggests, without claiming causation: the split is consistent with Martin being used more as a forward target in finals. The clearance-and-handball chain of regular-season midfield possession would be compressed in such a role; a player finishing from the forward 50 rather than distributing from the middle will show fewer disposals and more goals. That is the shape the data presents — the schema carries no positional or time-in-zone columns that could confirm a deployment fact directly.
 
-The disposal dip also reflects that finals opponents game-plan specifically. At the level of individual opposition preparation that occurs before an elimination final, a player who averages 24.4 disposals per game in the home-and-away season will be run at more aggressively, taggged more consistently, and given less time and space at the contest. That no opposition team successfully reduced Martin to ineffectiveness — 22 disposals and 1.69 goals per game is still a dominant finals output — is the accurate read of the 16-game finals record.
+The disposal dip also reflects that finals opponents game-plan specifically. At the level of individual opposition preparation that occurs before an elimination final, a player who averages 24.4 **[data]** disposals per game in the home-and-away season will be run at more aggressively, taggged more consistently, and given less time and space at the contest. That no opposition team successfully reduced Martin to ineffectiveness — 22 **[data]** disposals and 1.69 **[data]** goals per game is still a dominant finals output — is the accurate read of the 16-game finals record.
 
 ---
 
@@ -123,7 +123,7 @@ Two premierships in three seasons moved Richmond from a club that had broken a d
 
 The 2020 season was compressed and displaced. The Grand Final was held at the Gabba rather than the MCG — the first time since 1902 the decider had not been played in Melbourne. The COVID context reduced the game count for every club; Richmond's 20 games from Martin **[data: data/player_data/martin_dustin_26061991_performance_details.csv ; filter=year=2020 ; column=row_count ; aggregation=count]** reflect that compressed calendar.
 
-Against Geelong, Martin contributed 21 disposals and 4 goals in a 31-point win. Three flags in four seasons — 2017, 2019, 2020 — is a dynasty by the standard measure. For a club that had waited 37 years for its first, three in four years represents a structural compression that is unlikely to be repeated by Richmond or any other club in the near term. Martin was the common thread across all three: the player whose presence forced opposition teams to re-architect their defensive structure, and whose September performances were indistinguishable in quality from his home-and-away baseline.
+Against Geelong, Martin contributed 21 **[data]** disposals and 4 **[data]** goals in a 31-point win. Three flags in four seasons — 2017, 2019, 2020 — is a dynasty by the standard measure. For a club that had waited 37 years for its first, three in four years represents a structural compression that is unlikely to be repeated by Richmond or any other club in the near term. Martin was the common thread across all three: the player whose presence forced opposition teams to re-architect their defensive structure, and whose September performances were indistinguishable in quality from his home-and-away baseline.
 
 ---
 
@@ -178,7 +178,7 @@ The comparison class: midfielders with 200+ games in the modern era. Disposals/g
 
 ² Brownlow figures are arithmetic sums from per-game CSVs, repo-derived only — not cross-checked against AFL official records. See footnote ¹.
 
-What the table makes visible: Martin's 1.12 goals per game is the second-highest in this group, behind only Ablett Jr (1.25). It is more than double the rate of the pure-distribution midfielders — Pendlebury 0.48, Selwood 0.49, Neale 0.45. At the same time his 24.2 disposal average is comparable to or exceeds theirs. The combination — high-disposal output and a genuine goal-scoring rate — is what the peer table quantifies.
+What the table makes visible: Martin's 1.12 **[data]** goals per game is the second-highest in this group, behind only Ablett Jr (1.25 **[data]**). It is more than double the rate of the pure-distribution midfielders — Pendlebury 0.48 **[data]**, Selwood 0.49 **[data]**, Neale 0.45 **[data]**. At the same time his 24.2 **[data]** disposal average is comparable to or exceeds theirs. The combination — high-disposal output and a genuine goal-scoring rate — is what the peer table quantifies.
 
 ### The rarity of the combination
 

@@ -74,7 +74,7 @@ The verdict: an explosive clearance midfielder whose output was muffled by the t
 
 A captain whose game was built on the unglamorous side of the ball.
 
-[data]: 253 games, 68 career goals, 24.0 disposal average **[data]** — 68 goals in 253 games tells you precisely where he played and what he was for. His 2014 peak of 28.5 disposals a game **[data]** marked him as a genuine ball-winner before injury and disruption reshaped his career.
+[data]: 253 games, 68 career goals, 24.0 disposal average **[data]** — 68 goals in 253 games **[data]** tells you precisely where he played and what he was for. His 2014 peak of 28.5 disposals a game **[data]** marked him as a genuine ball-winner before injury and disruption reshaped his career.
 
 Heppell read intercept lanes off half-back as well as anyone of his vintage. The low goal tally is the point: this is a player whose entire output was defensive interception and rebound, the work that resets a contest rather than finishes one.
 
@@ -96,7 +96,7 @@ Nine seasons of high-volume midfield work for a club that lived on the margins.
 
 [data]: 168 games, 89 career goals, 24.0 disposal average **[data]** — sustained accumulation across a compact career. His 1991 peak of 27.8 disposals a game **[data]** was a genuine ball-winning season.
 
-A 24-disposal average over a career, with a low goal return, is the fingerprint of a pure link-and-feed midfielder — wins it or receives it, moves it on, repositions. That work holds a midfield's tempo together but generates none of the highlights that build a reputation.
+A 24-disposal average **[data]** over a career, with a low goal return, is the fingerprint of a pure link-and-feed midfielder — wins it or receives it, moves it on, repositions. That work holds a midfield's tempo together but generates none of the highlights that build a reputation.
 
 The verdict: a high-volume distributor who kept his team's ball movement ticking without ever owning a moment.
 
@@ -127,7 +127,7 @@ A defensive midfielder who turned shutting opponents down into a fifteen-year ca
 
 [data]: 300 games, 93 career goals, 23.5 disposal average **[data]** — high disposal volume with a deliberately low goal return. His 2008 peak of 27.9 disposals a game **[data]** shows he could win his own ball as well as deny others theirs.
 
-The 93 goals across 300 games is the signature of a run-with role: tag the opposition's best mover, then break off to accumulate when the contest allows. Few players sustain that two-way demand for a decade and a half — most run-with players are specialists who do nothing else, while Cornes posted genuine ball-winner volume on top of the lockdown job.
+The 93 goals across 300 games **[data]** is the signature of a run-with role: tag the opposition's best mover, then break off to accumulate when the contest allows. Few players sustain that two-way demand for a decade and a half — most run-with players are specialists who do nothing else, while Cornes posted genuine ball-winner volume on top of the lockdown job.
 
 The verdict: a two-way run-with midfielder who denied opponents and accumulated in the same shift.
 
@@ -159,7 +159,7 @@ Thirteen seasons of dependable midfield volume across two states.
 
 [data]: 219 games, 80 career goals, 22.5 disposal average **[data]** — steady high-volume accumulation. His 1991 peak of 26.5 disposals a game **[data]** was a strong ball-winning year.
 
-A consistent 22-plus disposal average over a long career, with a modest goal return, is the mark of a midfielder who wins his own ball and moves it on without fuss. Lambert was the reliable link in the chain — never the player a game plan was built around, always the one who made the plan function.
+A consistent 22-plus disposal average **[data]** over a long career, with a modest goal return, is the mark of a midfielder who wins his own ball and moves it on without fuss. Lambert was the reliable link in the chain — never the player a game plan was built around, always the one who made the plan function.
 
 The verdict: a dependable accumulating midfielder whose consistency was his contribution.
 
@@ -170,7 +170,7 @@ A one-club midfielder who gave a young franchise fifteen seasons of unglamorous 
 
 [data]: 249 games, all for Gold Coast **[data]**, at 19.2 disposals per game **[data]** and 111 career goals **[data]**.
 
-A near-20-disposal average held across fifteen seasons at a single expansion club is the statistical fingerprint of a durable, dependable midfielder — the player a developing list sets its clock by rather than the one who tops the stats sheet. Sustaining that output for 249 games through the franchise's entire early arc is associated with the kind of structural reliability a young side builds around. The volume is honest; the value is in the longevity and the consistency of it.
+A near-20-disposal average **[data]** held across fifteen seasons at a single expansion club is the statistical fingerprint of a durable, dependable midfielder — the player a developing list sets its clock by rather than the one who tops the stats sheet. Sustaining that output for 249 games **[data]** through the franchise's entire early arc is associated with the kind of structural reliability a young side builds around. The volume is honest; the value is in the longevity and the consistency of it.
 
 The verdict: a one-club midfielder whose fifteen seasons of close to twenty disposals a game anchored a young Gold Coast structure that the box score rounds down to a possession.
 
@@ -195,7 +195,7 @@ A pure ruck craftsman who reset play and asked for nothing back.
 
 [data]: 258 games, 38 career goals, 8.9 disposal average **[data: data/player_data/clarke_matthew_18091973_performance_details.csv ; filter=all ; column=disposals ; aggregation=sum(fillna0)/count(all) ; convention=fill-zero ; computation=2300÷258=8.91≈8.9 ; coverage=256 of 258 games recorded, 2 fill-zeroed]** — and 4600 career hit-outs **[data]**, second only to Thompson here. His 1997 peak of 12.1 disposals a game **[data]** was as much as a specialist ruck of his role would touch the ball.
 
-The 8.9 disposal average alongside 4600 hit-outs is the cleanest specialist-ruck profile imaginable: his entire job was to win the tap and feed the midfield, and he did it 4600 times. That is a player who gave his on-ballers first use of the ball week after week and accepted near-total statistical anonymity in return.
+The 8.9 disposal average **[data]** alongside 4600 hit-outs **[data]** is the cleanest specialist-ruck profile imaginable: his entire job was to win the tap and feed the midfield, and he did it 4600 times **[data]**. That is a player who gave his on-ballers first use of the ball week after week and accepted near-total statistical anonymity in return.
 
 The verdict: a specialist tap ruckman whose hit-out volume was first use for a generation of Adelaide midfielders.
 
@@ -205,7 +205,7 @@ A long-serving ruckman whose tap work anchored a midfield for over a decade.
 
 [data]: 233 games, 94 career goals, 13.5 disposal average **[data]** — with 4304 career hit-outs **[data]**. His 1984 peak of 18.8 disposals a game **[data]** shows real around-ground involvement on top of the ruck contest.
 
-A ruckman who taps at this volume and still finds 18 disposals in his best year is contributing in two phases — the contest and the follow-up. Lee's hit-out tally is the kind of number that wins the territory battle invisibly, one stoppage at a time, never appearing on a highlight reel.
+A ruckman who taps at this volume and still finds 18 disposals **[data]** in his best year is contributing in two phases — the contest and the follow-up. Lee's hit-out tally is the kind of number that wins the territory battle invisibly, one stoppage at a time, never appearing on a highlight reel.
 
 The verdict: a high-volume tap ruckman whose territory work underwrote his midfield's possession.
 
@@ -215,7 +215,7 @@ Three hundred-plus games of ruck work and on-field leadership.
 
 [data]: 302 games, 133 career goals, 13.3 disposal average **[data]** — with 4184 career hit-outs **[data]** across a long career. His 1973 peak of 15.7 disposals a game **[data]** reflects genuine ground-level involvement.
 
-Scott's hit-out volume across 302 games is a study in durability as much as skill — staying on the park for fifteen seasons in the most physically punishing position on the ground is its own achievement. The ruck contest he won, game after game, is the unglamorous first domino in every stoppage chain.
+Scott's hit-out volume across 302 games **[data]** is a study in durability as much as skill — staying on the park for fifteen seasons in the most physically punishing position on the ground is its own achievement. The ruck contest he won, game after game, is the unglamorous first domino in every stoppage chain.
 
 The verdict: a durable tap ruckman whose longevity in the hardest position is a record in itself.
 
@@ -225,7 +225,7 @@ A big-bodied ruckman whose tap work fed an emerging Geelong midfield.
 
 [data]: 240 games, 83 career goals, 12.8 disposal average **[data]** — with 4040 career hit-outs **[data]**. His 2002 peak of 16.9 disposals a game **[data]** marks him as more than a pure tap specialist.
 
-King's hit-out total over 240 games is elite first-use supply. A ruckman who can both win the tap and present as a marking target around the ground gives a midfield two ways to use him, and that flexibility is harder to plan against than a one-dimensional tap ruck.
+King's hit-out total over 240 games **[data]** is elite first-use supply. A ruckman who can both win the tap and present as a marking target around the ground gives a midfield two ways to use him, and that flexibility is harder to plan against than a one-dimensional tap ruck.
 
 The verdict: a dual-threat ruckman whose tap supply helped lay the platform for a great midfield.
 
@@ -235,7 +235,7 @@ A long-serving ruckman who carried his club's stoppage work for over a decade.
 
 [data]: 237 games, 31 career goals, 13.2 disposal average **[data]** — with 3514 career hit-outs **[data]**. His 1992 peak of 18.0 disposals a game **[data]** was a standout around-ground season.
 
-The low goal tally and high hit-out volume mark Wynd as a workhorse ruck rather than a scoreboard threat. His 18-disposal peak shows a player who chased the ball down after the tap rather than waiting at the next contest — the kind of effort that keeps a thinly resourced midfield competitive.
+The low goal tally and high hit-out volume mark Wynd as a workhorse ruck rather than a scoreboard threat. His 18-disposal peak **[data]** shows a player who chased the ball down after the tap rather than waiting at the next contest — the kind of effort that keeps a thinly resourced midfield competitive.
 
 The verdict: a workhorse ruckman whose hit-out and follow-up volume held a stretched midfield together.
 
@@ -245,7 +245,7 @@ A ruck-forward who split his game between the contest and the goalsquare.
 
 [data]: 234 games, 182 career goals, 11.4 disposal average **[data]** — with 3542 career hit-outs **[data]** and a notable 182 goals. His 2006 peak of 16.1 disposals a game **[data]** came in a contending side.
 
-The 182 goals is what separates Lade from the pure tap specialists: he could ruck the contest, then rotate forward and present as a genuine marking and scoring option. That dual role lets a coach carry one fewer key forward, freeing a list spot — a structural value that never shows in a single stat line.
+The 182 goals **[data]** is what separates Lade from the pure tap specialists: he could ruck the contest, then rotate forward and present as a genuine marking and scoring option. That dual role lets a coach carry one fewer key forward, freeing a list spot — a structural value that never shows in a single stat line.
 
 The verdict: a ruck-forward whose scoring gave his side an extra tall without spending an extra position.
 
@@ -265,7 +265,7 @@ A specialist tap ruckman whose best years carried a struggling team's midfield.
 
 [data]: 160 games, 59 career goals, 8.2 disposal average **[data]** — with 3565 career hit-outs **[data]** despite the lowest disposal average in this group. His 2010 peak of 12.4 disposals a game **[data]** was his most involved season.
 
-The combination of 3565 hit-outs and an 8.2 disposal average is the most concentrated tap-specialist profile here: nearly all of his contribution came at the contest itself. For a side short on midfield talent, a ruckman who guarantees first use is the single most valuable thing on the ground, and Jamar provided exactly that.
+The combination of 3565 hit-outs **[data]** and an 8.2 disposal average **[data]** is the most concentrated tap-specialist profile here: nearly all of his contribution came at the contest itself. For a side short on midfield talent, a ruckman who guarantees first use is the single most valuable thing on the ground, and Jamar provided exactly that.
 
 The verdict: a pure tap ruckman whose first-use supply was the best asset a weak midfield had.
 
@@ -275,7 +275,7 @@ A ruckman from the early-data era whose tap volume is preserved in the record.
 
 [data]: 210 games, 75 career goals, 9.3 disposal average **[data]** — with 2991 career hit-outs **[data]**. His 1974 peak of 12.3 disposals a game **[data]** reflects a specialist role.
 
-A near-3000 hit-out career from this period sits at the very edge of what the data captures, and it points to a ruckman who won the contest reliably for over a decade. The role then was as it is now — control the tap, give the midfield first use — and Mynott did it for 210 games.
+A near-3000 hit-out career **[data]** from this period sits at the very edge of what the data captures, and it points to a ruckman who won the contest reliably for over a decade. The role then was as it is now — control the tap, give the midfield first use — and Mynott did it for 210 games **[data]**.
 
 The verdict: a long-serving tap ruckman whose contest-winning is among the earliest such records the data holds.
 
