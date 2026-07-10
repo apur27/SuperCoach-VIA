@@ -345,31 +345,52 @@ def run_round_backtest(
     data_dir: Path,
     timestamp: str,
     log: logging.Logger,
+    from_csv: Path | None = None,
 ) -> tuple[RoundResult, pd.DataFrame]:
-    """Run the leak-proof predictor for one (year, round_num), persist the
-    detail CSV, and return (RoundResult, detail_df).
+    """Run one (year, round_num) backtest, persist the detail CSV, and return
+    (RoundResult, detail_df).
+
+    Two prediction sources:
+      * ``from_csv=None`` (default) — retrain the leak-proof predictor from
+        scratch and score the CSV it writes. Used for historical rebuilds.
+      * ``from_csv=<path>`` — score an already-published forward-prediction CSV
+        (schema: player, team, predicted_disposals) against the round's
+        actuals. No train, no tune, and crucially nothing is written into the
+        live ``next_round_*`` namespace. Used by the weekly incremental cycle.
     """
     log.info("=" * 78)
     log.info("BACKTESTING round=%d year=%d", round_num, year)
     log.info("=" * 78)
 
-    # The predictor prints a lot of progress to stdout; we let those show
-    # because they're useful "I'm alive" signals during a multi-hour run.
-    predictor = LeakProofPredictor(
-        data_dir=str(data_dir),
-        target_year=year,
-        cutoff_round=round_num,
-    )
-    predictor.run()
+    if from_csv is not None:
+        # Archive mode: score the published forward CSV. The LeakProofPredictor
+        # is never constructed, so this path cannot pollute next_round_*.
+        log.info("scoring archived prediction CSV %s (no retrain)", from_csv.name)
+        preds = pd.read_csv(from_csv)
+        required = {"player", "team", "predicted_disposals"}
+        missing = required - set(preds.columns)
+        if missing:
+            raise ValueError(
+                f"--from-csv file {from_csv} missing required columns: {sorted(missing)}"
+            )
+    else:
+        # The predictor prints a lot of progress to stdout; we let those show
+        # because they're useful "I'm alive" signals during a multi-hour run.
+        predictor = LeakProofPredictor(
+            data_dir=str(data_dir),
+            target_year=year,
+            cutoff_round=round_num,
+        )
+        predictor.run()
 
-    pred_path = sorted(
-        Path(config.PREDICTION_DIR).glob(
-            f"next_round_*_prediction_*.csv"
-        ),
-        key=lambda p: p.stat().st_mtime,
-    )[-1]
-    log.info("predictor wrote %s", pred_path.name)
-    preds = pd.read_csv(pred_path)
+        pred_path = sorted(
+            Path(config.PREDICTION_DIR).glob(
+                f"next_round_*_prediction_*.csv"
+            ),
+            key=lambda p: p.stat().st_mtime,
+        )[-1]
+        log.info("predictor wrote %s", pred_path.name)
+        preds = pd.read_csv(pred_path)
 
     # The predictor's saved CSV has [player, team, predicted_disposals] for
     # the next-round per-player slice. That "next round" should equal
@@ -527,6 +548,18 @@ def _parse_args(argv: list[str]) -> argparse.Namespace:
         help='Last round to backtest in --end-year (use "auto" to pick the last played round).',
     )
     p.add_argument("--data-dir", type=str, default=str(DEFAULT_DATA_DIR))
+    p.add_argument(
+        "--from-csv",
+        type=str,
+        default=None,
+        help=(
+            "Score an already-published forward-prediction CSV (schema: "
+            "player, team, predicted_disposals) against the round's actuals "
+            "instead of retraining the predictor. Requires a single-round "
+            "window (--start-round == --end-round). Nothing is written to the "
+            "live next_round_* namespace in this mode."
+        ),
+    )
     return p.parse_args(argv)
 
 
@@ -543,6 +576,11 @@ def main(argv: list[str]) -> int:
     log_path = BACKTEST_DIR / f"backtest_run_{timestamp}.log"
     log = _setup_logging(log_path)
 
+    from_csv: Path | None = Path(args.from_csv) if args.from_csv else None
+    if from_csv is not None and not from_csv.is_file():
+        log.error("--from-csv path does not exist: %s", from_csv)
+        return 2
+
     if str(args.end_round).lower() == "auto":
         end_round = _discover_max_played_round(data_dir, args.end_year)
         if end_round is None:
@@ -550,6 +588,21 @@ def main(argv: list[str]) -> int:
             return 3
     else:
         end_round = int(args.end_round)
+
+    # --from-csv scores exactly one published CSV, so it maps to a single round.
+    if from_csv is not None and (
+        args.start_year != args.end_year or args.start_round != end_round
+    ):
+        log.error(
+            "--from-csv requires a single-round window "
+            "(--start-round == --end-round, --start-year == --end-year); "
+            "got %d-R%d -> %d-R%d",
+            args.start_year,
+            args.start_round,
+            args.end_year,
+            end_round,
+        )
+        return 2
 
     pairs = _enumerate_rounds(
         args.start_year, args.start_round, args.end_year, end_round, data_dir
@@ -583,6 +636,7 @@ def main(argv: list[str]) -> int:
                 data_dir=data_dir,
                 timestamp=timestamp,
                 log=log,
+                from_csv=from_csv,
             )
         except Exception as e:
             log.exception("round=%d year=%d failed: %s", round_num, year, e)

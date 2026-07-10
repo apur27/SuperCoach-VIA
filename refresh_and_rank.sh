@@ -42,13 +42,27 @@ echo "=========================================="
 "$PYTHON" -m supercoach.prediction
 
 echo "=========================================="
-echo "[4/6] Backtesting prediction accuracy (incremental)..."
+echo "[4/6] Backtesting prediction accuracy (incremental, by-archive)..."
 echo "=========================================="
-# Walk-forward backtest — incremental only. Detects the last complete run
-# (one that produced a backtest_summary_*.csv) and starts from the next round.
-# Writes: data/prediction/backtest/backtest_summary_<timestamp>.csv
-#         data/prediction/backtest/backtest_by_team_<timestamp>.csv
-#         data/prediction/backtest/backtest_by_position_<timestamp>.csv
+# Walk-forward backtest — incremental only, and now BY ARCHIVE: instead of
+# re-running the predictor (which trained+tuned ~24 min/round AND wrote a
+# next_round_*.csv into the live namespace that mtime-newest resolution then
+# shipped in place of the real forward prediction), we score the forward CSV
+# that was ACTUALLY published for each completed round.
+#
+# Timing note (the load-bearing subtlety): step 3 above just predicted the
+# UPCOMING round M (writes next_round_M). The rounds we can score now are those
+# with recorded actuals — i.e. START_ROUND .. M-1. The forward CSV that
+# predicted each of those rounds was archived in a PRIOR cycle as
+# next_round_<R>_prediction_*.csv and is still on disk. We score that archived
+# CSV, NOT this cycle's next_round_M (which has no actuals yet).
+#
+# Detects the last complete run (one that produced a backtest_summary_*.csv)
+# and starts from the next round. Writes, per scored round:
+#   data/prediction/backtest/backtest_summary_<timestamp>.csv
+#   data/prediction/backtest/backtest_by_team_<timestamp>.csv
+#   data/prediction/backtest/backtest_by_position_<timestamp>.csv
+#   data/prediction/backtest/prediction_vs_actual_round_<R>_2026_<timestamp>.csv
 LAST_TS=$(ls data/prediction/backtest/backtest_summary_*.csv 2>/dev/null | sort | tail -1 | grep -oP '\d{8}_\d{6}')
 if [ -z "$LAST_TS" ]; then
     START_ROUND=1
@@ -57,8 +71,36 @@ else
         | grep -oP 'round_\K[0-9]+' | sort -n | tail -1)
     START_ROUND=$((LAST_ROUND + 1))
 fi
-echo "Last complete backtest: round ${LAST_ROUND:-none}. Running from round ${START_ROUND}."
-"$PYTHON" backtest.py --start-year 2026 --start-round "$START_ROUND" --end-year 2026 --end-round auto
+
+# M = the upcoming round step 3 just predicted (newest next_round_* by mtime).
+# The last round WITH actuals is M-1, so that's our upper bound to score.
+LATEST_FWD=$(ls -t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -1)
+UPCOMING_ROUND=$(basename "${LATEST_FWD:-}" | grep -oP 'next_round_\K[0-9]+' || echo "")
+if [ -z "$UPCOMING_ROUND" ]; then
+    echo "WARNING: no forward prediction CSV found — skipping backtest."
+    END_SCORE_ROUND=0
+else
+    END_SCORE_ROUND=$((UPCOMING_ROUND - 1))
+fi
+echo "Last complete backtest: round ${LAST_ROUND:-none}. Upcoming (predicted) round: ${UPCOMING_ROUND:-none}."
+echo "Scoring completed rounds ${START_ROUND}..${END_SCORE_ROUND} against their archived forward CSVs."
+
+for R in $(seq "$START_ROUND" "$END_SCORE_ROUND"); do
+    # Archived forward CSV that predicted round R (written in a prior cycle).
+    ARCHIVED_PRED=$(ls -t data/prediction/next_round_${R}_prediction_*.csv 2>/dev/null | head -1)
+    if [ -n "$ARCHIVED_PRED" ]; then
+        echo "  round $R: scoring archived $ARCHIVED_PRED"
+        "$PYTHON" backtest.py --start-year 2026 --start-round "$R" --end-year 2026 \
+            --end-round "$R" --from-csv "$ARCHIVED_PRED"
+    else
+        # No archived forward CSV for this round (e.g. a cycle where the forward
+        # run never wrote one). Fall back to the full-retrain path so the round
+        # is still scored — a permanent gap would violate the preserve-all-rounds
+        # invariant. This is the slow path (~24 min/round); it is rare.
+        echo "  round $R: no archived forward CSV — falling back to full retrain"
+        "$PYTHON" backtest.py --start-year 2026 --start-round "$R" --end-year 2026 --end-round "$R"
+    fi
+done
 
 echo "=========================================="
 echo "[5/6] Refreshing docs, charts and analysis..."

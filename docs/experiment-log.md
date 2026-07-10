@@ -6,6 +6,120 @@ changed, why, how it was verified, and what was deliberately *not* verified.
 
 ---
 
+## 2026-07-10 — Backtest-by-archive: score the published forward CSV
+
+**Author:** Scientist agent
+**Files:** `backtest.py`, `refresh_and_rank.sh`, `tests/unit/test_backtest_archive.py`
+**Blast radius:** MEDIUM (changes how the tracked weekly MAE is computed, and
+its denominator `n`; eliminates a namespace-pollution bug)
+
+### The in-sample training question — answered
+
+**Confirmed: round-N rows are EXCLUDED from training. The published backtest
+MAE is clean (not in-sample).**
+
+The task hypothesized the training filter was `round <= N` (partially
+in-sample). It is not. The load-time cutoff in
+`LeakProofPredictor.load_and_prepare_data` (`backtest.py:180-185`) *does* keep
+`rn == cutoff_round` rows — but those rows are used only to build strictly-
+lagged (`shift(1)`) prediction features for round N and to provide the row to
+predict on. They never become training targets, because the training-set
+filter is one level up in `prepare_features_and_target`
+(`supercoach/prediction.py:493`):
+
+```python
+historical_data = df[df['year'] < self.target_year].copy()
+```
+
+For the 2026 within-season backtest (`target_year=2026`), this drops **all**
+2026 rows from training regardless of `cutoff_round`. The model trains only on
+`year < 2026`. So round-N-2026 actuals cannot leak into the model that predicts
+round N. Verified by reading the filter and confirming `target_year=2026` for
+every weekly incremental round.
+
+Corollary — the `dropped 0 future rows (136,208 → 136,208)` log line is **not**
+a leak. At the weekly cutoff `N = max played round`, no 2026 rows with
+`round > N` exist yet (round N+1 unplayed), so `future_mask` correctly finds
+nothing to drop. It is a no-op because there is genuinely nothing future on
+disk, not because the filter is broken.
+
+### The pollution bug (root cause, from evidence)
+
+`backtest.py` step 4 re-ran the full predictor, which called
+`prediction.py::run()` → wrote `data/prediction/next_round_<M>_prediction_*.csv`
+into the **live forward namespace**. Because backtest runs *after* the forward
+prediction (step 3) and everything downstream resolves "the prediction" by
+mtime-newest, the cheat sheet / docs / round detection consumed the backtest's
+artifact, not the forward run's.
+
+Confirmed from disk: on 2026-06-22 the forward run wrote `next_round_17` at
+20:53; the backtest — scoring round **16** (`prediction_vs_actual_round_16`) —
+internally computed `get_next_round = 17` and wrote a second `next_round_17` at
+21:25. The two differ (e.g. Keane, Adelaide 14 vs 15); the later (backtest)
+file won mtime resolution. Same pattern 2026-07-07: forward predicted R19,
+backtest scored R18.
+
+### The round-offset subtlety (important for the wiring)
+
+The backtest scores the **just-completed** round (actuals now exist); the
+forward step predicts the **upcoming** round. They differ by exactly one round.
+So the archived forward CSV to score for round N is the `next_round_N` CSV
+written in a **prior** cycle — *not* this cycle's step-3 output (which predicts
+N+1 and has no actuals). The original task snippet ("$PREDICTION_CSV captured at
+step 3") was off by one; the wiring below resolves the correct archived CSV.
+
+### Changes
+1. **`backtest.py --from-csv <path>`.** When supplied, `run_round_backtest`
+   skips `LeakProofPredictor` entirely (no train, no tune, no
+   `predictor.run()`), loads predictions from the CSV
+   (schema `player, team, predicted_disposals`), and proceeds straight to
+   `_gather_actuals` + scoring. Writes only to `data/prediction/backtest/`;
+   the live `next_round_*` namespace is never touched. `main()` requires a
+   single-round window (`--start-round == --end-round`) with `--from-csv`.
+   Absent the flag, behaviour is unchanged (full retrain — kept for historical
+   rebuilds).
+2. **`refresh_and_rank.sh` step 4.** Now loops over completed rounds
+   `START_ROUND .. (UPCOMING_ROUND − 1)`, resolving each round's archived
+   forward CSV (`ls -t next_round_<R>_prediction_*.csv`) and scoring it via
+   `--from-csv`. `UPCOMING_ROUND` is read from this cycle's newest
+   `next_round_*` file; `START_ROUND` from the incremental detector
+   (unchanged). Falls back to full retrain for any round lacking an archived
+   CSV, so the preserve-all-rounds invariant holds.
+
+### Verification
+- 4 new tests (`tests/unit/test_backtest_archive.py`), all hermetic
+  (`tmp_path`, no network, <1 s): predictor skipped under `--from-csv`;
+  predictions loaded from the file; no `next_round_*` written to the live dir;
+  full-retrain path unchanged when the flag is absent.
+- Full suite: **321 passed** (317 prior + 4 new).
+- `bash -n refresh_and_rank.sh` clean.
+- End-to-end on real data: scored the archived `next_round_18` CSV against R18
+  actuals → MAE 3.609, RMSE 4.661, bias +0.313, n=284 with actuals; **zero
+  `next_round_*` files created** in the live namespace; no retrain.
+
+### Caveats / semantic shift (flag for downstream)
+- **The denominator `n` changes.** The archive scores exactly the *published*
+  prediction set (one row per player for the round, ~320), whereas the retrain
+  path scored a broader synthetic set (~412 for R18). Same round, archive n=284
+  vs retrain n=412 with actuals. `scripts/update_eval_surface.sh` weights the
+  README/banner MAE by `n_players`, so both the headline MAE and total-N will
+  shift when the first archive-scored round lands. The MAE itself moved little
+  (3.609 vs 3.767); the change is expected and *methodologically preferable*
+  (we now score what users actually received), not a regression.
+- Going forward the cumulative doc is a blend: R1–R18 remain retrain-scored
+  (already in prior summaries; incremental won't re-score them), R19+ become
+  archive-scored. Each round is scored once; the year+round dedup keeps latest.
+- Repro: pandas 2.2.3 / numpy 1.26.4 (env). Seeds not applicable — the archive
+  path is deterministic (read CSV, join, arithmetic).
+
+**Pitfalls walk:** leakage [ruled out — training filter is `year < target_year`,
+round-N excluded]; temporal cutoff [preserved — archive CSV was produced before
+round N was played]; namespace pollution [fixed — no `next_round_*` write in
+`--from-csv` mode, verified on real data]; preserve-all-rounds [held — retrain
+fallback for missing archives]; baseline [n/a — no new model].
+
+---
+
 ## 2026-07-09 — S1b: Resolve phantom model features
 
 **Author:** Scientist agent
