@@ -160,7 +160,7 @@ Titus held the VFL games record for decades and finished a peg short of 1,000 go
 ### #8 Brent Harvey — North Melbourne
 *432 games · 518 goals · 9,213 disposals · 191 Brownlow votes · Score: 2.271*
 
-Joint all-time games-record holder at 432 - Harvey set the mark on retirement in 2016 and is now tied by Scott Pendlebury (still active for Collingwood), who drew level in Round 10, 2026 **[data]**. Harvey took the small-forward / half-forward / midfield rover role and stretched it across two decades of changing structures. He kicked 518 goals, gathered 9,213 disposals, and polled 191 Brownlow votes - the rare combination of longevity AND consistent peer respect. The score rewards a player who never had a single category they dominated but never had one they were weak in either. Legacy: the proof that adaptability beats specialisation when measured over a career.
+Held the all-time games record at 432 - set on his 2016 retirement - until Scott Pendlebury (still active for Collingwood) passed him in Round 12, 2026 to become the sole record holder at 436 games **[data]**. Harvey took the small-forward / half-forward / midfield rover role and stretched it across two decades of changing structures. He kicked 518 goals, gathered 9,213 disposals, and polled 191 Brownlow votes - the rare combination of longevity AND consistent peer respect. The score rewards a player who never had a single category they dominated but never had one they were weak in either. Legacy: the proof that adaptability beats specialisation when measured over a career.
 
 ### #9 Tony Lockett — St Kilda-Sydney
 *281 games · 1,360 goals · 2,867 disposals · 128 Brownlow votes · Score: 2.207*
@@ -215,7 +215,7 @@ A six-time All-Australian who played both ends of the ground and the midfield - 
 ### #19 Scott Pendlebury — Collingwood
 *436 games · 208 goals · 11,069 disposals · 225 Brownlow votes · Score: 2.091*
 
-**[data]** 10,955 career disposals - the highest in VFL/AFL history - across 432 games of midfield craft. He drew level with Brent Harvey's all-time games record (432) in Round 10, 2026 (v Geelong, 2026-05-09) and missed Collingwood's Round 11 loss to Sydney, then broke the record outright in Round 12, 2026 (v West Coast, 2026-05-17) and now holds the all-time games mark at 436 **[data]**. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
+**[data]** 11,069 career disposals - the highest in VFL/AFL history - across 436 games of midfield craft. He drew level with Brent Harvey's all-time games record (432) in Round 10, 2026 (v Geelong, 2026-05-09) and missed Collingwood's Round 11 loss to Sydney, then broke the record outright in Round 12, 2026 (v West Coast, 2026-05-17) and now holds the all-time games mark at 436 **[data]**. Pendlebury's game was built on time, not speed: a possession-game savant who appeared to make decisions in slow motion while the contest happened around him. A Norm Smith Medal in 2010, six All-Australian selections, and Collingwood's all-time most-respected captain. The score rewards a midfielder whose disposal efficiency was almost as load-bearing as his volume. Legacy: the modern template for the cerebral inside-midfielder.
 
 ### #20 Simon Madden — Essendon
 *378 games · 575 goals · 4,611 disposals · 58 Brownlow votes · Score: 2.091*
@@ -622,7 +622,7 @@ Adelaide's 1997 and 1998 Grand Final hero whose late-career move from Hawthorn t
 ### #100 Dane Swan — Collingwood
 *258 games · 211 goals · 6,928 disposals · 186 Brownlow votes · Score: 1.665*
 
-<!-- FOOTYSTRATEGY INSERT: Swan tactical read -->
+2011 Brownlow Medallist and a Collingwood 2010 premiership midfielder - a possession machine whose game was built on relentless outside running and sheer disposal volume. Swan averaged 30-plus disposals a game for five straight seasons (2009-2013), peaking at 34.5 a game in 2012, and finished with 6,928 disposals and 211 goals across 258 games. His 186 Brownlow votes - including a career-high 34 in the 2011 medal year - reflect sustained peer recognition at his accumulating peak. The score rewards a midfielder whose per-game output sat among the very highest of his era. Legacy: the archetype of the modern high-volume outside midfielder, and a durable ball-winner whose peak run of possession-heavy seasons reset expectations for how much a wing-and-forward-rotating midfielder could accumulate across a full season.
 
 ## Honourable Mention — Just Outside the Top 100
 
