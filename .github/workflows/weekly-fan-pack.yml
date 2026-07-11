@@ -78,8 +78,18 @@ jobs:
         id: latest_csv
         run: |
           set -euo pipefail
-          # Pick the most recent next_round_*_prediction_*.csv
-          latest=$(ls -1t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -n 1 || true)
+          # Pick the CSV with the highest round number (then latest timestamp) from the filename.
+          # Do NOT use `ls -t` — mtime is checkout time in a fresh clone and ordering is arbitrary.
+          latest=$(python3 - <<'PYEOF'
+import glob, re
+files = glob.glob("data/prediction/next_round_*_prediction_*.csv")
+def _key(f):
+    m = re.search(r'next_round_(\d+)_prediction_(\d{8})_(\d+)', f)
+    return (int(m.group(1)), m.group(2), m.group(3)) if m else (0, "", "")
+files = [f for f in files if re.search(r'next_round_\d+_prediction_\d{8}_\d+', f)]
+print(max(files, key=_key) if files else "")
+PYEOF
+)
           if [ -z "$latest" ]; then
             echo "No prediction CSV found in data/prediction/" >&2
             exit 1

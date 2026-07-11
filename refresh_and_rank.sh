@@ -148,8 +148,13 @@ if git diff --cached --quiet; then
 else
     TODAY=$(date '+%Y-%m-%d')
     scripts/git_commit_safe.sh commit -m "Auto-update: refresh AFL insights, predictions and backtest (${TODAY})"
-    git push origin main
-    echo "Pushed to origin/main"
+    if [ -n "${WEEKLY_REFRESH_PARENT:-}" ]; then
+        # Push is deferred to weekly_refresh.sh, which runs the phantom-row gate first.
+        echo "Push deferred to parent harness (phantom-row gate runs before push)."
+    else
+        git push origin main
+        echo "Pushed to origin/main"
+    fi
 fi
 
 echo "=========================================="

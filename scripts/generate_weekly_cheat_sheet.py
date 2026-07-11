@@ -40,18 +40,24 @@ PRED_FILE_RE = re.compile(
 
 
 def find_latest_prediction(prediction_dir: Path) -> Path:
-    """Return the path to the most recent next_round_*_prediction_*.csv."""
-    candidates = sorted(
-        glob.glob(str(prediction_dir / "next_round_*_prediction_*.csv")),
-        key=os.path.getmtime,
-        reverse=True,
-    )
+    """Return the path to the highest-round next_round_*_prediction_*.csv.
+
+    Sorts by (round_number, timestamp) parsed from the filename — NOT by mtime.
+    mtime is unreliable in CI / fresh-checkout contexts where all files share
+    the same checkout time.
+    """
+    candidates = glob.glob(str(prediction_dir / "next_round_*_prediction_*.csv"))
     if not candidates:
         raise FileNotFoundError(
             f"No prediction CSVs found under {prediction_dir}. "
             "Run prediction.py first."
         )
-    return Path(candidates[0])
+
+    def _key(path: str) -> tuple:
+        m = PRED_FILE_RE.search(os.path.basename(path))
+        return (int(m.group("round")), m.group("ts")) if m else (0, "")
+
+    return Path(max(candidates, key=_key))
 
 
 def parse_round_from_filename(path: Path) -> int | None:

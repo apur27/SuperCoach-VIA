@@ -1,8 +1,12 @@
-datetime
-bs4
 requests
 tqdm
 pandas
 numpy
 matplotlib
 beautifulsoup4
+lxml
+scikit-learn
+lightgbm
+optuna
+scipy
+pyyaml

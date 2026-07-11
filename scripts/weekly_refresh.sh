@@ -45,41 +45,42 @@ log "=================================================================="
 log "Weekly refresh started — $TODAY"
 log "=================================================================="
 
+RUN_START=$(date +%s)
+
 # ---------------------------------------------------------------------------
 # Phase 1 — data + model pipeline
-# refresh_and_rank.sh handles its own git add/commit/push for:
-#   docs/afl-season-2026.md, afl-team-analysis-2026.md, afl-finals-2026.md,
-#   afl-brownlow-2026.md, afl-stat-leaders-2026.md, afl-predictions-2026.md,
-#   afl-backtest-2026.md, afl-team-profiles.md, hall-of-fame-top100.md,
-#   assets/charts/, all_time_top_100.csv, data/top100/
+# refresh_and_rank.sh commits Phase 1 artifacts but defers the push (detected
+# via WEEKLY_REFRESH_PARENT=1) so the phantom-row gate can run before anything
+# reaches origin.
 # ---------------------------------------------------------------------------
 log "[1/5] Running refresh_and_rank.sh (data + model + season docs)..."
 WEEKLY_REFRESH_PARENT=1 bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1/5] refresh_and_rank.sh complete."
 
 # ---------------------------------------------------------------------------
-# Phantom-row gate (F12) — run the moment the scrape has written player CSVs,
-# BEFORE anything downstream (HOF, stat leaders, briefs) reads them. A counter-gap
-# means a real player game row was silently dropped or doubled (the drawn-GF dedup
-# class). Non-zero exit aborts the whole run. `if !` avoids the tee exit-code mask.
+# Phantom-row gate (F12) — validates scraped player CSVs BEFORE the Phase 1
+# commit reaches origin. A non-zero exit aborts here; git push only runs after
+# the gate clears, so a bad scrape never reaches remote.
 # ---------------------------------------------------------------------------
 log "[1c/5] Phantom-row gate: validating scraped player CSVs for dropped/doubled rows..."
 if ! $PYTHON "$REPO_ROOT/scripts/phantom_row_validator.py" 2>&1 | tee -a "$LOG_FILE"; then
-    log "FATAL: phantom-row validator found dropped/doubled player rows — aborting before any downstream read. Route to Scientist."
+    log "FATAL: phantom-row validator found dropped/doubled player rows — Phase 1 commit NOT pushed. Route to Scientist."
     exit 1
 fi
-log "[1c/5] Phantom-row gate passed."
+log "[1c/5] Phantom-row gate passed. Pushing Phase 1 commit..."
+PENDING=$(git -C "$REPO_ROOT" rev-list origin/main..HEAD --count 2>/dev/null || echo 0)
+if [ "$PENDING" -gt 0 ]; then
+    git -C "$REPO_ROOT" push origin main 2>&1 | tee -a "$LOG_FILE"
+    log "[1c/5] Phase 1 artifacts pushed ($PENDING commit(s))."
+else
+    log "[1c/5] No new Phase 1 commits to push."
+fi
 
 # ---------------------------------------------------------------------------
-# Detect round AFTER Phase 1 so we read the CSV that prediction.py just wrote,
-# not whatever was on disk before the run.
+# Detect round AFTER Phase 1. Use mtime — valid on a local machine where write
+# order reflects wall-clock. Also assert the CSV was written THIS cycle (mtime
+# > RUN_START) so a stale on-disk file never silently re-labels a prior round.
 # ---------------------------------------------------------------------------
-# Select by mtime (newest first), NOT lexicographic sort. A plain `sort` ranks
-# next_round_9_* above next_round_18_* because "9" > "1" as a string, which
-# published weekly recaps under the wrong round label for weeks (Surveyor CR-1).
-# `ls -t` orders by mtime — the same getmtime semantics generate_weekly_cheat_sheet.py
-# uses in find_latest_prediction(), so the cheat sheet and this recap always agree
-# on the round. Regression-guarded by tests/unit/test_prediction_selection.py.
 LATEST_PRED=$(ls -t "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
     | head -1 || true)
 if [ -n "$LATEST_PRED" ]; then
@@ -90,6 +91,11 @@ fi
 log "Detected next round: $ROUND"
 if [ "$ROUND" = "unknown" ]; then
     log "ERROR: Could not detect next round from prediction CSVs. Run Phase 1 (refresh_and_rank.sh) first, then re-run this script."
+    exit 1
+fi
+PRED_MTIME=$(stat -c %Y "$LATEST_PRED" 2>/dev/null || echo 0)
+if [ "$PRED_MTIME" -lt "$RUN_START" ]; then
+    log "ERROR: Latest prediction CSV ($(basename "$LATEST_PRED")) predates this run — Phase 1 did not write a new prediction. Aborting to prevent re-labelling a prior round."
     exit 1
 fi
 
@@ -110,7 +116,7 @@ log "[1b/5] Eval surface updated."
 #   docs/weekly/round-current-<year>.md  (stable link)
 # ---------------------------------------------------------------------------
 log "[2a/5] Generating weekly cheat sheet for round $ROUND..."
-$PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" 2>&1 | tee -a "$LOG_FILE"
+$PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" --csv "$LATEST_PRED" 2>&1 | tee -a "$LOG_FILE"
 log "[2a/5] Cheat sheet generated."
 
 # ---------------------------------------------------------------------------
@@ -154,9 +160,21 @@ log "[2b/5] HOF numeric gate passed."
 # verifier, so record its PASS verdict for each regenerated page. This is a genuine
 # verdict from a genuine gate — not a simulated one.
 log "[2b/5] Recording deterministic HOF verdicts for the provenance gate..."
+# Only stamp pages that check_hof_numbers.py actually inspects (_SUBPAGES).
+# Stamping pages the checker never reads is a false provenance claim (Surveyor F3).
 (
   cd "$REPO_ROOT" || exit 1
-  for hof in docs/hall-of-fame-stat-*.md; do
+  for hof in \
+      docs/hall-of-fame-stat-games.md \
+      docs/hall-of-fame-stat-marks.md \
+      docs/hall-of-fame-stat-tackles.md \
+      docs/hall-of-fame-stat-hitouts.md \
+      docs/hall-of-fame-stat-brownlow.md \
+      docs/hall-of-fame-stat-goalassists.md \
+      docs/hall-of-fame-stat-clearances.md \
+      docs/hall-of-fame-stat-contested.md \
+      docs/hall-of-fame-stat-disposals.md \
+      docs/hall-of-fame-stat-goals.md; do
     [ -f "$hof" ] || continue
     grep -q '<!-- council-pipeline:' "$hof" || continue
     scripts/record-sentinel-verdict.sh --doc "$hof" --verdict PASS --agent check_hof_numbers \
