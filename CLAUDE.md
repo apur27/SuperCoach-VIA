@@ -116,7 +116,7 @@ Before writing any player stat into a document - games played, goals, Brownlow v
 |-----------|----------|
 | Per-player per-game stats | `data/player_data/<surname>_<firstname>_<DDMMYYYY>_performance_details.csv` |
 | Match results and team scores | `data/matches/matches_<year>.csv` |
-| All-time aggregated rankings | `all_time_top_100.csv` and `data/top100/all_time_top_100.csv` |
+| All-time aggregated rankings | `all_time_top_100.csv` (root) — **canonical source of truth**, written by the pipeline. `data/top100/all_time_top_100.csv` is a committed copy — read either, but the root file is authoritative. Never edit either by hand. |
 
 ### How to verify a specific player
 
@@ -142,3 +142,23 @@ Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python`
 
 - Never write a specific games total, goals tally, or Brownlow count without first reading it from the data.
 - If the player's data file is missing or the stat is genuinely unavailable (pre-1965 incomplete records), say so explicitly and tag the claim `**[historical record - unverified in data]**` rather than inventing a number.
+
+---
+
+## Data tag system
+
+Any markdown document in this repo that contains specific player or match statistics **must** tag every number with one of the repo's verification tags. The canonical spec is `docs/data-tag-spec.md`.
+
+- `**[data]**` — number sourced from a CSV in this repo. Bold asterisks required; plain `[data]` is invisible to DataSentinel and will FAIL the gate.
+- `**[historical record]**` — public record (afltables, AFL.com.au) not in local CSVs.
+- `**[historical record — unverified in data]**` — genuinely unavailable; explicitly flagged.
+
+**Exception**: `docs/hall-of-fame-top100.md` profile prose does not use inline tags — numbers there are verified by the deterministic `check_top100_consistency()` gate. All other docs must tag.
+
+If you edit a gated doc (anything with `<!-- council-pipeline:` in it), run DataSentinel or the pre-commit hook before pushing, or the commit will be rejected under `AUDIT_ENFORCE=1`.
+
+---
+
+## Serialize writes to main
+
+Only the harness scripts (`refresh_and_rank.sh`, `weekly_refresh.sh`) commit and push pipeline outputs to `main`. Never commit pipeline-generated files (player CSVs, prediction CSVs, HOF docs, stat pages, charts) directly from a REPL, notebook, or ad-hoc agent run — that bypasses the gate chain and the allowlist. If you need to ship a one-off fix to a gated doc, route it through the appropriate council agent and wait for a DataSentinel PASS.
