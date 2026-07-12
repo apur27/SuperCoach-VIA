@@ -7,6 +7,12 @@
 <!-- ALL-TIME-TOP100-START -->
 *Last updated: 2026-07-07 — auto-generated from era-normalised composite scoring*
 
+<!-- DATA VERIFICATION NOTE: Profile narrative paragraphs in this document do not carry
+inline **[data]** tags. All statistics in profiles are verified by the deterministic
+check_top100_consistency() gate (scripts/update_team_analysis.py) against
+data/top100/all_time_top_100.csv and data/player_data/. DataSentinel does not
+flag untagged numbers in profile prose — the gate is the backstop. See DataSentinel.md. -->
+
 Every all-time list is an argument. This one is backed by numbers. The ranking uses an **era-normalised composite score**: each player's career stats are converted to z-scores within their playing era, so a 1930s forward is not penalised for the absence of handball counts in the records, and a modern midfielder is not inflated by the sheer volume of stats logged today. The composite blends disposals, goals, Brownlow votes, peak single-game output, and career consistency. The result is not perfect — no algorithm captures what it felt like to watch Jack Dyer run through a pack or Bernie Quinlan take a screamer — but it is honest, reproducible, and it updates automatically as new season data is scraped.
 
 The chart below shows the top 10. The full table of all 100 follows with key career numbers.

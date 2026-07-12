@@ -12,7 +12,7 @@
 #                                     backtest → season docs → git push)
 #   Phase 2a — generate_weekly_cheat_sheet.py  (round cheat sheet)
 #   Phase 2b — compute_stat_leaders.py + generate_records_charts.py
-#              + DataSentinel agent to update docs/hall-of-fame-stat-*.md
+#              + update_hof_pages.py (deterministic, no DataSentinel agent)
 #   Phase 3  — FootyStrategy agent   (round recap in docs/afl-insights.md)
 #   Phase 4  — commit + push phase 2/3 outputs
 #
@@ -229,42 +229,9 @@ log "News block limit enforced (max 2 entries)."
 
 log "[3/5] Invoking FootyStrategy agent for round $ROUND weekly insights..."
 
-$CLAUDE -p "You are FootyStrategy for SuperCoach-VIA. Today is $TODAY.
-
-## Task
-Update docs/afl-insights.md with a concise 'Week in Review' section for Round $ROUND.
-
-## What to read first (all freshly updated by the pipeline)
-- docs/afl-stat-leaders-2026.md       — current season stat leaders
-- docs/afl-season-2026.md             — team analysis, ladder, finals pathway
-- docs/afl-predictions-2026.md        — disposal predictions for next round
-- docs/weekly/round-current-2026.md   — this round's cheat sheet picks
-
-## What to write
-Add or replace a section headed '## Round $ROUND — Week in Review' immediately
-after the intro table in docs/afl-insights.md. Include:
-1. Top 3 disposal performers from the stat leaders this round
-2. One sentence on the most notable ladder movement
-3. One player to watch next round (from the predictions cheat sheet)
-4. One sentence of tactical insight grounded in the data
-
-Keep it tight: 150–200 words maximum. Use data-backed claims only.
-Tag any specific stat with the bold **[data]** form (literally two asterisks each
-side, e.g. \`**[data]**\`), never plain unbold [data] — the verification vocabulary
-(scripts/tag_vocabulary.py) only recognises the bold form, so a plain [data] tag is
-invisible to DataSentinel and the Skeptic sampler. This is REQUIRED: immediately after
-you write, DataSentinel gates this doc (Phase 3b) and a non-PASS aborts the whole cycle —
-an untagged specific stat number is a FAIL, so tag every one or omit the claim.
-
-## Hard rules
-- Do NOT touch the navigation table, intro text, or any link in the file.
-- Do NOT touch docs/news/, docs/hall-of-fame*.md, or any other file.
-- Do NOT add new links to Hall of Fame or news pages.
-- If the stat leaders or season doc do not have enough data for a claim, omit it." \
+$CLAUDE -p "Round=$ROUND. Date=$TODAY. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table). Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file." \
     --agent FootyStrategy \
-    --allowedTools "Read,Write,Edit,Glob,Grep" \
     --permission-mode bypassPermissions \
-    --model sonnet \
     2>&1 | tee -a "$LOG_FILE"
 
 log "[3/5] FootyStrategy agent complete."
@@ -278,9 +245,8 @@ log "[3/5] FootyStrategy agent complete."
 # ---------------------------------------------------------------------------
 log "[3b/5] Gating afl-insights.md through DataSentinel (F05)..."
 DS_OUT="$LOG_DIR/insights_datasentinel_${TODAY}.json"
-$CLAUDE -p "You are DataSentinel for SuperCoach-VIA. Verify docs/afl-insights.md as a full-doc (Pass 2) check. Walk every **[data]** tag against the source CSV named in the methodology, flag any untagged specific player-stat number, and flag coach-name violations (config/coach_names.txt). Record your verdict once via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|FAIL> --agent DataSentinel. Then emit ONLY the JSON verdict object." \
+$CLAUDE -p "Full-doc Pass 2 check on docs/afl-insights.md. Record verdict via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|FAIL> --agent DataSentinel. Emit ONLY the JSON verdict object." \
     --agent DataSentinel \
-    --allowedTools "Read,Grep,Glob,Bash" \
     --permission-mode bypassPermissions \
     2>&1 | tee "$DS_OUT" | tee -a "$LOG_FILE"
 

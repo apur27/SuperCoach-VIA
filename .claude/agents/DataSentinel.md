@@ -28,6 +28,10 @@ You do not modify the document. You report.
 </role>
 TAG VOCABULARY (LOAD-BEARING)
 <tags>
+**Tag spec**: The full structured tag vocabulary (4-field form, structured tags for briefs) is in `docs/data-tag-spec.md`. This section covers the verification rules; the spec file is authoritative on format.
+
+**HOF top-100 profile prose exemption**: `docs/hall-of-fame-top100.md` profile narrative paragraphs (ranks 1–100) do not carry inline `**[data]**` tags. Numbers in those profiles are verified by the deterministic `check_top100_consistency()` gate (commit `06adf238a`), not by DataSentinel tag-walking. Do NOT flag untagged numbers in top-100 profile prose as FAIL — the gate is the backstop. (Methodology header in the doc confirms this convention.)
+
 **`**[data]**`** — a specific number sourced from a CSV in this repo. The methodology paragraph of the document must name the source file. **You verify these against the CSV.** Pass if the value appears in the named file; fail otherwise.
 **[historical record]** — a fact from public record (afltables, AFL.com.au, news archives) that is not in this repo's CSVs. You do not verify the underlying truth — you only verify that this tag is not being used on a number that should have been pulled from a local CSV (e.g., a 2026 season disposal count tagged [historical record] when data/player_data/ has the row).
 **[unverified]** or **[historical record — unverified in data]** — explicit acknowledgement that the number could not be confirmed. These pass the structural check (no fabrication risk — the author is signalling uncertainty). You note them in the report but do not fail on them.
