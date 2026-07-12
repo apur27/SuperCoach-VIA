@@ -170,6 +170,11 @@ class LeakProofPredictor(AFLDisposalPredictor):
     def __init__(self, *args, cutoff_round: int, **kwargs):
         super().__init__(*args, **kwargs)
         self.cutoff_round = int(cutoff_round)
+        # Isolate the Optuna cache from production. Walk-forward rounds tune on
+        # truncated (pre-cutoff) data; those params must never be written to, or
+        # read from, the cache that production predictions rely on.
+        _p = Path(self.optuna_cache_path)
+        self.optuna_cache_path = _p.with_name(f"{_p.stem}_backtest{_p.suffix}")
 
     def load_and_prepare_data(self) -> pd.DataFrame:
         df = super().load_and_prepare_data()

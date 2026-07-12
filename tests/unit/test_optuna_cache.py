@@ -14,6 +14,7 @@ and use tmp_path for the cache file so real data/prediction/ is untouched.
 import importlib.util
 import json
 import pathlib
+import sys
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch
 
@@ -135,3 +136,54 @@ def test_cache_miss_when_file_absent(mod, predictor):
         predictor.tune_model(X, y)
     study.optimize.assert_called_once()
     assert predictor.optuna_cache_path.exists()
+
+
+# ---------------------------------------------------------------------------
+# Feature-fingerprint isolation (Bug 2)
+#
+# The row-count / age gates cannot tell a pre-Sprint-3 cache (tuned without
+# ``percentage_time_played_lag1``) from a post-Sprint-3 one. Params tuned on a
+# different feature set are contaminated, so the cache key must carry a
+# fingerprint of the feature columns.
+# ---------------------------------------------------------------------------
+
+def test_cache_miss_on_different_feature_set(mod, tmp_path):
+    """Same base key + row count, but a different feature set -> cache miss."""
+    cache = tmp_path / "optuna_best_params.json"
+    fresh = datetime.now().isoformat()
+    mod._save_optuna_cache("hgb", HGB_PARAMS, 200, cache,
+                           feature_columns=["a", "b", "c"])
+    hit = mod._load_optuna_cache("hgb", 200, cache,
+                                 feature_columns=["a", "b", "x"])
+    assert hit is None
+    # Sanity: the stored key really was fingerprint-namespaced (not plain "hgb").
+    stored = json.loads(cache.read_text())
+    assert "hgb" not in stored
+    assert any(k.startswith("hgb__") for k in stored)
+
+
+def test_cache_hit_on_identical_feature_set(mod, tmp_path):
+    """Same base key, row count, and feature set -> cache hit."""
+    cache = tmp_path / "optuna_best_params.json"
+    features = ["a", "b", "c"]
+    mod._save_optuna_cache("hgb", HGB_PARAMS, 200, cache,
+                           feature_columns=features)
+    hit = mod._load_optuna_cache("hgb", 200, cache, feature_columns=features)
+    assert hit is not None
+    assert hit["params"] == HGB_PARAMS
+
+
+def test_backtest_uses_different_cache_path(tmp_path):
+    """LeakProofPredictor must not share the production cache path: a
+    walk-forward run tunes on truncated data and must never overwrite the
+    cache production reads."""
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    import backtest as bt
+    from supercoach.prediction import OPTUNA_CACHE_PATH
+
+    predictor = bt.LeakProofPredictor(
+        data_dir=str(tmp_path), target_year=2026, cutoff_round=5
+    )
+    assert str(predictor.optuna_cache_path) != str(OPTUNA_CACHE_PATH)
+    assert "backtest" in str(predictor.optuna_cache_path)

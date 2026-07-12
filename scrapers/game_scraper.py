@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import hashlib
+import warnings
 import pandas as pd
 from typing import Dict, List, Optional, Tuple, Union, Any
 from datetime import datetime
@@ -130,6 +131,51 @@ def fetch_round_fixture(year: int, round_num: int) -> Optional[set]:
     for i in range(0, len(team_sequence) - 1, 2):
         pairs.add(frozenset((team_sequence[i], team_sequence[i + 1])))
     return pairs
+
+
+def build_match_key(match_info: Any) -> str:
+    """Build the dedup key for a single match.
+
+    The key includes ``venue`` so two games played on the same date in the same
+    round (simultaneous kickoffs) are treated as distinct. Without venue, one of
+    the two was silently dropped -- Port Adelaide v Collingwood R2 2025 was lost
+    this way. ``match_info`` may be a dict or a pandas Series (both expose
+    ``.get``); venue falls back to ``'unknown'`` for legacy rows.
+    """
+    return f"{match_info['date']}_{match_info['round_num']}_{match_info.get('venue', 'unknown')}"
+
+
+def check_match_completeness(df: pd.DataFrame, year: int) -> List[str]:
+    """Return warning strings for teams that are short on games for the season.
+
+    A team is flagged when its game-count is 2 or more below the season's modal
+    (most common) game-count. This surfaces a silently-dropped match without
+    hard-coding bye schedules or expected game totals. Warnings-only contract:
+    the caller emits the warnings; this function never raises and returns an
+    empty list when the season looks balanced or the input lacks team columns.
+    """
+    warnings_list: List[str] = []
+    team_cols = ["team_1_team_name", "team_2_team_name"]
+    if not all(c in df.columns for c in team_cols):
+        return warnings_list
+
+    counts = pd.concat([df["team_1_team_name"], df["team_2_team_name"]]).value_counts()
+    if counts.empty:
+        return warnings_list
+
+    modal = counts.mode()
+    if modal.empty:
+        return warnings_list
+    modal_count = int(modal.iloc[0])
+
+    for team, count in counts.items():
+        short_by = modal_count - int(count)
+        if short_by >= 2:
+            warnings_list.append(
+                f"{year}: team '{team}' has {int(count)} games vs season mode "
+                f"{modal_count} (short by {short_by}) -- possible silently-dropped match"
+            )
+    return warnings_list
 
 
 def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
@@ -664,7 +710,7 @@ class MatchScraper:
                 existing_df = pd.read_csv(file_path)
                 for _, row in existing_df.iterrows():
                     if 'date' in row and 'round_num' in row:
-                        key = f"{row['date']}_{row['round_num']}"
+                        key = build_match_key(row)
                         processed_match_keys.add(key)
             except Exception as e:
                 print(f"Error loading existing match data for {year}: {e}")
@@ -683,7 +729,7 @@ class MatchScraper:
                         pass
                 
                 # Check for duplicates using a unique key
-                match_key = f"{match_info['date']}_{match_info['round_num']}"
+                match_key = build_match_key(match_info)
                 if match_key not in processed_match_keys:
                     match_data.append(match_info)
                     processed_match_keys.add(match_key)
@@ -695,8 +741,9 @@ class MatchScraper:
                 existing_df = pd.read_csv(file_path)
                 new_df = pd.DataFrame(match_data)
                 combined_df = pd.concat([existing_df, new_df])
-                # Remove duplicates based on date and round_num
-                combined_df = combined_df.drop_duplicates(subset=['date', 'round_num'], keep='last')
+                # Remove duplicates based on date, round_num and venue so two
+                # simultaneous same-round kickoffs at different grounds are kept.
+                combined_df = combined_df.drop_duplicates(subset=['date', 'round_num', 'venue'], keep='last')
                 combined_df.to_csv(file_path, index=False)
             else:
                 # Create new file
@@ -711,6 +758,15 @@ class MatchScraper:
         # validate the on-disk file. Warnings only -- never aborts the pipeline.
         if os.path.exists(file_path):
             audit_match_rounds(file_path)
+            # Completeness gate: flag any team short on games vs the season mode,
+            # catching a silent drop (e.g. simultaneous same-round kickoffs)
+            # without hard-coding bye schedules. Warnings only -- never aborts.
+            try:
+                season_df = pd.read_csv(file_path)
+                for msg in check_match_completeness(season_df, year):
+                    warnings.warn(msg)
+            except Exception as e:
+                print(f"Error running completeness gate for {year}: {e}")
 
     def _process_team_lineups(self, lineup_folder_path: str) -> None:
         """

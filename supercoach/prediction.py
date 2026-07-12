@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import json
 import sys
 import numpy as np
@@ -83,7 +84,19 @@ OPTUNA_CACHE_ROW_TOLERANCE = 0.05   # re-tune if |Δrows| / cached_rows >= 5%
 OPTUNA_CACHE_MAX_AGE_DAYS = 28      # re-tune if cache older than this
 
 
-def _load_optuna_cache(cache_key, current_n_rows, cache_path=OPTUNA_CACHE_PATH):
+def _feature_fingerprint(feature_columns) -> str:
+    """Short stable hash of a feature-column set (order-independent).
+
+    Namespaces the Optuna cache so params tuned on one feature set can never be
+    served for a different one. The row-count and age gates cannot tell a
+    pre-Sprint-3 cache (tuned without ``percentage_time_played_lag1``) from a
+    post-Sprint-3 one; this fingerprint can.
+    """
+    return hashlib.md5("|".join(sorted(feature_columns)).encode()).hexdigest()[:8]
+
+
+def _load_optuna_cache(cache_key, current_n_rows, cache_path=OPTUNA_CACHE_PATH,
+                       feature_columns=None):
     """Return the cached entry for ``cache_key`` if it is still valid, else None.
 
     Valid means: the entry exists, the training-row count is within
@@ -91,7 +104,13 @@ def _load_optuna_cache(cache_key, current_n_rows, cache_path=OPTUNA_CACHE_PATH):
     than ``OPTUNA_CACHE_MAX_AGE_DAYS`` ago. A missing/corrupt file or any
     malformed field is treated as a cache miss (returns None) so a bad cache
     can never poison a run — worst case we simply re-tune.
+
+    When ``feature_columns`` is provided the lookup key is namespaced with a
+    fingerprint of that feature set, so params tuned on a different feature set
+    are a cache miss rather than a silent, contaminated hit.
     """
+    if feature_columns:
+        cache_key = f"{cache_key}__{_feature_fingerprint(feature_columns)}"
     try:
         with open(cache_path) as f:
             cache = json.load(f)
@@ -116,12 +135,17 @@ def _load_optuna_cache(cache_key, current_n_rows, cache_path=OPTUNA_CACHE_PATH):
     return entry
 
 
-def _save_optuna_cache(cache_key, params, n_training_rows, cache_path=OPTUNA_CACHE_PATH):
+def _save_optuna_cache(cache_key, params, n_training_rows, cache_path=OPTUNA_CACHE_PATH,
+                       feature_columns=None):
     """Merge a freshly-tuned entry for ``cache_key`` into the JSON cache.
 
     Reads the existing cache (so the sibling model's entry is preserved),
-    updates just ``cache_key``, and writes it back.
+    updates just ``cache_key``, and writes it back. When ``feature_columns`` is
+    provided the stored key is namespaced with a fingerprint of that feature set
+    so entries tuned on different feature sets never collide.
     """
+    if feature_columns:
+        cache_key = f"{cache_key}__{_feature_fingerprint(feature_columns)}"
     cache_path = Path(cache_path)
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     try:
@@ -674,7 +698,8 @@ class AFLDisposalPredictor:
             ).mean()
             return score
 
-        cached = _load_optuna_cache('hgb', len(X), self.optuna_cache_path)
+        cached = _load_optuna_cache('hgb', len(X), self.optuna_cache_path,
+                                    feature_columns=self.feature_columns)
         if cached is not None:
             best_params = cached['params']
             print(
@@ -696,7 +721,8 @@ class AFLDisposalPredictor:
             ('regressor', HistGradientBoostingRegressor(**best_params, random_state=42))
         ])
         print(f"Best parameters: {best_params}")
-        _save_optuna_cache('hgb', best_params, len(X), self.optuna_cache_path)
+        _save_optuna_cache('hgb', best_params, len(X), self.optuna_cache_path,
+                           feature_columns=self.feature_columns)
         return study.best_value
 
     def tune_lgbm_gpu(self, X, y):
@@ -749,7 +775,8 @@ class AFLDisposalPredictor:
 
             return score
 
-        cached = _load_optuna_cache('lgbm', len(X), self.optuna_cache_path)
+        cached = _load_optuna_cache('lgbm', len(X), self.optuna_cache_path,
+                                    feature_columns=self.feature_columns)
         if cached is not None:
             best_params = cached['params']
             print(
@@ -775,7 +802,8 @@ class AFLDisposalPredictor:
             ('scaler', StandardScaler()),
             ('regressor', LGBMRegressor(**study.best_params, device=LGBM_DEVICE, verbose=-1, random_state=42))
         ])
-        _save_optuna_cache('lgbm', study.best_params, len(X), self.optuna_cache_path)
+        _save_optuna_cache('lgbm', study.best_params, len(X), self.optuna_cache_path,
+                           feature_columns=self.feature_columns)
 
         return study.best_value
 
