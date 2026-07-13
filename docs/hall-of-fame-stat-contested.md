@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-13 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career contested possessions - all-time top 20
-> ✓ All 36 stats verified against source data · council-pipeline-gated · 2026-07-07
+> ✓ All 36 stats verified against source data · council-pipeline-gated · 2026-07-13
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
@@ -26,26 +26,26 @@ A contested possession is a ball-getting event won under direct opposition press
 | # | Player | Club(s) | Span | Games | Contested poss. | Per game |
 |--:|--------|---------|------|------:|----------------:|---------:|
 <!-- HOF-TABLE-START:career_contested_possessions -->
-| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 372 | 4,712 | 12.67 |<!-- HOF-TOP:career_contested_possessions -->
-| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 436 | 4,420 | 10.14 |
-| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 310 | 4,053 | 13.07 |
+| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 373 | 4,716 | 12.64 |<!-- HOF-TOP:career_contested_possessions -->
+| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 437 | 4,423 | 10.12 |
+| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 311 | 4,068 | 13.08 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
 | 5 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
 | 6 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 3,984 | 11.22 |
 | 7 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 3,743 | 9.67 |
-| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 331 | 3,648 | 11.02 |
-| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 246 | 3,573 | 14.52 |
+| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 332 | 3,651 | 11.00 |
+| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 247 | 3,590 | 14.53 |
 | 10 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 3,523 | 10.94 |
 | 11 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 3,418 | 9.09 |
 | 12 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 3,401 | 10.34 |
-| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 285 | 3,312 | 11.62 |
-| 14 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 3,276 | 11.74 |
-| 15= | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 3,262 | 10.66 |
-| 15= | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 221 | 3,262 | 14.76 |
-| 17 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 263 | 3,212 | 12.21 |
+| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 286 | 3,320 | 11.61 |
+| 14 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 222 | 3,283 | 14.79 |
+| 15 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 3,276 | 11.74 |
+| 16 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 3,262 | 10.66 |
+| 17 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 264 | 3,223 | 12.21 |
 | 18 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 248 | 3,206 | 12.93 |
 | 19 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 3,176 | 13.23 |
-| 20 | Callan Ward **[data]** | Greater Western Sydney - Western Bulldogs | 2008-2025 | 327 | 3,134 | 9.58 |
+| 20 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 275 | 3,146 | 11.44 |
 <!-- HOF-TABLE-END:career_contested_possessions -->
 
 ## FootyStrategy tactical read

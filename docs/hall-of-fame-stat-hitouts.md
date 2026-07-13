@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-07-07 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-13 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career hit-outs - all-time top 20
-> ✓ All 38 stats verified against source data · council-pipeline-gated · 2026-07-07
+> ✓ All 38 stats verified against source data · council-pipeline-gated · 2026-07-13
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
@@ -26,10 +26,10 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 | # | Player | Club(s) | Span | Games | Hit-outs | Per game |
 |--:|--------|---------|------|------:|---------:|---------:|
 <!-- HOF-TABLE-START:career_hit_outs -->
-| 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 344 | 10,597 | 30.81 |<!-- HOF-TOP:career_hit_outs -->
-| 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 263 | 8,734 | 33.21 |
+| 1 | Todd Goldstein **[data]** | Essendon - North Melbourne | 2008-2025 | 345 | 10,608 | 30.75 |<!-- HOF-TOP:career_hit_outs -->
+| 2 | Max Gawn **[data]** | Melbourne | 2011-2026 | 264 | 8,770 | 33.22 |
 | 3 | Aaron Sandilands **[data]** | Fremantle | 2003-2019 | 271 | 8,502 | 31.37 |
-| 4 | Brodie Grundy **[data]** | Collingwood - Melbourne - Sydney | 2013-2026 | 257 | 8,162 | 31.76 |
+| 4 | Brodie Grundy **[data]** | Collingwood - Melbourne - Sydney | 2013-2026 | 258 | 8,191 | 31.75 |
 | 5 | Jarrod Witts **[data]** | Collingwood - Gold Coast | 2013-2026 | 217 | 7,489 | 34.51 |
 | 6 | Sam Jacobs **[data]** | Adelaide - Carlton - Greater Western Sydney | 2009-2020 | 208 | 6,787 | 32.63 |
 | 7 | Dean Cox **[data]** | West Coast | 2001-2014 | 290 | 6,628 | 22.86 |
@@ -44,7 +44,7 @@ A hit-out is a ruck contest in which a player taps or palms the ball away from a
 | 16 | Jeff White **[data]** | Fremantle - Melbourne | 1995-2008 | 268 | 5,000 | 18.66 |
 | 17 | Darren Jolly **[data]** | Collingwood - Melbourne - Sydney | 2001-2013 | 237 | 4,968 | 20.96 |
 | 18 | Peter Everitt **[data]** | Hawthorn - St Kilda - Sydney | 1993-2008 | 291 | 4,961 | 17.05 |
-| 19 | Toby Nankervis **[data]** | Richmond - Sydney | 2015-2026 | 184 | 4,745 | 25.79 |
+| 19 | Toby Nankervis **[data]** | Richmond - Sydney | 2015-2026 | 185 | 4,769 | 25.78 |
 | 20 | Stefan Martin **[data]** | Brisbane Lions - Melbourne - Western Bulldogs | 2008-2022 | 203 | 4,661 | 22.96 |
 <!-- HOF-TABLE-END:career_hit_outs -->
 
