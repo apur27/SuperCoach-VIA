@@ -135,6 +135,78 @@ def test_no_since_date_returns_all_rows():
 
 
 # ---------------------------------------------------------------------------
+# Counter-aware delta — a genuinely-new game whose afltables round label is
+# non-chronological must NOT be dropped by the approximate-date filter.
+#
+# Bug (Angus Clarke, 2026-07-13 weekly refresh): afltables placed his career
+# game #14 (Essendon-2025 table, round label "1" vs Gold Coast, real date
+# 2025-08-27) with a low round number. The date approximation
+# datetime(2025,3,1)+weeks(0) = 2025-03-01 fell BEFORE since_date (2025-08-16,
+# his last recorded game), so the delta filter skipped it. The genuinely-later
+# 2026 R19 game (counter 15) survived, leaving a 13->15 games_played gap that
+# fail-closed the phantom-row gate.
+#
+# Fix: the games_played career counter is the authoritative "already seen"
+# signal. A row whose counter exceeds the max already on file is a new game and
+# must be kept regardless of its approximated date.
+# ---------------------------------------------------------------------------
+
+def _make_player_soup_gp(team: str, year: int, round_str: str, games_played) -> BeautifulSoup:
+    """Minimal afltables player soup with one row and a settable games_played."""
+    row_cells = "\n".join(
+        f"<td>{v}</td>" for v in [
+            games_played,   # games_played — the counter under test
+            "Gold Coast",   # opponent
+            round_str,      # round
+            "L 50-120",     # result
+            36,             # jersey_num
+            11, 6, 10, 21,  # kicks marks handballs disposals
+            0, 0,           # goals behinds
+            0, 0, 2,        # hit_outs tackles rebound_50s
+            2, 0, 1, 2, 0,  # inside_50s clearances clangers free_for free_against
+            0, 8, 12, 0,    # brownlow cp up contested_marks
+            0, 1, 0, 0, 90, # marks_inside_50 one_pct bounces goal_assist pct_played
+        ]
+    )
+    html = f"""
+    <table>
+      <tr><th colspan="28">{team} - {year}</th></tr>
+      <tbody>
+        <tr>{row_cells}</tr>
+      </tbody>
+    </table>
+    """
+    return BeautifulSoup(html, "html.parser")
+
+
+def test_new_game_with_low_round_label_not_dropped():
+    """Counter 14 > max 13: genuinely-new game must survive despite old approx date."""
+    scraper = PlayerScraper()
+    soup = _make_player_soup_gp("Essendon", 2025, "1", 14)
+    rows = scraper._scrape_player_performance_details(
+        soup, since_date=datetime(2025, 8, 16), max_counter=13)
+    assert len(rows) == 1, "new game (counter 14 > max 13) was dropped by the date filter"
+
+
+def test_already_seen_game_with_low_round_label_still_skipped():
+    """Counter 13 <= max 13: an already-recorded game must stay filtered (delta efficiency)."""
+    scraper = PlayerScraper()
+    soup = _make_player_soup_gp("Essendon", 2025, "1", 13)
+    rows = scraper._scrape_player_performance_details(
+        soup, since_date=datetime(2025, 8, 16), max_counter=13)
+    assert len(rows) == 0, "already-seen game (counter 13 <= max 13) should stay filtered"
+
+
+def test_max_counter_none_preserves_date_only_behaviour():
+    """Without counter context the old date-only filter must be unchanged."""
+    scraper = PlayerScraper()
+    soup = _make_player_soup_gp("Essendon", 2025, "5", 14)
+    rows = scraper._scrape_player_performance_details(
+        soup, since_date=datetime(2025, 8, 16))
+    assert len(rows) == 0, "date-only path (no max_counter) regressed"
+
+
+# ---------------------------------------------------------------------------
 # Fixture-accurate finals dates — root-cause fix for the recurring date drift.
 #
 # The _FINALS_WEEK approximation places finals in late August, ~1 month BEFORE

@@ -199,6 +199,7 @@ class PlayerScraper:
 
             # Check existing data
             last_game_date = self._get_last_game_date(performance_file)
+            max_counter = self._get_max_counter(performance_file)
             current_year = datetime.now().year
 
             if last_game_date:
@@ -208,7 +209,7 @@ class PlayerScraper:
                     return
 
             # Scrape performance details since the last game date
-            performance_details = self._scrape_player_performance_details(player_soup, since_date=last_game_date, matches_dir=_DEFAULT_MATCHES_DIR)
+            performance_details = self._scrape_player_performance_details(player_soup, since_date=last_game_date, matches_dir=_DEFAULT_MATCHES_DIR, max_counter=max_counter)
             if not performance_details and last_game_date:
                 print(f"No new data for {filename} since {last_game_date}")
                 return
@@ -263,6 +264,33 @@ class PlayerScraper:
             return None
         except Exception as e:
             print(f"Error reading {performance_file}: {e}")
+            return None
+
+    def _get_max_counter(self, performance_file: str) -> Optional[int]:
+        """
+        Gets the highest games_played career counter already on file.
+
+        Used as the authoritative delta signal: a scraped row whose counter
+        exceeds this is a genuinely-new game and must be kept even when its
+        round-derived approximate date lands before the last-game date.
+
+        Returns None if the file is missing/empty or has no numeric counter.
+        """
+        if not os.path.exists(performance_file):
+            return None
+        try:
+            df = pd.read_csv(performance_file)
+            if 'games_played' not in df.columns or df.empty:
+                return None
+            counters = pd.to_numeric(
+                df['games_played'].astype(str).str.replace(r'[↑↓]', '', regex=True).str.strip(),
+                errors='coerce',
+            ).dropna()
+            if counters.empty:
+                return None
+            return int(counters.max())
+        except Exception as e:
+            print(f"Error reading counter from {performance_file}: {e}")
             return None
 
     def _write_player_details(
@@ -351,13 +379,22 @@ class PlayerScraper:
             (round_name, frozenset({team.strip(), opponent.strip()}))
         )
 
-    def _scrape_player_performance_details(self, player_soup: BeautifulSoup, since_date: Optional[datetime] = None, matches_dir: Optional[str] = None) -> List[List[str]]:
+    def _scrape_player_performance_details(self, player_soup: BeautifulSoup, since_date: Optional[datetime] = None, matches_dir: Optional[str] = None, max_counter: Optional[int] = None) -> List[List[str]]:
         """
         Scrapes the player's performance details from the player's page, optionally since a given date.
 
         Args:
             player_soup (BeautifulSoup): The BeautifulSoup object of the player's page.
             since_date (Optional[datetime]): Only scrape data after this date (for delta updates).
+            max_counter (Optional[int]): Highest games_played counter already on file.
+                The approximate date derived from (header year, round number) is not
+                monotonic with real chronology -- afltables can label a late-season
+                game with a low round number (e.g. Angus Clarke's game #14, a 2025
+                game shown as round "1"), whose approximated date falls before
+                since_date and would be wrongly filtered out. games_played is the
+                authoritative "already seen" signal: a row whose counter exceeds
+                max_counter is a genuinely-new game and is kept regardless of its
+                approximated date.
 
         Returns:
             List[List[str]]: A list of lists containing the player's performance details.
@@ -401,8 +438,22 @@ class PlayerScraper:
                         )
                         if fixture_date is not None:
                             game_date = fixture_date
-                    if since_date and game_date <= since_date:
-                        continue  # Skip games before since_date
+                    # games_played counter is the authoritative "already seen"
+                    # signal: a row whose counter exceeds what we already have is
+                    # a new game and must not be dropped by the (non-monotonic)
+                    # date approximation, even if its round label puts it early.
+                    counter_raw = re.sub(r'[↑↓]', '', cells[0]).strip()
+                    try:
+                        row_counter = int(counter_raw)
+                    except (ValueError, TypeError):
+                        row_counter = None
+                    is_new_counter = (
+                        max_counter is not None
+                        and row_counter is not None
+                        and row_counter > max_counter
+                    )
+                    if since_date and game_date <= since_date and not is_new_counter:
+                        continue  # Skip games before since_date (already recorded)
 
                     data = [team, year] + cells + [game_date.strftime("%Y-%m-%d")]
                     if len(data) < len(self.PLAYER_COL_TITLES):
