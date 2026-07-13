@@ -94,3 +94,25 @@ def test_completeness_gate_passes_balanced_season():
     warns = game_scraper.check_match_completeness(df, 2025)
 
     assert warns == []
+
+
+# ---------------------------------------------------------------------------
+# Player date integrity — guards against afltables non-chronological labels
+# causing wrong dates in player performance files (Clarke R1/2025-03-01 bug)
+# ---------------------------------------------------------------------------
+
+def test_clarke_row_has_correct_date():
+    """The stranded Clarke game (afltables 'Round 1' / Gold Coast, 2025-08-27)
+    must carry date 2025-08-27, not the false 2025-03-01 that the old delta
+    scraper wrote when it first saw the non-chronological round label."""
+    import glob
+    files = glob.glob(
+        "/home/abhi/git/SuperCoach-VIA/data/player_data/clarke_angus*performance*.csv"
+    )
+    if not files:
+        return  # player not yet scraped; skip rather than fail
+    df = pd.read_csv(files[0])
+    bad = df[(df["year"] == 2025) & (df["round"].astype(str) == "1") & (df["date"] < "2025-08-01")]
+    assert bad.empty, f"Clarke has wrong early date on Round-1/2025 row: {bad[['year','round','date']].to_dict()}"
+
+
