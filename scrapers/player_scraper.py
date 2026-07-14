@@ -336,18 +336,24 @@ class PlayerScraper:
                 new_df.to_csv(performance_details_file, index=False)
             print(f"Updated performance details to {performance_details_file} with {len(player_performance_details)} new rows")
 
-    def _resolve_finals_date(
-        self, year: int, team: str, opponent: str, round_code: str, matches_dir: str
+    def _resolve_match_date(
+        self, year: int, team: str, opponent: str, round_key: str, matches_dir: str
     ) -> Optional[datetime]:
         """
-        Looks up the real fixture date for a finals game from
-        matches_<year>.csv, keyed on the round name and the unordered team pair.
+        Looks up the real fixture date for a game from matches_<year>.csv, keyed
+        on the round label and the unordered team pair.
+
+        `round_key` is the value as it appears in the matches CSV `round_num`
+        column: the numeric string ("1", "12", ...) for home-and-away rounds, or
+        the full finals name ("Grand Final", ...) for finals. This lets a game
+        afltables labels "Round 1" but that was actually played in August
+        (rescheduled Opening Round) be stamped with its real date instead of the
+        synthetic `datetime(year, 3, 1) + weeks` approximation.
 
         Returns the fixture date, or None if the match cannot be found (caller
-        then falls back to the _FINALS_WEEK approximation).
+        then falls back to the round-derived approximation).
         """
-        round_name = _FINALS_ROUND_NAMES.get(round_code.upper().strip())
-        if not round_name or not matches_dir:
+        if not round_key or not matches_dir:
             return None
 
         cache = getattr(self, '_matches_cache', None)
@@ -376,7 +382,7 @@ class PlayerScraper:
             cache[year] = lookup
 
         return cache[year].get(
-            (round_name, frozenset({team.strip(), opponent.strip()}))
+            (round_key, frozenset({team.strip(), opponent.strip()}))
         )
 
     def _scrape_player_performance_details(self, player_soup: BeautifulSoup, since_date: Optional[datetime] = None, matches_dir: Optional[str] = None, max_counter: Optional[int] = None) -> List[List[str]]:
@@ -429,12 +435,21 @@ class PlayerScraper:
                     _numeric = re.sub(r'\D', '', round_str)
                     round_num = int(_numeric) if _numeric else _FINALS_WEEK.get(round_str.upper().strip(), 24)
                     game_date = datetime(year_int, 3, 1) + timedelta(weeks=round_num - 1)  # Approximate date
-                    # For finals, prefer the real fixture date so re-scrapes don't
-                    # overwrite correct September dates with the August approximation.
-                    if not _numeric:
-                        opponent = cells[1]
-                        fixture_date = self._resolve_finals_date(
-                            year_int, team, opponent, round_str, matches_dir
+                    # Prefer the real fixture date over the round-derived
+                    # approximation. For numeric rounds the matches-CSV key is the
+                    # number itself; for finals it is the mapped full name. This
+                    # stops the synthetic-date mint: a game labelled "Round 1" but
+                    # actually played in August (rescheduled Opening Round) gets
+                    # its true date, and re-scrapes never overwrite a correct
+                    # September finals date with the August approximation.
+                    opponent = cells[1]
+                    if _numeric:
+                        round_key = _numeric
+                    else:
+                        round_key = _FINALS_ROUND_NAMES.get(round_str.upper().strip())
+                    if round_key:
+                        fixture_date = self._resolve_match_date(
+                            year_int, team, opponent, round_key, matches_dir
                         )
                         if fixture_date is not None:
                             game_date = fixture_date
