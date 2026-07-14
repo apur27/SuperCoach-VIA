@@ -7,7 +7,7 @@
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL single-season records - peak-output leaderboards
-> ✓ All 122 stats verified against source data · council-pipeline-gated · 2026-07-13
+> ✓ All 122 stats verified against source data · council-pipeline-gated · 2026-07-14
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 

@@ -4,7 +4,7 @@
 
 > **Status: experimental v0.** Predictions are model output, not certainties - typical error is ±4 disposals. Always cross-check team lists before lockout.
 
-*Source: `data/prediction/next_round_20_prediction_20260713_2050.csv` (413 player rows, mean predicted disposals 15.97, range 8.0-30.0).*
+*Source: `data/prediction/next_round_20_prediction_20260714_0730.csv` (413 player rows, mean predicted disposals 15.97, range 8.0-30.0).*
 
 ---
 
@@ -156,4 +156,4 @@ For the full honest version, see [How to use this for SuperCoach](../how-to-use-
 
 Run `python scripts/generate_weekly_cheat_sheet.py` from the repo root. The script reads the most recent prediction CSV and writes this markdown.
 
-*Last generated: 2026-07-13T10:56:43+00:00*
+*Last generated: 2026-07-13T21:36:43+00:00*

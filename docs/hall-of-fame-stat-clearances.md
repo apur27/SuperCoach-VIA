@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-07-13 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-07-14 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career clearances - all-time top 20
-> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-07-13
+> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-07-14
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
