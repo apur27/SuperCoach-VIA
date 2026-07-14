@@ -48,6 +48,21 @@ log "=================================================================="
 RUN_START=$(date +%s)
 
 # ---------------------------------------------------------------------------
+# Phase 0 — deterministic round-settlement probe (F5)
+# Replaces the day-of-week timing heuristic entirely. Reads the current season's
+# matches CSV, finds the current (highest) home-and-away round, and confirms
+# every game present for that round has a non-zero final score. If any game is
+# still 0-0 (unplayed / mid-play), abort: running the cycle on an unsettled round
+# scrapes and publishes half-finished results. Fail-closed on a missing file.
+# ---------------------------------------------------------------------------
+log "[0/5] Round-settlement probe: confirming the current round's scores are final..."
+if ! $PYTHON "$REPO_ROOT/scripts/check_round_settled.py" 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: current round is unsettled (games without final scores) — aborting before Phase 1. Re-run once the round's scores are confirmed."
+    exit 1
+fi
+log "[0/5] Round-settlement probe passed — current round is settled."
+
+# ---------------------------------------------------------------------------
 # Phase 1 — data + model pipeline
 # refresh_and_rank.sh commits Phase 1 artifacts but defers the push (detected
 # via WEEKLY_REFRESH_PARENT=1) so the phantom-row gate can run before anything
@@ -67,7 +82,23 @@ if ! $PYTHON "$REPO_ROOT/scripts/phantom_row_validator.py" 2>&1 | tee -a "$LOG_F
     log "FATAL: phantom-row validator found dropped/doubled player rows — Phase 1 commit NOT pushed. Route to Scientist."
     exit 1
 fi
-log "[1c/5] Phantom-row gate passed. Pushing Phase 1 commit..."
+log "[1c/5] Phantom-row gate passed."
+
+# ---------------------------------------------------------------------------
+# Match-completeness gate (F8/E2) — promotes the per-round fixture audit from
+# warnings-only to BLOCKING. If matches_<year>.csv is missing any scheduled
+# matchup for a home-and-away round (the "R10 2026" bug, where 6 of 9 games were
+# silently dropped and predictions ran on incomplete data for weeks), abort
+# before the Phase 1 push. Fails OPEN on a fixture/network outage. Gate on
+# audit_match_rounds — check_match_completeness cannot catch a single dropped
+# round (each affected team is only 1 game short, under its >=2 threshold).
+# ---------------------------------------------------------------------------
+log "[1c/5] Match-completeness gate: verifying every scheduled matchup was scraped..."
+if ! $PYTHON "$REPO_ROOT/scripts/match_completeness_gate.py" 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: match-completeness gate found incomplete round(s) — Phase 1 commit NOT pushed. Backfill the missing matches (re-run the match scraper) before shipping."
+    exit 1
+fi
+log "[1c/5] Match-completeness gate passed. Pushing Phase 1 commit..."
 PENDING=$(git -C "$REPO_ROOT" rev-list origin/main..HEAD --count 2>/dev/null || echo 0)
 if [ "$PENDING" -gt 0 ]; then
     git -C "$REPO_ROOT" push origin main 2>&1 | tee -a "$LOG_FILE"
@@ -181,7 +212,20 @@ log "[2b/5] Recording deterministic HOF verdicts for the provenance gate..."
       2>&1 | tee -a "$LOG_FILE"
   done
 )
-log "[2b/5] HOF verdict records written."
+# F1: the navigation hub (docs/hall-of-fame-stat-leaders.md) is now gated by
+# check_hof_hub() inside check_hof_numbers.py above — its rank-1 figures were
+# verified against _stat_leaders.json in the numeric gate that just passed. Record
+# its PASS so the pre-commit stamp gate accepts the regenerated hub instead of
+# fail-closing and reverting it (the Phase 4 death in the 07-13 / 07-14 cycles).
+(
+  cd "$REPO_ROOT" || exit 1
+  hub=docs/hall-of-fame-stat-leaders.md
+  if [ -f "$hub" ] && grep -q '<!-- council-pipeline:' "$hub"; then
+    scripts/record-sentinel-verdict.sh --doc "$hub" --verdict PASS --agent check_hof_numbers \
+      2>&1 | tee -a "$LOG_FILE"
+  fi
+)
+log "[2b/5] HOF verdict records written (subpages + hub)."
 
 # ---------------------------------------------------------------------------
 # Phase 3 — FootyStrategy agent: round recap + insights update
@@ -243,18 +287,41 @@ log "[3/5] FootyStrategy agent complete."
 # records a content-hash-keyed verdict via record-sentinel-verdict.sh. A non-PASS
 # (or a gate that cannot run) aborts before Phase 4 stages the file — fail-closed.
 # ---------------------------------------------------------------------------
-log "[3b/5] Gating afl-insights.md through DataSentinel (F05)..."
 DS_OUT="$LOG_DIR/insights_datasentinel_${TODAY}.json"
-$CLAUDE -p "Full-doc Pass 2 check on docs/afl-insights.md. Record verdict via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|FAIL> --agent DataSentinel. Emit ONLY the JSON verdict object." \
-    --agent DataSentinel \
-    --permission-mode bypassPermissions \
-    2>&1 | tee "$DS_OUT" | tee -a "$LOG_FILE"
 
-if ! grep -Eq '"verdict"[[:space:]]*:[[:space:]]*"PASS"' "$DS_OUT"; then
-    log "FATAL: DataSentinel did not return PASS for afl-insights.md — aborting before commit (F05). Route the failing tags to FootyStrategy."
-    exit 1
+# Run DataSentinel Pass-2 on the insights doc; verdict lands in $DS_OUT.
+# Returns 0 iff DataSentinel recorded PASS.
+gate_insights() {
+    $CLAUDE -p "Full-doc Pass 2 check on docs/afl-insights.md. Record verdict via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|FAIL> --agent DataSentinel. If FAIL, include a \"failed_tags\" array naming each specific number/phrase that failed and why. Emit ONLY the JSON verdict object." \
+        --agent DataSentinel \
+        --permission-mode bypassPermissions \
+        2>&1 | tee "$DS_OUT" | tee -a "$LOG_FILE"
+    grep -Eq '"verdict"[[:space:]]*:[[:space:]]*"PASS"' "$DS_OUT"
+}
+
+log "[3b/5] Gating afl-insights.md through DataSentinel (F05, pass 1)..."
+if gate_insights; then
+    log "[3b/5] afl-insights.md gated: DataSentinel PASS recorded (pass 1)."
+else
+    # F2: bounded single retry. Feed the failing tags back to FootyStrategy,
+    # let it re-write the section, then re-gate exactly once. A second FAIL
+    # aborts — we never loop forever on a doc DataSentinel keeps rejecting.
+    log "[3b/5] DataSentinel FAIL on pass 1 — extracting failed tags and re-invoking FootyStrategy (F2 retry)..."
+    FAILED_TAGS=$(grep -oE '"failed_tags"[[:space:]]*:[[:space:]]*\[[^]]*\]' "$DS_OUT" || true)
+    [ -n "$FAILED_TAGS" ] || FAILED_TAGS=$(tr -d '\000' < "$DS_OUT" | tail -c 1500)
+    $CLAUDE -p "Your Round $ROUND recap in docs/afl-insights.md FAILED DataSentinel. These tags/numbers failed: ${FAILED_TAGS}. Fix ONLY the '## Round $ROUND — Week in Review' section: add a bold **[data]** tag to every specific number, name the source CSV for each in the methodology sentence, and re-verify each figure against data/. Re-write the section and hand back. Touch no other section or file." \
+        --agent FootyStrategy \
+        --permission-mode bypassPermissions \
+        2>&1 | tee -a "$LOG_FILE"
+
+    log "[3b/5] Re-gating afl-insights.md through DataSentinel (F05, pass 2)..."
+    if gate_insights; then
+        log "[3b/5] afl-insights.md gated: DataSentinel PASS recorded (pass 2, after retry)."
+    else
+        log "FATAL: DataSentinel FAILed afl-insights.md twice (pass 1 + retry) — aborting before commit (F05). Human review required; do not ship the recap."
+        exit 1
+    fi
 fi
-log "[3b/5] afl-insights.md gated: DataSentinel PASS recorded."
 
 # ---------------------------------------------------------------------------
 # Phase 4 — commit and push all phase 2/3 outputs
