@@ -38,7 +38,11 @@ LOG_FILE="$LOG_DIR/weekly_refresh_${TODAY}.log"
 
 cd "$REPO_ROOT"
 
-log() { echo "[$(date '+%H:%M:%S')] $*" | tee -a "$LOG_FILE"; }
+# F3: HARNESS_PHASE is stamped into every log line and exported to child steps.
+# On an abort, the last line in the log names the phase that died — no more
+# guessing which phase a killed run stopped in (the 07-14 Phase-4 mid-commit death).
+export HARNESS_PHASE="init"
+log() { echo "[$(date '+%H:%M:%S')] [phase ${HARNESS_PHASE}] $*" | tee -a "$LOG_FILE"; }
 
 mkdir -p "$LOG_DIR"
 log "=================================================================="
@@ -55,6 +59,7 @@ RUN_START=$(date +%s)
 # still 0-0 (unplayed / mid-play), abort: running the cycle on an unsettled round
 # scrapes and publishes half-finished results. Fail-closed on a missing file.
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="0"
 log "[0/5] Round-settlement probe: confirming the current round's scores are final..."
 if ! $PYTHON "$REPO_ROOT/scripts/check_round_settled.py" 2>&1 | tee -a "$LOG_FILE"; then
     log "FATAL: current round is unsettled (games without final scores) — aborting before Phase 1. Re-run once the round's scores are confirmed."
@@ -68,6 +73,7 @@ log "[0/5] Round-settlement probe passed — current round is settled."
 # via WEEKLY_REFRESH_PARENT=1) so the phantom-row gate can run before anything
 # reaches origin.
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="1"
 log "[1/5] Running refresh_and_rank.sh (data + model + season docs)..."
 WEEKLY_REFRESH_PARENT=1 bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1/5] refresh_and_rank.sh complete."
@@ -136,6 +142,7 @@ fi
 # numbers via the same merge logic as the backtest doc; touches only the eval
 # table + banner pills/numbers, never the news block. Idempotent.
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="1b"
 log "[1b/5] Updating README eval surface + banner from backtest figures..."
 bash "$REPO_ROOT/scripts/update_eval_surface.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1b/5] Eval surface updated."
@@ -146,6 +153,7 @@ log "[1b/5] Eval surface updated."
 #   docs/weekly/round-<N>-<year>.md
 #   docs/weekly/round-current-<year>.md  (stable link)
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="2a"
 log "[2a/5] Generating weekly cheat sheet for round $ROUND..."
 $PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" --csv "$LATEST_PRED" 2>&1 | tee -a "$LOG_FILE"
 log "[2a/5] Cheat sheet generated."
@@ -157,6 +165,7 @@ log "[2a/5] Cheat sheet generated."
 # 3. DataSentinel agent: compare fresh JSON to the published stat pages,
 #    update any changed numbers + "Last refreshed" date across all stat docs
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="2b"
 log "[2b/5] Recomputing all-time stat leaders from updated player data..."
 $PYTHON "$REPO_ROOT/docs/hall-of-fame/compute_stat_leaders.py" 2>&1 | tee -a "$LOG_FILE"
 log "[2b/5] Stat leaders JSON refreshed."
@@ -271,6 +280,7 @@ PYEOF
 enforce_news_limit
 log "News block limit enforced (max 2 entries)."
 
+export HARNESS_PHASE="3"
 log "[3/5] Invoking FootyStrategy agent for round $ROUND weekly insights..."
 
 $CLAUDE -p "Round=$ROUND. Date=$TODAY. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table). Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file." \
@@ -299,6 +309,7 @@ gate_insights() {
     grep -Eq '"verdict"[[:space:]]*:[[:space:]]*"PASS"' "$DS_OUT"
 }
 
+export HARNESS_PHASE="3b"
 log "[3b/5] Gating afl-insights.md through DataSentinel (F05, pass 1)..."
 if gate_insights; then
     log "[3b/5] afl-insights.md gated: DataSentinel PASS recorded (pass 1)."
@@ -326,6 +337,7 @@ fi
 # ---------------------------------------------------------------------------
 # Phase 4 — commit and push all phase 2/3 outputs
 # ---------------------------------------------------------------------------
+export HARNESS_PHASE="4"
 log "[4/5] Staging and committing weekly agent outputs..."
 
 git add \
@@ -353,8 +365,12 @@ git add \
 if git diff --cached --quiet; then
     log "[4/5] No new changes to commit — everything already up to date."
 else
-    scripts/git_commit_safe.sh commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)"
-    git push origin main
+    # F3: tee the commit AND push through the log. Phase 4 died mid-commit in the
+    # 07-14 run with no captured output; under `set -o pipefail` a failing commit or
+    # push still aborts (the pipe carries the left-hand exit code) but now the log
+    # captures exactly what git said before it died.
+    scripts/git_commit_safe.sh commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)" 2>&1 | tee -a "$LOG_FILE"
+    git push origin main 2>&1 | tee -a "$LOG_FILE"
     log "[4/5] Pushed to origin/main."
 fi
 

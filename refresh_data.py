@@ -265,20 +265,40 @@ def refresh_matches() -> None:
         lineup_folder_path=config.LINEUPS_DIR,
     )
     # Post-write self-check: audit the current season's match file for rounds
-    # that were silently truncated (the "R10 2026" bug). Warnings only -- this
-    # never aborts the refresh, it just surfaces probable gaps in the log.
+    # that were silently truncated (the "R10 2026" bug).
+    #
+    # F6 — this audit runs HERE, immediately after the match scrape and BEFORE the
+    # ~2h player scrape. A truncated match file means every downstream step (player
+    # scrape, top100, prediction, backtest, docs) would run on incomplete data, so
+    # a WARNING is now BLOCKING: abort before that work is wasted. Fail-open is
+    # inherent -- audit_match_rounds returns [] when the afltables fixture cannot be
+    # fetched, so a transient network outage never trips this. Set
+    # ALLOW_INCOMPLETE_MATCHES=1 to override for a deliberate partial refresh.
     current_year = datetime.now().year
     current_file = os.path.join(config.MATCHES_DIR, f"matches_{current_year}.csv")
     if os.path.exists(current_file):
         issues = audit_match_rounds(current_file)
         gaps = [i for i in issues if i["severity"] == "WARNING"]
         if gaps:
+            missing_rounds = ", ".join(str(i["round_num"]) for i in gaps)
             logging.warning(
-                "Match audit found %d probable scraper gap(s) in %s: rounds %s",
-                len(gaps),
-                os.path.basename(current_file),
-                ", ".join(str(i["round_num"]) for i in gaps),
+                "Match audit found %d incomplete round(s) in %s: rounds %s",
+                len(gaps), os.path.basename(current_file), missing_rounds,
             )
+            if os.environ.get("ALLOW_INCOMPLETE_MATCHES") == "1":
+                logging.warning(
+                    "ALLOW_INCOMPLETE_MATCHES=1 — continuing despite incomplete round(s) %s.",
+                    missing_rounds,
+                )
+            else:
+                logging.error(
+                    "Match-completeness ABORT (F6): incomplete round(s) %s — aborting "
+                    "before the player scrape so ~2h of downstream work is not wasted on "
+                    "incomplete data. Re-run the match scraper, or set "
+                    "ALLOW_INCOMPLETE_MATCHES=1 to override.",
+                    missing_rounds,
+                )
+                raise SystemExit(1)
         else:
             logging.info("Match audit clean for %s", os.path.basename(current_file))
 

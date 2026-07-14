@@ -143,6 +143,22 @@ git add \
 # paths, never `git add .` (which would sweep scratch CSVs under data/prediction/). Lineups
 # are intentionally excluded until their scraper corruption is fixed (S3).
 
+# F7: stage the prediction + backtest CSVs that docs/afl-insights.md cites as sources
+# and that the by-archive backtest depends on surviving between cycles. Previously these
+# were left untracked, so a fresh clone lost them and the backtest lost its archived
+# forward CSVs. EXPLICIT patterns only — never `git add data/prediction` wholesale (that
+# would sweep experimental / scratch CSVs). The upcoming-round prediction is staged
+# latest-only; the backtest artifacts accumulate as history and are all staged.
+LATEST_NEXT=$(ls -t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -1 || true)
+[ -n "$LATEST_NEXT" ] && git add "$LATEST_NEXT" 2>/dev/null || true
+git add \
+    data/prediction/backtest/backtest_summary_*.csv \
+    data/prediction/backtest/prediction_vs_actual_*.csv \
+    data/prediction/backtest/backtest_by_team_*.csv \
+    data/prediction/backtest/backtest_run_*.log \
+    data/prediction/optuna_best_params.json \
+    2>/dev/null || true
+
 if git diff --cached --quiet; then
     echo "No doc changes to commit."
 else

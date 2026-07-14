@@ -7,11 +7,20 @@ match the JSON ground truth. Exit 0 = all OK, exit 1 = mismatch(es) found.
 Replaces LLM arithmetic in the DataSentinel gate for rank-1 HOF rows.
 """
 import json
+import re
 import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 JSON_PATH = REPO / "docs" / "hall-of-fame" / "_stat_leaders.json"
+
+# Navigation hub — one HOF-HUB:<key> sentinel row per career category, each
+# carrying that category's rank-1 total inline before the **[data]** tag. The
+# hub is rewritten by update_hof_pages.py every cycle but was never gated, so its
+# council-pipeline stamp had no matching DataSentinel record and the pre-commit
+# hook fail-closed and reverted it (Phase 4 death, 07-13 / 07-14). This checker
+# now verifies the hub's rank-1 figures against the same JSON the subpages use.
+HUB_REL = "docs/hall-of-fame-stat-leaders.md"
 
 # (subpage relative path, games_only flag)
 # games_only=True  → rank-1 row: | rank | name | clubs | span | count |
@@ -46,6 +55,65 @@ def _extract_rank1_total(line: str, games_only: bool) -> str | None:
     # multi-col:  [rank, name, clubs, span, games, count, per_game] → index 5
     idx = 4 if games_only else 5
     return cols[idx] if len(cols) > idx else None
+
+
+def _extract_hub_total(line: str) -> str | None:
+    """Extract the rank-1 total from a HOF-HUB row.
+
+    Row shape: ``| Career goals | [..](..) | Tony Lockett 1,360 **[data]** |``
+    The figure is the number token immediately before the ``**[data]**`` tag.
+    """
+    m = re.search(r"([\d][\d,]*)\s*\*\*\[data\]\*\*", line)
+    return m.group(1) if m else None
+
+
+def check_hof_hub(categories: dict, repo_root: Path) -> int:
+    """Verify the hub's rank-1 figures against the JSON ground truth.
+
+    Iterates the same 10 category keys the subpages use; for each, finds the
+    ``<!-- HOF-HUB:<key> -->`` row and compares its inline rank-1 total to
+    ``categories[key]["leaders"][0]["total"]``. Returns the mismatch count.
+    A missing hub file or missing row is skipped (never a false FAIL).
+    """
+    hub = Path(repo_root) / HUB_REL
+    if not hub.exists():
+        print(f"  SKIP: hub not found: {Path(HUB_REL).name}")
+        return 0
+
+    lines = hub.read_text().splitlines()
+    failures = 0
+    for key in _SUBPAGES:
+        if key not in categories:
+            continue
+        leaders = categories[key].get("leaders", [])
+        if not leaders:
+            continue
+        expected = leaders[0]["total"]
+
+        sentinel = f"<!-- HOF-HUB:{key} -->"
+        hub_line = next((ln for ln in lines if sentinel in ln), None)
+        if hub_line is None:
+            print(f"  WARN: no HOF-HUB sentinel for '{key}' in {Path(HUB_REL).name}")
+            continue
+
+        actual_str = _extract_hub_total(hub_line)
+        if actual_str is None:
+            print(f"  WARN: could not extract hub total for '{key}' in {Path(HUB_REL).name}")
+            continue
+        actual = _parse_number(actual_str)
+        if actual is None:
+            print(f"  WARN: could not parse hub '{actual_str}' for '{key}'")
+            continue
+
+        if actual != expected:
+            print(
+                f"  FAIL: hub {key}: expected {expected:g}, got {actual:g} "
+                f"('{actual_str}') in {Path(HUB_REL).name}"
+            )
+            failures += 1
+        else:
+            print(f"  OK: hub {key} rank-1 = {actual_str}")
+    return failures
 
 
 def check_hof_numbers(json_path: Path | None = None, repo_root: Path | None = None) -> int:
@@ -109,6 +177,9 @@ def check_hof_numbers(json_path: Path | None = None, repo_root: Path | None = No
             failures += 1
         else:
             print(f"  OK: {key} rank-1 = {actual_str}")
+
+    # Gate the navigation hub against the same JSON (F1).
+    failures += check_hof_hub(categories, repo_root)
 
     if failures:
         print(f"\n{failures} mismatch(es) found.")
