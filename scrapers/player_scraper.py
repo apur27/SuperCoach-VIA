@@ -63,18 +63,32 @@ def dedup_player_performance(df: pd.DataFrame) -> pd.DataFrame:
     as a distinct game. ``keep='last'`` preserves the newest scrape of a row.
     """
     key = ['team', 'year', 'round', 'opponent']
-    if 'games_played' not in df.columns:
-        return df.drop_duplicates(subset=key, keep='last')
-    gp_key = (
-        df['games_played'].astype(str)
-        .str.replace('↑', '', regex=False)
-        .str.replace('↓', '', regex=False)
-        .str.strip()
-    )
+
+    def _norm(series: pd.Series) -> pd.Series:
+        # Dtype-agnostic key: existing rows come from pd.read_csv (an all-numeric
+        # ``year`` is int64 2025, and a NaN-bearing numeric column floats to
+        # 2025.0), while a freshly-scraped row is all strings ("2025"). Without
+        # this, drop_duplicates treated 2025 (int) != "2025" (str) and kept both
+        # copies of the same re-scraped game -- the R20 2026 +1 doubling that
+        # fail-closed the phantom-row gate. Collapse each key to a trailing-".0"-
+        # stripped string so identity is compared on value, not storage dtype.
+        out = series.astype(str).str.strip()
+        return out.str.replace(r'^(-?\d+)\.0$', r'\1', regex=True)
+
+    keyed = {c: _norm(df[c]) for c in key if c in df.columns}
+    if 'games_played' in df.columns:
+        keyed['_gp_key'] = (
+            df['games_played'].astype(str)
+            .str.replace('↑', '', regex=False)
+            .str.replace('↓', '', regex=False)
+            .str.strip()
+            .str.replace(r'^(-?\d+)\.0$', r'\1', regex=True)
+        )
+    tmp = df.assign(**{f'_dk_{c}': v for c, v in keyed.items()})
+    dedup_cols = [f'_dk_{c}' for c in keyed]
     return (
-        df.assign(_gp_key=gp_key)
-        .drop_duplicates(subset=key + ['_gp_key'], keep='last')
-        .drop(columns='_gp_key')
+        tmp.drop_duplicates(subset=dedup_cols, keep='last')
+        .drop(columns=dedup_cols)
     )
 
 
