@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-07-14 · 19 rounds backtested · auto-generated*
+*Last updated: 2026-07-20 · 20 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -53,8 +53,9 @@ This is the honest test. The model never gets to see the round it's predicting.
 | 17 | 320 | 3.83 | 4.84 | 77.8% | 96.2% |
 | 18 | 284 | 3.61 | 4.66 | 78.5% | 97.9% |
 | 19 | 371 | 3.97 | 5.20 | 74.7% | 94.3% |
+| 20 | 361 | 3.92 | 5.04 | 76.5% | 95.3% |
 
-**Overall (mean across 19 rounds):** MAE 3.97 disposals · 74.2% of predictions within 5 disposals · 95.8% within 10.
+**Overall (mean across 20 rounds):** MAE 3.96 disposals · 74.3% of predictions within 5 disposals · 95.7% within 10.
 
 > **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE ~4.9) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, it usually means an unusual game week (byes, interstate travel, weather).
 
@@ -62,36 +63,36 @@ This is the honest test. The model never gets to see the round it's predicting.
 
 | # | Player | Team | Avg actual disposals | Avg predicted | Avg error | Rounds |
 |--:|--------|------|---------------------:|--------------:|----------:|-------:|
-| **1** | **Nick Daicos** | **Collingwood** | **34.8** | **28.6** | **−6.1 ↓** | **16** |
-| 2 | Bailey Smith | Geelong | 32.2 | 27.1 | −5.1 ↓ | 16 |
-| **3** | **Clayton Oliver** | **Greater Western Sydney** | **31.9** | **25.9** | **−6.0 ↓** | **17** |
-| **4** | **Harry Sheezel** | **North Melbourne** | **31.6** | **27.2** | **−4.5 ↓** | **17** |
-| **5** | **Nasiah Wanganeen-Milera** | **St Kilda** | **30.8** | **24.7** | **−6.1 ↓** | **13** |
-| **6** | **Lachie Neale** | **Brisbane Lions** | **30.6** | **26.6** | **−4.1 ↓** | **17** |
-| **7** | **Archie Roberts** | **Essendon** | **30.1** | **25.3** | **−4.9 ↓** | **14** |
-| 8 | Zak Butters | Port Adelaide | 29.8 | 26.4 | −3.4 ↓ | 17 |
-| 9 | Lachie Ash | Greater Western Sydney | 29.6 | 26.5 | −3.2 ↓ | 17 |
-| 10 | Max Holmes | Geelong | 29.5 | 26.6 | −2.9 ↓ | 17 |
+| **1** | **Nick Daicos** | **Collingwood** | **34.8** | **28.5** | **−6.3 ↓** | **17** |
+| 2 | Bailey Smith | Geelong | 32.4 | 27.1 | −5.3 ↓ | 17 |
+| **3** | **Harry Sheezel** | **North Melbourne** | **31.7** | **27.3** | **−4.4 ↓** | **18** |
+| **4** | **Clayton Oliver** | **Greater Western Sydney** | **31.4** | **26.0** | **−5.4 ↓** | **18** |
+| **5** | **Lachie Neale** | **Brisbane Lions** | **30.7** | **26.6** | **−4.2 ↓** | **18** |
+| **6** | **Nasiah Wanganeen-Milera** | **St Kilda** | **30.1** | **25.0** | **−5.1 ↓** | **14** |
+| **7** | **Archie Roberts** | **Essendon** | **29.9** | **25.3** | **−4.7 ↓** | **15** |
+| 8 | Zak Butters | Port Adelaide | 29.8 | 26.3 | −3.4 ↓ | 18 |
+| 9 | Lachie Ash | Greater Western Sydney | 29.3 | 26.6 | −2.7 ↓ | 18 |
+| 10 | Max Holmes | Geelong | 29.2 | 26.7 | −2.5 ↓ | 18 |
 | 11 | Lachie Whitfield | Greater Western Sydney | 28.8 | 26.3 | −2.5 ↓ | 16 |
-| 12 | Finn Callaghan | Greater Western Sydney | 28.5 | 26.5 | −2.0 ↓ | 17 |
-| 13 | Sam Walsh | Carlton | 28.5 | 26.7 | −1.8 ↓ | 17 |
-| 14 | Noah Anderson | Gold Coast | 28.1 | 25.2 | −2.8 ↓ | 16 |
-| **15** | **Will Ashcroft** | **Brisbane Lions** | **27.8** | **25.4** | **−2.4 ↓** | **17** |
-| 16 | Isaac Heeney | Sydney | 27.3 | 22.7 | −4.6 ↓ | 15 |
-| 17 | Josh Daicos | Collingwood | 27.2 | 25.4 | −1.8 ↓ | 17 |
+| 12 | Finn Callaghan | Greater Western Sydney | 28.4 | 26.7 | −1.8 ↓ | 18 |
+| 13 | Sam Walsh | Carlton | 28.3 | 26.7 | −1.6 ↓ | 18 |
+| **14** | **Will Ashcroft** | **Brisbane Lions** | **28.0** | **25.5** | **−2.5 ↓** | **18** |
+| 15 | Noah Anderson | Gold Coast | 27.8 | 25.3 | −2.5 ↓ | 17 |
+| **16** | **Zach Merrett** | **Essendon** | **27.4** | **25.8** | **−1.7 ↓** | **18** |
+| 17 | Isaac Heeney | Sydney | 27.4 | 22.8 | −4.6 ↓ | 16 |
 | 18 | Jack Sinclair | St Kilda | 27.1 | 26.9 | −0.2 ↓ | 15 |
-| **19** | **Zach Merrett** | **Essendon** | **27.0** | **25.8** | **−1.2 ↓** | **17** |
-| 20 | Bailey Dale | Western Bulldogs | 26.9 | 23.1 | −3.9 ↓ | 17 |
-| 21 | Marcus Bontempelli | Western Bulldogs | 26.8 | 25.4 | −1.4 ↓ | 17 |
-| 22 | Wayne Milera | Adelaide | 26.5 | 23.1 | −3.5 ↓ | 13 |
-| 23 | Jai Newcombe | Hawthorn | 26.4 | 23.1 | −3.2 ↓ | 17 |
-| 24 | Patrick Cripps | Carlton | 26.4 | 22.4 | −3.9 ↓ | 17 |
-| 25 | John Noble | Gold Coast | 26.1 | 24.2 | −1.9 ↓ | 17 |
-| 26 | Luke Parker | North Melbourne | 25.7 | 24.1 | −1.6 ↓ | 17 |
-| 27 | Jordan Dawson | Adelaide | 25.6 | 23.8 | −1.8 ↓ | 13 |
-| 28 | Ed Richards | Western Bulldogs | 25.6 | 23.6 | −1.9 ↓ | 16 |
-| 29 | Nick Blakey | Sydney | 25.5 | 23.2 | −2.3 ↓ | 17 |
-| **30** | **Bradley Hill** | **St Kilda** | **25.3** | **21.8** | **−3.5 ↓** | **17** |
+| 19 | Josh Daicos | Collingwood | 26.9 | 25.3 | −1.6 ↓ | 18 |
+| 20 | Bailey Dale | Western Bulldogs | 26.9 | 23.2 | −3.9 ↓ | 18 |
+| 21 | Marcus Bontempelli | Western Bulldogs | 26.6 | 25.2 | −1.3 ↓ | 18 |
+| 22 | Patrick Cripps | Carlton | 26.6 | 22.4 | −4.1 ↓ | 18 |
+| 23 | Wayne Milera | Adelaide | 26.5 | 23.1 | −3.4 ↓ | 14 |
+| 24 | John Noble | Gold Coast | 26.3 | 24.3 | −2.1 ↓ | 18 |
+| 25 | Jai Newcombe | Hawthorn | 25.9 | 23.1 | −2.8 ↓ | 18 |
+| 26 | Luke Parker | North Melbourne | 25.4 | 24.1 | −1.3 ↓ | 18 |
+| 27 | Jordan Dawson | Adelaide | 25.4 | 23.9 | −1.6 ↓ | 14 |
+| 28 | Luke Davies-Uniacke | North Melbourne | 25.3 | 23.8 | −1.5 ↓ | 18 |
+| 29 | Nick Blakey | Sydney | 25.3 | 23.3 | −2.0 ↓ | 18 |
+| **30** | **Bradley Hill** | **St Kilda** | **25.2** | **21.9** | **−3.3 ↓** | **18** |
 
 > **Reading this table:** "Avg error" tells you whether the model systematically misjudges a player. A large positive error (↑) means we over-predicted — the player gets fewer disposals than expected. A large negative error (↓) means we under-predicted — they consistently beat the model. Players with errors above ±6 (bolded) are worth investigating — they may have changed role, had an injury, or are operating in a way the model hasn't caught up with yet.
 

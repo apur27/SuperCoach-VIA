@@ -1,5 +1,6 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Melbourne,2026,1,Essendon,15,W,47,13,3,13,26,,,,3,2.0,3,5,5,,1.0,,12,15,,,2.0,,,68,2026-06-07
-Melbourne,2026,2,Adelaide,16,L,47,8,1,8,16,,,,1,2.0,2,3,1,1.0,,,7,10,,,1.0,,,54,2026-06-14
-Melbourne,2026,3,Hawthorn,18,W,47,11,1,13,24,,1.0,,4,,2,2,6,,1.0,,6,14,,,,,1.0,59,2026-06-28
-Melbourne,2026,4,Richmond,19,W,47,18,5,13,31,,,,4,2,6,5,4,1,2,,9,23,,,,,2,70,2026-07-05
+Melbourne,2026,1,Essendon,15,W,47,13,3,13,26,,,,3,2.0,3,5.0,5,,1.0,,12,15,,,2.0,,,68,2026-06-07
+Melbourne,2026,2,Adelaide,16,L,47,8,1,8,16,,,,1,2.0,2,3.0,1,1.0,,,7,10,,,1.0,,,54,2026-06-14
+Melbourne,2026,3,Hawthorn,18,W,47,11,1,13,24,,1.0,,4,,2,2.0,6,,1.0,,6,14,,,,,1.0,59,2026-06-28
+Melbourne,2026,4,Richmond,19,W,47,18,5,13,31,,,,4,2.0,6,5.0,4,1.0,2.0,,9,23,,,,,2.0,70,2026-07-12
+Melbourne,2026,5,North Melbourne,20,W,47,4,2,5,9,,,,5,2.0,2,,4,,2.0,,1,9,,,,,,55,2026-07-18

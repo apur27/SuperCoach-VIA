@@ -5,44 +5,44 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-PREDICTIONS-START -->
-Predicted disposal leaders for Round 20 — generated 2026-07-14.
+Predicted disposal leaders for Round 21 — generated 2026-07-20.
 
-![Predicted disposal leaders — Round 20, 2026](../assets/charts/predictions_next_round_2026.png)
+![Predicted disposal leaders — Round 21, 2026](../assets/charts/predictions_next_round_2026.png)
 
-#### Top 30 predicted disposal leaders — Round 20, 2026
+#### Top 30 predicted disposal leaders — Round 21, 2026
 
 | Rank | Player | Team | Predicted disposals |
 |------|--------|------|--------------------:|
-| 1 | Sheezel Harry | North Melbourne | 30.0 |
+| 1 | Neale Lachie | Brisbane Lions | 30.0 |
 | 2 | Wanganeen-Milera Nasiah | St Kilda | 29.0 |
-| 3 | Callaghan Finn | Greater Western Sydney | 29.0 |
-| 4 | Ash Lachie | Greater Western Sydney | 28.0 |
-| 5 | Daicos Nick | Collingwood | 27.0 |
-| 6 | Smith Bailey | Geelong | 27.0 |
-| 7 | Oliver Clayton | Greater Western Sydney | 27.0 |
-| 8 | Ashcroft Will | Brisbane Lions | 27.0 |
-| 9 | Holmes Max | Geelong | 27.0 |
-| 10 | Walsh Sam | Carlton | 27.0 |
-| 11 | Dale Bailey | Western Bulldogs | 26.0 |
-| 12 | Brayshaw Andrew | Fremantle | 26.0 |
-| 13 | Daniel Caleb | North Melbourne | 26.0 |
-| 14 | Neale Lachie | Brisbane Lions | 26.0 |
-| 15 | Anderson Noah | Gold Coast | 26.0 |
-| 16 | Merrett Zach | Essendon | 26.0 |
-| 17 | Pendlebury Scott | Collingwood | 25.0 |
-| 18 | Richards Ed | Western Bulldogs | 25.0 |
-| 19 | Daicos Josh | Collingwood | 25.0 |
-| 20 | Parker Luke | North Melbourne | 25.0 |
-| 21 | Roberts Archie | Essendon | 25.0 |
-| 22 | Dawson Jordan | Adelaide | 25.0 |
-| 23 | Kennedy Matthew | Western Bulldogs | 25.0 |
-| 24 | Hill Bradley | St Kilda | 25.0 |
-| 25 | Heeney Isaac | Sydney | 25.0 |
-| 26 | Noble John | Gold Coast | 25.0 |
-| 27 | Warner Chad | Sydney | 24.0 |
-| 28 | Uwland Bodhi | Gold Coast | 24.0 |
-| 29 | Mills Callum | Sydney | 24.0 |
-| 30 | Blakey Nick | Sydney | 24.0 |
+| 3 | Sheezel Harry | North Melbourne | 29.0 |
+| 4 | Daicos Nick | Collingwood | 29.0 |
+| 5 | Ashcroft Will | Brisbane Lions | 28.0 |
+| 6 | Oliver Clayton | Greater Western Sydney | 28.0 |
+| 7 | Callaghan Finn | Greater Western Sydney | 28.0 |
+| 8 | Ash Lachie | Greater Western Sydney | 28.0 |
+| 9 | Anderson Noah | Gold Coast | 27.0 |
+| 10 | Smith Bailey | Geelong | 27.0 |
+| 11 | Daicos Josh | Collingwood | 27.0 |
+| 12 | Walsh Sam | Carlton | 27.0 |
+| 13 | Whitfield Lachie | Greater Western Sydney | 26.0 |
+| 14 | Hill Bradley | St Kilda | 26.0 |
+| 15 | Parker Luke | North Melbourne | 25.0 |
+| 16 | Mills Callum | Sydney | 25.0 |
+| 17 | Rankine Izak | Adelaide | 25.0 |
+| 18 | Reid Murphy | Fremantle | 25.0 |
+| 19 | Milera Wayne | Adelaide | 25.0 |
+| 20 | Merrett Zach | Essendon | 25.0 |
+| 21 | Holmes Max | Geelong | 25.0 |
+| 22 | Heeney Isaac | Sydney | 25.0 |
+| 23 | Dawson Jordan | Adelaide | 25.0 |
+| 24 | Brayshaw Andrew | Fremantle | 25.0 |
+| 25 | Gulden Errol | Sydney | 24.0 |
+| 26 | Smith Jagga | Carlton | 24.0 |
+| 27 | Serong Caleb | Fremantle | 24.0 |
+| 28 | Zorko Dayne | Brisbane Lions | 24.0 |
+| 29 | Richards Ed | Western Bulldogs | 24.0 |
+| 30 | Kelly Tim | West Coast | 24.0 |
 
 Predictions from LightGBM+HGB ensemble trained on historical player-game data. Requires GPU to generate — see [docs/technical-reference.md](technical-reference.md).
 <!-- 2026-PREDICTIONS-END -->

@@ -1,0 +1,32 @@
+{
+  "hgb__9957bf9d": {
+    "params": {
+      "max_depth": 5,
+      "learning_rate": 0.06708253365751274,
+      "max_leaf_nodes": 46,
+      "min_samples_leaf": 45,
+      "l2_regularization": 0.003993293154704154,
+      "loss": "squared_error"
+    },
+    "n_training_rows": 90818,
+    "tuned_at": "2026-07-13T20:29:57.578712",
+    "optuna_version": "4.2.1"
+  },
+  "lgbm__9957bf9d": {
+    "params": {
+      "n_estimators": 400,
+      "learning_rate": 0.022544116997360492,
+      "num_leaves": 128,
+      "max_depth": 5,
+      "min_child_samples": 31,
+      "subsample": 0.8170784332632994,
+      "colsample_bytree": 0.6563696899899051,
+      "reg_alpha": 1.6172900811143154,
+      "reg_lambda": 0.0019870215385428634,
+      "max_bin": 63
+    },
+    "n_training_rows": 90818,
+    "tuned_at": "2026-07-13T20:37:11.148206",
+    "optuna_version": "4.2.1"
+  }
+}
