@@ -7,7 +7,7 @@
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career kicks and handballs - all-time top 20 each
-> ✓ All 47 stats verified against source data · council-pipeline-gated · 2026-07-14
+> ✓ All 47 stats verified against source data · council-pipeline-gated · 2026-07-20
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
