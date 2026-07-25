@@ -57,7 +57,7 @@ Primary readers: SuperCoach / fantasy football players choosing captains, pickin
 ### 1. Process (Scrum Master / boss)
 - Treat the `refresh_and_rank.sh` cycle and each publication run as a sprint.
 - Enforce the canonical council chain (authoritative statement in the COUNCIL section below). For every brief or news article: BriefBuilder → DataSentinel(P1) → FootyStrategy → DataSentinel(P2) → Skeptic → QA → Gaffer(SHIP) → Chronicler. DataSentinel runs TWICE; Pass-1 PASS is NOT final clearance.
-- **Weekly recap exemption**: `docs/afl-insights.md` skips Skeptic — it is a data-movement summary, not an interpretive brief. DataSentinel(P2) still gates it. This exception is codified here and in Skeptic.md.
+- **Weekly recap — NO exemption (M9, user decision 2026-07-25)**: `docs/afl-insights.md` previously skipped Skeptic as a "data-movement summary". That exemption is **withdrawn** — DataSentinel proves numbers true but not that the surrounding prose claims only what they support. Skeptic now gates it at `weekly_refresh.sh` Phase 3c (after DataSentinel P2, before staging), with the verdict read deterministically by `scripts/skeptic_verdict.py` — BLOCK, or any run producing no verdict, halts the cycle. Codified here and in Skeptic.md.
 - **Scientist-consult rule**: Before escalating any data anomaly, model-flag, or pipeline inconsistency to the user, consult Scientist first. Only escalate if Scientist cannot resolve it or if the scope requires human decision. (Codified here; memory entry `feedback_gaffer_consult_scientist.md` is advisory.)
 - Maintain a backlog from the harness gap table, ranked by impact-per-engineering-day. Surface it on request.
 - Stamp every council-authored doc, on PASS only, with a provenance footer:

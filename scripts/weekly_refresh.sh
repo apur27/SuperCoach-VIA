@@ -335,6 +335,35 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# Phase 3c — Skeptic adversarial pass on the insights lane (M9).
+#
+# afl-insights.md previously carried a "weekly recap exemption" from Skeptic on
+# the grounds that it is a data-movement summary rather than an interpretive
+# brief. That exemption is withdrawn by user decision: DataSentinel establishes
+# that each number is TRUE, but not that the prose around it claims only what the
+# number supports, and the recap is LLM-authored prose like any other.
+#
+# Verdict handling is delegated to scripts/skeptic_verdict.py so the three-way
+# vocabulary is read deterministically and, critically, so a Skeptic run that
+# crashes or emits no verdict HALTS rather than sails through.
+# ---------------------------------------------------------------------------
+SK_OUT="$LOG_DIR/insights_skeptic_${TODAY}.json"
+
+export HARNESS_PHASE="3c"
+log "[3c/5] Skeptic adversarial review of afl-insights.md (M9)..."
+$CLAUDE -p "Adversarial review of the '## Round $ROUND — Week in Review' section of docs/afl-insights.md. Every number in it has already passed DataSentinel, so do NOT re-verify arithmetic — review the PROSE: does any sentence claim more than its cited number supports, smooth over a tension in the data, or assert causation from a correlation? Record your verdict via: scripts/record-sentinel-verdict.sh --doc docs/afl-insights.md --verdict <PASS|PASS_WITH_CONCERNS|BLOCK> --agent Skeptic. Emit ONLY the JSON verdict object, including a \"reason\" field if not PASS. Do not edit the document." \
+    --agent Skeptic \
+    --permission-mode bypassPermissions \
+    2>&1 | tee "$SK_OUT" | tee -a "$LOG_FILE"
+
+if $PYTHON "$REPO_ROOT/scripts/skeptic_verdict.py" "$SK_OUT" 2>&1 | tee -a "$LOG_FILE"; then
+    log "[3c/5] Skeptic cleared afl-insights.md."
+else
+    log "FATAL: Skeptic did not clear afl-insights.md (BLOCK, or no verdict recorded) — aborting before Phase 4 stages the file. Route the finding to FootyStrategy; do not ship the recap."
+    exit 1
+fi
+
+# ---------------------------------------------------------------------------
 # Phase 4 — commit and push all phase 2/3 outputs
 # ---------------------------------------------------------------------------
 export HARNESS_PHASE="4"
@@ -386,3 +415,10 @@ SENTINEL="$LOG_DIR/last_refresh_complete.json"
 printf '{"round": "%s", "completed_at": "%s", "date": "%s"}\n' \
   "$ROUND" "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$TODAY" > "$SENTINEL"
 log "Completion sentinel written: $SENTINEL (round $ROUND)."
+
+# --- backtest completion marking -------------------------------------------
+# Same fail-closed principle as the sentinel above, for the backtest lane. Only
+# a cycle that reached this line may declare its backtest artifacts complete; a
+# run that died earlier leaves them unmarked, so the next cycle quarantines them
+# and re-scores those rounds against the repaired corpus.
+$PYTHON "$REPO_ROOT/scripts/backtest_completeness.py" --dir data/prediction/backtest mark 2>&1 | tee -a "$LOG_FILE"

@@ -63,12 +63,22 @@ echo "=========================================="
 #   data/prediction/backtest/backtest_by_team_<timestamp>.csv
 #   data/prediction/backtest/backtest_by_position_<timestamp>.csv
 #   data/prediction/backtest/prediction_vs_actual_round_<R>_2026_<timestamp>.csv
-LAST_TS=$(ls data/prediction/backtest/backtest_summary_*.csv 2>/dev/null | sort | tail -1 | grep -oP '\d{8}_\d{6}')
-if [ -z "$LAST_TS" ]; then
+# Completion accounting (scripts/backtest_completeness.py). The previous detector
+# took the newest backtest_summary_*.csv on disk as proof a round was scored. That
+# cannot tell a finished cycle from an aborted one: on 2026-07-20 a run wrote its
+# artifacts at 15:57, FATALed at 16:04 on the phantom-row gate (mass-duplicated
+# player corpus), and the retry run read those orphans as "round 20 complete",
+# skipped re-scoring, and published figures computed on a corpus we had rejected.
+#
+# Now a run counts only if a cycle MARKED it complete after a successful push.
+# Sweep first so orphans from any aborted cycle are quarantined out of the
+# directory — that also hides them from update_team_analysis.py and
+# update_eval_surface.sh, which pick the newest summary by mtime.
+"$PYTHON" scripts/backtest_completeness.py --dir data/prediction/backtest sweep
+LAST_ROUND=$("$PYTHON" scripts/backtest_completeness.py --dir data/prediction/backtest last-round --year 2026)
+if [ -z "$LAST_ROUND" ]; then
     START_ROUND=1
 else
-    LAST_ROUND=$(ls data/prediction/backtest/prediction_vs_actual_round_*_2026_${LAST_TS}.csv 2>/dev/null \
-        | grep -oP 'round_\K[0-9]+' | sort -n | tail -1)
     START_ROUND=$((LAST_ROUND + 1))
 fi
 
@@ -136,12 +146,18 @@ git add \
     data/top100/all_time_top_100.csv \
     data/matches/ \
     data/player_data/ \
+    data/lineups/ \
     2>/dev/null || true
 # data/matches + data/player_data ARE the scraped ground truth the published docs cite;
 # they MUST be committed or a remote clone fails DataSentinel re-verification (Surveyor D3,
 # 2026-07-07 — the R18 actuals were stranded uncommitted for a full cycle). Still explicit
-# paths, never `git add .` (which would sweep scratch CSVs under data/prediction/). Lineups
-# are intentionally excluded until their scraper corruption is fixed (S3).
+# paths, never `git add .` (which would sweep scratch CSVs under data/prediction/).
+#
+# Lineups were excluded while the scraper emitted jersey numbers plus Rushed/Totals/
+# Opposition junk (S3). That corruption is now confined to 700 legacy rows of 33,999;
+# current output is clean name-form, and the files are real pipeline output that was
+# drifting uncommitted every cycle, so they are staged again. The 700 historical rows
+# are a separate data-quality item for Scientist — staging does not worsen them.
 
 # F7: stage the prediction + backtest CSVs that docs/afl-insights.md cites as sources
 # and that the by-archive backtest depends on surviving between cycles. Previously these
@@ -155,7 +171,9 @@ git add \
     data/prediction/backtest/backtest_summary_*.csv \
     data/prediction/backtest/prediction_vs_actual_*.csv \
     data/prediction/backtest/backtest_by_team_*.csv \
+    data/prediction/backtest/backtest_by_position_*.csv \
     data/prediction/backtest/backtest_run_*.log \
+    data/prediction/backtest/completed_runs.json \
     data/prediction/optuna_best_params.json \
     2>/dev/null || true
 
@@ -170,6 +188,10 @@ else
     else
         git push origin main
         echo "Pushed to origin/main"
+        # The cycle reached origin — only now do this run's backtest artifacts
+        # count as complete. Marking any earlier would re-create the orphan bug:
+        # a later FATAL would leave artifacts that look finished but are not.
+        "$PYTHON" scripts/backtest_completeness.py --dir data/prediction/backtest mark
     fi
 fi
 

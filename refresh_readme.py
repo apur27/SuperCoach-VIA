@@ -114,28 +114,20 @@ def _step_top100_markdown() -> Tuple[List[str], List[str]]:
 
     top_players_comprehensive.py upstream owns the CSV; this step re-renders
     the markdown table inside the marker pair so the Hall-of-Fame doc stays
-    in lock-step with the canonical CSV.
+    in lock-step with the canonical CSV, resyncs the narrative profile
+    stat-lines beneath it, and runs the consistency gate.
+
+    The implementation lives in update_team_analysis.update_top100_hof_doc() —
+    shared verbatim with that module's main() step [13/14]. It used to be
+    duplicated here, which is how the same fail-open guard came to exist in two
+    places and get fixed in only one.
     """
     try:
         import update_team_analysis as uta
     except Exception as e:
         return [], [f"could not import update_team_analysis: {e}"]
     try:
-        chart_path = uta.generate_top100_chart()
-        body = uta.generate_top100_section()
-        if not body:
-            return [], ["generate_top100_section returned empty — CSV missing?"]
-        with open(uta.HALL_OF_FAME_PATH, "r", encoding="utf-8") as f:
-            hof_text = f.read()
-        new_hof = uta.replace_top100_section(hof_text, body)
-        written: List[str] = []
-        if new_hof != hof_text:
-            with open(uta.HALL_OF_FAME_PATH, "w", encoding="utf-8") as f:
-                f.write(new_hof)
-            written.append(uta.HALL_OF_FAME_PATH)
-        if chart_path:
-            written.append(chart_path)
-        return written, []
+        return uta.update_top100_hof_doc()
     except Exception as e:
         return [], [f"top100 markdown: {e}\n{traceback.format_exc()}"]
 

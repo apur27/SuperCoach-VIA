@@ -321,6 +321,12 @@ def generate_yearly_top_100(
     top_100 = sorted_players[:100]
 
     df = create_ranking_dataframe([(p[0], p[1], pr, p[3]) for p, pr, _ in top_100])
+    # CADENCE (user decision, 2026-07-25): the yearly top-100 is a SEASON-END
+    # artifact. The current season's file is rewritten on every weekly run (ranks
+    # churn as the season progresses), so it is deliberately kept OUT of both
+    # harness git-add allowlists — its per-cycle diff is EXPECTED DRIFT, not an
+    # incident, and must not be "fixed" by staging it weekly. Commit the current
+    # season's file once, after the season ends. Prior seasons are already stable.
     df.to_csv(os.path.join(output_dir, 'yearly', f'year_{year}.csv'), index=False)
 
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]
@@ -679,6 +685,12 @@ def _generate_yearly_from_memory(
     top_100 = sorted_players[:100]
 
     df = create_ranking_dataframe([(p[0], p[1], pr, p[3]) for p, pr, _ in top_100])
+    # CADENCE (user decision, 2026-07-25): the yearly top-100 is a SEASON-END
+    # artifact. The current season's file is rewritten on every weekly run (ranks
+    # churn as the season progresses), so it is deliberately kept OUT of both
+    # harness git-add allowlists — its per-cycle diff is EXPECTED DRIFT, not an
+    # incident, and must not be "fixed" by staging it weekly. Commit the current
+    # season's file once, after the season ends. Prior seasons are already stable.
     df.to_csv(os.path.join(output_dir, 'yearly', f'year_{year}.csv'), index=False)
 
     return [(p[0], p[1], p[2], p[3], pr, z) for p, pr, z in top_100]

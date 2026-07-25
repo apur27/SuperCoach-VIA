@@ -4872,6 +4872,74 @@ def check_top100_consistency(hof_text: str, bio_df: pd.DataFrame,
     return hard, warnings_out
 
 
+def update_top100_hof_doc() -> Tuple[List[str], List[str]]:
+    """Rewrite the ALL-TIME-TOP100 table in docs/hall-of-fame-top100.md, resync
+    the narrative profile headings/stat-lines beneath it, and run the
+    consistency gate. Returns ``(written_paths, errors)``.
+
+    Single source of truth for both call sites — ``main()`` step [13/14] and
+    ``refresh_readme._step_top100_markdown`` (Step 2b). Those two previously
+    held independent copies of this logic, including a copy of the same
+    fail-open guard; a fix applied to one silently left the other broken. The
+    only permitted divergence is the reporting envelope: ``main()`` is a script
+    entrypoint so it turns a non-empty ``errors`` into ``SystemExit``, while
+    ``refresh_readme`` aggregates errors across its steps.
+
+    Fails CLOSED. Any missing input, or any hard gate mismatch, returns an error
+    and writes nothing. CLAUDE.md exempts this doc from inline ``[data]`` tags
+    *because* the gate runs, so writing the table while the gate is skipped
+    would ship unverified numbers under that exemption.
+    """
+    written: List[str] = []
+
+    chart_path = generate_top100_chart()
+    if chart_path:
+        print(f"  [profile] regenerated {os.path.basename(chart_path)}")
+        written.append(chart_path)
+
+    body = generate_top100_section()
+    if not body:
+        return [], ["generate_top100_section returned empty — ranking CSV missing?"]
+
+    # Fail closed on absent inputs rather than skipping the regen + gate. There
+    # is no production path where these are missing but the table still needs
+    # writing: generate_top100_section() returns "" in exactly that case and the
+    # empty-body check above already bailed.
+    missing = [p for p in (HALL_OF_FAME_PATH, TOP100_CSV, TOP100_SCORES_CSV)
+               if not os.path.exists(p)]
+    if missing:
+        for p in missing:
+            print(f"  [profile][FAIL] gate input missing: {p}", file=sys.stderr)
+        return [], [
+            "top-100 consistency gate inputs missing: " + ", ".join(missing)
+            + " — refusing to write the HOF doc with unverified profiles"
+        ]
+
+    with open(HALL_OF_FAME_PATH, "r", encoding="utf-8") as f:
+        hof_text = f.read()
+    new_hof = replace_top100_section(hof_text, body)
+
+    bio_df = pd.read_csv(TOP100_CSV)
+    scores_df = pd.read_csv(TOP100_SCORES_CSV)
+    new_hof, prof_warnings = regenerate_top100_profiles(new_hof, bio_df, scores_df)
+    hard, gate_warnings = check_top100_consistency(new_hof, bio_df, scores_df)
+    for w in prof_warnings + gate_warnings:
+        print(f"  [profile] {w}")
+    if hard:
+        for h in hard:
+            print(f"  [profile][FAIL] {h}", file=sys.stderr)
+        return [], [
+            f"top-100 profile consistency gate failed: {len(hard)} mismatch(es): "
+            + "; ".join(hard)
+        ]
+
+    if new_hof != hof_text:
+        with open(HALL_OF_FAME_PATH, "w", encoding="utf-8") as f:
+            f.write(new_hof)
+        written.append(HALL_OF_FAME_PATH)
+    return written, []
+
+
 def main() -> None:
     print("[1/14] Loading player game data...")
     games = load_all_player_games()
@@ -4988,34 +5056,11 @@ def main() -> None:
                 f.write(new_bt)
 
     print("[13/14] Updating all-time top-100 Hall of Fame section...")
-    top100_chart = generate_top100_chart()
-    if top100_chart:
-        print(f"      regenerated {os.path.basename(top100_chart)}")
-    top100_body = generate_top100_section()
-    if top100_body and os.path.exists(HALL_OF_FAME_PATH):
-        with open(HALL_OF_FAME_PATH, "r", encoding="utf-8") as f:
-            hof_text = f.read()
-        new_hof = replace_top100_section(hof_text, top100_body)
-        # Second pass: keep the narrative profile headings, stat-lines and rank
-        # order in sync with the same ranking the table is built from.
-        if os.path.exists(TOP100_CSV) and os.path.exists(TOP100_SCORES_CSV):
-            bio_df = pd.read_csv(TOP100_CSV)
-            scores_df = pd.read_csv(TOP100_SCORES_CSV)
-            new_hof, prof_warnings = regenerate_top100_profiles(new_hof, bio_df, scores_df)
-            for w in prof_warnings:
-                print(f"      [profile] {w}")
-            hard, gate_warnings = check_top100_consistency(new_hof, bio_df, scores_df)
-            for w in gate_warnings:
-                print(f"      [profile] {w}")
-            if hard:
-                for h in hard:
-                    print(f"      [profile][FAIL] {h}", file=sys.stderr)
-                raise SystemExit(
-                    f"top-100 profile consistency gate failed: {len(hard)} mismatch(es)"
-                )
-        if new_hof != hof_text:
-            with open(HALL_OF_FAME_PATH, "w", encoding="utf-8") as f:
-                f.write(new_hof)
+    top100_written, top100_errors = update_top100_hof_doc()
+    for p in top100_written:
+        print(f"      wrote {os.path.basename(p)}")
+    if top100_errors:
+        raise SystemExit("; ".join(top100_errors))
 
     today = datetime.now().strftime("%Y-%m-%d")
     print("[14/14] Done.")

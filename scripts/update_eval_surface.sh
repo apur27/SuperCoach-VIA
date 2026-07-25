@@ -232,16 +232,33 @@ mae_s = f"{mae_w:.3f}"
 w5_s = f"{w5_w:.1f}%"
 w10_s = f"{w10_w:.1f}%"
 
+# Round-range dash: the file has historically carried BOTH the `&#8211;` entity
+# (pills) and a literal en-dash (aria-label). A pattern hard-coded to one form
+# silently no-ops on the other — that is how the aria-label froze at R1-R13 /
+# MAE 4.020 while the pills tracked reality, reading stale accuracy figures to
+# screen-reader users. Match every form; we always WRITE the entity form.
+DASH = r"(?:&#8211;|&#x2013;|–|-)"
+
 # aria-label summary line
 svg = re.sub(
-    r"2026 season R\d+&#8211;R\d+: MAE \d+\.\d+, [\d.]+% within 5 disposals",
+    rf"2026 season R\d+{DASH}R\d+: MAE \d+\.\d+, [\d.]+% within 5 disposals",
     f"2026 season {window_svg}: MAE {mae_s}, {w5_s} within 5 disposals",
+    svg, count=1,
+)
+
+# aria-label player-file count. The visible Band 1 text says "130 seasons ·
+# N player files" while the aria-label says "130 years of AFL data, N player
+# files" — different wording, so the Band 1 pattern below never touched it and
+# the announced count froze at 13,329 while the band tracked reality.
+svg = re.sub(
+    r"(130 years of AFL data, )[\d,]+( player files)",
+    rf"\g<1>{PLAYER_FILE_COUNT:,}\g<2>",
     svg, count=1,
 )
 
 # Pill 1 — round label
 svg = re.sub(
-    r'(<text x="181"[^>]*>)R\d+&#8211;R\d+ &#183; 2026(</text>)',
+    rf'(<text x="181"[^>]*>)R\d+{DASH}R\d+ &#183; 2026(</text>)',
     rf"\g<1>{window_svg} &#183; 2026\g<2>",
     svg, count=1,
 )
