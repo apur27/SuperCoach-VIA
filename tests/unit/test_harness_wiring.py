@@ -173,7 +173,14 @@ def test_hof_profile_gate_is_reachable_from_the_harness(refresh_src, tmp_path,
     hof = tmp_path / "hof.md"
     bio.write_text("Serial Number,Player Name,Footy Teams,Comment\n", encoding="utf-8")
     scores.write_text("player,all_time_score\n", encoding="utf-8")
-    hof.write_text("# x\n", encoding="utf-8")
+    # Must carry the marker pair: replace_top100_section now raises rather than
+    # silently returning the text unchanged when it matches nothing, so a
+    # marker-less probe doc would abort the step before the profile pass and
+    # make this wiring probe assert the wrong thing.
+    hof.write_text(
+        "# x\n\n<!-- ALL-TIME-TOP100-START -->\nold\n<!-- ALL-TIME-TOP100-END -->\n",
+        encoding="utf-8",
+    )
     monkeypatch.setattr(uta, "TOP100_CSV", str(bio))
     monkeypatch.setattr(uta, "TOP100_SCORES_CSV", str(scores))
     monkeypatch.setattr(uta, "HALL_OF_FAME_PATH", str(hof))

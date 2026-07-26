@@ -15,12 +15,17 @@ HOOKS = REPO / ".githooks"
 SAFE = REPO / "scripts" / "git_commit_safe.sh"
 
 ENV = {"PATH": "/usr/bin:/bin"}
+# Tests that drive git_commit_safe.sh must NOT contend on its global flock:
+# under the pre-commit hook the suite runs INSIDE a commit that already holds
+# that lock, so a shared path deadlocks. Each test gets its own lock path.
+def _lock(tmp_path):
+    return {"COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
 
 
 def _init_repo(tmp_path: Path) -> Path:
     repo = tmp_path / "repo"
     repo.mkdir()
-    env = {**ENV, "HOME": str(tmp_path)}
+    env = {**ENV, **_lock(tmp_path), "HOME": str(tmp_path)}
     subprocess.run(["git", "init", "-q"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=repo, env=env, check=True)
     subprocess.run(["git", "config", "user.name", "t"], cwd=repo, env=env, check=True)
@@ -31,7 +36,7 @@ def _init_repo(tmp_path: Path) -> Path:
 
 
 def _commit(repo: Path, tmp_path: Path, *, args, extra_env=None):
-    env = {**ENV, "HOME": str(tmp_path)}
+    env = {**ENV, **_lock(tmp_path), "HOME": str(tmp_path)}
     if extra_env:
         env.update(extra_env)
     return subprocess.run(args, cwd=repo, env=env, capture_output=True, text=True)

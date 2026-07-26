@@ -15,4 +15,12 @@
 # every automated commit is forced through this serialising wrapper. `export` before
 # `exec` means the marker is inherited by flock -> git -> the pre-commit hook.
 export COUNCIL_COMMIT_AUTHORIZED=1
-exec flock /tmp/supercoach-git.lock git "$@"
+
+# Lock path is overridable so a NESTED invocation cannot deadlock against the
+# outer one. The pre-commit hook now runs the test suite, and two tests drive this
+# very wrapper; with a single hard-coded lock they blocked forever on the lock the
+# commit that invoked them was already holding — the commit simply hung. The hook
+# hands the suite a throwaway lock path, so serialisation still applies to real
+# pipeline writers while nested test invocations are independent.
+COUNCIL_GIT_LOCK="${COUNCIL_GIT_LOCK:-/tmp/supercoach-git.lock}"
+exec flock "$COUNCIL_GIT_LOCK" git "$@"

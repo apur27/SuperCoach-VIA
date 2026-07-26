@@ -68,6 +68,27 @@ fi
 log "[0/5] Round-settlement probe passed — current round is settled."
 
 # ---------------------------------------------------------------------------
+# Phase 0b — integration tier: assert the SHIPPED artifacts match the real data.
+#
+# The unit tier is hermetic by design, so it proves the code is correct without
+# proving the published files are current. Every recent stale-artifact incident
+# lived in exactly that gap: HOF profile prose frozen while its table refreshed,
+# the banner aria-label announcing R1-R13 against a live R1-R20. These checks
+# read the real data/ tree and the real docs, so they belong here — before a
+# ~2-hour cycle builds on a surface that is already inconsistent — rather than
+# in pre-commit, where they would be slow and data-dependent.
+#
+# Fail-closed: a stale published artifact aborts the cycle.
+# ---------------------------------------------------------------------------
+export HARNESS_PHASE="0b"
+log "[0b/5] Integration tier: checking published artifacts against real data..."
+if ! $PYTHON -m pytest "$REPO_ROOT/tests/integration" -q -m integration 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: integration tier failed — a published artifact disagrees with the source data. Aborting before Phase 1; route the failing check to its owning agent."
+    exit 1
+fi
+log "[0b/5] Integration tier passed."
+
+# ---------------------------------------------------------------------------
 # Phase 1 — data + model pipeline
 # refresh_and_rank.sh commits Phase 1 artifacts but defers the push (detected
 # via WEEKLY_REFRESH_PARENT=1) so the phantom-row gate can run before anything

@@ -3,3 +3,15 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+# Two tiers. The unit tier is hermetic (tmp_path fixtures, mocked HTTP, no real
+# data files) and must stay under ~10s so the pre-commit hook can run it on every
+# Python commit. The integration tier asserts against the REAL data/ tree and
+# published docs — it catches "the code is correct but the shipped artifact is
+# stale", which is the failure mode that produced the stale HOF profiles and the
+# frozen banner aria-label. It is slower and data-dependent, so it runs in the
+# weekly harness rather than pre-commit.
+#   fast tier:  pytest tests/unit -m "not integration"
+#   full tier:  pytest tests
+markers = [
+    "integration: asserts against real repo data/docs; excluded from the pre-commit tier",
+]

@@ -44,7 +44,7 @@ def _run_check(tmp_path: Path, audit_dir: Path, enforce: str | None = "0"):
 
 
 def _record(tmp_path: Path, audit_dir: Path, verdict: str = "PASS"):
-    env = {"COUNCIL_AUDIT_DIR": str(audit_dir), "PATH": "/usr/bin:/bin"}
+    env = {"COUNCIL_AUDIT_DIR": str(audit_dir), "PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
     r = subprocess.run(
         [str(RECORD), "--doc", "docs/news/foo.md", "--verdict", verdict],
         cwd=tmp_path, env=env, capture_output=True, text=True,
@@ -128,7 +128,7 @@ def test_missing_stamp_fails(tmp_path):
     doc.parent.mkdir(parents=True, exist_ok=True)
     doc.write_text("# No stamp here\n\nJust prose.\n")
     audit = tmp_path / "audit"; audit.mkdir()
-    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin"}
+    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
     r = subprocess.run([str(CHECK), "docs/news/bar.md"], cwd=tmp_path, env=env,
                        capture_output=True, text=True)
     assert r.returncode == 1
@@ -147,7 +147,7 @@ def test_non_pass_verdict_fails(tmp_path):
     )
     doc.write_text(f"# Doc\n\nProse.\n\n{bad_stamp}\n")
     audit = tmp_path / "audit"; audit.mkdir()
-    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin"}
+    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
     r = subprocess.run([str(CHECK), "docs/news/foo.md"], cwd=tmp_path, env=env,
                        capture_output=True, text=True)
     assert r.returncode == 1
@@ -157,7 +157,7 @@ def test_non_pass_verdict_fails(tmp_path):
 def test_non_council_file_is_skipped(tmp_path):
     (tmp_path / "README.md").write_text("# Readme, no stamp needed\n")
     audit = tmp_path / "audit"; audit.mkdir()
-    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin"}
+    env = {"COUNCIL_AUDIT_DIR": str(audit), "PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
     r = subprocess.run([str(CHECK), "README.md"], cwd=tmp_path, env=env,
                        capture_output=True, text=True)
     assert r.returncode == 0
@@ -167,7 +167,7 @@ def test_non_council_file_is_skipped(tmp_path):
 def test_git_commit_safe_passes_through_to_git(tmp_path):
     wrapper = REPO / "scripts" / "git_commit_safe.sh"
     r = subprocess.run([str(wrapper), "--version"], capture_output=True, text=True,
-                       env={"PATH": "/usr/bin:/bin"})
+                       env={"PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")})
     assert r.returncode == 0
     assert "git version" in r.stdout
 
@@ -176,7 +176,7 @@ def test_hash_ignores_the_stamp_line(tmp_path):
     """Canonical hash must be identical before and after the stamp is added."""
     doc = tmp_path / "d.md"
     doc.write_text("# T\n\nBody.\n")
-    env = {"PATH": "/usr/bin:/bin"}
+    env = {"PATH": "/usr/bin:/bin", "COUNCIL_GIT_LOCK": str(tmp_path / "git.lock")}
     h1 = subprocess.run([str(HASH), str(doc)], capture_output=True, text=True, env=env).stdout.strip()
     doc.write_text(f"# T\n\nBody.\n\n{STAMP}\n")
     h2 = subprocess.run([str(HASH), str(doc)], capture_output=True, text=True, env=env).stdout.strip()

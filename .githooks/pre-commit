@@ -26,10 +26,101 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
+PYTHON="${COUNCIL_PYTHON:-/home/abhi/sourceCode/python/coding/.venv/bin/python}"
 
-# Staged Markdown files only. The check script decides which ones require a stamp.
-# If nothing Markdown is staged, the council-stamp gate is irrelevant to this commit
-# — proceed regardless of whether the check script is present.
+# ---------------------------------------------------------------------------
+# Python gate (R1). Until now this hook returned 0 whenever no Markdown was
+# staged, so a pure-Python commit — a scraper rewrite, a model change, a new
+# harness module — reached history with no check at all. Every enforcement in
+# this repo applied to prose only, while CLAUDE.md's "no code commit without
+# tests" rule was enforced by habit alone.
+#
+# Two checks, both fail-closed. Human override remains `git commit --no-verify`.
+# ---------------------------------------------------------------------------
+staged_py="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.py$' || true)"
+
+if [ -n "$staged_py" ]; then
+  # (a) A newly ADDED module must be referenced by something under tests/.
+  #
+  # Reference-based, NOT filename-based, on purpose. This repo's convention
+  # genuinely varies — scripts/check_round_settled.py is covered by
+  # tests/unit/test_round_settled.py, scripts/skeptic_verdict.py by
+  # test_skeptic_gate.py — and ~25 existing modules have no exact-name match. A
+  # strict test_<module>.py rule would fire on correct work and be disabled
+  # within a week. Scoped to ADDED files so it never blocks edits to legacy code.
+  added_py="$(git diff --cached --name-only --diff-filter=A | grep -E '\.py$' || true)"
+  untested=""
+  for f in $added_py; do
+    case "$f" in
+      tests/*|scratch/*|archive/*) continue ;;   # non-production areas
+      __init__.py|*/__init__.py)   continue ;;   # packaging stubs
+    esac
+    mod="$(basename "$f" .py)"
+    # Referenced either by a test's CONTENT (imports it, names its path) or by a
+    # test's FILENAME (test_<mod>.py). Either is evidence of coverage.
+    ref="$(grep -rl -- "$mod" "$REPO_ROOT/tests" 2>/dev/null | head -1)"
+    if [ -z "$ref" ]; then
+      ref="$(find "$REPO_ROOT/tests" -name "*${mod}*" -print -quit 2>/dev/null)"
+    fi
+    if [ -z "$ref" ]; then
+      untested="$untested $f"
+    fi
+  done
+  if [ -n "$untested" ]; then
+    echo "pre-commit: new module(s) committed with no test reference:$untested" >&2
+    echo "  CLAUDE.md requires tests alongside the implementation, never after." >&2
+    echo "  Add a test under tests/ that exercises the module (any filename that" >&2
+    echo "  references it counts), or human override: git commit --no-verify." >&2
+    exit 1
+  fi
+
+  # (b) The fast unit tier must be green. A gate that cannot run must not pass.
+  if [ ! -x "$PYTHON" ]; then
+    echo "pre-commit: python interpreter not executable at $PYTHON." >&2
+    echo "  BLOCKING commit (fail-closed): cannot verify the test suite." >&2
+    echo "  Set COUNCIL_PYTHON, or human override: git commit --no-verify." >&2
+    exit 1
+  fi
+  # Bounded. A wedged test must fail the gate rather than hang the commit
+  # forever — an enforcement gate that can hang gets bypassed with --no-verify
+  # out of frustration, which is the same as not having one.
+  pytest_timeout="${COUNCIL_PYTEST_TIMEOUT:-300}"
+  # Strip git's per-command environment before running the suite. The hook runs
+  # INSIDE `git commit`, which exports GIT_INDEX_FILE/GIT_DIR/GIT_WORK_TREE and
+  # holds .git/index.lock. Several tests drive real `git` in throwaway repos; with
+  # those variables inherited they retarget the REAL repository and block on the
+  # lock the outer commit is holding — a deadlock that presents as "the commit
+  # hung", which is exactly how this was found.
+  # COUNCIL_GIT_LOCK: hand the suite a throwaway lock. Two tests drive
+  # git_commit_safe.sh, which flocks a single global path — with the real path
+  # they block forever on the lock held by the commit that invoked this hook.
+  nested_lock="$(mktemp -u /tmp/supercoach-git-nested-XXXXXX.lock)"
+  test_out="$(env -u GIT_INDEX_FILE -u GIT_DIR -u GIT_WORK_TREE -u GIT_PREFIX \
+      -u GIT_AUTHOR_NAME -u GIT_AUTHOR_EMAIL -u GIT_AUTHOR_DATE \
+      COUNCIL_GIT_LOCK="$nested_lock" \
+      timeout "$pytest_timeout" "$PYTHON" -m pytest "$REPO_ROOT/tests" -q -m "not integration" 2>&1)"
+  rc=$?
+  rm -f "$nested_lock"
+  if [ "$rc" -eq 124 ]; then
+    echo "pre-commit: unit tier timed out after ${pytest_timeout}s — BLOCKING commit (fail-closed)." >&2
+    echo "  A test is hanging, or another agent is mid-write in tests/. Re-run once" >&2
+    echo "  the tree is settled, raise COUNCIL_PYTEST_TIMEOUT, or: git commit --no-verify." >&2
+    exit 1
+  fi
+  if [ "$rc" -ne 0 ]; then
+    printf '%s\n' "$test_out" | tail -25 >&2
+    echo "pre-commit: unit tests FAILED — BLOCKING commit." >&2
+    echo "  Fix the suite, or human override: git commit --no-verify." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Markdown / council-stamp gate.
+# The check script decides which files require a stamp. If nothing Markdown is
+# staged, this gate is irrelevant to the commit — proceed regardless of whether
+# the check script is present.
+# ---------------------------------------------------------------------------
 staged_md="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.md$' || true)"
 
 if [ -z "$staged_md" ]; then

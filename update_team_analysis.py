@@ -3719,12 +3719,15 @@ def replace_stat_leaders_section(
         anchor = f"<!-- {year}-BROWNLOW-PREDICTOR-END -->"
         idx = readme_text.find(anchor)
         if idx == -1:
-            print(
-                f"[warn] could not find anchor '{anchor}' to insert stat-"
-                "leaders section. Run after Brownlow predictor is in place.",
-                file=sys.stderr,
+            # Returning the text unchanged made the caller (which writes only
+            # when the text differs) report a clean run while the published
+            # section stayed frozen. A missing marker AND a missing anchor is a
+            # defect in the target doc, so fail loudly.
+            raise ValueError(
+                f"replace_stat_leaders_section matched nothing: neither the "
+                f"{start_marker} / {end_marker} pair nor the anchor {anchor!r} "
+                f"is present in the target document"
             )
-            return readme_text
         insert_at = idx + len(anchor)
         new_section = (
             "\n\n"
@@ -3981,11 +3984,13 @@ def replace_predictions_section(readme_text: str, year: int, body: str) -> str:
         return (
             before + start_marker + "\n" + body + "\n" + end_marker + after
         )
-    print(
-        f"[predictions] markers not found in target file — skipping",
-        file=sys.stderr,
+    # Silently returning the input here meant the caller wrote nothing and
+    # reported no error — the published predictions section froze while the run
+    # log stayed green. Fail loudly instead.
+    raise ValueError(
+        f"replace_predictions_section matched nothing: {start_marker} / "
+        f"{end_marker} not found in the target document"
     )
-    return readme_text
 
 
 # ---------------------------------------------------------------------------
@@ -4424,11 +4429,11 @@ def replace_backtest_section(readme_text: str, year: int, body: str) -> str:
         return (
             before + start_marker + "\n" + body + "\n" + end_marker + after
         )
-    print(
-        f"[backtest] markers not found in target file — skipping",
-        file=sys.stderr,
+    # Same silent-no-op class as replace_predictions_section above.
+    raise ValueError(
+        f"replace_backtest_section matched nothing: {start_marker} / "
+        f"{end_marker} not found in the target document"
     )
-    return readme_text
 
 
 # ---------------------------------------------------------------------------
@@ -4637,12 +4642,24 @@ def replace_top100_section(hof_text: str, body: str) -> str:
     new_text, n = pattern.subn(replacement, hof_text)
     if n == 0:
         heading = "### Top 100 AFL players of all time — ranked by the data"
-        if heading in new_text:
-            new_text = new_text.replace(
-                heading + "\n",
-                heading + f"\n\n{start_marker}\n{body}\n{end_marker}\n",
-                1,
+        if heading not in new_text:
+            # Zero matches on BOTH the markers and the fallback anchor. Returning
+            # the text unchanged here made the caller — which only writes when
+            # `new_text != text` — report a successful refresh while publishing
+            # nothing. An anchor that drifts (a renamed heading, or the same
+            # heading re-encoded with an en dash instead of an em dash) is a
+            # defect, not a no-op.
+            raise ValueError(
+                "replace_top100_section matched nothing: neither the "
+                f"{start_marker} / {end_marker} pair nor the fallback heading "
+                f"{heading!r} is present in the document (check for a renamed "
+                "heading or a dash/entity encoding variant)"
             )
+        new_text = new_text.replace(
+            heading + "\n",
+            heading + f"\n\n{start_marker}\n{body}\n{end_marker}\n",
+            1,
+        )
     return new_text
 
 
@@ -4780,6 +4797,21 @@ def regenerate_top100_profiles(hof_text: str, bio_df: pd.DataFrame,
     region = tail[:end_rel]
 
     blocks = _parse_profile_blocks(region)
+    # Every `### ` line in the region must have become a block. A heading the
+    # block regex cannot parse (it requires " — " between name and club, so an
+    # en dash or an HTML entity breaks it) is not a block boundary: the heading,
+    # its stat-line and its authored prose are swallowed into the PREVIOUS
+    # block's prose and the player is then re-emitted as an empty placeholder.
+    # That is silent data loss in a published doc, so it must fail loudly.
+    headings = [ln for ln in region.split("\n") if ln.startswith("### ")]
+    if len(blocks) != len(headings):
+        parsed = {b["name"] for b in blocks}
+        unparsed = [h for h in headings if not any(n in h for n in parsed)]
+        raise ValueError(
+            f"profile heading(s) could not be parsed into blocks "
+            f"({len(headings)} headings, {len(blocks)} parsed) — prose would be "
+            f"lost. Check the name/club separator encoding on: {unparsed}"
+        )
     score_map = _top100_score_map(scores_df)
 
     serial_to_block: dict[int, dict] = {}
@@ -4855,7 +4887,9 @@ def check_top100_consistency(hof_text: str, bio_df: pd.DataFrame,
     hard: list[str] = []
     warnings_out: list[str] = []
     block_re = re.compile(r"^### #(\d+) (.+?) — (.+?)\n(\*[^\n]*\*)", re.M)
+    matched = 0
     for m in block_re.finditer(hof_text):
+        matched += 1
         rank = int(m.group(1))
         name, club, stat_line = m.group(2).strip(), m.group(3).strip(), m.group(4)
         ser = _match_profile_to_serial(name, club, bio_df)
@@ -4869,6 +4903,20 @@ def check_top100_consistency(hof_text: str, bio_df: pd.DataFrame,
             hard.append(
                 f"stat-line mismatch for '{name}' (#{ser}): have {stat_line} want {expected}"
             )
+
+    # A gate that verified nothing must not report PASS. If the doc has a
+    # profiles section and the ranking is non-empty but the block pattern
+    # matched 0 profiles (a heading/stat-line encoding variant), an empty
+    # `hard` list is indistinguishable from a clean doc — which is how
+    # unverified numbers ship under the CLAUDE.md inline-tag exemption that is
+    # granted *because* this gate runs.
+    if matched == 0 and len(bio_df) and PROFILES_HEADING in hof_text:
+        hard.append(
+            "consistency gate matched 0 ranked profile blocks in a document "
+            f"that has a '{PROFILES_HEADING}' section and a ranking of "
+            f"{len(bio_df)} players — the gate verified nothing (check the "
+            "heading/stat-line format and dash encoding)"
+        )
     return hard, warnings_out
 
 
