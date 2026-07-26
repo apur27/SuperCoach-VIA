@@ -4,6 +4,14 @@ Source: Survey 1 (full-repo health, 18 findings, IDs F01–F18) and Survey 2 (de
 
 **Escalations already with the human:** S1 (a published "venue effects" claim is false) and S2 (conceded-stats file is corrupt). Their correction items lead their sprints.
 
+**This file is the CANONICAL backlog surface (2026-07-27).** Open items live here, not in
+agent memory. Agent-memory entries are pointers/caches that reference an ID below; if memory
+and this file disagree, this file wins. Anything tracked only in memory is invisible to every
+other agent and drifts — that is how "F13" came to mean two unrelated things at once (the
+Round-14 briefs item below, and a backtest-namespace item that existed only in Gaffer's
+memory; the latter is now BL-01). New items get a `BL-nn` ID, a namespace that cannot collide
+with the `F`/`S`/`A` IDs from the 2026-07-07 surveys.
+
 **Standing rule for this plan:** no item marked *Blocked by decision* may be started, partially started, or worked around until the human records the decision. The three open decisions are restated at the end of this document; they are human editorial/basis calls, not agent calls.
 
 **If Sprint 2 must be cut to fit one session,** ship in this order and let the rest slip to the top of Sprint 3: F03, F14a, F12, F07, then F02a → F02. Gate repairs before surface repairs.
@@ -286,6 +294,90 @@ Sprint 4:  S4 → S5 ; S6 (after S3) ; F17 (after S1a)
 Backlog:   F08, F09, F14b, F15, F16, F18 (F18 after F02), Cleanup
 ```
 
+
 ---
 
-*Last updated: 2026-07-07. Prepared by Surveyor. Route questions to Gaffer.*
+## Backlog — carried forward (2026-07-27, gate-integrity cycle)
+
+Migrated out of agent memory so they are visible to every agent, not just the one that
+found them. Source: Gaffer/Surveyor/Chronicler during commits `a46ca60e8`..`7928ba12f`.
+None is a regression from that ship; all are pre-existing conditions with no incorrect
+published claim attached, which is why they were deferred rather than fixed.
+
+### [Backlog] BL-01 — Backtest writes into the live `next_round_*` prediction namespace
+**Owner:** Scientist (code) + Gaffer (harness wiring)
+**Depends on:** none
+**Blocked by decision:** none
+**Note:** Tracked informally as "F13" in Gaffer memory before this consolidation. That
+collided with the unrelated Sprint-2 F13 above. This ID supersedes that usage.
+**Fix brief:** `backtest.py`'s internal predictor run writes a `next_round_*.csv` into the
+live prediction directory. Because downstream consumers resolve that directory by
+mtime-newest, a backtest artifact can be shipped in place of the real forward prediction.
+This is the collision that produced the tainted-provenance incident the 2026-07-27 cycle
+was opened to fix. The completion manifest (`scripts/backtest_completeness.py`) now hides
+orphaned artifacts from mtime-based consumers, but that is a downstream filter — it does not
+stop a future aborted run from colliding in the namespace again. Proper fix is isolation: a
+per-run output namespace, not another consumer-side guard.
+**Acceptance criterion:** a backtest run cannot write any file into the directory the
+forward-prediction consumers read; demonstrated by a test that runs a backtest and asserts
+the live prediction directory is byte-unchanged.
+
+### [Backlog] BL-02 — Top-30 deviation loader ignores the completion manifest
+**Owner:** Scientist
+**Depends on:** none (independent of BL-01, but the same failure family)
+**Blocked by decision:** none
+**Fix brief:** `update_team_analysis._load_top30_player_deviation` globs every
+`prediction_vs_actual_*` vintage on disk and picks a winner itself. It has no notion of
+whether the run that produced a vintage ever completed, so an artifact from an aborted cycle
+is eligible for selection. Its vintage key was also date-blind until 2026-07-27 (fixed:
+now the full `YYYYMMDD_HHMMSS`). The durable fix is to consult
+`data/prediction/backtest/completed_runs.json` and consider only summary-backed, marked-complete
+runs — the same rule the harness now uses.
+**Acceptance criterion:** a `prediction_vs_actual_*` file whose timestamp is absent from the
+completion manifest is never selected, proven by a test with an unmarked newer vintage on disk.
+
+### [Backlog] BL-03 — ~700 legacy garbage rows in the lineup CSVs
+**Owner:** Scientist
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** ~700 of 33,999 rows across `data/lineups/` (412 from 2025, 288 from early 2026)
+hold jersey numbers plus `Rushed`/`Totals`/`Opposition` tokens instead of player names — residue
+of the S3 scraper defect. Current scraper output is clean name-form, and the files were returned
+to the Phase-1 allowlist on 2026-07-26, so new drift has stopped; this is historical residue only.
+Cleanup recipe already written at `docs/experiment-log.md:330`.
+**Acceptance criterion:** zero rows in `data/lineups/` match the jersey-number/junk-token shape,
+with a validator in the integration tier so the shape cannot return.
+
+### [Backlog] BL-04 — Committed chart PNGs no longer reproduce byte-identically
+**Owner:** Scientist
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `assets/charts/top10_alltime_hall.png` regenerates deterministically within the
+current environment (identical md5 across runs) but differs from the committed blob
+(175,862 → 174,837 bytes). The chart plots scores, not any figure changed in the 2026-07-27
+cycle, so this predates that work — most likely matplotlib/font version drift. Consequence:
+any agent that runs the HOF regeneration dirties `assets/` as a side effect and must revert it.
+Related trap: `generate_backtest_section()` also writes `assets/charts/backtest_accuracy_2026.png`
+despite its read-only-sounding name, so "just previewing" a section is not side-effect free.
+**Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
+or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
+
+### [Backlog] BL-05 — Gate verdict records capture the verdict but not the reasoning
+**Owner:** Gaffer
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `scripts/record-sentinel-verdict.sh` writes exactly
+`{doc_path, doc_hash, verdict, ts, agent_id}`. The findings behind a FAIL or BLOCK exist only
+in the invoking agent's transient stdout, so nothing durable records WHY a gate blocked or how
+many distinct findings it carried. On 2026-07-26 a Skeptic BLOCK carrying four findings was
+read as one, three were never routed, and a full gate cycle was spent rediscovering them — an
+error the audit trail could not have caught, because the record looked identical either way.
+Fix: persist a `findings` array (id, severity, quote/locator, issue) alongside the verdict, and
+have the harness echo the count so a multi-finding verdict cannot be mistaken for a single one.
+**Acceptance criterion:** a BLOCK with N findings writes N entries to the audit record, and a
+re-gate can be checked against the previous record to confirm every finding was addressed.
+
+---
+
+*Last updated: 2026-07-27. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
+
