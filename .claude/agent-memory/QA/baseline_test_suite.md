@@ -65,8 +65,40 @@ exit 0 with rank-1 career_games = 438 (unchanged from 2026-07-20, no
 player-game-count regression — `data/matches/` and `data/player_data/` are
 untouched this cycle per `git status`).
 
-**How to apply:** on future QA runs, compare the new pass count against 442
-(current baseline as of 2026-07-25; was 239 → 244 → 352 → 384 → 442).
+As of 2026-07-26 (full repo-state QA gate covering 5 shipped commits
+`a46ca60e8`..`71fa430b3` — test tiers, pre-commit Python gate, generator
+fixes, backtest-completeness manifest rebuild, top100 thousands-separator
+fix), the suite is now split into two tiers and the flat 442 number no longer
+applies as a single figure:
+- `pytest tests -m "not integration" -q` → **498 passed, 13 deselected**, ~16-17s
+  (well inside the CLAUDE.md-documented ~20s fast-tier budget).
+- `pytest tests/integration -m integration -q` → **13 passed**, ~0.6s.
+Combined = 511, up from the prior flat baseline of 442 (+69: the integration
+tier is wholly new — `tests/integration/test_pipeline_artifacts.py` (6 tests)
+and `tests/integration/test_published_artifacts.py` (7 tests) — plus new unit
+modules `test_backtest_completeness.py`, `test_skeptic_gate.py` (12),
+`test_top30_deviation_vintage.py`, `test_precommit_python_gate.py`,
+`test_golden_section_replacers.py`, `test_golden_top100_render.py`,
+`test_harness_wiring.py`, `test_commit_authorization.py`,
+`test_council_stamp_audit.py`, `test_requires_stamp_routing.py`, and gate
+tests for `update_team_analysis`/`refresh_readme` top100 consistency). Both
+tiers 0 failed, 0 skipped. `check_hof_numbers.py` exit 0, rank-1 career_games
+= 438 (Pendlebury, unchanged from 2026-07-20/25 — no player-data regression).
+`check_top100_consistency()` independently re-run against the live
+`docs/hall-of-fame-top100.md`: 0 hard mismatches, 0 warnings, 100 ranked rows
+— confirms the thousands-separator fix did not break reconciliation.
+Backtest completion manifest confirmed at 14 entries (down from 21, per the
+71fa430b3 commit message); the only two deleted CSVs were the documented
+orphan round-1-2026 vintages, verified absent from `completed_runs.json` and
+with no by-team/summary files lost.
+
+**How to apply:** on future QA runs, report BOTH tiers separately (fast-tier
+count + integration-tier count), not a single flat number — the two run via
+separate pytest invocations (`-m "not integration"` vs `tests/integration -m
+integration`) and the harness (`scripts/weekly_refresh.sh` Phase 0b) also
+treats them as separate gates. Compare fast-tier against 498 and integration
+against 13 as of 2026-07-26 (prior flat baseline: 239 → 244 → 352 → 384 →
+442).
 - Count drops with same file set → investigate (deleted/skipped tests).
 - Count rises → expected as new modules ship (e.g. this cycle added
   test_commit_authorization.py, test_inject_trust_badge.py,
