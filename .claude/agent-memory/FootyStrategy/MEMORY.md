@@ -7,3 +7,4 @@
 - [Draft CSV games column caveat](draft_csv_games_column_caveat.md) - afl_draft_schools.csv games column can differ by 1 from canonical per-player games; cite per-player as truth. Includes Josh Kennedy two-player disambiguation trap.
 - [DataSentinel gate traps](datasentinel_gate_traps.md) - methodology/sources footnotes must name files, never restate already-tagged numbers, or they re-trigger the untagged-number check on Pass 2.
 - [Skeptic tactical-note overreach patterns](skeptic_tactical_note_overreach.md) - correlation-to-claim checks: no identity-from-r, no variable substitution, scope superlatives to what the source doc actually shows.
+- [Skeptic ladder trend overreach](skeptic_ladder_trend_overreach.md) - a single-round ladder snapshot can't support "extended their lead" or "largest gap of the season" claims; report position, not trend.

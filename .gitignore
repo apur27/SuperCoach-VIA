@@ -168,3 +168,7 @@ cython_debug/
 .claude/audit/*.jsonl
 # DataSentinel content-hash verdict records — local-only, machine-specific (Q1).
 .claude/audit/sentinel-*.json
+
+# Quarantined backtest artifacts from cycles that never completed (scripts/backtest_completeness.py).
+# Kept on disk for forensics, deliberately not selectable by the pipeline or shipped.
+data/prediction/backtest/quarantine/

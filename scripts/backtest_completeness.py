@@ -67,6 +67,21 @@ def timestamps_on_disk(bt_dir: Path) -> set[str]:
     return found
 
 
+def summary_backed_timestamps(bt_dir: Path) -> set[str]:
+    """Timestamps that produced a `backtest_summary_*.csv`.
+
+    A run that wrote no summary scored no round, so this is the only on-disk
+    evidence of completion available when bootstrapping a directory that predates
+    the manifest.
+    """
+    found = set()
+    for p in Path(bt_dir).glob("backtest_summary_*.csv"):
+        m = _TS_RE.search(p.name)
+        if m:
+            found.add(m.group(1))
+    return found
+
+
 def completed_timestamps(bt_dir: Path) -> set[str]:
     """Timestamps a cycle marked complete.
 
@@ -125,10 +140,17 @@ def quarantine_incomplete(bt_dir: Path) -> list[str]:
     # Bootstrap: no manifest at all means this directory was never initialised
     # (e.g. a fresh clone of the committed backtest history), NOT that every run
     # is an orphan. Quarantining on that reading would move the entire committed
-    # history aside and reset the pipeline to round 1. Adopt what is on disk and
-    # let the protection apply from the next cycle onward.
+    # history aside and reset the pipeline to round 1.
+    #
+    # Adopt only SUMMARY-BACKED runs, though. The first version adopted every
+    # timestamp on disk, which grandfathered in two orphan round-1 vintages from
+    # aborted runs — and since their mtimes were newer than the authoritative
+    # file, a consumer resolving by latest timestamp was publishing the orphan's
+    # figures. The manifest ended up endorsing precisely what it exists to catch.
+    # Nothing is moved on the bootstrap pass itself: a fresh clone must not have
+    # tracked files pulled out from under it. The next sweep handles the orphans.
     if not (bt_dir / MANIFEST_NAME).exists():
-        mark_complete(bt_dir, timestamps_on_disk(bt_dir))
+        mark_complete(bt_dir, summary_backed_timestamps(bt_dir))
         return []
 
     orphans = incomplete_timestamps(bt_dir)

@@ -51,6 +51,27 @@ t = t[t["_mtime"] == newest]
 ```
 Verified to reproduce the pooled-detail team table exactly (sum n = 7,153).
 
+### Trap 3 — `_load_top30_player_deviation` sorts by TIME-OF-DAY, not timestamp
+
+`update_team_analysis._load_top30_player_deviation` extracts its dedup sort key as
+`base.rsplit("_", 1)[-1].replace(".csv", "")`. For
+`prediction_vs_actual_round_1_2026_20260511_191837.csv` that yields **`"191837"`** —
+the HHMMSS only. **The date is silently discarded.** Two vintages of the same round
+are then ranked by what time of day the run happened to start.
+
+Verified 2026-07-26: all 10 multi-vintage 2026 rounds currently resolve to the
+correct file anyway — pure luck, because each re-run happened to start later in the
+clock-day than the run it superseded. **0 rounds mis-selected today, but it is a coin
+flip.** A re-run kicked off at 09:00 that supersedes an 18:00 run selects the STALE
+vintage.
+
+**How to apply:** do not trust this function's "keeps the most-recent run" docstring.
+If you are reasoning about which vintage a published surface uses, read the extraction,
+don't assume full-timestamp ordering — and never verify it by computing
+`sorted(full_timestamps)[-1]` yourself, which is how I initially mis-diagnosed an
+orphan file as live-contaminating this table when it was not. Fix is a full-timestamp
+regex (`(\d{8}_\d{6})`), same as `scripts/backtest_completeness.py` already uses.
+
 ### Identity worth remembering
 
 n-weighted mean of per-round summary metrics == pooled per-player metrics,
@@ -59,8 +80,11 @@ denominator). So summary-based and detail-based methods can never disagree on
 their own. If they do, it is a vintage-selection mismatch — nothing else.
 See [[backtest_doc_verification]], [[feedback_backtest_rules]].
 
-### Related coverage gap (open, not a selection bug)
+### Related coverage gap (CLOSED as ACCEPTED 2026-07-26, not a selection bug)
 
-R18 2026 scores only 284 of ~412 player-rounds — 4 of 18 teams absent — because
+R18 2026 scores only 284 of 412 player-rounds — 4 of 18 teams absent — because
 the `--from-csv` path scored an archived forward CSV written before the full R18
 fixture existed. Real hole in the headline pool, not a merge artifact.
+**Decision: accepted, do not re-score.** Full rationale and the both-vintage
+comparison live in [[r18-2026-coverage-gap-accepted]]; durable note is in
+`docs/afl-backtest-2026.md` under `## Methodology`.

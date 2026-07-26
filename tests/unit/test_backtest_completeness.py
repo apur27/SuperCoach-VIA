@@ -155,6 +155,46 @@ def test_sweep_bootstraps_instead_of_quarantining_everything(bt_dir):
     assert bc.last_complete_round(bt_dir, 2026) == 20
 
 
+def test_bootstrap_adopts_only_summary_backed_runs(bt_dir):
+    """Bootstrap must not grandfather in runs that never finished.
+
+    The first version adopted every timestamp on disk. That swept in two orphan
+    round-1 vintages from runs which aborted before writing any
+    `backtest_summary_*.csv` — and because their mtimes were NEWER than the
+    authoritative file, a downstream consumer that resolves by latest timestamp
+    was publishing the orphan's figures. Marking them "complete" made the manifest
+    endorse exactly what it exists to catch.
+
+    A run that produced no summary produced no scored round. That is the evidence
+    bootstrap keys on.
+    """
+    _write_run(bt_dir, "20260511_191837", [1])          # complete: has a summary
+    # Orphan: prediction_vs_actual + log, but NO summary (aborted mid-run).
+    (bt_dir / "prediction_vs_actual_round_1_2026_20260525_182141.csv").write_text(
+        "player,predicted,actual\n"
+    )
+    (bt_dir / "backtest_run_20260525_182141.log").write_text("aborted\n")
+
+    bc.quarantine_incomplete(bt_dir)  # bootstrap
+
+    assert bc.completed_timestamps(bt_dir) == {"20260511_191837"}
+    assert "20260525_182141" in bc.incomplete_timestamps(bt_dir)
+
+
+def test_orphan_survives_bootstrap_then_is_quarantined(bt_dir):
+    """Bootstrap itself moves nothing — a fresh clone must not have tracked files
+    yanked out from under it — but the next sweep removes the orphan from play."""
+    _write_run(bt_dir, "20260511_191837", [1])
+    (bt_dir / "prediction_vs_actual_round_1_2026_20260525_182141.csv").write_text(
+        "player,predicted,actual\n"
+    )
+
+    assert bc.quarantine_incomplete(bt_dir) == []          # bootstrap: no moves
+    moved = bc.quarantine_incomplete(bt_dir)               # now initialised
+    assert "prediction_vs_actual_round_1_2026_20260525_182141.csv" in moved
+    assert not (bt_dir / "prediction_vs_actual_round_1_2026_20260525_182141.csv").exists()
+
+
 def test_orphan_is_quarantined_once_initialised(bt_dir):
     """After bootstrap the protection is live: a later unmarked run IS an orphan."""
     _write_run(bt_dir, "20260713_205008", [19])

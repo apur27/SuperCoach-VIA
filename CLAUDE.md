@@ -71,12 +71,24 @@ Every code change to this repo requires tests. No exceptions.
 4. Commit tests alongside the implementation — never separately after.
 
 ### Test location
-- Unit tests: `tests/unit/test_<module_name>.py`
-- Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/ -v`
+Two tiers:
+- **Fast / pre-commit tier** — `tests/unit/test_<module_name>.py`. Hermetic: `tmp_path`
+  fixtures, mocked HTTP, no real data files. The pre-commit hook runs this on every
+  commit that stages a `.py`, so it must stay quick.
+  Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/ -m "not integration"`
+- **Integration tier** — `tests/integration/`, marked `@pytest.mark.integration`.
+  Asserts published artifacts against the REAL `data/` tree and shipped docs, catching
+  "the generator is correct but was never run" — the stale-HOF-profile and frozen-banner
+  class that unit tests and DataSentinel both miss. Runs in the weekly harness at Phase 0b
+  and aborts the cycle on failure.
+  Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/integration -m integration`
 
 ### Rules
 - **No network calls in unit tests** — mock all HTTP (use `unittest.mock.patch` or `responses`)
-- Tests must run in under 10 seconds total
+- Fast tier budget: **under ~20 seconds total** (was 10s when the suite was ~250 tests;
+  raised 2026-07-26 at ~490 tests). Raise the budget deliberately if the suite keeps
+  growing — do NOT delete or skip tests to hit a number. If it becomes genuinely slow,
+  the subprocess-spawning tests are where to look first.
 - Cover: happy path, edge cases, error/failure paths (404, malformed input, empty data)
 - For scraper/audit functions: always mock the HTTP layer and test the parsing and logic separately
 - For data pipeline functions: use `tmp_path` fixtures for temp CSV files — never touch real data files

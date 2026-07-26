@@ -16,7 +16,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | # | Player | Club(s) | Games | Goals | Disposals | Brownlow | Score |
 |--:|--------|---------|------:|------:|----------:|---------:|------:|
 | 1 | Alpha Player | Club A | 210 | 65 | 9,999 | 120 | 2.500 |
-| 2 | Bravo Player | Club B | 105 | 1360 | — | — | 2.400 |
+| 2 | Bravo Player | Club B | 105 | 1,360 | — | — | 2.400 |
 | 3 | Charlie Player | Club C - Club D | 300 | 70 | 800 | — | 2.300 |
 | 4 | Delta Player | Club D | 99 | 8 | 1,010 | 5 | 2.250 |
 

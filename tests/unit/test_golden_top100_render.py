@@ -132,6 +132,46 @@ def test_top100_table_section_matches_golden(wired, ranking):
     _assert_golden("expected_top100_section.md", _normalise_date(body))
 
 
+def test_table_renders_thousands_separators_like_the_stat_line(wired, ranking):
+    """The same parsed value must not render two ways in the same document.
+
+    The table built goals with `str(v)` while the profile stat-line built it
+    with `f"{v:,}"`, so a 1,360-goal career appeared as `1360` in the table and
+    `1,360` three screens below it — from one parse of one Comment field. A
+    reader reconciling the two has no way to tell that apart from two different
+    numbers. Assert the agreement generically rather than pinning a literal, so
+    a future column added to one renderer and not the other is caught too.
+    """
+    bio_df, scores_df = ranking
+    body = uta.generate_top100_section()
+    score_map = uta._top100_score_map(scores_df)
+    checked = 0
+    for _, r in bio_df.iterrows():
+        rank = int(r["Serial Number"])
+        stats = uta._parse_top100_comment(str(r["Comment"]))
+        row = [ln for ln in body.splitlines() if ln.startswith(f"| {rank} |")][0]
+        cells = [c.strip() for c in row.strip("|").split("|")]
+        stat_line = uta._format_top100_stat_line(stats, score_map.get(rank, 0.0))
+        for key in ("games", "goals", "disposals", "brownlow"):
+            if stats.get(key, 0) < 1000:
+                continue  # `:,` is a no-op below 1000 — nothing to disagree about
+            grouped = f"{stats[key]:,}"
+            assert grouped in stat_line, (
+                f"fixture drift: stat-line for #{rank} lost the {key} value"
+            )
+            assert grouped in cells, (
+                f"{key} for #{rank} renders as {stats[key]!r} in the table but "
+                f"{grouped!r} in the stat-line ({stat_line}) — same parsed value, "
+                f"two renderings. Table row: {row}"
+            )
+            assert str(stats[key]) not in cells, (
+                f"table row for #{rank} still carries the unseparated {key} "
+                f"form {str(stats[key])!r}: {row}"
+            )
+            checked += 1
+    assert checked, "no fixture value >= 1000 — this test verified nothing"
+
+
 def test_table_omits_stats_the_era_did_not_record(wired, ranking):
     """Bravo has no disposals/Brownlow in his Comment — the row must show em
     dashes, not zeros. A zero here would be a fabricated [data] number."""

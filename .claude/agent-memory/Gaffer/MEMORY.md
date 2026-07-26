@@ -42,5 +42,7 @@
 - [Weekly R20→R21 retro](project_weekly_r20_r21_retro.md) — 2026-07-20: phantom-row gate caught genuine 833-file doubling (dtype-blind dedup), fail-closed; doubled files don't self-heal; reset --mixed recovery + standalone fix rides Phase-1c push; F3 top100/yearly drift → Scientist
 - [Backtest completion manifest](project_backtest_completion_manifest.md) — rounds count as done only if a completed cycle marked them; sweep quarantines orphans + bootstraps on fresh clone; mark AFTER push, never before
 - [top100/yearly cadence](project_top100_yearly_cadence.md) — season-END artifact; weekly churn is EXPECTED drift, never allowlist it, commit once after season ends (closes "F3")
+- [Route every finding](feedback_route_every_finding.md) — a BLOCK is a checklist not a headline; route ALL findings, never call one "already cleared" without a gate verdict (cost a full gate cycle)
+- [Open backlog](project_open_backlog.md) — deferred after 2026-07-26 ship: ~700 legacy garbage lineup rows (Scientist, recipe at experiment-log.md:330) + F13 backtest live-namespace collision (repeat-incident risk)
 - [Gates hardening 2026-07-25](project_gates_hardening_20260725.md) — a gate that cannot run reads as a gate that passed; reachability + zero-match behaviour must both be checked; verify new regression tests fail against unfixed code
 - [Verify routed findings](feedback_verify_routed_findings.md) — check named files before deleting/quarantining on a routed instruction; a "quarantine these" order would have discarded good output, and a documented exclusion was stale

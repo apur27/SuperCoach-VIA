@@ -213,6 +213,56 @@ A round is considered **good** if `% within 5 ≥ 65%` and there are no more tha
 - That every miss will be explained — sometimes a player just had a weird game.
 - That this report will catch every methodology error — it is one layer of accountability, not a full audit.
 
+### Known coverage limitation — Round 18 2026 (accepted, not a defect to be fixed)
+
+Round 18 2026 is under-covered in the pooled figures on this page, and we have decided
+to leave it that way. Recorded here so that anyone re-measuring these numbers finds the
+explanation instead of rediscovering it as a discrepancy.
+
+**What the gap is.** Round 18 2026 was played as **9** matches across all **18** clubs
+**[data]** (`data/matches/matches_2026.csv`). The vintage of the round that the pooled
+figures use scores only **284** player-rounds covering **14** clubs **[data]**
+(`prediction_vs_actual_round_18_2026_20260710_214217.csv`). Four clubs — Geelong,
+Melbourne, St Kilda and Western Bulldogs — are absent from that round entirely. The
+season pool is therefore short roughly **128** player-rounds against the earlier vintage
+of the same round, which scored the full **412** **[data]**
+(`prediction_vs_actual_round_18_2026_20260707_154033.csv`).
+
+**Why it exists.** Round 18 was scored twice. The second pass ran on the `--from-csv`
+path, which re-scores an archived *forward* prediction CSV rather than re-predicting.
+That archived CSV had been written before the full Round 18 fixture existed, so the four
+clubs whose matches were not yet in the fixture were never in the file to be scored. The
+re-score faithfully scored everything it was given; the input was short, not the scorer.
+This is a genuine hole in the sample, not a merge or selection artifact.
+
+**Why we are not fixing it.** Re-scoring is only worth the engineering time if it moves
+what the page actually claims. It does not. Substituting the fuller Round 18 vintage
+moves the headline barely at all **[data]**:
+
+| Headline metric | Pooled figures as published | With the fuller R18 vintage |
+|---|---:|---:|
+| Player predictions scored | 7,153 | 7,281 |
+| MAE (overall) | 3.958 | 3.960 |
+| Bias (overall) | −0.110 | −0.105 |
+| % within 5 | 74.36% | 74.40% |
+| % within 10 | 95.78% | 95.78% |
+
+Every headline number is stable to within its own rounding. The **team** table is a
+different story — St Kilda's season bias moves from **−0.583** to **−0.733** **[data]** —
+so the limitation is material at club level and immaterial at season level. Read the
+team-bias table for Geelong, Melbourne, St Kilda and Western Bulldogs with that in mind.
+Decision taken **2026-07-26**: accept the gap, document it, do not re-run an already
+completed round.
+
+**Vintage convention for anyone reconciling these numbers.** A round scored more than
+once has more than one artifact on disk. The canonical figures on this page pool **one**
+vintage per round, selected **keep-last**: merge every `backtest_summary_*.csv`
+oldest-first, deduplicate on `(year, round)` keeping the last, and load only the
+`prediction_vs_actual_round_<N>_2026_<ts>.csv` whose timestamp that map names. Never
+select a backtest artifact by file mtime and never glob-and-take-latest — both pick up
+detail CSVs from aborted runs that never wrote a summary. Under keep-last, Round 18
+resolves to `20260710_214217`, which is why the gap above is the published state.
+
 ## Why this report exists
 
 Public accuracy reporting is the cheapest form of model accountability. If the model is good, the report shows it. If the model has a bad month, the report shows that too — and the operator (and the fans) can ask why before any decisions get made on a bad assumption.

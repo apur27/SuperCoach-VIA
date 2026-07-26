@@ -4036,6 +4036,8 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
     Positive avg_error means the model over-predicted; negative means
     under-predicted.
     """
+    import re
+
     pattern = os.path.join(bt_dir, f"prediction_vs_actual_round_*_{year}_*.csv")
     files = sorted([p for p in glob.glob(pattern) if os.path.isfile(p)])
     if not files:
@@ -4047,7 +4049,20 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
         # Pull the run-timestamp suffix so we can prefer the latest run
         # for any duplicated (player, round) rows.
         base = os.path.basename(f)
-        ts = base.rsplit("_", 1)[-1].replace(".csv", "")
+        # Full YYYYMMDD_HHMMSS, not just the trailing HHMMSS. rsplit on the last
+        # "_" discarded the DATE, so the dedup below compared time-of-day only: a
+        # re-run starting earlier in the clock day than the run it supersedes lost,
+        # and the STALE vintage got published. Every multi-vintage round happens to
+        # resolve correctly today only because the authoritative runs also held the
+        # later wall-clock time — luck, not correctness, and the same failure class
+        # as the tainted-provenance incident. A file with no parseable timestamp is
+        # skipped rather than sorted as an empty string.
+        m = re.search(r"(\d{8}_\d{6})", base)
+        if not m:
+            print(f"[backtest] skip {base}: no run timestamp in filename",
+                  file=sys.stderr)
+            continue
+        ts = m.group(1)
         try:
             sub = pd.read_csv(f)
         except Exception as exc:
@@ -4608,7 +4623,10 @@ def generate_top100_section() -> str:
         stats = _parse_top100_comment(comment)
 
         games = str(stats["games"]) if "games" in stats else "—"
-        goals = str(stats["goals"]) if "goals" in stats else "—"
+        # Thousands separator matches _format_top100_stat_line, so a 1,360-goal
+        # career does not read as `1360` in the table and `1,360` in its own
+        # profile stat-line. `:,` no-ops below 1000, as it does for disposals.
+        goals = f"{stats['goals']:,}" if "goals" in stats else "—"
         disposals = f"{stats['disposals']:,}" if "disposals" in stats else "—"
         brownlow = str(stats["brownlow"]) if "brownlow" in stats else "—"
 

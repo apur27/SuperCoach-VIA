@@ -5,7 +5,7 @@
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
 <!-- ALL-TIME-TOP100-START -->
-*Last updated: 2026-07-25 — auto-generated from era-normalised composite scoring*
+*Last updated: 2026-07-26 — auto-generated from era-normalised composite scoring*
 
 Every all-time list is an argument. This one is backed by numbers. The ranking uses an **era-normalised composite score**: each player's career stats are converted to z-scores within their playing era, so a 1930s forward is not penalised for the absence of handball counts in the records, and a modern midfielder is not inflated by the sheer volume of stats logged today. The composite blends disposals, goals, Brownlow votes, peak single-game output, and career consistency. The result is not perfect — no algorithm captures what it felt like to watch Jack Dyer run through a pack or Bernie Quinlan take a screamer — but it is honest, reproducible, and it updates automatically as new season data is scraped.
 
@@ -18,16 +18,16 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 1 | Kevin Bartlett | Richmond | 403 | 778 | 9,151 | — | 2.729 |
 | 2 | Leigh Matthews | Hawthorn | 332 | 915 | 7,374 | 8 | 2.534 |
 | 3 | Bernie Quinlan | Footscray - Fitzroy | 366 | 817 | 6,049 | 10 | 2.526 |
-| 4 | Gordon Coventry | Collingwood | 306 | 1299 | — | 14 | 2.495 |
-| 5 | Doug Wade | Geelong - North Melbourne | 267 | 1057 | 2,130 | — | 2.332 |
+| 4 | Gordon Coventry | Collingwood | 306 | 1,299 | — | 14 | 2.495 |
+| 5 | Doug Wade | Geelong - North Melbourne | 267 | 1,057 | 2,130 | — | 2.332 |
 | 6 | Dick Lee | Collingwood | 230 | 707 | — | — | 2.312 |
 | 7 | Jack Titus | Richmond | 294 | 970 | — | 9 | 2.289 |
 | 8 | Brent Harvey | North Melbourne - Kangaroos | 432 | 518 | 9,213 | 191 | 2.271 |
-| 9 | Tony Lockett | St Kilda - Sydney | 281 | 1360 | 2,867 | 128 | 2.207 |
-| 10 | Lance Franklin | Hawthorn - Sydney | 354 | 1066 | 5,244 | 186 | 2.205 |
+| 9 | Tony Lockett | St Kilda - Sydney | 281 | 1,360 | 2,867 | 128 | 2.207 |
+| 10 | Lance Franklin | Hawthorn - Sydney | 354 | 1,066 | 5,244 | 186 | 2.205 |
 | 11 | Brad Johnson | Footscray - Western Bulldogs | 364 | 558 | 7,172 | 77 | 2.203 |
 | 12 | Bob Skilton | South Melbourne | 237 | 412 | 2,609 | — | 2.165 |
-| 13 | Jason Dunstall | Hawthorn | 269 | 1254 | 3,207 | 129 | 2.147 |
+| 13 | Jason Dunstall | Hawthorn | 269 | 1,254 | 3,207 | 129 | 2.147 |
 | 14 | Garry Wilson | Fitzroy | 268 | 452 | 6,709 | — | 2.141 |
 | 15 | Jack Dyer | Richmond | 311 | 443 | — | 15 | 2.108 |
 | 16 | Gary Ablett | Geelong - Gold Coast | 357 | 445 | 8,896 | 262 | 2.104 |
@@ -40,7 +40,7 @@ The chart below shows the top 10. The full table of all 100 follows with key car
 | 23 | Matthew Richardson | Richmond | 282 | 800 | 3,961 | 140 | 2.061 |
 | 24 | Michael Tuck | Hawthorn | 426 | 320 | 8,423 | 41 | 2.058 |
 | 25 | Dick Reynolds | Essendon | 320 | 442 | — | 31 | 2.047 |
-| 26 | Gary Ablett | Hawthorn - Geelong | 248 | 1031 | 3,747 | 99 | 2.045 |
+| 26 | Gary Ablett | Hawthorn - Geelong | 248 | 1,031 | 3,747 | 99 | 2.045 |
 | 27 | Wayne Richardson | Collingwood | 277 | 323 | 6,550 | — | 2.019 |
 | 28 | Lou Richards | Collingwood | 250 | 423 | — | — | 2.017 |
 | 29 | Patrick Dangerfield | Adelaide - Geelong | 374 | 383 | 8,464 | 259 | 2.012 |
