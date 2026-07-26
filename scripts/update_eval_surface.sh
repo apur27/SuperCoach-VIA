@@ -110,10 +110,20 @@ for p in sorted(glob.glob(os.path.join(bt, "backtest_by_team_*.csv")),
     except Exception:
         continue
     if {"year", "round", "team", "n", "bias"}.issubset(c.columns):
+        c["_mtime"] = os.path.getmtime(p)   # vintage, for supersede-by-file below
         tframes.append(c)
 if not tframes:
     sys.exit("update_eval_surface: no usable backtest_by_team CSVs found")
 tdf = pd.concat(tframes, ignore_index=True)
+# Supersede by FILE, not by (year, round, team). Deduping per-team keeps rows from
+# an older vintage whenever the newer run covers FEWER teams — R18 2026 was
+# re-scored from an archived forward CSV that predated the full fixture (14 teams,
+# not 18), so four teams survived from the previous file and injected 92 phantom
+# player-rounds. One carried bias -3.26 over n=23 and single-handedly moved the
+# published "most under-predicted" figure from -0.583 to -0.733. The result was
+# not stale but incoherent: headline from one vintage, four teams from another.
+newest = tdf.groupby(["year", "round"])["_mtime"].transform("max")
+tdf = tdf[tdf["_mtime"] == newest]
 tdf = tdf.drop_duplicates(subset=["year", "round", "team"], keep="last")
 tdf = tdf[tdf["year"] == YEAR]
 g = (tdf.groupby("team")
@@ -123,6 +133,20 @@ g = (tdf.groupby("team")
 team_under, bias_under = g.index[0], float(g.iloc[0])     # most under-predicted (min)
 team_over, bias_over = g.index[-1], float(g.iloc[-1])     # most over-predicted (max)
 mean_abs_bias = float(g.abs().mean())
+
+# Reconciliation: the per-team rows describe the same scored population as the
+# per-round summary, so their n must agree exactly. A mismatch means two vintages
+# have been crossed and the team sentence would disagree with the headline it sits
+# next to. Fail closed rather than publish a hybrid.
+team_n = int(tdf["n"].sum())
+summary_n = int(df["n_players"].sum())
+if team_n != summary_n:
+    sys.exit(
+        f"update_eval_surface: team-n reconciliation FAILED — per-team rows sum to "
+        f"{team_n:,} but the round summaries sum to {summary_n:,} (delta "
+        f"{team_n - summary_n:+,}). Two backtest vintages have been crossed; the "
+        f"team-level sentence would contradict the headline figures. Refusing to write."
+    )
 
 # =====================================================================
 # 1) README.md — replace the Eval results table + 2 prose figures
@@ -165,9 +189,17 @@ md = re.sub(
 md = re.sub(
     r"(\| Within 10 disposals \| \*\*\[data\]\*\* )[\d.]+%",
     rf"\g<1>{w10_w:.1f}%", md, count=1)
+# The authored row uses U+2212 MINUS SIGN, not ASCII hyphen. An ASCII-only class
+# matched nothing, re.sub returned the input unchanged, and the cell silently froze
+# at its R1-R13 value (-0.093) while the same metric updated elsewhere in the file.
+# Accept every minus form; we always write ASCII, as this script does everywhere.
 md = re.sub(
-    r"(\| Aggregate bias \| \*\*\[data\]\*\* )[-+]?[\d.]+",
+    r"(\| Aggregate bias \| \*\*\[data\]\*\* )[-+−]?[\d.]+",
     rf"\g<1>{bias_w:.3f}", md, count=1)
+# ---- "Full per-round table (all N rounds)" ----
+md = re.sub(
+    r"(Full per-round table \(all )\d+( rounds\))",
+    rf"\g<1>{len(df)}\g<2>", md, count=1)
 # Plain English sentence in "The numbers" section
 md = re.sub(
     r"(measured honestly across )[\d,]+( predictions\.)",

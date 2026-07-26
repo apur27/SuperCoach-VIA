@@ -89,6 +89,100 @@ def test_banner_player_file_count_matches_reality():
     )
 
 
+# --------------------------------------------------------- README eval figures
+
+
+def _merged_backtest(year=2026):
+    """Summary and per-team frames, merged the way update_eval_surface.sh does.
+
+    Per-team rows supersede by FILE per (year, round): deduping per-team keeps rows
+    from an older vintage when the newer run covered fewer teams.
+    """
+    import pandas as pd
+
+    bt = os.path.join(_REPO_ROOT, "data", "prediction", "backtest")
+    need = {"round", "year", "n_players", "mae", "rmse",
+            "pct_within_5", "pct_within_10", "bias"}
+    frames = []
+    for p in sorted(glob.glob(os.path.join(bt, "backtest_summary_*.csv")),
+                    key=os.path.getmtime):
+        try:
+            c = pd.read_csv(p)
+        except Exception:
+            continue
+        if need.issubset(c.columns):
+            frames.append(c)
+    assert frames, "no usable backtest summary CSVs"
+    df = pd.concat(frames, ignore_index=True)
+    df = df.drop_duplicates(subset=["year", "round"], keep="last")
+    df = df[df["year"] == year]
+
+    tframes = []
+    for p in sorted(glob.glob(os.path.join(bt, "backtest_by_team_*.csv")),
+                    key=os.path.getmtime):
+        try:
+            c = pd.read_csv(p)
+        except Exception:
+            continue
+        if {"year", "round", "team", "n", "bias"}.issubset(c.columns):
+            c["_mtime"] = os.path.getmtime(p)
+            tframes.append(c)
+    assert tframes, "no usable backtest by-team CSVs"
+    t = pd.concat(tframes, ignore_index=True)
+    t = t[t["_mtime"] == t.groupby(["year", "round"])["_mtime"].transform("max")]
+    t = t.drop_duplicates(subset=["year", "round", "team"], keep="last")
+    t = t[t["year"] == year]
+    return df, t
+
+
+def test_readme_eval_figures_match_the_backtest_csvs():
+    """"The numbers" table is a published claim; it must not freeze.
+
+    The aggregate-bias cell sat at its R1-R13 value for seven rounds because its
+    regex required an ASCII minus while the row is authored with U+2212 — re.sub
+    matched nothing and reported success. Unit tests prove the regeneration works;
+    only this proves it was actually RUN against what shipped.
+    """
+    df, _ = _merged_backtest()
+    md = open(README, encoding="utf-8").read()
+    n = int(df["n_players"].sum())
+
+    def w(col):
+        return float((df[col] * df["n_players"]).sum() / n)
+
+    def cell(label):
+        m = re.search(rf"\| {re.escape(label)} \| \*\*\[data\]\*\* ([^|]+)\|", md)
+        assert m, f"README row not found: {label}"
+        return m.group(1).strip().replace("−", "-").rstrip("%")
+
+    assert cell("Player-round predictions scored").replace(",", "") == str(n)
+    assert cell("Mean absolute error (disposals)") == f"{w('mae'):.3f}"
+    assert cell("Within 5 disposals") == f"{w('pct_within_5'):.1f}"
+    assert cell("Within 10 disposals") == f"{w('pct_within_10'):.1f}"
+    assert cell("Aggregate bias") == f"{w('bias'):.3f}"
+
+    r_lo, r_hi = int(df["round"].min()), int(df["round"].max())
+    assert f"(all {len(df)} rounds)" in md, f"round count is not {len(df)}"
+    assert cell("Backtest window").startswith(f"R{r_lo}"), "backtest window drifted"
+    assert f"R{r_hi}" in cell("Backtest window"), "backtest window drifted"
+
+
+def test_per_team_rows_reconcile_with_the_round_summaries():
+    """Detector for a crossed backtest vintage.
+
+    R18 2026 was re-scored from an archived forward CSV that predated the full
+    fixture, so a per-team dedupe kept four teams from the superseded run — 92
+    phantom player-rounds, one carrying bias -3.26 over n=23, which alone moved the
+    published "most under-predicted" team figure from -0.58 to -0.73.
+    """
+    df, t = _merged_backtest()
+    team_n, summary_n = int(t["n"].sum()), int(df["n_players"].sum())
+    assert team_n == summary_n, (
+        f"per-team rows sum to {team_n:,} but round summaries sum to {summary_n:,} "
+        f"(delta {team_n - summary_n:+,}) — two backtest vintages have been crossed"
+    )
+
+
 # ------------------------------------------------------------ agent registry
 
 AGENTS_DIR = os.path.join(_REPO_ROOT, ".claude", "agents")

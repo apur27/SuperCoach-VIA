@@ -37,7 +37,7 @@ The whole pipeline runs from a single shell script: scrape new match and player 
 | Mean absolute error (disposals) | **[data]** 3.958 | player-weighted across all rounds |
 | Within 5 disposals | **[data]** 74.4% | player-weighted |
 | Within 10 disposals | **[data]** 95.8% | player-weighted |
-| Aggregate bias | **[data]** −0.093 | essentially unbiased at population level |
+| Aggregate bias | **[data]** -0.110 | essentially unbiased at population level |
 
 **Plain English:** the model misses a player's next-round disposal count by about four disposals on average — usable signal on a 0–45 range, measured honestly across 7,153 predictions. The known weak spot is the elite tier, where error runs roughly 2.5× the global figure.
 
@@ -196,9 +196,9 @@ Walk-forward backtest, 2026 season, Rounds 1–20. For each round the model is r
 
 **Plain English:** the typical prediction misses by about four disposals. On a per-player range of roughly 0–45 that is usable signal, not a solved problem. Round 1 is hardest because there are no within-season form features before any 2026 game has been played.
 
-**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.73 (St Kilda, most under-predicted) to **[data]** +0.57 (West Coast, most over-predicted), with mean absolute team bias **[data]** 0.28 disposals.
+**Technical:** the model is essentially unbiased in aggregate. The known failure mode is the elite tier — top-10-player MAE runs ~2.5x the global figure, driven by a residual ceiling effect and context (tag absorption, role rotations) the feature set captures only partially. Team-level signed bias spans **[data]** -0.58 (St Kilda, most under-predicted) to **[data]** +0.57 (West Coast, most over-predicted), with mean absolute team bias **[data]** 0.27 disposals.
 
-Full per-round table (all 13 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
+Full per-round table (all 20 rounds), team-level breakdown for every club, biggest misses per round, and pre-registered methodology: **[docs/afl-backtest-2026.md](docs/afl-backtest-2026.md)**.
 
 ---
 

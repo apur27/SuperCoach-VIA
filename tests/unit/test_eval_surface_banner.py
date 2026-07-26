@@ -88,13 +88,18 @@ def _make_repo(tmp_path, aria_window):
             (3, 320, 3.700, 4.90, 78.0, 96.0, 0.02),
         ],
     )
+    # Per-team n must reconcile with the summary's n_players (300/310/320): the
+    # script now refuses to write when they disagree, because a mismatch means two
+    # backtest vintages have been crossed.
     _by_team_csv(
         bt / "backtest_by_team_20260720_120000.csv",
         [
-            (1, "Carlton", 20, -0.40),
-            (1, "Sydney", 22, 0.35),
-            (2, "Carlton", 21, -0.20),
-            (2, "Sydney", 23, 0.50),
+            (1, "Carlton", 150, -0.40),
+            (1, "Sydney", 150, 0.35),
+            (2, "Carlton", 155, -0.20),
+            (2, "Sydney", 155, 0.50),
+            (3, "Carlton", 160, -0.10),
+            (3, "Sydney", 160, 0.30),
         ],
     )
     return repo

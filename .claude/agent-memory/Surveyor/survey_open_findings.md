@@ -8,6 +8,33 @@ metadata:
 Re-check these first on the next survey; retire each line only after verifying the
 fix by content, not by claim.
 
+## NEW OPEN — 2026-07-26 README advisory review (reported in chat, no survey file per launcher)
+- **R26-F1 HIGH (Scientist) — README.md [data] numbers stale/self-contradictory on main**:
+  badge :11 "round 20" (R21 shipped 07-20); bias :40 −0.093 vs :188 −0.110 vs measured −0.113
+  (pooled latest per-round CSVs, NaN-dropped, n=7153 ✓ mae=3.958 ✓ w5=74.4 ✓); w10 :39/:152/:188
+  "95.8%" vs measured 95.74→95.7 (doc says 95.7); :194 StK team bias "−0.73" vs measured −0.589
+  (mean abs 0.27 vs claimed 0.28); :196 "all 13 rounds" vs 20-round table. Root cause class 6:
+  refresh_readme.py touches ONLY the NEWS block of README.md — badge/numbers/eval tables have no
+  regenerator or gate. Verify: numbers==recompute + a regen/gate path exists (harness wiring→Gaffer).
+- **R26-F2 MED (Gaffer) — README council description drifted from registry**: :17+:216
+  "seven-agent" vs :84 "eight-agent"/"Seven agents live in .claude/agents/" vs 9 registered agents
+  (+Codex); table omits Chronicler+QA; :91 FootyStrategy "Opus" vs registered model: sonnet;
+  :172 Scientist "Claude Sonnet" vs registered opus. banner.svg aria-label "seven-agent council"
+  + ARCHITECTURE.md:86 "Two LLM agents" same family. Verify: one count everywhere == registry.
+- **R26-F3 MED (Gaffer) — coaches-strategy-corner/README.md briefs index frozen at 06-19**:
+  table :31-32 lists only R9+R11; directory holds 7 R13 + 7 R14 briefs unindexed; violates own
+  convention :97 "a row is appended to the table above". Verify: table rows == brief files.
+- R26-F4 LOW: news/README.md:16 "125+ years" vs 130 elsewhere (Gaffer); archive/README.md is one
+  line, no index of its 3 scripts (Gaffer).
+- Clean 07-26: all relative links in 5 READMEs resolve (scripted check, 0 broken); news pages 1-3
+  index all 12 entries; articles README == dir; cheat sheet = R21; banner VISIBLE stats current
+  (stale strings only in comments); per-round doc table reproduces exactly incl. R18=284/R19=371/
+  R20=361 (filter = drop NaN actuals); 13,357 performance files ✓.
+- RETIRED: banner aria-label staleness (was MED-LOW 07-25) — aria-label now "R1–R20 MAE 3.958,
+  74.4%" (grep 07-26); residue: aria still says "seven-agent council" (folded into R26-F2).
+- F7 (07-10) RE-VERIFIED OPEN 07-26: README:57 still instructs bare `bash refresh_and_rank.sh`;
+  guard at refresh_and_rank.sh:15-20 exits 1 without --allow-direct.
+
 ## NEW OPEN — 2026-07-25 testing-layer META consult (advisory, reported in chat)
 - **T25-R1 HIGH (Gaffer) — TDD rule has no deterministic enforcement point**: .githooks/pre-commit
   exits 0 when no .md staged (:33-37) → pure-code commits get ZERO automated checks; QA coverage
