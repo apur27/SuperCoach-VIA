@@ -83,7 +83,7 @@ SuperCoach-VIA/
 
 > **Note:** the original architecture rested on two agents — Scientist (methodology) and FootyStrategy (interpretation) — described in §2.1 to §2.3. §2.4 introduces the extended council (DataSentinel, BriefBuilder, Skeptic) that wraps a production loop around them. Together the five agents are the "agent layer" referenced elsewhere in this document.
 
-Two LLM agents are defined under `.claude/agents/`, each with its own persistent memory under `.claude/agent-memory/`. They are invoked from inside Claude Code (`@"Scientist (agent)"` / `@"FootyStrategy (agent)"`) and operate as a methodology layer (Scientist) and an interpretation layer (FootyStrategy) on top of the same data.
+Nine LLM agents are defined under `.claude/agents/`, each with its own persistent memory under `.claude/agent-memory/`. They are invoked from inside Claude Code (e.g. `@"Scientist (agent)"` / `@"FootyStrategy (agent)"`). The two described in §2.1–§2.3 remain the core pair — a methodology layer (Scientist) and an interpretation layer (FootyStrategy) over the same data — and §2.4 covers the rest of the council that wraps a production loop around them: DataSentinel, BriefBuilder, Skeptic, Gaffer, QA, Chronicler and Surveyor.
 
 ### 2.1 Scientist
 

@@ -13,7 +13,7 @@ The two layers are visible in every entry. The data tables and `**[data]**` tags
 
 ## Why a news section in a data repo
 
-Most AFL commentary moves fast and cites little. The numbers in the columns of a Monday-morning think piece are typically remembered, not looked up. This repo has 125+ years of structured match data and a per-game player table going back decades - so for any current story where the question is "is that true?" or "how does this compare to the last time it happened?", the answer is sitting in a CSV file two directory levels away.
+Most AFL commentary moves fast and cites little. The numbers in the columns of a Monday-morning think piece are typically remembered, not looked up. This repo has 130 years of structured match data and a per-game player table going back decades - so for any current story where the question is "is that true?" or "how does this compare to the last time it happened?", the answer is sitting in a CSV file two directory levels away.
 
 The news section is the place to turn that into reading. Slower than a tweet. Smaller than a podcast. Built so the numbers survive a click.
 

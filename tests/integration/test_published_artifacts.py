@@ -89,6 +89,76 @@ def test_banner_player_file_count_matches_reality():
     )
 
 
+# ------------------------------------------------------------ agent registry
+
+AGENTS_DIR = os.path.join(_REPO_ROOT, ".claude", "agents")
+README = os.path.join(_REPO_ROOT, "README.md")
+
+_NUMBER_WORDS = {
+    2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
+    8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve",
+}
+
+
+def _registry():
+    """{agent name: declared model} from .claude/agents/*.md frontmatter."""
+    out = {}
+    for fn in sorted(os.listdir(AGENTS_DIR)):
+        if not fn.endswith(".md"):
+            continue
+        with open(os.path.join(AGENTS_DIR, fn), encoding="utf-8") as f:
+            head = f.read(4000)
+        m = re.search(r"^model:\s*(\S+)", head, re.MULTILINE)
+        out[fn[:-3]] = m.group(1).lower() if m else None
+    return out
+
+
+def _readme_agent_table():
+    """{agent name: model} from the README council table, skipping externals."""
+    md = open(README, encoding="utf-8").read()
+    rows = re.findall(r"^\|\s*\d+\s*\|\s*\*\*([^*]+)\*\*\s*\|\s*([^|]+)\|", md, re.MULTILINE)
+    return {
+        name.strip(): model.strip().lower()
+        for name, model in rows
+        if model.strip().lower() != "external"
+    }
+
+
+def test_readme_agent_table_matches_the_registry():
+    """The table was hand-typed and drifted: two agents missing, two wrong models.
+
+    Same class as an earlier DataSentinel Haiku/Sonnet mix-up. Generated claims
+    about the council must be checkable against `.claude/agents/` frontmatter.
+    """
+    registry = _registry()
+    table = _readme_agent_table()
+
+    missing = sorted(set(registry) - set(table))
+    assert not missing, f"agents registered but absent from the README table: {missing}"
+
+    phantom = sorted(set(table) - set(registry))
+    assert not phantom, f"README table lists non-registered agents: {phantom}"
+
+    wrong = {
+        n: (table[n], registry[n])
+        for n in sorted(registry)
+        if registry[n] and table[n] != registry[n]
+    }
+    assert not wrong, f"model tier mismatch (README, registered): {wrong}"
+
+
+def test_council_size_is_stated_consistently():
+    """README said seven-agent twice and eight-agent once, against nine registered."""
+    expected = _NUMBER_WORDS[len(_registry()) + 1]  # +1 for external Codex
+    md = open(README, encoding="utf-8").read()
+    found = set(re.findall(r"([a-z]+)-agent (?:AI )?council", md))
+    assert found, "no council-size phrasing found in README"
+    assert found == {expected}, (
+        f"README states council size as {sorted(found)}; registry implies {expected!r} "
+        f"({len(_registry())} registered + 1 external)"
+    )
+
+
 # --------------------------------------------------------------------- HOF
 
 

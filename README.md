@@ -14,7 +14,7 @@
 
 ---
 
-The most complete public AFL dataset (1897–present), paired with a machine-learning prediction engine and a seven-agent AI council that writes data-grounded match analysis. Built for SuperCoach players who want the edge — and for ML engineers who want a production architecture small enough to read end to end.
+The most complete public AFL dataset (1897–present), paired with a machine-learning prediction engine and a ten-agent AI council that writes data-grounded match analysis. Built for SuperCoach players who want the edge — and for ML engineers who want a production architecture small enough to read end to end.
 
 **For the footy fan:** 130 years of AFL data plus a set of AI agents that reason like a coaching staff — weekly player predictions, team trends, all-time rankings, and debate-ready insight, no coding required.
 
@@ -53,8 +53,11 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 # Full weekly refresh (data + predictions + backtest + docs + commit)
 bash scripts/weekly_refresh.sh
-# Or: data + predictions only (no gates, no commit — for quick local checks)
-bash refresh_and_rank.sh
+# Or: data + predictions only — a deliberate PARTIAL run that skips the council
+# gates, QA and the completion sentinel. The --allow-direct flag is required;
+# without it the script refuses, because it is a phase of the cycle above, not
+# an entry point.
+bash refresh_and_rank.sh --allow-direct
 ```
 
 Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/installation.md](docs/installation.md).
@@ -81,20 +84,22 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 
 ---
 
-## The eight-agent council
+## The ten-agent council
 
-This is the differentiator. Seven agents live in `.claude/agents/`; the eighth (Codex) is an external model queried for outside-the-frame commentary. Each has a bounded role, and together they form a methodology layer that makes every published claim falsifiable against a CSV in this repo.
+This is the differentiator. Nine agents live in `.claude/agents/`; the tenth (Codex) is an external model queried for outside-the-frame commentary. Each has a bounded role, and together they form a methodology layer that makes every published claim falsifiable against a CSV in this repo.
 
 | # | Agent | Model | Primary role | One-line description |
 |---|-------|-------|--------------|----------------------|
 | 1 | **Scientist** | Opus | Data, code, model, pipeline | Owns the data layer — EDA, stat verification, prediction code, live pipeline, doc structure. Enforces the CLAUDE.md verification rule. |
-| 2 | **FootyStrategy** | Opus | Tactical interpretation | Eight-lens coaching council (Conditioner, Tempo Architect, Structuralist, Match-up Tactician, Talent Developer, Innovator, Culture Custodian, List Strategist). Translates Scientist's numbers into coach-grade reads. Never names specific coaches without attribution. |
+| 2 | **FootyStrategy** | Sonnet | Tactical interpretation | Eight-lens coaching council (Conditioner, Tempo Architect, Structuralist, Match-up Tactician, Talent Developer, Innovator, Culture Custodian, List Strategist). Translates Scientist's numbers into coach-grade reads. Never names specific coaches without attribution. |
 | 3 | **DataSentinel** | Sonnet | Pre-commit verification gate | Walks every `**[data]**` tag in a draft, confirms it against the source CSV. Flags untagged numbers, coach-name violations, schema violations. Emits machine-readable JSON for a pre-commit hook to consume. |
 | 4 | **BriefBuilder** | Sonnet | Brief data-skeleton drafter | Given two teams and a round, auto-populates the data skeleton of a pre-match brief — H2H ledger, season form, model predictions, top-5-per-side tracking list. Leaves `<!-- FOOTYSTRATEGY INSERT -->` placeholders for the interpretation layer. |
 | 5 | **Skeptic** | Opus | Adversarial reviewer | Probes tripwire observability, caveat-hierarchy fidelity, and lens-tension smoothing on FootyStrategy drafts. Outputs `PASS / PASS_WITH_CONCERNS / BLOCK`. Never modifies the doc — the author decides what to incorporate. |
 | 6 | **Gaffer** | Opus | Delivery lead / editor-in-chief | Delivery Lead / Editor-in-Chief — orchestrates the chain, decides 'ready to ship' on PASS; boss of process, not of truth. Never authors or edits a `**[data]**` number, never overrides a DataSentinel FAIL or Skeptic BLOCK. |
-| 7 | **Surveyor** | Fable | Strategic advisor & repo diagnostician | Read-only consultant external to the commit chain. Inspects pipeline health, ranks bottlenecks by impact-per-engineering-day, routes every fix to its owning agent. Never ships code or authors a `**[data]**` number. Invoked judiciously — before structural changes, after each sprint, or when the refresh feels slow or fragile. |
-| 8 | **Codex (GPT-5.4)** | External | Outside-the-frame commentary | Queried for views from outside this repo's data frame. All Codex outputs are attributed explicitly as external commentary and cross-checked against repo data where possible. |
+| 7 | **QA** | Sonnet | Quality-assurance gate | Runs the full test suite, validates pipeline output schemas, checks for data regressions, and verifies every mandatory artifact exists and is well-formed. Emits a structured report; a QA FAIL blocks the ship with the same authority as a DataSentinel FAIL. |
+| 8 | **Chronicler** | Opus | End-of-run documentation | Invoked after Gaffer ships. Produces the run report for each cycle — what shipped, what the data is saying, pipeline health — and ranks concrete forward-looking expansion recommendations grounded in what already exists. |
+| 9 | **Surveyor** | Fable | Strategic advisor & repo diagnostician | Read-only consultant external to the commit chain. Inspects pipeline health, ranks bottlenecks by impact-per-engineering-day, routes every fix to its owning agent. Never ships code or authors a `**[data]**` number. Invoked judiciously — before structural changes, after each sprint, or when the refresh feels slow or fragile. |
+| 10 | **Codex (GPT-5.4)** | External | Outside-the-frame commentary | Queried for views from outside this repo's data frame. All Codex outputs are attributed explicitly as external commentary and cross-checked against repo data where possible. |
 
 **The chain:** BriefBuilder → Scientist → FootyStrategy → DataSentinel → (optionally Skeptic). Full architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2 and §6.
 
@@ -169,7 +174,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 |---|---|
 | **Data** | 130 years of AFL match and player CSVs — **[data]** 13,357 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form) and opponent strength. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
 | **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 3.958 across 7,153 player-rounds (R1–R20, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
-| **LLM reasoning — Scientist** | Claude Sonnet running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
+| **LLM reasoning — Scientist** | Claude Opus running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
 | **LLM reasoning — FootyStrategy** | An 8-lens tactical council, each lens produced separately then reconciled. Output is tiered — Settled, Probationary, Contested, Insufficient Evidence — and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier. |
 | **LLM reasoning — extended council** | **DataSentinel** (Sonnet) is a pre-commit verification gate that walks every `**[data]**` tag and emits machine-readable JSON (`PASS \| FAIL` with per-violation detail) for a pre-commit hook. **BriefBuilder** (Sonnet) is a structured-assembly drafter that pulls H2H, season form, model predictions, and a top-5-per-side tracking list. **Skeptic** (Opus) is an adversarial critic that probes tripwire observability, caveat-hierarchy honour, and lens-tension smoothing, then emits `PASS / PASS_WITH_CONCERNS / BLOCK` — never silently modifying the doc. Ship order: DataSentinel first (closes the runtime-enforcement gap on CLAUDE.md), then BriefBuilder, then Skeptic. Full design in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2.4 and §13. |
 | **RAG** | Deterministic retrieval — pandas filters over CSVs. No embedding model, no vector store for structured numeric data, because semantic similarity adds noise where the query maps directly to a structured filter. Hybrid upgrade path documented: pgvector or Qdrant for unstructured commentary, the pandas layer staying authoritative for any numeric claim. |
@@ -213,7 +218,7 @@ Long-form footy journalism where the numbers are not decoration — they are the
 
 ## AI architecture & security
 
-- [Repository architecture](docs/ARCHITECTURE.md) — how this repo works end-to-end: seven-agent council, data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
+- [Repository architecture](docs/ARCHITECTURE.md) — how this repo works end-to-end: ten-agent council, data inventory, scripts inventory, match lifecycle, live pipeline, prediction model
 - [AI system architecture](docs/ai-architecture.md) — RAG, tool router, eval harness, MCP gateway, sovereign deployment
   - [Australia's AI Ethics Principles — how this project maps to the 8 principles](docs/ai-architecture.md#australias-ai-ethics-principles--how-this-project-maps)
   - [AI security — risks, controls, and secure design in this repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo)

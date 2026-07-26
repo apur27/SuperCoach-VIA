@@ -28,6 +28,21 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 
 | Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs | Live reads |
 |-------|-------|-------|------------------|-------------------|------------|-----------------|------------|
+| Adelaide vs Geelong | Round 14 | Adelaide Oval | 4 Jun 2026, 7:00pm ACST | — | [Tactical brief](adelaide-vs-geelong-round-14-2026.md) | — | — |
+| Collingwood vs Melbourne | Round 14 | M.C.G. | 8 Jun 2026 | — | [Tactical brief](collingwood-vs-melbourne-round-14-2026.md) | — | — |
+| Essendon vs Carlton | Round 14 | M.C.G. | 7 Jun 2026, 7:20pm | — | [Tactical brief](essendon-vs-carlton-round-14-2026.md) | — | — |
+| Gold Coast vs Brisbane Lions | Round 14 | Carrara | 6 Jun 2026 | — | [Tactical brief](gold-coast-vs-brisbane-lions-round-14-2026.md) | — | — |
+| Hawthorn vs Western Bulldogs | Round 14 | M.C.G. | 5 Jun 2026, 7:40pm | — | [Tactical brief](hawthorn-vs-western-bulldogs-round-14-2026.md) | — | — |
+| North Melbourne vs Fremantle | Round 14 | Hands Oval, Burnie | 6 Jun 2026 | — | [Tactical brief](north-melbourne-vs-fremantle-round-14-2026.md) | — | — |
+| Sydney vs St Kilda | Round 14 | S.C.G. | 7 Jun 2026, 3:15pm AEST | — | [Tactical brief](sydney-vs-st-kilda-round-14-2026.md) | — | — |
+| West Coast vs Port Adelaide | Round 14 | Perth Stadium | 6 Jun 2026, 6:15pm AWST | — | [Tactical brief](west-coast-vs-port-adelaide-round-14-2026.md) | — | — |
+| Brisbane Lions vs Fremantle | Round 13 | Gabba, Brisbane | 30 May 2026 | — | [Tactical brief](brisbane-lions-vs-fremantle-round-13-2026.md) | — | — |
+| Carlton vs Geelong | Round 13 | M.C.G. | 29 May 2026, 7:40pm | — | [Tactical brief](carlton-vs-geelong-round-13-2026.md) | — | — |
+| Melbourne vs Greater Western Sydney | Round 13 | Traeger Park, Alice Springs | 31 May 2026 | — | [Tactical brief](melbourne-vs-greater-western-sydney-round-13-2026.md) | — | — |
+| St Kilda vs Hawthorn | Round 13 | Marvel Stadium | 28 May 2026, 7:30pm | — | [Tactical brief](stkilda-vs-hawthorn-round-13-2026.md) | — | — |
+| Sydney vs Richmond | Round 13 | S.C.G. | 30 May 2026 | — | [Tactical brief](sydney-vs-richmond-round-13-2026.md) | — | — |
+| West Coast vs Essendon | Round 13 | Perth Stadium | 31 May 2026 | — | [Tactical brief](west-coast-vs-essendon-round-13-2026.md) | — | — |
+| Western Bulldogs vs Collingwood | Round 13 | Docklands | 30 May 2026 | — | [Tactical brief](western-bulldogs-vs-collingwood-round-13-2026.md) | — | — |
 | Richmond vs St Kilda | Round 11 | Marvel Stadium | 17 May 2026, 3:15pm | [Summary](richmond-vs-stkilda-round-11-2026-executive-summary.md) | [Tactical brief](richmond-vs-stkilda-round-11-2026.md) | [Player matchups](richmond-vs-stkilda-round-11-2026-player-matchups.md) · [H2H history](richmond-vs-stkilda-round-11-2026-head-to-head-history.md) | [Q1](richmond-vs-stkilda-round-11-2026-q1-live.md) · [Q2](richmond-vs-stkilda-round-11-2026-q2-live.md) · [Half-time](richmond-vs-stkilda-round-11-2026-half-time-live.md) · [Q3](richmond-vs-stkilda-round-11-2026-q3-live.md) · [Q4](richmond-vs-stkilda-round-11-2026-q4-live.md) · [Full-time verdict](richmond-vs-stkilda-round-11-2026-full-time-verdict.md) · [Post-mortem](richmond-vs-stkilda-round-11-2026-postmortem.md) |
 | Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) | [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) · [Q4 + full-time](richmond-vs-adelaide-round-9-2026-q4-live.md) · [Verdict](richmond-vs-adelaide-round-9-2026-full-time-verdict.md) · [Post-mortem (data)](richmond-vs-adelaide-round-9-2026-postmortem.md) · [Post-mortem (tactical)](richmond-vs-adelaide-round-9-2026-postmortem-footystrategy.md) |
 

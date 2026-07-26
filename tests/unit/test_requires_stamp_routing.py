@@ -30,6 +30,21 @@ def test_legacy_news_exact_filename_is_exempt(tmp_path):
     assert "skipped" in r.stdout  # routed to SKIP, not gated
 
 
+def test_news_index_readme_is_exempt(tmp_path):
+    """Locks the existing exemption at check-council-stamp.sh:172.
+
+    The news INDEX is navigation, not a council-authored article, and has no
+    pipeline to stamp it with — but it matches the `docs/news/*.md` rule that
+    gates real articles. Without the exemption, routine index edits (adding a
+    row, fixing a stray "125+ years" to the "130 years" used everywhere else)
+    would be unshippable. The exemption was already there and untested; this
+    pins it, and the test above still proves real articles stay gated.
+    """
+    r = _run(tmp_path, "docs/news/README.md", "# News desk\n\nIndex of articles.\n")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "skipped" in r.stdout
+
+
 def test_new_unstamped_news_still_fails(tmp_path):
     r = _run(tmp_path, "docs/news/2026-08-01-fresh-take.md", "# Fresh\n\nNo stamp.\n")
     assert r.returncode == 1
