@@ -28,6 +28,8 @@ except ModuleNotFoundError:  # direct-path invocation: put repo root on sys.path
         compute_career_games_to_date,
     )
 
+import config
+
 
 def _detect_lgbm_device() -> str:
     """Probe LightGBM GPU support and return the appropriate device string.
@@ -269,7 +271,7 @@ def extract_round_number(round_str):
     return np.nan
 
 class AFLDisposalPredictor:
-    def __init__(self, data_dir: str, target_year: int | None = None, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False, include_age_experience: bool = False):
+    def __init__(self, data_dir: str, target_year: int | None = None, rolling_window: int = 5, within_season_window: int = 3, debug_mode: bool = False, include_age_experience: bool = False, output_dir: str | None = None):
         """Initialize predictor with data directory, target year, rolling window sizes, and debug mode.
 
         If ``target_year`` is None, it is auto-detected as the maximum ``year``
@@ -297,6 +299,13 @@ class AFLDisposalPredictor:
         self.within_season_window = within_season_window
         self.debug_mode = debug_mode
         self.include_age_experience = include_age_experience
+        # BL-01: where predictions are written. Defaults to the live namespace
+        # that forward-prediction consumers read; a backtest passes an isolated
+        # per-run directory so its output can never be mistaken for the real
+        # forward prediction. Previously this was a hardcoded, cwd-relative
+        # `./data/prediction`, which also disagreed with what backtest.py reads
+        # unless the process happened to start at the repo root.
+        self.output_dir = output_dir
         # Path to the Optuna best-params cache (F6). An instance attribute so
         # tests can point it at a tmp file; production uses the module default.
         self.optuna_cache_path = OPTUNA_CACHE_PATH
@@ -1119,7 +1128,11 @@ class AFLDisposalPredictor:
                         
                         if not next_game_predictions.empty:
                             timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-                            prediction_dir = Path("./data/prediction")
+                            prediction_dir = Path(
+                                self.output_dir
+                                if self.output_dir
+                                else config.PREDICTION_DIR
+                            )
                             prediction_dir.mkdir(parents=True, exist_ok=True)
                             csv_path = prediction_dir / f"next_round_{next_round}_prediction_{timestamp}.csv"
                             output_cols = ['player', 'team', 'predicted_disposals']  # round_number omitted

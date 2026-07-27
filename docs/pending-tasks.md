@@ -304,7 +304,7 @@ found them. Source: Gaffer/Surveyor/Chronicler during commits `a46ca60e8`..`7928
 None is a regression from that ship; all are pre-existing conditions with no incorrect
 published claim attached, which is why they were deferred rather than fixed.
 
-### [Backlog] BL-01 — Backtest writes into the live `next_round_*` prediction namespace
+### [Backlog] BL-01 — Backtest writes into the live `next_round_*` prediction namespace — **DONE 2026-07-27**
 **Owner:** Scientist (code) + Gaffer (harness wiring)
 **Depends on:** none
 **Blocked by decision:** none
@@ -380,7 +380,7 @@ next person will lose the same twenty minutes.
 block, or `record-sentinel-verdict.sh`/the stamp writer rejects a multi-line stamp
 with a clear message. A test covers both stamp shapes.
 
-### [Backlog] BL-08 — Prediction output path is cwd-relative in one place, config-driven in another
+### [Backlog] BL-08 — Prediction output path is cwd-relative in one place, config-driven in another — **DONE 2026-07-27, as a side effect of BL-01**
 **Owner:** Scientist
 **Depends on:** none
 **Blocked by decision:** none

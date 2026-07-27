@@ -385,10 +385,20 @@ def run_round_backtest(
     else:
         # The predictor prints a lot of progress to stdout; we let those show
         # because they're useful "I'm alive" signals during a multi-hour run.
+        # BL-01: give the predictor its OWN output directory. Previously it wrote
+        # straight into config.PREDICTION_DIR — the namespace forward-prediction
+        # consumers read, and which they resolve by mtime-newest. A backtest
+        # artifact could therefore be shipped in place of the real forward
+        # prediction, which is the collision behind this cycle's tainted-provenance
+        # incident. Identity-based selection below stops us READING the wrong file;
+        # this stops us writing there at all.
+        run_out_dir = BACKTEST_DIR / "_runs" / f"{year}_r{round_num}_{timestamp}"
+        run_out_dir.mkdir(parents=True, exist_ok=True)
         predictor = LeakProofPredictor(
             data_dir=str(data_dir),
             target_year=year,
             cutoff_round=round_num,
+            output_dir=str(run_out_dir),
         )
         # Identify the predictor's output by IDENTITY (a file that did not
         # exist before run()), not by mtime-newest. data/prediction/ keeps one
@@ -396,7 +406,7 @@ def run_round_backtest(
         # present; and run() takes a warn-and-return branch when it generates
         # no predictions rather than raising. mtime-newest would combine those
         # two facts into a silent wrong-vintage scoring.
-        pred_dir = Path(config.PREDICTION_DIR)
+        pred_dir = run_out_dir
         pattern = "next_round_*_prediction_*.csv"
         pre_existing = set(pred_dir.glob(pattern))
 

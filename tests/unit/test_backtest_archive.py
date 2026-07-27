@@ -13,6 +13,7 @@ real data files, and the module-level BACKTEST_DIR / config.PREDICTION_DIR are
 monkeypatched to tmp so nothing touches the repo's data/ tree.
 """
 
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pandas as pd
@@ -135,20 +136,28 @@ def test_from_csv_does_not_write_to_live_namespace(synthetic_env, tmp_path):
 def test_without_from_csv_uses_predictor(synthetic_env, tmp_path):
     """Existing behaviour is unchanged: absent --from-csv, the predictor is
     constructed and run, and backtest scores the CSV it wrote."""
-    data_dir, _bt_dir, live_dir = synthetic_env
-    pred_file = live_dir / "next_round_16_prediction_20260101_0000.csv"
+    data_dir, _bt_dir, _live_dir = synthetic_env
+
+    mock_instance = MagicMock()
 
     def fake_run():
+        # BL-01: the predictor writes into the isolated directory it was given,
+        # not the live namespace.
+        out = Path(mock_instance.output_dir)
+        out.mkdir(parents=True, exist_ok=True)
         _write_pred_csv(
-            pred_file,
+            out / "next_round_16_prediction_20260101_0000.csv",
             [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 25}],
         )
 
-    mock_instance = MagicMock()
     mock_instance.run.side_effect = fake_run
 
+    def _ctor(*a, **kw):
+        mock_instance.output_dir = kw.get("output_dir")
+        return mock_instance
+
     with patch.object(
-        backtest, "LeakProofPredictor", return_value=mock_instance
+        backtest, "LeakProofPredictor", side_effect=_ctor
     ) as mock_cls:
         result, _detail = backtest.run_round_backtest(
             year=2026,
@@ -174,14 +183,21 @@ def test_retrain_mode_ignores_stale_csv_with_newer_mtime(synthetic_env, tmp_path
     """
     import os
 
-    data_dir, _bt_dir, live_dir = synthetic_env
+    data_dir, _bt_dir, _live_dir = synthetic_env
 
-    stale = live_dir / "next_round_15_prediction_20260101_0000.csv"
+    # Since BL-01 the predictor writes into a per-run directory, so a stale file
+    # from ANOTHER round can no longer sit beside it. Identity selection still
+    # matters though: plant a stale CSV inside that same run directory (a reused
+    # or resumed run) and give it the newest mtime. The run dir name is
+    # deterministic from the timestamp argument.
+    run_dir = backtest.BACKTEST_DIR / "_runs" / "2026_r16_testts"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    stale = run_dir / "next_round_15_prediction_20260101_0000.csv"
     _write_pred_csv(
         stale,
         [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 99}],
     )
-    fresh = live_dir / "next_round_17_prediction_20260101_0001.csv"
+    fresh = run_dir / "next_round_17_prediction_20260101_0001.csv"
 
     def fake_run():
         _write_pred_csv(
@@ -232,3 +248,60 @@ def test_retrain_mode_raises_when_predictor_writes_nothing(synthetic_env, tmp_pa
                 timestamp="testts",
                 log=MagicMock(),
             )
+
+
+def test_retrain_mode_never_writes_into_the_live_namespace(synthetic_env, tmp_path):
+    """BL-01: a backtest run must not write into the directory forward-prediction
+    consumers read.
+
+    `predictor.run()` wrote its output straight into `config.PREDICTION_DIR` — the
+    same namespace `data/prediction/next_round_*.csv` is served from. Downstream
+    consumers resolve that directory by mtime-newest, so a backtest artifact could
+    be shipped in place of the real forward prediction. That collision produced the
+    tainted-provenance incident this whole cycle was opened to fix; the completion
+    manifest added later only hides the symptom downstream.
+
+    Identity-based selection (the earlier fix) stops the backtest from READING the
+    wrong file. This asserts the stronger property: it never writes there at all.
+    """
+    data_dir, _bt_dir, live_dir = synthetic_env
+
+    before = set(live_dir.iterdir())
+
+    captured = {}
+    mock_instance = MagicMock()
+
+    def fake_run():
+        # Write wherever the predictor was told to write — the whole point of the
+        # fix is that backtest hands it an isolated directory.
+        out = Path(mock_instance.output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        captured["out"] = out
+        _write_pred_csv(
+            out / "next_round_17_prediction_20260101_0001.csv",
+            [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 25}],
+        )
+
+    mock_instance.run.side_effect = fake_run
+
+    def _capture_ctor(*a, **kw):
+        mock_instance.output_dir = kw.get("output_dir")
+        return mock_instance
+
+    with patch.object(backtest, "LeakProofPredictor", side_effect=_capture_ctor):
+        backtest.run_round_backtest(
+            year=2026,
+            round_num=16,
+            data_dir=data_dir,
+            timestamp="testts",
+            log=MagicMock(),
+        )
+
+    assert set(live_dir.iterdir()) == before, (
+        "backtest wrote into the live prediction namespace: "
+        f"{sorted(p.name for p in set(live_dir.iterdir()) - before)}"
+    )
+    assert captured.get("out") is not None, "predictor was never given an output dir"
+    assert Path(captured["out"]).resolve() != Path(live_dir).resolve(), (
+        "predictor was pointed at the live namespace"
+    )
