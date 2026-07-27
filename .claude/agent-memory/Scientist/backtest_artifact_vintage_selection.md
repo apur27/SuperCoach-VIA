@@ -15,10 +15,16 @@ look reasonable and reconcile to nothing.
 ### Trap 1 — orphan detail CSVs (no companion summary)
 
 `prediction_vs_actual_round_N_2026_<ts>.csv` files exist for runs that ABORTED
-before writing a `backtest_summary_<ts>.csv`. As of 2026-07-26 there are two
-such orphan R1 files (`20260518_131738`, `20260525_182141`) — residue of the
-from-R1 re-run rule violations. Their mtimes are *newer* than the authoritative
-`20260511_191837` vintage, so "latest by mtime" picks the orphan.
+before writing a `backtest_summary_<ts>.csv`. Two such orphan R1 files
+(`20260518_131738`, `20260525_182141`) — residue of the from-R1 re-run rule
+violations — existed on 2026-07-26; their mtimes were *newer* than the
+authoritative `20260511_191837` vintage, so "latest by mtime" picked the orphan.
+**Both were deleted before 2026-07-27 (verified gone).** The trap class is still
+live — any aborted run recreates it — but do NOT expect to find those two files.
+Their disappearance also made the doc's old frozen R1-R13 headline
+(MAE 4.020 / RMSE 5.155 / bias -0.097) **unreproducible from artifacts on disk**:
+no surviving vintage combination regenerates it (closest, R1=`20260430_184619`,
+gives 4.0214 / 5.1542 / -0.0925). Keep-last today gives 4.0185 / 5.1497 / -0.0930.
 
 Effect on R1-R20 2026 (n=7,153 either way, so row count does NOT catch it):
 `bias -0.1099 -> -0.1127`, `within-10 95.778% -> 95.736%`, `MAE 3.9575 -> 3.9583`.
@@ -71,6 +77,54 @@ don't assume full-timestamp ordering — and never verify it by computing
 `sorted(full_timestamps)[-1]` yourself, which is how I initially mis-diagnosed an
 orphan file as live-contaminating this table when it was not. Fix is a full-timestamp
 regex (`(\d{8}_\d{6})`), same as `scripts/backtest_completeness.py` already uses.
+
+### Trap 4 — top-30 table dedups on `(player, round)`: same leak as Trap 2
+
+`update_team_analysis._load_top30_player_deviation` does
+`drop_duplicates(subset=["player","round"], keep="last")`. Identical failure class
+to Trap 2: when the newer vintage of a round covers FEWER PLAYERS, the missing
+players survive from the stale vintage instead of being superseded.
+
+Live instance (verified 2026-07-27, R1-R20): the top-30 table pools **7,419** rows
+— the canonical 7,153 plus **128 phantom R18 rows** from `20260707_154033`, exactly
+the four clubs (Geelong, Melbourne, St Kilda, Western Bulldogs) that the canonical
+`20260710_214217` vintage lacks. So `docs/afl-backtest-2026.md` publishes a headline
+computed over 14 R18 clubs sitting directly above a top-30 table computed over 18 —
+an incoherent hybrid *inside the auto-generated block*, which is why it survived a
+"block 1 is auto-generated, therefore fine" review. The per-round table and its
+closing line in the same block ARE correct (they come from summary CSVs, not details).
+
+Visible symptom: `rounds_tracked` inflated by 1 for players at the four affected
+clubs (Bailey Smith 17 vs canonical 16, Wanganeen-Milera 14 vs 13), and Bradley Hill
+occupying a top-30 slot that canonically belongs to Jake Bowey / Ryley Sanders.
+
+**Fix + invariant:** apply supersede-by-FILE first (`newest = groupby(["year","round"])
+["_mtime"].transform("max")`), then dedup. Reconciliation: pooled detail rows after
+`dropna(["predicted_disposals","actual_disposals"])` MUST equal
+`backtest_summary` deduped `n_players.sum()`. Same 7,153 invariant as by_team.
+
+**STATUS: Traps 3 and 4 are FIXED in `update_team_analysis._load_top30_player_deviation`
+(2026-07-27, uncommitted at time of writing).** Three points worth carrying forward:
+
+1. The vintage key in THIS loader is the **filename** timestamp (`(\d{8}_\d{6})` regex),
+   NOT `os.path.getmtime` as in `scripts/update_eval_surface.sh`. Filename beats mtime —
+   mtime is what makes Trap 1 (orphan detail CSVs) bite. `update_eval_surface.sh` is still
+   on mtime and is only safe because `backtest_by_team_*` files are summary-companions.
+2. Supersede-by-file alone gets you to **7,291**, not 7,153. The last 138 rows are
+   **unscored forward predictions** (`actual_disposals` null) that the round summaries never
+   counted. Verified per-round: `nonnan == n_players` for all 20 rounds, exactly. Those rows
+   were also contaminating `avg_predicted` and `rounds_tracked` (but not `avg_error`, since
+   `error` is null on them) — the two halves of the published comparison were computed over
+   different populations.
+3. After supersede-by-file the `(player, round)` dedup is a **within-file guard only**
+   (measured 0 hits on the real 2026 corpus). Keep it; do not present it as vintage selection.
+
+**Two unrelated observations on this table, NOT actioned (presentation calls, not methodology):**
+no minimum-rounds filter, so a 9-round player (Jake Bowey) ranks on `avg_actual` against
+18-round players; and the group key is `(player, team)`, which splits any player appearing
+under two clubs — 1 such row in 2026 (`Williams Bailey`, WB 11 rounds / WCE 7), which is
+either a mid-season move or two distinct players sharing a name. Both are outside the top 30
+except Bowey.
 
 ### Identity worth remembering
 

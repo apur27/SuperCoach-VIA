@@ -51,6 +51,32 @@ def test_new_unstamped_news_still_fails(tmp_path):
     assert "missing the" in r.stderr and "provenance stamp" in r.stderr
 
 
+def test_afl_doc_without_a_stamp_is_skipped(tmp_path):
+    """docs/afl-*.md are opt-in-sticky, like the coaches briefs.
+
+    Most are pipeline-generated surfaces with no council pipeline behind them, so
+    gating them all would block every routine refresh.
+    """
+    r = _run(tmp_path, "docs/afl-season-2026.md", "# Season\n\nGenerated, no stamp.\n")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "skipped" in r.stdout
+
+
+def test_afl_doc_becomes_gated_once_stamped(tmp_path):
+    """The root cause of the afl-backtest-2026.md drift.
+
+    That page carried five frozen figure blocks — a cumulative summary and team
+    table stuck at R1-R13, a misses table at R1-R11 — while README's equivalents
+    stayed current. The difference was not the content but the routing: nothing
+    ever asked DataSentinel to look at it. Adding the marker must actually pull it
+    into the gate, otherwise the marker is decoration.
+    """
+    r = _run(tmp_path, "docs/afl-backtest-2026.md",
+             f"# Backtest\n\nStamped, so it must now be gated.\n\n{STAMP}\n")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "no DataSentinel PASS" in r.stderr or "audit" in r.stderr.lower()
+
+
 def test_coaches_brief_unstamped_is_opt_in_skipped(tmp_path):
     r = _run(tmp_path, "docs/coaches-strategy-corner/some-brief.md", "# Brief\n\nLegacy, no stamp.\n")
     assert r.returncode == 0, r.stdout + r.stderr

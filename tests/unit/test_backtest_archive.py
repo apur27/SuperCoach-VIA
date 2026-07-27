@@ -161,3 +161,74 @@ def test_without_from_csv_uses_predictor(synthetic_env, tmp_path):
     mock_cls.assert_called_once()
     mock_instance.run.assert_called_once()
     assert result.n_with_actual == 1
+
+
+def test_retrain_mode_ignores_stale_csv_with_newer_mtime(synthetic_env, tmp_path):
+    """The predictor's output must be selected by identity (a file that did not
+    exist before ``run()``), not by mtime-newest.
+
+    ``data/prediction/`` accumulates one ``next_round_*`` CSV per round per run,
+    so there is always a stale candidate. Selecting mtime-newest scores whatever
+    file happens to be freshest on disk, which is not necessarily the one this
+    round's predictor just wrote.
+    """
+    import os
+
+    data_dir, _bt_dir, live_dir = synthetic_env
+
+    stale = live_dir / "next_round_15_prediction_20260101_0000.csv"
+    _write_pred_csv(
+        stale,
+        [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 99}],
+    )
+    fresh = live_dir / "next_round_17_prediction_20260101_0001.csv"
+
+    def fake_run():
+        _write_pred_csv(
+            fresh,
+            [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 25}],
+        )
+        # Stale file now has the NEWEST mtime — mtime-newest selection picks it.
+        future = os.stat(fresh).st_mtime + 10_000
+        os.utime(stale, (future, future))
+
+    mock_instance = MagicMock()
+    mock_instance.run.side_effect = fake_run
+
+    with patch.object(backtest, "LeakProofPredictor", return_value=mock_instance):
+        _result, detail = backtest.run_round_backtest(
+            year=2026,
+            round_num=16,
+            data_dir=data_dir,
+            timestamp="testts",
+            log=MagicMock(),
+        )
+
+    row = detail[detail["player"] == "Smith John"].iloc[0]
+    assert row["predicted_disposals"] == 25, "scored the stale CSV, not the new one"
+
+
+def test_retrain_mode_raises_when_predictor_writes_nothing(synthetic_env, tmp_path):
+    """``run()`` warns-and-returns (does not raise) when it generates no
+    predictions. Falling back to the newest pre-existing CSV would silently
+    score another round's predictions against this round's actuals, so the
+    backtest must fail loudly instead."""
+    data_dir, _bt_dir, live_dir = synthetic_env
+
+    _write_pred_csv(
+        live_dir / "next_round_15_prediction_20260101_0000.csv",
+        [{"player": "Smith John", "team": "Test Team", "predicted_disposals": 99}],
+    )
+
+    mock_instance = MagicMock()
+    mock_instance.run.side_effect = lambda: None  # writes nothing
+
+    with patch.object(backtest, "LeakProofPredictor", return_value=mock_instance):
+        with pytest.raises(RuntimeError, match="wrote no"):
+            backtest.run_round_backtest(
+                year=2026,
+                round_num=16,
+                data_dir=data_dir,
+                timestamp="testts",
+                log=MagicMock(),
+            )

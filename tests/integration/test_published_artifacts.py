@@ -183,6 +183,118 @@ def test_per_team_rows_reconcile_with_the_round_summaries():
     )
 
 
+def test_top30_deviation_rows_reconcile_with_the_round_summaries():
+    """Same detector, applied to the OTHER consumer of the same artifacts.
+
+    docs/afl-backtest-2026.md's top-30 player table is built by a second loader
+    that had the identical defect: deduping on (player, round) rather than
+    superseding by file. The narrower R18 re-score leaked 128 phantom
+    player-rounds into it — 7,419 pooled rows against 7,153 actually scored —
+    and moved 15 of the 30 published rows. Each surviving (player, round) is one
+    scored player-round, so rounds_tracked.sum() is the pooled row count.
+    """
+    import update_team_analysis as uta
+
+    df, _ = _merged_backtest()
+    bt = os.path.join(_REPO_ROOT, "data", "prediction", "backtest")
+    dev = uta._load_top30_player_deviation(2026, bt)
+    assert not dev.empty, "top-30 deviation loader returned nothing"
+
+    pooled, summary_n = int(dev["rounds_tracked"].sum()), int(df["n_players"].sum())
+    assert pooled == summary_n, (
+        f"top-30 loader pooled {pooled:,} player-rounds but the round summaries "
+        f"account for {summary_n:,} (delta {pooled - summary_n:+,}) — two backtest "
+        f"vintages have been crossed, or a round's detail CSV is missing"
+    )
+
+
+# ------------------------------------------------- backtest doc (afl-backtest)
+
+BACKTEST_DOC = os.path.join(_REPO_ROOT, "docs", "afl-backtest-2026.md")
+
+
+def _pooled_detail(year=2026):
+    """Per-player rows, newest FILE per (year, round) — same rule as everywhere."""
+    import pandas as pd
+
+    bt = os.path.join(_REPO_ROOT, "data", "prediction", "backtest")
+    frames = []
+    for p in sorted(glob.glob(os.path.join(bt, "prediction_vs_actual_round_*.csv")),
+                    key=os.path.getmtime):
+        m = re.search(r"round_(\d+)_(\d{4})_(\d{8}_\d{6})\.csv$", os.path.basename(p))
+        if not m or int(m.group(2)) != year:
+            continue
+        try:
+            c = pd.read_csv(p)
+        except Exception:
+            continue
+        if not {"player", "predicted_disposals", "actual_disposals"}.issubset(c.columns):
+            continue
+        c["_mtime"] = os.path.getmtime(p)
+        c["round"] = int(m.group(1))
+        frames.append(c)
+    assert frames, "no usable per-player backtest CSVs"
+    d = pd.concat(frames, ignore_index=True)
+    d = d[d["_mtime"] == d.groupby("round")["_mtime"].transform("max")]
+    return d.dropna(subset=["predicted_disposals", "actual_disposals"])
+
+
+def test_backtest_doc_cumulative_block_matches_source():
+    """The cumulative summary froze at R1-R13 for seven cycles because nothing
+    regenerated it — and its published values could not be reproduced from any
+    vintage still on disk. This asserts it tracks the CSVs."""
+    df, _ = _merged_backtest()
+    md = open(BACKTEST_DOC, encoding="utf-8").read()
+    block = re.search(r"<!-- CUMULATIVE-START -->(.*?)<!-- CUMULATIVE-END -->",
+                      md, re.DOTALL)
+    assert block, "CUMULATIVE markers missing — the block has no regenerator"
+    block = block.group(1)
+
+    n = int(df["n_players"].sum())
+    mae = float((df["mae"] * df["n_players"]).sum() / n)
+    bias = float((df["bias"] * df["n_players"]).sum() / n)
+    # RMSE pools in squared space; a linear weighted mean is subtly wrong.
+    rmse = float(((df["rmse"] ** 2 * df["n_players"]).sum() / n) ** 0.5)
+
+    assert f"{n:,}" in block, f"player count drifted; expected {n:,}"
+    assert f"{mae:.3f}" in block, f"MAE drifted; expected {mae:.3f}"
+    assert f"{bias:.3f}" in block, f"bias drifted; expected {bias:.3f}"
+    assert f"{rmse:.3f}" in block, f"RMSE drifted; expected {rmse:.3f}"
+    assert f"R{int(df['round'].min())}–R{int(df['round'].max())}" in block
+
+
+def test_backtest_doc_three_way_reconciliation():
+    """Summary, per-team and pooled per-player rows must describe one population.
+
+    Any disagreement means two backtest vintages have been blended — the defect
+    that put a 14-club headline above an 18-club table on the same page.
+    """
+    df, t = _merged_backtest()
+    d = _pooled_detail()
+    summary_n = int(df["n_players"].sum())
+    team_n = int(t["n"].sum())
+    covered = sorted(d["round"].unique())
+    expect = int(df[df["round"].isin(covered)]["n_players"].sum())
+
+    assert team_n == summary_n, (
+        f"per-team n {team_n:,} != summary n {summary_n:,}"
+    )
+    assert len(d) == expect, (
+        f"pooled per-player rows {len(d):,} != summary n {expect:,} over rounds "
+        f"{covered[0]}-{covered[-1]} — a vintage has been crossed"
+    )
+
+
+def test_backtest_doc_causal_prose_stays_deleted():
+    """Removed on purpose: causal claims on associational evidence, with no
+    derivation path. If a regenerator ever reinstates them, fail."""
+    md = open(BACKTEST_DOC, encoding="utf-8").read()
+    for phrase in ("outperforming the model's pre-2026 expectations",
+                   "Recurring names worth noting",
+                   "consistent with their lower 2026 contested-game volume"):
+        assert phrase not in md, f"causal prose reinstated: {phrase!r}"
+
+
 # ------------------------------------------------------------ agent registry
 
 AGENTS_DIR = os.path.join(_REPO_ROOT, ".claude", "agents")

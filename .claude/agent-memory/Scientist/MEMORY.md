@@ -6,6 +6,7 @@
 - [AFL data source URL map](afl_data_source_urls.md) - afltables = only scrapable structured source (ladder/stats); AFL.com.au /ladder & /stats are empty SPA shells; FA status is article prose only
 - [Backtest artifact vintage selection](backtest_artifact_vintage_selection.md) - NEVER pick backtest CSVs by mtime; orphan detail files (no summary) + by_team dedup on (year,round,team) leak stale vintages. Detector: by_team sum n MUST == summary sum n_players
 - [R18 2026 coverage gap — ACCEPTED 2026-07-26](r18_2026_coverage_gap_accepted.md) - 284/412 player-rounds, 14/18 clubs; do NOT re-score; headline stable, St Kilda bias moves -0.583 -> -0.733
+- [Model training corpus is 2005+, not 1897/1965+](model_training_corpus_scope.md) - birth_year_threshold=target_year-40 loads only 1,808/13,357 player files; afl-backtest-2026.md "all years 1965-2026" is false and the doc is NOT council-pipeline gated
 - [Backtest doc verification](backtest_doc_verification.md) - afl-backtest-2026.md has 3 sections that drift to different round windows; canonical sources + 4486/4806 (NaN-actual) reconciliation
 - [All-time ranking formula constraints](all_time_formula.md) - Rank-based formula trade-offs; data supports Matthews #1 over Carey, expert lists don't
 - [No position column in player data](data_no_position.md) - Player CSVs lack a `position` field; per-position analysis requires a new data source

@@ -31,6 +31,12 @@ were gone), which made "line 28 is done" feel true. Only the verdict decides.
 - When a subagent reports "fixed", verify on disk before treating it as cleared,
   and still require the gate's verdict. Skeptic independently logged the same
   lesson this cycle as "verify the fix, don't trust the fix report".
+- **Never pipe a gate invocation through `head`/`tail`.** Capture the full output to a
+  file and read it from there. On 2026-07-27 a Skeptic BLOCK on
+  `docs/afl-backtest-2026.md` was run with `| tail -12`, so only the closing lines
+  survived: the verdict was recorded but every finding was gone, and the whole run
+  had to be repeated. The audit record does not save you here — it stores the verdict
+  and nothing else, which is precisely BL-05.
 - Beware a reviewer's *diagnosis* of why something is unfixed. Skeptic inferred the
   edit had been "lost before staging"; it had not — it landed and was then blocked.
   Its substantive finding was right, its explanation wrong. Check the file.

@@ -336,6 +336,130 @@ svg = re.sub(
 with open(svg_path, "w", encoding="utf-8") as f:
     f.write(svg)
 
+# =====================================================================
+# 3) docs/afl-backtest-2026.md — the three blocks that had no regenerator
+#
+# This page published five inconsistent figure sets because nothing rewrote
+# them: a cumulative summary frozen at R1-R13 whose values could no longer be
+# reproduced from any vintage on disk, a team-bias table frozen at R1-R13, and
+# a notable-misses table frozen at R1-R11 — all sitting beneath an auto-generated
+# per-round table that tracked R1-R20.
+#
+# The per-round table and its closing "mean across N rounds" line are NOT touched
+# here. That line is an unweighted mean across rounds and is correct as labelled;
+# the blocks below are player-weighted. They are different statistics, and making
+# them agree would be the defect, not the fix.
+# =====================================================================
+bt_doc = os.path.join(REPO, "docs", "afl-backtest-2026.md")
+if os.path.exists(bt_doc):
+    with open(bt_doc, encoding="utf-8") as f:
+        doc = f.read()
+
+    def _swap(text, name, body):
+        pat = re.compile(rf"(<!-- {name}-START -->\n).*?(<!-- {name}-END -->)", re.DOTALL)
+        if not pat.search(text):
+            sys.exit(f"update_eval_surface: {name} markers not found in {bt_doc}")
+        return pat.sub(lambda m: m.group(1) + body + m.group(2), text, count=1)
+
+    # ---- Cumulative summary (player-weighted over the pooled rows) ----
+    # RMSE is pooled in SQUARED space. Running it through wmean() like the other
+    # metrics gives a plausible-looking wrong answer (5.0843 vs a correct 5.0937)
+    # because a root-mean-square does not average linearly.
+    rmse_pooled = float(((df["rmse"] ** 2 * df["n_players"]).sum() / N) ** 0.5)
+    cum_rows = [
+        "| Metric | Value | What it means |",
+        "|---|---|---|",
+        f"| Rounds backtested | {len(df)} (R{r_lo}–R{r_hi}) | Walk-forward — each round predicted using only data from rounds before it |",
+        f"| Player predictions scored | **{N:,}** | Total prediction-vs-actual pairs across the {len(df)} rounds |",
+        f"| **MAE (overall)** | **{mae_w:.3f} disposals** | Average absolute miss across every player-round |",
+        f"| **RMSE (overall)** | **{rmse_pooled:.3f} disposals** | Penalises large misses more heavily; pooled in squared space, not averaged |",
+        f"| **Bias (overall)** | **{bias_w:.3f} disposals** | Signed mean error — negative means the model predicts too low |",
+        f"| Cumulative MAE (mean of round MAE) | {df['mae'].mean():.2f} | Equally weights each round, unlike the player-weighted figure above |",
+        f"| Median round MAE | {df['mae'].median():.2f} | Half the rounds beat this number, half fell short |",
+    ]
+    doc = _swap(doc, "CUMULATIVE", "\n".join(cum_rows) + "\n")
+
+    # ---- Team-level bias (supersede-by-file already applied to tdf) ----
+    tstat = (tdf.groupby("team")
+                .apply(lambda x: pd.Series({
+                    "n": int(x["n"].sum()),
+                    "bias": (x["bias"] * x["n"]).sum() / x["n"].sum(),
+                }), include_groups=False)
+                .sort_values("bias"))
+    team_rows = ["| Team | Predictions (n) | Bias | Direction |",
+                 "|------|----------------:|-----:|-----------|"]
+    for team, row in tstat.iterrows():
+        direction = "under-predict" if row["bias"] < 0 else "over-predict"
+        team_rows.append(f"| {team} | {int(row['n'])} | {row['bias']:+.2f} | {direction} |")
+    doc = _swap(doc, "TEAMBIAS", "\n".join(team_rows) + "\n")
+
+    # ---- Round-by-round notable misses, from the per-player detail CSVs ----
+    # Same vintage discipline as everything else: newest FILE per (year, round).
+    dets = []
+    for p in sorted(glob.glob(os.path.join(bt, "prediction_vs_actual_round_*.csv")),
+                    key=os.path.getmtime):
+        m = re.search(r"round_(\d+)_(\d{4})_(\d{8}_\d{6})\.csv$", os.path.basename(p))
+        if not m or int(m.group(2)) != YEAR:
+            continue
+        try:
+            c = pd.read_csv(p)
+        except Exception:
+            continue
+        if not {"player", "round", "predicted_disposals", "actual_disposals"}.issubset(c.columns):
+            continue
+        c["_mtime"] = os.path.getmtime(p)
+        c["round"] = int(m.group(1))
+        dets.append(c)
+
+    if dets:
+        d = pd.concat(dets, ignore_index=True)
+        d = d[d["_mtime"] == d.groupby("round")["_mtime"].transform("max")]
+        d = d.dropna(subset=["predicted_disposals", "actual_disposals"])
+        d["err"] = d["predicted_disposals"] - d["actual_disposals"]
+
+        def _natural(name):
+            # CSVs store "Surname Firstname"; readers expect "Firstname Surname",
+            # which is how the hand-written table this replaced always read. The
+            # first name is the LAST token, so multi-token surnames ("Ah Chee",
+            # "Wanganeen-Milera") stay intact — splitting on the first space would
+            # turn "Ah Chee Callum" into "Chee Callum Ah".
+            parts = str(name).split()
+            return f"{parts[-1]} {' '.join(parts[:-1])}" if len(parts) > 1 else str(name)
+
+        def _fmt(sub):
+            return "; ".join(
+                f"{_natural(r.player)} ({int(r.predicted_disposals)}→"
+                f"{int(r.actual_disposals)}, {int(r.err):+d})" for r in sub.itertuples()
+            )
+
+        miss_rows = ["| Round | Top under-predictions (model too low) | Top over-predictions (model too high) |",
+                     "|------:|----------------------------------------|----------------------------------------|"]
+        for rnd in sorted(d["round"].unique()):
+            sub = d[d["round"] == rnd]
+            miss_rows.append(
+                f"| {rnd} | {_fmt(sub.nsmallest(5, 'err'))} | {_fmt(sub.nlargest(5, 'err'))} |"
+            )
+        doc = _swap(doc, "MISSES", "\n".join(miss_rows) + "\n")
+
+        # Reconciliation, third leg: for every round we actually hold detail for,
+        # the pooled per-player rows must equal that round's n_players. Scoped to
+        # those rounds on purpose — a round whose detail CSV is simply absent is a
+        # coverage gap, not a crossed vintage, and must not block the whole surface
+        # (README and the banner are already written by this point, so a blanket
+        # abort here would leave a partial update).
+        covered = sorted(d["round"].unique())
+        expect = int(df[df["round"].isin(covered)]["n_players"].sum())
+        if len(d) != expect:
+            sys.exit(
+                f"update_eval_surface: detail reconciliation FAILED — pooled per-player "
+                f"rows {len(d):,} != summary n_players {expect:,} over rounds "
+                f"{covered[0]}-{covered[-1]} (delta {len(d) - expect:+,}). "
+                f"A backtest vintage has been crossed; refusing to write."
+            )
+
+    with open(bt_doc, "w", encoding="utf-8") as f:
+        f.write(doc)
+
 print(f"update_eval_surface: {window} | player-rounds {N:,} | "
       f"MAE {mae_s} | within5 {w5_s} | within10 {w10_s} | bias {bias_w:.3f}")
 print(f"  team bias: {team_under} {bias_under:+.2f} .. {team_over} "

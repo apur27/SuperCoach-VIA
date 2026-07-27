@@ -142,6 +142,17 @@ requires_stamp() {
       [ -f "$f" ] && grep -q '<!-- council-pipeline:' "$f" && return 0
       return 1
       ;;
+    docs/afl-*.md)
+      # Opt-in-sticky. Most docs/afl-*.md are pipeline-generated surfaces with no
+      # council pipeline behind them, so gating all of them would block every
+      # routine refresh. But afl-backtest-2026.md drifted for seven cycles — five
+      # frozen figure blocks, one of them unreproducible — precisely BECAUSE
+      # nothing ever routed it to DataSentinel, while README's equivalents stayed
+      # current. Adding the stamp opts a doc in, and once in it cannot silently
+      # opt back out.
+      [ -f "$f" ] && grep -q '<!-- council-pipeline:' "$f" && return 0
+      return 1
+      ;;
     docs/coaches-strategy-corner/*.md)
       # Opt-in-sticky (human decision: prospective-only). Gate only briefs that
       # already carry a stamp; the 38 legacy briefs are acknowledged unverified

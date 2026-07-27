@@ -38,6 +38,16 @@ unbounded run time, git's per-command env leaking into git-driving tests, and
 invoked it. Diagnosed from the process tree (`ps -eo pid,ppid,etime,cmd`), not
 guessed — two commit attempts were aborted before evidence was gathered.
 
+**Fix the GENERATOR, never the generated file.** 2026-07-27: Skeptic BLOCKed
+`docs/afl-backtest-2026.md` on an inverted bias-sign gloss. I fixed it in the doc, then
+regenerated the doc as part of the same task — and the regeneration silently restored
+the wrong text, because that line lives inside `<!-- 2026-BACKTEST-START/END -->`. The
+next Skeptic pass re-raised the identical finding. Before editing any published doc,
+check whether the line sits inside a generated block; if it does, the edit belongs in
+`update_team_analysis.py` (or whichever generator owns it) or it will not survive the
+next refresh. This is the same disease as the frozen blocks themselves, just running in
+the other direction.
+
 **Two tests were nearly shipped vacuous.** A behavioural test for the git-env leak
 passed identically against fixed and unfixed hooks, twice, because setting
 `GIT_INDEX_FILE` breaks the hook's own staged-file detection before pytest is

@@ -46,22 +46,39 @@ RETIRED this pass:
   (weekly_refresh.sh:359-380).
 - banner aria-label (MED-LOW 07-25) fully retired.
 
-NEW — SV26-N1 MED (Gaffer): CLAUDE.md carries an UNCOMMITTED working-tree edit raising the
-fast-tier budget 10s→~20s and documenting the two tiers, while Gaffer's pending-human list
-frames the budget breach (15.1s; I measure 16.0s) as awaiting the human's call. A drafted
-resolution sitting ahead of the decision — either commit as human-approved or revert
-pending it. Verify: CLAUDE.md clean OR budget decision recorded.
+## VERIFIED 2026-07-26 (second pass) — final review of 71fa430b3 + 4cf8a7da2; six-commit arc closed
+HEAD==origin/main==4cf8a7da2. All prior pending-human items resolved by recorded decision:
+- SV26-N1 RETIRED: CLAUDE.md two-tier budget (~20s) committed in 71fa430b3.
+- 1360 RETIRED: table now renders f"{goals:,}" (uta:4626); golden fixtures updated in same
+  commit; invariant test is generic (>=1000 must match stat-line), 39/39 pass.
+- R18 gap RETIRED as accepted limitation: documented OUTSIDE 2026-BACKTEST markers (:100 end,
+  note at :216+); I re-measured every figure: 284 non-null actuals/320 rows 14 teams
+  (20260710_214217), 412/18 teams (20260707_154033), 9 R18 matches, delta 128. All exact.
+- afl-insights double-BLOCK RETIRED: shipped hash 5dba9fa5... verified sha256-exact at HEAD;
+  gate trail hash-keyed and clean (DataSentinel PASS 06:26Z + Skeptic PASS_WITH_CONCERNS
+  06:32Z on 5dba9fa5; the BLOCK sits on prior hash 392e8d46 — no PASS/FAIL coexistence).
+- Vintage bugs (71fa430b3): both regression tests proven NON-VACUOUS by running scenarios
+  against pre-fix code in scratchpad (old top30 picks stale 10.0; old bootstrap adopts
+  orphan). No-live-contamination claim CONFIRMED by measurement: on the PRE-fix tracked set,
+  old HHMMSS key picked the authoritative vintage in all 10 multi-vintage 2026 rounds
+  (incl. R1 where the NEW key alone would have picked orphan 20260525_182141 — the orphan
+  deletion in the same commit is what makes "0 of 10 move" true). Session-wide diff of
+  docs/afl-backtest-2026.md: only the R18 note added, zero figure changes.
 
-PENDING HUMAN (confirmed accurately described, do not route):
-- afl-insights.md double Skeptic-BLOCK: main still carries "extended their lead"/"same
-  skill expressed twice" prose; softened fix HELD in working tree (diff verified).
-- 1360 vs 1,360: REAL — hall-of-fame-top100.md:26 goals "1360" beside disposals "2,867";
-  golden fixture expected_top100_section.md:12 now PINS the bare form (fix needs renderer
-  + fixture together).
-- R18 2026 coverage gap: per-round table R18 n=284 (14-team archived forward CSV) vs ~371
-  played — both README and doc now use the same vintage consistently; disclosure wording
-  is the human call.
-- Fast-tier 10s budget (see SV26-N1). Monday cycle carries new blocking Skeptic gate.
+NEW LOW/watch (route via Gaffer when convenient, none blocking):
+- SV26-N2 LOW (Gaffer): Skeptic pass-4 concerns SK-R21-04/05 exist only in the 4cf8a7da2
+  commit message; the verdict JSON has no reason field (record-sentinel-verdict.sh has no
+  --reason flag despite the invocation prompt requesting one), and the IDs COLLIDE with
+  pass-2/3 numbering (SK-R21-04 = ladder finding in Gaffer/FootyStrategy memories). QA's
+  "5 warnings" list likewise unpersisted (counts 498+13=511/0-fail ARE backed by QA
+  baseline memory). Non-PASS verdicts should persist their payload.
+- SV26-N3 MED-LOW (Scientist): _load_top30_player_deviation still globs the backtest dir
+  and trusts any timestamped file — it does not consult completed_runs.json. A future
+  orphan landing between quarantine sweeps with a newer timestamp would win under the
+  (now-correct) selector. Same family as Gaffer's own F13 backlog item; fix is
+  manifest-filtering or namespace isolation, already on Gaffer's open-backlog memory.
+- Chart PNG non-reproducibility + generate_backtest_section() side-effect write: logged in
+  Gaffer project_open_backlog.md item 3, owner Scientist. Tracked there, not duplicated.
 
 ## STILL OPEN (carried, unaffected by this ship)
 - **F3 (07-10) lineup garbage — Scientist half only**: 700 garbage rows still in committed

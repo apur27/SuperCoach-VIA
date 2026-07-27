@@ -4080,13 +4080,35 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
         return pd.DataFrame()
 
     raw = pd.concat(frames, ignore_index=True)
-    # Deduplicate by (player, round) keeping the run with the latest
-    # timestamp — that's the most recent regeneration for that round.
+
+    # Supersede by FILE per (year, round) — NOT by (player, round). A per-player
+    # dedupe only replaces players the NEW run also carries; anyone the re-score
+    # DROPPED survives from the stale vintage, so the round gets served from two
+    # runs at once. R18 2026 was re-scored from an archived forward CSV that
+    # predated the full fixture (14 clubs, not 18), and the four missing clubs
+    # leaked 128 phantom player-rounds into this table. Identical failure class to
+    # the by_team dedupe fixed in scripts/update_eval_surface.sh (ce6ff6163).
+    newest = raw.groupby(["year", "round"])["_run_ts"].transform("max")
+    raw = raw[raw["_run_ts"] == newest]
+
+    # Drop unscored rows. A forward prediction that was never settled has a null
+    # actual, so `error` is null too and avg_error already skipped it — but
+    # avg_predicted and rounds_tracked did not, which computed the two halves of
+    # the published comparison over different populations and counted rounds the
+    # player was never scored in. Excluding them also makes the surviving row
+    # count reconcile exactly with the summed n_players of the round summaries.
+    raw = raw[raw["actual_disposals"].notna()]
+
+    # Within-file guard only: after the supersede above every surviving row for a
+    # round comes from one file, so this can now fire solely on a file that emits
+    # the same player twice. Kept as a cheap invariant, not as vintage selection.
     raw = (
         raw.sort_values("_run_ts")
            .drop_duplicates(subset=["player", "round"], keep="last")
            .drop(columns=["_run_ts"])
     )
+    if raw.empty:
+        return pd.DataFrame()
 
     grouped = raw.groupby(["player", "team"], dropna=False).agg(
         avg_actual=("actual_disposals", "mean"),
@@ -4316,14 +4338,18 @@ def generate_backtest_section(year: int) -> str:
         "Before we trust our predictions for next week, we need to check "
         "how well the model has done on rounds that are already finished "
         "— rounds where we know the real answer. A backtest does "
-        "exactly that: for each completed round, the model is trained on "
-        "all data **before** that round, then asked to predict it. We "
-        "then compare prediction to reality."
+        "exactly that: for each completed round, the model is trained only "
+        "on **completed earlier seasons** — never on any part of the season "
+        "being scored — and is then asked to predict the round using only "
+        "lagged form. We then compare prediction to reality. See Methodology "
+        "for the precise window."
     )
     parts.append("")
     parts.append(
-        "This is the honest test. The model never gets to see the round "
-        "it's predicting."
+        "This is the honest test: the model is not fitted on the round it is "
+        "predicting. See the Methodology section for how each round is scored, "
+        "including which rounds' ordering is independently attested and which "
+        "rests on self-reported timestamps."
     )
     parts.append("")
     parts.append("### What the numbers mean (in plain English)")
@@ -4351,7 +4377,7 @@ def generate_backtest_section(year: int) -> str:
     )
     parts.append(
         "| **Bias** | Whether the model systematically over- or under-predicts. "
-        "A bias of −0.7 means we tend to predict 0.7 disposals too high. A "
+        "A bias of −0.7 means we tend to predict 0.7 disposals too **low** — bias is `mean(predicted − actual)`, so a negative number means the model came in under the real figure. A "
         "bias near 0 is ideal. | Near 0 = better |"
     )
     parts.append(
@@ -4382,22 +4408,57 @@ def generate_backtest_section(year: int) -> str:
     parts.append("")
     parts.append(f"#### Per-round backtest summary — {year}")
     parts.append("")
+    parts.append(
+        f"Every cell below is read from the per-round backtest summaries in "
+        f"`data/prediction/backtest/backtest_summary_*.csv` (newest vintage per "
+        f"round) **[data]**."
+    )
+    parts.append("")
     parts.append(table_md)
     parts.append("")
     parts.append(
         f"**Overall (mean across {n_rounds} rounds):** MAE "
-        f"{overall_mae:.2f} disposals · "
+        f"{overall_mae:.2f} **[data]** disposals · "
         f"{overall_pct5:.1f}% of predictions within 5 disposals · "
-        f"{overall_pct10:.1f}% within 10."
+        f"{overall_pct10:.1f}% within 10. These are unweighted means across "
+        f"rounds; the player-weighted equivalents are in the cumulative "
+        f"summary below and are expected to differ."
     )
     parts.append("")
+    # Apply the page's own pre-registered pass/fail bar to the page's own table.
+    # It was defined under "Hit / miss definitions" and then never evaluated —
+    # an accountability surface that pre-registers a threshold and never checks
+    # itself against it is grading its own homework. Outright misses per round are
+    # derived from the published within-10 column, since "outright miss" is
+    # defined as an error greater than 10 disposals.
+    _misses = df["n_players"] * (100.0 - df["pct_within_10"]) / 100.0
+    _n_concerning = int((_misses > 5).sum())
+    parts.append(
+        f"**Measured against our own pre-registered threshold:** a round counts as "
+        f"*concerning* if it carries more than five outright misses (error greater "
+        f"than 10 disposals). By that rule **[data]** {_n_concerning} of "
+        f"{len(df)} rounds are concerning, roughly {_misses.sum():.0f} outright "
+        f"misses across the season. We publish that rather than re-calibrate the "
+        f"threshold: a pre-registered bar quietly moved once it is breached is not "
+        f"a bar. It means the five-miss threshold was set optimistically against "
+        f"how this model actually performs, and the honest reading is that outright "
+        f"misses are a routine feature of the predictions, not a rare event."
+    )
+    parts.append("")
+    # Derive the opening round and its MAE from the table above rather than
+    # hardcoding them. The literal here read "Round 1 (MAE ~4.9)" against a real
+    # 4.83, and could never self-correct as rounds were added or re-scored.
+    first_round = int(df.iloc[0]["round"])
+    first_mae = float(df.iloc[0]["mae"])
     parts.append(
         "> **What to look for:** MAE should stay flat or improve as the "
         "season progresses — the model gets more data per player each "
-        "round. A spike in Round 1 (MAE ~4.9) is normal because many "
-        "players have no 2026 history yet. If MAE rises sharply mid-season, "
-        "it usually means an unusual game week (byes, interstate travel, "
-        "weather)."
+        f"round. A spike in Round {first_round} (MAE {first_mae:.2f} "
+        f"**[data]**) is "
+        f"normal because many players have no {year} history yet. If MAE "
+        "rises sharply mid-season, that is worth investigating — this page "
+        "does not measure the cause, and none of byes, travel or weather is "
+        "a feature of the model or a recorded column in the backtest artifacts."
     )
     parts.append("")
 
@@ -4412,6 +4473,13 @@ def generate_backtest_section(year: int) -> str:
                 "disposal players?"
             )
             parts.append("")
+            parts.append(
+                "Averages below are computed from the per-player backtest "
+                "detail CSVs `data/prediction/backtest/"
+                "prediction_vs_actual_round_*_%d_*.csv` (newest vintage per "
+                "round, scored rows only) **[data]**." % year
+            )
+            parts.append("")
             parts.append(top30_md)
             parts.append("")
             parts.append(
@@ -4420,8 +4488,11 @@ def generate_backtest_section(year: int) -> str:
                 "positive error (↑) means we over-predicted — "
                 "the player gets fewer disposals than expected. A large "
                 "negative error (↓) means we under-predicted — "
-                "they consistently beat the model. Players with errors "
-                "above ±6 (bolded) are worth investigating — "
+                "they consistently beat the model. Bolded rows are those "
+                "whose mean ABSOLUTE error exceeds 6 disposals — a "
+                "different quantity from the signed \"Avg error\" column "
+                "shown here, so a bolded row need not read ±6 above. They "
+                "are worth investigating — "
                 "they may have changed role, had an injury, or are "
                 "operating in a way the model hasn't caught up with yet."
             )

@@ -6,10 +6,13 @@ Walk-forward backtest of the AFLDisposalPredictor.
 
 For every round N of year Y in the requested window, the script:
 
-    1. Strips every row from the player-data DataFrame that occurs at or after
-       (year=Y, round=N) — i.e. all rows from year>Y, plus same-year rows with
-       round >= N. This enforces a strict temporal cutoff: the model trains
-       and engineers features using only games played BEFORE round N of year Y.
+    1. Strips every row from the player-data DataFrame that occurs strictly
+       after (year=Y, round=N) — i.e. all rows from year>Y, plus same-year rows
+       with round > N. Round N itself is retained, because it is the slice
+       being predicted. Model TRAINING is narrower still: AFLDisposalPredictor
+       fits only on rows with year < Y, so no round of year Y — including the
+       rounds before N — is ever a training target. Year-Y rounds 1..N reach
+       the prediction only as lagged/rolling features on the round-N slice.
     2. Runs `AFLDisposalPredictor` with target_year=Y.
     3. Extracts predictions for round N of year Y.
     4. Joins predictions to the actual disposals recorded for round N of year Y.
@@ -158,9 +161,10 @@ class RoundResult:
 
 class LeakProofPredictor(AFLDisposalPredictor):
     """AFLDisposalPredictor that enforces a hard temporal cutoff at
-    (target_year, cutoff_round): every row at or after that point is
+    (target_year, cutoff_round): every row strictly after that point is
     discarded immediately after load, before any feature engineering or
-    model training touches it.
+    model training touches it. The cutoff round itself is retained — it is the
+    slice being predicted.
 
     This is the single defensive choke point that prevents the backtest from
     leaking the round being scored (or any future round) into the training
@@ -386,20 +390,44 @@ def run_round_backtest(
             target_year=year,
             cutoff_round=round_num,
         )
+        # Identify the predictor's output by IDENTITY (a file that did not
+        # exist before run()), not by mtime-newest. data/prediction/ keeps one
+        # next_round_* CSV per round per run, so a stale candidate is always
+        # present; and run() takes a warn-and-return branch when it generates
+        # no predictions rather than raising. mtime-newest would combine those
+        # two facts into a silent wrong-vintage scoring.
+        pred_dir = Path(config.PREDICTION_DIR)
+        pattern = "next_round_*_prediction_*.csv"
+        pre_existing = set(pred_dir.glob(pattern))
+
         predictor.run()
 
-        pred_path = sorted(
-            Path(config.PREDICTION_DIR).glob(
-                f"next_round_*_prediction_*.csv"
-            ),
+        new_files = sorted(
+            set(pred_dir.glob(pattern)) - pre_existing,
             key=lambda p: p.stat().st_mtime,
-        )[-1]
+        )
+        if not new_files:
+            raise RuntimeError(
+                f"predictor.run() wrote no {pattern} into {pred_dir} for "
+                f"round {round_num} year {year}; refusing to fall back to a "
+                f"pre-existing CSV from another round"
+            )
+        if len(new_files) > 1:
+            log.warning(
+                "predictor.run() wrote %d prediction CSVs (%s); scoring the newest",
+                len(new_files),
+                ", ".join(p.name for p in new_files),
+            )
+        pred_path = new_files[-1]
         log.info("predictor wrote %s", pred_path.name)
         preds = pd.read_csv(pred_path)
 
     # The predictor's saved CSV has [player, team, predicted_disposals] for
-    # the next-round per-player slice. That "next round" should equal
-    # round_num because we capped the data at round_num.
+    # the next-round per-player slice. Note the file's round token is
+    # round_num + 1, not round_num: the cutoff retains round_num itself, whose
+    # rows carry recorded disposals, so get_next_round() reports round_num + 1.
+    # The rows inside are still round_num's, because that is the last round the
+    # truncated corpus contains.
     actuals = _gather_actuals(data_dir, year, round_num)
     log.info(
         "predictions=%d  actuals=%d  for r=%d y=%d",

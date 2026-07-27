@@ -362,6 +362,72 @@ despite its read-only-sounding name, so "just previewing" a section is not side-
 **Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
 or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
 
+### [Backlog] BL-09 — A multi-line council stamp silently invalidates its own audit record
+**Owner:** Gaffer
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `scripts/council-content-hash.sh` strips lines matching
+`<!-- council-pipeline:` or `council-pipeline-gated`. That works only for a
+SINGLE-LINE stamp. Write the stamp across several lines — which the format in
+`Gaffer.md` visually invites — and only the opening line is stripped; the
+continuation lines stay in the hashed content, changing the canonical hash and
+orphaning the DataSentinel/Skeptic records the stamp exists to cite. Hit on
+2026-07-27: hash moved `da1fc808` → `65f66e06` on stamping, and the gate then
+reported the doc as unstamped. Recovered by collapsing to one line. The gate fails
+closed so nothing unverified can ship, but the failure mode is confusing and the
+next person will lose the same twenty minutes.
+**Acceptance criterion:** either the hash script strips a whole multi-line stamp
+block, or `record-sentinel-verdict.sh`/the stamp writer rejects a multi-line stamp
+with a clear message. A test covers both stamp shapes.
+
+### [Backlog] BL-08 — Prediction output path is cwd-relative in one place, config-driven in another
+**Owner:** Scientist
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `supercoach/prediction.py:1122` writes to a hardcoded, cwd-relative
+`Path("./data/prediction")`, while `backtest.py` reads `config.PREDICTION_DIR`
+(`config.py:146`). The two agree only when the process happens to be started from the
+repo root. Every harness path does start there, so this is latent rather than live —
+but it means the writer and the reader of the same directory disagree about how to
+find it, which is the shape of a bug that appears the first time something runs from
+elsewhere. Surfaced incidentally on 2026-07-27 and deliberately not chased.
+**Acceptance criterion:** both sides resolve the prediction directory through
+`config.PREDICTION_DIR`; a test that runs the writer from a non-root cwd still lands
+files where the reader looks.
+
+### [Backlog] BL-07 — Commit forward prediction CSVs before the round is played
+**Owner:** Gaffer (harness)
+**Depends on:** none
+**Blocked by decision:** none — user deferred the harness change on 2026-07-27, prose softened in the meantime
+**Fix brief:** Rounds scored by the `--from-csv` archive path are leak-proof only if
+the forward prediction genuinely predates the game. Today that ordering is evidenced
+by filename timestamp and mtime, both of which the writing process controls, so it is
+an assertion rather than an attestation. R18 and R19 happen to be cleanly attested —
+their forward CSVs were committed to git before first bounce — but R20's was not
+committed until after the round, so its guarantee currently rests on self-reported
+metadata. `docs/afl-backtest-2026.md` now says so explicitly rather than overclaiming.
+The durable fix is to commit the upcoming round's forward prediction CSV as part of the
+weekly cycle, before the round is played, making git the independent witness.
+**Acceptance criterion:** every round scored by the archive path has its forward CSV in
+a commit dated before that round's first bounce, checkable after the fact without
+trusting any file timestamp.
+
+### [Backlog] BL-06 — Player-name casing is flattened in the source CSVs
+**Owner:** Scientist
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `prediction_vs_actual_*.csv` stores names title-cased, so intercapped
+surnames lose their casing: "Mccluggage Hugh" where the player is Hugh McCluggage.
+Harmless while the data was only read by code, but `docs/afl-backtest-2026.md`'s
+notable-misses table is now generated from these CSVs, so the flattened casing is
+published — the hand-written table it replaced had it right. Affects the Mc/Mac and
+O' families at minimum. Deliberately NOT fixed with a display-time regex: a heuristic
+that re-capitalises names will eventually mangle a legitimate one, and publishing a
+wrong player name is worse than publishing an unfashionable one. The fix belongs at
+the scrape/normalise layer, against a real name list.
+**Acceptance criterion:** names round-trip from source with original casing intact,
+verified against a sample including McCluggage, McKay, O'Brien.
+
 ### [Backlog] BL-05 — Gate verdict records capture the verdict but not the reasoning
 **Owner:** Gaffer
 **Depends on:** none
