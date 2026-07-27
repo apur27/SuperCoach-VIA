@@ -207,3 +207,53 @@ def test_hof_profile_gate_is_reachable_from_the_harness(refresh_src, tmp_path,
         "the harness path does not run the HOF consistency gate — the gate that "
         "justifies CLAUDE.md's tag exemption would never fire in production"
     )
+
+
+def test_gated_backtest_doc_is_reverified_before_staging(refresh_src):
+    """A gated doc that the harness regenerates must have a re-verify hop.
+
+    docs/afl-backtest-2026.md is regenerated every cycle and carries a stamp the
+    pre-commit gate cross-checks against a content-hash-keyed DataSentinel record.
+    Regeneration orphans that record, so without a re-verify step the commit is
+    refused and the harness dies with a round of scraped data uncommitted — which
+    is exactly what happened on 2026-07-27. The HOF hub and afl-insights.md have
+    this hop; this page was gated without one.
+    """
+    live = _uncommented(refresh_src)
+    gate = live.find("afl-backtest-2026.md")
+    stage = live.find("git add")
+    assert gate != -1, "no re-verification of the gated backtest doc"
+    assert "--agent DataSentinel" in live, "re-verification does not invoke DataSentinel"
+    assert gate < stage, "the doc is staged before it is re-verified"
+
+
+def test_weekly_writes_a_terminal_status_on_failure(weekly_src):
+    """`last_refresh_complete.json` is written only on success, so a run that dies
+    mid-phase leaves the previous cycle's sentinel and looks identical to a run
+    still in progress. That is why the 2026-07-27 failure sat undetected for hours."""
+    live = _uncommented(weekly_src)
+    assert "last_refresh_status.json" in live, "no terminal status marker"
+    assert "trap _write_terminal_status EXIT" in live, (
+        "the status marker is not on an EXIT trap, so it will not fire on failure"
+    )
+
+
+def test_backtest_doc_is_fully_regenerated_before_it_is_gated(refresh_src):
+    """docs/afl-backtest-2026.md has TWO generators; both must run before the gate.
+
+    refresh_readme.py writes the per-round and top-30 tables; update_eval_surface.sh
+    writes the CUMULATIVE/TEAMBIAS/MISSES blocks. On 2026-07-27 only the first ran
+    before the Phase-1 commit, so the page claimed 21 rounds in one table while the
+    pooled figures below it were still at 20 — and because the doc is not in the
+    Phase-4 allowlist, the later regeneration would never have been committed.
+    """
+    live = _uncommented(refresh_src)
+    readme_gen = live.find("refresh_readme.py")
+    eval_gen = live.find("update_eval_surface.sh")
+    gate = live.find("afl-backtest-2026.md")
+    stage = live.find("git add")
+    assert eval_gen != -1, "update_eval_surface.sh never runs before the Phase-1 commit"
+    assert readme_gen < eval_gen < gate < stage, (
+        "generator/gate/stage order is wrong: both generators must precede the gate, "
+        "and the gate must precede staging"
+    )

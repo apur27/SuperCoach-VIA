@@ -44,6 +44,24 @@ cd "$REPO_ROOT"
 export HARNESS_PHASE="init"
 log() { echo "[$(date '+%H:%M:%S')] [phase ${HARNESS_PHASE}] $*" | tee -a "$LOG_FILE"; }
 
+# Terminal status marker, written on EVERY exit — success OR failure.
+# `last_refresh_complete.json` is only written when a cycle finishes, so a run that
+# dies mid-phase leaves the PREVIOUS cycle's sentinel in place and looks, from the
+# outside, exactly like a run still in progress. The 2026-07-27 cycle died at the
+# Phase-1 commit and sat undetected for over two hours for precisely this reason.
+# This marker always records the phase reached and the exit code, so "did it fail?"
+# is a file read rather than an inference.
+_write_terminal_status() {
+    local rc=$?
+    printf '{"phase":"%s","exit_code":%d,"round":"%s","ts":"%s"}\n' \
+        "${HARNESS_PHASE:-unknown}" "$rc" "${ROUND:-unknown}" \
+        "$(date '+%Y-%m-%dT%H:%M:%S%z')" > "$LOG_DIR/last_refresh_status.json"
+    if [ "$rc" -ne 0 ]; then
+        echo "[$(date '+%H:%M:%S')] [phase ${HARNESS_PHASE:-unknown}] TERMINATED rc=$rc — see $LOG_DIR/last_refresh_status.json" >> "$LOG_FILE"
+    fi
+}
+trap _write_terminal_status EXIT
+
 mkdir -p "$LOG_DIR"
 log "=================================================================="
 log "Weekly refresh started — $TODAY"
@@ -67,26 +85,6 @@ if ! $PYTHON "$REPO_ROOT/scripts/check_round_settled.py" 2>&1 | tee -a "$LOG_FIL
 fi
 log "[0/5] Round-settlement probe passed — current round is settled."
 
-# ---------------------------------------------------------------------------
-# Phase 0b — integration tier: assert the SHIPPED artifacts match the real data.
-#
-# The unit tier is hermetic by design, so it proves the code is correct without
-# proving the published files are current. Every recent stale-artifact incident
-# lived in exactly that gap: HOF profile prose frozen while its table refreshed,
-# the banner aria-label announcing R1-R13 against a live R1-R20. These checks
-# read the real data/ tree and the real docs, so they belong here — before a
-# ~2-hour cycle builds on a surface that is already inconsistent — rather than
-# in pre-commit, where they would be slow and data-dependent.
-#
-# Fail-closed: a stale published artifact aborts the cycle.
-# ---------------------------------------------------------------------------
-export HARNESS_PHASE="0b"
-log "[0b/5] Integration tier: checking published artifacts against real data..."
-if ! $PYTHON -m pytest "$REPO_ROOT/tests/integration" -q -m integration 2>&1 | tee -a "$LOG_FILE"; then
-    log "FATAL: integration tier failed — a published artifact disagrees with the source data. Aborting before Phase 1; route the failing check to its owning agent."
-    exit 1
-fi
-log "[0b/5] Integration tier passed."
 
 # ---------------------------------------------------------------------------
 # Phase 1 — data + model pipeline
@@ -383,6 +381,27 @@ else
     log "FATAL: Skeptic did not clear afl-insights.md (BLOCK, or no verdict recorded) — aborting before Phase 4 stages the file. Route the finding to FootyStrategy; do not ship the recap."
     exit 1
 fi
+
+# ---------------------------------------------------------------------------
+# Phase 3d — integration tier: the SHIPPED artifacts must match the real data.
+#
+# This ran at Phase 0b (before the scrape) until 2026-07-28, which deadlocked the
+# cycle: the tier asserts published artifacts agree with source data, but the
+# published HOF pages are stale *until Phase 2 regenerates them*, so a pre-scrape
+# gate blocked the very run that would have fixed them. The check is a pre-COMMIT
+# concern — do not ship artifacts that disagree with their source — so it belongs
+# here, after every generator has run and before Phase 4 stages anything.
+#
+# Fail-closed: a published artifact that disagrees with source data aborts before
+# the commit.
+# ---------------------------------------------------------------------------
+export HARNESS_PHASE="3d"
+log "[3d/5] Integration tier: checking regenerated artifacts against real data..."
+if ! $PYTHON -m pytest "$REPO_ROOT/tests/integration" -q -m integration 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: integration tier failed after regeneration — a published artifact disagrees with its source data. Aborting before Phase 4 stages it; route the failing check to its owning agent."
+    exit 1
+fi
+log "[3d/5] Integration tier passed."
 
 # ---------------------------------------------------------------------------
 # Phase 4 — commit and push all phase 2/3 outputs
