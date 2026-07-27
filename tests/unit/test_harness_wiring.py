@@ -257,3 +257,19 @@ def test_backtest_doc_is_fully_regenerated_before_it_is_gated(refresh_src):
         "generator/gate/stage order is wrong: both generators must precede the gate, "
         "and the gate must precede staging"
     )
+
+
+def test_backtest_doc_is_staged_before_it_is_gated(refresh_src):
+    """check-council-stamp.sh verifies the STAGED blob, so the doc must be staged
+    before the gate runs.
+
+    It was not, so the gate read the index copy — still the previous commit's
+    content — while DataSentinel hashed the regenerated worktree copy. The hop
+    reported success against bytes that were not the ones being shipped, and the
+    real commit gate then blocked on the ones that were.
+    """
+    live = _uncommented(refresh_src)
+    stage_doc = live.find("git add docs/afl-backtest-2026.md")
+    gate = live.find("--agent DataSentinel")
+    assert stage_doc != -1, "the gated doc is never staged before verification"
+    assert stage_doc < gate, "the doc is gated before it is staged (wrong bytes verified)"
