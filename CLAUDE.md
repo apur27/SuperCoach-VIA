@@ -98,6 +98,40 @@ This applies to all agents (Scientist, BriefBuilder, DataSentinel, FootyStrategy
 
 ---
 
+## 6. Harness Change Discipline — Non-Negotiable
+
+The weekly harness is the only thing that ships data. Two rules govern changing it.
+Both were adopted 2026-07-28 after harness edits made *during* a live cycle cost three
+failed relaunches and roughly seven hours — every failure a gate correctly refusing
+content that a mid-flight change had just invalidated.
+
+### 6.1 Freeze harness changes during an active cycle
+
+Once `scripts/weekly_refresh.sh` or `refresh_and_rank.sh` has been launched for a cycle,
+**no harness, gate, or hook change lands until that cycle ships or is abandoned.**
+
+- Hardening discovered mid-cycle is written down and queued, not applied. The NEXT cycle
+  validates it — never the one it lands in.
+- A cycle is "active" when `.claude/audit/last_refresh_status.json` is absent or its
+  `exit_code` is unset for the current run. That marker is written on every exit, success
+  or failure, so "is a cycle running?" is a file read, not a guess.
+- This applies to changes that look trivial. Every harness fix that broke a cycle this
+  week was a few lines long.
+
+### 6.2 Smoke-run any harness change before it merges
+
+Any diff touching `scripts/weekly_refresh.sh`, `refresh_and_rank.sh`,
+`.githooks/pre-commit`, or any script the harness invokes must first run clean through a
+full `weekly_refresh.sh` pass in a scratch worktree, against the previous week's data
+snapshot, with commit and push stubbed out. **A green smoke run is the merge condition.**
+
+Unit tests do not substitute. The failures this rule exists to catch — ordering between
+phases, staged-blob versus worktree mismatches, a gate verifying bytes other than the ones
+being committed — are invisible to unit tests and appear only when the whole harness runs
+end to end.
+
+---
+
 # Project-Specific Rules
 
 ## README news block — hard limit of 2 entries

@@ -42,6 +42,7 @@
 - [Weekly R20→R21 retro](project_weekly_r20_r21_retro.md) — 2026-07-20: phantom-row gate caught genuine 833-file doubling (dtype-blind dedup), fail-closed; doubled files don't self-heal; reset --mixed recovery + standalone fix rides Phase-1c push; F3 top100/yearly drift → Scientist
 - [Backtest completion manifest](project_backtest_completion_manifest.md) — rounds count as done only if a completed cycle marked them; sweep quarantines orphans + bootstraps on fresh clone; mark AFTER push, never before
 - [top100/yearly cadence](project_top100_yearly_cadence.md) — season-END artifact; weekly churn is EXPECTED drift, never allowlist it, commit once after season ends (closes "F3")
+- [Harness change discipline](feedback_harness_change_discipline.md) — CLAUDE.md §6: freeze harness edits during an active cycle; smoke-run any harness diff end-to-end before merge (unit tests can't see ordering/staged-blob faults)
 - [Route every finding](feedback_route_every_finding.md) — a BLOCK is a checklist not a headline; route ALL findings, never call one "already cleared" without a gate verdict (cost a full gate cycle)
 - [Open backlog](project_open_backlog.md) — POINTER ONLY: canonical backlog is docs/pending-tasks.md (BL-01..BL-05); never track a deferred item in memory alone, that is how "F13" came to mean two things
 - [Gates hardening 2026-07-25](project_gates_hardening_20260725.md) — a gate that cannot run reads as a gate that passed; reachability + zero-match behaviour must both be checked; verify new regression tests fail against unfixed code

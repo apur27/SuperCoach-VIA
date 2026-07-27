@@ -362,6 +362,39 @@ despite its read-only-sounding name, so "just previewing" a section is not side-
 **Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
 or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
 
+### [Backlog] BL-10 — POLICY: freeze harness/gate changes during an active weekly cycle
+**Owner:** Gaffer
+**Depends on:** none
+**Blocked by decision:** none — user adopted as standing policy 2026-07-28
+**Fix brief:** Once `weekly_refresh.sh` or `refresh_and_rank.sh` has been launched for a
+cycle, no harness, gate or hook change lands until that cycle ships or is abandoned.
+Hardening discovered mid-cycle QUEUES for after the cycle ships; the NEXT cycle is what
+validates it, never the one it lands in. This session is the cautionary case: gating
+`docs/afl-backtest-2026.md` and moving the integration tier were both correct changes
+made while a cycle was in flight, and between them they cost three failed relaunches and
+~7 hours — each failure a gate correctly refusing content that a mid-flight change had
+just invalidated. Write the rule into `CLAUDE.md` alongside the TDD rule so the whole
+council reads it, not only Gaffer's memory.
+**Acceptance criterion:** the rule is in `CLAUDE.md`'s process section; a cycle in flight
+is detectable (the `last_refresh_status.json` marker already distinguishes running from
+terminated) and the rule names that as the check.
+
+### [Backlog] BL-11 — POLICY: mandatory offline smoke run before any harness change merges
+**Owner:** Gaffer (owns the gate) + QA (authors the smoke-run tooling)
+**Depends on:** none
+**Blocked by decision:** none — user adopted as standing policy 2026-07-28
+**Fix brief:** Any diff touching `scripts/weekly_refresh.sh`, `refresh_and_rank.sh`,
+`.githooks/pre-commit`, or any script the harness invokes must first run clean through a
+full `weekly_refresh.sh` pass in a scratch worktree against the previous week's data
+snapshot, with commit and push stubbed out. A green smoke run is the merge condition —
+no exceptions, explicitly including "small" fixes, since every harness fix this session
+was small and three of them still broke the cycle. Unit tests did not catch any of these
+failures: they were ordering and staged-vs-worktree problems that only appear when the
+whole harness runs end to end.
+**Acceptance criterion:** a documented dry-run mode plus a scratch-worktree smoke script
+QA owns; a harness diff without a green smoke run is treated as unmergeable, same
+authority as a QA FAIL.
+
 ### [Backlog] BL-09 — A multi-line council stamp silently invalidates its own audit record
 **Owner:** Gaffer
 **Depends on:** none
