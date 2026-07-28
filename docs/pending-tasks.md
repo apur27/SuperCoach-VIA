@@ -322,7 +322,7 @@ per-run output namespace, not another consumer-side guard.
 forward-prediction consumers read; demonstrated by a test that runs a backtest and asserts
 the live prediction directory is byte-unchanged.
 
-### [Backlog] BL-02 — Top-30 deviation loader ignores the completion manifest
+### [Backlog] BL-02 — Top-30 deviation loader ignores the completion manifest — **DONE 2026-07-28**
 **Owner:** Scientist
 **Depends on:** none (independent of BL-01, but the same failure family)
 **Blocked by decision:** none

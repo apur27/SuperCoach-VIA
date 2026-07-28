@@ -4038,6 +4038,28 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
     """
     import re
 
+    # BL-02: consider only vintages from runs a cycle MARKED complete.
+    #
+    # Selection here was purely by timestamp, with no notion of whether the cycle
+    # that produced an artifact ever finished. scripts/backtest_completeness.py
+    # already records exactly that — a run counts only once a cycle marked it
+    # complete after a successful push — but this loader never consulted it, so an
+    # artifact from a FATALed cycle stayed eligible even after the harness learned
+    # to quarantine it. That is the tainted-provenance family this cycle opened on.
+    #
+    # An ABSENT manifest means uninitialised (a fresh clone of committed history),
+    # not "everything is an orphan" — same bootstrap semantics as
+    # quarantine_incomplete(). In that case we do not filter, rather than render an
+    # empty table.
+    try:
+        from scripts import backtest_completeness as _bc
+        _manifest = os.path.join(bt_dir, _bc.MANIFEST_NAME)
+        _complete = _bc.completed_timestamps(bt_dir) if os.path.exists(_manifest) else None
+    except Exception as exc:  # never let provenance bookkeeping break the doc build
+        print(f"[backtest] completion manifest unavailable ({exc}); not filtering",
+              file=sys.stderr)
+        _complete = None
+
     pattern = os.path.join(bt_dir, f"prediction_vs_actual_round_*_{year}_*.csv")
     files = sorted([p for p in glob.glob(pattern) if os.path.isfile(p)])
     if not files:
@@ -4063,6 +4085,10 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
                   file=sys.stderr)
             continue
         ts = m.group(1)
+        if _complete is not None and ts not in _complete:
+            print(f"[backtest] skip {base}: run {ts} is not marked complete",
+                  file=sys.stderr)
+            continue
         try:
             sub = pd.read_csv(f)
         except Exception as exc:

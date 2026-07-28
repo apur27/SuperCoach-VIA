@@ -238,3 +238,58 @@ def test_pre_registered_threshold_is_evaluated_and_published(tmp_path, monkeypat
     assert "1 of 2 rounds" in md, f"threshold not evaluated against the table: {md[:600]}"
     assert "**[data]**" in md
     assert "re-calibrate" in md, "the decision not to move the bar is not disclosed"
+
+
+def _manifest(bt_dir, timestamps):
+    import json
+    (bt_dir / "completed_runs.json").write_text(
+        json.dumps({"completed": sorted(timestamps)}, indent=2) + "\n"
+    )
+
+
+def test_unmarked_vintage_is_never_selected(tmp_path):
+    """BL-02: a vintage from a run that never completed must not be published.
+
+    The loader picked the newest timestamp on disk with no notion of whether the
+    cycle that produced it finished. `scripts/backtest_completeness.py` already
+    records that — a run counts only once a cycle marked it complete after a
+    successful push — but this loader never consulted the manifest. So an artifact
+    from a FATALed cycle stayed eligible here even after the harness learned to
+    quarantine it, which is the same tainted-provenance family this whole cycle
+    began with.
+    """
+    _vintage(tmp_path, 1, "20260511_191837", actual=20.0)   # complete
+    _vintage(tmp_path, 1, "20260525_182141", actual=99.0)   # newer, NEVER marked
+    _manifest(tmp_path, ["20260511_191837"])
+
+    df = uta._load_top30_player_deviation(2026, str(tmp_path))
+
+    assert not df.empty
+    assert df.iloc[0]["avg_actual"] == 20.0, (
+        "selected an artifact whose run was never marked complete"
+    )
+
+
+def test_marked_vintage_still_wins_on_recency(tmp_path):
+    """Control: among COMPLETE runs the newest still wins, so the manifest filter
+    narrows the candidates without changing the ordering rule."""
+    _vintage(tmp_path, 2, "20260511_191837", actual=10.0)
+    _vintage(tmp_path, 2, "20260525_182141", actual=42.0)
+    _manifest(tmp_path, ["20260511_191837", "20260525_182141"])
+
+    df = uta._load_top30_player_deviation(2026, str(tmp_path))
+    assert df.iloc[0]["avg_actual"] == 42.0
+
+
+def test_absent_manifest_does_not_filter_everything_out(tmp_path):
+    """A directory with no manifest is uninitialised, NOT all-orphaned.
+
+    Same bootstrap semantics as backtest_completeness.quarantine_incomplete: a
+    fresh clone of the committed history must render a table, not an empty one.
+    """
+    _vintage(tmp_path, 3, "20260511_191837", actual=15.0)
+    assert not (tmp_path / "completed_runs.json").exists()
+
+    df = uta._load_top30_player_deviation(2026, str(tmp_path))
+    assert not df.empty, "an absent manifest wiped the table instead of bootstrapping"
+    assert df.iloc[0]["avg_actual"] == 15.0
