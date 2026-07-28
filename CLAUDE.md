@@ -144,6 +144,21 @@ either of which puts a change in scope:
 2. **Behaviour.** Wherever the code lives, the change alters phase ordering, what gets
    staged or committed, what a gate verifies, or which artifact a consumer selects.
 
+**`tests/integration/` additions are ALWAYS in scope.** That directory *is* the Phase 3d
+gate (`scripts/weekly_refresh.sh`), which fails closed and aborts before Phase 4 stages
+anything. Adding or changing a check there changes what a live cycle refuses to ship, so
+it satisfies test 2 by construction. Ship such a change only with a stated answer to:
+*what does an operator do when this fires mid-cycle?*
+
+Recovery, when Phase 3d fails on chart reproducibility: it means the rendering
+environment changed (typically a matplotlib or font upgrade), not that the data is wrong.
+Regenerate the charts (`generate_readme_charts.py`, `update_team_analysis.generate_top100_chart`,
+`docs/hall-of-fame/generate_records_charts.py`), confirm the diff is rendering-only by
+re-rendering a PRIOR data vintage in the current environment and checking it matches the
+current render, commit the refreshed charts, then re-run the cycle. Do not disable the
+check to get a cycle out — a chart that no longer reproduces is exactly the signal this
+gate exists to surface.
+
 A change failing BOTH tests — library or rendering code whose effect is confined to the
 CONTENT of a generated document — needs only the unit and integration tiers. Example:
 `_load_top30_player_deviation` in `update_team_analysis.py` is transitively harness-invoked,

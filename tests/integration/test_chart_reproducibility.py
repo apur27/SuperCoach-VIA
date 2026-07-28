@@ -15,6 +15,23 @@ thing it is policing.
 When a matplotlib/font upgrade lands this test SHOULD fail: that is the signal to
 refresh the committed charts deliberately, rather than discovering the drift as
 unexplained churn in someone else's diff.
+
+THIS FILE IS A LIVE GATE. tests/integration is Phase 3d of scripts/weekly_refresh.sh,
+which fails closed and aborts before Phase 4 stages anything — so a failure here stops a
+real weekly cycle. Recovery, for whoever hits it mid-run:
+
+  1. It means the RENDERING environment changed, not that the data is wrong.
+  2. Regenerate: generate_readme_charts.py, update_team_analysis.generate_top100_chart(),
+     docs/hall-of-fame/generate_records_charts.py
+  3. Confirm the diff is rendering-only by re-rendering a PRIOR data vintage in the
+     current environment and checking it matches today's render. Do NOT try to prove it
+     by diffing the input CSVs — all_time_top_100.csv is the BIO file and carries no
+     scores, so it will show "no change" whether or not the data moved. That mistake was
+     made on 2026-07-28 and reported as evidence.
+  4. Commit the refreshed charts, then re-run the cycle.
+
+Do not disable this check to get a cycle out. A chart that no longer reproduces is
+exactly the signal the gate exists to surface.
 """
 import hashlib
 import os
