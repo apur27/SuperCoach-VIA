@@ -130,6 +130,27 @@ phases, staged-blob versus worktree mismatches, a gate verifying bytes other tha
 being committed — are invisible to unit tests and appear only when the whole harness runs
 end to end.
 
+**Scope — what "a script the harness invokes" means.** Read literally that phrase covers
+every module transitively imported during a cycle, which is most of the repo. Two tests,
+either of which puts a change in scope:
+
+1. **Bright line.** The change touches a harness `.sh` entry point or a gate:
+   `scripts/weekly_refresh.sh`, `refresh_and_rank.sh`, `scripts/update_eval_surface.sh`,
+   `scripts/check-council-stamp.sh`, `scripts/git_commit_safe.sh`,
+   `scripts/record-sentinel-verdict.sh`, `scripts/council-content-hash.sh`, anything under
+   `.githooks/`, or a Python file a harness script invokes as a top-level entry point
+   (`refresh_data.py`, `refresh_readme.py`, `backtest.py`, `top_players_comprehensive.py`,
+   `scripts/*.py` called directly by a harness script).
+2. **Behaviour.** Wherever the code lives, the change alters phase ordering, what gets
+   staged or committed, what a gate verifies, or which artifact a consumer selects.
+
+A change failing BOTH tests — library or rendering code whose effect is confined to the
+CONTENT of a generated document — needs only the unit and integration tiers. Example:
+`_load_top30_player_deviation` in `update_team_analysis.py` is transitively harness-invoked,
+so it passes test 1's literal reading, but changing which artifact it selects is squarely
+test 2, so it IS in scope. Decide by these two tests, in writing, at the time — not
+case-by-case after the fact.
+
 ---
 
 # Project-Specific Rules
