@@ -35,12 +35,14 @@ set -euo pipefail
 doc=""
 verdict=""
 agent="DataSentinel"
+findings_file=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --doc)     doc="${2:-}";     shift 2 ;;
     --verdict) verdict="${2:-}"; shift 2 ;;
     --agent)   agent="${2:-}";   shift 2 ;;
+    --findings-file) findings_file="${2:-}"; shift 2 ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "record-sentinel-verdict.sh: unknown argument '$1'" >&2; exit 2 ;;
   esac
@@ -62,7 +64,59 @@ hash="$("$script_dir/council-content-hash.sh" "$doc")"
 ts="$(date -u +%Y%m%dT%H%M%SZ)"
 out="$audit_dir/sentinel-${hash}-${ts}.json"
 
-printf '{"doc_path":"%s","doc_hash":"%s","verdict":"%s","ts":"%s","agent_id":"%s"}\n' \
-  "$doc" "$hash" "$verdict" "$ts" "$agent" > "$out"
+# BL-05: persist the REASONING, not just the verdict.
+#
+# This wrote five scalar fields and nothing else, so the findings behind a FAIL or
+# BLOCK survived only in the invoking agent's stdout. On 2026-07-26 a Skeptic BLOCK
+# carrying four findings was read as one; three were never routed and a full gate
+# cycle was spent rediscovering them. No audit trail could have caught it, because a
+# one-finding and a four-finding BLOCK record were byte-identical. A separate BLOCK
+# lost its findings entirely to a truncated pipe.
+#
+# Assembled in Python, not printf: findings quote the document under review, so they
+# carry quotes, newlines and unicode that shell interpolation would corrupt into
+# invalid JSON — and a corrupt audit record is worse than none, because the gate
+# reads it back.
+PYBIN="${COUNCIL_PYTHON:-/home/abhi/sourceCode/python/coding/.venv/bin/python}"
+[ -x "$PYBIN" ] || PYBIN="$(command -v python3)"
 
-echo "recorded sentinel verdict: $out"
+"$PYBIN" - "$out" "$doc" "$hash" "$verdict" "$ts" "$agent" "$findings_file" \
+         "${COUNCIL_REQUIRE_FINDINGS:-0}" <<'PYEOF'
+import json, sys
+out, doc, hash_, verdict, ts, agent, findings_file, require = sys.argv[1:9]
+
+findings = []
+if findings_file:
+    try:
+        with open(findings_file, encoding="utf-8") as f:
+            findings = json.load(f)
+        if not isinstance(findings, list):
+            raise ValueError("findings must be a JSON array")
+    except Exception as exc:
+        # Fail closed: never write a record derived from unparseable findings.
+        sys.exit(f"record-sentinel-verdict.sh: cannot read --findings-file "
+                 f"{findings_file}: {exc}")
+
+blocking = verdict in ("FAIL", "BLOCK")
+if blocking and not findings and require == "1":
+    sys.exit("record-sentinel-verdict.sh: COUNCIL_REQUIRE_FINDINGS=1 and a "
+             f"{verdict} verdict carries no findings — refusing to record an "
+             "unactionable verdict. Pass --findings-file.")
+
+record = {
+    "doc_path": doc, "doc_hash": hash_, "verdict": verdict, "ts": ts,
+    "agent_id": agent, "finding_count": len(findings), "findings": findings,
+}
+with open(out, "w", encoding="utf-8") as f:
+    # Compact separators: the on-disk format is grepped by check-council-stamp.sh
+    # and asserted by existing tests as `"verdict":"PASS"`. Default json.dump
+    # separators would insert spaces and silently break both.
+    json.dump(record, f, ensure_ascii=False, separators=(",", ":"))
+    f.write("\n")
+
+print(f"recorded sentinel verdict: {out}")
+print(f"  {verdict} with {len(findings)} finding(s)")
+if blocking and not findings:
+    print(f"  WARNING: {verdict} recorded with no findings — unactionable. "
+          f"Whoever routes this cannot know what to fix.", file=sys.stderr)
+PYEOF

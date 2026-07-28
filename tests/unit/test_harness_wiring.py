@@ -273,3 +273,22 @@ def test_backtest_doc_is_staged_before_it_is_gated(refresh_src):
     gate = live.find("--agent DataSentinel")
     assert stage_doc != -1, "the gated doc is never staged before verification"
     assert stage_doc < gate, "the doc is gated before it is staged (wrong bytes verified)"
+
+
+def test_harness_scripts_do_not_hardcode_the_repo_root(refresh_src, weekly_src):
+    """A hardcoded absolute repo path makes worktree isolation an illusion.
+
+    refresh_and_rank.sh pinned REPO_ROOT=/home/abhi/git/SuperCoach-VIA and cd'd to
+    it, so running the harness from a git worktree still read and WROTE the real
+    repository. The smoke runner built for CLAUDE.md 6.2 was mutating live assets/
+    while reporting itself sandboxed — caught on its first real run.
+    """
+    import re as _re
+    for src, name in ((refresh_src, "refresh_and_rank.sh"), (weekly_src, "weekly_refresh.sh")):
+        for line in _uncommented(src).splitlines():
+            m = _re.match(r'\s*REPO_ROOT=(.*)', line)
+            if m and "/home/" in m.group(1) and "dirname" not in m.group(1):
+                raise AssertionError(
+                    f"{name} hardcodes REPO_ROOT ({line.strip()}); derive it from "
+                    f"BASH_SOURCE so a worktree run cannot touch the real repo"
+                )

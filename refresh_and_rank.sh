@@ -2,7 +2,13 @@
 set -e
 
 PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
-REPO_ROOT=/home/abhi/git/SuperCoach-VIA
+# Derive the repo root from this script's own location, never hardcode it.
+# A hardcoded absolute path meant that running this script from a git worktree
+# still operated on /home/abhi/git/SuperCoach-VIA — so worktree isolation was an
+# illusion, and the smoke runner added for CLAUDE.md 6.2 was mutating the real
+# repo's assets/ while believing it was sandboxed. Found on the smoke runner's
+# first real run, which is precisely the class of fault 6.2 exists to catch.
+REPO_ROOT="${SUPERCOACH_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 
 cd "$REPO_ROOT"
 

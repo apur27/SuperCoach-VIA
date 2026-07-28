@@ -362,6 +362,39 @@ despite its read-only-sounding name, so "just previewing" a section is not side-
 **Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
 or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
 
+### [Backlog] BL-14 — Define "green enough" for a smoke run that regenerates LLM prose
+**Owner:** Gaffer
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** CLAUDE.md 6.2 requires a harness change to run clean end to end before it
+merges. But `weekly_refresh.sh` invokes FootyStrategy to WRITE a fresh weekly recap, and
+then gates that new prose through DataSentinel and Skeptic. So a smoke run can fail for
+reasons that have nothing to do with the change under test — on 2026-07-28 a smoke run of
+the BL-05 gate change died at Phase 3c because Skeptic blocked an unsourced superlative in
+a recap the LLM had written seconds earlier. Under a literal reading of 6.2 no harness
+change could ever merge, since any run may generate blockable prose. Needs either a
+documented "green enough" rule (e.g. the run must clear every phase up to and including
+the one the change touches, with any later failure triaged and attributed) or a stub mode
+that freezes the LLM-authored sections so the run is deterministic.
+**Acceptance criterion:** 6.2 states unambiguously what outcome authorises a merge, and a
+smoke run failing on unrelated generated prose is distinguishable from one failing on the
+change under test.
+
+### [Backlog] BL-15 (SV28-N7) — data/top100/yearly/year_2026.csv uncommitted since 07-07
+**Owner:** Scientist (decision) + Gaffer (allowlist)
+**Depends on:** none
+**Blocked by decision:** needs a call, same class as the original F3
+**Fix brief:** The file regenerates every cycle but has not been committed since 2026-07-07,
+because it is deliberately excluded from both harness allowlists per the season-end cadence
+decision (BL: top100/yearly is a season-END artifact). Surveyor flagged on 2026-07-28 that
+the practical result is a permanently dirty working tree and three weeks of uncommitted
+regeneration. Either the season-end cadence holds and the churn is accepted as expected
+drift (current position, documented at both write sites in `top_players_comprehensive.py`),
+or the file should be committed on some cadence. Raised as a fresh finding rather than
+silently re-deciding — do not act without the call.
+**Acceptance criterion:** an explicit recorded decision, and the working tree either clean
+for that path or the drift documented as intentional where an operator will see it.
+
 ### [Backlog] BL-13 — docs/hall-of-fame-stat-leaders.md is stale against its own source JSON
 **Owner:** Scientist (numbers) + Gaffer (ship)
 **Depends on:** none
@@ -500,7 +533,7 @@ the scrape/normalise layer, against a real name list.
 **Acceptance criterion:** names round-trip from source with original casing intact,
 verified against a sample including McCluggage, McKay, O'Brien.
 
-### [Backlog] BL-05 — Gate verdict records capture the verdict but not the reasoning
+### [Backlog] BL-05 — Gate verdict records capture the verdict but not the reasoning — **DONE 2026-07-28**
 **Owner:** Gaffer
 **Depends on:** none
 **Blocked by decision:** none
