@@ -348,7 +348,7 @@ Cleanup recipe already written at `docs/experiment-log.md:330`.
 **Acceptance criterion:** zero rows in `data/lineups/` match the jersey-number/junk-token shape,
 with a validator in the integration tier so the shape cannot return.
 
-### [Backlog] BL-04 — Committed chart PNGs no longer reproduce byte-identically
+### [Backlog] BL-04 — Committed chart PNGs no longer reproduce byte-identically — **DONE 2026-07-28**
 **Owner:** Scientist
 **Depends on:** none
 **Blocked by decision:** none
