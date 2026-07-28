@@ -55,8 +55,17 @@ def _make_repo(tmp_path):
     bt = repo / "data" / "prediction" / "backtest"
     bt.mkdir(parents=True)
     (repo / "data" / "player_data").mkdir(parents=True)
+    # Needs at least one pre-target-year row: the script derives the training-corpus
+    # season span from the loaded files and fails closed if it finds none.
     (repo / "data" / "player_data" / "a_b_01011990_performance_details.csv").write_text(
-        "year,round,disposals\n2026,1,20\n"
+        "year,round,disposals\n2025,1,19\n2026,1,20\n"
+    )
+    # The script locates the two corpus filters in prediction.py by source anchor
+    # rather than by hard-coded line number, so the file has to exist.
+    (repo / "supercoach").mkdir(parents=True)
+    (repo / "supercoach" / "prediction.py").write_text(
+        "historical_data = df[df['year'] < self.target_year].copy()\n"
+        "birth_year_threshold = self.target_year - 40\n"
     )
     shutil.copy(SCRIPT, repo / "scripts" / "update_eval_surface.sh")
     # Plant the U+2212 form rather than relying on the live README to carry it:

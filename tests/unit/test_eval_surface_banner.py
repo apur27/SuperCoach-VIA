@@ -62,8 +62,17 @@ def _make_repo(tmp_path, aria_window):
     (repo / "data" / "player_data").mkdir(parents=True)
     # The script counts player files with `ls ... | wc -l`; under `set -o pipefail`
     # an empty glob makes ls exit non-zero and kills the run, so seed one file.
+    # Also needs a pre-target-year row: the script derives the training-corpus
+    # season span from the loaded files and fails closed if it finds none.
     (repo / "data" / "player_data" / "smith_john_01011990_performance_details.csv").write_text(
-        "year,round,disposals\n2026,1,20\n"
+        "year,round,disposals\n2025,1,19\n2026,1,20\n"
+    )
+    # The script locates the two corpus filters in prediction.py by source anchor
+    # rather than by hard-coded line number, so the file has to exist.
+    (repo / "supercoach").mkdir(parents=True)
+    (repo / "supercoach" / "prediction.py").write_text(
+        "historical_data = df[df['year'] < self.target_year].copy()\n"
+        "birth_year_threshold = self.target_year - 40\n"
     )
 
     shutil.copy(SCRIPT, repo / "scripts" / "update_eval_surface.sh")

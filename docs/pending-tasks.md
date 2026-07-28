@@ -362,6 +362,28 @@ despite its read-only-sounding name, so "just previewing" a section is not side-
 **Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
 or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
 
+### [Backlog] BL-12 — Phase 2 rewrites the backtest doc AFTER Phase 1 verified and committed it
+**Owner:** Gaffer
+**Depends on:** BL-11 (needs the smoke-run tooling before a harness-ordering change merges)
+**Blocked by decision:** none
+**Fix brief:** `refresh_and_rank.sh` (Phase 1) now regenerates, verifies and commits
+`docs/afl-backtest-2026.md`. But `scripts/weekly_refresh.sh` Phase 2 then calls
+`scripts/update_eval_surface.sh` AGAIN, which rewrites that doc's CUMULATIVE, TEAMBIAS,
+MISSES, TRAINCORPUS and VINTAGEPATH blocks — after verification, and after the commit.
+The doc is not in the Phase-4 allowlist, so that rewrite is never committed: the working
+tree ends every cycle dirty, and the shipped doc is whatever Phase 1 committed. Latent
+today only because no run has yet reached Phase 2. The invariant to enforce: once a gated
+doc has been verified, no later phase may write it in the same cycle. Likely shape is an
+opt-out flag on `update_eval_surface.sh` so the Phase-2 call refreshes README/banner
+without touching the backtest doc, plus a wiring contract test.
+**Acceptance criterion:** a full cycle leaves `docs/afl-backtest-2026.md` byte-identical
+to what Phase 1 committed, with the working tree clean for that path.
+**Deliberately deferred 2026-07-28:** this is a harness-ordering change, and CLAUDE.md
+§6.2 (shipped in `1a30279bd`) requires an end-to-end smoke run before such a change
+merges. That tooling does not exist yet. Applying this immediately would break the policy
+in the same session it was written — and unsmoke-tested harness edits are precisely what
+cost three failed relaunches this week.
+
 ### [Backlog] BL-10 — POLICY: freeze harness/gate changes during an active weekly cycle
 **Owner:** Gaffer
 **Depends on:** none

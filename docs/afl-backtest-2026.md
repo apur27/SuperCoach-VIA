@@ -2,7 +2,7 @@
 
 > [← Back to 2026 season](afl-season-2026.md) | [← Back to main README](../README.md)
 
-*This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
+*This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` / `scripts/update_eval_surface.sh` on every data refresh. Every figure on the page is generated from the backtest artifacts, with one deliberate exception: the Round-18 coverage-limitation record is a frozen, dated decision record and is explained as such where it appears.*
 
 <!-- 2026-BACKTEST-START -->
 *Last updated: 2026-07-28 · 21 rounds backtested · auto-generated*
@@ -192,16 +192,47 @@ The backtest is the formal evaluation of the disposal prediction model. The proc
 
 For each round R in the 2026 season:
 
-1. **Train on completed seasons only; predict the target round from strictly-lagged in-season form.** The model is fitted exclusively on rows with `year < target_year` (`supercoach/prediction.py:589`). For a 2026 backtest that means seasons **[data]** 2005–2025. **No 2026 row is ever a training target** — not the round being scored, and not the rounds before it either. Because the temporal cutoff removes only target-year rows, the training set is unchanged for every round of the 2026 walk-forward; what moves round to round is the prediction slice, not the fitted data. In-season 2026 information reaches the forecast solely as features on that slice — across-season and within-season rolling means, season-to-date expanding means, and EWM recent form — each `shift(1)`-lagged, so the round being scored cannot inform its own prediction. The population those rows are drawn from is set by a rolling birth-year file filter (`target_year − 40`), which for 2026 loads **[data]** 1,808 of **[data]** 13,357 player files; that is a *loading* population, not the training set.
+1. **Train on completed seasons only; predict the target round from strictly-lagged in-season form.** The model is fitted exclusively on rows with `year < target_year`. **No 2026 row is ever a training target** — not the round being scored, and not the rounds before it either. Because the temporal cutoff removes only target-year rows, the training set is unchanged for every round of the 2026 walk-forward; what moves round to round is the prediction slice, not the fitted data. In-season 2026 information reaches the forecast solely as features on that slice — across-season and within-season rolling means, season-to-date expanding means, and EWM recent form — each `shift(1)`-lagged, so the round being scored cannot inform its own prediction.
 2. **Score every named player** for round R using only their pre-round-R history.
 3. **Compare prediction vs actual** disposals once the round has been played.
+
+The scope of that corpus is re-derived on every refresh — the season span by reading the `year` column of the player files the loader actually admits, the two filters by locating them in `supercoach/prediction.py` — so these figures cannot drift from the code and data they describe **[data]**:
+
+<!-- TRAINCORPUS-START -->
+| Property | Value | Where it comes from |
+|---|---|---|
+| Training-row filter | `year < target_year` | `supercoach/prediction.py:598` |
+| Seasons available to train on | 2005–2025 | `year` column of the loaded player files, target year excluded |
+| File-loading filter | born after `target_year − 40` = 1986 | `supercoach/prediction.py:434` |
+| Player files loaded | **[data]** 1,808 of 13,357 | `data/player_data/*performance_details.csv` |
+
+That last row is a *loading* population, not the training set: it bounds which players' files are opened, not which rows are fitted. A file is admitted on the birth-year token in its filename, so the season span above is the span of the files the loader actually admits — not of the archive as a whole, which reaches much further back.
+<!-- TRAINCORPUS-END -->
 
 The cutoff is temporal, and a round is scored by one of two paths, which leak-proof it differently:
 
 - **Retrain path.** The predictor (a `LeakProofPredictor` defined in `backtest.py`, subclassing `AFLDisposalPredictor` from `supercoach/prediction.py`) drops every row dated strictly after the target round before computing any feature or fitting any tree; the cutoff round itself is retained as the slice being predicted. The log line `[cutoff y=2026 r=N] dropped X future rows` in that round's `backtest_run_<ts>.log` is the in-line audit trail that this happened.
-- **Archive path (`--from-csv`).** The round is scored against the forward prediction CSV that was published *before* the round was played, and no model is retrained. Nothing is dropped because nothing is fitted, so these runs emit no cutoff line — their log records `scoring archived prediction CSV … (no retrain)` instead. The leak-proofing here rests on publication order: a prediction genuinely written before the game cannot have seen it. Treat that as proven only where the order is independently attested. Rounds 18 and 19 are attested — their forward CSVs were committed to git before the round's first bounce. Round 20's forward CSV was not committed before the round, so for that round the ordering rests on a filename timestamp and mtime, both of which the writing process controls. Committing forward predictions before the round is played is tracked as BL-07.
+- **Archive path (`--from-csv`).** The round is scored against the forward prediction CSV that was published *before* the round was played, and no model is retrained. Nothing is dropped because nothing is fitted, so these runs emit no cutoff line — their log records `scoring archived prediction CSV … (no retrain)` instead. The leak-proofing here rests on publication order: a prediction genuinely written before the game cannot have seen it. Treat that as proven only where the order is independently attested. Committing forward predictions before the round is played is tracked as BL-07.
 
-Both paths are in use. Rounds scored by the archive path are the more recent ones, and which rounds those are is determined by the vintage map described under Reproducibility — do not read the absence of a cutoff line as evidence that the cutoff was skipped on a retrain round.
+Both paths are in use. Which round took which path is not a matter of record-keeping: the table below is re-derived on every refresh from the keep-last vintage map and each vintage's own `backtest_run_<ts>.log`, and the ordering column is read from git history against that round's first bounce in `data/matches/matches_2026.csv` **[data]**. A round is marked **attested** only when its forward CSV entered git strictly before the earliest instant its first match could have started — the fixture time read at UTC+8, the earliest Australian venue offset, so the test is conservative for eastern-state venues. Anything else is **not attested**, including a CSV that was never committed. Do not read the absence of a cutoff line as evidence that the cutoff was skipped on a retrain round.
+
+<!-- VINTAGEPATH-START -->
+| Rounds | Vintage | Scoring path | Ordering evidence |
+|---|---|---|---|
+| R1–R10 | `20260511_191837` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R11 | `20260518_144551` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R12 | `20260525_190033` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R13 | `20260601_225644` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R14–R15 | `20260615_153220` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R16 | `20260622_205317` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R17 | `20260629_222805` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
+| R18 | `20260710_214217` | archive (`--from-csv`) | `next_round_18_prediction_20260629_2253.csv` committed 2026-06-29T23:12, first bounce 2026-07-02 19:30 — **attested** |
+| R19 | `20260713_205008` | archive (`--from-csv`) | `next_round_19_prediction_20260707_1606.csv` committed 2026-07-09T15:31, first bounce 2026-07-09 18:10 — **attested** |
+| R20 | `20260725_173602` | archive (`--from-csv`) | `next_round_20_prediction_20260714_0730.csv` — never committed; ordering rests on the filename timestamp and mtime, **not attested** |
+| R21 | `20260728_004513` | archive (`--from-csv`) | `next_round_21_prediction_20260720_2007.csv` committed 2026-07-20T20:13, first bounce 2026-07-23 19:00 — **attested** |
+
+**Path split** across the **[data]** 21 rounds in the pool: **[data]** 17 scored on the retrain path and **[data]** 4 on the archive path; of the archive rounds, **[data]** 3 carry a publication order attested by git and **[data]** 1 does not.
+<!-- VINTAGEPATH-END -->
 
 ### Pre-registered metrics
 

@@ -26,7 +26,7 @@ cd "$REPO_ROOT"
 PLAYER_FILE_COUNT=$(ls data/player_data/*performance_details.csv 2>/dev/null | wc -l | tr -d ' ')
 
 "$PYTHON" - "$PLAYER_FILE_COUNT" <<'PYEOF'
-import sys, os, glob, re
+import sys, os, glob, re, subprocess
 import pandas as pd
 
 REPO = os.getcwd()
@@ -34,6 +34,65 @@ PLAYER_FILE_COUNT = int(sys.argv[1])
 YEAR = 2026
 
 bt = os.path.join(REPO, "data", "prediction", "backtest")
+
+# =====================================================================
+# 0) Training-corpus scope — computed FIRST, before any file is written.
+#
+# The doc used to hand-carry "seasons 2005-2025 ... 1,808 of 13,357 player
+# files" and a `supercoach/prediction.py:589` line reference. All four move
+# without anyone touching the doc: files land on every refresh, the span rolls
+# at season boundaries, and the line reference had already drifted to 598.
+#
+# Anything that can fail here (missing corpus, moved code anchor) must abort
+# BEFORE README.md and banner.svg are rewritten, otherwise a late failure
+# leaves the surface half-updated.
+# =====================================================================
+def _lineno(path, needle):
+    """1-based line of `needle` in `path`. Fails loudly — a moved anchor means
+    the sentence built on it is describing code that no longer exists."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            for i, line in enumerate(fh, 1):
+                if needle in line:
+                    return i
+    except OSError as exc:
+        sys.exit(f"update_eval_surface: cannot read {path}: {exc}")
+    sys.exit(f"update_eval_surface: anchor not found in {path}: {needle!r}")
+
+
+PRED_PY = os.path.join(REPO, "supercoach", "prediction.py")
+LN_TRAIN_FILTER = _lineno(PRED_PY, "historical_data = df[df['year'] < self.target_year]")
+LN_BIRTH_FILTER = _lineno(PRED_PY, "birth_year_threshold = self.target_year - 40")
+
+BIRTH_THRESHOLD = YEAR - 40
+_corpus = sorted(glob.glob(os.path.join(REPO, "data", "player_data",
+                                        "*performance_details.csv")))
+# The loader admits a file on the birth-year token in its FILENAME
+# (dob.year <= target_year - 40 is skipped), so the loading population is a
+# filename decision, not a content decision.
+_loaded = [p for p in _corpus
+           if (lambda m: bool(m) and int(m.group(3)) > BIRTH_THRESHOLD)(
+               re.search(r"_(\d{2})(\d{2})(\d{4})_performance_details\.csv$",
+                         os.path.basename(p)))]
+train_lo, corpus_skipped = None, 0
+for p in _loaded:
+    try:
+        ys = pd.read_csv(p, usecols=["year"])["year"]
+    except (ValueError, OSError, pd.errors.EmptyDataError, pd.errors.ParserError):
+        corpus_skipped += 1   # no `year` column / unreadable — counted, not hidden
+        continue
+    ys = pd.to_numeric(ys, errors="coerce").dropna()
+    ys = ys[ys < YEAR]        # target-year rows are never a training target
+    if len(ys):
+        v = int(ys.min())
+        train_lo = v if train_lo is None else min(train_lo, v)
+if train_lo is None:
+    sys.exit(
+        f"update_eval_surface: no pre-{YEAR} rows found in the {len(_loaded):,} "
+        f"player files the birth-year filter admits — the training-corpus span "
+        f"cannot be derived. Refusing to write."
+    )
+train_hi = YEAR - 1
 
 # ---- merge all per-round summary CSVs (newest entry per round wins) ----
 need = {"round", "year", "n_players", "mae", "rmse",
@@ -46,6 +105,10 @@ for p in sorted(glob.glob(os.path.join(bt, "backtest_summary_*.csv")),
     except Exception:
         continue
     if need.issubset(c.columns):
+        # Carry the vintage forward: the round -> timestamp map that keep-last
+        # resolves to is what names each round's run log and detail CSV.
+        m_ts = re.search(r"backtest_summary_(\d{8}_\d{6})\.csv$", os.path.basename(p))
+        c["_ts"] = m_ts.group(1) if m_ts else ""
         frames.append(c)
 if not frames:
     sys.exit("update_eval_surface: no usable backtest_summary CSVs found")
@@ -361,37 +424,140 @@ if os.path.exists(bt_doc):
             sys.exit(f"update_eval_surface: {name} markers not found in {bt_doc}")
         return pat.sub(lambda m: m.group(1) + body + m.group(2), text, count=1)
 
-    # ---- Cumulative summary (player-weighted over the pooled rows) ----
-    # RMSE is pooled in SQUARED space. Running it through wmean() like the other
-    # metrics gives a plausible-looking wrong answer (5.0843 vs a correct 5.0937)
-    # because a root-mean-square does not average linearly.
-    rmse_pooled = float(((df["rmse"] ** 2 * df["n_players"]).sum() / N) ** 0.5)
-    cum_rows = [
-        "| Metric | Value | What it means |",
+    # ---- Training-corpus scope (computed in section 0, before any write) ----
+    corpus_rows = [
+        "| Property | Value | Where it comes from |",
         "|---|---|---|",
-        f"| Rounds backtested | {len(df)} (R{r_lo}–R{r_hi}) | Walk-forward — each round predicted using only data from rounds before it |",
-        f"| Player predictions scored | **{N:,}** | Total prediction-vs-actual pairs across the {len(df)} rounds |",
-        f"| **MAE (overall)** | **{mae_w:.3f} disposals** | Average absolute miss across every player-round |",
-        f"| **RMSE (overall)** | **{rmse_pooled:.3f} disposals** | Penalises large misses more heavily; pooled in squared space, not averaged |",
-        f"| **Bias (overall)** | **{bias_w:.3f} disposals** | Signed mean error — negative means the model predicts too low |",
-        f"| Cumulative MAE (mean of round MAE) | {df['mae'].mean():.2f} | Equally weights each round, unlike the player-weighted figure above |",
-        f"| Median round MAE | {df['mae'].median():.2f} | Half the rounds beat this number, half fell short |",
+        f"| Training-row filter | `year < target_year` | "
+        f"`supercoach/prediction.py:{LN_TRAIN_FILTER}` |",
+        f"| Seasons available to train on | {train_lo}–{train_hi} | `year` column of "
+        f"the loaded player files, target year excluded |",
+        f"| File-loading filter | born after `target_year − 40` = {BIRTH_THRESHOLD} | "
+        f"`supercoach/prediction.py:{LN_BIRTH_FILTER}` |",
+        f"| Player files loaded | **[data]** {len(_loaded):,} of "
+        f"{len(_corpus):,} | `data/player_data/*performance_details.csv` |",
     ]
-    doc = _swap(doc, "CUMULATIVE", "\n".join(cum_rows) + "\n")
+    corpus_note = (
+        "\nThat last row is a *loading* population, not the training set: it bounds "
+        "which players' files are opened, not which rows are fitted. A file is "
+        "admitted on the birth-year token in its filename, so the season span above "
+        "is the span of the files the loader actually admits — not of the archive as "
+        "a whole, which reaches much further back.\n"
+    )
+    doc = _swap(doc, "TRAINCORPUS", "\n".join(corpus_rows) + "\n" + corpus_note)
 
-    # ---- Team-level bias (supersede-by-file already applied to tdf) ----
-    tstat = (tdf.groupby("team")
-                .apply(lambda x: pd.Series({
-                    "n": int(x["n"].sum()),
-                    "bias": (x["bias"] * x["n"]).sum() / x["n"].sum(),
-                }), include_groups=False)
-                .sort_values("bias"))
-    team_rows = ["| Team | Predictions (n) | Bias | Direction |",
-                 "|------|----------------:|-----:|-----------|"]
-    for team, row in tstat.iterrows():
-        direction = "under-predict" if row["bias"] < 0 else "over-predict"
-        team_rows.append(f"| {team} | {int(row['n'])} | {row['bias']:+.2f} | {direction} |")
-    doc = _swap(doc, "TEAMBIAS", "\n".join(team_rows) + "\n")
+    # ---- Scoring path + publication-order attestation, per keep-last vintage ----
+    # Replaces a hand-written sentence naming rounds 18/19 as attested and 20 as
+    # not. It was already a round behind (R21 landed attested and unmentioned) and
+    # is exactly the claim that goes stale every single week.
+    matches_csv = os.path.join(REPO, "data", "matches", f"matches_{YEAR}.csv")
+    first_bounce = {}
+    if os.path.exists(matches_csv):
+        _mm = pd.read_csv(matches_csv)
+        _mm["date"] = pd.to_datetime(_mm["date"], errors="coerce")
+        _mm = _mm.dropna(subset=["date"])
+        # Fixture times are stored as venue-local wall clock. Read them at UTC+8
+        # (Perth — the earliest Australian offset) so the resulting instant is the
+        # EARLIEST the match could possibly have started. A commit that beats that
+        # beats first bounce at every venue in the country; attestation therefore
+        # fails closed rather than depending on which state the game was in.
+        for _r, _t in _mm.groupby("round_num")["date"].min().items():
+            first_bounce[int(_r)] = (_t - pd.Timedelta(hours=8), _t)
+
+    def _git_added_utc(relpath):
+        """UTC instant the path first entered git history, or None."""
+        try:
+            out = subprocess.run(
+                ["git", "-C", REPO, "log", "--diff-filter=A", "--format=%cI",
+                 "--", relpath],
+                capture_output=True, text=True, timeout=60)
+        except (OSError, subprocess.SubprocessError):
+            return None, None          # no git available — cannot attest
+        if out.returncode != 0:
+            return None, None          # not a repo / path never tracked
+        stamps = [s for s in out.stdout.strip().splitlines() if s.strip()]
+        if not stamps:
+            return None, None
+        raw = stamps[-1]               # git logs newest-first; oldest is the add
+        return pd.Timestamp(raw).tz_convert("UTC").tz_localize(None), raw
+
+    def _scoring_path(rnd, ts):
+        """(path, forward_csv) read back from THAT vintage's own run log.
+
+        Scoped to the round, not the file: a multi-round run log carries a cutoff
+        line per retrained round and an archive line per re-scored round, so a
+        file-level match would misclassify mixed runs.
+        """
+        log = os.path.join(bt, f"backtest_run_{ts}.log")
+        try:
+            with open(log, encoding="utf-8", errors="replace") as fh:
+                txt = fh.read()
+        except OSError:
+            return "unknown", None
+        if re.search(rf"\[cutoff y={YEAR} r={rnd}\]", txt):
+            return "retrain", None
+        m_fwd = re.search(
+            rf"scoring archived prediction CSV "
+            rf"(next_round_{rnd}_prediction_\S+?\.csv) \(no retrain\)", txt)
+        if m_fwd:
+            return "archive", m_fwd.group(1)
+        return "unknown", None
+
+    n_retrain = n_archive = n_attested = 0
+    vp_groups = []   # [ [key, first_round, last_round], ... ]
+    for _, _r in df.sort_values("round").iterrows():
+        rnd, ts = int(_r["round"]), str(_r["_ts"])
+        path, fwd = _scoring_path(rnd, ts)
+        if path == "retrain":
+            n_retrain += 1
+            label = "retrain"
+            # Round-generic on purpose: embedding `r={rnd}` would make every row's
+            # key unique and defeat the consecutive-round collapse below, turning a
+            # 21-round season into 21 near-identical rows.
+            evid = (f"`[cutoff y={YEAR} r=<N>] dropped <X> future rows` in that "
+                    f"vintage's run log")
+        elif path == "archive":
+            n_archive += 1
+            label = "archive (`--from-csv`)"
+            added_utc, added_raw = _git_added_utc(os.path.join("data", "prediction", fwd))
+            bounce = first_bounce.get(rnd)
+            if added_utc is None:
+                evid = (f"`{fwd}` — never committed; ordering rests on the filename "
+                        f"timestamp and mtime, **not attested**")
+            elif bounce is None:
+                evid = (f"`{fwd}` committed {added_raw[:16]} — no fixture row for the "
+                        f"round, **not attested**")
+            elif added_utc < bounce[0]:
+                n_attested += 1
+                evid = (f"`{fwd}` committed {added_raw[:16]}, first bounce "
+                        f"{bounce[1]:%Y-%m-%d %H:%M} — **attested**")
+            else:
+                evid = (f"`{fwd}` committed {added_raw[:16]}, first bounce "
+                        f"{bounce[1]:%Y-%m-%d %H:%M} — **not attested**")
+        else:
+            label = "unknown"
+            evid = (f"`backtest_run_{ts}.log` absent or carries no path marker for "
+                    f"this round — **not attested**")
+        key = (ts, label, evid)
+        if vp_groups and vp_groups[-1][0] == key and vp_groups[-1][2] == rnd - 1:
+            vp_groups[-1][2] = rnd
+        else:
+            vp_groups.append([key, rnd, rnd])
+
+    vp_rows = ["| Rounds | Vintage | Scoring path | Ordering evidence |",
+               "|---|---|---|---|"]
+    for (ts, label, evid), lo, hi in vp_groups:
+        span = f"R{lo}" if lo == hi else f"R{lo}–R{hi}"
+        vp_rows.append(f"| {span} | `{ts}` | {label} | {evid} |")
+    vp_note = (
+        f"\n**Path split** across the **[data]** {len(df)} rounds in the pool: "
+        f"**[data]** {n_retrain} scored on the retrain path and **[data]** "
+        f"{n_archive} on the archive path; of the archive rounds, **[data]** "
+        f"{n_attested} carry a publication order attested by git and **[data]** "
+        f"{n_archive - n_attested} "
+        f"{'does' if n_archive - n_attested == 1 else 'do'} not.\n"
+    )
+    doc = _swap(doc, "VINTAGEPATH", "\n".join(vp_rows) + "\n" + vp_note)
 
     # ---- Round-by-round notable misses, from the per-player detail CSVs ----
     # Same vintage discipline as everything else: newest FILE per (year, round).
@@ -410,6 +576,65 @@ if os.path.exists(bt_doc):
         c["_mtime"] = os.path.getmtime(p)
         c["round"] = int(m.group(1))
         dets.append(c)
+
+    # ---- Cumulative summary (player-weighted over the pooled rows) ----
+    # RMSE is pooled in SQUARED space. Running it through wmean() like the other
+    # metrics gives a plausible-looking wrong answer (5.0843 vs a correct 5.0937)
+    # because a root-mean-square does not average linearly.
+    rmse_pooled = float(((df["rmse"] ** 2 * df["n_players"]).sum() / N) ** 0.5)
+    cum_rows = [
+        "| Metric | Value | What it means |",
+        "|---|---|---|",
+        f"| Rounds backtested | {len(df)} (R{r_lo}–R{r_hi}) | Walk-forward — each round predicted using only data from rounds before it |",
+        f"| Player predictions scored | **{N:,}** | Total prediction-vs-actual pairs across the {len(df)} rounds |",
+        f"| **MAE (overall)** | **{mae_w:.3f} disposals** | Average absolute miss across every player-round |",
+        f"| **RMSE (overall)** | **{rmse_pooled:.3f} disposals** | Penalises large misses more heavily; pooled in squared space, not averaged |",
+        f"| **Bias (overall)** | **{bias_w:.3f} disposals** | Signed mean error — negative means the model predicts too low |",
+        f"| Cumulative MAE (mean of round MAE) | {df['mae'].mean():.2f} | Equally weights each round, unlike the player-weighted figure above |",
+        f"| Median round MAE | {df['mae'].median():.2f} | Half the rounds beat this number, half fell short |",
+    ]
+    # The "Read:" callout used to be static prose carrying two figures, so it went
+    # stale the moment a round landed — DataSentinel caught it at exactly that.
+    # Generate it from the same pool as the table above it.
+    read_line = ""
+    if dets:
+        _d = pd.concat(dets, ignore_index=True)
+        _d = _d[_d["_mtime"] == _d.groupby("round")["_mtime"].transform("max")]
+        _d = _d.dropna(subset=["predicted_disposals", "actual_disposals"])
+        _g = (_d.groupby("player")
+                .agg(a=("actual_disposals", "mean"), p=("predicted_disposals", "mean")))
+        _g["err"] = _g["p"] - _g["a"]
+        _top = _g.sort_values("a", ascending=False).head(30)
+        _n_under = int((_top["err"] < 0).sum())
+        _mean_err = float(_top["err"].mean())
+        _all = "every one of" if _n_under == len(_top) else f"{_n_under} of"
+        read_line = (
+            f"\n**Read:** the population-level signed error is near zero, but that "
+            f"average hides a systematic pattern: {_all} the top 30 disposal-winners "
+            f"is under-predicted, by **[data]** {abs(_mean_err):.2f} disposals on "
+            f"average against a population figure of **[data]** {bias_w:.3f} (mean of "
+            f"the top-30 average-error column, and the pooled cumulative bias, both "
+            f"from `data/prediction/backtest/prediction_vs_actual_round_*_{YEAR}_*.csv` "
+            f"at the keep-last vintage). The model runs low on exactly the "
+            f"high-volume players most likely to be a captaincy or trade decision. "
+            f"Outright misses are also not rare — see the pre-registered-threshold "
+            f"measurement above the round-by-round table.\n"
+        )
+    doc = _swap(doc, "CUMULATIVE", "\n".join(cum_rows) + "\n" + read_line)
+
+    # ---- Team-level bias (supersede-by-file already applied to tdf) ----
+    tstat = (tdf.groupby("team")
+                .apply(lambda x: pd.Series({
+                    "n": int(x["n"].sum()),
+                    "bias": (x["bias"] * x["n"]).sum() / x["n"].sum(),
+                }), include_groups=False)
+                .sort_values("bias"))
+    team_rows = ["| Team | Predictions (n) | Bias | Direction |",
+                 "|------|----------------:|-----:|-----------|"]
+    for team, row in tstat.iterrows():
+        direction = "under-predict" if row["bias"] < 0 else "over-predict"
+        team_rows.append(f"| {team} | {int(row['n'])} | {row['bias']:+.2f} | {direction} |")
+    doc = _swap(doc, "TEAMBIAS", "\n".join(team_rows) + "\n")
 
     if dets:
         d = pd.concat(dets, ignore_index=True)
