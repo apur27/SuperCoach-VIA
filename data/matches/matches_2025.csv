@@ -21,7 +21,6 @@ round_num,venue,date,year,attendance,team_1_team_name,team_1_q1_goals,team_1_q1_
 4,Docklands,2025-03-28 19:40,2025,44894,Carlton,4,3,7,5,9,9,11,9,Western Bulldogs,0,4,4,5,9,7,12,11
 4,M.C.G.,2025-03-29 13:20,2025,24506,Melbourne,1,4,2,9,6,12,8,14,Gold Coast,4,5,5,8,12,10,18,12
 4,Docklands,2025-03-29 16:15,2025,41147,St Kilda,3,3,6,6,12,11,20,15,Richmond,1,3,5,4,6,7,7,11
-4,Gabba,2025-03-29 18:35,2025,27966,Brisbane Lions,2,2,3,4,7,7,10,10,Geelong,3,4,7,6,7,6,9,7
 4,York Park,2025-03-29 19:35,2025,14021,Hawthorn,0,2,6,10,10,12,10,16,Greater Western Sydney,5,7,5,9,7,10,9,10
 4,Adelaide Oval,2025-03-30 14:50,2025,46511,Adelaide,4,1,8,5,13,8,17,12,North Melbourne,3,3,5,5,9,5,12,6
 4,Perth Stadium,2025-03-30 15:10,2025,53289,West Coast,3,1,4,4,7,5,10,8,Fremantle,5,4,8,6,12,11,15,16
@@ -35,11 +34,9 @@ round_num,venue,date,year,attendance,team_1_team_name,team_1_q1_goals,team_1_q1_
 5,Perth Stadium,2025-04-06 15:10,2025,41491,Fremantle,4,2,11,5,14,6,15,7,Western Bulldogs,4,0,6,3,10,6,12,9
 6,Adelaide Oval,2025-04-10 19:10,2025,50073,Adelaide,5,3,11,6,14,10,15,10,Geelong,4,4,9,6,13,8,18,11
 6,Adelaide Oval,2025-04-11 19:10,2025,47649,Collingwood,4,3,10,7,13,11,16,13,Sydney,4,1,8,2,10,4,12,6
-6,Barossa Oval,2025-04-12 12:05,2025,9317,North Melbourne,3,7,7,9,11,9,13,11,Gold Coast,6,1,9,5,14,10,21,15
 6,Adelaide Oval,2025-04-12 12:50,2025,41252,Carlton,3,6,7,11,11,15,17,19,West Coast,1,3,3,6,4,12,6,14
 6,Norwood Oval,2025-04-12 15:45,2025,9242,Western Bulldogs,2,4,9,8,11,12,14,13,Brisbane Lions,3,3,4,5,11,6,18,10
 6,Adelaide Oval,2025-04-12 19:05,2025,45039,Melbourne,1,4,2,5,7,7,8,9,Essendon,3,4,7,4,10,5,15,6
-6,Barossa Oval,2025-04-13 12:05,2025,10028,Richmond,4,2,6,3,7,3,7,5,Fremantle,4,4,7,7,13,8,16,12
 6,Norwood Oval,2025-04-13 14:50,2025,9235,St Kilda,4,1,5,4,8,7,12,10,Greater Western Sydney,4,3,8,6,16,9,16,14
 6,Adelaide Oval,2025-04-13 18:50,2025,47671,Port Adelaide,6,3,12,7,14,10,18,13,Hawthorn,1,2,3,2,7,5,14,7
 7,Gabba,2025-04-17 19:30,2025,34802,Brisbane Lions,2,4,4,8,5,8,7,11,Collingwood,4,2,8,3,12,8,16,9
@@ -214,3 +211,7 @@ Semi Final,Gabba,2025-09-13 19:35,2025,36628,Brisbane Lions,3,5,9,6,12,10,14,16,
 Preliminary Final,M.C.G.,2025-09-19 19:40,2025,99567,Geelong,1,3,6,7,13,11,17,13,Hawthorn,3,4,6,6,9,7,13,7
 Preliminary Final,M.C.G.,2025-09-20 17:15,2025,96023,Collingwood,1,1,7,1,9,4,11,5,Brisbane Lions,4,3,4,6,11,9,15,10
 Grand Final,M.C.G.,2025-09-27 14:30,2025,100022,Geelong,2,3,5,6,6,8,11,9,Brisbane Lions,1,6,5,6,9,9,18,14
+1,Gabba,2025-03-29 18:35,2025,27966,Brisbane Lions,2,2,3,4,7,7,10,10,Geelong,3,4,7,6,7,6,9,7
+2,M.C.G.,2025-03-15 19:35,2025,63282,Collingwood,6,5,9,7,16,9,21,10,Port Adelaide,3,2,4,3,5,5,6,9
+6,Barossa Park,2025-04-12 12:05,2025,9317,North Melbourne,3,7,7,9,11,9,13,11,Gold Coast,6,1,9,5,14,10,21,15
+6,Barossa Park,2025-04-13 12:05,2025,10028,Richmond,4,2,6,3,7,3,7,5,Fremantle,4,4,7,7,13,8,16,12

@@ -336,7 +336,7 @@ runs — the same rule the harness now uses.
 **Acceptance criterion:** a `prediction_vs_actual_*` file whose timestamp is absent from the
 completion manifest is never selected, proven by a test with an unmarked newer vintage on disk.
 
-### [Backlog] BL-03 — ~700 legacy garbage rows in the lineup CSVs
+### [Backlog] BL-03 — ~700 legacy garbage rows in the lineup CSVs — **DONE 2026-07-28**
 **Owner:** Scientist
 **Depends on:** none
 **Blocked by decision:** none
@@ -361,6 +361,23 @@ Related trap: `generate_backtest_section()` also writes `assets/charts/backtest_
 despite its read-only-sounding name, so "just previewing" a section is not side-effect free.
 **Acceptance criterion:** either the committed PNGs are refreshed and reproduce in-environment,
 or chart generation is pinned/decoupled so a doc regeneration does not touch `assets/`.
+
+### [Backlog] BL-13 — docs/hall-of-fame-stat-leaders.md is stale against its own source JSON
+**Owner:** Scientist (numbers) + Gaffer (ship)
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** `docs/hall-of-fame-stat-leaders.md` was last written 2026-07-20 and now
+disagrees with the regenerated `docs/hall-of-fame/_stat_leaders.json` in 10 places — e.g.
+career_disposals reads 11,108 where the source computes 11,137. The integration tier
+catches it (`test_check_hof_numbers_passes_on_the_published_docs`) and has been red on
+this since the R21 data landed. Same disease as the HOF profile drift fixed on 2026-07-27
+and the five frozen blocks in afl-backtest-2026.md — a published page whose numbers are
+refreshed by a step that did not run — but a DIFFERENT page, so it needs its own fix.
+Normally Phase 2 of the weekly cycle regenerates it; the R21 cycle never reached Phase 2,
+so this should self-heal on the next successful full run. Verify that it does rather than
+assuming, and if it does not, the regeneration is not wired where it is believed to be.
+**Acceptance criterion:** `check_hof_numbers.py` exits 0 against the published pages and
+the integration tier is green with no per-check exemption.
 
 ### [Backlog] BL-12 — Phase 2 rewrites the backtest doc AFTER Phase 1 verified and committed it
 **Owner:** Gaffer

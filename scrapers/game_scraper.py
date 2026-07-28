@@ -134,15 +134,46 @@ def fetch_round_fixture(year: int, round_num: int) -> Optional[set]:
 
 
 def build_match_key(match_info: Any) -> str:
-    """Build the dedup key for a single match.
+    """Build the dedup key for a single match: date + unordered team pair.
 
-    The key includes ``venue`` so two games played on the same date in the same
-    round (simultaneous kickoffs) are treated as distinct. Without venue, one of
-    the two was silently dropped -- Port Adelaide v Collingwood R2 2025 was lost
-    this way. ``match_info`` may be a dict or a pandas Series (both expose
-    ``.get``); venue falls back to ``'unknown'`` for legacy rows.
+    A fixture is identified by *who played and when*. Neither the venue string
+    nor the round label is stable enough to be part of the identity:
+
+    * venue is renamed upstream -- afltables publishes the 2025 Gather Round
+      games as 'Barossa Park' where matches_2025.csv held 'Barossa Oval', so a
+      venue-keyed dedup appended them a second time and the season
+      double-counted two games;
+    * the round label moves when a game is postponed -- Brisbane Lions v Geelong
+      at the Gabba (2025-03-29) is Round 1 on afltables (the Cyclone Alfred
+      postponement) but had been stored as the Round 4 its date implies.
+
+    The team pair still delivers the guarantee venue was originally added for:
+    two simultaneous kickoffs on the same date and round stay distinct, because
+    they involve different teams (Port Adelaide v Collingwood R2 2025, which an
+    earlier date+round-only key silently dropped). Sorting the pair also makes
+    the key immune to the two team columns being swapped.
+
+    ``match_info`` may be a dict or a pandas Series (both expose ``.get``).
+    Rows lacking team columns fall back to the legacy date+round+venue key.
     """
+    team_1 = match_info.get('team_1_team_name')
+    team_2 = match_info.get('team_2_team_name')
+    if not _is_blank(team_1) and not _is_blank(team_2):
+        teams = "_".join(sorted([str(team_1).strip(), str(team_2).strip()]))
+        return f"{match_info['date']}_{teams}"
     return f"{match_info['date']}_{match_info['round_num']}_{match_info.get('venue', 'unknown')}"
+
+
+def _is_blank(value: Any) -> bool:
+    """True for None/NaN/empty-string cells, which cannot identify a team."""
+    if value is None:
+        return True
+    try:
+        if pd.isna(value):
+            return True
+    except (TypeError, ValueError):
+        pass
+    return str(value).strip() == ""
 
 
 def check_match_completeness(df: pd.DataFrame, year: int) -> List[str]:
@@ -741,9 +772,14 @@ class MatchScraper:
                 existing_df = pd.read_csv(file_path)
                 new_df = pd.DataFrame(match_data)
                 combined_df = pd.concat([existing_df, new_df])
-                # Remove duplicates based on date, round_num and venue so two
-                # simultaneous same-round kickoffs at different grounds are kept.
-                combined_df = combined_df.drop_duplicates(subset=['date', 'round_num', 'venue'], keep='last')
+                # Dedup on the fixture identity (date + unordered team pair), the
+                # same key the in-memory pass uses. Keying on venue instead let a
+                # venue rename re-add a game that was already on disk (the 2025
+                # 'Barossa Oval'/'Barossa Park' double-count); keying on round
+                # let a postponed game land twice. keep='last' prefers the
+                # freshly-scraped row, so an upstream correction wins.
+                fixture_key = combined_df.apply(build_match_key, axis=1)
+                combined_df = combined_df[~fixture_key.duplicated(keep='last')]
                 combined_df.to_csv(file_path, index=False)
             else:
                 # Create new file

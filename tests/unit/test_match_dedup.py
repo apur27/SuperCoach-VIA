@@ -51,18 +51,71 @@ def _matches_df(appearances):
 # Dedup key
 # ---------------------------------------------------------------------------
 
-def test_dedup_key_includes_venue_different_games_kept():
-    """Same date + round but different venues -> distinct keys (both kept)."""
-    a = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "Adelaide Oval"}
-    b = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "MCG"}
+def _match(date, round_num, venue, t1, t2):
+    return {
+        "date": date, "round_num": round_num, "venue": venue,
+        "team_1_team_name": t1, "team_2_team_name": t2,
+    }
+
+
+def test_dedup_key_simultaneous_kickoffs_kept():
+    """Two DIFFERENT games at the same date + round -> distinct keys (both kept).
+
+    This is the original Port Adelaide v Collingwood R2 2025 guarantee. It used
+    to be delivered by putting venue in the key; it is now delivered by the team
+    pair, which is a stronger discriminator (a venue can be renamed, the two
+    teams playing cannot change).
+    """
+    a = _match("2025-04-05 13:20", "2", "Adelaide Oval", "Port Adelaide", "Collingwood")
+    b = _match("2025-04-05 13:20", "2", "MCG", "Melbourne", "Carlton")
     assert game_scraper.build_match_key(a) != game_scraper.build_match_key(b)
 
 
-def test_dedup_key_same_venue_collapses():
-    """Same date + round + venue -> identical key (correctly deduped)."""
-    a = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "MCG"}
-    b = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "MCG"}
+def test_dedup_key_identical_fixture_collapses():
+    """Same fixture scraped twice -> identical key (correctly deduped)."""
+    a = _match("2025-04-05 13:20", "2", "MCG", "Melbourne", "Carlton")
+    b = _match("2025-04-05 13:20", "2", "MCG", "Melbourne", "Carlton")
     assert game_scraper.build_match_key(a) == game_scraper.build_match_key(b)
+
+
+def test_dedup_key_collapses_venue_alias():
+    """Same fixture under two venue SPELLINGS is one game, not two.
+
+    Incident: afltables published the 2025 Gather Round fixtures as
+    'Barossa Park' while matches_2025.csv already held them as 'Barossa Oval'.
+    Because venue was in the dedup key, the re-scrape appended duplicates and
+    the season double-counted two games. audit_match_rounds() could not catch it
+    -- a duplicate makes a round look MORE complete, never short.
+    """
+    a = _match("2025-04-12 12:05", "6", "Barossa Oval", "North Melbourne", "Gold Coast")
+    b = _match("2025-04-12 12:05", "6", "Barossa Park", "North Melbourne", "Gold Coast")
+    assert game_scraper.build_match_key(a) == game_scraper.build_match_key(b)
+
+
+def test_dedup_key_collapses_round_relabel():
+    """Same fixture under two ROUND labels is one game, not two.
+
+    Incident: the Cyclone Alfred postponement -- Brisbane Lions v Geelong at the
+    Gabba, played 2025-03-29, is Round 1 on afltables but had been stored as the
+    Round 4 its date implies.
+    """
+    a = _match("2025-03-29 18:35", "4", "Gabba", "Brisbane Lions", "Geelong")
+    b = _match("2025-03-29 18:35", "1", "Gabba", "Brisbane Lions", "Geelong")
+    assert game_scraper.build_match_key(a) == game_scraper.build_match_key(b)
+
+
+def test_dedup_key_ignores_home_away_order():
+    """A fixture with the two team columns swapped is still one game."""
+    a = _match("2025-04-12 12:05", "6", "Barossa Park", "North Melbourne", "Gold Coast")
+    b = _match("2025-04-12 12:05", "6", "Barossa Park", "Gold Coast", "North Melbourne")
+    assert game_scraper.build_match_key(a) == game_scraper.build_match_key(b)
+
+
+def test_dedup_key_falls_back_to_venue_without_team_columns():
+    """Legacy rows lacking team columns keep the old date+round+venue behaviour."""
+    a = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "Adelaide Oval"}
+    b = {"date": "2025-04-05 13:20", "round_num": "2", "venue": "MCG"}
+    assert game_scraper.build_match_key(a) != game_scraper.build_match_key(b)
 
 
 # ---------------------------------------------------------------------------
