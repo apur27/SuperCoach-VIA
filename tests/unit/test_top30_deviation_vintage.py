@@ -293,3 +293,41 @@ def test_absent_manifest_does_not_filter_everything_out(tmp_path):
     df = uta._load_top30_player_deviation(2026, str(tmp_path))
     assert not df.empty, "an absent manifest wiped the table instead of bootstrapping"
     assert df.iloc[0]["avg_actual"] == 15.0
+
+
+def test_current_run_vintage_is_used_when_round_has_no_marked_vintage(tmp_path):
+    """The in-flight cycle's own artifact must be usable by that cycle's doc build.
+
+    BL-02 filters to runs a cycle MARKED complete. But marking happens only AFTER a
+    successful push, while the doc is generated BEFORE it — so the round being
+    scored right now can never be marked at generation time. The 2026-08-05 cycle
+    hit exactly this: every other block in afl-backtest-2026.md advanced to R22
+    while the top-30 table silently stayed at R21, because R22's vintage was the
+    only unmarked one on disk. One document, two different round bases.
+
+    Rule: prefer marked vintages; if a round has NO marked vintage at all, fall
+    back to its newest. That still excludes a superseded orphan (its round has a
+    marked vintage that wins), which is what the manifest exists to catch.
+    """
+    _vintage(tmp_path, 1, "20260511_191837", actual=20.0)
+    _vintage(tmp_path, 2, "20260805_111331", actual=33.0)   # in-flight, unmarked
+    _manifest(tmp_path, ["20260511_191837"])
+
+    df = uta._load_top30_player_deviation(2026, str(tmp_path))
+
+    rounds = set(df["rounds_tracked"])
+    assert not df.empty
+    assert df.iloc[0]["avg_actual"] == pytest.approx(26.5), (
+        "the in-flight round was dropped, so the table lags every other block"
+    )
+
+
+def test_superseded_orphan_still_loses_to_a_marked_vintage(tmp_path):
+    """The BL-02 guarantee must survive the fallback: where a round HAS a marked
+    vintage, an unmarked one for that same round is still ignored."""
+    _vintage(tmp_path, 1, "20260511_191837", actual=20.0)   # marked
+    _vintage(tmp_path, 1, "20260525_182141", actual=99.0)   # orphan, same round
+    _manifest(tmp_path, ["20260511_191837"])
+
+    df = uta._load_top30_player_deviation(2026, str(tmp_path))
+    assert df.iloc[0]["avg_actual"] == 20.0

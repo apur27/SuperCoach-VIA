@@ -97,7 +97,7 @@ with the `F`/`S`/`A` IDs from the 2026-07-07 surveys.
 **Fix brief:** Eight published briefs under `docs/coaches-strategy-corner/` still contain unresolved `<!-- FOOTYSTRATEGY INSERT -->` placeholders. FootyStrategy writes the interpretation layer for each (or a retrospective framing — its call), drafts go through Skeptic, Gaffer ships. If any brief is judged too stale to complete, the outcome is withdrawal from the published surface — but placeholders must not remain.
 **Acceptance criterion:** `grep -rl 'FOOTYSTRATEGY INSERT' docs/coaches-strategy-corner/` returns nothing, and every completed brief has a Skeptic verdict on record.
 
-### [Sprint 2] S1a — Retract or correct the false "venue effects" published claim
+### [Sprint 2] S1a — Retract or correct the false "venue effects" published claim — **DONE 2026-07-28**
 **Owner:** Gaffer
 **Depends on:** none (do not wait for S1b — the claim is false today)
 **Blocked by decision:** none
@@ -379,6 +379,25 @@ that freezes the LLM-authored sections so the run is deterministic.
 **Acceptance criterion:** 6.2 states unambiguously what outcome authorises a merge, and a
 smoke run failing on unrelated generated prose is distinguishable from one failing on the
 change under test.
+
+### [Backlog] BL-16 — The backtest-doc re-verify hop has no retry or routing path
+**Owner:** Gaffer
+**Depends on:** BL-14 (a harness change needs a smoke run, and "green enough" is undefined)
+**Blocked by decision:** none
+**Fix brief:** `refresh_and_rank.sh` step 6 re-verifies `docs/afl-backtest-2026.md` through
+DataSentinel before staging it. If that verification FAILS, the hop aborts the whole
+harness — there is no bounded retry and no routing of the finding to an owning agent.
+`afl-insights.md` has both at Phase 3b (one retry, failed tags fed back to FootyStrategy,
+a second FAIL aborts). The backtest doc was brought under a gate without the equivalent,
+so a single genuine FAIL strands an entire cycle with a round of scraped data uncommitted
+— which is what happened on 2026-07-27 and again on 2026-08-05.
+Two candidate shapes, not yet decided: mirror Phase 3b's bounded retry with routing, or
+move this doc's gating out of Phase 1 entirely and let Phase 3d cover it with the rest of
+the published surface. The second is simpler and removes a gate from the long pole, but
+means the doc is staged in Phase 1 before it is verified — so it needs the staged-blob
+question thought through, not hand-waved.
+**Acceptance criterion:** a single DataSentinel FAIL on this doc routes the finding and
+either retries or aborts cleanly at a phase boundary, without stranding scraped data.
 
 ### [Backlog] BL-15 (SV28-N7) — data/top100/yearly/year_2026.csv uncommitted since 07-07
 **Owner:** Scientist (decision) + Gaffer (allowlist)

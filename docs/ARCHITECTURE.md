@@ -706,7 +706,7 @@ Per base column, four features are produced:
 | `season_to_date_mean_<col>` | Expanding mean grouped by `(player, year)`, shifted by 1 |
 | `recent_form_<col>` | EWM (span=3) grouped by `player`, shifted by 1 |
 
-Plus: `round_number`, `days_since_last_game`, the extra features (`cba_percent`, `percentage_time_played`), and one-hot dummies for `venue` and `opponent`.
+Plus: `round_number`, `days_since_last_game`, the extra features (`cba_percent`, `percentage_time_played`), and one-hot dummies for `opponent` only — there is no `venue` column in the player data, so venue is not a model input.
 
 The shift-by-1 is the leak-prevention discipline — when predicting row N, the rolling feature on row N must not include row N's own target value.
 

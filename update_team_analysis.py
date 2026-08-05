@@ -4065,6 +4065,28 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
     if not files:
         return pd.DataFrame()
 
+    # Decide eligibility PER ROUND before reading anything.
+    #
+    # BL-02 filters to runs a cycle marked complete. But `mark` runs only after a
+    # successful push, while this doc is generated BEFORE it — so the round being
+    # scored right now can never be marked at generation time. On 2026-08-05 that
+    # left every other block in afl-backtest-2026.md at R22 while this table alone
+    # stayed at R21: one document, two round bases, and a genuine DataSentinel FAIL.
+    #
+    # Rule: prefer marked vintages; if a round has NO marked vintage at all, fall
+    # back to its newest. A superseded orphan still loses, because its round does
+    # have a marked vintage — which is the guarantee BL-02 exists to provide.
+    _by_round = {}
+    for _f in files:
+        _b = os.path.basename(_f)
+        _m = re.search(r"round_(\d+)_\d{4}_(\d{8}_\d{6})\.csv$", _b)
+        if _m:
+            _by_round.setdefault(int(_m.group(1)), []).append(_m.group(2))
+    _eligible = set()
+    for _rnd, _tss in _by_round.items():
+        _marked = [t for t in _tss if _complete is None or t in _complete]
+        _eligible.update(_marked if _marked else [max(_tss)])
+
     frames: List[pd.DataFrame] = []
     for f in files:
         # Filename: prediction_vs_actual_round_<R>_<YEAR>_<TS>.csv
@@ -4085,8 +4107,9 @@ def _load_top30_player_deviation(year: int, bt_dir: str) -> pd.DataFrame:
                   file=sys.stderr)
             continue
         ts = m.group(1)
-        if _complete is not None and ts not in _complete:
-            print(f"[backtest] skip {base}: run {ts} is not marked complete",
+        if ts not in _eligible:
+            print(f"[backtest] skip {base}: run {ts} is not marked complete "
+                  f"and its round has a completed vintage",
                   file=sys.stderr)
             continue
         try:
