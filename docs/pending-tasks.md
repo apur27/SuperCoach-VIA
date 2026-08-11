@@ -567,7 +567,33 @@ have the harness echo the count so a multi-finding verdict cannot be mistaken fo
 **Acceptance criterion:** a BLOCK with N findings writes N entries to the audit record, and a
 re-gate can be checked against the previous record to confirm every finding was addressed.
 
+### [Backlog] BL-17 — The in-pipeline chart render disagrees with a clean-interpreter render
+**Owner:** Scientist
+**Depends on:** none
+**Blocked by decision:** none
+**Fix brief:** BL-04 committed a reproducible `assets/charts/top10_alltime_hall.png` and added
+`tests/integration/test_chart_reproducibility.py` to pin it. On 2026-08-11 the weekly cycle
+re-introduced the bad blob anyway: Phase 1 committed a 175,862-byte version, and Phase 3d then
+failed closed on the guard. BL-04 fixed the artifact; it did not fix the cause, so the cause is
+still live and will re-fire every cycle that regenerates this chart.
+
+Isolation performed on the day, following the recovery the test's own docstring prescribes:
+`generate_top100_chart()` in a clean interpreter is deterministic — three consecutive renders
+gave an identical md5 (`691acd8f…`, 174,837 bytes). That render from the CURRENT top-10 data is
+byte-identical to the blob committed at `30b2c174a`, i.e. rendering today's data reproduces the
+prior vintage exactly. So neither the renderer nor the data moved. The only thing that differs
+is *where* the render happened: inside the full Phase-1 process it produces 175,862 bytes, in a
+fresh interpreter 174,837. That signature is ambient matplotlib global state — rcParams, style,
+or font cache mutated by an earlier chart generator in the same process — leaking into this
+figure. Note it is NOT a matplotlib/font *upgrade*, which is the cause both BL-04 and the test
+docstring assume; the docstring's step 1 ("it means the RENDERING environment changed") should
+be corrected, because it sends the next operator down the wrong path.
+**Acceptance criterion:** `generate_top100_chart()` produces the same bytes whether called
+standalone or as part of a full `weekly_refresh.sh` run — e.g. each generator opens its figure
+under an explicit `plt.rc_context(...)` / `plt.style.context(...)` rather than inheriting process
+state — demonstrated by rendering it at both call sites in one cycle and comparing md5s.
+
 ---
 
-*Last updated: 2026-07-27. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
+*Last updated: 2026-08-11. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
 
