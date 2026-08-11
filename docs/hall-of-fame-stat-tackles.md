@@ -2,16 +2,16 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-07-20 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-08-11 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career tackles - all-time top 20
-> ✓ All 38 stats verified against source data · council-pipeline-gated · 2026-07-20
+> ✓ All 38 stats verified against source data · council-pipeline-gated · 2026-08-11
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-07-20. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-08-11. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -28,24 +28,24 @@ A tackle is a contact possession against an opponent in possession that results 
 | # | Player | Club(s) | Span | Games | Tackles | Per game |
 |--:|--------|---------|------|------:|--------:|---------:|
 <!-- HOF-TABLE-START:career_tackles -->
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 438 | 2,013 | 4.60 |<!-- HOF-TOP:career_tackles -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 440 | 2,020 | 4.59 |<!-- HOF-TOP:career_tackles -->
 | 2 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,798 | 5.06 |
 | 3 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,629 | 6.79 |
 | 4 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,611 | 4.16 |
-| 5 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 333 | 1,588 | 4.77 |
-| 6 | Jack Steele **[data]** | Greater Western Sydney - Melbourne - St Kilda | 2015-2026 | 220 | 1,575 | 7.16 |
+| 5 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 336 | 1,596 | 4.75 |
+| 6 | Jack Steele **[data]** | Greater Western Sydney - Melbourne - St Kilda | 2015-2026 | 223 | 1,586 | 7.11 |
 | 7 | Liam Shiels **[data]** | Hawthorn - North Melbourne | 2009-2024 | 288 | 1,560 | 5.42 |
-| 8 | Dayne Zorko **[data]** | Brisbane Lions | 2012-2026 | 313 | 1,537 | 4.91 |
+| 8 | Dayne Zorko **[data]** | Brisbane Lions | 2012-2026 | 315 | 1,538 | 4.88 |
 | 9 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,534 | 4.30 |
 | 10 | Lenny Hayes **[data]** | St Kilda | 1999-2014 | 297 | 1,496 | 5.04 |
 | 11 | Shaun Burgoyne **[data]** | Hawthorn - Port Adelaide | 2002-2021 | 407 | 1,492 | 3.67 |
 | 12 | Jude Bolton **[data]** | Sydney | 1999-2013 | 325 | 1,490 | 4.58 |
 | 13 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 1,488 | 5.13 |
 | 14 | Andrew Swallow **[data]** | Kangaroos - North Melbourne | 2006-2017 | 224 | 1,481 | 6.61 |
-| 15 | James Kelly **[data]** | Essendon - Geelong | 2002-2017 | 313 | 1,446 | 4.62 |
-| 16 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 264 | 1,439 | 5.45 |
-| 17 | Jack Redden **[data]** | Brisbane Lions - West Coast | 2009-2022 | 263 | 1,435 | 5.46 |
-| 18 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 276 | 1,433 | 5.19 |
+| 15= | James Kelly **[data]** | Essendon - Geelong | 2002-2017 | 313 | 1,446 | 4.62 |
+| 15= | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 267 | 1,446 | 5.42 |
+| 17 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 279 | 1,441 | 5.16 |
+| 18 | Jack Redden **[data]** | Brisbane Lions - West Coast | 2009-2022 | 263 | 1,435 | 5.46 |
 | 19 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 1,422 | 3.78 |
 | 20 | Scott Thompson **[data]** | Adelaide - Melbourne | 2001-2017 | 308 | 1,409 | 4.57 |
 <!-- HOF-TABLE-END:career_tackles -->
