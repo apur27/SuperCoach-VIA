@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` / `scripts/update_eval_surface.sh` on every data refresh. Every figure on the page is generated from the backtest artifacts, with one deliberate exception: the Round-18 coverage-limitation record is a frozen, dated decision record and is explained as such where it appears.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-08-05 · 22 rounds backtested · auto-generated*
+*Last updated: 2026-08-11 · 23 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -58,10 +58,11 @@ Every cell below is read from the per-round backtest summaries in `data/predicti
 | 20 | 361 | 3.92 | 5.04 | 76.5% | 95.3% |
 | 21 | 371 | 3.99 | 5.23 | 72.2% | 95.1% |
 | 22 | 374 | 3.79 | 4.78 | 78.1% | 96.8% |
+| 23 | 365 | 4.21 | 5.43 | 71.2% | 94.8% |
 
-**Overall (mean across 22 rounds):** MAE 3.96 **[data]** disposals · 74.4% of predictions within 5 disposals · 95.8% within 10. These are unweighted means across rounds; the player-weighted equivalents are in the cumulative summary below and are expected to differ.
+**Overall (mean across 23 rounds):** MAE 3.97 **[data]** disposals · 74.2% of predictions within 5 disposals · 95.7% within 10. These are unweighted means across rounds; the player-weighted equivalents are in the cumulative summary below and are expected to differ.
 
-**Measured against our own pre-registered threshold:** a round counts as *concerning* if it carries more than five outright misses (error greater than 10 disposals). By that rule **[data]** 22 of 22 rounds are concerning, roughly 332 outright misses across the season. We publish that rather than re-calibrate the threshold: a pre-registered bar quietly moved once it is breached is not a bar. It means the five-miss threshold was set optimistically against how this model actually performs, and the honest reading is that outright misses are a routine feature of the predictions, not a rare event.
+**Measured against our own pre-registered threshold:** a round counts as *concerning* if it carries more than five outright misses (error greater than 10 disposals). By that rule **[data]** 23 of 23 rounds are concerning, roughly 351 outright misses across the season. We publish that rather than re-calibrate the threshold: a pre-registered bar quietly moved once it is breached is not a bar. It means the five-miss threshold was set optimistically against how this model actually performs, and the honest reading is that outright misses are a routine feature of the predictions, not a rare event.
 
 > **What to look for:** MAE should stay flat or improve as the season progresses — the model gets more data per player each round. A spike in Round 1 (MAE 4.83 **[data]**) is normal because many players have no 2026 history yet. If MAE rises sharply mid-season, that is worth investigating — this page does not measure the cause, and none of byes, travel or weather is a feature of the model or a recorded column in the backtest artifacts.
 
@@ -71,36 +72,36 @@ Averages below are computed from the per-player backtest detail CSVs `data/predi
 
 | # | Player | Team | Avg actual disposals | Avg predicted | Avg error | Rounds |
 |--:|--------|------|---------------------:|--------------:|----------:|-------:|
-| **1** | **Nick Daicos** | **Collingwood** | **35.1** | **28.6** | **−6.4 ↓** | **19** |
-| 2 | Bailey Smith | Geelong | 31.9 | 27.2 | −4.8 ↓ | 18 |
-| **3** | **Harry Sheezel** | **North Melbourne** | **31.2** | **27.6** | **−3.7 ↓** | **20** |
-| 4 | Clayton Oliver | Greater Western Sydney | 30.9 | 26.1 | −4.8 ↓ | 20 |
-| 5 | Lachie Neale | Brisbane Lions | 30.1 | 26.8 | −3.4 ↓ | 20 |
+| **1** | **Nick Daicos** | **Collingwood** | **35.2** | **28.6** | **−6.6 ↓** | **20** |
+| 2 | Bailey Smith | Geelong | 32.3 | 27.2 | −5.1 ↓ | 19 |
+| 3 | Harry Sheezel | North Melbourne | 31.1 | 27.7 | −3.4 ↓ | 21 |
+| 4 | Clayton Oliver | Greater Western Sydney | 30.5 | 26.2 | −4.3 ↓ | 21 |
+| 5 | Lachie Neale | Brisbane Lions | 30.4 | 26.9 | −3.5 ↓ | 21 |
 | 6 | Zak Butters | Port Adelaide | 29.8 | 26.4 | −3.4 ↓ | 17 |
-| **7** | **Nasiah Wanganeen-Milera** | **St Kilda** | **29.7** | **25.2** | **−4.5 ↓** | **15** |
-| **8** | **Archie Roberts** | **Essendon** | **29.2** | **24.9** | **−4.2 ↓** | **17** |
-| 9 | Max Holmes | Geelong | 29.1 | 26.6 | −2.5 ↓ | 17 |
-| 10 | Lachie Ash | Greater Western Sydney | 28.9 | 26.6 | −2.3 ↓ | 20 |
-| 11 | Lachie Whitfield | Greater Western Sydney | 28.6 | 26.3 | −2.4 ↓ | 17 |
-| 12 | Sam Walsh | Carlton | 28.4 | 26.8 | −1.6 ↓ | 20 |
-| 13 | Will Ashcroft | Brisbane Lions | 28.3 | 25.6 | −2.6 ↓ | 20 |
-| 14 | Finn Callaghan | Greater Western Sydney | 28.1 | 26.7 | −1.3 ↓ | 19 |
-| 15 | Noah Anderson | Gold Coast | 27.5 | 25.5 | −2.1 ↓ | 19 |
-| **16** | **Errol Gulden** | **Sydney** | **27.4** | **22.9** | **−4.5 ↓** | **8** |
-| **17** | **Zach Merrett** | **Essendon** | **27.2** | **25.8** | **−1.4 ↓** | **20** |
+| 7 | Max Holmes | Geelong | 29.1 | 26.6 | −2.5 ↓ | 17 |
+| **8** | **Will Ashcroft** | **Brisbane Lions** | **28.8** | **25.7** | **−3.1 ↓** | **21** |
+| **9** | **Errol Gulden** | **Sydney** | **28.7** | **22.9** | **−5.8 ↓** | **9** |
+| 10 | Lachie Whitfield | Greater Western Sydney | 28.5 | 26.3 | −2.2 ↓ | 18 |
+| 11 | Lachie Ash | Greater Western Sydney | 28.5 | 26.7 | −1.8 ↓ | 21 |
+| **12** | **Archie Roberts** | **Essendon** | **28.4** | **24.8** | **−3.6 ↓** | **18** |
+| 13 | Sam Walsh | Carlton | 28.3 | 26.8 | −1.5 ↓ | 21 |
+| **14** | **Nasiah Wanganeen-Milera** | **St Kilda** | **28.1** | **25.4** | **−2.6 ↓** | **16** |
+| 15 | Finn Callaghan | Greater Western Sydney | 28.1 | 26.7 | −1.3 ↓ | 19 |
+| 16 | Noah Anderson | Gold Coast | 27.4 | 25.5 | −1.9 ↓ | 20 |
+| 17 | Zach Merrett | Essendon | 27.3 | 25.8 | −1.5 ↓ | 21 |
 | 18 | Jack Sinclair | St Kilda | 27.1 | 26.9 | −0.2 ↓ | 15 |
-| 19 | Isaac Heeney | Sydney | 26.9 | 23.1 | −3.8 ↓ | 18 |
-| 20 | Marcus Bontempelli | Western Bulldogs | 26.7 | 25.1 | −1.7 ↓ | 19 |
-| 21 | Josh Daicos | Collingwood | 26.6 | 25.4 | −1.2 ↓ | 20 |
+| 19 | Josh Daicos | Collingwood | 27.0 | 25.4 | −1.7 ↓ | 21 |
+| 20 | Isaac Heeney | Sydney | 26.8 | 23.2 | −3.6 ↓ | 19 |
+| 21 | Marcus Bontempelli | Western Bulldogs | 26.6 | 25.1 | −1.6 ↓ | 20 |
 | 22 | Bailey Dale | Western Bulldogs | 26.6 | 23.0 | −3.6 ↓ | 16 |
-| 23 | Jai Newcombe | Hawthorn | 26.4 | 23.2 | −3.2 ↓ | 20 |
+| 23 | Jai Newcombe | Hawthorn | 26.4 | 23.2 | −3.1 ↓ | 21 |
 | 24 | Wayne Milera | Adelaide | 26.3 | 23.2 | −3.1 ↓ | 15 |
-| 25 | Patrick Cripps | Carlton | 26.3 | 22.4 | −3.9 ↓ | 20 |
-| 26 | John Noble | Gold Coast | 26.3 | 24.3 | −2.0 ↓ | 20 |
-| 27 | Jake Bowey | Melbourne | 25.9 | 23.2 | −2.7 ↓ | 11 |
-| 28 | Jordan Dawson | Adelaide | 25.5 | 24.0 | −1.5 ↓ | 16 |
-| 29 | Luke Parker | North Melbourne | 25.5 | 24.1 | −1.4 ↓ | 20 |
-| 30 | Nick Blakey | Sydney | 25.4 | 23.4 | −2.0 ↓ | 20 |
+| 25 | Patrick Cripps | Carlton | 26.3 | 22.4 | −3.9 ↓ | 21 |
+| 26 | Jordan Dawson | Adelaide | 26.1 | 24.1 | −1.9 ↓ | 17 |
+| **27** | **Matt Rowell** | **Gold Coast** | **25.9** | **20.0** | **−5.9 ↓** | **16** |
+| 28 | John Noble | Gold Coast | 25.8 | 24.2 | −1.6 ↓ | 21 |
+| 29 | Jake Bowey | Melbourne | 25.8 | 23.2 | −2.5 ↓ | 12 |
+| 30 | Luke Parker | North Melbourne | 25.5 | 24.1 | −1.4 ↓ | 21 |
 
 > **Reading this table:** "Avg error" tells you whether the model systematically misjudges a player. A large positive error (↑) means we over-predicted — the player gets fewer disposals than expected. A large negative error (↓) means we under-predicted — they consistently beat the model. Bolded rows are those whose mean ABSOLUTE error exceeds 6 disposals — a different quantity from the signed "Avg error" column shown here, so a bolded row need not read ±6 above. They are worth investigating — they may have changed role, had an injury, or are operating in a way the model hasn't caught up with yet.
 
@@ -116,15 +117,15 @@ The per-round table above reports the mean across each round individually. The *
 <!-- CUMULATIVE-START -->
 | Metric | Value | What it means |
 |---|---|---|
-| Rounds backtested | 22 (R1–R22) | Walk-forward — each round predicted using only data from rounds before it |
-| Player predictions scored | **7,898** | Total prediction-vs-actual pairs across the 22 rounds |
-| **MAE (overall)** | **3.951 disposals** | Average absolute miss across every player-round |
-| **RMSE (overall)** | **5.085 disposals** | Penalises large misses more heavily; pooled in squared space, not averaged |
-| **Bias (overall)** | **-0.120 disposals** | Signed mean error — negative means the model predicts too low |
-| Cumulative MAE (mean of round MAE) | 3.96 | Equally weights each round, unlike the player-weighted figure above |
-| Median round MAE | 3.97 | Half the rounds beat this number, half fell short |
+| Rounds backtested | 23 (R1–R23) | Walk-forward — each round predicted using only data from rounds before it |
+| Player predictions scored | **8,263** | Total prediction-vs-actual pairs across the 23 rounds |
+| **MAE (overall)** | **3.962 disposals** | Average absolute miss across every player-round |
+| **RMSE (overall)** | **5.101 disposals** | Penalises large misses more heavily; pooled in squared space, not averaged |
+| **Bias (overall)** | **-0.095 disposals** | Signed mean error — negative means the model predicts too low |
+| Cumulative MAE (mean of round MAE) | 3.97 | Equally weights each round, unlike the player-weighted figure above |
+| Median round MAE | 3.98 | Half the rounds beat this number, half fell short |
 
-**Read:** the population-level signed error is near zero, but that average hides a systematic pattern: every one of the top 30 disposal-winners is under-predicted, by **[data]** 2.87 disposals on average against a population figure of **[data]** -0.120 (mean of the top-30 average-error column, and the pooled cumulative bias, both from `data/prediction/backtest/prediction_vs_actual_round_*_2026_*.csv` at the keep-last vintage). The model runs low on exactly the high-volume players most likely to be a captaincy or trade decision. Outright misses are also not rare — see the pre-registered-threshold measurement above the round-by-round table.
+**Read:** the population-level signed error is near zero, but that average hides a systematic pattern: every one of the top 30 disposal-winners is under-predicted, by **[data]** 2.94 disposals on average against a population figure of **[data]** -0.095 (mean of the top-30 average-error column, and the pooled cumulative bias, both from `data/prediction/backtest/prediction_vs_actual_round_*_2026_*.csv` at the keep-last vintage). The model runs low on exactly the high-volume players most likely to be a captaincy or trade decision. Outright misses are also not rare — see the pre-registered-threshold measurement above the round-by-round table.
 <!-- CUMULATIVE-END -->
 
 
@@ -135,24 +136,24 @@ A team-level bias is a systematic over- or under-prediction concentrated on one 
 <!-- TEAMBIAS-START -->
 | Team | Predictions (n) | Bias | Direction |
 |------|----------------:|-----:|-----------|
-| St Kilda | 429 | -0.64 | under-predict |
-| Hawthorn | 435 | -0.55 | under-predict |
-| Greater Western Sydney | 446 | -0.35 | under-predict |
-| Sydney | 446 | -0.33 | under-predict |
-| Geelong | 425 | -0.32 | under-predict |
-| Carlton | 449 | -0.25 | under-predict |
-| North Melbourne | 448 | -0.23 | under-predict |
-| Melbourne | 425 | -0.22 | under-predict |
-| Fremantle | 453 | -0.21 | under-predict |
-| Collingwood | 451 | -0.13 | under-predict |
-| Adelaide | 416 | -0.06 | under-predict |
-| Brisbane Lions | 454 | +0.01 | over-predict |
-| Essendon | 437 | +0.02 | over-predict |
-| Western Bulldogs | 422 | +0.06 | over-predict |
-| Port Adelaide | 446 | +0.09 | over-predict |
-| Gold Coast | 450 | +0.24 | over-predict |
-| Richmond | 422 | +0.30 | over-predict |
-| West Coast | 444 | +0.41 | over-predict |
+| Sydney | 464 | -0.46 | under-predict |
+| St Kilda | 451 | -0.46 | under-predict |
+| Hawthorn | 454 | -0.43 | under-predict |
+| North Melbourne | 469 | -0.31 | under-predict |
+| Carlton | 472 | -0.27 | under-predict |
+| Geelong | 447 | -0.27 | under-predict |
+| Greater Western Sydney | 468 | -0.23 | under-predict |
+| Collingwood | 469 | -0.20 | under-predict |
+| Melbourne | 446 | -0.11 | under-predict |
+| Fremantle | 475 | -0.08 | under-predict |
+| Brisbane Lions | 474 | -0.03 | under-predict |
+| Adelaide | 435 | +0.02 | over-predict |
+| Port Adelaide | 465 | +0.04 | over-predict |
+| Western Bulldogs | 442 | +0.05 | over-predict |
+| Essendon | 457 | +0.11 | over-predict |
+| Gold Coast | 469 | +0.22 | over-predict |
+| West Coast | 463 | +0.34 | over-predict |
+| Richmond | 443 | +0.37 | over-predict |
 <!-- TEAMBIAS-END -->
 
 ## Round-by-round notable misses
@@ -184,6 +185,7 @@ The five biggest **under-predictions** and the five biggest **over-predictions**
 | 20 | Rowan Marshall (16→33, -17); Touk Miller (23→39, -16); Wil Powell (16→31, -15); Tom Sparrow (19→33, -14); Joe Richards (17→31, -14) | Toby Greene (20→6, +14); Adam Cerra (19→6, +13); Harry Mckay (14→1, +13); Joel Fitzgerald (21→9, +12); Daniel Turner (16→4, +12) |
 | 21 | Marcus Herbert (17→36, -19); Nasiah Wanganeen-Milera (29→46, -17); Errol Gulden (24→41, -17); Jarman Impey (20→37, -17); Brady Hough (11→25, -14) | Nic Newman (23→2, +21); Caleb Lewis (16→1, +15); Jordan Ridley (15→1, +14); Josh Daicos (27→15, +12); Balyn Obrien (16→5, +11) |
 | 22 | Marcus Herbert (17→34, -17); Harley Reid (20→34, -14); Joe Berry (11→24, -13); George Hewett (21→33, -12); Errol Gulden (23→34, -11) | James Rowbottom (16→1, +15); Matthew Kennedy (23→9, +14); Ollie Greeves (15→3, +12); Callum Mills (25→14, +11); Harry Morrison (19→8, +11) |
+| 23 | Matt Rowell (21→40, -19); Errol Gulden (23→39, -16); Elliot Yeo (14→28, -14); Jase Burgoyne (21→34, -13); James Jordon (13→26, -13) | Nasiah Wanganeen-Milera (29→4, +25); Gryan Miers (21→9, +12); Mason Wood (20→8, +12); Christian Salem (18→6, +12); Archie Ludowyke (16→4, +12) |
 <!-- MISSES-END -->
 
 ## Methodology — what the backtest actually does
@@ -206,7 +208,7 @@ The scope of that corpus is re-derived on every refresh — the season span by r
 | Training-row filter | `year < target_year` | `supercoach/prediction.py:598` |
 | Seasons available to train on | 2005–2025 | `year` column of the loaded player files, target year excluded |
 | File-loading filter | born after `target_year − 40` = 1986 | `supercoach/prediction.py:434` |
-| Player files loaded | **[data]** 1,811 of 13,360 | `data/player_data/*performance_details.csv` |
+| Player files loaded | **[data]** 1,814 of 13,363 | `data/player_data/*performance_details.csv` |
 
 That last row is a *loading* population, not the training set: it bounds which players' files are opened, not which rows are fitted. A file is admitted on the birth-year token in its filename, so the season span above is the span of the files the loader actually admits — not of the archive as a whole, which reaches much further back.
 <!-- TRAINCORPUS-END -->
@@ -233,8 +235,9 @@ Both paths are in use. Which round took which path is not a matter of record-kee
 | R20 | `20260725_173602` | archive (`--from-csv`) | `next_round_20_prediction_20260714_0730.csv` — never committed; ordering rests on the filename timestamp and mtime, **not attested** |
 | R21 | `20260728_004513` | archive (`--from-csv`) | `next_round_21_prediction_20260720_2007.csv` committed 2026-07-20T20:13, first bounce 2026-07-23 19:00 — **attested** |
 | R22 | `20260805_111331` | archive (`--from-csv`) | `next_round_22_prediction_20260728_0045.csv` committed 2026-07-28T08:12, first bounce 2026-07-30 19:30 — **attested** |
+| R23 | `20260811_102810` | archive (`--from-csv`) | `next_round_23_prediction_20260805_1113.csv` committed 2026-08-05T13:32, first bounce 2026-08-06 19:30 — **attested** |
 
-**Path split** across the **[data]** 22 rounds in the pool: **[data]** 17 scored on the retrain path and **[data]** 5 on the archive path; of the archive rounds, **[data]** 4 carry a publication order attested by git and **[data]** 1 does not.
+**Path split** across the **[data]** 23 rounds in the pool: **[data]** 17 scored on the retrain path and **[data]** 6 on the archive path; of the archive rounds, **[data]** 5 carry a publication order attested by git and **[data]** 1 does not.
 <!-- VINTAGEPATH-END -->
 
 ### Pre-registered metrics

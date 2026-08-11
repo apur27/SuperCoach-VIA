@@ -1,0 +1,414 @@
+player,team,position,round,year,predicted_disposals,actual_disposals,error,abs_error,pct_error,over_under
+Sheezel Harry,North Melbourne,Unknown,23,2026,31,29.0,2.0,2.0,6.896551724137931,over
+Daicos Nick,Collingwood,Unknown,23,2026,29,39.0,-10.0,10.0,-25.64102564102564,under
+Wanganeen-Milera Nasiah,St Kilda,Unknown,23,2026,29,4.0,25.0,25.0,625.0,over
+Ash Lachie,Greater Western Sydney,Unknown,23,2026,28,20.0,8.0,8.0,40.0,over
+Smith Bailey,Geelong,Unknown,23,2026,28,38.0,-10.0,10.0,-26.31578947368421,under
+Neale Lachie,Brisbane Lions,Unknown,23,2026,28,35.0,-7.0,7.0,-20.0,under
+Walsh Sam,Carlton,Unknown,23,2026,27,26.0,1.0,1.0,3.8461538461538463,exact
+Ashcroft Will,Brisbane Lions,Unknown,23,2026,27,39.0,-12.0,12.0,-30.76923076923077,under
+Oliver Clayton,Greater Western Sydney,Unknown,23,2026,27,23.0,4.0,4.0,17.391304347826086,over
+Whitfield Lachie,Greater Western Sydney,Unknown,23,2026,27,26.0,1.0,1.0,3.8461538461538463,exact
+Anderson Noah,Gold Coast,Unknown,23,2026,26,24.0,2.0,2.0,8.333333333333332,over
+Smith Jagga,Carlton,Unknown,23,2026,26,21.0,5.0,5.0,23.809523809523807,over
+Dawson Jordan,Adelaide,Unknown,23,2026,26,35.0,-9.0,9.0,-25.71428571428571,under
+Merrett Zach,Essendon,Unknown,23,2026,26,29.0,-3.0,3.0,-10.344827586206897,under
+Hill Bradley,St Kilda,Unknown,23,2026,25,31.0,-6.0,6.0,-19.35483870967742,under
+Hall Max,St Kilda,Unknown,23,2026,25,30.0,-5.0,5.0,-16.666666666666664,under
+Brayshaw Andrew,Fremantle,Unknown,23,2026,25,20.0,5.0,5.0,25.0,over
+Bontempelli Marcus,Western Bulldogs,Unknown,23,2026,25,25.0,0.0,0.0,0.0,exact
+Daicos Josh,Collingwood,Unknown,23,2026,25,35.0,-10.0,10.0,-28.57142857142857,under
+Heeney Isaac,Sydney,Unknown,23,2026,25,24.0,1.0,1.0,4.166666666666666,exact
+Miller Touk,Gold Coast,Unknown,23,2026,25,23.0,2.0,2.0,8.695652173913043,over
+Parker Luke,North Melbourne,Unknown,23,2026,24,26.0,-2.0,2.0,-7.6923076923076925,under
+Richards Ed,Western Bulldogs,Unknown,23,2026,24,28.0,-4.0,4.0,-14.285714285714285,under
+Rankine Izak,Adelaide,Unknown,23,2026,24,36.0,-12.0,12.0,-33.33333333333333,under
+Bowey Jake,Melbourne,Unknown,23,2026,24,24.0,0.0,0.0,0.0,exact
+Daniel Caleb,North Melbourne,Unknown,23,2026,24,33.0,-9.0,9.0,-27.27272727272727,under
+Serong Caleb,Fremantle,Unknown,23,2026,24,21.0,3.0,3.0,14.285714285714285,over
+Mills Callum,Sydney,Unknown,23,2026,24,24.0,0.0,0.0,0.0,exact
+Davies-Uniacke Luke,North Melbourne,Unknown,23,2026,24,31.0,-7.0,7.0,-22.58064516129032,under
+Steele Jack,Melbourne,Unknown,23,2026,24,17.0,7.0,7.0,41.17647058823529,over
+Taranto Tim,Richmond,Unknown,23,2026,23,20.0,3.0,3.0,15.0,over
+Pendlebury Scott,Collingwood,Unknown,23,2026,23,,,,,
+Roberts Archie,Essendon,Unknown,23,2026,23,16.0,7.0,7.0,43.75,over
+Short Jayden,Richmond,Unknown,23,2026,23,16.0,7.0,7.0,43.75,over
+Windhager Marcus,St Kilda,Unknown,23,2026,23,24.0,-1.0,1.0,-4.166666666666666,exact
+Noble John,Gold Coast,Unknown,23,2026,23,16.0,7.0,7.0,43.75,over
+Blakey Nick,Sydney,Unknown,23,2026,23,28.0,-5.0,5.0,-17.857142857142858,under
+Newcombe Jai,Hawthorn,Unknown,23,2026,23,25.0,-2.0,2.0,-8.0,under
+Impey Jarman,Hawthorn,Unknown,23,2026,23,18.0,5.0,5.0,27.77777777777778,over
+Gulden Errol,Sydney,Unknown,23,2026,23,39.0,-16.0,16.0,-41.02564102564102,under
+Macdonald Connor,Hawthorn,Unknown,23,2026,23,13.0,10.0,10.0,76.92307692307693,over
+Garcia Hugo,St Kilda,Unknown,23,2026,23,19.0,4.0,4.0,21.052631578947366,over
+Petracca Christian,Gold Coast,Unknown,23,2026,23,14.0,9.0,9.0,64.28571428571429,over
+Kelly Tim,West Coast,Unknown,23,2026,23,23.0,0.0,0.0,0.0,exact
+Uwland Bodhi,Gold Coast,Unknown,23,2026,23,20.0,3.0,3.0,15.0,over
+Reid Murphy,Fremantle,Unknown,23,2026,23,18.0,5.0,5.0,27.77777777777778,over
+Wilson Darcy,St Kilda,Unknown,23,2026,23,25.0,-2.0,2.0,-8.0,under
+Bailey Zac,Brisbane Lions,Unknown,23,2026,23,21.0,2.0,2.0,9.523809523809524,over
+Ward Josh,Hawthorn,Unknown,23,2026,22,28.0,-6.0,6.0,-21.428571428571427,under
+Worrell Josh,Adelaide,Unknown,23,2026,22,18.0,4.0,4.0,22.22222222222222,over
+Kennedy Matthew,Western Bulldogs,Unknown,23,2026,22,13.0,9.0,9.0,69.23076923076923,over
+Simpkin Jy,North Melbourne,Unknown,23,2026,22,17.0,5.0,5.0,29.411764705882355,over
+Mccarthy Tom,West Coast,Unknown,23,2026,22,24.0,-2.0,2.0,-8.333333333333332,under
+Horne-Francis Jason,Port Adelaide,Unknown,23,2026,22,18.0,4.0,4.0,22.22222222222222,over
+Bolton Shai,Fremantle,Unknown,23,2026,22,17.0,5.0,5.0,29.411764705882355,over
+Wilmot Darcy,Brisbane Lions,Unknown,23,2026,22,19.0,3.0,3.0,15.789473684210526,over
+Wines Ollie,Port Adelaide,Unknown,23,2026,22,23.0,-1.0,1.0,-4.3478260869565215,exact
+Wilkie Callum,St Kilda,Unknown,23,2026,21,10.0,11.0,11.0,110.00000000000001,over
+Cripps Patrick,Carlton,Unknown,23,2026,21,26.0,-5.0,5.0,-19.230769230769234,under
+Sicily James,Hawthorn,Unknown,23,2026,21,18.0,3.0,3.0,16.666666666666664,over
+Miers Gryan,Geelong,Unknown,23,2026,21,9.0,12.0,12.0,133.33333333333331,over
+Goey Jordan,Collingwood,Unknown,23,2026,21,,,,,
+Sparrow Tom,Melbourne,Unknown,23,2026,21,24.0,-3.0,3.0,-12.5,under
+Dunkley Josh,Brisbane Lions,Unknown,23,2026,21,24.0,-3.0,3.0,-12.5,under
+Hewett George,Carlton,Unknown,23,2026,21,26.0,-5.0,5.0,-19.230769230769234,under
+Sanders Ryley,Western Bulldogs,Unknown,23,2026,21,17.0,4.0,4.0,23.52941176470588,over
+Liberatore Tom,Western Bulldogs,Unknown,23,2026,21,15.0,6.0,6.0,40.0,over
+Pickett Kysaiah,Melbourne,Unknown,23,2026,21,27.0,-6.0,6.0,-22.22222222222222,under
+Stewart Tom,Geelong,Unknown,23,2026,21,20.0,1.0,1.0,5.0,exact
+Clark Jordan,Fremantle,Unknown,23,2026,21,21.0,0.0,0.0,0.0,exact
+Burgoyne Jase,Port Adelaide,Unknown,23,2026,21,34.0,-13.0,13.0,-38.23529411764706,under
+Idun Connor,Greater Western Sydney,Unknown,23,2026,21,11.0,10.0,10.0,90.9090909090909,over
+Bruhn Tanner,Geelong,Unknown,23,2026,21,16.0,5.0,5.0,31.25,over
+Ross Jack,Richmond,Unknown,23,2026,21,29.0,-8.0,8.0,-27.586206896551722,under
+Florent Oliver,Carlton,Unknown,23,2026,21,25.0,-4.0,4.0,-16.0,under
+Battle Josh,Hawthorn,Unknown,23,2026,21,20.0,1.0,1.0,5.0,exact
+Rowell Matt,Gold Coast,Unknown,23,2026,21,40.0,-19.0,19.0,-47.5,under
+Warner Chad,Sydney,Unknown,23,2026,21,24.0,-3.0,3.0,-12.5,under
+Humphries Lawson,Geelong,Unknown,23,2026,21,23.0,-2.0,2.0,-8.695652173913043,under
+Houston Dan,Collingwood,Unknown,23,2026,21,17.0,4.0,4.0,23.52941176470588,over
+Hall-Kahan Hugo,Adelaide,Unknown,23,2026,21,17.0,4.0,4.0,23.52941176470588,over
+Reid Harley,West Coast,Unknown,23,2026,21,29.0,-8.0,8.0,-27.586206896551722,under
+Prestia Dion,Richmond,Unknown,23,2026,21,15.0,6.0,6.0,40.0,over
+Fletcher Jaspa,Brisbane Lions,Unknown,23,2026,20,15.0,5.0,5.0,33.33333333333333,over
+Dambrosio Massimo,Hawthorn,Unknown,23,2026,20,22.0,-2.0,2.0,-9.090909090909092,under
+Setterfield Will,Essendon,Unknown,23,2026,20,17.0,3.0,3.0,17.647058823529413,over
+Lord Cooper,Carlton,Unknown,23,2026,20,18.0,2.0,2.0,11.11111111111111,over
+Phillipou Mattaes,St Kilda,Unknown,23,2026,20,15.0,5.0,5.0,33.33333333333333,over
+Herbert Marcus,West Coast,Unknown,23,2026,20,21.0,-1.0,1.0,-4.761904761904762,exact
+Mckercher Colby,North Melbourne,Unknown,23,2026,20,30.0,-10.0,10.0,-33.33333333333333,under
+Atkins Tom,Geelong,Unknown,23,2026,20,15.0,5.0,5.0,33.33333333333333,over
+Day Will,Hawthorn,Unknown,23,2026,20,16.0,4.0,4.0,25.0,over
+Acres Blake,Carlton,Unknown,23,2026,20,20.0,0.0,0.0,0.0,exact
+Ryan Luke,Fremantle,Unknown,23,2026,20,18.0,2.0,2.0,11.11111111111111,over
+Stephens Dylan,North Melbourne,Unknown,23,2026,20,28.0,-8.0,8.0,-28.57142857142857,under
+Mackenzie Cam,Hawthorn,Unknown,23,2026,20,20.0,0.0,0.0,0.0,exact
+Crisp Jack,Collingwood,Unknown,23,2026,20,18.0,2.0,2.0,11.11111111111111,over
+Osullivan Finn,North Melbourne,Unknown,23,2026,20,16.0,4.0,4.0,25.0,over
+Fitzgerald Joel,Melbourne,Unknown,23,2026,20,13.0,7.0,7.0,53.84615384615385,over
+Mccluggage Hugh,Brisbane Lions,Unknown,23,2026,20,,,,,
+Rivers Trent,Melbourne,Unknown,23,2026,20,24.0,-4.0,4.0,-16.666666666666664,under
+Johnson Matthew,Fremantle,Unknown,23,2026,20,24.0,-4.0,4.0,-16.666666666666664,under
+Rioli Daniel,Gold Coast,Unknown,23,2026,20,21.0,-1.0,1.0,-4.761904761904762,exact
+Lipinski Patrick,Collingwood,Unknown,23,2026,20,,,,,
+Wilson Billy,Carlton,Unknown,23,2026,20,21.0,-1.0,1.0,-4.761904761904762,exact
+Wood Mason,St Kilda,Unknown,23,2026,20,8.0,12.0,12.0,150.0,over
+Ashcroft Levi,Brisbane Lions,Unknown,23,2026,19,27.0,-8.0,8.0,-29.629629629629626,under
+Bice Riley,Sydney,Unknown,23,2026,19,22.0,-3.0,3.0,-13.636363636363635,under
+Hardwick Blake,Hawthorn,Unknown,23,2026,19,19.0,0.0,0.0,0.0,exact
+Langdon Ed,Melbourne,Unknown,23,2026,19,9.0,10.0,10.0,111.11111111111111,over
+Morrison Harry,Hawthorn,Unknown,23,2026,19,16.0,3.0,3.0,18.75,over
+Byrne-Jones Darcy,Port Adelaide,Unknown,23,2026,19,24.0,-5.0,5.0,-20.833333333333336,under
+Williams Bailey,Western Bulldogs,Unknown,23,2026,19,22.0,-3.0,3.0,-13.636363636363635,under
+Dempsey Oliver,Geelong,Unknown,23,2026,19,19.0,0.0,0.0,0.0,exact
+Ginnivan Jack,Hawthorn,Unknown,23,2026,19,20.0,-1.0,1.0,-5.0,exact
+Worner Karl,Fremantle,Unknown,23,2026,19,13.0,6.0,6.0,46.15384615384615,over
+Durham Sam,Essendon,Unknown,23,2026,19,13.0,6.0,6.0,46.15384615384615,over
+Drew Willem,Port Adelaide,Unknown,23,2026,19,31.0,-12.0,12.0,-38.70967741935484,under
+Moore Dylan,Hawthorn,Unknown,23,2026,19,22.0,-3.0,3.0,-13.636363636363635,under
+Cerra Adam,Carlton,Unknown,23,2026,19,24.0,-5.0,5.0,-20.833333333333336,under
+Mcgrath Andrew,Essendon,Unknown,23,2026,18,19.0,-1.0,1.0,-5.263157894736842,exact
+Haynes Nick,Carlton,Unknown,23,2026,18,20.0,-2.0,2.0,-10.0,under
+Salem Christian,Melbourne,Unknown,23,2026,18,6.0,12.0,12.0,200.0,over
+Farrow Jacob,Essendon,Unknown,23,2026,18,14.0,4.0,4.0,28.57142857142857,over
+Berry Jarrod,Brisbane Lions,Unknown,23,2026,18,22.0,-4.0,4.0,-18.181818181818183,under
+Redman Mason,Essendon,Unknown,23,2026,18,10.0,8.0,8.0,80.0,over
+Thomas Harvey,Greater Western Sydney,Unknown,23,2026,18,20.0,-2.0,2.0,-10.0,under
+Freijah Joel,Western Bulldogs,Unknown,23,2026,18,17.0,1.0,1.0,5.88235294117647,exact
+Gawn Max,Melbourne,Unknown,23,2026,18,16.0,2.0,2.0,12.5,over
+Soligo Jake,Adelaide,Unknown,23,2026,18,,,,,
+Himmelberg Harry,Greater Western Sydney,Unknown,23,2026,18,11.0,7.0,7.0,63.63636363636363,over
+Mccartin Tom,Sydney,Unknown,23,2026,18,16.0,2.0,2.0,12.5,over
+Ainsworth Ben,Carlton,Unknown,23,2026,18,12.0,6.0,6.0,50.0,over
+Odriscoll Nathan,Fremantle,Unknown,23,2026,18,9.0,9.0,9.0,100.0,over
+Banks Sam,Richmond,Unknown,23,2026,18,12.0,6.0,6.0,50.0,over
+Howe Jeremy,Collingwood,Unknown,23,2026,18,,,,,
+Retschko Patrick,Richmond,Unknown,23,2026,18,24.0,-6.0,6.0,-25.0,under
+Cook Brayden,Adelaide,Unknown,23,2026,18,20.0,-2.0,2.0,-10.0,under
+Nankervis Luke,Adelaide,Unknown,23,2026,18,,,,,
+Grundy Brodie,Sydney,Unknown,23,2026,17,,,,,
+Ohalloran Xavier,Greater Western Sydney,Unknown,23,2026,17,15.0,2.0,2.0,13.333333333333334,over
+Sidebottom Steele,Collingwood,Unknown,23,2026,17,12.0,5.0,5.0,41.66666666666667,over
+Duggan Liam,West Coast,Unknown,23,2026,17,18.0,-1.0,1.0,-5.555555555555555,exact
+Andrew Mac,Gold Coast,Unknown,23,2026,17,13.0,4.0,4.0,30.76923076923077,over
+Angwin Ryan,Greater Western Sydney,Unknown,23,2026,17,14.0,3.0,3.0,21.428571428571427,over
+Fonti Joe,Greater Western Sydney,Unknown,23,2026,17,14.0,3.0,3.0,21.428571428571427,over
+Weddle Josh,Hawthorn,Unknown,23,2026,17,10.0,7.0,7.0,70.0,over
+Powell Wil,Gold Coast,Unknown,23,2026,17,18.0,-1.0,1.0,-5.555555555555555,exact
+Quaynor Isaac,Collingwood,Unknown,23,2026,17,15.0,2.0,2.0,13.333333333333334,over
+Curtin Daniel,Adelaide,Unknown,23,2026,17,14.0,3.0,3.0,21.428571428571427,over
+Erasmus Neil,Fremantle,Unknown,23,2026,17,12.0,5.0,5.0,41.66666666666667,over
+Rayner Cam,Brisbane Lions,Unknown,23,2026,17,15.0,2.0,2.0,13.333333333333334,over
+Clark Jhye,Geelong,Unknown,23,2026,17,20.0,-3.0,3.0,-15.0,under
+Maric Ryan,West Coast,Unknown,23,2026,17,,,,,
+Rowbottom James,Sydney,Unknown,23,2026,17,,,,,
+Cumming Sam,Richmond,Unknown,23,2026,17,,,,,
+Coleman Keidean,Brisbane Lions,Unknown,23,2026,17,,,,,
+Addinsall Beau,Gold Coast,Unknown,23,2026,17,,,,,
+Tholstrup Koltyn,Melbourne,Unknown,23,2026,17,22.0,-5.0,5.0,-22.727272727272727,under
+Young Hayden,Fremantle,Unknown,23,2026,17,19.0,-2.0,2.0,-10.526315789473683,under
+Neal-Bullen Alex,Adelaide,Unknown,23,2026,17,19.0,-2.0,2.0,-10.526315789473683,under
+Mannagh Shaun,Geelong,Unknown,23,2026,17,18.0,-1.0,1.0,-5.555555555555555,exact
+Sonsie Tyler,Richmond,Unknown,23,2026,17,6.0,11.0,11.0,183.33333333333331,over
+Roberts Matt,Sydney,Unknown,23,2026,17,17.0,0.0,0.0,0.0,exact
+Vlastuin Nick,Richmond,Unknown,23,2026,17,19.0,-2.0,2.0,-10.526315789473683,under
+Jeffrey Joel,Gold Coast,Unknown,23,2026,17,14.0,3.0,3.0,21.428571428571427,over
+Sharp Dyson,Essendon,Unknown,23,2026,17,27.0,-10.0,10.0,-37.03703703703704,under
+Guthrie Zach,Geelong,Unknown,23,2026,17,10.0,7.0,7.0,70.0,over
+Byrnes Ryan,St Kilda,Unknown,23,2026,17,20.0,-3.0,3.0,-15.0,under
+Perryman Harry,Collingwood,Unknown,23,2026,17,,,,,
+Rachele Josh,Adelaide,Unknown,23,2026,17,10.0,7.0,7.0,70.0,over
+Duursma Willem,West Coast,Unknown,23,2026,16,16.0,0.0,0.0,0.0,exact
+Ludowyke Archie,Adelaide,Unknown,23,2026,16,4.0,12.0,12.0,300.0,over
+Schubert Aidan,Hawthorn,Unknown,23,2026,16,,,,,
+Ryan Oscar,Adelaide,Unknown,23,2026,16,13.0,3.0,3.0,23.076923076923077,over
+Bergman Miles,Port Adelaide,Unknown,23,2026,16,20.0,-4.0,4.0,-20.0,under
+Worpel James,Geelong,Unknown,23,2026,16,19.0,-3.0,3.0,-15.789473684210526,under
+Brown Tom,Richmond,Unknown,23,2026,16,18.0,-2.0,2.0,-11.11111111111111,under
+Andrews Harris,Brisbane Lions,Unknown,23,2026,16,14.0,2.0,2.0,14.285714285714285,over
+Bramble Lachlan,Western Bulldogs,Unknown,23,2026,16,21.0,-5.0,5.0,-23.809523809523807,under
+Long Ned,Collingwood,Unknown,23,2026,16,25.0,-9.0,9.0,-36.0,under
+Jackson Luke,Fremantle,Unknown,23,2026,16,17.0,-1.0,1.0,-5.88235294117647,exact
+Allan Edward,Collingwood,Unknown,23,2026,16,20.0,-4.0,4.0,-20.0,under
+Reville Bruce,Brisbane Lions,Unknown,23,2026,16,,,,,
+Xerri Tristan,North Melbourne,Unknown,23,2026,16,17.0,-1.0,1.0,-5.88235294117647,exact
+Marshall Rowan,St Kilda,Unknown,23,2026,16,14.0,2.0,2.0,14.285714285714285,over
+Graham Jack,West Coast,Unknown,23,2026,16,17.0,-1.0,1.0,-5.88235294117647,exact
+Osullivan Connor,Geelong,Unknown,23,2026,16,10.0,6.0,6.0,60.0,over
+Coniglio Stephen,Greater Western Sydney,Unknown,23,2026,16,19.0,-3.0,3.0,-15.789473684210526,under
+Lester Ryan,Brisbane Lions,Unknown,23,2026,16,10.0,6.0,6.0,60.0,over
+Silvagni Jack,St Kilda,Unknown,23,2026,16,7.0,9.0,9.0,128.57142857142858,over
+Prior Jaxon,Essendon,Unknown,23,2026,16,17.0,-1.0,1.0,-5.88235294117647,exact
+Keane Mark,Adelaide,Unknown,23,2026,16,12.0,4.0,4.0,33.33333333333333,over
+Zurhaar Cameron,North Melbourne,Unknown,23,2026,16,19.0,-3.0,3.0,-15.789473684210526,under
+Howes Blake,Melbourne,Unknown,23,2026,16,,,,,
+Langford Kyle,Essendon,Unknown,23,2026,16,14.0,2.0,2.0,14.285714285714285,over
+Cowan Lachlan,Carlton,Unknown,23,2026,16,15.0,1.0,1.0,6.666666666666667,exact
+Busslinger Jedd,Western Bulldogs,Unknown,23,2026,16,,,,,
+Campbell Seth,Richmond,Unknown,23,2026,16,12.0,4.0,4.0,33.33333333333333,over
+Hayward Will,Carlton,Unknown,23,2026,16,19.0,-3.0,3.0,-15.789473684210526,under
+Mcvee Judd,Fremantle,Unknown,23,2026,16,13.0,3.0,3.0,23.076923076923077,over
+Oconnor Mark,Geelong,Unknown,23,2026,16,9.0,7.0,7.0,77.77777777777779,over
+Langford Harvey,Melbourne,Unknown,23,2026,15,16.0,-1.0,1.0,-6.25,exact
+Lever Jake,Melbourne,Unknown,23,2026,15,6.0,9.0,9.0,150.0,over
+Evans Francis,Carlton,Unknown,23,2026,15,22.0,-7.0,7.0,-31.818181818181817,under
+Keays Ben,Adelaide,Unknown,23,2026,15,8.0,7.0,7.0,87.5,over
+Lloyd Jake,Sydney,Unknown,23,2026,15,19.0,-4.0,4.0,-21.052631578947366,under
+Cumming Isaac,Adelaide,Unknown,23,2026,15,15.0,0.0,0.0,0.0,exact
+Aliir Aliir,Port Adelaide,Unknown,23,2026,15,11.0,4.0,4.0,36.36363636363637,over
+Campbell Braeden,Sydney,Unknown,23,2026,15,22.0,-7.0,7.0,-31.818181818181817,under
+Murdock Milan,West Coast,Unknown,23,2026,15,14.0,1.0,1.0,7.142857142857142,exact
+Greeves Ollie,Hawthorn,Unknown,23,2026,15,,,,,
+Blamires Tom,North Melbourne,Unknown,23,2026,15,15.0,0.0,0.0,0.0,exact
+Cottrell Matthew,Carlton,Unknown,23,2026,15,16.0,-1.0,1.0,-6.25,exact
+Koning Tom,St Kilda,Unknown,23,2026,15,7.0,8.0,8.0,114.28571428571428,over
+Laverde Jayden,Greater Western Sydney,Unknown,23,2026,15,3.0,12.0,12.0,400.0,over
+Serong Jai,Sydney,Unknown,23,2026,15,24.0,-9.0,9.0,-37.5,under
+Nankervis Toby,Richmond,Unknown,23,2026,15,15.0,0.0,0.0,0.0,exact
+Windsor Caleb,Melbourne,Unknown,23,2026,15,15.0,0.0,0.0,0.0,exact
+Stocker Liam,St Kilda,Unknown,23,2026,15,20.0,-5.0,5.0,-25.0,under
+Michalanney Max,Adelaide,Unknown,23,2026,15,12.0,3.0,3.0,25.0,over
+Boxshall Hugh,St Kilda,Unknown,23,2026,15,15.0,0.0,0.0,0.0,exact
+Rowston Harry,Greater Western Sydney,Unknown,23,2026,15,22.0,-7.0,7.0,-31.818181818181817,under
+English Tim,Western Bulldogs,Unknown,23,2026,15,12.0,3.0,3.0,25.0,over
+Bedford Toby,Greater Western Sydney,Unknown,23,2026,14,5.0,9.0,9.0,180.0,over
+Clark Hunter,St Kilda,Unknown,23,2026,14,11.0,3.0,3.0,27.27272727272727,over
+Papley Tom,Sydney,Unknown,23,2026,14,18.0,-4.0,4.0,-22.22222222222222,under
+Broad Nathan,Richmond,Unknown,23,2026,14,15.0,-1.0,1.0,-6.666666666666667,exact
+Jiath Changkuoth,Melbourne,Unknown,23,2026,14,16.0,-2.0,2.0,-12.5,under
+Lombard Leo,Gold Coast,Unknown,23,2026,14,23.0,-9.0,9.0,-39.130434782608695,under
+Cameron Darcy,Collingwood,Unknown,23,2026,14,24.0,-10.0,10.0,-41.66666666666667,under
+Dowling Billy,Adelaide,Unknown,23,2026,14,13.0,1.0,1.0,7.6923076923076925,exact
+Watkins Jack,Port Adelaide,Unknown,23,2026,14,,,,,
+Schultz Lachie,Collingwood,Unknown,23,2026,14,11.0,3.0,3.0,27.27272727272727,over
+Madden Nick,Greater Western Sydney,Unknown,23,2026,14,5.0,9.0,9.0,180.0,over
+Lorenz Will,Port Adelaide,Unknown,23,2026,14,17.0,-3.0,3.0,-17.647058823529413,under
+Young Tylar,West Coast,Unknown,23,2026,14,14.0,0.0,0.0,0.0,exact
+Chapman Heath,Fremantle,Unknown,23,2026,14,12.0,2.0,2.0,16.666666666666664,over
+Corr Aidan,North Melbourne,Unknown,23,2026,14,7.0,7.0,7.0,100.0,over
+Coffield Nick,Western Bulldogs,Unknown,23,2026,14,14.0,0.0,0.0,0.0,exact
+Derksen Wade,Carlton,Unknown,23,2026,14,16.0,-2.0,2.0,-12.5,under
+Ough Jack,Greater Western Sydney,Unknown,23,2026,14,,,,,
+Yeo Elliot,West Coast,Unknown,23,2026,14,28.0,-14.0,14.0,-50.0,under
+Blicavs Mark,Geelong,Unknown,23,2026,14,20.0,-6.0,6.0,-30.0,under
+Collins Sam,Gold Coast,Unknown,23,2026,14,,,,,
+Maginness Finn,Hawthorn,Unknown,23,2026,14,,,,,
+Grlj Sam,Richmond,Unknown,23,2026,14,11.0,3.0,3.0,27.27272727272727,over
+Briggs Kieren,Greater Western Sydney,Unknown,23,2026,14,12.0,2.0,2.0,16.666666666666664,over
+Mccreery Beau,Collingwood,Unknown,23,2026,14,18.0,-4.0,4.0,-22.22222222222222,under
+Sweet Jordon,Port Adelaide,Unknown,23,2026,14,9.0,5.0,5.0,55.55555555555556,over
+Lohmann Kai,Brisbane Lions,Unknown,23,2026,14,24.0,-10.0,10.0,-41.66666666666667,under
+Lalor Sam,Richmond,Unknown,23,2026,14,3.0,11.0,11.0,366.66666666666663,over
+Murray Jai,Gold Coast,Unknown,23,2026,14,,,,,
+Ryan Samson,Richmond,Unknown,23,2026,14,7.0,7.0,7.0,100.0,over
+Owens Mitch,St Kilda,Unknown,23,2026,13,15.0,-2.0,2.0,-13.333333333333334,under
+Miller Ben,Richmond,Unknown,23,2026,13,20.0,-7.0,7.0,-35.0,under
+Johnson Zak,Essendon,Unknown,23,2026,13,8.0,5.0,5.0,62.5,over
+Meek Lloyd,Hawthorn,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Macdonald Bailey,Hawthorn,Unknown,23,2026,13,,,,,
+Hough Brady,West Coast,Unknown,23,2026,13,20.0,-7.0,7.0,-35.0,under
+Allan Bo,West Coast,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Goater Josh,North Melbourne,Unknown,23,2026,13,,,,,
+Rogers Jake,Gold Coast,Unknown,23,2026,13,7.0,6.0,6.0,85.71428571428571,over
+Taylor Sam,Greater Western Sydney,Unknown,23,2026,13,7.0,6.0,6.0,85.71428571428571,over
+West Rhylee,Western Bulldogs,Unknown,23,2026,13,20.0,-7.0,7.0,-35.0,under
+Membrey Tim,Collingwood,Unknown,23,2026,13,20.0,-7.0,7.0,-35.0,under
+Hotton Taj,Richmond,Unknown,23,2026,13,13.0,0.0,0.0,0.0,exact
+Unwin Rhys,Essendon,Unknown,23,2026,13,4.0,9.0,9.0,225.0,over
+Cole Tom,West Coast,Unknown,23,2026,13,14.0,-1.0,1.0,-7.142857142857142,exact
+Mcdonald Tom,Melbourne,Unknown,23,2026,13,6.0,7.0,7.0,116.66666666666667,over
+Jordon James,Sydney,Unknown,23,2026,13,26.0,-13.0,13.0,-50.0,under
+Jones Lachie,Port Adelaide,Unknown,23,2026,13,,,,,
+Answerth Noah,Brisbane Lions,Unknown,23,2026,13,13.0,0.0,0.0,0.0,exact
+Mullin Oisin,Geelong,Unknown,23,2026,13,18.0,-5.0,5.0,-27.77777777777778,under
+Starcevich Brandon,West Coast,Unknown,23,2026,13,11.0,2.0,2.0,18.181818181818183,over
+Watson Nick,Hawthorn,Unknown,23,2026,13,9.0,4.0,4.0,44.44444444444444,over
+Comben Charlie,North Melbourne,Unknown,23,2026,13,11.0,2.0,2.0,18.181818181818183,over
+Walker Taylor,Adelaide,Unknown,23,2026,13,9.0,4.0,4.0,44.44444444444444,over
+Mckay Harry,Carlton,Unknown,23,2026,13,9.0,4.0,4.0,44.44444444444444,over
+Moraes Christian,Port Adelaide,Unknown,23,2026,13,14.0,-1.0,1.0,-7.142857142857142,exact
+Humphrey Bailey,Gold Coast,Unknown,23,2026,13,19.0,-6.0,6.0,-31.57894736842105,under
+Trembath Cooper,North Melbourne,Unknown,23,2026,13,6.0,7.0,7.0,116.66666666666667,over
+Sellwood Michael,Western Bulldogs,Unknown,23,2026,13,10.0,3.0,3.0,30.0,over
+Fritsch Bayley,Melbourne,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Ralphsmith Hugo,Richmond,Unknown,23,2026,13,14.0,-1.0,1.0,-7.142857142857142,exact
+Lai Josh,Port Adelaide,Unknown,23,2026,13,9.0,4.0,4.0,44.44444444444444,over
+Clarke Angus,Essendon,Unknown,23,2026,13,,,,,
+Lake Campbell,St Kilda,Unknown,23,2026,13,6.0,7.0,7.0,116.66666666666667,over
+Rooyen Jacob,Melbourne,Unknown,23,2026,13,8.0,5.0,5.0,62.5,over
+Artemis Jaxon,Essendon,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Thilthorpe Riley,Adelaide,Unknown,23,2026,13,11.0,2.0,2.0,18.181818181818183,over
+Taylor Zac,Adelaide,Unknown,23,2026,13,8.0,5.0,5.0,62.5,over
+Khamis Buku,Western Bulldogs,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Mcdonald Oscar,Fremantle,Unknown,23,2026,13,7.0,6.0,6.0,85.71428571428571,over
+Close Brad,Geelong,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Dudley Isaiah,Fremantle,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Spargo Charlie,North Melbourne,Unknown,23,2026,13,18.0,-5.0,5.0,-27.77777777777778,under
+Treacy Josh,Fremantle,Unknown,23,2026,13,12.0,1.0,1.0,8.333333333333332,exact
+Sharp Harry,Melbourne,Unknown,23,2026,13,14.0,-1.0,1.0,-7.142857142857142,exact
+Switkowski Sam,Fremantle,Unknown,23,2026,13,11.0,2.0,2.0,18.181818181818183,over
+Laurie Bailey,Melbourne,Unknown,23,2026,12,13.0,-1.0,1.0,-7.6923076923076925,exact
+Hynes Cooper,Western Bulldogs,Unknown,23,2026,12,15.0,-3.0,3.0,-20.0,under
+Travaglia Tobie,St Kilda,Unknown,23,2026,12,,,,,
+Trainor Luke,Richmond,Unknown,23,2026,12,,,,,
+Rampe Dane,Sydney,Unknown,23,2026,12,,,,,
+Wright Peter,Essendon,Unknown,23,2026,12,9.0,3.0,3.0,33.33333333333333,over
+Lobb Rory,Western Bulldogs,Unknown,23,2026,12,7.0,5.0,5.0,71.42857142857143,over
+Reid Zach,Essendon,Unknown,23,2026,12,6.0,6.0,6.0,100.0,over
+Chee Callum,Adelaide,Unknown,23,2026,12,11.0,1.0,1.0,9.090909090909092,exact
+Frederick Michael,Fremantle,Unknown,23,2026,12,6.0,6.0,6.0,100.0,over
+Bazzo Rhett,West Coast,Unknown,23,2026,12,13.0,-1.0,1.0,-7.6923076923076925,exact
+Stringer Jake,Greater Western Sydney,Unknown,23,2026,12,8.0,4.0,4.0,50.0,over
+Georgiades Mitch,Port Adelaide,Unknown,23,2026,12,,,,,
+Cameron Charlie,Brisbane Lions,Unknown,23,2026,12,15.0,-3.0,3.0,-20.0,under
+Curtis Paul,North Melbourne,Unknown,23,2026,12,19.0,-7.0,7.0,-36.84210526315789,under
+Pittonet Marc,Carlton,Unknown,23,2026,12,17.0,-5.0,5.0,-29.411764705882355,under
+Edwards Mitchell,Geelong,Unknown,23,2026,12,,,,,
+Dean Harry,Carlton,Unknown,23,2026,12,8.0,4.0,4.0,50.0,over
+Polkinghorne Jay,Geelong,Unknown,23,2026,12,3.0,9.0,9.0,300.0,over
+Fort Darcy,Brisbane Lions,Unknown,23,2026,12,9.0,3.0,3.0,33.33333333333333,over
+Anderson Angus,Collingwood,Unknown,23,2026,12,14.0,-2.0,2.0,-14.285714285714285,under
+Scott Bailey,North Melbourne,Unknown,23,2026,12,,,,,
+Gunston Jack,Hawthorn,Unknown,23,2026,12,6.0,6.0,6.0,100.0,over
+Wiltshire Oliver,Geelong,Unknown,23,2026,12,12.0,0.0,0.0,0.0,exact
+Borlase James,Adelaide,Unknown,23,2026,12,,,,,
+Oconnell Liam,St Kilda,Unknown,23,2026,12,8.0,4.0,4.0,50.0,over
+Morris Logan,Brisbane Lions,Unknown,23,2026,12,15.0,-3.0,3.0,-20.0,under
+Byrne Talor,Carlton,Unknown,23,2026,12,13.0,-1.0,1.0,-7.6923076923076925,exact
+Kemp Brodie,Carlton,Unknown,23,2026,12,8.0,4.0,4.0,50.0,over
+Kyle Harry,Sydney,Unknown,23,2026,12,15.0,-3.0,3.0,-20.0,under
+Neale Shannon,Geelong,Unknown,23,2026,12,12.0,0.0,0.0,0.0,exact
+Mcandrew Lachlan,Adelaide,Unknown,23,2026,12,,,,,
+Frampton Billy,Collingwood,Unknown,23,2026,12,10.0,2.0,2.0,20.0,over
+Draper Sam,Brisbane Lions,Unknown,23,2026,11,9.0,2.0,2.0,22.22222222222222,over
+Henry Oliver,Geelong,Unknown,23,2026,11,13.0,-2.0,2.0,-15.384615384615385,under
+Mckenna Conor,Brisbane Lions,Unknown,23,2026,11,14.0,-3.0,3.0,-21.428571428571427,under
+Logue Griffin,North Melbourne,Unknown,23,2026,11,17.0,-6.0,6.0,-35.294117647058826,under
+Day-Wicks Archer,Essendon,Unknown,23,2026,11,10.0,1.0,1.0,10.0,exact
+Mcstay Daniel,Collingwood,Unknown,23,2026,11,20.0,-9.0,9.0,-45.0,under
+Voss Patrick,Fremantle,Unknown,23,2026,11,10.0,1.0,1.0,10.0,exact
+Berry Joe,Port Adelaide,Unknown,23,2026,11,22.0,-11.0,11.0,-50.0,under
+Young Lewis,Carlton,Unknown,23,2026,11,8.0,3.0,3.0,37.5,over
+Vandermeer Laitham,Western Bulldogs,Unknown,23,2026,11,,,,,
+Long Ben,Gold Coast,Unknown,23,2026,11,9.0,2.0,2.0,22.22222222222222,over
+Henry Jack,Geelong,Unknown,23,2026,11,17.0,-6.0,6.0,-35.294117647058826,under
+Jones Arthur,Western Bulldogs,Unknown,23,2026,11,9.0,2.0,2.0,22.22222222222222,over
+Higgins Jack,St Kilda,Unknown,23,2026,11,13.0,-2.0,2.0,-15.384615384615385,under
+Dolan Josh,Western Bulldogs,Unknown,23,2026,11,14.0,-3.0,3.0,-21.428571428571427,under
+Waterman Jake,West Coast,Unknown,23,2026,11,12.0,-1.0,1.0,-8.333333333333332,exact
+Hipwood Eric,Brisbane Lions,Unknown,23,2026,11,9.0,2.0,2.0,22.22222222222222,over
+Edwards Will,Sydney,Unknown,23,2026,11,,,,,
+Martin Jack,Geelong,Unknown,23,2026,11,10.0,1.0,1.0,10.0,exact
+Curnow Charlie,Sydney,Unknown,23,2026,11,11.0,0.0,0.0,0.0,exact
+Annand Kye,Richmond,Unknown,23,2026,11,11.0,0.0,0.0,0.0,exact
+Brown Callum,Greater Western Sydney,Unknown,23,2026,11,15.0,-4.0,4.0,-26.666666666666668,under
+Chol Mabior,Hawthorn,Unknown,23,2026,11,3.0,8.0,8.0,266.66666666666663,over
+Petty Harry,Melbourne,Unknown,23,2026,11,9.0,2.0,2.0,22.22222222222222,over
+Odonnell James,Western Bulldogs,Unknown,23,2026,11,15.0,-4.0,4.0,-26.666666666666668,under
+Harrison Harvey,Collingwood,Unknown,23,2026,11,11.0,0.0,0.0,0.0,exact
+Davidson Sam,Western Bulldogs,Unknown,23,2026,11,16.0,-5.0,5.0,-31.25,under
+Darling Jack,North Melbourne,Unknown,23,2026,11,16.0,-5.0,5.0,-31.25,under
+Mcgovern Mitch,Carlton,Unknown,23,2026,11,15.0,-4.0,4.0,-26.666666666666668,under
+Larkey Nick,North Melbourne,Unknown,23,2026,11,10.0,1.0,1.0,10.0,exact
+Amiss Jye,Fremantle,Unknown,23,2026,11,8.0,3.0,3.0,37.5,over
+Durdin Corey,Port Adelaide,Unknown,23,2026,11,13.0,-2.0,2.0,-15.384615384615385,under
+Bryan Nick,Essendon,Unknown,23,2026,11,,,,,
+Kako Isaac,Essendon,Unknown,23,2026,11,8.0,3.0,3.0,37.5,over
+Barrass Tom,Hawthorn,Unknown,23,2026,11,4.0,7.0,7.0,175.0,over
+Brock Sandy,West Coast,Unknown,23,2026,10,,,,,
+Moyle Ned,Gold Coast,Unknown,23,2026,10,11.0,-1.0,1.0,-9.090909090909092,exact
+Kondogiannis Max,Essendon,Unknown,23,2026,10,7.0,3.0,3.0,42.857142857142854,over
+Pearce Alex,Fremantle,Unknown,23,2026,10,,,,,
+Mcdonald Logan,Sydney,Unknown,23,2026,10,11.0,-1.0,1.0,-9.090909090909092,exact
+Cadman Aaron,Greater Western Sydney,Unknown,23,2026,10,12.0,-2.0,2.0,-16.666666666666664,under
+Gruzewski Max,Greater Western Sydney,Unknown,23,2026,10,11.0,-1.0,1.0,-9.090909090909092,exact
+Bamert Xavier,Port Adelaide,Unknown,23,2026,10,,,,,
+Williams Jack,West Coast,Unknown,23,2026,10,7.0,3.0,3.0,42.857142857142854,over
+Caddy Nate,Essendon,Unknown,23,2026,10,16.0,-6.0,6.0,-37.5,under
+Marshall Todd,Port Adelaide,Unknown,23,2026,10,14.0,-4.0,4.0,-28.57142857142857,under
+Obrien Balyn,Port Adelaide,Unknown,23,2026,10,2.0,8.0,8.0,400.0,over
+Cootee Billy,Sydney,Unknown,23,2026,10,10.0,0.0,0.0,0.0,exact
+Johnston Harvey,West Coast,Unknown,23,2026,10,,,,,
+Hamilton Riley,Greater Western Sydney,Unknown,23,2026,10,10.0,0.0,0.0,0.0,exact
+Shanahan Jobe,West Coast,Unknown,23,2026,10,5.0,5.0,5.0,100.0,over
+Lefau Mykelti,Richmond,Unknown,23,2026,10,7.0,3.0,3.0,42.857142857142854,over
+Caminiti Anthony,St Kilda,Unknown,23,2026,10,8.0,2.0,2.0,25.0,over
+Whitlock Jack,Port Adelaide,Unknown,23,2026,10,10.0,0.0,0.0,0.0,exact
+Allen Oscar,Brisbane Lions,Unknown,23,2026,10,5.0,5.0,5.0,100.0,over
+Duff-Tytler Cooper,West Coast,Unknown,23,2026,10,12.0,-2.0,2.0,-16.666666666666664,under
+Ryan Liam,St Kilda,Unknown,23,2026,10,7.0,3.0,3.0,42.857142857142854,over
+Read Ethan,Gold Coast,Unknown,23,2026,10,13.0,-3.0,3.0,-23.076923076923077,under
+Jones Harry,Essendon,Unknown,23,2026,10,,,,,
+Cross Paddy,Melbourne,Unknown,23,2026,9,,,,,
+Visentini Dante,Port Adelaide,Unknown,23,2026,9,8.0,1.0,1.0,12.5,exact
+Banch Zac,North Melbourne,Unknown,23,2026,9,16.0,-7.0,7.0,-43.75,under
+Lynch Tom,Richmond,Unknown,23,2026,9,8.0,1.0,1.0,12.5,exact
+West Charlie,Collingwood,Unknown,23,2026,9,2.0,7.0,7.0,350.0,over
+Zadow Mitch,Port Adelaide,Unknown,23,2026,9,5.0,4.0,4.0,80.0,over
+Achkar Hussien,Essendon,Unknown,23,2026,9,4.0,5.0,5.0,125.0,over
+King Ben,Gold Coast,Unknown,23,2026,9,9.0,0.0,0.0,0.0,exact
+Ballard Charlie,Gold Coast,Unknown,23,2026,9,10.0,-1.0,1.0,-10.0,exact
+Croft Jordan,Western Bulldogs,Unknown,23,2026,9,14.0,-5.0,5.0,-35.714285714285715,under
+Patterson Dylan,Gold Coast,Unknown,23,2026,9,,,,,
+Emmett Louis,Western Bulldogs,Unknown,23,2026,9,,,,,
+Delana Josaia,Greater Western Sydney,Unknown,23,2026,9,20.0,-11.0,11.0,-55.00000000000001,under
+Dawson Wil,North Melbourne,Unknown,23,2026,9,8.0,1.0,1.0,12.5,exact
+Walter Jed,Gold Coast,Unknown,23,2026,9,9.0,0.0,0.0,0.0,exact
+Ramm Harrison,Port Adelaide,Unknown,23,2026,9,7.0,2.0,2.0,28.57142857142857,over
+Jefferson Matthew,Melbourne,Unknown,23,2026,9,4.0,5.0,5.0,125.0,over
+Puncher Liam,Collingwood,Unknown,23,2026,9,7.0,2.0,2.0,28.57142857142857,over
+Cox Mason,Fremantle,Unknown,23,2026,9,7.0,2.0,2.0,28.57142857142857,over
+Mclean Hayden,Sydney,Unknown,23,2026,8,9.0,-1.0,1.0,-11.11111111111111,exact
+Rosas Malcolm,Sydney,Unknown,23,2026,8,,,,,
