@@ -593,6 +593,30 @@ standalone or as part of a full `weekly_refresh.sh` run — e.g. each generator 
 under an explicit `plt.rc_context(...)` / `plt.style.context(...)` rather than inheriting process
 state — demonstrated by rendering it at both call sites in one cycle and comparing md5s.
 
+### [Backlog] BL-18 — A data-only refresh leaves the Skeptic/Gaffer half of a stamp two weeks stale
+**Owner:** Gaffer
+**Depends on:** none
+**Blocked by decision:** yes — needs a ruling on whether a data-only regeneration requires a full council re-pass
+**Fix brief:** Raised by QA on the 2026-08-11 cycle and verified. `docs/afl-backtest-2026.md`
+carries `DataSentinel:PASS(pass2)@20260727T095402Z, Skeptic:PASS_WITH_CONCERNS@20260727T081224Z,
+Gaffer:SHIP@20260727T100245Z`, but Phase 1 rewrote the document's contents on 2026-08-11
+(commit `e2947dcb5` added the R23 row and refreshed every generated block). `refresh_and_rank.sh`
+contains no Skeptic invocation at all, so those two timestamps cannot have covered today's bytes.
+
+Nothing here is unverified: the harness's Phase-1 re-verify hop runs DataSentinel against the
+regenerated file and writes a fresh content-hash-keyed PASS with 0 findings, and
+`check-council-stamp.sh` matches on that hash — which is why the gate correctly passes. The defect
+is legibility and honesty of the visible stamp: a reader sees a full council chain attested at a
+date two weeks before the content it sits under, and cannot tell which tiers actually reviewed
+these bytes. Same class as the fixed `docs/banner.svg` aria-label staleness.
+
+Explicitly NOT to be fixed by hand-editing the stamp — writing a Skeptic or Gaffer timestamp for a
+review that did not happen is exactly the verdict-simulation the council rules forbid.
+**Acceptance criterion:** a decision, implemented: either (a) a data-only regeneration re-runs the
+remaining tiers and restamps, or (b) the stamp format distinguishes the tiers that verify CONTENT
+on every refresh from those that reviewed STRUCTURE once, so a stale-looking date is unambiguous
+rather than misleading.
+
 ---
 
 *Last updated: 2026-08-11. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
