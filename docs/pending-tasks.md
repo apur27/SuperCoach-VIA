@@ -619,5 +619,34 @@ rather than misleading.
 
 ---
 
-*Last updated: 2026-08-11. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
+### BL-19 — A source-doc heading invites the same recap mislabel every week
+**Owner:** Scientist (generator change) — raised by Gaffer from a FootyStrategy root cause
+**Depends on:** none
+**Blocked by decision:** no
+**Fix brief:** On the 2026-08-18 cycle Skeptic BLOCKed the Round 25 recap because it called
+`+29.9` Fremantle's "average winning margin". It is not: it is the mean of signed margins over
+every team-game, losses included. The same defect BLOCKed the Round 24 recap a week earlier, and
+fixing the Round 24 text did nothing to prevent Round 25.
+
+The cause is not FootyStrategy's drafting discipline — it is the source document.
+`docs/afl-stat-leaders-2026.md` line 306 emits a heading `#### Winning margin` directly above a
+table whose column (line 308) is `Avg margin`, which line 292 defines as "the team's score minus
+the opponent's" across all games and line 316 confirms has "mean ~0 by construction". An author
+citing that table faithfully reads the heading as the name of the quantity, so the mislabel looks
+like correct citation. Any agent regenerating this recap will keep walking into it.
+
+Why it matters beyond wording: under the label the prose used, the ranking inverts. Verified
+against `data/matches/matches_2026.csv` — all-games Fremantle +29.86 / Sydney +28.23 (Fremantle
+leads), but wins-only Fremantle +36.42 over 19 wins / Sydney +44.82 over 17 wins (Sydney leads by
+8.4). The heading does not merely misname the number; it makes the surrounding claim false.
+
+**Acceptance criterion:** the generator that writes the stat-leaders margin section emits a heading
+that names the quantity it actually tabulates (e.g. "Average margin (all games)"), with a
+regression test asserting the rendered doc contains no heading reading "Winning margin" above the
+all-games margin table. A deterministic pre-submit grep for "winning margin" in recap prose is an
+acceptable belt-and-braces addition, but the source-doc rename is the durable fix.
+
+---
+
+*Last updated: 2026-08-18. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
 
