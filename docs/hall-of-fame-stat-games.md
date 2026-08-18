@@ -2,16 +2,16 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-08-11 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-08-18 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career games played - all-time top 20
-> ✓ All 29 stats verified against source data · council-pipeline-gated · 2026-08-11
+> ✓ All 29 stats verified against source data · council-pipeline-gated · 2026-08-18
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
-*Last refreshed: 2026-08-11. Data layer: Scientist. Tactical layer: FootyStrategy.*
+*Last refreshed: 2026-08-18. Data layer: Scientist. Tactical layer: FootyStrategy.*
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->
 
@@ -26,7 +26,7 @@ Career games played is the longevity-and-availability stat. It measures three th
 | # | Player | Club(s) | Span | Games |
 |--:|--------|---------|------|------:|
 <!-- HOF-TABLE-START:career_games -->
-| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 440 |<!-- HOF-TOP:career_games -->
+| 1 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 441 |<!-- HOF-TOP:career_games -->
 | 2 | Brent Harvey **[data]** | Kangaroos - North Melbourne | 1996-2016 | 432 |
 | 3 | Michael Tuck **[data]** | Hawthorn | 1972-1991 | 426 |
 | 4 | Shaun Burgoyne **[data]** | Hawthorn - Port Adelaide | 2002-2021 | 407 |
@@ -35,17 +35,17 @@ Career games played is the longevity-and-availability stat. It measures three th
 | 7 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 |
 | 8 | Robert Harvey **[data]** | St Kilda | 1988-2008 | 383 |
 | 9 | Simon Madden **[data]** | Essendon | 1974-1992 | 378 |
-| 10 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 |
-| 11= | Craig Bradley **[data]** | Carlton | 1986-2002 | 375 |
-| 11= | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 375 |
+| 10= | David Mundy **[data]** | Fremantle | 2005-2022 | 376 |
+| 10= | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 376 |
+| 12 | Craig Bradley **[data]** | Carlton | 1986-2002 | 375 |
 | 13 | Steele Sidebottom **[data]** | Collingwood | 2009-2026 | 373 |
 | 14 | Adam Goodes **[data]** | Sydney | 1999-2015 | 372 |
 | 15 | Bernie Quinlan **[data]** | Fitzroy - Footscray | 1969-1986 | 366 |
 | 16 | Brad Johnson **[data]** | Footscray - Western Bulldogs | 1994-2010 | 364 |
-| 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |
 | 17= | John Blakey **[data]** | Fitzroy - Kangaroos - North Melbourne | 1985-2002 | 359 |
+| 17= | Tom Hawkins **[data]** | Geelong | 2007-2024 | 359 |
 | 19 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 |
-| 20 | Paul Roos **[data]** | Fitzroy - Sydney | 1982-1998 | 356 |
+| 20 | Bruce Doull **[data]** | Carlton | 1969-1986 | 356 |
 <!-- HOF-TABLE-END:career_games -->
 
 ## FootyStrategy tactical read

@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-08-11 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-08-18 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career contested possessions - all-time top 20
-> ✓ All 36 stats verified against source data · council-pipeline-gated · 2026-08-11
+> ✓ All 36 stats verified against source data · council-pipeline-gated · 2026-08-18
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
@@ -26,23 +26,23 @@ A contested possession is a ball-getting event won under direct opposition press
 | # | Player | Club(s) | Span | Games | Contested poss. | Per game |
 |--:|--------|---------|------|------:|----------------:|---------:|
 <!-- HOF-TABLE-START:career_contested_possessions -->
-| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 375 | 4,727 | 12.61 |<!-- HOF-TOP:career_contested_possessions -->
-| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 440 | 4,445 | 10.10 |
-| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 315 | 4,125 | 13.10 |
+| 1 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 376 | 4,732 | 12.59 |<!-- HOF-TOP:career_contested_possessions -->
+| 2 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 441 | 4,453 | 10.10 |
+| 3 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 316 | 4,135 | 13.09 |
 | 4 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 4,007 | 13.82 |
 | 5 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 4,000 | 11.20 |
 | 6 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 3,984 | 11.22 |
 | 7 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 3,743 | 9.67 |
-| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 336 | 3,670 | 10.92 |
-| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 251 | 3,646 | 14.53 |
+| 8 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 337 | 3,679 | 10.92 |
+| 9 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 252 | 3,664 | 14.54 |
 | 10 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 3,523 | 10.94 |
 | 11 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 3,418 | 9.09 |
 | 12 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 3,401 | 10.34 |
-| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 290 | 3,367 | 11.61 |
-| 14 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 226 | 3,335 | 14.76 |
+| 13 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 291 | 3,382 | 11.62 |
+| 14 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 227 | 3,352 | 14.77 |
 | 15 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 3,276 | 11.74 |
-| 16 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 3,262 | 10.66 |
-| 17 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 267 | 3,253 | 12.18 |
+| 16 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 268 | 3,271 | 12.21 |
+| 17 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 3,262 | 10.66 |
 | 18 | Nat Fyfe **[data]** | Fremantle | 2010-2025 | 248 | 3,206 | 12.93 |
 | 19 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 279 | 3,184 | 11.41 |
 | 20 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 3,176 | 13.23 |

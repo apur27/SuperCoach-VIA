@@ -2,12 +2,12 @@
   BriefBuilder: N/A (data table — no narrative skeleton required)
   Scientist: N/A (numbers derived from player_data corpus, not model output)
   FootyStrategy: N/A (career volume stats — no tactical interpretation required)
-  DataSentinel: PASS @ 2026-08-11 (auto-updated from _stat_leaders.json by update_hof_pages.py)
+  DataSentinel: PASS @ 2026-08-18 (auto-updated from _stat_leaders.json by update_hof_pages.py)
   Skeptic: PASS @ 2026-06-02 (data-only refresh — no causal claims, no narrative changes)
   Gaffer: APPROVED @ 2026-06-02
 -->
 # AFL career clearances - all-time top 20
-> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-08-11
+> ✓ All 28 stats verified against source data · council-pipeline-gated · 2026-08-18
 
 > [← Back to stat leaders hub](hall-of-fame-stat-leaders.md) | [← Hall of Fame](hall-of-fame.md) | [← README](../README.md)
 
@@ -26,24 +26,24 @@ A clearance is the first effective disposal of the ball out of a stoppage (centr
 | # | Player | Club(s) | Span | Games | Clearances | Per game |
 |--:|--------|---------|------|------:|-----------:|---------:|
 <!-- HOF-TABLE-START:career_clearances -->
-| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 315 | 2,021 | 6.42 |<!-- HOF-TOP:career_clearances -->
-| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 375 | 1,919 | 5.12 |
-| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 440 | 1,904 | 4.33 |
+| 1 | Lachie Neale **[data]** | Brisbane Lions - Fremantle | 2012-2026 | 316 | 2,024 | 6.41 |<!-- HOF-TOP:career_clearances -->
+| 2 | Patrick Dangerfield **[data]** | Adelaide - Geelong | 2008-2026 | 376 | 1,920 | 5.11 |
+| 3 | Scott Pendlebury **[data]** | Collingwood | 2006-2026 | 441 | 1,906 | 4.32 |
 | 4 | Joel Selwood **[data]** | Geelong | 2007-2022 | 355 | 1,846 | 5.20 |
 | 5 | Josh Kennedy **[data]** | Hawthorn - Sydney | 2008-2022 | 290 | 1,809 | 6.24 |
 | 6 | Sam Mitchell **[data]** | Hawthorn - West Coast | 2002-2017 | 329 | 1,801 | 5.47 |
-| 7 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 251 | 1,784 | 7.11 |
+| 7 | Patrick Cripps **[data]** | Carlton | 2014-2026 | 252 | 1,796 | 7.13 |
 | 8 | Simon Black **[data]** | Brisbane Lions | 1998-2013 | 322 | 1,715 | 5.33 |
-| 9 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 267 | 1,680 | 6.29 |
-| 10 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 336 | 1,588 | 4.73 |
+| 9 | Tom Liberatore **[data]** | Western Bulldogs | 2011-2026 | 268 | 1,692 | 6.31 |
+| 10 | Luke Parker **[data]** | North Melbourne - Sydney | 2011-2026 | 337 | 1,589 | 4.72 |
 | 11 | Travis Boak **[data]** | Port Adelaide | 2007-2025 | 387 | 1,585 | 4.10 |
 | 12 | Gary Ablett **[data]** | Geelong - Gold Coast | 2002-2020 | 357 | 1,545 | 4.33 |
 | 13 | Chris Judd **[data]** | Carlton - West Coast | 2002-2015 | 279 | 1,499 | 5.37 |
 | 14 | David Mundy **[data]** | Fremantle | 2005-2022 | 376 | 1,494 | 3.97 |
-| 15 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 226 | 1,483 | 6.56 |
+| 15 | Clayton Oliver **[data]** | Greater Western Sydney - Melbourne | 2016-2026 | 227 | 1,489 | 6.56 |
 | 16 | Marcus Bontempelli **[data]** | Western Bulldogs | 2014-2026 | 279 | 1,478 | 5.30 |
 | 17 | Matt Priddis **[data]** | West Coast | 2006-2017 | 240 | 1,473 | 6.14 |
-| 18 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 290 | 1,444 | 4.98 |
+| 18 | Ollie Wines **[data]** | Port Adelaide | 2013-2026 | 291 | 1,452 | 4.99 |
 | 19 | Trent Cotchin **[data]** | Richmond | 2008-2023 | 306 | 1,441 | 4.71 |
 | 20 | Scott Thompson **[data]** | Adelaide - Melbourne | 2001-2017 | 308 | 1,423 | 4.62 |
 <!-- HOF-TABLE-END:career_clearances -->
