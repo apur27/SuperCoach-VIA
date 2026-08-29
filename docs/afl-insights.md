@@ -17,7 +17,7 @@ Live season data, historical analysis, and guides for footy fans and coaches.
 | [Coaches Strategy Corner](coaches-strategy-corner/README.md) | Pre-game tactical briefs grounded entirely in the dataset |
 | → **[Richmond vs Adelaide R9 - executive summary](coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-executive-summary.md)** | The latest brief: 1-page entry point with charts, key matchups, and win conditions |
 
-## Round 25 — Week in Review
+## Round 24 — Week in Review
 
 **Disposal leaders (rounds 1–24):** Nick Daicos (Collingwood) leads the competition at **35.3 per game** **[data]**, ahead of Bailey Smith (Geelong) at **32.3** **[data]**; Errol Gulden (Sydney), Clayton Oliver (Greater Western Sydney) and Harry Sheezel (North Melbourne) are effectively tied for third at **30.5** **[data]** each — though Gulden's figure comes from just **10** **[data]** games this season versus **22** **[data]** each for Oliver and Sheezel — well clear of the league mean of **14.91 per game** **[data]** across **611** **[data]** eligible players with at least **3** **[data]** games.
 

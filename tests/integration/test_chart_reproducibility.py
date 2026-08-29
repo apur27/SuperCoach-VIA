@@ -16,6 +16,26 @@ When a matplotlib/font upgrade lands this test SHOULD fail: that is the signal t
 refresh the committed charts deliberately, rather than discovering the drift as
 unexplained churn in someone else's diff.
 
+BUT AN UPGRADE IS NOT THE ONLY CAUSE, AND IT IS NOT THE COMMON ONE. Work out which
+cause you have BEFORE following the recovery below, because for the other cause that
+recovery is actively harmful. On 2026-08-29 this gate aborted a cycle with no upgrade
+involved: matplotlib.rcParams is process-global, and a sibling generator left
+font.size: 11 behind (generate_readme_charts._apply_dark_style). This chart sets an
+explicit fontsize on every text object EXCEPT the x-axis tick labels, which resolve
+xtick.labelsize: "medium" against that ambient value — one point, and then
+bbox_inches="tight" reflows the entire figure. The byte diff looks exactly like a font
+build change. It was not: the data was identical and a CLEAN interpreter still
+reproduced the committed bytes.
+
+Tell the two apart in one step — render this chart in a FRESH interpreter:
+  * Fresh render MATCHES the committed file -> data and renderer are both fine; you
+    have state leakage, not an upgrade. Do NOT recommit charts. That would bake
+    whichever call order happened to run into the artifact, which IS the defect. Fix
+    the leak instead (see _deterministic_chart_rc in update_team_analysis.py and
+    tests/unit/test_chart_render_isolation.py).
+  * Fresh render DIFFERS from the committed file -> the rendering environment really
+    did change. Follow the recovery below.
+
 THIS FILE IS A LIVE GATE. tests/integration is Phase 3d of scripts/weekly_refresh.sh,
 which fails closed and aborts before Phase 4 stages anything — so a failure here stops a
 real weekly cycle. Recovery, for whoever hits it mid-run:

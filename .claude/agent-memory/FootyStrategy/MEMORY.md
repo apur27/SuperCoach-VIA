@@ -8,3 +8,4 @@
 - [DataSentinel gate traps](datasentinel_gate_traps.md) - methodology/sources footnotes must name files, never restate already-tagged numbers, or they re-trigger the untagged-number check on Pass 2.
 - [Skeptic tactical-note overreach patterns](skeptic_tactical_note_overreach.md) - correlation-to-claim checks: no identity-from-r, no variable substitution, scope superlatives to what the source doc actually shows.
 - [Skeptic ladder trend overreach](skeptic_ladder_trend_overreach.md) - a single-round ladder snapshot can't support "extended their lead" or "largest gap of the season" claims; report position, not trend.
+- [Skeptic margin label mismatch](skeptic_margin_label_mismatch.md) - "winning margin" recap claims recur (R24, R25 BLOCK) because the source table's own heading mislabels an all-games average; relabel don't recompute, and flag for a source-doc heading fix.

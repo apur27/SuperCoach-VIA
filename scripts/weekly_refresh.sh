@@ -38,6 +38,20 @@ LOG_FILE="$LOG_DIR/weekly_refresh_${TODAY}.log"
 
 cd "$REPO_ROOT"
 
+# --- finals mode -----------------------------------------------------------
+# FINALS_MODE=1 runs a cycle with NO forward prediction: the home-and-away season
+# is over, so there is no "next round" the predictor can express (see the long
+# note in refresh_and_rank.sh). In this mode ROUND means the last COMPLETED
+# home-and-away round and is derived from the match data rather than from a
+# prediction filename, the cheat sheet is skipped, and the recap is written as a
+# review of a played round rather than a preview of an upcoming one.
+#
+#   FINALS_MODE=1 bash scripts/weekly_refresh.sh
+#
+# Declared here (before first use) because this script runs under `set -u`.
+FINALS_MODE="${FINALS_MODE:-0}"
+export FINALS_MODE
+
 # F3: HARNESS_PHASE is stamped into every log line and exported to child steps.
 # On an abort, the last line in the log names the phase that died — no more
 # guessing which phase a killed run stopped in (the 07-14 Phase-4 mid-commit death).
@@ -94,7 +108,7 @@ log "[0/5] Round-settlement probe passed — current round is settled."
 # ---------------------------------------------------------------------------
 export HARNESS_PHASE="1"
 log "[1/5] Running refresh_and_rank.sh (data + model + season docs)..."
-WEEKLY_REFRESH_PARENT=1 bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
+WEEKLY_REFRESH_PARENT=1 FINALS_MODE="$FINALS_MODE" bash "$REPO_ROOT/refresh_and_rank.sh" 2>&1 | tee -a "$LOG_FILE"
 log "[1/5] refresh_and_rank.sh complete."
 
 # ---------------------------------------------------------------------------
@@ -137,22 +151,37 @@ fi
 # order reflects wall-clock. Also assert the CSV was written THIS cycle (mtime
 # > RUN_START) so a stale on-disk file never silently re-labels a prior round.
 # ---------------------------------------------------------------------------
-LATEST_PRED=$(ls -t "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
-    | head -1 || true)
-if [ -n "$LATEST_PRED" ]; then
-    ROUND=$(basename "$LATEST_PRED" | grep -oP 'next_round_\K[0-9]+' || echo "unknown")
+if [ "$FINALS_MODE" = "1" ]; then
+    # No prediction artifact exists this cycle, so ROUND is derived from the
+    # MATCH DATA. Note the semantic flip: outside finals mode ROUND is the
+    # UPCOMING round (read from the prediction filename); here it is the last
+    # COMPLETED home-and-away round. Everything downstream that labels a round
+    # must respect that difference — see the Phase 3 prompt below.
+    LATEST_PRED=""
+    ROUND=$($PYTHON "$REPO_ROOT/scripts/check_round_settled.py" --print-last-ha-round) || ROUND=""
+    if [ -z "$ROUND" ]; then
+        log "ERROR: finals mode could not derive the last settled home-and-away round from the match data. Aborting rather than guessing a round label."
+        exit 1
+    fi
+    log "Finals mode: ROUND=$ROUND — the last COMPLETED home-and-away round, derived from match data, not from a prediction artifact."
 else
-    ROUND="unknown"
-fi
-log "Detected next round: $ROUND"
-if [ "$ROUND" = "unknown" ]; then
-    log "ERROR: Could not detect next round from prediction CSVs. Run Phase 1 (refresh_and_rank.sh) first, then re-run this script."
-    exit 1
-fi
-PRED_MTIME=$(stat -c %Y "$LATEST_PRED" 2>/dev/null || echo 0)
-if [ "$PRED_MTIME" -lt "$RUN_START" ]; then
-    log "ERROR: Latest prediction CSV ($(basename "$LATEST_PRED")) predates this run — Phase 1 did not write a new prediction. Aborting to prevent re-labelling a prior round."
-    exit 1
+    LATEST_PRED=$(ls -t "$REPO_ROOT/data/prediction"/next_round_*_prediction_*.csv 2>/dev/null \
+        | head -1 || true)
+    if [ -n "$LATEST_PRED" ]; then
+        ROUND=$(basename "$LATEST_PRED" | grep -oP 'next_round_\K[0-9]+' || echo "unknown")
+    else
+        ROUND="unknown"
+    fi
+    log "Detected next round: $ROUND"
+    if [ "$ROUND" = "unknown" ]; then
+        log "ERROR: Could not detect next round from prediction CSVs. Run Phase 1 (refresh_and_rank.sh) first, then re-run this script."
+        exit 1
+    fi
+    PRED_MTIME=$(stat -c %Y "$LATEST_PRED" 2>/dev/null || echo 0)
+    if [ "$PRED_MTIME" -lt "$RUN_START" ]; then
+        log "ERROR: Latest prediction CSV ($(basename "$LATEST_PRED")) predates this run — Phase 1 did not write a new prediction. Aborting to prevent re-labelling a prior round."
+        exit 1
+    fi
 fi
 
 # ---------------------------------------------------------------------------
@@ -173,9 +202,13 @@ log "[1b/5] Eval surface updated."
 #   docs/weekly/round-current-<year>.md  (stable link)
 # ---------------------------------------------------------------------------
 export HARNESS_PHASE="2a"
-log "[2a/5] Generating weekly cheat sheet for round $ROUND..."
-$PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" --csv "$LATEST_PRED" 2>&1 | tee -a "$LOG_FILE"
-log "[2a/5] Cheat sheet generated."
+if [ "$FINALS_MODE" = "1" ]; then
+    log "[2a/5] FINALS MODE — skipping the weekly cheat sheet. It previews an upcoming round from a forward prediction CSV; neither exists this cycle. The published round-current sheet is left untouched rather than re-issued for a round already played."
+else
+    log "[2a/5] Generating weekly cheat sheet for round $ROUND..."
+    $PYTHON "$REPO_ROOT/scripts/generate_weekly_cheat_sheet.py" --csv "$LATEST_PRED" 2>&1 | tee -a "$LOG_FILE"
+    log "[2a/5] Cheat sheet generated."
+fi
 
 # ---------------------------------------------------------------------------
 # Phase 2b — Hall of Fame stat leaders refresh
@@ -302,7 +335,29 @@ log "News block limit enforced (max 2 entries)."
 export HARNESS_PHASE="3"
 log "[3/5] Invoking FootyStrategy agent for round $ROUND weekly insights..."
 
-$CLAUDE -p "Round=$ROUND. Date=$TODAY. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table). Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file." \
+if [ "$FINALS_MODE" = "1" ]; then
+    # ROUND here is the COMPLETED round, and the home-and-away season is over, so
+    # there is no upcoming round to preview and no forward prediction to cite.
+    # Saying so explicitly is what stops the recap drifting into a "watch next
+    # round" paragraph it cannot support.
+    # Two constraints below exist because the 2026-08-29 smoke run's Skeptic pass
+    # caught them, both traceable to this prompt rather than to FootyStrategy:
+    #   * an earlier draft of this prompt asserted round N "is the FINAL
+    #     home-and-away round", which the agent faithfully repeated as bare prose.
+    #     The data shows only that round N is the highest round present — "the data
+    #     ends here" is not "the season ended here". Do not hand the agent a
+    #     structural claim it cannot source (Skeptic R25-04).
+    #   * the recap orders players by per-game average from a source table with no
+    #     games-played column, so a half-season player outranks full-season ones
+    #     with no disclosure. The Round 24 recap disclosed it, Round 25 dropped it —
+    #     the fix survived exactly one cycle, so it is restated here every run until
+    #     the source table carries the column (Skeptic R25-01, BL-22).
+    RECAP_PROMPT="Round=$ROUND. Date=$TODAY. Round $ROUND has been PLAYED — it is a COMPLETED round, not an upcoming one. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table), reviewing what actually happened. Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md. There is NO forward prediction this cycle and no cheat sheet for an upcoming round — do not cite docs/afl-predictions-2026.md or docs/weekly/round-current-2026.md, and do not preview or project any future round. Do not describe any finals result and do not state or imply anything about the season's structure, how many rounds it has, or whether it has ended, unless you verify it against data/matches/matches_2026.csv and tag it. If you rank players by a per-game average, you MUST disclose games played whenever the samples differ materially — verify each from the player's own CSV in data/player_data/ and tag it; an 11-game average and a 23-game average are not comparable and presenting them as a flat ranking misleads. Carry over every qualifier the source states rather than dropping it: if the source defines an eligibility floor (e.g. 'at least 3 games'), say so wherever you quote a population count. If you cite a correlation between two stats that partly measure the same events (clearances and contested possessions do), say that they overlap by definition — otherwise a partly mechanical relationship reads as a discovered one. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file."
+else
+    RECAP_PROMPT="Round=$ROUND. Date=$TODAY. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table). Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file."
+fi
+
+$CLAUDE -p "$RECAP_PROMPT" \
     --agent FootyStrategy \
     --permission-mode bypassPermissions \
     2>&1 | tee -a "$LOG_FILE"
@@ -438,7 +493,12 @@ else
     # 07-14 run with no captured output; under `set -o pipefail` a failing commit or
     # push still aborts (the pipe carries the left-hand exit code) but now the log
     # captures exactly what git said before it died.
-    scripts/git_commit_safe.sh commit -m "Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)" 2>&1 | tee -a "$LOG_FILE"
+    if [ "$FINALS_MODE" = "1" ]; then
+        COMMIT_MSG="Finals refresh — round $ROUND settled, stat leaders + insights ($TODAY)"
+    else
+        COMMIT_MSG="Weekly refresh round $ROUND — stat leaders + cheat sheet + insights ($TODAY)"
+    fi
+    scripts/git_commit_safe.sh commit -m "$COMMIT_MSG" 2>&1 | tee -a "$LOG_FILE"
     git push origin main 2>&1 | tee -a "$LOG_FILE"
     log "[4/5] Pushed to origin/main."
 fi

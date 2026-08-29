@@ -648,5 +648,107 @@ acceptable belt-and-braces addition, but the source-doc rename is the durable fi
 
 ---
 
-*Last updated: 2026-08-18. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
+### BL-20 — `HOME_AND_AWAY_GAMES` is 22; the real figure is 23
+**Owner:** Scientist (config + generator)
+**Depends on:** none
+**Blocked by decision:** no — deferred to season end by user decision 2026-08-29, not by uncertainty
+**Fix brief:** `config.py:133` sets `HOME_AND_AWAY_GAMES: int = _get_int("SUPERCOACH_HOME_AND_AWAY_GAMES", 22)`.
+The AFL home-and-away season is **23 games per team**: 207 H&A matches over 18 teams is
+207 × 2 / 18 = 23, verified true for 2024, 2025 and 2026 (each season's matches CSV holds
+exactly 207 non-finals rows over 25 numbered rounds, 9 per round). The constant has been
+wrong by one for at least three seasons.
+
+`update_team_analysis.py:2101` computes `games_remaining = max(HOME_AND_AWAY_GAMES - games_played_each, 0)`,
+so the finals-pathway doc hit zero a full round early — it read "roughly 0 games left" while
+every team still had round 25 to play. The same constant feeds the intro's
+`HOME_AND_AWAY_GAMES - games_remaining` (line 1983), which will render "played 22 games" once
+every team has in fact played 23.
+
+**Acceptance criterion:** the constant is 23, with a regression test deriving games-per-team
+from a matches CSV fixture rather than asserting a literal, so the next season-length change
+is caught rather than hard-coded. Check whether any other consumer of the constant silently
+depended on the off-by-one before changing it.
+
+---
+
+### BL-21 — The finals-pathway generator has no end-of-season mode
+**Owner:** Scientist (generator) — presentation review by Gaffer once it renders
+**Depends on:** BL-20 (same code path; the wrong constant makes this fire a round early)
+**Blocked by decision:** no — deferred to season end by user decision 2026-08-29
+**Fix brief:** `docs/afl-finals-2026.md` is regenerated every cycle by
+`update_team_analysis.py` and is in the `refresh_and_rank.sh` staging allowlist, but
+`_path_to_finals` (line 1710) and `build_finals_pathway_body` (line ~1980) have no branch for
+`games_remaining == 0`. With the H&A season complete the published prose degrades to
+"they need roughly **0 wins** from their remaining **0 games** to lock the eight in",
+"every win from here is locking in a top-4 finish", and an intro still calling itself a
+"data-driven **mid-season** assessment".
+
+Note this doc carries **no `<!-- council-pipeline:` stamp**, so DataSentinel never sees it —
+it ships ungated on every refresh. That is the reason nonsense prose reached readers without
+any gate objecting, and it is worth fixing alongside the template.
+
+**Acceptance criterion:** with zero games remaining the section reads as a finals-series
+preview (who plays whom, what each side must win) rather than a run-home projection, with a
+regression test rendering the body at `games_remaining == 0` and asserting it contains no
+"0 games"/"0 wins" construction and no "mid-season" wording. Consider gating the doc.
+
+---
+
+### BL-22 — The disposal-leaders table has no games-played column, so every recap re-invents the qualifier
+**Owner:** Scientist (generator) — raised by Gaffer from a Skeptic finding
+**Depends on:** none
+**Blocked by decision:** no
+**Fix brief:** `docs/afl-stat-leaders-2026.md` (disposal table, ~L20-24) ranks players by
+season per-game average with **no games-played column**. Any recap citing it inherits an
+ordering its source cannot qualify, so a half-season player outranks full-season players
+with nothing disclosing the difference.
+
+Verified 2026-08-29 from `data/player_data/` 2026 rows: Gulden **11 games** / 31.45,
+Sheezel **22** / 30.45, Oliver **23** / 30.22. The doc's own stated eligibility floor is
+3 games, so an 11-game sample is presented as directly comparable to a 23-game one.
+
+This is a confirmed **regression loop**, which is why it needs a durable fix rather than
+another prose correction: the Round 24 recap disclosed it explicitly ("Gulden's figure
+comes from just 10 games this season versus 22 each"), and the Round 25 recap dropped the
+clause entirely. The fix survived exactly one cycle. As an interim measure the finals-mode
+recap prompt in `scripts/weekly_refresh.sh` now restates the requirement every run, but a
+prompt instruction is not a gate.
+
+**Acceptance criterion:** the generated disposal-leaders table carries a games-played
+column, with a regression test asserting it is present and populated. Consider whether the
+table should also flag rows materially below the season's modal game count, so the
+qualifier is visible in the source rather than reconstructed by each author.
+
+---
+
+### BL-23 — Two sibling chart generators share the rcParams leak that BL-17 fixed
+**Owner:** Scientist
+**Depends on:** none (the fix pattern already exists)
+**Blocked by decision:** no
+**Fix brief:** BL-17 is CLOSED: `update_team_analysis.generate_top100_chart()` now renders
+inside `plt.rc_context(_deterministic_chart_rc())`, pinned to `matplotlib.rcParamsDefault`
+minus the backend keys, so it is byte-identical regardless of call order.
+
+Two siblings were verified empirically to have the same latent fragility and were
+deliberately left alone to keep that fix in scope: `generate_readme_charts.chart_top10_alltime`
+(→ `top10_alltime.png`) and `chart_top100_position_breakdown`. A leaked
+`font.family: "monospace"` — which `update_team_analysis` sets globally at lines 2138, 2533,
+3892 and 4283 — changes their rendered bytes. Note `plt.style.use("dark_background")` is NOT
+protection: it overlays its own keys without resetting the rest first.
+
+Neither chart sits on the Phase 3d gate, so this surfaces as unexplained `assets/` churn in
+unrelated diffs (the original BL-04 cost) rather than as a cycle abort. That is why it is
+backlog and not a blocker.
+
+**Acceptance criterion:** both generators render inside the same `rc_context` guard, with a
+call-order-independence test per chart mirroring `tests/unit/test_chart_render_isolation.py`,
+proven to fail before the fix. Prefer reusing `_deterministic_chart_rc` over a second copy.
+
+**Related, not a task:** the fast tier now runs ~27s at 593 tests, over CLAUDE.md section 5's
+~20s guidance. Pre-existing and growing with legitimate coverage. If it is raised, raise it
+deliberately — do not delete or skip tests to hit a number.
+
+---
+
+*Last updated: 2026-08-29. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
 

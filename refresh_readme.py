@@ -289,10 +289,24 @@ def _step_predictions_and_backtest() -> Tuple[List[str], List[str]]:
     except Exception as e:
         return [], [f"could not load data: {e}"]
 
-    for fn, path, replace_fn in [
+    sections = [
         (uta.generate_predictions_section, uta.PREDICTIONS_PATH, uta.replace_predictions_section),
         (uta.generate_backtest_section,    uta.BACKTEST_PATH,    uta.replace_backtest_section),
-    ]:
+    ]
+
+    # Finals mode: no forward prediction was generated this cycle, and
+    # generate_predictions_section always stamps gen_date = today ("the CSV may
+    # be days old"). Regenerating it during finals would therefore republish the
+    # last home-and-away round's projections as if they had been made today for
+    # an upcoming round — a round that has already been played. Skip the section
+    # and leave the previously published, correctly dated one in place. The
+    # backtest section still runs; it is this cycle's actual deliverable.
+    if os.environ.get("FINALS_MODE") == "1":
+        sections = [s for s in sections if s[0] is not uta.generate_predictions_section]
+        print("[predictions] finals mode — leaving the predictions section as published "
+              "(no new forward prediction; refusing to re-stamp a played round as current).")
+
+    for fn, path, replace_fn in sections:
         try:
             body = fn(year)
             if body and os.path.exists(path):

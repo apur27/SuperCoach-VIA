@@ -209,6 +209,114 @@ def check_match_completeness(df: pd.DataFrame, year: int) -> List[str]:
     return warnings_list
 
 
+# First season of the current final-eight structure. Earlier seasons used the
+# final four/five/six and the 1994-99 McIntyre eight, whose stage counts differ
+# (verified empirically over data/matches/matches_*.csv: the 2-2-2-2-1 shape
+# below first holds in 2000 and holds every year since). Finals before the floor
+# are not audited -- checking them against modern counts would manufacture
+# WARNINGs on 103 historical files.
+FINALS_ERA_FLOOR = 2000
+
+# Finals stages, in playing order, with the number of matches each one has under
+# the AFL final-eight system. Qualifying and Elimination Finals are both week 1.
+# matches_<year>.csv spells them out in full; the player corpus uses the short
+# codes -- both are accepted so the audit works against either spelling.
+FINALS_STAGES: List[Tuple[str, int]] = [
+    ("Qualifying Final", 2),
+    ("Elimination Final", 2),
+    ("Semi Final", 2),
+    ("Preliminary Final", 2),
+    ("Grand Final", 1),
+]
+FINALS_EXPECTED = dict(FINALS_STAGES)
+_FINALS_ALIASES = {
+    "qualifying final": "Qualifying Final", "qf": "Qualifying Final",
+    "elimination final": "Elimination Final", "ef": "Elimination Final",
+    "semi final": "Semi Final", "sf": "Semi Final",
+    "preliminary final": "Preliminary Final", "pf": "Preliminary Final",
+    "grand final": "Grand Final", "gf": "Grand Final",
+}
+
+
+def canonical_finals_stage(label: Any) -> Optional[str]:
+    """Map a round_num label to its canonical finals stage, else None."""
+    return _FINALS_ALIASES.get(str(label).strip().lower())
+
+
+def _audit_finals_stages(df: "pd.DataFrame", year: int) -> List[Dict[str, Any]]:
+    """Audit the finals series in `df` against the known per-stage match counts.
+
+    Finals are NOT covered by `fetch_round_fixture`: the afltables season page
+    introduces each final with its own stage heading rather than a "Round N"
+    heading, so there is no numbered fixture to compare against. The counts are
+    fixed by the final-eight system instead (week 1 = 2 qualifying + 2
+    elimination, then 2 semis, 2 prelims, 1 grand final), which needs no
+    network and therefore cannot be broken by an afltables outage.
+
+    Two things are flagged, both of which are *provably* wrong rather than
+    merely early:
+      - a stage that is PRESENT but short of its known count;
+      - a stage that is ABSENT although a LATER stage was scraped, which the
+        finals bracket makes impossible (this is the finals form of the R10
+        silently-dropped-round bug).
+    A stage that is simply absent with nothing after it is the normal state for
+    the whole season and is never flagged.
+    """
+    issues: List[Dict[str, Any]] = []
+    if year < FINALS_ERA_FLOOR:
+        return issues
+    stage_of = df["round_num"].map(canonical_finals_stage)
+    finals = df[stage_of.notna()].copy()
+    if finals.empty:
+        return issues
+    finals["_stage"] = stage_of[stage_of.notna()]
+
+    present = set(finals["_stage"])
+    order = [s for s, _ in FINALS_STAGES]
+    last_present_idx = max(order.index(s) for s in present)
+
+    for idx, (stage, expected) in enumerate(FINALS_STAGES):
+        group = finals[finals["_stage"] == stage]
+        scraped_pairs = {
+            frozenset((r.team_1_team_name, r.team_2_team_name))
+            for r in group.itertuples()
+        }
+        n_matches = len(scraped_pairs)
+        # Absent with nothing later scraped -> not played yet, not a gap.
+        if n_matches == 0 and idx > last_present_idx:
+            continue
+
+        short_by = expected - n_matches
+        severity = "WARNING" if short_by > 0 else "INFO"
+        missing = (
+            [f"<{short_by} unidentified {stage}(s) — no fixture source for finals>"]
+            if short_by > 0 else []
+        )
+        issues.append({
+            "year": year,
+            "round_num": stage,
+            "n_matches": n_matches,
+            "expected": expected,
+            "teams_present": len(
+                set(group["team_1_team_name"]) | set(group["team_2_team_name"])
+            ),
+            "severity": severity,
+            "missing": missing,
+        })
+
+        if short_by > 0:
+            print(
+                f"[match-audit][WARNING] {year} {stage}: {n_matches}/{expected} "
+                f"matches scraped <-- {short_by} MISSING"
+            )
+        else:
+            print(
+                f"[match-audit][info] {year} {stage}: {n_matches}/{expected} "
+                f"matches present (complete)"
+            )
+    return issues
+
+
 def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
     """
     Audits a matches_<year>.csv against the public AFL fixture, round by round.
@@ -224,8 +332,15 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
     There is no modal/threshold heuristic and no MAX_BYE_MATCH_DROP: byes are
     handled because the fixture itself omits resting teams.
 
+    Finals are covered too, by a different instrument -- see
+    _audit_finals_stages. They are stored as strings ('Grand Final' / 'GF'), the
+    season page gives them stage headings rather than "Round N" headings, so
+    they are checked against the fixed final-eight match counts instead of a
+    fetched fixture.
+
     Returns a list of issue dicts (empty when clean). Each dict has keys:
       year, round_num, n_matches, expected, teams_present, severity, missing.
+      - round_num: int for H&A rounds, canonical stage string for finals
       - n_matches: matches scraped for the round
       - expected: matches scheduled in the fixture for the round
       - missing:  list of "TeamA v TeamB" strings for scheduled-but-unscraped games
@@ -245,18 +360,19 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
         print(f"[match-audit] {file_path} missing expected columns; skipping audit")
         return issues
 
-    # Restrict to integer home-and-away rounds; finals rounds are stored as
-    # non-numeric strings and are not covered by the season-page round headings.
-    round_as_int = pd.to_numeric(df["round_num"], errors="coerce")
-    ha = df[round_as_int.notna()].copy()
-    ha["round_num"] = round_as_int[round_as_int.notna()].astype(int)
-    if ha.empty:
-        return issues
-
-    year = int(ha["year"].iloc[0]) if "year" in ha.columns and not ha["year"].isna().all() else None
+    year = int(df["year"].iloc[0]) if "year" in df.columns and not df["year"].isna().all() else None
     if year is None:
         print(f"[match-audit] {file_path} has no usable year column; skipping audit")
         return issues
+
+    # Integer home-and-away rounds are checked against the season-page fixture;
+    # finals are stored as strings and are checked against their known match
+    # counts by _audit_finals_stages (the season page has no "Round N" heading
+    # for them). Before this split the to_numeric coercion dropped every finals
+    # row, so the whole finals series was invisible to this gate.
+    round_as_int = pd.to_numeric(df["round_num"], errors="coerce")
+    ha = df[round_as_int.notna()].copy()
+    ha["round_num"] = round_as_int[round_as_int.notna()].astype(int)
 
     for rnd in sorted(ha["round_num"].unique()):
         rnd = int(rnd)
@@ -302,6 +418,8 @@ def audit_match_rounds(file_path: str) -> List[Dict[str, Any]]:
                 f"[match-audit][info] {year} round {rnd}: {n_matches}/{expected} "
                 f"scheduled matches present (complete)"
             )
+
+    issues.extend(_audit_finals_stages(df, year))
     return issues
 
 

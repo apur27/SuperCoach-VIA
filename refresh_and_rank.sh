@@ -28,6 +28,28 @@ fi
 export WEEKLY_REFRESH_PARENT=1
 # ---------------------------------------------------------------------------
 
+# --- finals mode -----------------------------------------------------------
+# Once the home-and-away season ends there is no "next round" to predict. The
+# predictor cannot express a finals round at all: extract_round_number() returns
+# NaN for every finals label ('Qualifying Final' / 'QF' etc.), round_number is a
+# model feature, and NaN-round rows are dropped before the forward CSV is
+# written. So get_next_round() returns max(integer round) + 1 — a round that will
+# never be played.
+#
+# That phantom is not cosmetic. generate_weekly_cheat_sheet.py selects its input
+# by (round_number, timestamp) parsed from the FILENAME, and prediction filenames
+# carry no year, so a next_round_26 file outranks every round 1-25 of the
+# following season indefinitely.
+#
+# FINALS_MODE=1 skips the prediction step and derives the backtest upper bound
+# from the MATCH DATA instead of from the prediction artifact. The derivation is
+# the load-bearing half: the bound used to be UPCOMING_ROUND-1 read out of the
+# prediction filename, so merely skipping the prediction emptied the scoring loop
+# and the backtest was skipped SILENTLY, with no error.
+FINALS_MODE="${FINALS_MODE:-0}"
+export FINALS_MODE
+# ---------------------------------------------------------------------------
+
 echo "=========================================="
 echo "[1/6] Refreshing match and player data..."
 echo "=========================================="
@@ -45,7 +67,15 @@ echo "=========================================="
 # Writes: data/prediction/next_round_<N>_prediction_<timestamp>.csv
 # prediction.py now lives in the supercoach/ package — invoke as a module so
 # its package-relative imports and config bootstrap resolve correctly.
-"$PYTHON" -m supercoach.prediction
+if [ "$FINALS_MODE" != "1" ]; then
+    "$PYTHON" -m supercoach.prediction
+else
+    echo "FINALS MODE — skipping the next-round prediction."
+    echo "  The home-and-away season is complete, so get_next_round() would"
+    echo "  fabricate a round that will never be played, and the resulting CSV"
+    echo "  would outrank every future round in the cheat sheet's filename-keyed"
+    echo "  selection. No forward prediction is written this cycle."
+fi
 
 echo "=========================================="
 echo "[4/6] Backtesting prediction accuracy (incremental, by-archive)..."
@@ -88,17 +118,33 @@ else
     START_ROUND=$((LAST_ROUND + 1))
 fi
 
-# M = the upcoming round step 3 just predicted (newest next_round_* by mtime).
-# The last round WITH actuals is M-1, so that's our upper bound to score.
-LATEST_FWD=$(ls -t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -1)
-UPCOMING_ROUND=$(basename "${LATEST_FWD:-}" | grep -oP 'next_round_\K[0-9]+' || echo "")
-if [ -z "$UPCOMING_ROUND" ]; then
-    echo "WARNING: no forward prediction CSV found — skipping backtest."
-    END_SCORE_ROUND=0
+if [ "$FINALS_MODE" = "1" ]; then
+    # No prediction was written this cycle, so the upper bound CANNOT come from
+    # the prediction filename — that is exactly the silent-skip trap. Derive it
+    # from the match data: the last settled home-and-away round is the last round
+    # for which actuals exist, and therefore the last one we can score.
+    END_SCORE_ROUND=$("$PYTHON" scripts/check_round_settled.py --print-last-ha-round) || END_SCORE_ROUND=""
+    if [ -z "$END_SCORE_ROUND" ]; then
+        echo "FATAL: finals mode could not derive the last settled home-and-away round" >&2
+        echo "  from the match data. Refusing to guess a backtest bound — a wrong bound" >&2
+        echo "  silently skips scoring rather than failing. Route to Scientist." >&2
+        exit 1
+    fi
+    echo "Finals mode: no forward prediction this cycle."
+    echo "Last complete backtest: round ${LAST_ROUND:-none}. Last settled H&A round (from match data): ${END_SCORE_ROUND}."
 else
-    END_SCORE_ROUND=$((UPCOMING_ROUND - 1))
+    # M = the upcoming round step 3 just predicted (newest next_round_* by mtime).
+    # The last round WITH actuals is M-1, so that's our upper bound to score.
+    LATEST_FWD=$(ls -t data/prediction/next_round_*_prediction_*.csv 2>/dev/null | head -1)
+    UPCOMING_ROUND=$(basename "${LATEST_FWD:-}" | grep -oP 'next_round_\K[0-9]+' || echo "")
+    if [ -z "$UPCOMING_ROUND" ]; then
+        echo "WARNING: no forward prediction CSV found — skipping backtest."
+        END_SCORE_ROUND=0
+    else
+        END_SCORE_ROUND=$((UPCOMING_ROUND - 1))
+    fi
+    echo "Last complete backtest: round ${LAST_ROUND:-none}. Upcoming (predicted) round: ${UPCOMING_ROUND:-none}."
 fi
-echo "Last complete backtest: round ${LAST_ROUND:-none}. Upcoming (predicted) round: ${UPCOMING_ROUND:-none}."
 echo "Scoring completed rounds ${START_ROUND}..${END_SCORE_ROUND} against their archived forward CSVs."
 
 for R in $(seq "$START_ROUND" "$END_SCORE_ROUND"); do

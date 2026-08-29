@@ -5,6 +5,13 @@ metadata:
   type: project
 ---
 
+As of 2026-08-18 (Round 25 prediction / Round 24 backtest weekly-refresh QA
+gate), fast tier `pytest tests/ -m "not integration"` reports **551 passed, 0
+failed, 21 deselected** in ~22s; integration tier `pytest tests/integration -m
+integration` reports **21 passed, 0 failed** in ~2s. Unchanged from the
+2026-08-11 baseline (551/21) — no test growth this cycle, confirmed non-regression
+(same green counts, not a shortfall).
+
 As of 2026-07-13 (Round 20 prediction / Round 19 backtest weekly-refresh QA
 gate), `pytest tests/ -v` reports **352 passed, 0 failed, 0 skipped** in ~2s.
 Prior baseline (2026-07-07) was 244; the +108 growth reflects several
@@ -92,13 +99,29 @@ Backtest completion manifest confirmed at 14 entries (down from 21, per the
 orphan round-1-2026 vintages, verified absent from `completed_runs.json` and
 with no by-team/summary files lost.
 
+As of 2026-08-11 (Round 24 prediction / Round 23 backtest weekly-refresh QA
+gate, verifying a manually-completed Phase 4 after a Phase 3d chart-reproducibility
+abort — see [[project_manual_phase4_2026_08_11]]):
+- `pytest tests -m "not integration" -q` → **551 passed, 21 deselected**, ~22.25s
+  (slightly over the ~20s documented budget; not flagged as a regression per
+  CLAUDE.md's "raise deliberately as the suite grows" guidance — no test was
+  skipped or deleted to hit a number).
+- `pytest tests/integration -m integration -q` → **21 passed**, ~2.26s.
+Both tiers 0 failed, 0 skipped. Growth from 2026-07-26 baseline (498/13) is
++53 fast / +8 integration, consistent with normal cycle-over-cycle module growth.
+`check_hof_numbers.py` exit 0, rank-1 career_games = 440 (Pendlebury, cross-checked
+CSV==JSON, up from 438 as of 2026-07-26 — consistent with 2 more rounds of games
+played, not a regression). `scripts/phantom_row_validator.py`: counter-gap hits = 0
+(hard-fail signal clean; 32 finals-review soft-flags are pre-existing historical
+single-final-row records, not new).
+
 **How to apply:** on future QA runs, report BOTH tiers separately (fast-tier
 count + integration-tier count), not a single flat number — the two run via
 separate pytest invocations (`-m "not integration"` vs `tests/integration -m
 integration`) and the harness (`scripts/weekly_refresh.sh` Phase 0b) also
-treats them as separate gates. Compare fast-tier against 498 and integration
-against 13 as of 2026-07-26 (prior flat baseline: 239 → 244 → 352 → 384 →
-442).
+treats them as separate gates. Compare fast-tier against 551 and integration
+against 21 as of 2026-08-11 (prior flat baseline: 239 → 244 → 352 → 384 →
+442 → then split 498/13 → 551/21).
 - Count drops with same file set → investigate (deleted/skipped tests).
 - Count rises → expected as new modules ship (e.g. this cycle added
   test_commit_authorization.py, test_inject_trust_badge.py,

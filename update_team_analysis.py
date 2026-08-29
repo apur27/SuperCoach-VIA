@@ -4623,8 +4623,40 @@ def _parse_top100_comment(comment: str) -> dict:
     return stats
 
 
+def _deterministic_chart_rc() -> dict:
+    """Baseline rcParams a chart render should start from, whatever ran before it.
+
+    BL-17. `matplotlib.rcParams` is process-global. Sibling generators
+    (`generate_readme_charts._apply_dark_style`,
+    `docs/hall-of-fame/generate_records_charts._apply_dark_style`, and the
+    `plt.rcParams.update(...)` blocks in this module) mutate it and never
+    restore it, so a chart that leaves any parameter unset renders differently
+    depending on call order. That is how the pipeline overwrote a correct
+    committed chart with a drifted one and aborted the Phase 3d gate: a leaked
+    ``font.size`` of 11 resized the x-tick labels, and ``bbox_inches="tight"``
+    reflowed the whole figure.
+
+    Pinning to the library defaults rather than to a hand-listed subset is
+    deliberate — a subset only covers the parameters siblings happen to set
+    today, and the next one added would reintroduce the bug silently. The
+    backend keys are excluded because they are process/environment state, not styling,
+    and reassigning them mid-session would try to switch backends.
+    """
+    import matplotlib
+
+    return {
+        k: v for k, v in matplotlib.rcParamsDefault.items()
+        if k not in ("backend", "backend_fallback")
+    }
+
+
 def generate_top100_chart() -> str:
-    """Horizontal bar chart — top 10 all-time players by era-normalised score."""
+    """Horizontal bar chart — top 10 all-time players by era-normalised score.
+
+    The figure is built inside an ``rc_context`` so the output is a pure
+    function of its input CSVs, not of whichever generator ran before it in the
+    same process. See :func:`_deterministic_chart_rc` (BL-17).
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -4646,55 +4678,56 @@ def generate_top100_chart() -> str:
     GRID = "#30363d"
     TEXT = "#e6edf3"
 
-    fig, ax = plt.subplots(figsize=(13, 8), facecolor=BG)
-    ax.set_facecolor(BG)
+    with plt.rc_context(_deterministic_chart_rc()):
+        fig, ax = plt.subplots(figsize=(13, 8), facecolor=BG)
+        ax.set_facecolor(BG)
 
-    colours = [GOLD] * 3 + [TEAL] * 4 + [SKY] * 3
-    bars = ax.barh(range(len(names)), top10_scores, color=colours, height=0.65)
+        colours = [GOLD] * 3 + [TEAL] * 4 + [SKY] * 3
+        bars = ax.barh(range(len(names)), top10_scores, color=colours, height=0.65)
 
-    for i, (bar, score) in enumerate(zip(bars, top10_scores)):
-        ax.text(
-            bar.get_width() - 0.02, i, f"{score:.3f}",
-            va="center", ha="right", color=BG, fontsize=15, fontweight="bold",
+        for i, (bar, score) in enumerate(zip(bars, top10_scores)):
+            ax.text(
+                bar.get_width() - 0.02, i, f"{score:.3f}",
+                va="center", ha="right", color=BG, fontsize=15, fontweight="bold",
+            )
+
+        ax.set_yticks(range(len(names)))
+        ax.set_yticklabels(
+            [f"#{i + 1}  {n}" for i, n in enumerate(names)],
+            color=TEXT, fontsize=16,
+        )
+        ax.invert_yaxis()
+        ax.set_xlabel("Era-normalised composite score", color=TEXT, fontsize=16)
+        ax.set_title(
+            "Top 10 AFL players of all time — era-normalised composite ranking",
+            color=GOLD, fontsize=18, fontweight="bold", pad=14,
         )
 
-    ax.set_yticks(range(len(names)))
-    ax.set_yticklabels(
-        [f"#{i + 1}  {n}" for i, n in enumerate(names)],
-        color=TEXT, fontsize=16,
-    )
-    ax.invert_yaxis()
-    ax.set_xlabel("Era-normalised composite score", color=TEXT, fontsize=16)
-    ax.set_title(
-        "Top 10 AFL players of all time — era-normalised composite ranking",
-        color=GOLD, fontsize=18, fontweight="bold", pad=14,
-    )
+        ax.tick_params(axis="x", colors=TEXT)
+        ax.tick_params(axis="y", colors=TEXT, length=0)
+        for spine in ax.spines.values():
+            spine.set_color(GRID)
+        ax.xaxis.grid(True, color=GRID, linewidth=0.5, alpha=0.7)
+        ax.set_axisbelow(True)
+        min_score = min(top10_scores)
+        ax.set_xlim(min_score - 0.25, max(top10_scores) + 0.25)
 
-    ax.tick_params(axis="x", colors=TEXT)
-    ax.tick_params(axis="y", colors=TEXT, length=0)
-    for spine in ax.spines.values():
-        spine.set_color(GRID)
-    ax.xaxis.grid(True, color=GRID, linewidth=0.5, alpha=0.7)
-    ax.set_axisbelow(True)
-    min_score = min(top10_scores)
-    ax.set_xlim(min_score - 0.25, max(top10_scores) + 0.25)
+        # Legend
+        from matplotlib.patches import Patch
+        legend_elements = [
+            Patch(facecolor=GOLD, label="Tier 1 (ranks 1–3)"),
+            Patch(facecolor=TEAL, label="Tier 2 (ranks 4–7)"),
+            Patch(facecolor=SKY, label="Tier 3 (ranks 8–10)"),
+        ]
+        ax.legend(
+            handles=legend_elements, loc="lower right",
+            facecolor="#161b22", edgecolor=GRID, labelcolor=TEXT, fontsize=14,
+        )
 
-    # Legend
-    from matplotlib.patches import Patch
-    legend_elements = [
-        Patch(facecolor=GOLD, label="Tier 1 (ranks 1–3)"),
-        Patch(facecolor=TEAL, label="Tier 2 (ranks 4–7)"),
-        Patch(facecolor=SKY, label="Tier 3 (ranks 8–10)"),
-    ]
-    ax.legend(
-        handles=legend_elements, loc="lower right",
-        facecolor="#161b22", edgecolor=GRID, labelcolor=TEXT, fontsize=14,
-    )
-
-    os.makedirs(CHARTS_DIR, exist_ok=True)
-    chart_path = os.path.join(CHARTS_DIR, "top10_alltime_hall.png")
-    fig.savefig(chart_path, dpi=180, bbox_inches="tight", facecolor=BG)
-    plt.close(fig)
+        os.makedirs(CHARTS_DIR, exist_ok=True)
+        chart_path = os.path.join(CHARTS_DIR, "top10_alltime_hall.png")
+        fig.savefig(chart_path, dpi=180, bbox_inches="tight", facecolor=BG)
+        plt.close(fig)
     return chart_path
 
 

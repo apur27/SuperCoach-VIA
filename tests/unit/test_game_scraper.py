@@ -189,3 +189,199 @@ class TestCareerYearOverlapGuard:
 
         games_issues = [i for i in issues if i["stat"] == "games_played"]
         assert len(games_issues) == 1, "missing year range must not suppress real deltas"
+
+
+# ---------------------------------------------------------------------------
+# Finals coverage in audit_match_rounds (Surveyor F2)
+#
+# Before F2 the audit coerced round_num with pd.to_numeric and kept only the
+# rows that survived, so the ENTIRE finals series was invisible to the only
+# exact completeness gate: a dropped Semi Final (the R10-2026 class of bug,
+# where 6 of 9 rows were silently lost) could not be detected at all.
+#
+# The contract the fix must not break: fail OPEN when the fixture is
+# unavailable, and NEVER flag a stage that simply has not been played yet --
+# every finals stage is absent for the whole season, so flagging absence would
+# block every cycle. "Absent entirely" = fine. "Present but short" = WARNING.
+#
+# No network: the H&A fixture fetch is patched at its boundary.
+# ---------------------------------------------------------------------------
+
+_MATCH_COLS = ["year", "round_num", "team_1_team_name", "team_2_team_name"]
+
+
+def _write_matches(tmp_path, rows, year=2026, name="matches_2026.csv"):
+    df = pd.DataFrame([[year] + list(r) for r in rows], columns=_MATCH_COLS)
+    path = tmp_path / name
+    df.to_csv(path, index=False)
+    return str(path)
+
+
+_FULL_WEEK_ONE = [
+    ("Qualifying Final", "Adelaide", "Brisbane Lions"),
+    ("Qualifying Final", "Carlton", "Collingwood"),
+    ("Elimination Final", "Essendon", "Fremantle"),
+    ("Elimination Final", "Geelong", "Hawthorn"),
+]
+
+
+class TestFinalsAudit:
+    def _audit(self, path):
+        # No integer rounds in these fixtures, but patch the H&A fetch anyway so
+        # a regression that reaches the network fails loudly instead of hanging.
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=None):
+            return game_scraper.audit_match_rounds(path)
+
+    def test_finals_rows_are_audited_at_all(self, tmp_path):
+        """Regression: a file of only finals rows used to return zero issues."""
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE)
+        issues = self._audit(path)
+        assert issues, "finals rows must be audited, not dropped by to_numeric"
+        assert {str(i["round_num"]) for i in issues} == {
+            "Qualifying Final", "Elimination Final"}
+
+    def test_complete_finals_stage_is_info_not_warning(self, tmp_path):
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE + [
+            ("Semi Final", "Collingwood", "Essendon"),
+            ("Semi Final", "Brisbane Lions", "Geelong"),
+            ("Preliminary Final", "Adelaide", "Collingwood"),
+            ("Preliminary Final", "Carlton", "Brisbane Lions"),
+            ("Grand Final", "Adelaide", "Carlton"),
+        ])
+        issues = self._audit(path)
+        assert [i for i in issues if i["severity"] == "WARNING"] == []
+        assert len(issues) == 5
+
+    def test_present_but_short_stage_flags_warning(self, tmp_path):
+        """One Semi Final scraped where two are played -> WARNING."""
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE + [
+            ("Semi Final", "Collingwood", "Essendon"),
+        ])
+        issues = self._audit(path)
+        warns = [i for i in issues if i["severity"] == "WARNING"]
+        assert len(warns) == 1
+        assert str(warns[0]["round_num"]) == "Semi Final"
+        assert warns[0]["n_matches"] == 1 and warns[0]["expected"] == 2
+
+    def test_absent_stage_is_never_flagged(self, tmp_path):
+        """Finals not yet played is the normal state -- must not block a cycle."""
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE)
+        issues = self._audit(path)
+        assert [i for i in issues if i["severity"] == "WARNING"] == []
+
+    def test_short_code_finals_labels_are_audited(self, tmp_path):
+        """The player corpus spells finals QF/EF/SF/PF/GF."""
+        path = _write_matches(tmp_path, [
+            ("QF", "Adelaide", "Brisbane Lions"),
+            ("QF", "Carlton", "Collingwood"),
+            ("EF", "Essendon", "Fremantle"),
+            ("EF", "Geelong", "Hawthorn"),
+            ("SF", "Collingwood", "Essendon"),
+        ])
+        issues = self._audit(path)
+        warns = [i for i in issues if i["severity"] == "WARNING"]
+        assert len(warns) == 1
+        assert warns[0]["n_matches"] == 1 and warns[0]["expected"] == 2
+
+    def test_dropped_earlier_stage_flagged_when_later_stage_present(self, tmp_path):
+        """A stage that vanished entirely IS detectable once a later stage
+        exists -- the series cannot have skipped it. This is the finals form of
+        the R10 silently-dropped-round bug."""
+        path = _write_matches(tmp_path, [
+            ("Qualifying Final", "Adelaide", "Brisbane Lions"),
+            ("Qualifying Final", "Carlton", "Collingwood"),
+            # both Elimination Finals dropped
+            ("Semi Final", "Collingwood", "Essendon"),
+            ("Semi Final", "Brisbane Lions", "Geelong"),
+        ])
+        issues = self._audit(path)
+        warns = [i for i in issues if i["severity"] == "WARNING"]
+        assert len(warns) == 1
+        assert str(warns[0]["round_num"]) == "Elimination Final"
+        assert warns[0]["n_matches"] == 0 and warns[0]["expected"] == 2
+
+    def test_unknown_round_label_is_ignored(self, tmp_path):
+        path = _write_matches(tmp_path, [
+            ("Wildcard Round", "Adelaide", "Brisbane Lions"),
+        ])
+        assert self._audit(path) == []
+
+
+class TestHomeAndAwayAuditUnchanged:
+    """Guard: the integer-round path keeps its exact fixture-comparison
+    behaviour and its fail-open-on-outage contract."""
+
+    def test_missing_ha_matchup_still_flagged(self, tmp_path):
+        path = _write_matches(tmp_path, [
+            (25, "Adelaide", "Brisbane Lions"),
+            (25, "Carlton", "Collingwood"),
+        ])
+        fixture = {
+            frozenset(("Adelaide", "Brisbane Lions")),
+            frozenset(("Carlton", "Collingwood")),
+            frozenset(("Essendon", "Fremantle")),
+        }
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=fixture):
+            issues = game_scraper.audit_match_rounds(path)
+        warns = [i for i in issues if i["severity"] == "WARNING"]
+        assert len(warns) == 1
+        assert warns[0]["round_num"] == 25
+        assert warns[0]["missing"] == ["Essendon v Fremantle"]
+
+    def test_ha_fixture_outage_fails_open(self, tmp_path):
+        path = _write_matches(tmp_path, [(25, "Adelaide", "Brisbane Lions")])
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=None):
+            issues = game_scraper.audit_match_rounds(path)
+        assert issues == []
+
+    def test_mixed_ha_and_finals_file_audits_both(self, tmp_path):
+        path = _write_matches(tmp_path, [
+            (25, "Adelaide", "Brisbane Lions"),
+        ] + _FULL_WEEK_ONE)
+        fixture = {frozenset(("Adelaide", "Brisbane Lions"))}
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=fixture):
+            issues = game_scraper.audit_match_rounds(path)
+        labels = [str(i["round_num"]) for i in issues]
+        assert "25" in labels and "Qualifying Final" in labels
+        assert [i for i in issues if i["severity"] == "WARNING"] == []
+
+
+class TestFinalsEraFloor:
+    """Pre-2000 seasons used the final four/five/six and the McIntyre eight,
+    whose stage counts differ from the modern 2-2-2-2-1 shape. Auditing them
+    against modern counts flagged 103 historical files (verified against the
+    real data/matches tree), so the finals audit has an era floor."""
+
+    def test_pre_2000_finals_not_audited(self, tmp_path):
+        path = _write_matches(tmp_path, [
+            ("Semi Final", "Adelaide", "Brisbane Lions"),
+            ("Preliminary Final", "Carlton", "Collingwood"),
+            ("Grand Final", "Adelaide", "Carlton"),
+        ], year=1975, name="matches_1975.csv")
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=None):
+            issues = game_scraper.audit_match_rounds(path)
+        assert issues == []
+
+    def test_2000_season_is_audited(self, tmp_path):
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE + [
+            ("Semi Final", "Adelaide", "Brisbane Lions"),
+        ], year=2000, name="matches_2000.csv")
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=None):
+            issues = game_scraper.audit_match_rounds(path)
+        warns = [i for i in issues if i["severity"] == "WARNING"]
+        assert [str(w["round_num"]) for w in warns] == ["Semi Final"]
+
+    def test_drawn_grand_final_replay_is_not_a_warning(self, tmp_path):
+        """2010 (and 1948, 1977) carry two Grand Final rows for one fixture.
+        More rows than expected is never a completeness gap."""
+        path = _write_matches(tmp_path, _FULL_WEEK_ONE + [
+            ("Semi Final", "Collingwood", "Essendon"),
+            ("Semi Final", "Brisbane Lions", "Geelong"),
+            ("Preliminary Final", "Collingwood", "Geelong"),
+            ("Preliminary Final", "St Kilda", "Adelaide"),
+            ("Grand Final", "Collingwood", "St Kilda"),
+            ("Grand Final", "St Kilda", "Collingwood"),
+        ], year=2010, name="matches_2010.csv")
+        with patch.object(game_scraper, "fetch_round_fixture", return_value=None):
+            issues = game_scraper.audit_match_rounds(path)
+        assert [i for i in issues if i["severity"] == "WARNING"] == []

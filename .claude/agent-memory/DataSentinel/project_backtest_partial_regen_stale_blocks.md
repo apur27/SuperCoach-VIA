@@ -65,3 +65,36 @@ See also [[project_backtest_doc_verification_gotchas]],
 [[project_backtest_tiebreak_and_readback_trap]], and
 [[project_backtest_reproduction_recipes]] for the keep-last vintage-selection
 mechanics reused here.
+
+## 2026-08-05 (R22 landing) — same defect class, but this time it's the TOP-30 table that's stale
+
+Confirmed via `git diff HEAD -- docs/afl-backtest-2026.md`: on this refresh the
+per-round `2026-BACKTEST` table, the `CUMULATIVE`/`TEAMBIAS`/`MISSES` blocks, and the
+`TRAINCORPUS`/`VINTAGEPATH` blocks were ALL correctly regenerated to the full 22-round
+pool (n=7,898, MAE 3.951, RMSE 5.085, bias -0.120, all 18 teams' bias, all 22 rows of
+the misses table including a new Round 22 row — every one of these reproduced exactly
+against the live keep-last artifact set). But the **top-30 disposal-winners table**
+(the one block this same memory file previously reported as reliably fresh on the R21
+pass) had **zero diff** in the git patch — it silently stayed pooled at the R1–R21
+basis. 24 of 30 rows mismatch the live R1–R22 recompute (e.g. Nick Daicos doc=18
+rounds/-6.5 avg error vs live=19 rounds/-6.4; several players' rank order also shifts
+because avg_actual moves once R22 is included — Zak Butters and Nasiah
+Wanganeen-Milera swap rank 6/7 between the two vintages).
+
+The "Read:" callout directly below the CUMULATIVE table (mean of the top-30 avg-error
+column, "2.87 disposals on average") was, in this instance, computed against the LIVE
+fresh R1–R22 top-30 pool (verified: mean of live rounded avg_error column = -2.87
+exactly) — NOT against the stale table two sections above it (whose rounded-column
+mean is -2.927 ≈ -2.93). So the callout number itself passes a strict
+trace-to-live-CSV check, but is inconsistent with the actual table it claims to
+summarize, which is the same "narrative points at stale data" failure shape as before,
+just with the callout accidentally correct and the table wrong instead of vice versa.
+
+**Takeaway, sharpened**: no single block of this doc — not even one that was fresh
+last cycle — can be assumed fresh this cycle. Which block goes stale moves around
+(CUMULATIVE/TEAMBIAS/MISSES on R21, top-30 table on R22). The only reliable check is
+mechanical: recompute EVERY block (2026-BACKTEST per-round, top-30, CUMULATIVE,
+TEAMBIAS, MISSES, TRAINCORPUS, VINTAGEPATH) independently from the full current
+keep-last artifact set every single pass, and additionally use `git diff HEAD -- <doc>`
+as a fast triage signal — a block with literally no diff hunk on a week where the round
+count changed is close to a guaranteed staleness tell, worth checking first.

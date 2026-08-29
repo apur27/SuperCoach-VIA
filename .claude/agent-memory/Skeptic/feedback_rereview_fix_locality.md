@@ -67,5 +67,26 @@ exact misconception the fix existed to kill, but states nothing false. BLOCK sta
 reserved for a claim that is actually false against the code. Say plainly why it was not
 promoted, or the operator reads the concern as a soft block.
 
+**Audit the FIX ITSELF as new prose — a caveat added to close a finding is untested
+text, and it typically over-generalizes from the handful of rows the finding named.**
+`docs/afl-insights.md` R25 recap re-review (2026-08-18): closing S5 (name the Daicos
+28.0-projected vs 35.3-average divergence) produced a correct clause plus a new
+generalization, "these projections run below season averages, most visibly for the
+highest-volume players". True for the three players cited, false for the model: joining
+`data/prediction/next_round_25_prediction_*.csv` to 2026 per-player means gives 404
+matched players, 51.2% below, mean diff −0.14 — and the sign flips by volume bucket
+(<10 dpg +1.45, 10–15 +0.21, 20–25 −0.99, 30+ −3.60). The real behaviour is
+mean-reversion in both directions; the caveat sells it as uniform undershoot, which
+misleads in the opposite direction for low-volume players. **How to apply:** whenever a
+fix adds a sentence about model/population behaviour, recompute the population claim —
+never accept it on the strength of the exemplar that motivated it.
+
+**Same pass, same paragraph class: a disclosure fix does not generalize to the identical
+defect one paragraph later.** S4 was closed by disclosing the three-way 30.5 disposal tie
+at L22; L26 of the same section still read "with Nick Daicos next at **28.0**" while the
+same CSV has Lachie Neale and Clayton Oliver at 28.0 too. The tie-disclosure concept was
+fixed exactly where it was quoted. Re-run every prior finding's *concept* against the
+sibling paragraphs, not just the doc's other sections.
+
 Related: [[feedback_accountability_surface_audits]],
 [[feedback_recap_tactical_note_causal_relapse]].
