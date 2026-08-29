@@ -750,5 +750,63 @@ deliberately — do not delete or skip tests to hit a number.
 
 ---
 
+### BL-24 — A stale backtest artifact sits in the live prediction namespace and wins filename-keyed selection
+**Owner:** Scientist (only Scientist may remove a file under `data/`)
+**Depends on:** none
+**Blocked by decision:** no
+**Fix brief:** `data/prediction/next_round_26_prediction_20260430_1200.csv` has been committed
+since 2026-04-30 (commit `8a54f9d5a`, "Add backtest results and updated rankings"). There is
+no round 26 — the 2026 home-and-away season is 25 rounds — and the file dates from April,
+when the season was around round 6.
+
+It is a **backtest leak, not a forward prediction**. Proof: its `predicted_disposals` are
+unrounded floats (`28.34237717695547`), while the forward path writes
+`np.round(...).astype(int)` — the genuine round-25 CSV holds `29`, `29`, `28`. This is the
+exact failure the by-archive backtest rewrite was introduced to stop, described in
+`refresh_and_rank.sh`: the old full-retrain path "wrote a next_round_*.csv into the live
+namespace that mtime-newest resolution then shipped in place of the real forward prediction".
+
+Live impact, verified by executing the function: `generate_weekly_cheat_sheet.find_latest_prediction`
+keys on `(round_number, timestamp)` parsed from the FILENAME and takes the max, so it selects
+this April file over the real `next_round_25_prediction_20260818_1146.csv` **right now**.
+The weekly harness has been shielded only because it passes `--csv "$LATEST_PRED"` explicitly
+(mtime-derived); any invocation without `--csv` gets April data labelled round 26. Filenames
+carry no year, so this also outranks every round 1-25 of 2027.
+
+**Acceptance criterion:** the file is removed from `data/prediction/` (quarantined, not
+silently deleted — confirm first that nothing references it, per the standing rule that a
+routed "quarantine these" instruction must be verified against the named files before
+acting). Add a validator asserting no `next_round_<R>` exists whose R exceeds the season's
+round count, so a future backtest leak is caught rather than lurking. Consider year-stamping
+prediction filenames (BL-nn candidate) to close the cross-season namespace collision.
+
+---
+
+### BL-25 — Every cycle strands its own backtest-completion mark
+**Owner:** Gaffer (harness)
+**Depends on:** none
+**Blocked by decision:** no
+**Fix brief:** `scripts/weekly_refresh.sh` runs `backtest_completeness.py ... mark` as its
+final step, AFTER the Phase 4 push. Marking after the push is correct and deliberate — only a
+cycle that actually reached origin may declare its artifacts complete, which is what stops an
+aborted run leaving orphans that look finished. But nothing then commits the mutated
+`completed_runs.json`, so **every cycle leaves its own entry uncommitted** and the next cycle
+sweeps it up incidentally.
+
+Observed twice: the 2026-08-18 cycle stranded `20260818_114620` (committed by hand on
+2026-08-29), and the 2026-08-29 cycle immediately stranded `20260829_132805` the same way.
+It normally self-heals on the following cycle, which is why it went unnoticed — but with
+weekly cycles paused until the Grand Final, a stranded entry now sits for weeks, and a fresh
+clone in that window re-scores an already-scored round against a corpus that has moved.
+
+**Acceptance criterion:** after `mark` succeeds, the harness commits and pushes
+`completed_runs.json` in a small follow-up commit (fail-soft — a failure here must not
+retroactively fail an otherwise-shipped cycle), with a wiring test in
+`tests/unit/test_harness_wiring.py` asserting a commit of that path follows the `mark`
+invocation. Ordering is the whole point: keep `mark` after the push, and add the commit after
+`mark`.
+
+---
+
 *Last updated: 2026-08-29. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
 
