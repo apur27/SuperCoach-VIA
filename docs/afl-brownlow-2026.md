@@ -11,27 +11,27 @@ The **Brownlow Medal** is the AFL's individual award for the "fairest and best" 
 
 ![2026 Brownlow predictor](../assets/charts/brownlow_predictor_2026.png)
 
-#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 24)
+#### Top 15 Brownlow proxy candidates — 2026 season-to-date (after Round 25)
 
 | Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | Goals/g | Proxy | Proj. votes |
 | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | Nick Daicos | Collingwood | 21 | 35.3 | 5.8 | 10.7 | 1.10 | +2.76 | +60.6 |
-| 2 | Clayton Oliver | Greater Western Sydney | 22 | 30.5 | 7.4 | 15.1 | 0.18 | +2.70 | +59.3 |
-| 3 | Lachie Neale | Brisbane Lions | 22 | 29.8 | 6.8 | 13.1 | 0.23 | +2.48 | +54.5 |
-| 4 | Patrick Cripps | Carlton | 22 | 26.6 | 7.5 | 14.8 | 0.59 | +2.47 | +54.3 |
-| 5 | Isaac Heeney | Sydney | 20 | 26.9 | 6.2 | 13.1 | 1.60 | +2.47 | +54.2 |
-| 6 | Bailey Smith | Geelong | 21 | 32.3 | 5.6 | 11.4 | 0.38 | +2.38 | +52.3 |
-| 7 | Jai Newcombe | Hawthorn | 22 | 26.3 | 7.7 | 13.3 | 0.32 | +2.30 | +50.6 |
-| 8 | Zak Butters | Port Adelaide | 17 | 29.8 | 6.1 | 12.2 | 0.29 | +2.29 | +50.3 |
-| 9 | Matt Rowell | Gold Coast | 17 | 26.1 | 7.4 | 13.8 | 0.18 | +2.23 | +49.0 |
-| 10 | Marcus Bontempelli | Western Bulldogs | 21 | 26.3 | 5.8 | 11.2 | 1.33 | +2.16 | +47.6 |
-| 11 | Harley Reid | West Coast | 22 | 24.8 | 6.7 | 13.4 | 0.64 | +2.06 | +45.4 |
-| 12 | Will Ashcroft | Brisbane Lions | 22 | 28.9 | 5.4 | 9.6 | 0.68 | +2.04 | +45.0 |
+| 1 | Nick Daicos | Collingwood | 22 | 34.9 | 5.7 | 10.7 | 1.09 | +2.72 | +59.7 |
+| 2 | Clayton Oliver | Greater Western Sydney | 23 | 30.2 | 7.3 | 14.9 | 0.17 | +2.65 | +58.3 |
+| 3 | Lachie Neale | Brisbane Lions | 23 | 30.0 | 7.2 | 13.5 | 0.22 | +2.58 | +56.8 |
+| 4 | Isaac Heeney | Sydney | 20 | 26.9 | 6.2 | 13.1 | 1.60 | +2.46 | +54.2 |
+| 5 | Patrick Cripps | Carlton | 23 | 26.5 | 7.6 | 14.6 | 0.61 | +2.45 | +54.0 |
+| 6 | Bailey Smith | Geelong | 22 | 32.6 | 5.5 | 11.3 | 0.50 | +2.42 | +53.2 |
+| 7 | Zak Butters | Port Adelaide | 17 | 29.8 | 6.1 | 12.2 | 0.29 | +2.29 | +50.4 |
+| 8 | Matt Rowell | Gold Coast | 18 | 26.2 | 7.6 | 14.2 | 0.17 | +2.29 | +50.3 |
+| 9 | Jai Newcombe | Hawthorn | 23 | 26.0 | 7.6 | 13.0 | 0.35 | +2.24 | +49.2 |
+| 10 | Marcus Bontempelli | Western Bulldogs | 22 | 26.3 | 5.6 | 11.1 | 1.36 | +2.14 | +47.1 |
+| 11 | Tim Taranto | Richmond | 21 | 24.8 | 6.4 | 12.6 | 0.71 | +2.07 | +45.6 |
+| 12 | Harley Reid | West Coast | 23 | 24.6 | 6.6 | 13.4 | 0.65 | +2.03 | +44.7 |
 | 13 | Harry Sheezel | North Melbourne | 22 | 30.5 | 4.5 | 9.8 | 0.55 | +2.03 | +44.7 |
-| 14 | Tim Taranto | Richmond | 20 | 24.2 | 6.2 | 12.0 | 0.70 | +1.96 | +43.2 |
-| 15 | Ed Richards | Western Bulldogs | 21 | 25.8 | 5.9 | 10.3 | 0.86 | +1.95 | +42.9 |
+| 14 | Will Ashcroft | Brisbane Lions | 23 | 28.7 | 5.3 | 9.5 | 0.70 | +2.01 | +44.3 |
+| 15 | Ed Richards | Western Bulldogs | 22 | 26.0 | 6.0 | 10.5 | 0.86 | +2.00 | +43.9 |
 
-On the proxy, **Nick Daicos** (Collingwood) leads the field — built on 35.3 disposals/g, 1.1 goals/g across 21 games. The composite score (+2.76) sits 0.06 clear of second place. **Clayton Oliver** (Greater Western Sydney) is the closest challenger at +2.70, with 30.5 disposals/g and 7.4 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
+On the proxy, **Nick Daicos** (Collingwood) leads the field — built on 34.9 disposals/g, 1.1 goals/g across 22 games. The composite score (+2.72) sits 0.06 clear of second place. **Clayton Oliver** (Greater Western Sydney) is the closest challenger at +2.65, with 30.2 disposals/g and 7.3 clearances/g. The proxy is a statistical model, not actual umpire votes — it captures the stat-profile umpires *historically* reward, but it cannot model individual game narrative, suspension impact or the umpire panel's eye for a defensive midfielder.
 <!-- 2026-BROWNLOW-PREDICTOR-END -->
 
 ---
