@@ -669,6 +669,20 @@ from a matches CSV fixture rather than asserting a literal, so the next season-l
 is caught rather than hard-coded. Check whether any other consumer of the constant silently
 depended on the off-by-one before changing it.
 
+**Consumers, enumerated 2026-08-29** (grep across `*.py`/`*.sh`/`*.json`/`*.md`) — exactly four,
+all in `update_team_analysis.py`, plus a commented-out `.env.example:45` override:
+- `1983` — finals-pathway intro prose ("played N games with roughly M left")
+- `2101` — `games_remaining`, feeding all 18 per-team paragraphs (see BL-21)
+- `2136` — `TOTAL_GAMES` for the finals-pathway chart x-axis; its trailing `# 22` comment goes
+  stale on the flip and should be removed in the same change
+- `2488` — the Brownlow season-proxy rescale
+
+**Closing this also changes the Brownlow doc**: the "Season proxy (×N)" column interpolates this
+constant, so it rescales by 23/22 and its heading becomes `(×23)`. That is intended and rank
+order is unaffected — but it means closing BL-20 changes `docs/afl-brownlow-2026.md`,
+`docs/afl-finals-2026.md` (18 paragraphs) and the finals-pathway chart together. Plan it as one
+deliberate re-render, not a config one-liner.
+
 ---
 
 ### BL-21 — The finals-pathway generator has no end-of-season mode
@@ -808,5 +822,39 @@ invocation. Ordering is the whole point: keep `mark` after the push, and add the
 
 ---
 
-*Last updated: 2026-08-29. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
+### BL-26 — The generated `docs/afl-*.md` season surfaces are ungated; tags are the wrong instrument
+**Owner:** Scientist (the gate) with Gaffer (the §6.2 smoke run and the operator answer)
+**Depends on:** none
+**Blocked by decision:** YES — needs a human call on scope (which docs come along)
+**Fix brief:** `docs/afl-brownlow-2026.md` carries zero `[data]` tags, no `<!-- council-pipeline:`
+stamp and no trust badge, despite publishing a 15-row × 6-column statistical table. Same for
+`docs/afl-stat-leaders-2026.md` and `docs/afl-finals-2026.md`. Only `afl-backtest-2026.md` opted
+in, and only after it drifted for seven cycles.
+
+**This is by design, not an oversight** — `scripts/check-council-stamp.sh:145-156` makes
+`docs/afl-*.md` opt-in-sticky deliberately: *"Most docs/afl-*.md are pipeline-generated surfaces
+with no council pipeline behind them, so gating all of them would block every routine refresh."*
+Adding a stamp opts a doc in permanently; it cannot opt back out.
+
+Inline tags are the wrong instrument here. The Brownlow table alone would need ~90 tags, every
+one machine-emitted from a single aggregation, which DataSentinel would then re-derive from
+`data/player_data/` — tag noise standing in for a computation. The `hall-of-fame-top100.md`
+precedent is the right shape: one deterministic `check_brownlow_consistency()` that reloads the
+year's player-games, recomputes the proxy and asserts the published cells match. That also
+catches the failure tags cannot — a generator that is correct but was never run.
+
+**Why it is blocked on a decision:** a new gate changes what a live cycle refuses to ship, so it
+is squarely CLAUDE.md §6.2 (smoke run required, plus a written answer to "what does an operator
+do when this fires mid-cycle?"). Two scope questions need settling first: (i) does the intro
+prose get covered too — it cites `n=145,150` and "~70%", neither derivable from the table;
+(ii) do `afl-stat-leaders-2026.md` and `afl-finals-2026.md` come along, since gating one of three
+near-identical surfaces invites the same question next month.
+
+**Acceptance criterion:** a deterministic consistency gate per adopted doc, wired into the
+harness, smoke-run green, with the recorded verdict backing a stamp — mirroring the
+`check_hof_numbers.py` → `record-sentinel-verdict.sh` pattern already in Phase 2b.
+
+---
+
+*Last updated: 2026-09-03. 2026-07-07 plan prepared by Surveyor; BL-nn backlog consolidated by Gaffer. Route questions to Gaffer.*
 

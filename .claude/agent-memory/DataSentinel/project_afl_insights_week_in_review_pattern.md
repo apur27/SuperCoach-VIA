@@ -38,3 +38,18 @@ reword ("regress toward the league mean, running below season averages for the h
 players and above them for low-volume ones") added zero new numbers — confirmed via full-doc
 digit scan (`grep -noE '[0-9]+(\.[0-9]+)?'`), every digit on line 26 traces to an already-tagged
 value or the Round-25 structural reference. PASS.
+
+R25 content rewrite (2026-08-29, hash `7d7bc5ce…`): the doc's "Watch in Round 25" prediction
+section was replaced entirely by a "Team form" + "Tactical note" pair (Sydney/Fremantle score and
+margin averages, clearances↔contested-possessions r=+0.75) sourced from `docs/afl-stat-leaders-2026.md`'s
+`## Team form` table and the contested-possessions section's "Top per-game correlates" line — same
+intermediate-doc pattern as before, just a different sub-table. All 17 `**[data]**` tag instances
+(12 in the disposal-leaders sentence incl. 5 games-played counts, 4 in team-form, 1 correlation)
+verified clean against afl-stat-leaders-2026.md + direct player-CSV games counts (Gulden 11, Daicos/Smith
+22, Sheezel 22, Oliver 23 — note Gulden's count DROPPED from 10→11 vs the prior R25 pass on the same
+round label, i.e. round-25-dated docs can still be regenerated with an updated games count after a
+data backfill/correction — don't assume "same round number" means "same underlying numbers", always
+recompute). Zero untagged numbers, zero coach-name hits (gotcha: `grep -f` against `config/coach_names.txt`
+with its header comments + blank lines will false-positive-match EVERY line, since a blank pattern
+line matches everything — always `grep -v '^#'` and `grep -v '^\s*$'` the config file into a temp
+file before using it as a `-f` pattern list). PASS.

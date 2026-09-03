@@ -2392,7 +2392,7 @@ def _build_brownlow_proxy_table(
     DataFrame with one row per player and columns:
         player_stem, player_display, team, games_played,
         disposals_pg, clearances_pg, cont_poss_pg, goals_pg,
-        eff_disp_pg, brownlow_proxy_pg, projected_votes_22_games
+        eff_disp_pg, brownlow_proxy_pg, season_proxy_scaled
     """
     if player_games.empty:
         return pd.DataFrame()
@@ -2474,18 +2474,17 @@ def _build_brownlow_proxy_table(
         + BROWNLOW_WEIGHTS["goals"] * out["_z_goals"]
     )
 
-    # Project to a 22-game season. Note: this is a simple linear
-    # extrapolation — it assumes the player keeps playing at their current
-    # per-game rate, ignoring injury, form, opposition, and the umpire
-    # vote ceiling of 30/season. We label this clearly as "projected" not
-    # "predicted votes."
-    HOME_AND_AWAY = 22
-    # Re-baseline projection so it scales with games already played.
-    # A player on 5.0 proxy/g over 7 games is treated identically to one
-    # at 5.0/g over 8 games — we just multiply per-game by 22.
-    # The proxy is dimensionless (sum of weighted z-scores) so the absolute
-    # scale is for ranking, not for direct vote interpretation.
-    out["projected_votes_22_games"] = out["brownlow_proxy_pg"] * HOME_AND_AWAY
+    # Scale the per-game proxy to a full home-and-away season. The proxy is
+    # dimensionless (a sum of weighted z-scores), so this is a pure rescale
+    # for ranking legibility — it is NOT a vote count and must never be
+    # published as one. Multiplying by a constant leaves the ranking
+    # unchanged; it only puts the numbers on a season-sized scale.
+    #
+    # The multiplier is `HOME_AND_AWAY_GAMES` (module-level, sourced from
+    # `config.HOME_AND_AWAY_GAMES`) — the SAME constant the rendered column
+    # heading interpolates, so the label can never name a different N than
+    # the one applied here. Do not re-introduce a local literal.
+    out["season_proxy_scaled"] = out["brownlow_proxy_pg"] * HOME_AND_AWAY_GAMES
 
     # Brownlow ineligibility flag (suspended players cannot win the actual
     # medal). Proxy score is still ranked — the flag is for display only.
@@ -2622,9 +2621,12 @@ def _build_brownlow_table_md(top: pd.DataFrame) -> str:
     glance that they are statistically interesting yet ineligible to win
     the actual medal.
     """
+    # The multiplier in the heading is interpolated from the same constant
+    # `_build_brownlow_proxy_table` multiplies by, so the label and the
+    # arithmetic cannot drift apart. Never hard-code the number here.
     header = (
         "| Rank | Player | Team | Games | Disp/g | Clear/g | CP/g | "
-        "Goals/g | Proxy | Proj. votes |\n"
+        f"Goals/g | Proxy | Season proxy (×{HOME_AND_AWAY_GAMES}) |\n"
         "| ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"
     )
     rows: List[str] = []
@@ -2646,7 +2648,7 @@ def _build_brownlow_table_md(top: pd.DataFrame) -> str:
             f"| {r['cont_poss_pg']:.1f} "
             f"| {r['goals_pg']:.2f} "
             f"| {r['brownlow_proxy_pg']:+.2f} "
-            f"| {r['projected_votes_22_games']:+.1f} |"
+            f"| {r['season_proxy_scaled']:+.1f} |"
         )
     return header + "\n" + "\n".join(rows)
 

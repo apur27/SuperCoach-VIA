@@ -9,3 +9,4 @@
 - [Skeptic tactical-note overreach patterns](skeptic_tactical_note_overreach.md) - correlation-to-claim checks: no identity-from-r, no variable substitution, scope superlatives to what the source doc actually shows.
 - [Skeptic ladder trend overreach](skeptic_ladder_trend_overreach.md) - a single-round ladder snapshot can't support "extended their lead" or "largest gap of the season" claims; report position, not trend.
 - [Skeptic margin label mismatch](skeptic_margin_label_mismatch.md) - "winning margin" recap claims recur (R24, R25 BLOCK) because the source table's own heading mislabels an all-games average; relabel don't recompute, and flag for a source-doc heading fix.
+- [Weekly recap scope restrictions](weekly_recap_scope_restrictions.md) - some cycles (R25) narrow sources and ban forward-looking content; drop "watch next round" rather than forcing it, and disclose games-played disparities among top disposal leaders.

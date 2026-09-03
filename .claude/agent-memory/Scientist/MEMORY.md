@@ -1,5 +1,7 @@
 # Memory Index
 
+- [Brownlow season-scale constant](brownlow_season_scale_constant.md) - scaled column + "(×N)" heading both read HOME_AND_AWAY_GAMES (=config, 22, wrong-by-one per BL-20); closing BL-20 rescales the column and moves the finals doc
+
 - [HOF full-table regen wiring](hof_full_table_regen.md) - whitelist inert without HOF-TABLE-START/END doc markers; table=bare names, prose=jnr/snr; disposals/goals are standard 7-col not multi-column
 - [Match-round audit (R10 2026 bug guard)](match_round_audit.md) - audit_match_rounds() in game_scraper.py; fixture-aware (fetch_round_fixture from afltables season page), exact, names missing matchups, no threshold
 - [Reconciliation source: afltables player page](reconciliation_source_afltables_player.md) - all-season Totals row maps 1:1 to our CSV cols; second source of truth for missing PLAYER stat rows (Pendlebury bug); career-level not per-game

@@ -91,3 +91,26 @@ whatever order `groupby(["player","team"])` (default `sort=True`, i.e. alphabeti
 when a top-30 (or similar generated-table) reproduction hits an exact tie, import and call the
 actual generator function rather than trying to reverse-engineer a tie-break rule from table
 order** — it's faster and immune to guessing wrong.
+
+## 2026-08-29 (R25 landing) — clean full regen, zero defects; fastest-verify method confirmed
+
+All blocks (2026-BACKTEST per-round table incl. unweighted-mean/median/concerning-round-count,
+top-30, CUMULATIVE n=9,007==9,007==9,007, TEAMBIAS all 18 teams, MISSES 25×10=250 entries,
+TRAINCORPUS 1,818/13,367 + season span 2005–2026-minus-target=2005–2025, VINTAGEPATH 17
+retrain/8 archive/7 attested/1 not incl. exact commit-vs-first-bounce timestamps, frozen R1–R20
+Known Coverage Limitation block) reproduced exactly against the live R1–R25 keep-last pool. All
+21 `**[data]**` tag-instances PASS, zero untagged numbers, zero coach-name violations
+(Hardwick/Bolton again the same false positives). Frozen R1–R20 section's own St Kilda figure
+(−0.583 published) reproduced at −0.584 — a 0.001 discrepancy at 3dp, inside the "within 1 in
+the last shown decimal" tolerance band, not a defect.
+
+**Fastest-verify recipe confirmed end-to-end this pass** — for `_render_top30_table`
+specifically: call `_load_top30_player_deviation(year, bt_dir).head(30).reset_index(drop=True)`
+then feed that straight into `_render_top30_table(...)` and diff the returned markdown string
+directly against the doc's table lines — this reproduces the doc byte-for-byte (including bold
+flags and the −0.0/+0.0 sign convention) in one shot, faster than recomputing each cell by hand
+and safer than eyeballing which rows are bold (a manual re-read of bold markers is easy to
+mis-transcribe — caught myself misreading row 6 "Lachie Neale" as non-bold on a manual glance
+when the raw file and the generator both agree it IS bold; re-reading the raw line resolved it).
+Same trick generalizes: whenever a block has a corresponding Python renderer function in
+`update_team_analysis.py`, prefer calling it over reimplementing the formatting logic.
