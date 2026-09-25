@@ -26,6 +26,7 @@ from supercoach_via.domain.schemas import (
     DateQuality,
     MatchStatus,
     Severity,
+    SnapshotManifest,
     StageType,
     ValidationReport,
 )
@@ -43,6 +44,8 @@ __all__ = [
     "validate_dataset",
 ]
 
+#: Quarantine rows resolved by a later verified repair keep their evidence with this prefix.
+RESOLVED_PREFIX = "resolved_by_repair:"
 CORE_TABLES = ("players", "clubs", "matches", "player_games", "quality_issues", "quarantine", "source_files")
 #: Rules whose per-row issues are emitted individually up to this count per rule/season.
 ROW_ISSUE_CAP = 200
@@ -611,11 +614,33 @@ def _import_issue_checks(q: SnapshotQuery, col: _Collector, tables: Iterable[str
                 season=season,
             )
     if "quarantine" in tables:
-        for table, reason, path, row, season in q.rows(
-            "SELECT table_name, reason, source_path, source_row, season FROM quarantine "
-            "WHERE season = ? AND reason <> 'duplicate_identity' ORDER BY quarantine_id",
+        verified_sql = (
+            "EXISTS (SELECT 1 FROM lineups l WHERE l.source_path = q.source_path "
+            "AND l.source_row = q.source_row AND l.name_token = json_extract_string(q.raw, '$.token'))"
+            if "lineups" in tables
+            else "false"
+        )
+        sql = (
+            f"SELECT q.table_name, q.reason, q.source_path, q.source_row, q.season, {verified_sql} "  # noqa: S608
+            "FROM quarantine q WHERE q.season = ? AND q.reason <> 'duplicate_identity' ORDER BY q.quarantine_id"
+        )
+        for table, reason, path, row, season, verified in q.rows(
+            sql,
             [col.current],
         ):
+            if str(reason).startswith(RESOLVED_PREFIX):
+                if table == "lineups" and verified:
+                    continue  # re-linked after a verified repair; the lineup row exists
+                col.add(
+                    "imports",
+                    "quarantine_resolution_unverified",
+                    Severity.BLOCKING,
+                    f"{table} row marked {reason} but no matching {table} row exists",
+                    table=table,
+                    row_key=f"{path}:{row}",
+                    season=season,
+                )
+                continue
             col.add(
                 "imports",
                 "current_season_row_quarantined",
@@ -625,3 +650,59 @@ def _import_issue_checks(q: SnapshotQuery, col: _Collector, tables: Iterable[str
                 row_key=f"{path}:{row}",
                 season=season,
             )
+
+
+def relink_quarantined_lineups(
+    data_root: Path, manifest: SnapshotManifest, *, season: int
+) -> dict[str, list[dict[str, Any]]]:
+    """Upserts linking ``season``'s unresolved lineup tokens to newly present participants.
+
+    Uses the importer's pass-1 rule only: the token's normalized name must equal exactly one
+    player with a ``player_games`` row for that lineup row's match and club who has no lineup
+    row there yet. The match/club come from the tokens of the same source row that did link.
+    Resolved quarantine rows keep their raw evidence under ``RESOLVED_PREFIX + reason``.
+    """
+    import json
+
+    from supercoach_via.domain.ids import normalize_name
+
+    out: dict[str, list[dict[str, Any]]] = {"lineups": [], "quarantine": []}
+    need = {"players", "player_games", "lineups", "quarantine"}
+    if not need <= set(manifest.tables):
+        return out
+    part = {"player_games": {str(season)}, "lineups": {str(season)}}
+    with SnapshotQuery(data_root, manifest, tables=need, partitions=part) as q:
+        pending = q.arrow(
+            "SELECT * FROM quarantine WHERE season = ? AND table_name = 'lineups' "
+            "AND reason = 'lineup_token_unresolved' ORDER BY quarantine_id",
+            [season],
+        ).to_pylist()
+        for qrow in pending:
+            token = str(json.loads(qrow["raw"]).get("token") or "")
+            sib = q.rows(
+                "SELECT DISTINCT match_id, club_id, confidence FROM lineups WHERE source_path = ? AND source_row = ?",
+                [qrow["source_path"], qrow["source_row"]],
+            )
+            if len(sib) != 1 or not token:
+                continue
+            match_id, club_id, _conf = sib[0]
+            participants = q.rows(
+                "SELECT g.player_id, p.display_name FROM player_games g JOIN players p USING (player_id) "
+                "WHERE g.match_id = ? AND g.club_id = ? AND NOT EXISTS (SELECT 1 FROM lineups l "
+                "WHERE l.match_id = g.match_id AND l.club_id = g.club_id AND l.player_id = g.player_id)",
+                [match_id, club_id],
+            )
+            want = normalize_name(token)
+            hits = sorted(pid for pid, name in participants if normalize_name(str(name)) == want)
+            if len(hits) != 1:
+                continue
+            out["lineups"].append(
+                {c: None for c in TABLES["lineups"].column_names}
+                | {"match_id": match_id, "club_id": club_id, "player_id": hits[0], "season": season,
+                   "role": "played", "confidence": "high", "name_token": token,
+                   "resolution": "match_participation", "provenance": qrow["provenance"],
+                   "source_path": qrow["source_path"], "source_sha256": qrow["source_sha256"],
+                   "source_row": qrow["source_row"]}
+            )  # fmt: skip
+            out["quarantine"].append({**qrow, "reason": RESOLVED_PREFIX + str(qrow["reason"])})
+    return out

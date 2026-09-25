@@ -688,3 +688,257 @@ def _default_club_resolver(context: RunContext) -> ClubResolver | None:
     from supercoach_via.domain.ids import ClubRegistry
 
     return ClubRegistry.from_csv(path).resolve
+
+
+# ---------------------------------------------------------------------------
+# Bounded player-page repair (targeted gap fill; owner-authorised per use)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class PlayerRepairTarget:
+    """One player whose rows for a season are missing from the base.
+
+    ``discover_match_id`` is a base match whose source page lists the player (e.g. one of
+    the lineup rows that could not be linked); the player-page URL is read from that page's
+    href, never guessed. ``player_id`` binds an existing identity, proven by
+    ``expected_birth_date``; ``None`` creates a source-keyed identity that must not share a
+    birth date with any of ``exclude_birth_dates`` (same-name identities it must not be).
+    """
+
+    display_name: str
+    discover_match_id: str
+    club_source_name: str
+    player_id: str | None
+    expected_birth_date: date | None
+    exclude_birth_dates: tuple[date, ...] = ()
+
+
+@dataclass
+class RepairResult:
+    outcome: CheckOutcome
+    exit_code: int
+    upserts: dict[str, list[dict[str, Any]]]
+    evidence: list[dict[str, Any]]
+    work_log: list[dict[str, Any]]
+    issues: list[str]
+    request_counts: dict[str, int]
+    bytes_received: int
+
+
+def _source_person(name: str) -> str:
+    """AFLTables match pages list "Surname, First"; compare as "First Surname"."""
+    from supercoach_via.domain.ids import normalize_name
+
+    last, sep, first = name.partition(",")
+    return normalize_name(f"{first} {last}" if sep else name)
+
+
+def _repair_row(
+    m: at.FixtureMatch, r: at.ResolvedGame, pid: str, idx: int, res: FetchResult, url: str
+) -> dict[str, Any]:
+    home = r.game.team == m.home_name
+    club = (m.home_club_id if home else m.away_club_id) or f"src:{m.home_team_slug if home else m.away_team_slug}"
+    return fit_table_row(
+        "player_games",
+        {"match_id": m.match_id, "player_id": pid, "club_id": club, "season": m.season,
+         "opponent_club_id": m.away_club_id if home else m.home_club_id,
+         "stage_label": m.stage.label, "stage_id": m.stage.stage_id,
+         "club_source_name": r.game.team, "opponent_source_name": r.game.opponent,
+         "link_method": "source_url", "match_date": m.match_date,
+         "date_quality": DateQuality.FIXTURE_VERIFIED.value,
+         "career_game_counter": r.game.career_game_counter,
+         "career_game_counter_token": r.game.career_game_counter_token,
+         "result": r.game.result, "jersey_number": _jersey(r.game.jersey_token), **r.game.stats,
+         "available_at": res.fetched_at, "revision_id": f"rev:{(res.sha256 or '')[:16]}",
+         "provenance": Provenance.SOURCE_FETCH.value, "source_path": url,
+         "source_sha256": res.sha256, "source_row": idx},
+    )  # fmt: skip
+
+
+def repair_player_pages(
+    base: BaseState,
+    season: int,
+    targets: list[PlayerRepairTarget],
+    context: RunContext,
+    *,
+    club_resolver: ClubResolver | None = None,
+    existing_players: Mapping[str, Mapping[str, Any]] | None = None,
+    max_requests: int = 10,
+) -> RepairResult:
+    """Fill ``targets``' missing ``season`` rows from their AFLTables player pages.
+
+    Requests: one season page, one match page per distinct discovery match, one page per
+    target; the total must fit ``max_requests`` (checked before any network use). Returns
+    upserts only; merging, validation and promotion are the caller's job. Any failed fetch,
+    identity mismatch, unresolvable page game or disagreement with an existing base row
+    makes the outcome non-PASS (exit code 3) and withholds every fact row.
+    """
+    from supercoach_via.domain.ids import normalize_name
+
+    http = context.http
+    if not isinstance(http, HttpClient):
+        raise RefreshConfigError("repair_player_pages needs context.http (an ingest.http.HttpClient)")
+    if not targets:
+        raise RefreshConfigError("no repair targets")
+    for t in targets:
+        if t.player_id is not None and t.expected_birth_date is None:
+            raise RefreshConfigError(f"{t.display_name}: binding an existing identity needs expected_birth_date")
+        if t.discover_match_id not in base.matches:
+            raise RefreshConfigError(f"{t.display_name}: discovery match {t.discover_match_id} not in base")
+    planned = 1 + len({t.discover_match_id for t in targets}) + len(targets)
+    if planned > max_requests:
+        raise RefreshConfigError(f"repair needs {planned} requests, over the budget of {max_requests}")
+    if club_resolver is None:
+        club_resolver = _default_club_resolver(context)
+    plan = RefreshPlan(
+        base_snapshot_id=base.snapshot_id, created_at=context.clock(), current_season=season, seasons=(season,),
+        overlap_seasons=(), catch_up_seasons=(), repair_seasons=(), work=(),
+        estimated_requests={"min": planned, "max": planned}, outputs=OUTPUT_TABLES, include_new_player_pages=True,
+    )  # fmt: skip
+    run = _Run(base, plan, http, context, club_resolver)
+    evidence: list[dict[str, Any]] = [
+        {"display_name": t.display_name, "player_id": t.player_id, "status": "not_attempted", "player_url": None,
+         "page_sha256": None, "rows_added": 0, "rows_matching": 0, "rows_conflicting": 0, "page_seasons": {}}
+        for t in targets
+    ]  # fmt: skip
+
+    def result() -> RepairResult:
+        failed = run.blocking or any(e["status"] != "repaired" for e in evidence)
+        outcome = CheckOutcome.UNKNOWN if run.unreachable else CheckOutcome.FAIL if failed else CheckOutcome.PASS
+        if outcome is not CheckOutcome.PASS:  # never hand back fact rows from a failed repair
+            run.upserts["player_games"] = []
+            run.upserts["players"] = []
+        return RepairResult(
+            outcome=outcome, exit_code=0 if outcome is CheckOutcome.PASS else 3, upserts=run.upserts,
+            evidence=evidence, work_log=run.log, issues=run.issues,
+            request_counts=dict(Counter(http.request_counts)), bytes_received=http.bytes_received,
+        )  # fmt: skip
+
+    item = WorkItem("season_fixture", f"afltables:season:{season}", at.season_url(season), season, True, "repair")
+    res = run.fetch(item, conditional=False)
+    if not res.ok or res.content is None:
+        return result()
+    fx = at.parse_season_page(res.content, season=season, club_resolver=club_resolver)
+    if fx.outcome is not CheckOutcome.PASS:
+        run.quarantine(item, "season page parse: " + "; ".join(fx.issues[:5]), res, {"issues": fx.issues[:20]})
+        return result()
+    run.counts[item.kind].succeeded += 1
+    run.note(item, "succeeded", CheckOutcome.PASS)
+    by_id = {m.match_id: m for m in fx.matches}
+
+    details: dict[str, at.MatchDetail | None] = {}
+    for mid in sorted({t.discover_match_id for t in targets}):
+        m = by_id.get(mid)
+        details[mid] = None
+        if m is None or m.detail_url is None or m.source_game_id is None:
+            run.issue("repair_discovery_missing", Severity.BLOCKING, mid, season, "match not on the source", None)
+            continue
+        ditem = WorkItem("match_detail", f"afltables:game:{m.source_game_id}", m.detail_url, season, True, "repair")
+        dres = run.fetch(ditem, conditional=False)
+        if not dres.ok or dres.content is None:
+            continue
+        d = at.parse_match_detail(dres.content, season=season, game_id=m.source_game_id)
+        if d.outcome is not CheckOutcome.PASS:
+            run.quarantine(ditem, "match detail parse: " + "; ".join(d.issues[:5]), dres, {"issues": d.issues[:20]})
+            continue
+        details[mid] = d
+        run.counts[ditem.kind].succeeded += 1
+        run.note(ditem, "succeeded", CheckOutcome.PASS, "discovery")
+
+    existing_players = existing_players or {}
+    for t, ev in zip(targets, evidence, strict=True):
+        found = details.get(t.discover_match_id)
+        if found is None:
+            ev["status"] = "discovery_failed"
+            continue
+        want = normalize_name(t.display_name)
+        hits = [p for p in found.players if p.team == t.club_source_name and _source_person(p.source_name) == want]
+        if len(hits) != 1 or hits[0].player_url is None:
+            ev["status"] = "not_on_match_page" if not hits else "ambiguous_on_match_page"
+            run.issue("repair_discovery_failed", Severity.BLOCKING, t.discover_match_id, season,
+                      f"{t.display_name}: {len(hits)} matching players on the source match page", None)  # fmt: skip
+            continue
+        url = hits[0].player_url
+        ev["player_url"] = url
+        pitem = WorkItem("player_page", f"afltables:player:{url.rsplit('/players/', 1)[1]}", url, season, True,
+                         "repair")  # fmt: skip
+        pres = run.fetch(pitem, conditional=False)
+        if not pres.ok or pres.content is None:
+            ev["status"] = "fetch_failed"
+            continue
+        ev["page_sha256"] = pres.sha256
+        page = at.parse_player_page(pres.content, page_url=url)
+        ev["page_seasons"] = {str(k): v for k, v in sorted(Counter(g.season for g in page.games).items())}
+        if page.outcome is not CheckOutcome.PASS:
+            run.quarantine(pitem, "player page parse: " + "; ".join(page.issues[:5]), pres,
+                           {"issues": page.issues[:20]})  # fmt: skip
+            ev["status"] = "parse_failed"
+            continue
+        dob = page.birth_date
+        if (
+            normalize_name(page.name or "") != want
+            or dob is None
+            or (t.player_id is not None and dob != t.expected_birth_date)
+            or (t.player_id is None and dob in t.exclude_birth_dates)
+        ):
+            ev["status"] = "identity_mismatch"
+            ev["page_name"], ev["page_birth_date"] = page.name, dob.isoformat() if dob else None
+            why = f"{t.display_name}: page identity ({page.name}, {dob}) does not prove the target"
+            run.issue("repair_identity_mismatch", Severity.BLOCKING, url, season, why, url)
+            continue
+        pid = t.player_id or _new_player_id(url)
+        if t.player_id is not None and not existing_players.get(pid):
+            ev["status"] = "identity_missing_in_base"
+            run.issue("repair_identity_missing", Severity.BLOCKING, pid, season, "player row not in base", url)
+            continue
+        rows: list[dict[str, Any]] = []
+        blocked = False
+        season_games = [g for g in page.games if g.season == season]
+        for idx, r in enumerate(at.resolve_player_games(season_games, fx), start=1):
+            m = by_id.get(r.match_id) if r.match_id else None
+            b = base.matches.get(r.match_id) if r.match_id else None
+            if m is None or b is None or b.status != MatchStatus.COMPLETE.value or r.game.team not in (
+                m.home_name, m.away_name
+            ):
+                blocked = True
+                run.issue("repair_game_unresolved", Severity.BLOCKING, f"{pid}|{r.game.round_token}", season,
+                          f"{t.display_name}: page game {r.game.team} v {r.game.opponent} rd {r.game.round_token} "
+                          "does not resolve to a completed base match", url)  # fmt: skip
+                continue
+            loaded = base.load_player_rows(season, m.match_id) if base.load_player_rows else []
+            prior = [x for x in loaded if x.get("player_id") == pid]
+            if prior:
+                same = all(_same(prior[0].get(c), r.game.stats.get(c)) for c in PLAYER_STAT_COLUMNS if c in prior[0])
+                ev["rows_matching" if same else "rows_conflicting"] += 1
+                if not same:
+                    blocked = True
+                    run.issue("repair_conflicts_with_base", Severity.BLOCKING, f"{m.match_id}|{pid}", season,
+                              f"{t.display_name}: source page disagrees with the accepted row", url)  # fmt: skip
+                continue
+            rows.append(_repair_row(m, r, pid, idx, pres, url))
+        if blocked:
+            ev["status"] = "blocked"
+            continue
+        run.upserts["player_games"].extend(rows)
+        ev["rows_added"] = len(rows)
+        ev["player_id"] = pid
+        if t.player_id is None:
+            first, _, last = (page.name or "").partition(" ")
+            run.upserts["players"].append(fit_table_row("players", {
+                "player_id": pid, "legacy_slug": None, "display_name": page.name, "first_name": first or None,
+                "last_name": last or None, "birth_date": dob, "birth_date_quality": "source",
+                "debut_date": None, "height_cm": None, "weight_kg": None,
+                "identity_status": IdentityStatus.CANONICAL.value, "canonical_player_id": None,
+                "source_urls": json.dumps([url]), "provenance": Provenance.SOURCE_FETCH.value,
+                "source_path": url, "source_sha256": pres.sha256, "source_row": None,
+            }))  # fmt: skip
+        else:
+            prev = dict(existing_players[pid])
+            urls = sorted({*json.loads(str(prev.get("source_urls") or "[]")), url})
+            run.upserts["players"].append(fit_table_row("players", {**prev, "source_urls": json.dumps(urls)}))
+        run.revisions[pitem.key] = pres.sha256 or ""
+        run.counts[pitem.kind].succeeded += 1
+        run.note(pitem, "succeeded", CheckOutcome.PASS, f"{len(rows)} rows")
+        ev["status"] = "repaired"
+    return result()

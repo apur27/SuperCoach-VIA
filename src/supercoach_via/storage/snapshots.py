@@ -195,6 +195,13 @@ class SnapshotBuilder:
         frags.append(ref)
         return ref
 
+    def reuse(self, table_name: str, ref: FragmentRef) -> None:
+        """Reference an existing fragment unchanged (unchanged partitions are not rewritten)."""
+        frags = self._tables.setdefault(table_name, [])
+        if any(f.partition == ref.partition for f in frags):
+            raise ValueError(f"duplicate partition {ref.partition!r} for table {table_name}")
+        frags.append(ref)
+
     def add_partitioned(self, table_name: str, table: pa.Table, column: str) -> list[FragmentRef]:
         """Split ``table`` by distinct values of ``column`` into one fragment each."""
         import pyarrow.compute as pc
@@ -249,6 +256,85 @@ class SnapshotBuilder:
         if not path.exists():
             atomic_write_bytes(path, manifest.model_dump_json(indent=1).encode())
         return SnapshotCandidate(manifest=manifest, manifest_path=path)
+
+
+def apply_upserts(
+    data_root: Path,
+    base: SnapshotManifest,
+    upserts: dict[str, list[dict[str, Any]]],
+    *,
+    clock: Clock,
+    code_version: str,
+    status: DatasetStatus,
+    run_id: str | None = None,
+    source_revisions: dict[str, str] | None = None,
+    notes: Iterable[str] = (),
+) -> SnapshotCandidate:
+    """New candidate = ``base`` with ``upserts`` replacing rows by table key.
+
+    Only partitions (``TableSpec.partition_by``) that receive rows are read and rewritten;
+    all other fragments are reused by reference. The base snapshot is never modified.
+    Raises ``KeyError`` for an unknown table/column and ``ValueError`` for empty input or
+    duplicate keys within the upserts.
+    """
+    import pyarrow as pa
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+
+    from supercoach_via.domain.schemas import TABLES
+
+    if not any(upserts.values()):
+        raise ValueError("no upserts to apply")
+    builder = SnapshotBuilder(data_root, clock=clock, code_version=code_version, run_id=run_id)
+    touched = {name for name, rows in upserts.items() if rows}
+    for name in sorted(touched):
+        spec = TABLES[name]
+        extra = {c for r in upserts[name] for c in r} - set(spec.column_names)
+        if extra:
+            raise KeyError(f"{name}: unknown columns {sorted(extra)}")
+    for name, entry in sorted(base.tables.items()):
+        if name not in touched:
+            for frag in entry.fragments:
+                builder.reuse(name, frag)
+    for name in sorted(touched):
+        spec = TABLES[name]
+        schema = spec.arrow_schema()
+        rows = upserts[name]
+        keys = [tuple(r.get(k) for k in spec.key) for r in rows]
+        if len(set(keys)) != len(keys):
+            raise ValueError(f"{name}: duplicate key within upserts")
+        part_col = spec.partition_by
+
+        def part_of(row: dict[str, Any], col: str | None = part_col) -> str | None:
+            return None if col is None else str(row[col])
+
+        groups: dict[str | None, list[dict[str, Any]]] = {}
+        for r in rows:
+            groups.setdefault(part_of(r), []).append(r)
+        base_entry = base.tables.get(name)
+        existing: dict[str | None, list[FragmentRef]] = {}
+        for frag in base_entry.fragments if base_entry else ():
+            existing.setdefault(frag.partition if part_col else None, []).append(frag)
+        for part, frags in sorted(existing.items(), key=lambda kv: kv[0] or ""):
+            if part not in groups:
+                for frag in frags:
+                    builder.reuse(name, frag)
+        for part, new_rows in sorted(groups.items(), key=lambda kv: kv[0] or ""):
+            new_keys = {tuple(r.get(k) for k in spec.key) for r in new_rows}
+            kept: list[dict[str, Any]] = []
+            for frag in existing.get(part, []):
+                table = pq.read_table(contained_path(data_root / "fragments", frag.path)).cast(schema)
+                kept += [r for r in table.to_pylist() if tuple(r[k] for k in spec.key) not in new_keys]
+            merged = kept + [{c: r.get(c) for c in spec.column_names} for r in new_rows]
+            table = pa.Table.from_pylist(merged, schema=schema).sort_by([(k, "ascending") for k in spec.key])
+            if part_col is not None and pc.sum(pc.is_null(table[part_col])).as_py():
+                raise ValueError(f"{name}.{part_col} has null partition values")
+            builder.add(name, table, partition=part)
+    revisions = dict(base.source_revisions)
+    revisions.update(source_revisions or {})
+    return builder.finish(
+        status=status, parent=base.snapshot_id, source_revisions=revisions, quality=dict(base.quality), notes=notes
+    )
 
 
 def promote(

@@ -142,7 +142,7 @@ def _boundary_note(metric: str, bounds: list[tuple[str, int, int]], eras: Covera
 
 def adjacent_era_tests(q: SnapshotQuery, *, eras: CoverageEras | None = None) -> pd.DataFrame:
     import pandas as pd
-    from scipy import special  # type: ignore[import-untyped]  # scipy: sklearn runtime dependency
+    from scipy import special
 
     eras = eras if eras is not None else _default_eras()
     bounds = era_bounds(q)
