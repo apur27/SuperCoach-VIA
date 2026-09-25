@@ -100,6 +100,14 @@ describe('measureSite', () => {
     rmSync(join(dir, '_astro/shared.js'));
     expect(() => measureSite(dir, { routes: ROUTES })).toThrow(/missing.*shared\.js/);
   });
+  it('charges nothing for an optional resource the release legitimately lacks, but fails a required one', () => {
+    site();
+    const opt = [{ route: 'player/', json: [{ kind: 'release', glob: 'release.json' }, { kind: 'player_detail', glob: 'nothing/*.json', optional: true }] }];
+    const r = measureSite(dir, { routes: opt });
+    expect(r.routes[0]?.json_files).toEqual(['data/r1/release.json']);
+    const req = [{ route: 'player/', json: [{ kind: 'player_detail', glob: 'nothing/*.json' }] }];
+    expect(() => measureSite(dir, { routes: req })).toThrow(/no JSON matches/);
+  });
   it('fails when a route page was not built', () => {
     site();
     expect(() => measureSite(dir, { routes: [{ route: 'nope/', json: [] }] })).toThrow(/nope/);

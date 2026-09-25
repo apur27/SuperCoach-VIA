@@ -4,17 +4,22 @@
  * the site build instead of shipping active content.
  */
 const ALLOWED_TAGS = new Set([
-  'a', 'abbr', 'b', 'blockquote', 'br', 'caption', 'code', 'dd', 'del', 'div', 'dl', 'dt', 'em', 'figcaption', 'figure',
-  'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'li', 'ol', 'p', 'pre', 's', 'small', 'span', 'strong', 'sub', 'sup',
+  'a', 'abbr', 'b', 'blockquote', 'br', 'caption', 'code', 'dd', 'del', 'details', 'div', 'dl', 'dt', 'em', 'figcaption', 'figure',
+  'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li', 'ol', 'p', 'pre', 's', 'small', 'span', 'strong', 'sub', 'summary', 'sup',
   'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'ul',
 ]);
 const ALLOWED_ATTRS: Record<string, Set<string>> = {
   '*': new Set(['title', 'lang', 'dir']),
   a: new Set(['href', 'title', 'rel']),
-  th: new Set(['scope', 'colspan', 'rowspan', 'abbr']),
-  td: new Set(['colspan', 'rowspan']),
+  img: new Set(['src', 'alt', 'title', 'width', 'height']),
+  th: new Set(['scope', 'colspan', 'rowspan', 'abbr', 'align']),
+  td: new Set(['colspan', 'rowspan', 'align']),
+  code: new Set(['class']),
+  abbr: new Set(['title']),
   ol: new Set(['start', 'reversed']),
 };
+// Article images are build-mapped release assets: root-relative, same-origin, no scheme.
+const SAFE_IMG_SRC_RE = /^\/(?!\/)[A-Za-z0-9_\-./]+\.(png|svg)$/;
 const SAFE_URL_RE = /^(https?:\/\/|mailto:|#|\.{0,2}\/|[A-Za-z0-9_-][A-Za-z0-9_\-./]*(#[A-Za-z0-9_-]*)?$)/;
 
 export function findUnsafeHtml(html: string): string[] {
@@ -39,6 +44,11 @@ export function findUnsafeHtml(html: string): string[] {
       if (!allowed) {
         issues.push(`attribute ${name} on ${tag}`);
         continue;
+      }
+      if (name === 'class' && !/^language-[A-Za-z0-9_+-]{1,30}$/.test(value.trim())) issues.push(`class ${value.trim()}`);
+      if (name === 'align' && !/^(left|right|center)$/.test(value.trim())) issues.push(`align ${value.trim()}`);
+      if (name === 'src' && (!SAFE_IMG_SRC_RE.test(value.trim()) || value.includes('..'))) {
+        issues.push(`img src ${value.trim()}`);
       }
       if (name === 'href') {
         const decoded = value.replace(/&#x?[0-9a-f]+;?|&[a-z]+;/gi, '?').trim();

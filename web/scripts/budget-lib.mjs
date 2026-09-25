@@ -133,7 +133,10 @@ export function measureSite(dist, { routes }) {
       const relRoot = `data/${assets.releaseId}`;
       const candidates = globFiles(join(dist, relRoot), entry.glob).filter((f) => !(entry.exclude ?? []).includes(f))
         .map((f) => `${relRoot}/${f}`);
-      if (!candidates.length) throw new Error(`route "${spec.route}": no JSON matches ${entry.glob}`);
+      if (!candidates.length) {
+        if (entry.optional) continue; // e.g. forecast unavailable / no live match: nothing is fetched
+        throw new Error(`route "${spec.route}": no JSON matches ${entry.glob}`);
+      }
       candidates.sort((a, b) => gz(b) - gz(a) || a.localeCompare(b));
       jsonFiles.push(...candidates.slice(0, entry.count ?? 1));
     }
