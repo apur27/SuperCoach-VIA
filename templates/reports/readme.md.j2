@@ -1,0 +1,25 @@
+# {% if meta.demo %}DEMO {% endif %}SuperCoach VIA release {{ meta.release_id }}
+
+{% include "_provenance.md.j2" %}
+
+{% if forecast.status == "available" %}
+Forecast: available for {{ forecast.stage_label|md }}; forecast cutoff {{ forecast.cutoff }}; model {{ forecast.model_name|md }}.
+{% else %}
+Forecast: {{ forecast.status }} ({{ forecast.reason or "no reason recorded" }}).
+{% endif %}
+
+All files below come from this one release and snapshot. CSV cells that look like spreadsheet formulas are prefixed with a quote; numeric cells are unchanged. Blank numeric cells mean "not recorded", never zero.
+
+| File | What it is |
+|---|---|
+{% for f in files %}
+| `{{ f.name }}` | {{ f.label|md }} |
+{% endfor %}
+{% if unavailable %}
+
+Not included in this release:
+
+{% for u in unavailable %}
+- `{{ u.member }}`: {{ u.reason }}
+{% endfor %}
+{% endif %}

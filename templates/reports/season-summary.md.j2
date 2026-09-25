@@ -1,0 +1,43 @@
+{% include "_provenance.md.j2" %}
+
+## Forecast
+
+{% if forecast.status == "available" %}
+Status: available for {{ forecast.stage_label|md }} ({{ forecast.rows }} player forecasts). Forecast cutoff {{ forecast.cutoff }}; model {{ forecast.model_name|md }}.
+
+| Player | Club | Opponent | Predicted disposals | Interval |
+|---|---|---|---:|---|
+{% for r in forecast.top %}
+| {{ r.player_name|md }} | {{ r.club_name|md }} | {{ (r.opponent_name or "-")|md }} | {{ "%.1f"|format(r.predicted_disposals) }} | {% if r.interval_low is not none and r.interval_high is not none %}{{ "%.1f"|format(r.interval_low) }}-{{ "%.1f"|format(r.interval_high) }}{% else %}unavailable{% endif %} |
+{% endfor %}
+{% else %}
+Status: {{ forecast.status }} ({{ forecast.reason or "no reason recorded" }}). No forecast is published for this release.
+{% endif %}
+
+## Recent results (most recent first)
+
+{% if recent %}
+| Date | Round | Home | Score | Away | Score |
+|---|---|---|---:|---|---:|
+{% for m in recent %}
+| {{ m.match_date or "unknown" }} | {{ m.stage_label|stage(m.stage_type) }} | {{ m.home.name|md }} | {{ m.home.score|num }} | {{ m.away.name|md }} | {{ m.away.score|num }} |
+{% endfor %}
+{% else %}
+No completed matches in {{ meta.season }}.
+{% endif %}
+
+## Upcoming fixtures
+
+{% if upcoming %}
+| Date | Round | Home | Away | Venue |
+|---|---|---|---|---|
+{% for m in upcoming %}
+| {{ m.match_date or "unknown" }} | {{ m.stage_label|stage(m.stage_type) }} | {{ m.home.name|md }} | {{ m.away.name|md }} | {{ (m.venue or "-")|md }} |
+{% endfor %}
+{% else %}
+No scheduled fixtures in the data.
+{% endif %}
+{% if chart %}
+
+![{{ chart.alt_text }}](../{{ chart.rel }})
+{% endif %}

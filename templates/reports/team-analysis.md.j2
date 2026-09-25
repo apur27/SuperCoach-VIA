@@ -1,0 +1,35 @@
+{% include "_provenance.md.j2" %}
+
+## Ladder
+
+{{ ladder_note }}
+
+| Pos | Club | P | W | L | D | Pts | % |
+|---:|---|---:|---:|---:|---:|---:|---:|
+{% for r in ladder %}
+| {{ r.position }} | {{ r.name|md }} | {{ r.played }} | {{ r.won }} | {{ r.lost }} | {{ r.drawn }} | {{ r.premiership_points }} | {{ r.percentage|pct }} |
+{% endfor %}
+{% if chart %}
+
+![{{ chart.alt_text }}](../{{ chart.rel }})
+{% endif %}
+{% for t in teams %}
+
+## {{ t.club.name|md }}
+
+Position: {{ t.position if t.position is not none else "not on the ladder" }}. Form (last {{ t.form_window }}, oldest first): {% if t.form %}{% for f in t.form %}{{ f.result }}{% if not loop.last %} {% endif %}{% endfor %}{% else %}no completed matches{% endif %}.
+
+| Stat | Mean per team-game | Observed team-games | Coverage |
+|---|---:|---:|---:|
+{% for s in t.team_stats %}
+| {{ s.stat|md }} | {{ s.mean|dec }} | {{ s.observed_games }} of {{ s.eligible_games }} | {{ s.coverage|share }} |
+{% endfor %}
+{% if t.leaders %}
+
+Club leaders: {% for l in t.leaders %}{{ l.stat }} {{ l.name|md }} {{ l.value|num }}{% if not loop.last %}; {% endif %}{% endfor %}.
+{% endif %}
+{% for h in t.heuristics %}
+
+{{ h.label|md }}: {{ h.text|md }}
+{% endfor %}
+{% endfor %}
