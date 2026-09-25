@@ -15,6 +15,15 @@ Session 2026-09-25 (cloud continuation): owner authorised commits/pushes to bran
   - `pytest tests/unit -m "not integration"` → **559 passed, 41 skipped, 17 warnings, 15.69s** (audit: 555/45 with pandas 2.3.3).
   - `pytest tests/integration -m integration` → **20 passed, 1 failed** (`test_top100_chart_reproduces_byte_identically`: renderer-environment byte mismatch, same as audit; not a data error). Working tree unchanged by the run (status md5 identical before/after).
 
+## Concurrent sessions on `rewrite/wip` (2026-09-25)
+
+Two Gaffer sessions are pushing to this branch: a cloud session (commits signed with `Claude-Session: session_018azoi2…`) and a local worktree session. To avoid duplicate work, the local session **claims** the following. Pull before starting, and never force-push.
+
+- **B1 repair.** Done.
+- `src/supercoach_via/pipeline.py` and the remaining CLI commands (`import-legacy`, `apply-repair`, `validate`, `promote`, `refresh`, `analyze`, `train`, `predict`, `score`, `replay`, `build-release`, `package`, `demo`).
+- `publish/builder.py`, `templates/reports/`, and the R11 output reconciliation tests. A sub-agent is working on these now.
+- Reconciling web work onto 4c49c186e: CSP hardening, detail-state e2e, mobile/dark axe, `.node-version`, and the `scvia-*` CI workflows.
+
 ## Decisions
 
 | # | Decision | Reason |
