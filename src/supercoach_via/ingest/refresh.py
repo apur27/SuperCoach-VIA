@@ -942,3 +942,171 @@ def repair_player_pages(
         run.note(pitem, "succeeded", CheckOutcome.PASS, f"{len(rows)} rows")
         ev["status"] = "repaired"
     return result()
+
+
+# ---------------------------------------------------------------------------
+# Repair evidence: write once (networked run), replay offline (every later import)
+# ---------------------------------------------------------------------------
+
+
+class RepairEvidenceError(RuntimeError):
+    """Archived repair evidence is incomplete, tampered with, or no longer reproduces."""
+
+
+_EVIDENCE_TABLES = ("player_games", "players")
+
+
+def coerce_row(table: str, row: Mapping[str, Any]) -> dict[str, Any]:
+    """JSON-decoded row -> canonical Python values for ``table`` (dates/instants parsed)."""
+    from supercoach_via.domain.schemas import TABLES
+
+    out: dict[str, Any] = {}
+    for col in TABLES[table].columns:
+        v = row.get(col.name)
+        if v is not None and col.type == "date32" and isinstance(v, str):
+            v = date.fromisoformat(v)
+        elif v is not None and col.type == "timestamp_utc" and isinstance(v, str):
+            v = datetime.fromisoformat(v)
+        out[col.name] = v
+    return out
+
+
+def write_repair_evidence(
+    res: RepairResult,
+    targets: list[PlayerRepairTarget],
+    payloads: Mapping[str, bytes],
+    out_dir: Path,
+    *,
+    base_snapshot_id: str | None,
+    extra: Mapping[str, Any] | None = None,
+) -> Path:
+    """Write ``fetch-manifest.json``, ``raw/<sha256>.html.gz`` and ``rows.jsonl`` for ``res``.
+
+    ``payloads`` maps sha256 -> bytes for every successful observation (from the raw archive).
+    """
+    import dataclasses
+    import gzip
+
+    (out_dir / "raw").mkdir(parents=True, exist_ok=True)
+    for obs in res.upserts["source_observations"]:
+        sha = obs.get("content_sha256")
+        if sha and obs.get("http_status") == 200:
+            body = payloads.get(str(sha))
+            if body is None or hashlib.sha256(body).hexdigest() != sha:
+                raise RepairEvidenceError(f"payload for {obs.get('url')} missing from the archive")
+            (out_dir / "raw" / f"{sha}.html.gz").write_bytes(gzip.compress(body, mtime=0))
+    with (out_dir / "rows.jsonl").open("w", encoding="utf-8") as fh:
+        for t in _EVIDENCE_TABLES:
+            for r in res.upserts[t]:
+                fh.write(json.dumps({"table": t, "row": r}, sort_keys=True, default=str) + "\n")
+    report = {
+        **(extra or {}),
+        "base_snapshot_id": base_snapshot_id,
+        "outcome": res.outcome.value,
+        "exit_code": res.exit_code,
+        "targets": [dataclasses.asdict(t) for t in targets],
+        "evidence": res.evidence,
+        "source_observations": res.upserts["source_observations"],
+        "work_log": res.work_log,
+        "issues": res.issues,
+        "rows_by_table": {t: len(res.upserts[t]) for t in _EVIDENCE_TABLES},
+    }
+    path = out_dir / "fetch-manifest.json"
+    path.write_text(json.dumps(report, indent=1, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    return path
+
+
+def _targets_from(manifest: Mapping[str, Any]) -> list[PlayerRepairTarget]:
+    def d(v: Any) -> date | None:
+        return date.fromisoformat(v) if isinstance(v, str) else None
+
+    return [
+        PlayerRepairTarget(
+            str(t["display_name"]), str(t["discover_match_id"]), str(t["club_source_name"]),
+            t.get("player_id"), d(t.get("expected_birth_date")),
+            tuple(x for x in (d(v) for v in t.get("exclude_birth_dates") or ()) if x is not None),
+        )
+        for t in manifest["targets"]
+    ]  # fmt: skip
+
+
+def replay_repair_evidence(
+    evidence_dir: Path,
+    base: BaseState,
+    *,
+    season: int,
+    context: RunContext,
+    existing_players: Mapping[str, Mapping[str, Any]],
+    club_resolver: ClubResolver | None = None,
+) -> dict[str, list[dict[str, Any]]]:
+    """Offline: re-verify archived repair evidence and return its upserts.
+
+    Every payload must hash to its name; the repair is re-run against those bytes with no
+    network (an in-memory transport serves exactly the archived URLs) and must reproduce the
+    recorded rows exactly (``available_at`` is the recorded fetch instant, so it is compared
+    against the observation instead). The recorded rows and observations are returned, so a
+    re-import never changes when the information was fetched. Raises RepairEvidenceError.
+    """
+    import gzip
+
+    import httpx
+
+    from supercoach_via.ingest.http import load_policies
+
+    manifest = json.loads((evidence_dir / "fetch-manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("outcome") != CheckOutcome.PASS.value:
+        raise RepairEvidenceError(f"evidence outcome is {manifest.get('outcome')}, not PASS")
+    by_url: dict[str, bytes] = {}
+    fetched: dict[str, datetime] = {}
+    for obs in manifest["source_observations"]:
+        sha = str(obs.get("content_sha256") or "")
+        if obs.get("http_status") != 200 or not sha:
+            continue
+        path = evidence_dir / "raw" / f"{sha}.html.gz"
+        if not path.is_file():
+            raise RepairEvidenceError(f"missing archived payload {path.name}")
+        body = gzip.decompress(path.read_bytes())
+        if hashlib.sha256(body).hexdigest() != sha:
+            raise RepairEvidenceError(f"archived payload {path.name} does not hash to its name")
+        by_url[str(obs["url"])] = body
+        fetched[sha] = datetime.fromisoformat(str(obs["fetched_at"]))
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        body = by_url.get(str(request.url))
+        return httpx.Response(200, content=body) if body is not None else httpx.Response(404)
+
+    policies = load_policies(context.settings.source_root / "config" / "source_policies.toml")
+    client = HttpClient(
+        policies, user_agent="scvia-offline-replay", transport=httpx.MockTransport(handler),
+        resolver=lambda _h: ["93.184.215.14"], sleep=lambda _s: None,
+    )  # fmt: skip
+    replay_ctx = RunContext(settings=context.settings, clock=context.clock)
+    replay_ctx.http = client
+    targets = _targets_from(manifest)
+    with client:
+        res = repair_player_pages(
+            base, season, targets, replay_ctx, club_resolver=club_resolver,
+            existing_players=existing_players, max_requests=len(by_url),
+        )  # fmt: skip
+    if res.outcome is not CheckOutcome.PASS:
+        raise RepairEvidenceError(f"offline replay did not pass: {res.issues[:5]}")
+    recorded: dict[str, list[dict[str, Any]]] = {t: [] for t in _EVIDENCE_TABLES}
+    for line in (evidence_dir / "rows.jsonl").read_text(encoding="utf-8").splitlines():
+        rec = json.loads(line)
+        if rec["table"] not in recorded:
+            raise RepairEvidenceError(f"unexpected table {rec['table']!r} in rows.jsonl")
+        recorded[rec["table"]].append(coerce_row(rec["table"], rec["row"]))
+
+    for t in _EVIDENCE_TABLES:
+        again = [coerce_row(t, r) for r in res.upserts[t]]
+        if _canon(again, drop="available_at") != _canon(recorded[t], drop="available_at"):
+            raise RepairEvidenceError(f"{t}: archived payloads no longer reproduce the recorded rows")
+    for r in recorded["player_games"]:
+        if fetched.get(str(r["source_sha256"])) != r["available_at"]:
+            raise RepairEvidenceError(f"{r['match_id']}|{r['player_id']}: available_at != recorded fetch time")
+    observations = [coerce_row("source_observations", o) for o in manifest["source_observations"]]
+    return {**recorded, "source_observations": observations}
+
+
+def _canon(rows: list[dict[str, Any]], *, drop: str) -> list[str]:
+    return sorted(json.dumps({k: v for k, v in r.items() if k != drop}, sort_keys=True, default=str) for r in rows)

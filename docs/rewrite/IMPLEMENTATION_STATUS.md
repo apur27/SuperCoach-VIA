@@ -1,7 +1,7 @@
 # Rewrite implementation status (ledger)
 
 Owner of this ledger: Gaffer (integration). Spec: [PLAN.md](PLAN.md). Evidence: [AUDIT.md](AUDIT.md), [DATA_REFRESH.md](DATA_REFRESH.md).
-No commits, pushes, deployments or releases are authorized; all work is uncommitted in the working tree.
+Session 2026-09-25 (cloud continuation): owner authorised commits/pushes to branch `rewrite/wip` only (never main, no PR/deploy/release/force-push).
 
 ## Phase 0 — baseline (2026-09-24)
 
@@ -81,7 +81,7 @@ Pending on agents: release builder from snapshot (needs analytics + ml APIs), pi
 
 ## Blockers
 
-- **B1 (owner decision): real-corpus snapshot cannot be promoted.** `validate_dataset` FAILs on genuine current-season (2026) gaps: Flynn Perez and Will Brodie (files stop at 2023) and Jack Dalton (no player file; only an 1876 namesake) appear in 2026 Hawthorn/Port Adelaide lineups with no 2026 player rows, so Hawthorn R17/R18 goal totals don't reconcile. By policy a current-season defect can't be excepted. A bounded repair fetch of those player pages through the new HttpClient was proposed and **denied by the session permission classifier**, so it was not attempted. Options for the owner: authorize the repair fetch (≤10 afltables requests) or explicitly accept a policy exception. Until then there is no accepted real snapshot and no real public release; the demo release is unaffected.
+- **B1: RESOLVED 2026-09-25 by an owner-authorised bounded repair fetch.** 6 AFLTables requests in total, against a cap of 10: season page, 2 match pages, 3 player pages, one attempt per URL. Run 1 failed closed on real match-page markup (final score `13.12.<b>90</b>`); the parser was fixed against the archived pages. 14 `player_games` rows were added: Perez 7, Dalton 5 (new identity `src:afltables:J.Jack_Dalton1`, DOB 2007-04-05, not the 1876 namesake), Brodie 2. 14 quarantined 2026 lineup tokens were re-linked. The real candidate now validates PASS with 0 blocking, 0 error and 18 historical warnings. Evidence is in `docs/rewrite/evidence/b1/` (URLs, hashes, raw payloads, rows, driver). Offline re-application re-verifies hashes and re-parses: `ingest.refresh.replay_repair_evidence`.
 
 ### Import / identity / validation — COMPLETE (follow-up fix in progress)
 - Files: `domain/{ids,season}.py`, `ingest/{legacy,reconcile}.py`, TABLES additions, `config/{team_aliases,venue_aliases}.csv`, `config/coverage.yaml`, 110 unit tests, `tests/scvia/integration/test_legacy_import_real.py` (7 passed, 62.7 s), 53-file fixture corpus.

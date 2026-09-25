@@ -14,6 +14,7 @@ that player's AFLTables page, discovered through a match page the base already h
 
 from __future__ import annotations
 
+import gzip
 import json
 from datetime import date
 from pathlib import Path
@@ -23,8 +24,9 @@ import pytest
 from supercoach_via.domain.schemas import CheckOutcome
 from supercoach_via.ingest import afltables as at
 from supercoach_via.ingest import refresh as rf
+from supercoach_via.settings import RunContext, Settings
 from tests.scvia.unit.test_afltables_support import G, M, P, Stage, match_html, player_html, season_html
-from tests.scvia.unit.test_refresh import QA, QB, Site, _resolver, make_context
+from tests.scvia.unit.test_refresh import QA, QB, REPO, Site, _resolver, make_context
 
 GID_A, GID_B = "000120260305", "000220260314"
 URL_NEW = at.player_url("N/New_Hawk")
@@ -171,3 +173,48 @@ def test_unreachable_source_is_unknown_and_writes_no_rows(tmp_path: Path) -> Non
     res = _run(site, base, tmp_path)
     assert res.outcome in (CheckOutcome.UNKNOWN, CheckOutcome.FAIL) and res.exit_code == 3
     assert not res.upserts["player_games"] and not res.upserts["players"]
+
+
+def _evidence(site: Site, base: rf.BaseState, tmp_path: Path) -> tuple[Path, rf.RepairResult]:
+    ctx = make_context(site, tmp_path)
+    targets = _targets(_match_a(base))
+    res = rf.repair_player_pages(base, 2026, targets, ctx, club_resolver=_resolver, existing_players=EXISTING)
+    archive = ctx.http.archive
+    payloads = {o["content_sha256"]: archive.get(o["content_sha256"]) for o in res.upserts["source_observations"]}
+    ev = tmp_path / "evidence"
+    rf.write_repair_evidence(res, targets, payloads, ev, base_snapshot_id=base.snapshot_id, extra={"note": "t"})
+    return ev, res
+
+
+def _replay(ev: Path, base: rf.BaseState, tmp_path: Path) -> dict[str, list[dict[str, object]]]:
+    ctx = RunContext(settings=Settings(data_root=tmp_path, season=2026, source_root=REPO))
+    return rf.replay_repair_evidence(ev, base, season=2026, context=ctx, existing_players=EXISTING,
+                                     club_resolver=_resolver)  # fmt: skip
+
+
+def test_evidence_replays_offline_to_identical_rows(tmp_path: Path) -> None:
+    site = _site()
+    base = _base(site)
+    ev, res = _evidence(site, base, tmp_path)
+    site.hits.clear()
+    ups = _replay(ev, base, tmp_path)
+    assert not site.hits  # offline: the in-memory transport served the archived bytes
+    for t in ("player_games", "players"):
+        assert sorted(map(repr, ups[t])) == sorted(repr(rf.coerce_row(t, r)) for r in res.upserts[t])
+    assert {o["url"] for o in ups["source_observations"]} >= {URL_NEW, URL_OLD}
+
+
+def test_evidence_tampering_is_detected(tmp_path: Path) -> None:
+    site = _site()
+    base = _base(site)
+    ev, _res = _evidence(site, base, tmp_path)
+    rows = ev / "rows.jsonl"
+    original = rows.read_text(encoding="utf-8")
+    rows.write_text(original.replace('"disposals": 11', '"disposals": 12', 1), encoding="utf-8")
+    with pytest.raises(rf.RepairEvidenceError, match="reproduce"):
+        _replay(ev, base, tmp_path)
+    rows.write_text(original, encoding="utf-8")
+    raw = next((ev / "raw").iterdir())
+    raw.write_bytes(gzip.compress(b"<html>forged</html>"))
+    with pytest.raises(rf.RepairEvidenceError, match="hash"):
+        _replay(ev, base, tmp_path)
