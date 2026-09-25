@@ -33,12 +33,14 @@ const fullTitle = `${demoPrefix}${title} · SuperCoach VIA`;
     <link rel="icon" href={withBase(base, 'favicon.svg')} type="image/svg+xml" />
     <script is:inline>
       (function () {
-        var d = document.documentElement;
+        const d = document.documentElement;
         d.classList.add('js');
         try {
-          var t = localStorage.getItem('supercoach-via:theme:v1');
+          const t = localStorage.getItem('supercoach-via:theme:v1');
           if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
-        } catch (e) {}
+        } catch {
+          /* storage disabled: keep the system theme */
+        }
       })();
     </script>
   </head>

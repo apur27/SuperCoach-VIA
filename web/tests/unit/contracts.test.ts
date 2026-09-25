@@ -7,7 +7,6 @@ import { join, relative, resolve } from 'node:path';
 import { validate, kindForPath } from '../../src/lib/contracts';
 import { validateAsync } from '../../src/lib/validate-client';
 import { RESOURCE_KINDS } from '../../src/lib/contracts.generated';
-// @ts-expect-error untyped build script
 import { generate } from '../../scripts/gen-types.mjs';
 
 const WEB = resolve(__dirname, '../..');
@@ -23,7 +22,7 @@ function walk(dir: string): string[] {
 describe('generated contracts', () => {
   it('are up to date with ../schemas', async () => {
     const { ts, js, dts, split } = await generate();
-    for (const [f, c] of Object.entries(split as Record<string, string>)) {
+    for (const [f, c] of Object.entries(split as unknown as Record<string, string>)) {
       expect(readFileSync(resolve(WEB, 'src/lib/validators', f), 'utf8'), f).toBe(c);
     }
     expect(readFileSync(resolve(WEB, 'src/lib/contracts.generated.ts'), 'utf8')).toBe(ts);

@@ -130,7 +130,7 @@ function GameLog({ g }: { g: PlayerSeasonGames }) {
       {main ? (
         <LineChart
           id={`form-${g.season}`} title={`${g.season} form: ${main} by game`} description={`${main} in each ${g.season} game in order`}
-          xLabel="Game" yLabel={main} series={[{ name: main, points: g.games.map((x, i) => ({ x: `G${i + 1}`, y: x.stats[main] ?? null })) }]}
+          xLabel="Game" yLabel={main} series={[{ name: main, points: g.games.map((x, i) => ({ x: `G${i + 1}`, y: x.stats[g.stat_columns.indexOf(main)] ?? null })) }]}
         />
       ) : null}
       <div className="table-wrap" tabIndex={0} role="region" aria-label={`Scrollable table: ${`${g.season} game log`}`}>
@@ -144,7 +144,7 @@ function GameLog({ g }: { g: PlayerSeasonGames }) {
                 <td>{x.stage_label}</td>
                 <td>{x.opponent_name ?? <span className="missing">not recorded</span>}</td>
                 <td>{x.result ?? <span className="missing">not recorded</span>}</td>
-                {g.stat_columns.map((c) => <td className="num" key={c}><Stat value={x.stats[c]} /></td>)}
+                {g.stat_columns.map((c, i) => <td className="num" key={c}><Stat value={x.stats[i] ?? null} /></td>)}
               </tr>
             ))}
           </tbody>

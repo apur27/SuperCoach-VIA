@@ -76,10 +76,10 @@ function MatchBody({ d }: { d: MatchDetail }) {
         <Box rows={d.home_players} cols={d.stat_columns} caption={`${s.home.name} players`} />
         <Box rows={d.away_players} cols={d.stat_columns} caption={`${s.away.name} players`} />
       </section>
-      {d.live_snapshots.length ? (
+      {d.live_snapshots?.length ? (
         <section aria-labelledby="live-h">
           <h2 id="live-h">Live snapshots</h2>
-          <ul>{d.live_snapshots.map((k) => { const g = /^live\/([^/]+)\//.exec(k)?.[1]; return g ? <li key={k}><a href={withBase(base, `live/?match=${g}`)}>Snapshot {g}</a></li> : null; })}</ul>
+          <ul>{(d.live_snapshots ?? []).map((k) => { const g = /^live\/([^/]+)\//.exec(k)?.[1]; return g ? <li key={k}><a href={withBase(base, `live/?match=${g}`)}>Snapshot {g}</a></li> : null; })}</ul>
         </section>
       ) : null}
       <p className="muted">Sources: {d.sources.map((x) => x.label + (x.note ? ` (${x.note})` : '')).join('; ')}</p>

@@ -15,7 +15,7 @@ const ALLOWED_ATTRS: Record<string, Set<string>> = {
   td: new Set(['colspan', 'rowspan']),
   ol: new Set(['start', 'reversed']),
 };
-const SAFE_URL_RE = /^(https?:\/\/|mailto:|#|\.{0,2}\/|[A-Za-z0-9_\-][A-Za-z0-9_\-./]*(#[A-Za-z0-9_\-]*)?$)/;
+const SAFE_URL_RE = /^(https?:\/\/|mailto:|#|\.{0,2}\/|[A-Za-z0-9_-][A-Za-z0-9_\-./]*(#[A-Za-z0-9_-]*)?$)/;
 
 export function findUnsafeHtml(html: string): string[] {
   const issues: string[] = [];

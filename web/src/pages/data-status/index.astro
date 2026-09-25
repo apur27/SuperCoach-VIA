@@ -38,7 +38,7 @@ const DS = { legacy_unverified: 'Imported legacy data, not yet independently ver
     <table>
       <caption>Rows per table ({q.quarantined_rows} quarantined rows excluded)</caption>
       <thead><tr><th scope="col">Table</th><th scope="col" class="num">Rows</th></tr></thead>
-      <tbody>{Object.entries(q.table_counts).map(([k, v]) => <tr><th scope="row">{k.replaceAll('_', ' ')}</th><td class="num">{v.toLocaleString('en-AU')}</td></tr>)}</tbody>
+      <tbody>{Object.entries(q.table_counts).map(([k, v]) => <tr><th scope="row">{k.replaceAll('_', ' ')}</th><td class="num">{v?.toLocaleString('en-AU') ?? 'not recorded'}</td></tr>)}</tbody>
     </table>
   </div>
   <h2>Quality issues</h2>

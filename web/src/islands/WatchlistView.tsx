@@ -43,7 +43,6 @@ export default function WatchlistView({ downloadHref }: { downloadHref: string }
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ids.join(',')]);
 
   const base = siteBase();

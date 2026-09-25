@@ -194,9 +194,7 @@ for (const p of PLAYERS) {
     for (let g = 1; g <= GAMES_PER_SEASON; g += 1) {
       const pool = ALL_MATCHES.filter((m) => m.season === season);
       const m = pool[(g - 1) % pool.length];
-      const stats = Object.fromEntries(
-        STAT_COLS.map((s, i) => [s, p.coverage === null ? null : p.coverage === 0.5 && g % 2 === 0 ? null : p.base + i + (g % 3)]),
-      );
+      const stats = STAT_COLS.map((_, i) => (p.coverage === null ? null : p.coverage === 0.5 && g % 2 === 0 ? null : p.base + i + (g % 3)));
       games.push({
         match_id: m.match_id, match_date: m.match_date, date_quality: season < 2000 ? 'inferred' : 'fixture_verified',
         stage_label: m.stage_label, club_id: p.clubs[0],
@@ -259,7 +257,7 @@ for (const [season, list] of [[2026, M2026], [2025, M2025], [1994, M1994]]) {
 }
 for (const m of ALL_MATCHES) {
   const playersFor = (cid) => PLAYERS.filter((p) => p.clubs.includes(cid) && p.seasons.includes(m.season)).slice(0, 4)
-    .map((p) => ({ player_id: p.id, name: p.name, stats: Object.fromEntries(STAT_COLS.map((s, i) => [s, m.status === 'complete' ? (p.coverage === null ? null : p.base + i) : null])) }));
+    .map((p) => ({ player_id: p.id, name: p.name, stats: STAT_COLS.map((_, i) => (m.status === 'complete' ? (p.coverage === null ? null : p.base + i) : null)) }));
   const q = (h, a) => ({ quarter: h, home_goals: a?.[0] ?? null, home_behinds: a?.[1] ?? null, away_goals: a?.[2] ?? null, away_behinds: a?.[3] ?? null });
   const done = m.status === 'complete' && m.home.goals !== null;
   put(`matches/detail/${matchKey(m.match_id)}.json`, 'match_detail', {

@@ -48,7 +48,7 @@ export default function MatchesExplorer({ seasons }: { seasons: number[] }) {
   );
 }
 
-function Filters({ idx, state, update }: { idx: MatchIndex; state: { stage?: string; club?: string; status?: string }; update: (p: Record<string, string | undefined>) => void }) {
+function Filters({ idx, state, update }: { idx: MatchIndex; state: { stage?: string | undefined; club?: string | undefined; status?: string | undefined }; update: (p: Record<string, string | undefined>) => void }) {
   const stages = useMemo(() => {
     const m = new Map<string, { label: string; order: number }>();
     for (const x of idx.matches) if (!m.has(x.stage_id)) m.set(x.stage_id, { label: x.stage_label.replace(/ \(replay\)$/, ''), order: x.stage_order });

@@ -17,7 +17,7 @@ type FieldValue<F> = F extends { kind: 'int' }
       ? string[]
       : string;
 
-export type UrlState<S extends StateSpec> = { [K in keyof S]?: FieldValue<S[K]> };
+export type UrlState<S extends StateSpec> = { [K in keyof S]?: FieldValue<S[K]> | undefined };
 
 const TOKEN_RE = /^[A-Za-z0-9][A-Za-z0-9_\-.:]{0,159}$/;
 
@@ -32,6 +32,8 @@ function parseField(spec: FieldSpec, raw: string | null): unknown {
     case 'token':
       return TOKEN_RE.test(raw) && !raw.includes('..') ? raw : spec.default;
     case 'text': {
+      // Stripping control characters from URL text is the point of this pattern.
+      // eslint-disable-next-line no-control-regex
       const t = raw.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, spec.maxLength);
       return t ? t : spec.default;
     }

@@ -38,14 +38,14 @@ export function createLoader(opts: LoaderOptions) {
   const fetchImpl = opts.fetchImpl ?? ((u: string, i?: RequestInit) => fetch(u, i));
   const cache = new Map<string, unknown>();
   const expected = new Map<string, { sha256: string; bytes: number }>();
-  for (const ref of Object.values(opts.manifest?.resources ?? {})) expected.set(ref.path, ref);
+  for (const ref of Object.values(opts.manifest?.resources ?? {})) if (ref) expected.set(ref.path, ref);
 
   async function load<K extends ResourceKind>(kind: K, path: string, init: { signal?: AbortSignal; fresh?: boolean } = {}): Promise<ResourceTypes[K]> {
     let url: string;
     try {
       url = releaseUrl(opts.base, opts.releaseId, path);
     } catch (e) {
-      throw new Error(`unsafe resource path refused: ${(e as Error).message}`);
+      throw new Error(`unsafe resource path refused: ${(e as Error).message}`, { cause: e });
     }
     const key = `${kind}:${path}`;
     if (!init.fresh && cache.has(key)) return cache.get(key) as ResourceTypes[K];

@@ -4,7 +4,6 @@ import { join } from 'node:path';
 import type { ReleaseManifest, ResourceKind, ResourceTypes } from './contracts';
 import { validate } from './contracts';
 import { isSafeResourcePath } from './ids';
-// @ts-expect-error untyped build helper shared with astro.config.mjs
 import { retainedDirsFromEnv, readManifest } from '../../integrations/release-tree.mjs';
 
 function resolvedDir(): string {

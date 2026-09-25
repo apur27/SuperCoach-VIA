@@ -47,7 +47,6 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
         });
     });
     return () => ac.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyStr, ready]);
 
   const base = siteBase();

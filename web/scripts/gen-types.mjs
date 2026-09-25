@@ -117,7 +117,7 @@ export async function generate() {
     split[`${key}.generated.js`] = HEADER + '/* eslint-disable */\n// @ts-nocheck\n' + (needsFormats ? 'import { fullFormats as __ajvFullFormats } from "ajv-formats/dist/formats.js";\n' : '') + one;
   }
   split['index.generated.ts'] = HEADER + "import type { ResourceKind, ResourceTypes } from '../contracts.generated';\nimport type { GeneratedValidator } from '../validators.generated.js';\n\n/** Lazy per-resource validator loaders (code-split by the bundler). */\nexport const VALIDATOR_LOADERS: { [K in ResourceKind]: () => Promise<GeneratedValidator<ResourceTypes[K]>> } = {\n" +
-    schemas.map(({ key }) => `  ${key}: () => import('./${key}.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['${key}']>),`).join('\n') + '\n};\n';
+    schemas.map(({ key }) => `  ${key}: () => import('./${key}.generated.js').then((m) => m.validate as unknown as GeneratedValidator<ResourceTypes['${key}']>),`).join('\n') + '\n};\n';
   return { ts, js, dts, split };
 }
 

@@ -16,6 +16,8 @@ export default defineConfig({
     trace: 'retain-on-failure',
     timezoneId: 'Australia/Melbourne',
     locale: 'en-AU',
+    // Optional override for machines whose preinstalled Chromium differs from this Playwright pin.
+    ...(process.env.SCVIA_CHROMIUM_PATH ? { launchOptions: { executablePath: process.env.SCVIA_CHROMIUM_PATH } } : {}),
   },
   projects: [
     { name: 'root', use: { ...devices['Desktop Chrome'], channel: 'chromium', baseURL: 'http://127.0.0.1:4401/' } },
