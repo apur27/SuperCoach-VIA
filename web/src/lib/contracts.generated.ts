@@ -348,7 +348,7 @@ export interface LiveSnapshot {
   final: boolean;
   home: TeamScore;
   match_id: string | null;
-  players: BoxScoreRow[];
+  players: LivePlayerRow[];
   quarter: string | null;
   reads: string[];
   reliable_fields: string[];
@@ -372,13 +372,16 @@ export interface TeamScore {
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
- * via the `definition` "BoxScoreRow".
+ * via the `definition` "LivePlayerRow".
  */
-export interface BoxScoreRow {
+export interface LivePlayerRow {
   name: string;
   player_id: string;
+  /**
+   * reliable numeric fields only; an absent key = not reported
+   */
   stats: {
-    [k: string]: number | null | undefined;
+    [k: string]: number | undefined;
   };
 }
 /**
@@ -395,8 +398,23 @@ export interface MatchDetail {
   live_snapshots?: string[];
   quarters: QuarterScore[];
   sources: Source[];
+  /**
+   * stats observed at least once in this file, in canonical order
+   */
   stat_columns: string[];
   summary: MatchSummary;
+}
+/**
+ * This interface was referenced by `PublicContracts`'s JSON-Schema
+ * via the `definition` "BoxScoreRow".
+ */
+export interface BoxScoreRow {
+  name: string;
+  player_id: string;
+  /**
+   * positional values aligned to the parent's stat_columns; null = not recorded
+   */
+  stats: (number | null)[];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
@@ -663,6 +681,9 @@ export interface PlayerSeasonGames {
   games: PlayerGame[];
   player_id: string;
   season: number;
+  /**
+   * stats observed at least once in this file, in canonical order
+   */
   stat_columns: string[];
 }
 /**
@@ -679,9 +700,10 @@ export interface PlayerGame {
   opponent_name: string | null;
   result: string | null;
   stage_label: string;
-  stats: {
-    [k: string]: number | null | undefined;
-  };
+  /**
+   * positional values aligned to the parent's stat_columns; null = not recorded
+   */
+  stats: (number | null)[];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema

@@ -620,6 +620,12 @@ class Article(PublicModel):
     provenance: str
 
 
+class LivePlayerRow(PublicModel):
+    player_id: str
+    name: str
+    stats: dict[str, float] = Field(description="reliable numeric fields only; an absent key = not reported")
+
+
 class LiveSnapshot(PublicModel):
     source_game_id: str
     match_id: str | None
@@ -630,7 +636,7 @@ class LiveSnapshot(PublicModel):
     away: TeamScore
     reliable_fields: list[str]
     unavailable_fields: list[str]
-    players: list[BoxScoreRow]
+    players: list[LivePlayerRow]
     timeline: list[dict[str, str | int | None]]
     reads: list[str]
     anomalies: list[str]

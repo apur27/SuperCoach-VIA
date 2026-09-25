@@ -28,7 +28,7 @@ from supercoach_via.domain.schemas import Provenance, is_safe_id
 from supercoach_via.ingest import fanfooty as ff
 from supercoach_via.ingest.http import HttpClient, fit_table_row
 from supercoach_via.live.commentary import reads_for
-from supercoach_via.publish.view_models import BoxScoreRow, LiveIndex, LiveIndexEntry, LiveSnapshot, TeamScore
+from supercoach_via.publish.view_models import LiveIndex, LiveIndexEntry, LivePlayerRow, LiveSnapshot, TeamScore
 from supercoach_via.storage.snapshots import atomic_write_bytes
 
 STATE_VERSION = 1
@@ -182,7 +182,7 @@ class LiveMonitor:
         assert h is not None
         numeric = sorted(f for f in self.schema.reliable if f not in ff.TEXT_FIELDS)
         players = [
-            BoxScoreRow(
+            LivePlayerRow(
                 player_id=f"fanfooty:{p.source_player_id or 'unknown'}",
                 name=p.name,
                 stats={k: float(v) for k in numeric if isinstance((v := p.reliable.get(k)), int | float)},

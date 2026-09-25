@@ -1,6 +1,6 @@
 {
   "$defs": {
-    "BoxScoreRow": {
+    "LivePlayerRow": {
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -12,19 +12,12 @@
           "type": "string"
         },
         "stats": {
-          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
-          "items": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ]
+          "additionalProperties": {
+            "type": "number"
           },
+          "description": "reliable numeric fields only; an absent key = not reported",
           "title": "Stats",
-          "type": "array"
+          "type": "object"
         }
       },
       "required": [
@@ -32,7 +25,7 @@
         "name",
         "stats"
       ],
-      "title": "BoxScoreRow",
+      "title": "LivePlayerRow",
       "type": "object"
     },
     "TeamScore": {
@@ -137,7 +130,7 @@
     },
     "players": {
       "items": {
-        "$ref": "#/$defs/BoxScoreRow"
+        "$ref": "#/$defs/LivePlayerRow"
       },
       "title": "Players",
       "type": "array"

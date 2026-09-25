@@ -38,7 +38,7 @@ function Box({ rows, cols, caption }: { rows: BoxScoreRow[]; cols: string[]; cap
         <thead><tr><th scope="col">Player</th>{cols.map((c) => <th scope="col" className="num" key={c}>{c}</th>)}</tr></thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.player_id}><th scope="row"><a href={withBase(base, `player/?id=${encodeId(r.player_id)}`)}>{r.name}</a></th>{cols.map((c) => <td className="num" key={c}><Stat value={r.stats[c]} /></td>)}</tr>
+            <tr key={r.player_id}><th scope="row"><a href={withBase(base, `player/?id=${encodeId(r.player_id)}`)}>{r.name}</a></th>{cols.map((c, i) => <td className="num" key={c}><Stat value={r.stats[i] ?? null} /></td>)}</tr>
           ))}
         </tbody>
       </table>
