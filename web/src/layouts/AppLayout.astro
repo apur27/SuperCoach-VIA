@@ -31,20 +31,10 @@ const fullTitle = `${demoPrefix}${title} · SuperCoach VIA`;
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href={withBase(base, 'favicon.svg')} type="image/svg+xml" />
-    <script is:inline>
-      (function () {
-        const d = document.documentElement;
-        d.classList.add('js');
-        try {
-          const t = localStorage.getItem('supercoach-via:theme:v1');
-          if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
-        } catch {
-          /* storage disabled: keep the system theme */
-        }
-      })();
-    </script>
   </head>
   <body>
+    {/* Same-origin, synchronous, first in body: governed by the meta CSP that Astro emits at the end of head. */}
+    <script is:inline src={withBase(base, 'theme-init.js')}></script>
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="wrap header-row">

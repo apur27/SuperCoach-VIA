@@ -13,9 +13,12 @@
     "lint": "eslint .",
     "test": "vitest run",
     "build": "astro build",
+    "build:bases": "node scripts/build-e2e.mjs",
     "preview": "node scripts/serve.mjs --dir dist --base ${SCVIA_PUBLIC_BASE:-/}",
     "test:e2e": "node scripts/build-e2e.mjs && playwright test",
+    "test:e2e:built": "playwright test",
     "budget": "node scripts/budget.mjs",
+    "budget:bases": "node scripts/budget.mjs --dir .e2e-dist/root --out test-results/budget-root.json && node scripts/budget.mjs --dir .e2e-dist/sub --out test-results/budget-sub.json",
     "gen:fixture": "node scripts/make-demo-fixture.mjs",
     "gen:types:check": "node scripts/gen-types.mjs --check"
   },

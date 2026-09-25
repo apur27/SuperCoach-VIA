@@ -326,3 +326,24 @@ def test_club_resolver_yields_shared_match_ids_and_chronological_stage_order() -
 def test_unresolved_club_is_blocking_with_resolver() -> None:
     fx = at.parse_season_page(CAPTURED.read_bytes(), season=2026, club_resolver=lambda n, s: None)
     assert fx.outcome is CheckOutcome.FAIL
+
+
+GAMES = CAPTURED.parent
+
+
+@pytest.mark.parametrize(
+    ("game_id", "names"),
+    [("131820260329", {"Brodie, Will"}), ("091020260406", {"Perez, Flynn", "Dalton, Jack"})],
+)
+def test_captured_2026_match_pages_parse_and_agree_with_the_season_fixture(game_id: str, names: set[str]) -> None:
+    """Real markup captured by the owner-authorised B1 fetch. The synthetic markup missed
+    the ``13.12.<b>90</b>`` final-score cell, which renders as "13.12. 90"."""
+    page = GAMES / f"game_2026_{game_id}_captured_20260925.html"
+    d = at.parse_match_detail(page.read_bytes(), season=2026, game_id=game_id)
+    assert d.outcome is CheckOutcome.PASS, d.issues
+    fx = at.parse_season_page(CAPTURED.read_bytes(), season=2026)
+    (m,) = [x for x in fx.matches if x.source_game_id == game_id]
+    got = (d.home_name, d.away_name, d.home_score, d.away_score)
+    assert got == (m.home_name, m.away_name, m.home_score, m.away_score)
+    assert len(d.players) >= 44 and all(p.player_url for p in d.players)
+    assert names <= {p.source_name for p in d.players}

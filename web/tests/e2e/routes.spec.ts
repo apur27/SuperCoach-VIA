@@ -28,6 +28,23 @@ for (const r of ROUTES) {
       writeFileSync(`test-results/axe/${info.project.name}-${r.path.replace(/[^a-z0-9]+/gi, '_') || 'home'}.json`, JSON.stringify(violations, null, 2));
       expect(violations).toEqual([]);
     });
+    test('axe scan at 375px (mobile) and in the dark theme', async ({ page }, info) => {
+      const name = r.path.replace(/[^a-z0-9]+/gi, '_') || 'home';
+      mkdirSync('test-results/axe', { recursive: true });
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto(r.path);
+      await page.waitForLoadState('networkidle');
+      const mobile = await axe(page);
+      writeFileSync(`test-results/axe/${info.project.name}-mobile-${name}.json`, JSON.stringify(mobile, null, 2));
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await page.emulateMedia({ colorScheme: 'dark' });
+      await page.reload();
+      await page.waitForLoadState('networkidle');
+      const dark = await axe(page);
+      writeFileSync(`test-results/axe/${info.project.name}-dark-${name}.json`, JSON.stringify(dark, null, 2));
+      expect(mobile, 'mobile').toEqual([]);
+      expect(dark, 'dark').toEqual([]);
+    });
   });
 }
 

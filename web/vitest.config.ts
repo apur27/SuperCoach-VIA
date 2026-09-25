@@ -1,6 +1,8 @@
-import { defineConfig } from 'vitest/config';
+/// <reference types="vitest/config" />
+import { getViteConfig } from 'astro/config';
 
-export default defineConfig({
+// getViteConfig lets unit tests render .astro components (experimental_AstroContainer).
+export default getViteConfig({
   test: {
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     environment: 'node',

@@ -60,3 +60,47 @@ def test_schemas_command_writes_files(tmp_path: Path) -> None:
     res = runner.invoke(app, ["schemas", "--out", str(tmp_path)])
     assert res.exit_code == 0
     assert (tmp_path / "release.schema.json").exists()
+
+
+def _demo_src(tmp_path: Path) -> Path:
+    from supercoach_via.demo import write_demo_corpus
+
+    write_demo_corpus(tmp_path / "src")
+    return tmp_path / "src"
+
+
+def test_import_legacy_promotes_and_status_reports_it(tmp_path: Path) -> None:
+    src = _demo_src(tmp_path)
+    res = runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var"), "--json"])
+    assert res.exit_code == 0, res.output
+    payload = json.loads(res.stdout.strip().splitlines()[-1])
+    assert payload["ok"] and payload["promoted"] and payload["snapshot_id"].startswith("sha256:")
+    st = runner.invoke(app, ["status", "--data-root", str(tmp_path / "var"), "--json"])
+    assert st.exit_code == 0, st.output
+    status = json.loads(st.stdout.strip().splitlines()[-1])
+    assert status["current_snapshot"] == payload["snapshot_id"]
+    assert status["last_run"]["state"] == "dataset_promoted"
+
+
+def test_validate_command_on_current_snapshot(tmp_path: Path) -> None:
+    src = _demo_src(tmp_path)
+    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var")])
+    res = runner.invoke(app, ["validate", "--snapshot", "current", "--data-root", str(tmp_path / "var"), "--json"])
+    assert res.exit_code == 0, res.output
+    assert json.loads(res.stdout.strip().splitlines()[-1])["outcome"] == "PASS"
+
+
+def test_refresh_plan_is_offline_and_write_free(tmp_path: Path) -> None:
+    src = _demo_src(tmp_path)
+    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var")])
+    before = sorted(p.relative_to(tmp_path) for p in (tmp_path / "var").rglob("*"))
+    res = runner.invoke(app, ["refresh", "--season", "2026", "--plan", "--data-root", str(tmp_path / "var"), "--json"])
+    assert res.exit_code == 0, res.output
+    plan = json.loads(res.stdout.strip().splitlines()[-1])
+    assert plan["network_during_plan"] is False and plan["estimated_requests"]["min"] >= 1
+    assert sorted(p.relative_to(tmp_path) for p in (tmp_path / "var").rglob("*")) == before
+
+
+def test_real_refresh_requires_explicit_network_opt_in(tmp_path: Path) -> None:
+    res = runner.invoke(app, ["refresh", "--season", "2026", "--data-only", "--data-root", str(tmp_path / "var")])
+    assert res.exit_code == EXIT["invalid_input"]

@@ -558,7 +558,7 @@ def parse_match_detail(content: bytes | str, *, season: int, game_id: str) -> Ma
         if link is None or len(cells) < 5:
             continue
         final = _text(cells[-1])
-        mm = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", final)
+        mm = re.fullmatch(r"(\d+)\.(\d+)\.\s*(\d+)", final)
         if not mm or int(mm.group(1)) * 6 + int(mm.group(2)) != int(mm.group(3)):
             out.issues.append(f"unrecognised final score {final!r}")
             continue

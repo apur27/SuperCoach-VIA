@@ -288,6 +288,211 @@ def preview(
         srv.serve_forever()
 
 
+# ---------------------------------------------------------------------------
+# dataset pipeline commands (thin wrappers over supercoach_via.pipeline)
+# ---------------------------------------------------------------------------
+
+_STAGE_EXIT = {0: "ok", 2: "invalid_input", 3: "source_unavailable", 4: "validation_failed", 5: "locked",
+               6: "model_unavailable", 7: "publish_failed"}  # fmt: skip
+
+
+def _stage_payload(res: Any) -> dict[str, Any]:
+    d: dict[str, Any] = res.as_dict()
+    d["exit"] = _STAGE_EXIT.get(res.exit_code, "invalid_input")
+    return d
+
+
+def _parse_repair(spec: str) -> tuple[Path, int]:
+    path, sep, season = spec.rpartition(":")
+    if not sep or not season.isdigit():
+        raise CliFailure("invalid_input", f"--repair expects EVIDENCE_DIR:SEASON, got {spec!r}")
+    p = Path(path)
+    if not (p / "fetch-manifest.json").is_file():
+        raise CliFailure("invalid_input", f"{p} has no fetch-manifest.json")
+    return p, int(season)
+
+
+@app.command("import-legacy")
+def import_legacy_cmd(
+    source: Annotated[Path, typer.Option("--source", help="legacy repository root (read-only)")] = Path(),
+    repair: Annotated[
+        list[str] | None, typer.Option("--repair", help="archived repair evidence EVIDENCE_DIR:SEASON (repeatable)")
+    ] = None,
+    no_promote: Annotated[bool, typer.Option("--no-promote", help="validate only; leave current.json")] = False,
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    run_id: Annotated[str | None, typer.Option("--run-id")] = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Import the legacy CSV corpus (+ archived repairs), validate, and promote on PASS."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via import pipeline
+        from supercoach_via.settings import RunContext
+
+        settings = _settings(config, data_root=data_root, source_root=source)
+        repairs = [_parse_repair(r) for r in repair or []]
+        res = pipeline.ingest(RunContext(settings=settings), source_root=source, repairs=repairs,
+                              run_id=run_id, promote=not no_promote)  # fmt: skip
+        return _stage_payload(res)
+
+    _run(json_out, body)
+
+
+@app.command()
+def validate(
+    snapshot: Annotated[str, typer.Option("--snapshot", help="'current' or sha256:<id>")] = "current",
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Re-validate an existing snapshot (read-only)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via import pipeline
+        from supercoach_via.ingest.legacy import DatasetCandidate
+        from supercoach_via.storage.snapshots import SnapshotCandidate, load_snapshot, snapshot_hex
+
+        settings = _settings(config, data_root=data_root)
+        try:
+            manifest = load_snapshot(settings.data_root, snapshot, verify=True)
+        except (FileNotFoundError, ValueError) as exc:
+            raise CliFailure("invalid_input", str(exc), "run import-legacy first") from exc
+        path = settings.data_root / "snapshots" / f"{snapshot_hex(manifest.snapshot_id)}.json"
+        report = pipeline._validate(DatasetCandidate(SnapshotCandidate(manifest, path), {}, settings.data_root))
+        return {"ok": report.ok, "snapshot_id": manifest.snapshot_id, "outcome": report.outcome.value,
+                "checks": {k: v.value for k, v in report.checks.items()},
+                "blocking": [i for i in report.issues if i.get("severity") == "blocking"][:50],
+                "exit": "ok" if report.ok else "validation_failed"}  # fmt: skip
+
+    _run(json_out, body)
+
+
+@app.command()
+def refresh(
+    season: Annotated[int | None, typer.Option("--season")] = None,
+    plan: Annotated[bool, typer.Option("--plan", help="print the offline plan; no network, no writes")] = False,
+    data_only: Annotated[bool, typer.Option("--data-only", help="refresh data only (no release build)")] = False,
+    repair_season: Annotated[int | None, typer.Option("--repair-season")] = None,
+    allow_network: Annotated[bool, typer.Option("--allow-network", help="explicit opt-in to contact sources")] = False,
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Plan (offline) or run a bounded source refresh; the result is a candidate, never auto-published."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.ingest import refresh as rf
+        from supercoach_via.settings import RunContext
+
+        settings = _settings(config, data_root=data_root)
+        ctx = RunContext(settings=settings)
+        if not plan and not allow_network:
+            raise CliFailure("invalid_input", "a real refresh contacts external sources",
+                             "re-run with --plan to preview, or add --allow-network to fetch")  # fmt: skip
+        try:
+            base = rf.base_state_from_snapshot(settings.data_root)
+        except FileNotFoundError as exc:
+            raise CliFailure("invalid_input", str(exc), "run import-legacy first") from exc
+        try:
+            req = rf.RefreshRequest(current_season=season, repair_season=repair_season)
+            the_plan = rf.plan_refresh(base, req, ctx)
+        except rf.RefreshConfigError as exc:
+            raise CliFailure("invalid_input", str(exc)) from exc
+        if plan:
+            if not json_out:
+                typer.echo(the_plan.describe(), err=True)
+            return {**the_plan.to_dict(), "ok": True}
+        from supercoach_via import pipeline
+        from supercoach_via.ingest.http import HttpClient, RawArchive, load_policies
+
+        policies = load_policies(settings.source_root / "config" / "source_policies.toml")
+        with HttpClient(policies, user_agent=f"SuperCoach-VIA ({pipeline.CODE_VERSION}; operator refresh)",
+                        archive=RawArchive(settings.data_root / "raw")) as http:  # fmt: skip
+            ctx.http = http
+            res = pipeline.refresh(ctx, season=season, repair_season=repair_season)
+        return _stage_payload(res)
+
+    _run(json_out, body)
+
+
+@app.command()
+def status(config: ConfigOpt = None, data_root: DataRootOpt = None, json_out: JsonOpt = False) -> None:
+    """Accepted snapshot and the most recent run (read-only)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.storage.snapshots import read_current
+
+        settings = _settings(config, data_root=data_root)
+        cur = read_current(settings.data_root)
+        runs_dir = settings.data_root / "runs"
+        last = None
+        if runs_dir.is_dir():
+            ids = sorted(p.name for p in runs_dir.iterdir() if (p / "run.json").is_file())
+            if ids:
+                m = json.loads((runs_dir / ids[-1] / "run.json").read_text(encoding="utf-8"))
+                last = {k: m.get(k) for k in ("run_id", "command", "state", "error_code", "recovery", "updated_at")}
+        return {"ok": True, "current_snapshot": cur.snapshot_id if cur else None,
+                "promoted_at": cur.promoted_at.isoformat() if cur else None, "last_run": last}  # fmt: skip
+
+    _run(json_out, body)
+
+
+@app.command()
+def forecast(
+    train_cutoff: Annotated[str, typer.Option("--train-cutoff", help="YYYY-MM-DD")],
+    calibration_end: Annotated[str, typer.Option("--calibration-end", help="YYYY-MM-DD")],
+    cutoff: Annotated[str, typer.Option("--cutoff", help="forecast cutoff instant, ISO 8601 with zone")],
+    replay_season: Annotated[int | None, typer.Option("--replay-season")] = None,
+    snapshot: Annotated[str, typer.Option("--snapshot")] = "current",
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Train (or reuse) the bundle, forecast the next real fixtures, optionally replay a season."""
+
+    def body() -> dict[str, Any]:
+        from datetime import date, datetime
+
+        from supercoach_via import pipeline
+        from supercoach_via.settings import RunContext
+
+        try:
+            at = datetime.fromisoformat(cutoff)
+            plan = pipeline.ForecastPlan(date.fromisoformat(train_cutoff), date.fromisoformat(calibration_end), at,
+                                         replay_season=replay_season)  # fmt: skip
+        except ValueError as exc:
+            raise CliFailure("invalid_input", str(exc)) from exc
+        if at.tzinfo is None:
+            raise CliFailure("invalid_input", "--cutoff needs an explicit UTC offset")
+        settings = _settings(config, data_root=data_root)
+        res = pipeline.forecast(RunContext(settings=settings), plan, snapshot=snapshot)
+        payload = _stage_payload(res)
+        if res.exit_code == 0 and res.outputs.get("forecast_status") != "available":
+            payload["note"] = "no valid future fixture: forecast_status=unavailable (the release still builds)"
+        return payload
+
+    _run(json_out, body)
+
+
+@app.command()
+def demo(
+    output: Annotated[Path, typer.Option("--output", help="empty directory for the DEMO build")] = Path("dist/demo"),
+    json_out: JsonOpt = False,
+) -> None:
+    """Build the complete DEMO dataset + release offline (no network, GPU or credentials)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via import pipeline
+
+        if output.exists() and any(output.iterdir()):
+            raise CliFailure("invalid_input", f"{output} is not empty", "choose an empty --output directory")
+        res = pipeline.demo(output)
+        return {**res, "exit": _STAGE_EXIT.get(int(res["exit_code"]), "invalid_input")}
+
+    _run(json_out, body)
+
+
 def main() -> None:
     try:
         app()

@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint';
 import astro from 'eslint-plugin-astro';
 
 export default [
-  { ignores: ['dist/', '.astro/', '.e2e-dist/', 'node_modules/', 'test-results/', 'playwright-report/', 'src/lib/**/*.generated.*', 'src/lib/validators/'] },
+  { ignores: ['dist/', '.astro/', '.e2e-dist/', 'node_modules/', 'test-results/', 'playwright-report/', 'tests/fixtures/', 'src/lib/**/*.generated.*', 'src/lib/validators/'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
@@ -14,6 +14,15 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      // Security (PLAN 11.2/11.5): no dynamic code evaluation anywhere in the site or its tooling.
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
+      'no-new-func': 'error',
     },
+  },
+  {
+    // Classic (non-module) scripts served as-is from public/, e.g. the pre-paint theme bootstrap.
+    files: ['public/**/*.js'],
+    languageOptions: { sourceType: 'script', globals: { document: 'readonly', localStorage: 'readonly' } },
   },
 ];

@@ -243,10 +243,21 @@ def write_demo_corpus(root: Path, seed: int = SEED) -> dict[str, int]:
             matches.append(row)
             counts["matches"] += 1
             h_pts, a_pts = hs[6] * 6 + hs[7], as_[6] * 6 + as_[7]
-            for club, opp, pts, opp_pts in ((home, away, h_pts, a_pts), (away, home, a_pts, h_pts)):
+            for club, opp, pts, opp_pts, qs in (
+                (home, away, h_pts, a_pts, hs),
+                (away, home, a_pts, h_pts, as_),
+            ):
                 result = "W" if pts > opp_pts else "L" if pts < opp_pts else "D"
                 squad = [p for p in players if p.clubs[season] == club]
                 named = []
+                # scoring shots are allocated from the team total so match and player
+                # goal/behind totals reconcile (the validation gate checks this)
+                goals_by = [0] * len(squad[:18])
+                behinds_by = [0] * len(squad[:18])
+                for _ in range(qs[6]):
+                    goals_by[rng.randrange(len(goals_by))] += 1
+                for _ in range(qs[7]):
+                    behinds_by[rng.randrange(len(behinds_by))] += 1
                 for jersey, p in enumerate(squad[:18], start=1):
                     p.games += 1
                     named.append(f"{p.first} {p.last}")
@@ -259,8 +270,8 @@ def write_demo_corpus(root: Path, seed: int = SEED) -> dict[str, int]:
                         "handballs": hb,
                         "disposals": kicks_n + hb,
                         "marks": max(0, round(rng.gauss(4, 2))),
-                        "goals": max(0, round(rng.gauss(0.8, 1))),
-                        "behinds": max(0, round(rng.gauss(0.6, 0.8))),
+                        "goals": goals_by[jersey - 1],
+                        "behinds": behinds_by[jersey - 1],
                         "hit_outs": 0,
                         "tackles": max(0, round(rng.gauss(3, 2))),
                         "rebound_50s": max(0, round(rng.gauss(1, 1))),

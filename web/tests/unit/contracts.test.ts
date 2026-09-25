@@ -42,8 +42,19 @@ function validateTree(root: string) {
     const rel = relative(root, f).split('\\').join('/');
     const kind = kindForPath(rel);
     expect(kind, `no resource kind for ${rel}`).not.toBeNull();
-    const res = validate(kind!, JSON.parse(readFileSync(f, 'utf8')));
+    const data = JSON.parse(readFileSync(f, 'utf8'));
+    const res = validate(kind!, data);
     expect(res.ok, `${rel}: ${res.ok ? '' : res.error}`).toBe(true);
+    // Positional stats must align with the parent's column list (not expressible in JSON Schema).
+    const aligned = (cols: string[], rows: { stats: unknown[] }[]) => {
+      for (const r of rows) expect(r.stats.length, `${rel}: stats length`).toBe(cols.length);
+    };
+    if (kind === 'match_detail') aligned(data.stat_columns, [...data.home_players, ...data.away_players]);
+    if (kind === 'player_season_games') aligned(data.stat_columns, data.games);
+    // Live rows are keyed; only reliable fields may appear (an absent key = not reported).
+    if (kind === 'live_snapshot') {
+      for (const r of data.players) for (const k of Object.keys(r.stats)) expect(data.reliable_fields, `${rel}: live stat ${k}`).toContain(k);
+    }
   }
 }
 

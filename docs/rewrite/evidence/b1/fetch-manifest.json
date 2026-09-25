@@ -1,0 +1,328 @@
+{
+ "authorised": "owner decision on blocker B1, 2026-09-25: <=10 afltables requests",
+ "base_snapshot_id": "sha256:5dfee4ffa728431a49bdd22624376709d7ca21a75dd51272d9a0d2d0e0a34687",
+ "bytes_received": 566920,
+ "client_request_counts": {
+  "afltables.com": 6
+ },
+ "evidence": [
+  {
+   "display_name": "Flynn Perez",
+   "page_seasons": {
+    "2020": 3,
+    "2022": 16,
+    "2023": 5,
+    "2026": 7
+   },
+   "page_sha256": "e8bf60340e0bbc0317221c7329850e15cdb61bfe20bbc1d90acc9ff3d21bfdd8",
+   "player_id": "legacy:perez_flynn_25082001",
+   "player_url": "https://afltables.com/afl/stats/players/F/Flynn_Perez.html",
+   "rows_added": 7,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "repaired"
+  },
+  {
+   "display_name": "Jack Dalton",
+   "page_seasons": {
+    "2026": 5
+   },
+   "page_sha256": "147ff4fa47727a9617ca5971f8e92c02891b70182f6cf637c787f4286cdbe6a6",
+   "player_id": "src:afltables:J.Jack_Dalton1",
+   "player_url": "https://afltables.com/afl/stats/players/J/Jack_Dalton1.html",
+   "rows_added": 5,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "repaired"
+  },
+  {
+   "display_name": "Will Brodie",
+   "page_seasons": {
+    "2017": 3,
+    "2018": 8,
+    "2019": 8,
+    "2020": 1,
+    "2021": 5,
+    "2022": 24,
+    "2023": 5,
+    "2026": 2
+   },
+   "page_sha256": "c02ddb7fe9034c5e9ba1e58e3b6e2344a2185ca308f72f83eecc18beb5039ed6",
+   "player_id": "legacy:brodie_will_23081998",
+   "player_url": "https://afltables.com/afl/stats/players/W/Will_Brodie.html",
+   "rows_added": 2,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "repaired"
+  }
+ ],
+ "exit_code": 0,
+ "http_observations": [
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 239669,
+   "content_sha256": "6c0d5a3bd5476ce2af7f7f558eda05ebe05679bb282fed6c434c1722f2ac7fc0",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:23:59.893729+00:00",
+   "http_status": 200,
+   "last_modified": null,
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:0f64a2ce7c1187bd8b7ef67a",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 57675,
+   "content_sha256": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:00.086734+00:00",
+   "http_status": 200,
+   "last_modified": null,
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:c6ce7ed6563bbd8393aa339d",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 56990,
+   "content_sha256": "e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:00.934558+00:00",
+   "http_status": 200,
+   "last_modified": null,
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:816217045bb8f5ba01d46f2d",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 73130,
+   "content_sha256": "e8bf60340e0bbc0317221c7329850e15cdb61bfe20bbc1d90acc9ff3d21bfdd8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:01.933003+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 17 Aug 2026 06:47:55 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:281fc24f9b14718c18ebe54b",
+   "url": "https://afltables.com/afl/stats/players/F/Flynn_Perez.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 30556,
+   "content_sha256": "147ff4fa47727a9617ca5971f8e92c02891b70182f6cf637c787f4286cdbe6a6",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:03.133642+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 24 Aug 2026 06:29:34 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:866efe4b4777ef4de5368b2a",
+   "url": "https://afltables.com/afl/stats/players/J/Jack_Dalton1.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 108900,
+   "content_sha256": "c02ddb7fe9034c5e9ba1e58e3b6e2344a2185ca308f72f83eecc18beb5039ed6",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:04.087986+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 24 Aug 2026 06:30:51 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:34d7317dd2d6b21982e17266",
+   "url": "https://afltables.com/afl/stats/players/W/Will_Brodie.html"
+  }
+ ],
+ "issues": [],
+ "max_attempts_per_url": 1,
+ "network_requests_this_run": {
+  "afltables.com": 3
+ },
+ "outcome": "PASS",
+ "requests_prior_runs": 3,
+ "requests_total": 6,
+ "reused_from_prior_run": [
+  "https://afltables.com/afl/seas/2026.html",
+  "https://afltables.com/afl/stats/games/2026/091020260406.html",
+  "https://afltables.com/afl/stats/games/2026/131820260329.html"
+ ],
+ "rows_by_table": {
+  "player_games": 14,
+  "players": 3
+ },
+ "source_observations": [
+  {
+   "adapter": "afltables.season_fixture",
+   "adapter_version": "1",
+   "bytes": 239669,
+   "content_sha256": "6c0d5a3bd5476ce2af7f7f558eda05ebe05679bb282fed6c434c1722f2ac7fc0",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.499095+00:00",
+   "http_status": 200,
+   "last_modified": "Sun, 20 Sep 2026 01:40:42 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:7881fe87b3007fdf081dbbf2",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "adapter": "afltables.match_detail",
+   "adapter_version": "1",
+   "bytes": 57675,
+   "content_sha256": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.828205+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:44 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:1e85852a4639f1745e7e81fb",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "adapter": "afltables.match_detail",
+   "adapter_version": "1",
+   "bytes": 56990,
+   "content_sha256": "e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:46.602137+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:40 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:971b41ff9985a657f355f056",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  },
+  {
+   "adapter": "afltables.player_page",
+   "adapter_version": "1",
+   "bytes": 73130,
+   "content_sha256": "e8bf60340e0bbc0317221c7329850e15cdb61bfe20bbc1d90acc9ff3d21bfdd8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:01.933003+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 17 Aug 2026 06:47:55 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:281fc24f9b14718c18ebe54b",
+   "url": "https://afltables.com/afl/stats/players/F/Flynn_Perez.html"
+  },
+  {
+   "adapter": "afltables.player_page",
+   "adapter_version": "1",
+   "bytes": 30556,
+   "content_sha256": "147ff4fa47727a9617ca5971f8e92c02891b70182f6cf637c787f4286cdbe6a6",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:03.133642+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 24 Aug 2026 06:29:34 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:866efe4b4777ef4de5368b2a",
+   "url": "https://afltables.com/afl/stats/players/J/Jack_Dalton1.html"
+  },
+  {
+   "adapter": "afltables.player_page",
+   "adapter_version": "1",
+   "bytes": 108900,
+   "content_sha256": "c02ddb7fe9034c5e9ba1e58e3b6e2344a2185ca308f72f83eecc18beb5039ed6",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:24:04.087986+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 24 Aug 2026 06:30:51 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:34d7317dd2d6b21982e17266",
+   "url": "https://afltables.com/afl/stats/players/W/Will_Brodie.html"
+  }
+ ],
+ "started_at": "2026-09-25T09:23:59.865847+00:00",
+ "targets": [
+  {
+   "club_source_name": "Hawthorn",
+   "discover_match_id": "m:2026:r05:geelong:hawthorn:0",
+   "display_name": "Flynn Perez",
+   "exclude_birth_dates": [],
+   "expected_birth_date": "2001-08-25",
+   "player_id": "legacy:perez_flynn_25082001"
+  },
+  {
+   "club_source_name": "Hawthorn",
+   "discover_match_id": "m:2026:r05:geelong:hawthorn:0",
+   "display_name": "Jack Dalton",
+   "exclude_birth_dates": [
+    "1876-04-15"
+   ],
+   "expected_birth_date": null,
+   "player_id": null
+  },
+  {
+   "club_source_name": "Port Adelaide",
+   "discover_match_id": "m:2026:r04:port_adelaide:west_coast:0",
+   "display_name": "Will Brodie",
+   "exclude_birth_dates": [],
+   "expected_birth_date": "1998-08-23",
+   "player_id": "legacy:brodie_will_23081998"
+  }
+ ],
+ "work_log": [
+  {
+   "detail": "",
+   "key": "afltables:season:2026",
+   "kind": "season_fixture",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "detail": "discovery",
+   "key": "afltables:game:131820260329",
+   "kind": "match_detail",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "detail": "discovery",
+   "key": "afltables:game:091020260406",
+   "kind": "match_detail",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  },
+  {
+   "detail": "7 rows",
+   "key": "afltables:player:F/Flynn_Perez.html",
+   "kind": "player_page",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/stats/players/F/Flynn_Perez.html"
+  },
+  {
+   "detail": "5 rows",
+   "key": "afltables:player:J/Jack_Dalton1.html",
+   "kind": "player_page",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/stats/players/J/Jack_Dalton1.html"
+  },
+  {
+   "detail": "2 rows",
+   "key": "afltables:player:W/Will_Brodie.html",
+   "kind": "player_page",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/stats/players/W/Will_Brodie.html"
+  }
+ ]
+}

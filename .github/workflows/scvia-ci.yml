@@ -1,0 +1,79 @@
+# SuperCoach VIA rewrite CI (PLAN 11.6, 13). Read-only token; no secrets; no publishing.
+# Third-party actions are pinned to full commit SHAs (tag noted alongside).
+name: scvia-ci
+
+on:
+  push:
+    branches: [main, "rewrite/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scvia-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.18"
+      - name: Install locked environment
+        run: uv sync --locked --group dev --extra ml
+      - name: Ruff
+        run: uv run --locked ruff check
+      - name: mypy
+        run: uv run --locked mypy
+      - name: Hermetic pytest tier (network blocked)
+        # tests/scvia/conftest.py blocks sockets for every unit/contract test (autouse);
+        # proxies are pointed at a dead address as a second guard.
+        env:
+          HTTP_PROXY: http://127.0.0.1:9
+          HTTPS_PROXY: http://127.0.0.1:9
+          NO_PROXY: ""
+        run: uv run --locked pytest tests/scvia -m "not integration" -q
+
+  web:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - name: Generated contracts match ../schemas
+        run: npm run gen:types:check
+      - run: npm run check
+      - run: npm run lint
+      - run: npm test
+      - name: Production build at / and /SuperCoach-VIA/
+        run: npm run build:bases
+      - name: Payload budgets (both bases)
+        run: npm run budget:bases
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: E2E + axe against the production builds
+        run: npm run test:e2e:built
+      - name: Upload test reports, axe results, budget reports and screenshots
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scvia-web-reports
+          path: web/test-results/
+          if-no-files-found: warn
+          retention-days: 14

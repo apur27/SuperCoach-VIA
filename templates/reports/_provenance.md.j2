@@ -1,0 +1,3 @@
+{% if meta.demo %}> **DEMO release.** Synthetic values generated to exercise the pipeline; not AFL statistics.
+
+{% endif %}Release `{{ meta.release_id }}` · snapshot `{{ meta.snapshot_id }}` · season {{ meta.season }} · data through {{ meta.coverage_through or "unknown" }} · generated {{ meta.generated_at }} · dataset status {{ meta.dataset_status }}.

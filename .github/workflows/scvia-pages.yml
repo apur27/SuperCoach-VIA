@@ -1,0 +1,75 @@
+# Manual GitHub Pages deployment for the SuperCoach VIA static site (PLAN 2, 11.6).
+# Never runs automatically: workflow_dispatch only, no schedule, no push trigger.
+# The build job has a read-only token; only the deploy job gets pages/id-token.
+# Third-party actions are pinned to full commit SHAs (tag noted alongside).
+name: scvia-pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_dir:
+        description: "Repo-relative path to an already validated public release directory (contains release.json)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scvia-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate release_dir input
+        # Input is passed via env, never interpolated into shell code (script-injection guidance).
+        env:
+          RELEASE_DIR: ${{ inputs.release_dir }}
+        run: |
+          if ! printf '%s' "$RELEASE_DIR" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._/-]{0,200}$' || printf '%s' "$RELEASE_DIR" | grep -q '\.\.'; then
+            echo "release_dir must be a plain repo-relative path" >&2; exit 1
+          fi
+          test -f "$GITHUB_WORKSPACE/$RELEASE_DIR/release.json" || { echo "no release.json in release_dir" >&2; exit 1; }
+          echo "SCVIA_RELEASE_DIR=$GITHUB_WORKSPACE/$RELEASE_DIR" >> "$GITHUB_ENV"
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        id: pages
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Build and check the site
+        working-directory: web
+        env:
+          SCVIA_PUBLIC_BASE: ${{ steps.pages.outputs.base_path }}/
+          SCVIA_PUBLIC_SITE: ${{ steps.pages.outputs.origin }}
+        run: |
+          npm ci
+          npm run gen:types:check
+          npm run build
+          npm run budget -- --out test-results/budget-pages.json
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        id: deployment

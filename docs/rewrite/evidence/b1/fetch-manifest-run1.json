@@ -1,0 +1,198 @@
+{
+ "authorised": "owner decision on blocker B1, 2026-09-25: <=10 afltables requests",
+ "base_snapshot_id": "sha256:5dfee4ffa728431a49bdd22624376709d7ca21a75dd51272d9a0d2d0e0a34687",
+ "bytes_received": 354334,
+ "evidence": [
+  {
+   "display_name": "Flynn Perez",
+   "page_seasons": {},
+   "page_sha256": null,
+   "player_id": "legacy:perez_flynn_25082001",
+   "player_url": null,
+   "rows_added": 0,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "discovery_failed"
+  },
+  {
+   "display_name": "Jack Dalton",
+   "page_seasons": {},
+   "page_sha256": null,
+   "player_id": null,
+   "player_url": null,
+   "rows_added": 0,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "discovery_failed"
+  },
+  {
+   "display_name": "Will Brodie",
+   "page_seasons": {},
+   "page_sha256": null,
+   "player_id": "legacy:brodie_will_23081998",
+   "player_url": null,
+   "rows_added": 0,
+   "rows_conflicting": 0,
+   "rows_matching": 0,
+   "status": "discovery_failed"
+  }
+ ],
+ "exit_code": 3,
+ "http_observations": [
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 239669,
+   "content_sha256": "6c0d5a3bd5476ce2af7f7f558eda05ebe05679bb282fed6c434c1722f2ac7fc0",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.499095+00:00",
+   "http_status": 200,
+   "last_modified": "Sun, 20 Sep 2026 01:40:42 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:7881fe87b3007fdf081dbbf2",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 57675,
+   "content_sha256": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.828205+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:44 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:1e85852a4639f1745e7e81fb",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "adapter": "http.afltables",
+   "adapter_version": "1",
+   "bytes": 56990,
+   "content_sha256": "e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:46.602137+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:40 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:971b41ff9985a657f355f056",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  }
+ ],
+ "issues": [
+  "match_detail afltables:game:131820260329: quarantined: match detail parse: unrecognised final score '13.12. 90'; unrecognised final score '13.14. 92'; expected two team score rows",
+  "match_detail afltables:game:091020260406: quarantined: match detail parse: unrecognised final score '13.14. 92'; unrecognised final score '14.7. 91'; expected two team score rows"
+ ],
+ "max_attempts_per_url": 1,
+ "outcome": "FAIL",
+ "request_counts": {
+  "afltables.com": 3
+ },
+ "requests_total": 3,
+ "rows_by_table": {
+  "player_games": 0,
+  "players": 0
+ },
+ "source_observations": [
+  {
+   "adapter": "afltables.season_fixture",
+   "adapter_version": "1",
+   "bytes": 239669,
+   "content_sha256": "6c0d5a3bd5476ce2af7f7f558eda05ebe05679bb282fed6c434c1722f2ac7fc0",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.499095+00:00",
+   "http_status": 200,
+   "last_modified": "Sun, 20 Sep 2026 01:40:42 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:7881fe87b3007fdf081dbbf2",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "adapter": "afltables.match_detail",
+   "adapter_version": "1",
+   "bytes": 57675,
+   "content_sha256": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:45.828205+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:44 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:1e85852a4639f1745e7e81fb",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "adapter": "afltables.match_detail",
+   "adapter_version": "1",
+   "bytes": 56990,
+   "content_sha256": "e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c",
+   "etag": null,
+   "fetched_at": "2026-09-25 09:21:46.602137+00:00",
+   "http_status": 200,
+   "last_modified": "Mon, 21 Sep 2026 19:36:40 GMT",
+   "outcome": "PASS",
+   "source_mode": "live",
+   "source_ref": "src:afltables:971b41ff9985a657f355f056",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  }
+ ],
+ "started_at": "2026-09-25T09:21:45.427034+00:00",
+ "targets": [
+  {
+   "club_source_name": "Hawthorn",
+   "discover_match_id": "m:2026:r05:geelong:hawthorn:0",
+   "display_name": "Flynn Perez",
+   "exclude_birth_dates": [],
+   "expected_birth_date": "2001-08-25",
+   "player_id": "legacy:perez_flynn_25082001"
+  },
+  {
+   "club_source_name": "Hawthorn",
+   "discover_match_id": "m:2026:r05:geelong:hawthorn:0",
+   "display_name": "Jack Dalton",
+   "exclude_birth_dates": [
+    "1876-04-15"
+   ],
+   "expected_birth_date": null,
+   "player_id": null
+  },
+  {
+   "club_source_name": "Port Adelaide",
+   "discover_match_id": "m:2026:r04:port_adelaide:west_coast:0",
+   "display_name": "Will Brodie",
+   "exclude_birth_dates": [],
+   "expected_birth_date": "1998-08-23",
+   "player_id": "legacy:brodie_will_23081998"
+  }
+ ],
+ "work_log": [
+  {
+   "detail": "",
+   "key": "afltables:season:2026",
+   "kind": "season_fixture",
+   "outcome": "PASS",
+   "status": "succeeded",
+   "url": "https://afltables.com/afl/seas/2026.html"
+  },
+  {
+   "detail": "match detail parse: unrecognised final score '13.12. 90'; unrecognised final score '13.14. 92'; expected two team score rows",
+   "key": "afltables:game:131820260329",
+   "kind": "match_detail",
+   "outcome": "FAIL",
+   "status": "quarantined",
+   "url": "https://afltables.com/afl/stats/games/2026/131820260329.html"
+  },
+  {
+   "detail": "match detail parse: unrecognised final score '13.14. 92'; unrecognised final score '14.7. 91'; expected two team score rows",
+   "key": "afltables:game:091020260406",
+   "kind": "match_detail",
+   "outcome": "FAIL",
+   "status": "quarantined",
+   "url": "https://afltables.com/afl/stats/games/2026/091020260406.html"
+  }
+ ]
+}
