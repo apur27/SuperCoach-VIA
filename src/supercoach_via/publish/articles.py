@@ -83,6 +83,25 @@ def _excerpt(text: str) -> str:
     return ""
 
 
+_LOCAL_PATH = re.compile(r"(?:/home|/Users|/tmp)/[^\s`\"'<>)\]]*")
+_REPO_DIR = "/SuperCoach-VIA/"
+
+
+def redact_local_paths(text: str) -> tuple[str, int]:
+    """Replace absolute local filesystem paths in legacy prose (never publish operator paths).
+
+    A path inside a checkout of this repository keeps its repo-relative remainder; any other
+    local path becomes a visible placeholder. Returns the text and the number of paths replaced.
+    """
+
+    def sub(m: re.Match[str]) -> str:
+        path = m.group(0)
+        i = path.find(_REPO_DIR)
+        return path[i + len(_REPO_DIR) :] if i >= 0 and path[i + len(_REPO_DIR) :] else "[local path removed]"
+
+    return _LOCAL_PATH.subn(sub, text)
+
+
 def build_articles(repo_root: Path, manifest_path: Path, *, base: str, asset_prefix: str) -> BuiltArticles:
     entries = load_manifest(manifest_path, repo_root)
     slugs = {e.path: slug_for(e.path) for e in entries}
@@ -92,7 +111,7 @@ def build_articles(repo_root: Path, manifest_path: Path, *, base: str, asset_pre
     built = BuiltArticles(articles=[])
     for entry in entries:
         raw = (repo_root / entry.path).read_bytes()
-        text = raw.decode("utf-8")
+        text, redacted = redact_local_paths(raw.decode("utf-8"))
         local_map = dict(link_map)
         for ref in _IMG.findall(text):
             resolved = posixpath.normpath(posixpath.join(posixpath.dirname(entry.path), ref.split("#")[0]))
@@ -132,8 +151,14 @@ def build_articles(repo_root: Path, manifest_path: Path, *, base: str, asset_pre
                     Source(label="Original repository document", url=None, note=f"{entry.path} sha256 {digest[:16]}")
                 ],
                 provenance=(
-                    f"Imported unchanged from {entry.path} (sha256 {digest}). Figures are frozen at the "
-                    "article's own as-of scope and were not re-verified or recalculated by the rewrite."
+                    (
+                        f"Imported from {entry.path} (sha256 {digest}) with {redacted} local filesystem "
+                        "path(s) redacted; otherwise unchanged."
+                        if redacted
+                        else f"Imported unchanged from {entry.path} (sha256 {digest})."
+                    )
+                    + " Figures are frozen at the article's own as-of scope and were not re-verified or"
+                    " recalculated by the rewrite."
                 ),
             )
         )

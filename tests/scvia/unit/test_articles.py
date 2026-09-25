@@ -70,3 +70,24 @@ def test_real_manifest_lists_existing_files(repo_root: Path) -> None:
     entries = articles.load_manifest(repo_root / "config" / "public_content.toml", repo_root)
     assert len(entries) > 50
     assert not any("rewrite" in e.path or "council" in e.path for e in entries)
+
+
+def test_local_filesystem_paths_are_redacted_and_disclosed(tmp_path: Path) -> None:
+    repo = _repo(tmp_path)
+    story = repo / "docs" / "news" / "2026-05-13-demo-story.md"
+    story.write_text(
+        story.read_text()
+        + "\n- **Snapshot path:** `/home/abhi/git/SuperCoach-VIA/data/live_snapshots/x_q1.json`\n\n"
+        "```\n/home/abhi/sourceCode/python/coding/.venv/bin/python -c 'print(1)'\n```\n"
+        "Also /Users/someone/tmp/file.csv and /tmp/scratch/out.json.\n"
+    )
+    built = articles.build_articles(
+        repo, repo / "config" / "public_content.toml", base="/SuperCoach-VIA/", asset_prefix="data/r1/"
+    )
+    html = built.articles[0].html
+    for marker in ("/home/", "/Users/", "/tmp/"):
+        assert marker not in html
+    assert "data/live_snapshots/x_q1.json" in html  # repo-relative remainder kept
+    assert html.count("[local path removed]") == 3
+    assert "4 local filesystem path(s) redacted" in built.articles[0].provenance
+    assert "Imported unchanged" not in built.articles[0].provenance
