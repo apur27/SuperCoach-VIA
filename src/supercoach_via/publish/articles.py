@@ -102,6 +102,14 @@ def redact_local_paths(text: str) -> tuple[str, int]:
     return _LOCAL_PATH.subn(sub, text)
 
 
+_HEADING_TAG = re.compile(r"<(/?)h([1-5])(?=[\s>])")
+
+
+def demote_headings(html: str) -> str:
+    """Shift sanitized h1..h5 down one level so the page layout's title stays the only H1."""
+    return _HEADING_TAG.sub(lambda m: f"<{m.group(1)}h{int(m.group(2)) + 1}", html)
+
+
 def build_articles(repo_root: Path, manifest_path: Path, *, base: str, asset_prefix: str) -> BuiltArticles:
     entries = load_manifest(manifest_path, repo_root)
     slugs = {e.path: slug_for(e.path) for e in entries}
@@ -122,7 +130,7 @@ def build_articles(repo_root: Path, manifest_path: Path, *, base: str, asset_pre
             ):
                 local_map[resolved] = asset_prefix + resolved
                 built.assets[resolved] = repo_root / resolved
-        html = render_markdown(text, base=base, link_map=local_map, source_path=entry.path)
+        html = demote_headings(render_markdown(text, base=base, link_map=local_map, source_path=entry.path))
         h1 = _H1.search(text)
         m = _DATE_PREFIX.match(Path(entry.path).name)
         published = date(int(m[1]), int(m[2]), int(m[3])) if m else None

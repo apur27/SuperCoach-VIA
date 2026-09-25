@@ -91,3 +91,17 @@ def test_local_filesystem_paths_are_redacted_and_disclosed(tmp_path: Path) -> No
     assert html.count("[local path removed]") == 3
     assert "4 local filesystem path(s) redacted" in built.articles[0].provenance
     assert "Imported unchanged" not in built.articles[0].provenance
+
+
+def test_article_body_headings_are_demoted_below_the_page_h1(tmp_path: Path) -> None:
+    repo = _repo(tmp_path)
+    story = repo / "docs" / "news" / "2026-05-13-demo-story.md"
+    story.write_text(story.read_text() + "\n# Second top heading\n\n## Section\n\n###### Deep\n")
+    built = articles.build_articles(
+        repo, repo / "config" / "public_content.toml", base="/SuperCoach-VIA/", asset_prefix="data/r1/"
+    )
+    html = built.articles[0].html
+    assert "<h1" not in html and "</h1>" not in html  # the page layout owns the only H1
+    assert "<h2>Demo Story</h2>" in html and "<h2>Second top heading</h2>" in html
+    assert "<h3>Section</h3>" in html and "<h6>Deep</h6>" in html
+    assert built.articles[0].summary.title == "Demo Story"
