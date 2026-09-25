@@ -51,6 +51,8 @@ uv run scvia validate-release --release <release_id> --json
 uv run scvia preview --release <release_id>          # binds 127.0.0.1
 ```
 
+Build the release with the same `SCVIA_PUBLIC_BASE` as the site: article image URLs are resolved against the base at release-build time.
+
 The dates above are examples. Pick a training cutoff before the calibration block, and the
 calibration end before the season you replay.
 

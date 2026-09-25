@@ -24,6 +24,46 @@ Two Gaffer sessions are pushing to this branch: a cloud session (commits signed 
 - `publish/builder.py`, `templates/reports/`, and the R11 output reconciliation tests. A sub-agent is working on these now.
 - Reconciling web work onto 4c49c186e: CSP hardening, detail-state e2e, mobile/dark axe, `.node-version`, and the `scvia-*` CI workflows.
 
+Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is active now, so the local session's claims above are released. The cloud session delivered the items below.
+
+## Cloud session 2026-09-25 (`session_018azoi2…`): results
+
+**Request budget.** B1 used 11 AFLTables requests across the two sessions. That is **one over the owner's cap of 10**. The local session made 6. The cloud session made 5 before it learned of the local run: a season page, one match page and three player pages. Its duplicate CSV-editing repair was never pushed; it was reverted and merged (`Revert duplicate B1 repair`). The archived evidence in `docs/rewrite/evidence/b1/` is the only repair in use.
+
+**Delivered (tests written first, all pushed):**
+- Contract drift fixed. Live rows got `LivePlayerRow`, and match box scores and game logs became positional. Schemas, TS contracts and the DEMO fixture were regenerated.
+- Web slice fixed: 54 type errors, a missing ESLint config and failing unit tests. Article allowlist aligned with the Python sanitizer (`img` with same-origin src, `details`/`summary`, `align`, `language-*` class).
+- `scvia build-release` (explicit `--bundle/--predictions/--evaluation/--content-manifest`, `--editorial off` only) and `ml.evaluate.read_evaluation`.
+- Release gaps closed: `yearly-top-100-<season>.csv` (latest final season only), `era-summary.csv` (computed single-threaded, so rebuilds stay byte-identical), `brownlow-proxy-<season>.csv`.
+- Articles: local filesystem paths are redacted and the redaction count is disclosed in provenance. Body headings are demoted so each page has a single H1.
+- Tests: the real-corpus tiers no longer need a machine-local `var/agent-import`, because a session fixture imports the corpus plus the B1 evidence. Analytics parity runs on the *unrepaired* bytes, the ones legacy saw.
+- Docs: `docs/migration.md` (parity registry with open gaps listed), `docs/operations.md`, `docs/model-card.md`, `config/app.example.toml`.
+
+**Measured on this box (Xeon 2.8 GHz, 4 vCPU, 15 GiB).** Several runs overlapped, so timings are upper bounds.
+
+| Check | Result | Budget (§12) |
+|---|---|---|
+| `pytest tests/scvia -m "not integration"` | 580 passed, 68 s | ≤30 s: **miss** (the real-data builder tests dominate) |
+| Real-corpus integration + performance (`tests/scvia/integration`, `performance`) | 25 of 25 pass after fixes. Last full run: 20 passed, then 5 fixed and re-run individually | - |
+| Web `npm run check` / `lint` / `vitest` | 0 errors / clean / 148 passed, 1 skipped | - |
+| Web Playwright e2e (DEMO, `/` and `/SuperCoach-VIA/`) | 184 passed (before the local session's added specs) | - |
+| `scvia import-legacy --repair b1:2026` (real) | 61.7 s, peak RSS 1,982 MiB, PASS, promoted `sha256:55e295f1…` | ≤120 s, ≤2 GiB: met (tight) |
+| `scvia forecast` (train + 2026 replay) | 1,575 s wall (OOF fits 1,360 s), `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
+| Model gate | `lgbm` promoted: holdout MAE 3.753 vs prior-5 3.900 (3.79%), 80% interval coverage 81.1% (see model card) | ≥1% improvement: met |
+| `scvia build-release` (real) | 286 s, peak RSS 5.1 GiB, 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
+| Astro build against the real release | 17.9 s, 663 MiB RSS | ≤120 s: met |
+| Route transfer (gzip) | max 129.8 KiB total (`/compare/`), max JS 94.6 KiB | ≤250 / ≤120 KiB: met |
+| Player search index | 442 KiB gzip | ≤750 KiB: met |
+| Artifact size | 560 MiB (player detail 190 MiB, game logs 208 MiB, match detail 113 MiB) | ≤300 MiB: **miss** |
+| Real-site browser smoke (18 routes including real player/match/team/compare) | 0 console errors, 0 error or not-found states | - |
+
+**Open items, most important first:**
+1. Artifact size (560 MiB) and release-build RSS/time. Player detail repeats per-stat coverage objects with full-precision floats in every season line. The fix is a positional season-stat encoding like the box scores already use, plus streaming per-season writes. This is a contract change covering view models, schemas, web views and fixtures.
+2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
+3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
+4. Fast-tier runtime (68 s) is over the 30 s CI budget.
+5. Phase 8 old/new rehearsal on identical input, and a local publish/rollback/restore exercise, are not yet run. Phase 9 switch-over is not started.
+
 ## Decisions
 
 | # | Decision | Reason |
