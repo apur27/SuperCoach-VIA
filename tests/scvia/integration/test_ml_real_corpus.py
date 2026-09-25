@@ -45,7 +45,10 @@ def test_features_match_naive_recompute_on_sample(history: F.History) -> None:
     ff = F.build_features(history, t)
     pg = history.player_games
     mdate = history.matches.set_index("match_id")["match_date"]
-    ok = F.time_verified(pg, F.FeatureSpec())
+    # eligibility rule 2 (ml/features.py): the match must be status=complete; the three
+    # extra-time finals with malformed source scores stay status=unknown and are excluded
+    complete = pg.match_id.map(history.matches.set_index("match_id")["status"]).eq("complete")
+    ok = F.time_verified(pg, F.FeatureSpec()) & complete
     for i, r in t.iterrows():
         rows = pg[(pg.player_id == r.player_id) & ok].copy()
         rows["day"] = rows.match_id.map(mdate)
