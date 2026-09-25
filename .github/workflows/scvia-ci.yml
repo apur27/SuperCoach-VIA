@@ -26,7 +26,8 @@ jobs:
         with:
           version: "0.12.18"
       - name: Install locked environment
-        run: uv sync --locked --group dev --extra ml
+        # legacy group: the analytics parity tests import the legacy package (optuna, lightgbm, ...)
+        run: uv sync --locked --group dev --group legacy --extra ml
       - name: Ruff
         run: uv run --locked ruff check
       - name: mypy

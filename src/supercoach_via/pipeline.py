@@ -387,14 +387,18 @@ DEMO_CLOCK = datetime(2026, 5, 1, 6, 0, tzinfo=UTC)
 
 
 def demo(out: Path) -> dict[str, Any]:
-    """Build the complete DEMO dataset and release under ``out`` (deterministic clock)."""
+    """Build the complete DEMO dataset and release under ``out`` (deterministic clock).
+
+    Layout: ``out/source`` (demo corpus), ``out/var`` (data root), ``out/releases/<id>`` (``out`` is the
+    release output root, so ``validate-release``/``preview --output-root out`` find it).
+    """
     from supercoach_via.demo import write_demo_corpus
     from supercoach_via.settings import Settings
 
     src = out / "source"
     write_demo_corpus(src)
     repo_config = Path(__file__).resolve().parents[2] / "config"
-    ctx = RunContext(settings=Settings(data_root=out / "var", output_root=out / "dist", source_root=src),
+    ctx = RunContext(settings=Settings(data_root=out / "var", output_root=out, source_root=src),
                      clock=lambda: DEMO_CLOCK)  # fmt: skip
     steps: dict[str, Any] = {}
     ing = ingest(ctx, source_root=src)

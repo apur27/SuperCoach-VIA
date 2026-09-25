@@ -45,7 +45,9 @@ dev = [
     "pip-audit>=2.7",
 ]
 # Runs the LEGACY application and its test suite in a reproducible environment
-# (baseline comparison / rehearsal). Not required by the new package.
+# (baseline comparison / rehearsal). Not a runtime dependency of the new package, but
+# REQUIRED to test it: the analytics parity tests import the legacy package. Install with
+# `uv sync --locked --group dev --group legacy --extra ml` (CI and docs/operations.md).
 legacy = [
     "requests>=2.31",
     "tqdm>=4.66",

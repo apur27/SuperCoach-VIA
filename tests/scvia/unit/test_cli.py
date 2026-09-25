@@ -126,3 +126,15 @@ def test_build_release_rejects_unknown_bundle_and_editorial_on(tmp_path: Path) -
     assert bad.exit_code == EXIT["invalid_input"]
     ed = runner.invoke(app, ["build-release", "--editorial", "on", "--data-root", var, "--json"])
     assert ed.exit_code == EXIT["invalid_input"]
+
+
+def test_demo_output_is_the_release_root(tmp_path: Path) -> None:
+    out = tmp_path / "demo"
+    res = runner.invoke(app, ["demo", "--output", str(out), "--json"])
+    assert res.exit_code == 0, res.output
+    payload = json.loads(res.stdout.strip().splitlines()[-1])
+    rid = payload["release_id"]
+    assert Path(payload["release_dir"]) == out / "releases" / rid  # not <out>/dist/releases
+    assert not (out / "dist").exists()
+    val = runner.invoke(app, ["validate-release", "--release", rid, "--output-root", str(out), "--json"])
+    assert val.exit_code == 0, val.output

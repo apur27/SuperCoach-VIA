@@ -9,7 +9,7 @@ the harness, the council agents, Git or any network source unless the step says 
 ## Install
 
 ```bash
-uv sync --locked --group dev --extra ml   # add --group legacy to run the old suites
+uv sync --locked --group dev --group legacy --extra ml   # legacy: parity tests import the old package
 (cd web && npm ci)
 uv run scvia doctor                        # versions, writable roots, lock, source policy; no network
 ```
@@ -22,6 +22,7 @@ the narrow overrides `SCVIA_DATA_ROOT`, `SCVIA_OUTPUT_ROOT`, `SCVIA_SOURCE_ROOT`
 
 ```bash
 uv run scvia demo --output dist/demo                 # ~10 s; every output is labelled DEMO
+# layout: dist/demo/source, dist/demo/var, dist/demo/releases/<id>  (use --output-root dist/demo)
 (cd web && npm run dev)                              # uses the web DEMO fixture unless SCVIA_RELEASE_DIR is set
 ```
 
