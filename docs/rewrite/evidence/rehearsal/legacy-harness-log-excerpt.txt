@@ -1,0 +1,49 @@
+# legacy harness log excerpt (phase markers, failures, last 40 lines)
+1:[12:29:18] [phase init] ==================================================================
+2:[12:29:18] [phase init] Weekly refresh started — 2026-09-25
+3:[12:29:18] [phase init] ==================================================================
+4:[12:29:18] [phase 0] [0/5] Round-settlement probe: confirming the current round's scores are final...
+6:[12:29:19] [phase 0] [0/5] Round-settlement probe passed — current round is settled.
+7:[12:29:19] [phase 1] [1/5] Running refresh_and_rank.sh (data + model + season docs)...
+296:update_eval_surface: team-n reconciliation FAILED — per-team rows sum to 9,099 but the round summaries sum to 9,135 (delta -36). Two backtest vintages have been crossed; the team-level sentence would contradict the headline figures. R
+...
+  [profile] dropped from top-100: Jeremy Cameron moved to Honourable Mention (prose preserved)
+  wrote assets/charts/top10_alltime_hall.png
+  wrote docs/hall-of-fame-top100.md
+=========================================
+[Step 2c] Latest news in README.md
+=========================================
+=========================================
+[Step 2d] Next-round predictions + backtest results doc sections
+=========================================
+[predictions] finals mode — leaving the predictions section as published (no new forward prediction; refusing to re-stamp a played round as current).
+  wrote docs/afl-backtest-2026.md
+=========================================
+[Step 3] Current-season team analysis + charts + per-section docs/afl-*-2026.md / afl-team-profiles.md blocks
+=========================================
+      5-year window: 2021..2025
+      loaded 48,854 player-game rows in window
+      profile teams: 18 (expected 18)
+      ladder: 18 teams, 26 games played, 0 games remaining
+      brownlow: loading per-player rows with names...
+      brownlow: 9969 player-games -> 667 players -> 619 with >=3 games
+      regenerated brownlow_predictor_2026.png
+      regenerated player_stat_leaders_2026.png
+      regenerated team_2026_radar.png
+      regenerated team_2026_heatmap.png
+      regenerated team_2026_style_scatter.png
+      regenerated team_2026_goals_disposals.png
+      regenerated team_form_trend_2026.png
+=========================================
+[Step 4] Summary
+=========================================
+  date              : 2026-09-25 12:39:00
+  current year      : 2026
+  max round played  : 25
+  5-year window     : 2021-2025
+  static charts     : 4 written
+  top-100 charts    : 2 written
+  top-100 markdown  : 2 written
+  team-analysis run : OK
+  elapsed           : 446.9s
+update_eval_surface: team-n reconciliation FAILED — per-team rows sum to 9,099 but the round summaries sum to 9,135 (delta -36). Two backtest vintages have been crossed; the team-level sentence would contradict the headline figures. Refus

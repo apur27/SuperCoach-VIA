@@ -1,0 +1,133 @@
+{
+ "legacy_worktree": "/tmp/claude-0/rehearsal/wt/20260925T122908Z",
+ "new_validation": {
+  "outcome": "FAIL",
+  "blocking": 13,
+  "blocking_rules": [
+   "current_season_row_quarantined",
+   "match_player_goals_mismatch"
+  ],
+  "would_promote": false
+ },
+ "all_time_numeric": {
+  "n_legacy": 100,
+  "n_new": 100,
+  "same_players": true,
+  "same_order": false,
+  "order_differs_only_within_exact_ties": false,
+  "max_abs_score_delta": 0.0013716447673208787,
+  "only_legacy": [],
+  "only_new": []
+ },
+ "yearly": {
+  "seasons": 130,
+  "same_players_and_scores": 124,
+  "exact_order": 56,
+  "order_differs_only_within_exact_ties": 68,
+  "disagreeing": {
+   "1901": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "sandford_ben_14111877"
+    ],
+    "only_new": [
+     "ohehir_mike_09051876"
+    ]
+   },
+   "1903": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "hall_george_16041880"
+    ],
+    "only_new": [
+     "cormick_johnny_22011880"
+    ]
+   },
+   "1926": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "sellers_bob_23021905"
+    ],
+    "only_new": [
+     "logan_dick_29061906"
+    ]
+   },
+   "1937": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "mutimer_wally_30071907"
+    ],
+    "only_new": [
+     "mccrae_cliff_30111913"
+    ]
+   },
+   "1949": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "spring_geoff_20041925"
+    ],
+    "only_new": [
+     "green_jack_26081919"
+    ]
+   },
+   "1964": {
+    "n_legacy": 100,
+    "n_new": 100,
+    "same_players": false,
+    "same_order": false,
+    "order_differs_only_within_exact_ties": false,
+    "max_abs_score_delta": 0.0,
+    "only_legacy": [
+     "thiessen_tony_25051942"
+    ],
+    "only_new": [
+     "busse_neil_03041945"
+    ]
+   }
+  }
+ },
+ "biography_csv": {
+  "rows_legacy": 100,
+  "rows_new": 100,
+  "identical_rows": 96,
+  "first_difference": [
+   [
+    "16",
+    "Ted Whitten",
+    "Footscray",
+    "Ted Whitten, born on 27-07-1933, debuted on 17-04-1951, height 184 cm, weight 89 kg. A true legend of the game, Ted Whitten played for Footscray over 20 seasons and 321 games. He recorded 1384 total disposals and 360 goals. His impact is shown by a 4.3 Impact Score (based on disposals). He maintained a 5.6% Consistency Score. Peak performances include 29 disposals and 7 goals in a single game. His consistency shines with 18 games of 20+ disposals and 53 games with 3+ goals. His legacy as a great is undeniable."
+   ],
+   [
+    "16",
+    "Gary Ablett",
+    "Geelong - Gold Coast",
+    "Gary Ablett, born on 14-05-1984, debuted on 26-03-2002, height 182 cm, weight 87 kg. A true legend of the game, Gary Ablett played for Geelong - Gold Coast over 19 seasons and 357 games. He recorded 8896 total disposals and 445 goals. His impact is shown by a 73.4 Impact Score (based on Brownlow votes). He maintained a 66.9% Consistency Score. Peak performances include 53 disposals and 6 goals in a single game. His consistency shines with 239 games of 20+ disposals and 45 games with 3+ goals. He earned 262 Brownlow votes, cementing his greatness."
+   ]
+  ]
+ }
+}

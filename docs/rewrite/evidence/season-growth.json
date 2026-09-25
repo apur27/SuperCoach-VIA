@@ -1,0 +1,1344 @@
+{
+ "site": "dist/real-site",
+ "release": "20260925T115914Z-103b1f82beb7",
+ "total_bytes": 306971964,
+ "base_bytes": 43270260,
+ "seasons": {
+  "1897": {
+   "bytes": 798803,
+   "families": {
+    "history": 22146,
+    "matches": 229687,
+    "player-games": 344009,
+    "players": 109115,
+    "teams": 93846
+   }
+  },
+  "1898": {
+   "bytes": 891164,
+   "families": {
+    "history": 22146,
+    "matches": 260357,
+    "player-games": 387237,
+    "players": 118030,
+    "teams": 103394
+   }
+  },
+  "1899": {
+   "bytes": 813610,
+   "families": {
+    "history": 22325,
+    "matches": 242570,
+    "player-games": 342381,
+    "players": 102349,
+    "teams": 103985
+   }
+  },
+  "1900": {
+   "bytes": 821529,
+   "families": {
+    "history": 22269,
+    "matches": 245983,
+    "player-games": 345649,
+    "players": 101190,
+    "teams": 106438
+   }
+  },
+  "1901": {
+   "bytes": 842074,
+   "families": {
+    "history": 22213,
+    "matches": 249193,
+    "player-games": 354061,
+    "players": 107610,
+    "teams": 108997
+   }
+  },
+  "1902": {
+   "bytes": 861859,
+   "families": {
+    "history": 22295,
+    "matches": 251971,
+    "player-games": 361671,
+    "players": 114502,
+    "teams": 111420
+   }
+  },
+  "1903": {
+   "bytes": 840534,
+   "families": {
+    "history": 22309,
+    "matches": 248236,
+    "player-games": 352685,
+    "players": 106936,
+    "teams": 110368
+   }
+  },
+  "1904": {
+   "bytes": 833696,
+   "families": {
+    "history": 22358,
+    "matches": 247224,
+    "player-games": 350636,
+    "players": 103051,
+    "teams": 110427
+   }
+  },
+  "1905": {
+   "bytes": 842892,
+   "families": {
+    "history": 22387,
+    "matches": 250424,
+    "player-games": 354818,
+    "players": 103784,
+    "teams": 111479
+   }
+  },
+  "1906": {
+   "bytes": 846830,
+   "families": {
+    "history": 22233,
+    "matches": 246645,
+    "player-games": 355698,
+    "players": 111775,
+    "teams": 110479
+   }
+  },
+  "1907": {
+   "bytes": 834714,
+   "families": {
+    "history": 22397,
+    "matches": 246990,
+    "player-games": 351700,
+    "players": 102986,
+    "teams": 110641
+   }
+  },
+  "1908": {
+   "bytes": 1083474,
+   "families": {
+    "history": 22550,
+    "matches": 323492,
+    "player-games": 459262,
+    "players": 134081,
+    "teams": 144089
+   }
+  },
+  "1909": {
+   "bytes": 1097270,
+   "families": {
+    "history": 22455,
+    "matches": 327218,
+    "player-games": 465854,
+    "players": 135936,
+    "teams": 145807
+   }
+  },
+  "1910": {
+   "bytes": 1096770,
+   "families": {
+    "history": 22424,
+    "matches": 327591,
+    "player-games": 465551,
+    "players": 134861,
+    "teams": 146343
+   }
+  },
+  "1911": {
+   "bytes": 1092538,
+   "families": {
+    "history": 22384,
+    "matches": 323715,
+    "player-games": 463097,
+    "players": 137913,
+    "teams": 145429
+   }
+  },
+  "1912": {
+   "bytes": 1076905,
+   "families": {
+    "history": 22481,
+    "matches": 326778,
+    "player-games": 457465,
+    "players": 123299,
+    "teams": 146882
+   }
+  },
+  "1913": {
+   "bytes": 1080145,
+   "families": {
+    "history": 22524,
+    "matches": 327184,
+    "player-games": 458268,
+    "players": 124898,
+    "teams": 147271
+   }
+  },
+  "1914": {
+   "bytes": 1089573,
+   "families": {
+    "history": 22517,
+    "matches": 326755,
+    "player-games": 462686,
+    "players": 130257,
+    "teams": 147358
+   }
+  },
+  "1915": {
+   "bytes": 887948,
+   "families": {
+    "history": 22398,
+    "matches": 264446,
+    "player-games": 371884,
+    "players": 107171,
+    "teams": 122049
+   }
+  },
+  "1916": {
+   "bytes": 339152,
+   "families": {
+    "history": 14973,
+    "matches": 97120,
+    "player-games": 137190,
+    "players": 45642,
+    "teams": 44227
+   }
+  },
+  "1917": {
+   "bytes": 579942,
+   "families": {
+    "history": 22224,
+    "matches": 170797,
+    "player-games": 242369,
+    "players": 68413,
+    "teams": 76139
+   }
+  },
+  "1918": {
+   "bytes": 720720,
+   "families": {
+    "history": 22352,
+    "matches": 205327,
+    "player-games": 298466,
+    "players": 97156,
+    "teams": 97419
+   }
+  },
+  "1919": {
+   "bytes": 908757,
+   "families": {
+    "history": 22423,
+    "matches": 265154,
+    "player-games": 381336,
+    "players": 119383,
+    "teams": 120461
+   }
+  },
+  "1920": {
+   "bytes": 906851,
+   "families": {
+    "history": 22449,
+    "matches": 265677,
+    "player-games": 379604,
+    "players": 118702,
+    "teams": 120419
+   }
+  },
+  "1921": {
+   "bytes": 896970,
+   "families": {
+    "history": 22514,
+    "matches": 265406,
+    "player-games": 375491,
+    "players": 113344,
+    "teams": 120215
+   }
+  },
+  "1922": {
+   "bytes": 894249,
+   "families": {
+    "history": 22471,
+    "matches": 266020,
+    "player-games": 374177,
+    "players": 110278,
+    "teams": 121303
+   }
+  },
+  "1923": {
+   "bytes": 897201,
+   "families": {
+    "history": 22445,
+    "matches": 266233,
+    "player-games": 375228,
+    "players": 111440,
+    "teams": 121855
+   }
+  },
+  "1924": {
+   "bytes": 923762,
+   "families": {
+    "history": 22432,
+    "matches": 273824,
+    "player-games": 387148,
+    "players": 116039,
+    "teams": 124319
+   }
+  },
+  "1925": {
+   "bytes": 1249003,
+   "families": {
+    "history": 22425,
+    "matches": 371517,
+    "player-games": 529438,
+    "players": 153178,
+    "teams": 172445
+   }
+  },
+  "1926": {
+   "bytes": 1306515,
+   "families": {
+    "history": 22331,
+    "matches": 392296,
+    "player-games": 556460,
+    "players": 156139,
+    "teams": 179289
+   }
+  },
+  "1927": {
+   "bytes": 1294743,
+   "families": {
+    "history": 22491,
+    "matches": 389514,
+    "player-games": 550379,
+    "players": 153570,
+    "teams": 178789
+   }
+  },
+  "1928": {
+   "bytes": 1307674,
+   "families": {
+    "history": 22506,
+    "matches": 393596,
+    "player-games": 555882,
+    "players": 155117,
+    "teams": 180573
+   }
+  },
+  "1929": {
+   "bytes": 1312456,
+   "families": {
+    "history": 22409,
+    "matches": 392246,
+    "player-games": 557473,
+    "players": 159304,
+    "teams": 181024
+   }
+  },
+  "1930": {
+   "bytes": 1343877,
+   "families": {
+    "history": 22492,
+    "matches": 403152,
+    "player-games": 580726,
+    "players": 155927,
+    "teams": 181580
+   }
+  },
+  "1931": {
+   "bytes": 1379171,
+   "families": {
+    "history": 22478,
+    "matches": 424305,
+    "player-games": 592850,
+    "players": 156619,
+    "teams": 182919
+   }
+  },
+  "1932": {
+   "bytes": 1385871,
+   "families": {
+    "history": 22549,
+    "matches": 423331,
+    "player-games": 597105,
+    "players": 159615,
+    "teams": 183271
+   }
+  },
+  "1933": {
+   "bytes": 1385717,
+   "families": {
+    "history": 22445,
+    "matches": 422525,
+    "player-games": 597087,
+    "players": 160388,
+    "teams": 183272
+   }
+  },
+  "1934": {
+   "bytes": 1384231,
+   "families": {
+    "history": 22394,
+    "matches": 423510,
+    "player-games": 596878,
+    "players": 158084,
+    "teams": 183365
+   }
+  },
+  "1935": {
+   "bytes": 1355958,
+   "families": {
+    "history": 22467,
+    "matches": 402043,
+    "player-games": 587030,
+    "players": 161135,
+    "teams": 183283
+   }
+  },
+  "1936": {
+   "bytes": 1353073,
+   "families": {
+    "history": 22589,
+    "matches": 402075,
+    "player-games": 585849,
+    "players": 158956,
+    "teams": 183604
+   }
+  },
+  "1937": {
+   "bytes": 1355301,
+   "families": {
+    "history": 22432,
+    "matches": 401085,
+    "player-games": 586348,
+    "players": 162374,
+    "teams": 183062
+   }
+  },
+  "1938": {
+   "bytes": 1353125,
+   "families": {
+    "history": 22413,
+    "matches": 400788,
+    "player-games": 584853,
+    "players": 161915,
+    "teams": 183156
+   }
+  },
+  "1939": {
+   "bytes": 1350658,
+   "families": {
+    "history": 22398,
+    "matches": 401765,
+    "player-games": 583929,
+    "players": 159305,
+    "teams": 183261
+   }
+  },
+  "1940": {
+   "bytes": 1362878,
+   "families": {
+    "history": 22456,
+    "matches": 400600,
+    "player-games": 588952,
+    "players": 167682,
+    "teams": 183188
+   }
+  },
+  "1941": {
+   "bytes": 1358529,
+   "families": {
+    "history": 22436,
+    "matches": 399889,
+    "player-games": 587160,
+    "players": 165705,
+    "teams": 183339
+   }
+  },
+  "1942": {
+   "bytes": 1098404,
+   "families": {
+    "history": 22448,
+    "matches": 300953,
+    "player-games": 466757,
+    "players": 160709,
+    "teams": 147537
+   }
+  },
+  "1943": {
+   "bytes": 1094895,
+   "families": {
+    "history": 22424,
+    "matches": 300248,
+    "player-games": 465723,
+    "players": 159545,
+    "teams": 146955
+   }
+  },
+  "1944": {
+   "bytes": 1389967,
+   "families": {
+    "history": 22365,
+    "matches": 400019,
+    "player-games": 599569,
+    "players": 185207,
+    "teams": 182807
+   }
+  },
+  "1945": {
+   "bytes": 1477715,
+   "families": {
+    "history": 22366,
+    "matches": 443096,
+    "player-games": 645104,
+    "players": 171774,
+    "teams": 195375
+   }
+  },
+  "1946": {
+   "bytes": 1485959,
+   "families": {
+    "history": 22151,
+    "matches": 437006,
+    "player-games": 655166,
+    "players": 181449,
+    "teams": 190187
+   }
+  },
+  "1947": {
+   "bytes": 1460669,
+   "families": {
+    "history": 22165,
+    "matches": 433387,
+    "player-games": 643347,
+    "players": 173037,
+    "teams": 188733
+   }
+  },
+  "1948": {
+   "bytes": 1450391,
+   "families": {
+    "history": 22147,
+    "matches": 436689,
+    "player-games": 641117,
+    "players": 160357,
+    "teams": 190081
+   }
+  },
+  "1949": {
+   "bytes": 1447485,
+   "families": {
+    "history": 22133,
+    "matches": 433629,
+    "player-games": 639303,
+    "players": 163000,
+    "teams": 189420
+   }
+  },
+  "1950": {
+   "bytes": 1389734,
+   "families": {
+    "history": 22126,
+    "matches": 412157,
+    "player-games": 611470,
+    "players": 160677,
+    "teams": 183304
+   }
+  },
+  "1951": {
+   "bytes": 1387770,
+   "families": {
+    "history": 22138,
+    "matches": 412045,
+    "player-games": 609787,
+    "players": 160749,
+    "teams": 183051
+   }
+  },
+  "1952": {
+   "bytes": 1447847,
+   "families": {
+    "history": 22110,
+    "matches": 434809,
+    "player-games": 638414,
+    "players": 163406,
+    "teams": 189108
+   }
+  },
+  "1953": {
+   "bytes": 1397166,
+   "families": {
+    "history": 22180,
+    "matches": 412513,
+    "player-games": 612980,
+    "players": 166483,
+    "teams": 183010
+   }
+  },
+  "1954": {
+   "bytes": 1400413,
+   "families": {
+    "history": 22043,
+    "matches": 412988,
+    "player-games": 614491,
+    "players": 167729,
+    "teams": 183162
+   }
+  },
+  "1955": {
+   "bytes": 1402647,
+   "families": {
+    "history": 22069,
+    "matches": 412942,
+    "player-games": 615467,
+    "players": 169199,
+    "teams": 182970
+   }
+  },
+  "1956": {
+   "bytes": 1398504,
+   "families": {
+    "history": 22065,
+    "matches": 413698,
+    "player-games": 613938,
+    "players": 165817,
+    "teams": 182986
+   }
+  },
+  "1957": {
+   "bytes": 1410852,
+   "families": {
+    "history": 22098,
+    "matches": 414142,
+    "player-games": 618071,
+    "players": 173475,
+    "teams": 183066
+   }
+  },
+  "1958": {
+   "bytes": 1400447,
+   "families": {
+    "history": 22029,
+    "matches": 414356,
+    "player-games": 614984,
+    "players": 165794,
+    "teams": 183284
+   }
+  },
+  "1959": {
+   "bytes": 1401293,
+   "families": {
+    "history": 22091,
+    "matches": 413682,
+    "player-games": 613845,
+    "players": 168459,
+    "teams": 183216
+   }
+  },
+  "1960": {
+   "bytes": 1393516,
+   "families": {
+    "history": 22167,
+    "matches": 414424,
+    "player-games": 611393,
+    "players": 162720,
+    "teams": 182812
+   }
+  },
+  "1961": {
+   "bytes": 1388964,
+   "families": {
+    "history": 22065,
+    "matches": 413332,
+    "player-games": 609521,
+    "players": 161325,
+    "teams": 182721
+   }
+  },
+  "1962": {
+   "bytes": 1400757,
+   "families": {
+    "history": 22034,
+    "matches": 417104,
+    "player-games": 614632,
+    "players": 163173,
+    "teams": 183814
+   }
+  },
+  "1963": {
+   "bytes": 1390002,
+   "families": {
+    "history": 22029,
+    "matches": 412965,
+    "player-games": 610221,
+    "players": 161924,
+    "teams": 182863
+   }
+  },
+  "1964": {
+   "bytes": 1395672,
+   "families": {
+    "history": 22021,
+    "matches": 412710,
+    "player-games": 612947,
+    "players": 165081,
+    "teams": 182913
+   }
+  },
+  "1965": {
+   "bytes": 1609151,
+   "families": {
+    "history": 22347,
+    "matches": 513570,
+    "player-games": 726586,
+    "players": 161705,
+    "teams": 184943
+   }
+  },
+  "1966": {
+   "bytes": 1647726,
+   "families": {
+    "history": 22366,
+    "matches": 533111,
+    "player-games": 742225,
+    "players": 165007,
+    "teams": 185017
+   }
+  },
+  "1967": {
+   "bytes": 1646365,
+   "families": {
+    "history": 22505,
+    "matches": 534809,
+    "player-games": 740164,
+    "players": 163973,
+    "teams": 184914
+   }
+  },
+  "1968": {
+   "bytes": 1784790,
+   "families": {
+    "history": 22592,
+    "matches": 592240,
+    "player-games": 807097,
+    "players": 166192,
+    "teams": 196669
+   }
+  },
+  "1969": {
+   "bytes": 1791036,
+   "families": {
+    "history": 22672,
+    "matches": 590280,
+    "player-games": 809846,
+    "players": 171151,
+    "teams": 197087
+   }
+  },
+  "1970": {
+   "bytes": 1923755,
+   "families": {
+    "history": 22698,
+    "matches": 649169,
+    "player-games": 874580,
+    "players": 167512,
+    "teams": 209796
+   }
+  },
+  "1971": {
+   "bytes": 1930993,
+   "families": {
+    "history": 22827,
+    "matches": 648507,
+    "player-games": 877144,
+    "players": 172952,
+    "teams": 209563
+   }
+  },
+  "1972": {
+   "bytes": 1951177,
+   "families": {
+    "history": 22885,
+    "matches": 661451,
+    "player-games": 888642,
+    "players": 165604,
+    "teams": 212595
+   }
+  },
+  "1973": {
+   "bytes": 1933143,
+   "families": {
+    "history": 22906,
+    "matches": 659120,
+    "player-games": 878704,
+    "players": 160563,
+    "teams": 211850
+   }
+  },
+  "1974": {
+   "bytes": 1911352,
+   "families": {
+    "history": 22985,
+    "matches": 634580,
+    "player-games": 876642,
+    "players": 165036,
+    "teams": 212109
+   }
+  },
+  "1975": {
+   "bytes": 1925603,
+   "families": {
+    "history": 22943,
+    "matches": 639644,
+    "player-games": 884948,
+    "players": 165290,
+    "teams": 212778
+   }
+  },
+  "1976": {
+   "bytes": 1940420,
+   "families": {
+    "history": 22740,
+    "matches": 657635,
+    "player-games": 885213,
+    "players": 162737,
+    "teams": 212095
+   }
+  },
+  "1977": {
+   "bytes": 1959231,
+   "families": {
+    "history": 23068,
+    "matches": 660692,
+    "player-games": 896162,
+    "players": 166004,
+    "teams": 213305
+   }
+  },
+  "1978": {
+   "bytes": 1946637,
+   "families": {
+    "history": 23159,
+    "matches": 654422,
+    "player-games": 887446,
+    "players": 169400,
+    "teams": 212210
+   }
+  },
+  "1979": {
+   "bytes": 1951288,
+   "families": {
+    "history": 23078,
+    "matches": 656658,
+    "player-games": 889160,
+    "players": 170201,
+    "teams": 212191
+   }
+  },
+  "1980": {
+   "bytes": 1961796,
+   "families": {
+    "history": 23139,
+    "matches": 658513,
+    "player-games": 892810,
+    "players": 175197,
+    "teams": 212137
+   }
+  },
+  "1981": {
+   "bytes": 1955599,
+   "families": {
+    "history": 22997,
+    "matches": 658246,
+    "player-games": 890466,
+    "players": 172104,
+    "teams": 211786
+   }
+  },
+  "1982": {
+   "bytes": 1924489,
+   "families": {
+    "history": 23172,
+    "matches": 657460,
+    "player-games": 867338,
+    "players": 167260,
+    "teams": 209259
+   }
+  },
+  "1983": {
+   "bytes": 1933869,
+   "families": {
+    "history": 23114,
+    "matches": 657191,
+    "player-games": 873393,
+    "players": 170674,
+    "teams": 209497
+   }
+  },
+  "1984": {
+   "bytes": 1976077,
+   "families": {
+    "history": 22951,
+    "matches": 684604,
+    "player-games": 889512,
+    "players": 169620,
+    "teams": 209390
+   }
+  },
+  "1985": {
+   "bytes": 1977295,
+   "families": {
+    "history": 23236,
+    "matches": 687071,
+    "player-games": 887358,
+    "players": 170029,
+    "teams": 209601
+   }
+  },
+  "1986": {
+   "bytes": 1980758,
+   "families": {
+    "history": 23127,
+    "matches": 687649,
+    "player-games": 887680,
+    "players": 172806,
+    "teams": 209496
+   }
+  },
+  "1987": {
+   "bytes": 2359401,
+   "families": {
+    "history": 23030,
+    "matches": 819703,
+    "player-games": 1068571,
+    "players": 197852,
+    "teams": 250245
+   }
+  },
+  "1988": {
+   "bytes": 2360862,
+   "families": {
+    "history": 23076,
+    "matches": 821824,
+    "player-games": 1068906,
+    "players": 196341,
+    "teams": 250715
+   }
+  },
+  "1989": {
+   "bytes": 2365782,
+   "families": {
+    "history": 23065,
+    "matches": 820997,
+    "player-games": 1071843,
+    "players": 198964,
+    "teams": 250913
+   }
+  },
+  "1990": {
+   "bytes": 2408567,
+   "families": {
+    "history": 23086,
+    "lists": 18324,
+    "matches": 827655,
+    "player-games": 1084793,
+    "players": 202150,
+    "teams": 252559
+   }
+  },
+  "1991": {
+   "bytes": 2560136,
+   "families": {
+    "history": 22948,
+    "lists": 16887,
+    "matches": 885541,
+    "player-games": 1150152,
+    "players": 212190,
+    "teams": 272418
+   }
+  },
+  "1992": {
+   "bytes": 2539135,
+   "families": {
+    "history": 23047,
+    "matches": 883529,
+    "player-games": 1151465,
+    "players": 208315,
+    "teams": 272779
+   }
+  },
+  "1993": {
+   "bytes": 2355811,
+   "families": {
+    "history": 23016,
+    "lists": 13301,
+    "matches": 803338,
+    "player-games": 1057986,
+    "players": 200680,
+    "teams": 257490
+   }
+  },
+  "1994": {
+   "bytes": 2650547,
+   "families": {
+    "history": 23125,
+    "lists": 18849,
+    "matches": 925824,
+    "player-games": 1207715,
+    "players": 199961,
+    "teams": 275073
+   }
+  },
+  "1995": {
+   "bytes": 2820897,
+   "families": {
+    "history": 23230,
+    "lists": 15363,
+    "matches": 986423,
+    "player-games": 1285916,
+    "players": 215181,
+    "teams": 294784
+   }
+  },
+  "1996": {
+   "bytes": 2828203,
+   "families": {
+    "history": 23353,
+    "lists": 17909,
+    "matches": 989486,
+    "player-games": 1285310,
+    "players": 216718,
+    "teams": 295427
+   }
+  },
+  "1997": {
+   "bytes": 2864439,
+   "families": {
+    "history": 23373,
+    "lists": 17300,
+    "matches": 991511,
+    "player-games": 1318739,
+    "players": 218021,
+    "teams": 295495
+   }
+  },
+  "1998": {
+   "bytes": 3194870,
+   "families": {
+    "history": 23117,
+    "lists": 18551,
+    "matches": 1134068,
+    "player-games": 1504546,
+    "players": 217986,
+    "teams": 296602
+   }
+  },
+  "1999": {
+   "bytes": 3555429,
+   "families": {
+    "history": 23472,
+    "lists": 17858,
+    "matches": 1313429,
+    "player-games": 1692686,
+    "players": 212653,
+    "teams": 295331
+   }
+  },
+  "2000": {
+   "bytes": 3539127,
+   "families": {
+    "history": 23333,
+    "lists": 17453,
+    "matches": 1306719,
+    "player-games": 1682901,
+    "players": 212901,
+    "teams": 295820
+   }
+  },
+  "2001": {
+   "bytes": 3534734,
+   "families": {
+    "history": 23330,
+    "lists": 15931,
+    "matches": 1309979,
+    "player-games": 1681996,
+    "players": 206787,
+    "teams": 296711
+   }
+  },
+  "2002": {
+   "bytes": 3517923,
+   "families": {
+    "history": 23274,
+    "lists": 17145,
+    "matches": 1301566,
+    "player-games": 1675408,
+    "players": 202823,
+    "teams": 297707
+   }
+  },
+  "2003": {
+   "bytes": 3654532,
+   "families": {
+    "history": 23280,
+    "lists": 16678,
+    "matches": 1370720,
+    "player-games": 1744750,
+    "players": 201123,
+    "teams": 297981
+   }
+  },
+  "2004": {
+   "bytes": 3698314,
+   "families": {
+    "history": 23344,
+    "lists": 53663,
+    "matches": 1369209,
+    "player-games": 1749358,
+    "players": 204900,
+    "teams": 297840
+   }
+  },
+  "2005": {
+   "bytes": 3693598,
+   "families": {
+    "history": 23101,
+    "lists": 52426,
+    "matches": 1364949,
+    "player-games": 1746218,
+    "players": 209120,
+    "teams": 297784
+   }
+  },
+  "2006": {
+   "bytes": 3705902,
+   "families": {
+    "history": 23117,
+    "lists": 60740,
+    "matches": 1361596,
+    "player-games": 1752303,
+    "players": 210364,
+    "teams": 297782
+   }
+  },
+  "2007": {
+   "bytes": 3689769,
+   "families": {
+    "history": 23033,
+    "lists": 53667,
+    "matches": 1356758,
+    "player-games": 1747996,
+    "players": 210493,
+    "teams": 297822
+   }
+  },
+  "2008": {
+   "bytes": 3718364,
+   "families": {
+    "history": 23085,
+    "lists": 64665,
+    "matches": 1358108,
+    "player-games": 1762640,
+    "players": 211963,
+    "teams": 297903
+   }
+  },
+  "2009": {
+   "bytes": 3722882,
+   "families": {
+    "history": 23021,
+    "lists": 63281,
+    "matches": 1360889,
+    "player-games": 1764891,
+    "players": 212536,
+    "teams": 298264
+   }
+  },
+  "2010": {
+   "bytes": 3745359,
+   "families": {
+    "history": 23005,
+    "lists": 70793,
+    "matches": 1367609,
+    "player-games": 1769207,
+    "players": 215325,
+    "teams": 299420
+   }
+  },
+  "2011": {
+   "bytes": 3950497,
+   "families": {
+    "history": 23006,
+    "lists": 66993,
+    "matches": 1437848,
+    "player-games": 1868773,
+    "players": 235594,
+    "teams": 318283
+   }
+  },
+  "2012": {
+   "bytes": 4201116,
+   "families": {
+    "history": 22864,
+    "lists": 60344,
+    "matches": 1523007,
+    "player-games": 2002850,
+    "players": 249800,
+    "teams": 342251
+   }
+  },
+  "2013": {
+   "bytes": 4203570,
+   "families": {
+    "history": 23129,
+    "lists": 54132,
+    "matches": 1523091,
+    "player-games": 2010758,
+    "players": 249544,
+    "teams": 342916
+   }
+  },
+  "2014": {
+   "bytes": 4202451,
+   "families": {
+    "history": 23171,
+    "lists": 61007,
+    "matches": 1525786,
+    "player-games": 2003858,
+    "players": 244953,
+    "teams": 343676
+   }
+  },
+  "2015": {
+   "bytes": 4183252,
+   "families": {
+    "history": 23250,
+    "lists": 55771,
+    "matches": 1519637,
+    "player-games": 1995292,
+    "players": 245859,
+    "teams": 343443
+   }
+  },
+  "2016": {
+   "bytes": 4187054,
+   "families": {
+    "history": 23204,
+    "lists": 57188,
+    "matches": 1523463,
+    "player-games": 1994643,
+    "players": 243163,
+    "teams": 345393
+   }
+  },
+  "2017": {
+   "bytes": 4170109,
+   "families": {
+    "history": 23124,
+    "lists": 54242,
+    "matches": 1525065,
+    "player-games": 1979125,
+    "players": 243425,
+    "teams": 345128
+   }
+  },
+  "2018": {
+   "bytes": 4175738,
+   "families": {
+    "history": 23314,
+    "lists": 54570,
+    "matches": 1526101,
+    "player-games": 1981992,
+    "players": 244219,
+    "teams": 345542
+   }
+  },
+  "2019": {
+   "bytes": 4167723,
+   "families": {
+    "history": 23199,
+    "lists": 49238,
+    "matches": 1528637,
+    "player-games": 1977388,
+    "players": 243321,
+    "teams": 345940
+   }
+  },
+  "2020": {
+   "bytes": 3408851,
+   "families": {
+    "history": 23009,
+    "lists": 40868,
+    "matches": 1206125,
+    "player-games": 1601046,
+    "players": 239215,
+    "teams": 298588
+   }
+  },
+  "2021": {
+   "bytes": 4327045,
+   "families": {
+    "history": 23045,
+    "lists": 49433,
+    "matches": 1591494,
+    "player-games": 2066688,
+    "players": 250845,
+    "teams": 345540
+   }
+  },
+  "2022": {
+   "bytes": 4317553,
+   "families": {
+    "history": 22983,
+    "lists": 43089,
+    "matches": 1589625,
+    "player-games": 2062935,
+    "players": 254052,
+    "teams": 344869
+   }
+  },
+  "2023": {
+   "bytes": 4467366,
+   "families": {
+    "history": 23022,
+    "lists": 46481,
+    "matches": 1657933,
+    "player-games": 2137218,
+    "players": 247435,
+    "teams": 355277
+   }
+  },
+  "2024": {
+   "bytes": 4470113,
+   "families": {
+    "history": 22958,
+    "lists": 51746,
+    "matches": 1658309,
+    "player-games": 2136873,
+    "players": 245229,
+    "teams": 354998
+   }
+  },
+  "2025": {
+   "bytes": 4534952,
+   "families": {
+    "history": 22925,
+    "lists": 39733,
+    "matches": 1654266,
+    "player-games": 2214612,
+    "players": 248572,
+    "teams": 354844
+   }
+  },
+  "2026": {
+   "bytes": 4537400,
+   "families": {
+    "history": 22884,
+    "lists": 28450,
+    "matches": 1660097,
+    "player-games": 2221062,
+    "players": 249250,
+    "teams": 355657
+   }
+  }
+ }
+}

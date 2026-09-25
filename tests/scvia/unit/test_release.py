@@ -140,6 +140,43 @@ def test_publish_then_failed_publish_keeps_previous_and_rollback(tmp_path: Path)
     assert back.status == "published" and back.kind == "rollback" and dest.active_release() == "r1"
 
 
+def test_rollback_survives_a_later_contract_change(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    # A release validated under an older public contract must stay publishable/rollback-able:
+    # publication checks that the bytes are exactly the validated ones, not today's schemas.
+    out = tmp_path / "dist"
+    r1, r2 = _write_minimal(out, "r1"), _write_minimal(out, "r2")
+    for r in (r1, r2):
+        assert rel.validate_release(r).ok
+    dest = rel.LocalDirectoryDestination("local", tmp_path / "site")
+    rel.publish_release(r1, dest, clock=lambda: NOW)
+    rel.publish_release(r2, dest, clock=lambda: NOW)
+
+    def newer_contract(*_a: object, **_k: object) -> rel.ValidationReport:
+        raise AssertionError("publication must not re-run semantic validation")
+
+    monkeypatch.setattr(rel, "validate_release", newer_contract)
+    back = rel.rollback(out, dest, "r1", clock=lambda: NOW)
+    assert back.status == "published" and dest.active_release() == "r1"
+
+
+@pytest.mark.parametrize("tamper", ["modify", "add", "remove"])
+def test_publish_refuses_bytes_that_differ_from_the_validated_release(tmp_path: Path, tamper: str) -> None:
+    rdir = _write_minimal(tmp_path / "dist")
+    assert rel.validate_release(rdir).ok
+    public = rdir / "public"
+    victim = next(p for p in sorted(public.rglob("*.json")))
+    if tamper == "modify":
+        victim.write_bytes(victim.read_bytes().replace(b"}", b" }", 1))
+    elif tamper == "add":
+        (public / "extra.json").write_text("{}")
+    else:
+        victim.unlink()
+    dest = rel.LocalDirectoryDestination("local", tmp_path / "site")
+    with pytest.raises(rel.PublishError, match="differ from the validated release"):
+        rel.publish_release(rdir, dest, clock=lambda: NOW)
+    assert dest.active_release() is None
+
+
 def test_publish_never_runs_git(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import subprocess
 

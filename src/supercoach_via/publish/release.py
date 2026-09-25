@@ -427,12 +427,31 @@ def _require_validated(release_dir: Path) -> str:
     record = _strict_json(vpath.read_bytes())
     if record.get("outcome") != "PASS":
         raise PublishError(f"release validation outcome is {record.get('outcome')}")
-    current = validate_release(release_dir, write=False)
-    if not current.ok:
-        raise PublishError("release bytes changed since validation")
     if record.get("checksums_sha256") != sha256_file(release_dir / "checksums.json"):
         raise PublishError("checksums changed since validation")
+    drift = integrity_issues(release_dir)
+    if drift:
+        raise PublishError(f"release files differ from the validated release: {drift[:3]}")
     return str(record["checksums_sha256"])
+
+
+def integrity_issues(release_dir: Path) -> list[str]:
+    """Files that differ from ``checksums.json`` (missing, extra or changed bytes).
+
+    Publication and rollback check integrity only: semantic validation happened at
+    validate-release time under the contract the release was built with, so a later
+    schema change must not strand an older validated release.
+    """
+    sums = _strict_json((release_dir / "checksums.json").read_bytes())["files"]
+    public = release_dir / "public"
+    present = set(_iter_files(public)) if public.is_dir() else set()
+    issues = [f"extra {n}" for n in sorted(present - set(sums))]
+    issues += [f"missing {n}" for n in sorted(set(sums) - present)]
+    for name in sorted(present & set(sums)):
+        data = (public / name).read_bytes()
+        if len(data) != sums[name]["bytes"] or sha256_bytes(data) != sums[name]["sha256"]:
+            issues.append(f"changed {name}")
+    return issues
 
 
 def publish_release(

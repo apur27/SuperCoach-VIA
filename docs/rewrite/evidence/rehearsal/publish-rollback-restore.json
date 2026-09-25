@@ -1,0 +1,182 @@
+{
+ "at": "2026-09-25T12:47:00.956640+00:00",
+ "host": "/tmp/claude-0/rehearsal/publish/host",
+ "receipts": [
+  "20260925T124546.512198Z-20260925T114838Z-e20f2caf086d-publish-published.json",
+  "20260925T124610.155496Z-20260925T115914Z-103b1f82beb7-publish-published.json",
+  "20260925T124621.903331Z-20260925T114838Z-e20f2caf086d-publish-failed.json",
+  "20260925T124633.300092Z-20260925T114838Z-e20f2caf086d-rollback-published.json"
+ ],
+ "all_as_expected": true,
+ "steps": [
+  {
+   "step": "publish first",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "ok": true,
+    "receipt": {
+     "at": "2026-09-25T12:45:46.512198Z",
+     "destination": "local",
+     "kind": "publish",
+     "message": null,
+     "previous_release": null,
+     "release_id": "20260925T114838Z-e20f2caf086d",
+     "status": "published",
+     "validation_checksums_sha256": "a7d984c9dfe57b4d9bf2aa0a668521a39c2c5c4d6307c87c7d73db2b9909cb99"
+    }
+   }
+  },
+  {
+   "step": "publish second",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T115914Z-103b1f82beb7",
+   "exit_code": 0,
+   "result": {
+    "ok": true,
+    "receipt": {
+     "at": "2026-09-25T12:46:10.155496Z",
+     "destination": "local",
+     "kind": "publish",
+     "message": null,
+     "previous_release": "20260925T114838Z-e20f2caf086d",
+     "release_id": "20260925T115914Z-103b1f82beb7",
+     "status": "published",
+     "validation_checksums_sha256": "d92afb523174491ae6095efba383bc730c212e9b3286ec2140d900a239c9950b"
+    }
+   }
+  },
+  {
+   "step": "publish an unvalidated (FAIL) release is refused",
+   "expected_success": false,
+   "as_expected": true,
+   "live_after": "20260925T115914Z-103b1f82beb7",
+   "exit_code": 7,
+   "result": {
+    "error_code": "publish_failed",
+    "message": "release validation outcome is FAIL",
+    "ok": false,
+    "recovery": "fix the release and re-run validate-release"
+   }
+  },
+  {
+   "step": "injected upload failure keeps the previous release live",
+   "expected_success": false,
+   "as_expected": true,
+   "live_after": "20260925T115914Z-103b1f82beb7",
+   "exit_code": 7,
+   "result": "publication failed; 20260925T115914Z-103b1f82beb7 remains active: [Errno 28] No space left on device (injected)"
+  },
+  {
+   "step": "rollback to first",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "ok": true,
+    "receipt": {
+     "at": "2026-09-25T12:46:33.300092Z",
+     "destination": "local",
+     "kind": "rollback",
+     "message": null,
+     "previous_release": "20260925T115914Z-103b1f82beb7",
+     "release_id": "20260925T114838Z-e20f2caf086d",
+     "status": "published",
+     "validation_checksums_sha256": "a7d984c9dfe57b4d9bf2aa0a668521a39c2c5c4d6307c87c7d73db2b9909cb99"
+    }
+   }
+  },
+  {
+   "step": "restored bytes equal the backed-up bytes",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "current.json": "4d7d85289243cef0",
+    "snapshots": "cb5fb061d08cfa6b",
+    "fragments": "a7360fea3c339b14",
+    "models": "652b85904361689c",
+    "predictions": "920656b20059cd03",
+    "evaluations": "f6758cff431e4135"
+   }
+  },
+  {
+   "step": "validate restored current snapshot",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "blocking": [],
+    "checks": {
+     "coverage": "PASS",
+     "exceptions": "PASS",
+     "foreign_keys": "PASS",
+     "imports": "PASS",
+     "keys": "PASS",
+     "player_stats": "PASS",
+     "reconciliation": "PASS",
+     "schema": "PASS",
+     "scores": "PASS",
+     "stages": "PASS"
+    },
+    "exit": "ok",
+    "ok": true,
+    "outcome": "PASS",
+    "snapshot_id": "sha256:55e295f184c49096c4c8c783e6d7d59f416ca70e108ce0ca7f186f16157fb09c"
+   }
+  },
+  {
+   "step": "status on restored root",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "current_snapshot": "sha256:55e295f184c49096c4c8c783e6d7d59f416ca70e108ce0ca7f186f16157fb09c",
+    "last_run": null,
+    "ok": true,
+    "promoted_at": "2026-09-25T10:19:15.561235+00:00"
+   }
+  },
+  {
+   "step": "forecast on restored root reuses the restored bundle (no retrain)",
+   "expected_success": true,
+   "as_expected": true,
+   "live_after": "20260925T114838Z-e20f2caf086d",
+   "exit_code": 0,
+   "result": {
+    "error_code": "forecast_unavailable",
+    "exit": "ok",
+    "exit_code": 0,
+    "message": "forecast unavailable: no_valid_future_fixture",
+    "note": "no valid future fixture: forecast_status=unavailable (the release still builds)",
+    "ok": true,
+    "outputs": {
+     "bundle_id": "bundle-ac063296460d42d54d9c",
+     "bundle_root": "/tmp/claude-0/rehearsal/publish/restored/var/models",
+     "evaluations": [],
+     "forecast_reason": "no_valid_future_fixture",
+     "forecast_status": "unavailable",
+     "prediction_dir": "/tmp/claude-0/rehearsal/publish/restored/var/predictions/prospective-20260925T100000Z-49f525e6e2b9bee2",
+     "promoted_model": true
+    },
+    "promoted": false,
+    "recovery": null,
+    "run_id": "20260925T124640.438917Z-ae2c61ec",
+    "snapshot_id": "sha256:55e295f184c49096c4c8c783e6d7d59f416ca70e108ce0ca7f186f16157fb09c",
+    "state": "parsed",
+    "timings": {
+     "forecast": 0.016,
+     "load_history": 5.077,
+     "train": 14.745
+    }
+   }
+  }
+ ]
+}

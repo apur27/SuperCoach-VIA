@@ -64,7 +64,12 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
 3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
 4. Fast-tier runtime (66 s) is over the 30 s CI budget.
-5. Phase 8 old/new rehearsal on identical input, and a local publish/rollback/restore exercise, are not yet run. Phase 9 switch-over is not started.
+5. Phase 9 entry-point switch: planned as a §6.2 harness change in [SWITCH_PLAN.md](SWITCH_PLAN.md) (shadow → switch → hooks/CI, each smoke-run), blocked on owner decisions there. The legacy harness itself cannot finish a smoke run from a fresh checkout (mtime vintage selection in `update_eval_surface.sh`, [REHEARSAL.md](REHEARSAL.md) Finding 1); left unpatched per §6.1/§6.2.
+
+**Phase 8 rehearsal (2026-09-25): done, see [REHEARSAL.md](REHEARSAL.md).**
+- Old vs new on identical bytes (27,350 files, same aggregate hash): 124/130 yearly lists identical; the 6 others differ only by a tie at the 100th-place cut. All-time top 100 has the same players, 2 adjacent swaps, and a max delta of 0.00137, explained by the duplicate-identity correction. On those bytes the new pipeline refuses to promote (13 blocking 2026 gaps).
+- Stubbed publish, rollback, injected failure, backup and restore: 9/9 as expected. This found and fixed rollback across a contract change: publish now checks integrity only, and semantic validation stays at `validate-release`.
+- Bundle growth: about 4.3 MiB per modern season; 41 MiB season-independent base; 2027 fits, 2028 exceeds 300 MiB. Retaining 3 releases is about 880 MiB, close to the Pages 1 GB limit.
 
 ## Decisions
 
