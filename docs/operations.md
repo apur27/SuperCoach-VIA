@@ -48,7 +48,9 @@ uv run scvia build-release --snapshot current --editorial off \
 uv run scvia validate-release --release <release_id> --json
 
 # 4. Browser build against that release, then local read-only preview.
-(cd web && SCVIA_RELEASE_DIR=../dist/releases/<release_id> SCVIA_PUBLIC_BASE=/SuperCoach-VIA/ npm run build)
+#    SCVIA_RELEASE_DIR must be ABSOLUTE and point at the release's public/ directory (the build
+#    refuses a relative path). SCVIA_PUBLIC_BASE must equal the base the release was built with.
+(cd web && SCVIA_RELEASE_DIR="$(realpath ../dist/releases/<release_id>/public)" SCVIA_PUBLIC_BASE=/SuperCoach-VIA/ npm run build)
 uv run scvia preview --release <release_id>          # binds 127.0.0.1
 ```
 

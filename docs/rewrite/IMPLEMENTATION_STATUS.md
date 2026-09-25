@@ -48,9 +48,9 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 | Web `npm run check` / `lint` / `vitest` | 0 errors / clean / 148 passed, 1 skipped | - |
 | Web Playwright e2e (DEMO, `/` and `/SuperCoach-VIA/`, `SCVIA_CHROMIUM_PATH=/opt/pw-browsers/chromium`) | 284 passed, 4 skipped (run-once checks for a single base). One keyboard-flow race was fixed; it then passed 30 of 30 repeated runs | - |
 | `scvia import-legacy --repair b1:2026` (real) | 61.7 s, peak RSS 1,982 MiB, PASS, promoted `sha256:55e295f1…` | ≤120 s, ≤2 GiB: met (tight) |
-| `scvia forecast` (train + 2026 replay) | 1,575 s wall (OOF fits 1,360 s), `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
+| `scvia forecast` (train + 2026 replay) | 1,575 s wall when run alongside the integration suite (OOF fits 1,360 s, from 4-thread OpenMP oversubscription on 4 vCPUs). **Uncontended, the train-only command takes 105.7 s** (OOF 42 s) with a byte-identical bundle; a second machine measured 108 s. `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
 | Model gate | `lgbm` promoted: holdout MAE 3.753 vs prior-5 3.900 (3.79%), 80% interval coverage 81.1% (see model card) | ≥1% improvement: met |
-| `scvia build-release` (real) | 216 s, peak RSS 3.6 GiB (was 286 s / 5.1 GiB before the compact contracts), 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
+| `scvia build-release` (real) | 216 s here, 100 s on an independent second machine; peak RSS 3.6 GiB on both (was 286 s / 5.1 GiB before the compact contracts), 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
 | Astro build against the real release | 17.9 s, 663 MiB RSS | ≤120 s: met |
 | Route transfer (gzip) | max 129.8 KiB total (`/compare/`), max JS 94.6 KiB | ≤250 / ≤120 KiB: met |
 | Player search index | 442 KiB gzip | ≤750 KiB: met |
