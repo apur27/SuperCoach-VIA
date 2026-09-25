@@ -43,22 +43,24 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 
 | Check | Result | Budget (§12) |
 |---|---|---|
-| `pytest tests/scvia -m "not integration"` | 580 passed, 68 s | ≤30 s: **miss** (the real-data builder tests dominate) |
+| `pytest tests/scvia -m "not integration"` | 590 passed, 66 s | ≤30 s: **miss** (the real-data builder tests dominate) |
 | Real-corpus integration + performance (`tests/scvia/integration`, `performance`) | 25 of 25 pass after fixes. Last full run: 20 passed, then 5 fixed and re-run individually | - |
 | Web `npm run check` / `lint` / `vitest` | 0 errors / clean / 148 passed, 1 skipped | - |
 | Web Playwright e2e (DEMO, `/` and `/SuperCoach-VIA/`, `SCVIA_CHROMIUM_PATH=/opt/pw-browsers/chromium`) | 284 passed, 4 skipped (run-once checks for a single base). One keyboard-flow race was fixed; it then passed 30 of 30 repeated runs | - |
 | `scvia import-legacy --repair b1:2026` (real) | 61.7 s, peak RSS 1,982 MiB, PASS, promoted `sha256:55e295f1…` | ≤120 s, ≤2 GiB: met (tight) |
 | `scvia forecast` (train + 2026 replay) | 1,575 s wall (OOF fits 1,360 s), `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
 | Model gate | `lgbm` promoted: holdout MAE 3.753 vs prior-5 3.900 (3.79%), 80% interval coverage 81.1% (see model card) | ≥1% improvement: met |
-| `scvia build-release` (real) | 286 s, peak RSS 5.1 GiB, 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
+| `scvia build-release` (real) | 216 s, peak RSS 3.6 GiB (was 286 s / 5.1 GiB before the compact contracts), 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
 | Astro build against the real release | 17.9 s, 663 MiB RSS | ≤120 s: met |
 | Route transfer (gzip) | max 129.8 KiB total (`/compare/`), max JS 94.6 KiB | ≤250 / ≤120 KiB: met |
 | Player search index | 442 KiB gzip | ≤750 KiB: met |
-| Artifact size | 560 MiB (player detail 190 MiB, game logs 208 MiB, match detail 113 MiB) | ≤300 MiB: **miss** |
-| Real-site browser smoke (18 routes including real player/match/team/compare) | 0 console errors, 0 error or not-found states | - |
+| Artifact size | **292.7 MiB** (306,971,964 bytes; was 560 MiB): game logs 115, match detail ~85, player detail 43, teams 26. Budget script reports no failures | ≤300 MiB: met, with 7.3 MiB headroom |
+| Real-site browser smoke (20 routes including real player/match/team/compare/watchlist, re-run after the contract change) | 0 console errors, 0 error or not-found states | - |
+
+**Compact public contracts (2026-09-25, after the owner said to go ahead).** Player pages are positional (`stat_names` + `StatColumns`). They no longer ship mean or coverage, because these equal `total/observed` and `min(1, observed/scope games)` exactly: verified on 240,580 real values, and the Python packer refuses any value that does not derive. Game logs (`PlayerGameColumns`) and box scores (`BoxScoreColumns`) are columnar. Integral floats are written as JSON integers. The artifact went from 560 to 292.7 MiB. Internal analytics types are unchanged, and a builder test proves every published page expands back to the analytics values.
 
 **Open items, most important first:**
-1. Artifact size (560 MiB) and release-build RSS/time. Player detail repeats per-stat coverage objects with full-precision floats in every season line. The fix is a positional season-stat encoding like the box scores already use, plus streaming per-season writes. This is a contract change covering view models, schemas, web views and fixtures.
+1. Release-build time and RSS (216 s, 3.6 GiB). Season resources take 103 s and validation re-parses 91k files in 46 s. Artifact size is fixed (see below); its headroom is only 7.3 MiB and each new season adds data, so watch it.
 2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
 3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
 4. Fast-tier runtime (68 s) is over the 30 s CI budget.
