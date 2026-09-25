@@ -172,3 +172,13 @@ cython_debug/
 # Quarantined backtest artifacts from cycles that never completed (scripts/backtest_completeness.py).
 # Kept on disk for forensics, deliberately not selectable by the pipeline or shipped.
 data/prediction/backtest/quarantine/
+
+# Rewrite web sources whose directory names collide with the Python packaging
+# ignores above (lib/, downloads/). These are source, not build output.
+!web/src/lib/
+!web/src/pages/downloads/
+!web/tests/fixtures/demo-release/downloads/
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/

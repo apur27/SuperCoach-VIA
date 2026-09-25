@@ -1,0 +1,54 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import Instant from '../../components/Instant.astro';
+import { manifest, readResource, retainedReleases, hasResource } from '../../lib/release-server';
+import { isSafeResourcePath, withBase } from '../../lib/ids';
+import { formatBytes } from '../../lib/format';
+const base = import.meta.env.BASE_URL;
+const rel = manifest();
+const dl = readResource('downloads', 'downloads.json');
+if (dl.release_id !== rel.release_id) throw new Error('downloads.json belongs to another release');
+for (const i of dl.items) {
+  if (!isSafeResourcePath(i.path) || !hasResource(i.path)) throw new Error(`download ${i.key} missing or unsafe: ${i.path}`);
+}
+const copied = retainedReleases();
+const KIND: Record<string, string> = { csv: 'CSV spreadsheet', png: 'PNG image', svg: 'SVG image', zip: 'ZIP archive', json: 'JSON data', md: 'Markdown text' };
+---
+<AppLayout title="Downloads" description="Release files with version, size and SHA-256 checksums." current="downloads">
+  <h1>Downloads</h1>
+  <p class="lede">Every file below comes from release <code>{rel.release_id}</code> (generated <Instant iso={rel.generated_at} />), the same data shown on this site. CSV files contain <strong>all rows</strong>; filtered exports are offered on the pages that filter.</p>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Release downloads">
+    <table>
+      <caption>Files in this release</caption>
+      <thead><tr><th scope="col">File</th><th scope="col">Type</th><th scope="col">As of</th><th scope="col" class="num">Rows</th><th scope="col" class="num">Size</th><th scope="col">SHA-256</th></tr></thead>
+      <tbody>
+        {dl.items.map((i) => (
+          <tr>
+            <th scope="row"><a href={withBase(base, `data/${rel.release_id}/${i.path}`)} download>Download {i.label}</a></th>
+            <td>{KIND[i.kind] ?? i.kind}</td>
+            <td>{i.as_of}</td>
+            <td class="num">{i.rows === null || i.rows === undefined ? '—' : `${i.rows} (all rows)`}</td>
+            <td class="num">{formatBytes(i.bytes)}</td>
+            <td><code class="checksum">{i.sha256}</code></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <section aria-labelledby="ret-h">
+    <h2 id="ret-h">Previous releases</h2>
+    {dl.retained.length === 0 && copied.length === 0 ? <p class="muted">No previous releases are retained with this build.</p> : (
+      <ul>
+        {dl.retained.map((r) => {
+          const present = copied.some((c) => c.releaseId === r.release_id);
+          return <li><code>{r.release_id}</code> — generated <Instant iso={r.generated_at} />{present ? <> · <a href={withBase(base, `data/${r.release_id}/downloads.json`)}>file list (JSON)</a></> : <span class="muted"> · not hosted with this build</span>}</li>;
+        })}
+        {copied.filter((c) => !dl.retained.some((r) => r.release_id === c.releaseId)).map((c) => <li><code>{c.releaseId}</code> — generated <Instant iso={c.generatedAt} /> · <a href={withBase(base, `data/${c.releaseId}/downloads.json`)}>file list (JSON)</a></li>)}
+      </ul>
+    )}
+  </section>
+  <p class="muted">Verify a file: <code>sha256sum FILE</code> should print the checksum above.</p>
+</AppLayout>
+<style>
+  .checksum { font-size: 0.75rem; word-break: break-all; }
+</style>

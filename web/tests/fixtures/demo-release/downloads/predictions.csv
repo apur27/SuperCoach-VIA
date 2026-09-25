@@ -1,0 +1,15 @@
+player_id,player_name,stage_label,predicted_disposals,interval_low,interval_high
+legacy:demo_player_a1,Demo Player A1,Demo Round 5,20.5,15.5,25.5
+legacy:demo_player_b1,Demo Player B1,Demo Round 5,15.5,10.5,20.5
+legacy:demo_same_name_2020,Demo Same Name,Demo Round 5,12.5,7.5,17.5
+legacy:demo_zoe_arger,Demo Zoë Ärger,Demo Round 5,18.5,13.5,23.5
+legacy:demo_filler_01,Demo Filler 01,Demo Round 5,11.5,6.5,16.5
+legacy:demo_filler_02,Demo Filler 02,Demo Round 5,12.5,7.5,17.5
+legacy:demo_filler_03,Demo Filler 03,Demo Round 5,13.5,8.5,18.5
+legacy:demo_filler_04,Demo Filler 04,Demo Round 5,14.5,9.5,19.5
+legacy:demo_filler_05,Demo Filler 05,Demo Round 5,15.5,10.5,20.5
+legacy:demo_filler_06,Demo Filler 06,Demo Round 5,16.5,11.5,21.5
+legacy:demo_filler_07,Demo Filler 07,Demo Round 5,17.5,12.5,22.5
+legacy:demo_filler_08,Demo Filler 08,Demo Round 5,18.5,13.5,23.5
+legacy:demo_filler_09,Demo Filler 09,Demo Round 5,19.5,14.5,24.5
+legacy:demo_filler_10,Demo Filler 10,Demo Round 5,10.5,5.5,15.5
