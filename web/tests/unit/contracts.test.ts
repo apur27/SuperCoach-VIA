@@ -50,7 +50,14 @@ function validateTree(root: string) {
       for (const r of rows) expect(r.stats.length, `${rel}: stats length`).toBe(cols.length);
     };
     if (kind === 'match_detail') aligned(data.stat_columns, [...data.home_players, ...data.away_players]);
-    if (kind === 'player_season_games') aligned(data.stat_columns, data.games);
+    if (kind === 'player_season_games') {
+      aligned(data.stat_columns, data.games.stats.map((stats: unknown[]) => ({ stats })));
+      for (const k of Object.keys(data.games)) expect(data.games[k].length, `${rel}: games.${k} length`).toBe(data.games.match_id.length);
+    }
+    if (kind === 'player_detail') {
+      const blocks = [data.career, ...data.seasons.map((x: { stats: unknown }) => x.stats)];
+      for (const b of blocks) for (const k of ['total', 'observed_games', 'eligible_games']) expect(b[k].length, `${rel}: ${k} length`).toBe(data.stat_names.length);
+    }
     // Live rows are keyed; only reliable fields may appear (an absent key = not reported).
     if (kind === 'live_snapshot') {
       for (const r of data.players) for (const k of Object.keys(r.stats)) expect(data.reliable_fields, `${rel}: live stat ${k}`).toContain(k);

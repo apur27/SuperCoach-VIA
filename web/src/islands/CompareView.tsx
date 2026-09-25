@@ -8,6 +8,7 @@ import { announceReleaseUnavailable } from '../lib/prefs';
 import { NoScriptNotice } from './common/NoScript';
 import { downloadText } from './common/download';
 import { LineChart } from './common/Charts';
+import { expandStats } from '../lib/stats';
 
 const MAX = 4;
 type Entry = { key: string; id: string; state: 'loading' } | { key: string; id: string; state: 'ok'; p: PlayerDetail } | { key: string; id: string; state: 'error'; kind: ErrorKind };
@@ -53,7 +54,9 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
   if (!ready) return <NoScriptNotice what="comparison" href={downloadHref} linkText="download all player data (CSV)" />;
   const setKeys = (next: string[]) => setSearch(next.length ? `?players=${next.join(',')}` : '');
   const players = entries.filter((e): e is Extract<Entry, { state: 'ok' }> => e.state === 'ok').map((e) => e.p);
-  const statNames = players.length ? players.map((p) => new Set(p.career.map((s) => s.stat))).reduce((a, b) => new Set([...a].filter((x) => b.has(x)))) : new Set<string>();
+  const careers = new Map(players.map((p) => [p.id, expandStats(p.stat_names, p.career, p.career_games)]));
+  const careerOf = (p: PlayerDetail) => careers.get(p.id) ?? [];
+  const statNames = players.length ? players.map((p) => new Set(careerOf(p).map((s) => s.stat))).reduce((a, b) => new Set([...a].filter((x) => b.has(x)))) : new Set<string>();
   const common = [...statNames];
   const warnings: string[] = [];
   if (ignored) warnings.push(`${ignored} player ID(s) ignored: invalid, duplicate, or more than ${MAX}.`);
@@ -61,13 +64,13 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
   if (players.length > 1 && Math.max(...firsts) - Math.min(...firsts) >= 15) warnings.push('These players come from different eras; statistics recorded and game styles differ, so direct comparison is limited.');
   const small = players.filter((p) => p.career_games < 20);
   if (small.length) warnings.push(`Small samples (under 20 games): ${small.map((p) => p.name).join(', ')}.`);
-  const lowCov = players.filter((p) => p.career.some((s) => s.coverage !== null && s.coverage < 0.9) || p.career.some((s) => s.coverage === null));
+  const lowCov = players.filter((p) => careerOf(p).some((s) => s.coverage !== null && s.coverage < 0.9) || careerOf(p).some((s) => s.coverage === null));
   if (lowCov.length) warnings.push(`Incomplete statistics coverage for: ${lowCov.map((p) => p.name).join(', ')}.`);
   const shareUrl = typeof window === 'undefined' ? '' : window.location.href;
   const exportCsv = () => {
     const header = ['statistic', ...players.flatMap((p) => [`${p.name} per game`, `${p.name} games with data`, `${p.name} coverage`])];
     const rows = common.map((stat) => [stat, ...players.flatMap((p) => {
-      const s = p.career.find((x) => x.stat === stat)!;
+      const s = careerOf(p).find((x) => x.stat === stat)!;
       return [s.mean, s.observed_games, s.coverage];
     })]);
     downloadText('supercoach-via-comparison.csv', toCsv(header, rows), 'text/csv');
@@ -108,7 +111,7 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
                   <tr key={stat}>
                     <th scope="row">{stat}</th>
                     {players.map((p) => {
-                      const s = p.career.find((x) => x.stat === stat)!;
+                      const s = careerOf(p).find((x) => x.stat === stat)!;
                       return <td className="num" key={p.id}>{s.mean === null ? <span className="missing">not recorded</span> : formatStat(s.mean, 1)} <span className="muted">({s.observed_games}/{s.eligible_games} games, {formatPercent(s.coverage)})</span></td>;
                     })}
                   </tr>
@@ -119,7 +122,7 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
           </div>
           {common.includes('disposals') && players.length <= 2 ? (
             <LineChart id="compare-chart" title="Disposals per game by season" description="Season mean disposals for each compared player" xLabel="Season" yLabel="Disposals per game"
-              series={players.map((p) => ({ name: p.name, points: [...p.seasons].sort((a, b) => a.season - b.season).map((s) => ({ x: String(s.season), y: s.stats.find((x) => x.stat === 'disposals')?.mean ?? null })) }))} />
+              series={players.map((p) => ({ name: p.name, points: [...p.seasons].sort((a, b) => a.season - b.season).map((s) => ({ x: String(s.season), y: expandStats(p.stat_names, s.stats, s.games).find((x) => x.stat === 'disposals')?.mean ?? null })) }))} />
           ) : null}
         </>
       ) : null}

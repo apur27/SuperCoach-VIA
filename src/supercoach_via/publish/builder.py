@@ -83,6 +83,7 @@ from supercoach_via.publish.view_models import (
     Overview,
     PlayerDetail,
     PlayerIndex,
+    PlayerSeason,
     Populations,
     PredictionIndex,
     PredictionIndexEntry,
@@ -97,6 +98,7 @@ from supercoach_via.publish.view_models import (
     TeamIndex,
     TeamIndexEntry,
     TeamSeason,
+    to_stat_columns,
 )
 from supercoach_via.publish.web_data import canonical_json_bytes, sha256_bytes
 from supercoach_via.storage.queries import SnapshotQuery
@@ -1025,6 +1027,8 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
         g = games.get(pid)
         counter = None if g is None or pd.isna(g["counter_max"]) else int(g["counter_max"])
         p = people[pid]
+        career_games = int(g["career_games"]) if g is not None else 0
+        names = [v.stat for v in career]
         urls = json.loads(p["source_urls"]) if p.get("source_urls") else []
         sources = [Source(label="Legacy player CSV import", url=None, note=p.get("source_path"))]
         sources += [Source(label="Verified source page", url=u) for u in urls if str(u).startswith("https://")]
@@ -1042,10 +1046,20 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
             identity_status=p["identity_status"],
             aliases=aliases.get(pid, []),
             clubs=[ClubRef(club_id=c, name=club_names.get(c, c)) for c in club_ids],
-            career_games=int(g["career_games"]) if g is not None else 0,
+            career_games=career_games,
             career_counter_max=counter,
-            career=career,
-            seasons=lines,
+            stat_names=names,
+            career=to_stat_columns(names, career, career_games),
+            seasons=[
+                PlayerSeason(
+                    season=ln.season,
+                    clubs=ln.clubs,
+                    games=ln.games,
+                    stats=to_stat_columns(names, ln.stats, ln.games),
+                    games_resource=ln.games_resource,
+                )
+                for ln in lines
+            ],
             forecast=forecast_rows.get(pid),
             sources=sources,
             coverage_note=player_analytics.COVERAGE_NOTE,

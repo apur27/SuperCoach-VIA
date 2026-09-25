@@ -10,6 +10,7 @@ import { LineChart } from './common/Charts';
 import { Instant } from './common/Instant';
 import { WatchButton } from './common/watch';
 import { NoScriptNotice } from './common/NoScript';
+import { expandStats, gameRows } from '../lib/stats';
 
 const QUALITY: Record<PlayerDetail['birth_date_quality'], string> = {
   source: 'from source', legacy_filename: 'from legacy file name (unverified)', conflicting: 'sources conflict', unknown: 'unknown',
@@ -86,17 +87,17 @@ function PlayerBody({ p }: { p: PlayerDetail }) {
       <Forecast f={p.forecast} />
       <section aria-labelledby="career-h">
         <h2 id="career-h">Career statistics</h2>
-        <StatTable caption="Career statistics" stats={p.career} />
+        <StatTable caption="Career statistics" stats={expandStats(p.stat_names, p.career, p.career_games)} />
       </section>
       <section aria-labelledby="seasons-h">
         <h2 id="seasons-h">Seasons</h2>
         <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table: Season summary">
           <table>
             <caption>Season-by-season summary</caption>
-            <thead><tr><th scope="col">Season</th><th scope="col">Clubs</th><th scope="col" className="num">Games</th>{(p.seasons[0]?.stats ?? []).map((s) => <th scope="col" className="num" key={s.stat}>{s.stat} per game</th>)}</tr></thead>
+            <thead><tr><th scope="col">Season</th><th scope="col">Clubs</th><th scope="col" className="num">Games</th>{p.stat_names.map((n) => <th scope="col" className="num" key={n}>{n} per game</th>)}</tr></thead>
             <tbody>
               {seasons.map((s) => (
-                <tr key={s.season}><th scope="row">{s.season}</th><td>{s.clubs.join(', ')}</td><td className="num">{s.games}</td>{s.stats.map((st) => <td className="num" key={st.stat}><Stat value={st.mean} digits={1} /></td>)}</tr>
+                <tr key={s.season}><th scope="row">{s.season}</th><td>{s.clubs.join(', ')}</td><td className="num">{s.games}</td>{expandStats(p.stat_names, s.stats, s.games).map((st) => <td className="num" key={st.stat}><Stat value={st.mean} digits={1} /></td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -125,12 +126,13 @@ function PlayerBody({ p }: { p: PlayerDetail }) {
 function GameLog({ g }: { g: PlayerSeasonGames }) {
   const base = siteBase();
   const main = g.stat_columns.includes('disposals') ? 'disposals' : g.stat_columns[0];
+  const rows = gameRows(g.games);
   return (
     <div className="stack">
       {main ? (
         <LineChart
           id={`form-${g.season}`} title={`${g.season} form: ${main} by game`} description={`${main} in each ${g.season} game in order`}
-          xLabel="Game" yLabel={main} series={[{ name: main, points: g.games.map((x, i) => ({ x: `G${i + 1}`, y: x.stats[g.stat_columns.indexOf(main)] ?? null })) }]}
+          xLabel="Game" yLabel={main} series={[{ name: main, points: rows.map((x, i) => ({ x: `G${i + 1}`, y: x.stats[g.stat_columns.indexOf(main)] ?? null })) }]}
         />
       ) : null}
       <div className="table-wrap" tabIndex={0} role="region" aria-label={`Scrollable table: ${`${g.season} game log`}`}>
@@ -138,7 +140,7 @@ function GameLog({ g }: { g: PlayerSeasonGames }) {
           <caption>{g.season} game log</caption>
           <thead><tr><th scope="col">Date</th><th scope="col">Stage</th><th scope="col">Opponent</th><th scope="col">Result</th>{g.stat_columns.map((c) => <th scope="col" className="num" key={c}>{c}</th>)}</tr></thead>
           <tbody>
-            {g.games.map((x) => (
+            {rows.map((x) => (
               <tr key={x.match_id}>
                 <th scope="row"><a href={withBase(base, `match/?id=${x.match_id.replaceAll(':', '__')}`)}>{formatDateOnly(x.match_date)}</a>{x.date_quality !== 'fixture_verified' && x.date_quality !== 'source' ? <span className="muted"> ({x.date_quality})</span> : null}</th>
                 <td>{x.stage_label}</td>

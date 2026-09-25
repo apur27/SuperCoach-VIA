@@ -610,3 +610,34 @@ def test_era_summary_and_brownlow_proxy_downloads(built: B.ReleaseCandidate) -> 
     }
     items = {i["path"] for i in _json(built, "downloads.json")["items"]}
     assert {"downloads/era-summary.csv", "downloads/brownlow-proxy-2026.csv"} <= items
+
+
+def test_player_pages_are_positional_and_expand_to_the_analytics_values(built: B.ReleaseCandidate, env: DemoEnv) -> None:
+    from supercoach_via.analytics import players
+    from supercoach_via.domain.metrics import CoverageEras
+    from supercoach_via.publish import resources
+    from supercoach_via.publish.view_models import PlayerDetail, expand_stats
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+
+    manifest = load_snapshot(env.data_root, env.snapshot.snapshot_id)
+    eras = CoverageEras.load(B.DEFAULT_CONFIG_DIR / "coverage.yaml")
+    with SnapshotQuery(env.data_root, manifest) as q:
+        bundle = players.player_stats_bundle(q, eras)
+
+    def res(pid: str, s: int) -> str:
+        return f"player-games/{resources.public_key(pid)}/{s}.json"
+
+    lines = B.player_stat_lines(bundle, res)
+    checked = 0
+    for pid, (career, seasons) in lines.items():
+        raw = _json(built, f"players/{resources.public_key(pid)}.json")
+        assert "mean" not in json.dumps(raw["career"]) and "coverage" not in json.dumps(raw["seasons"])
+        d = PlayerDetail.model_validate(raw)
+        assert expand_stats(d.stat_names, d.career, d.career_games) == career
+        assert [s.season for s in d.seasons] == [s.season for s in seasons]
+        for got, want in zip(d.seasons, seasons, strict=True):
+            assert (got.clubs, got.games, got.games_resource) == (want.clubs, want.games, want.games_resource)
+            assert expand_stats(d.stat_names, got.stats, got.games) == want.stats
+        checked += 1
+    assert checked > 10

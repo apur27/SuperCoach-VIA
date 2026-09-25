@@ -20,7 +20,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from supercoach_via.domain.schemas import SHA256_RE, is_safe_id
 
@@ -81,6 +81,65 @@ class StatValue(PublicModel):
     observed_games: int
     eligible_games: int
     coverage: float | None = Field(ge=0, le=1)
+
+
+class StatColumns(PublicModel):
+    """Positional ``StatValue`` data aligned to a parent's ``stat_names`` (compact player pages).
+
+    ``mean`` and ``coverage`` are not stored: they are exactly ``total / observed_games`` and
+    ``min(1, observed_games / scope games)`` (``expand_stats``; web ``expandStats``).
+    """
+
+    total: list[float | None]
+    observed_games: list[int]
+    eligible_games: list[int]
+
+    @model_validator(mode="after")
+    def _aligned(self) -> StatColumns:
+        if not len(self.total) == len(self.observed_games) == len(self.eligible_games):
+            raise ValueError("StatColumns arrays differ in length")
+        return self
+
+
+def _derived_mean(total: float | None, observed: int) -> float | None:
+    return None if total is None or observed == 0 else total / observed
+
+
+def _derived_coverage(observed: int, scope_games: int) -> float | None:
+    return None if scope_games <= 0 else min(1.0, observed / scope_games)
+
+
+def to_stat_columns(names: list[str], values: list[StatValue], scope_games: int) -> StatColumns:
+    """Pack ``values`` (in ``names`` order); refuses a mean or coverage that is not the derived one."""
+    if [v.stat for v in values] != names:
+        raise ValueError("stat values are not in stat_names order")
+    for v in values:
+        if v.mean != _derived_mean(v.total, v.observed_games):
+            raise ValueError(f"{v.stat}: mean is not derived from total/observed_games")
+        if v.coverage != _derived_coverage(v.observed_games, scope_games):
+            raise ValueError(f"{v.stat}: coverage is not derived from observed_games/scope games")
+    return StatColumns(
+        total=[v.total for v in values],
+        observed_games=[v.observed_games for v in values],
+        eligible_games=[v.eligible_games for v in values],
+    )
+
+
+def expand_stats(names: list[str], cols: StatColumns, scope_games: int) -> list[StatValue]:
+    """Inverse of ``to_stat_columns`` for a scope of ``scope_games`` games (season or career)."""
+    if len(names) != len(cols.total):
+        raise ValueError("stat_names and StatColumns differ in length")
+    return [
+        StatValue(
+            stat=n,
+            total=t,
+            mean=_derived_mean(t, o),
+            observed_games=o,
+            eligible_games=e,
+            coverage=_derived_coverage(o, scope_games),
+        )
+        for n, t, o, e in zip(names, cols.total, cols.observed_games, cols.eligible_games, strict=True)
+    ]
 
 
 class ClubRef(PublicModel):
@@ -319,6 +378,16 @@ class SeasonLine(PublicModel):
     games_resource: str = Field(description="resource key of this season's game log")
 
 
+class PlayerSeason(PublicModel):
+    """Compact public ``SeasonLine``: stats are positional (``PlayerDetail.stat_names``)."""
+
+    season: int
+    clubs: list[str]
+    games: int = Field(description="coverage scope for this season's stats")
+    stats: StatColumns
+    games_resource: str = Field(description="resource key of this season's game log")
+
+
 class PlayerDetail(PublicModel):
     id: str
     key: str
@@ -335,8 +404,9 @@ class PlayerDetail(PublicModel):
     clubs: list[ClubRef]
     career_games: int
     career_counter_max: int | None = Field(description="source career counter, may exceed rows")
-    career: list[StatValue]
-    seasons: list[SeasonLine]
+    stat_names: list[str] = Field(description="stat order for career and every season's StatColumns")
+    career: StatColumns = Field(description="coverage scope: career_games")
+    seasons: list[PlayerSeason]
     forecast: PredictionRow | None
     sources: list[Source]
     coverage_note: str
@@ -357,11 +427,53 @@ class PlayerGame(PublicModel):
     )
 
 
+DateQualityLabel = Literal["fixture_verified", "source", "inferred", "unknown"]
+
+
+class PlayerGameColumns(PublicModel):
+    """A season game log as parallel arrays (one entry per game; ``game_rows`` restores rows)."""
+
+    match_id: list[str]
+    match_date: list[date | None]
+    date_quality: list[DateQualityLabel]
+    stage_label: list[str]
+    club_id: list[str]
+    opponent_club_id: list[str | None]
+    opponent_name: list[str | None]
+    result: list[str | None]
+    career_game_counter: list[int | None]
+    stats: list[list[float | None]] = Field(description="per game, positional values aligned to stat_columns")
+
+    @model_validator(mode="after")
+    def _aligned(self) -> PlayerGameColumns:
+        n = len(self.match_id)
+        if any(len(getattr(self, f)) != n for f in _GAME_FIELDS):
+            raise ValueError("PlayerGameColumns arrays differ in length")
+        return self
+
+
+_GAME_FIELDS = (
+    "match_id", "match_date", "date_quality", "stage_label", "club_id", "opponent_club_id", "opponent_name",
+    "result", "career_game_counter", "stats",
+)  # fmt: skip
+
+
+def to_game_columns(rows: list[PlayerGame]) -> PlayerGameColumns:
+    return PlayerGameColumns(**{f: [getattr(r, f) for r in rows] for f in _GAME_FIELDS})
+
+
+def game_rows(cols: PlayerGameColumns) -> list[PlayerGame]:
+    return [
+        PlayerGame(**dict(zip(_GAME_FIELDS, vals, strict=True)))
+        for vals in zip(*(getattr(cols, f) for f in _GAME_FIELDS), strict=True)
+    ]
+
+
 class PlayerSeasonGames(PublicModel):
     player_id: str
     season: int
     stat_columns: list[str] = Field(description="stats observed at least once in this file, in canonical order")
-    games: list[PlayerGame]
+    games: PlayerGameColumns
 
 
 # ---------------------------------------------------------------------------

@@ -19,6 +19,45 @@
       "title": "ClubRef",
       "type": "object"
     },
+    "PlayerSeason": {
+      "additionalProperties": false,
+      "description": "Compact public ``SeasonLine``: stats are positional (``PlayerDetail.stat_names``).",
+      "properties": {
+        "clubs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clubs",
+          "type": "array"
+        },
+        "games": {
+          "description": "coverage scope for this season's stats",
+          "title": "Games",
+          "type": "integer"
+        },
+        "games_resource": {
+          "description": "resource key of this season's game log",
+          "title": "Games Resource",
+          "type": "string"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stats": {
+          "$ref": "#/$defs/StatColumns"
+        }
+      },
+      "required": [
+        "season",
+        "clubs",
+        "games",
+        "stats",
+        "games_resource"
+      ],
+      "title": "PlayerSeason",
+      "type": "object"
+    },
     "PredictionRow": {
       "additionalProperties": false,
       "properties": {
@@ -263,47 +302,6 @@
       "title": "PredictionRow",
       "type": "object"
     },
-    "SeasonLine": {
-      "additionalProperties": false,
-      "properties": {
-        "clubs": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Clubs",
-          "type": "array"
-        },
-        "games": {
-          "title": "Games",
-          "type": "integer"
-        },
-        "games_resource": {
-          "description": "resource key of this season's game log",
-          "title": "Games Resource",
-          "type": "string"
-        },
-        "season": {
-          "title": "Season",
-          "type": "integer"
-        },
-        "stats": {
-          "items": {
-            "$ref": "#/$defs/StatValue"
-          },
-          "title": "Stats",
-          "type": "array"
-        }
-      },
-      "required": [
-        "season",
-        "clubs",
-        "games",
-        "stats",
-        "games_resource"
-      ],
-      "title": "SeasonLine",
-      "type": "object"
-    },
     "Source": {
       "additionalProperties": false,
       "properties": {
@@ -342,67 +340,45 @@
       "title": "Source",
       "type": "object"
     },
-    "StatValue": {
+    "StatColumns": {
       "additionalProperties": false,
-      "description": "An aggregate that discloses its denominator and coverage.",
+      "description": "Positional ``StatValue`` data aligned to a parent's ``stat_names`` (compact player pages).\n\n``mean`` and ``coverage`` are not stored: they are exactly ``total / observed_games`` and\n``min(1, observed_games / scope games)`` (``expand_stats``; web ``expandStats``).",
       "properties": {
-        "coverage": {
-          "anyOf": [
-            {
-              "maximum": 1,
-              "minimum": 0,
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Coverage"
-        },
         "eligible_games": {
+          "items": {
+            "type": "integer"
+          },
           "title": "Eligible Games",
-          "type": "integer"
-        },
-        "mean": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Mean"
+          "type": "array"
         },
         "observed_games": {
+          "items": {
+            "type": "integer"
+          },
           "title": "Observed Games",
-          "type": "integer"
-        },
-        "stat": {
-          "title": "Stat",
-          "type": "string"
+          "type": "array"
         },
         "total": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Total"
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Total",
+          "type": "array"
         }
       },
       "required": [
-        "stat",
         "total",
-        "mean",
         "observed_games",
-        "eligible_games",
-        "coverage"
+        "eligible_games"
       ],
-      "title": "StatValue",
+      "title": "StatColumns",
       "type": "object"
     }
   },
@@ -440,11 +416,8 @@
       "type": "string"
     },
     "career": {
-      "items": {
-        "$ref": "#/$defs/StatValue"
-      },
-      "title": "Career",
-      "type": "array"
+      "$ref": "#/$defs/StatColumns",
+      "description": "coverage scope: career_games"
     },
     "career_counter_max": {
       "anyOf": [
@@ -552,7 +525,7 @@
     },
     "seasons": {
       "items": {
-        "$ref": "#/$defs/SeasonLine"
+        "$ref": "#/$defs/PlayerSeason"
       },
       "title": "Seasons",
       "type": "array"
@@ -562,6 +535,14 @@
         "$ref": "#/$defs/Source"
       },
       "title": "Sources",
+      "type": "array"
+    },
+    "stat_names": {
+      "description": "stat order for career and every season's StatColumns",
+      "items": {
+        "type": "string"
+      },
+      "title": "Stat Names",
       "type": "array"
     },
     "weight_kg": {
@@ -592,6 +573,7 @@
     "clubs",
     "career_games",
     "career_counter_max",
+    "stat_names",
     "career",
     "seasons",
     "forecast",

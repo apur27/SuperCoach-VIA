@@ -8,6 +8,7 @@ import { useWatchlist } from './common/watch';
 import { NoScriptNotice } from './common/NoScript';
 import { downloadText } from './common/download';
 import { Stat } from './common/Stat';
+import { expandStats } from '../lib/stats';
 
 type Row = { state: 'loading' } | { state: 'ok'; p: PlayerDetail } | { state: 'error'; kind: ErrorKind };
 
@@ -82,7 +83,7 @@ export default function WatchlistView({ downloadHref }: { downloadHref: string }
                 return (
                   <tr key={id}>
                     <th scope="row">{r.state === 'ok' ? <a href={withBase(base, `player/?id=${encodeId(id)}`)}>{r.p.name}</a> : r.state === 'loading' ? <span>{id} (loading)</span> : <span className="missing">{id}: {r.kind === 'notfound' ? 'not in this release' : 'could not load'}</span>}</th>
-                    <td className="num">{latest ? <>{latest.season}: <Stat value={latest.stats.find((s) => s.stat === 'disposals')?.mean} digits={1} /></> : <span className="missing">not recorded</span>}</td>
+                    <td className="num">{latest ? <>{latest.season}: <Stat value={r.state === 'ok' ? expandStats(r.p.stat_names, latest.stats, latest.games).find((s) => s.stat === 'disposals')?.mean : null} digits={1} /></> : <span className="missing">not recorded</span>}</td>
                     <td>{r.state === 'ok' && r.p.forecast ? `${formatStat(r.p.forecast.predicted_disposals, 1)} disposals v ${r.p.forecast.opponent_name ?? '?'}` : <span className="muted">none</span>}</td>
                     <td><button type="button" className="secondary small" aria-label={`Remove ${name}`} onClick={() => store?.remove(id)}>Remove</button></td>
                   </tr>

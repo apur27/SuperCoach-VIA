@@ -6,6 +6,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from supercoach_via.publish import resources
+from supercoach_via.publish.view_models import game_rows
 from supercoach_via.storage.queries import SnapshotQuery
 
 from .snapshot_factory import build
@@ -109,9 +110,9 @@ def test_match_detail_and_game_logs_keep_nulls(tmp_path: Path) -> None:
     row = dict(zip(cols, d.home_players[0].stats, strict=True))
     assert row["disposals"] == 0  # zero stays zero
     assert logs[0].player_id == "legacy:demo_a_01011990"
-    g = dict(zip(logs[0].stat_columns, logs[0].games[0].stats, strict=True))
+    g = dict(zip(logs[0].stat_columns, game_rows(logs[0].games)[0].stats, strict=True))
     assert g["disposals"] == 0 and "tackles" not in g
-    assert logs[0].games[0].opponent_name == "Demo Ridge"
+    assert game_rows(logs[0].games)[0].opponent_name == "Demo Ridge"
 
 
 def test_stat_arrays_keep_partial_nulls() -> None:

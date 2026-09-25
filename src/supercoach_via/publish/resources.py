@@ -24,6 +24,7 @@ from supercoach_via.publish.view_models import (
     QuarterScore,
     Source,
     TeamScore,
+    to_game_columns,
 )
 from supercoach_via.storage.queries import SnapshotQuery
 
@@ -179,7 +180,7 @@ def player_season_games(q: SnapshotQuery, season: int) -> Iterator[PlayerSeasonG
                     stats=v,
                 )
             )
-        yield PlayerSeasonGames(player_id=player_id, season=season, stat_columns=cols, games=games)
+        yield PlayerSeasonGames(player_id=player_id, season=season, stat_columns=cols, games=to_game_columns(games))
 
 
 def normalise_search(text: str) -> str:

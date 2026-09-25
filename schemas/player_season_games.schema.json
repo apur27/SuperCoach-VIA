@@ -1,97 +1,128 @@
 {
   "$defs": {
-    "PlayerGame": {
+    "PlayerGameColumns": {
       "additionalProperties": false,
+      "description": "A season game log as parallel arrays (one entry per game; ``game_rows`` restores rows).",
       "properties": {
         "career_game_counter": {
-          "anyOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Career Game Counter"
-        },
-        "club_id": {
-          "title": "Club Id",
-          "type": "string"
-        },
-        "date_quality": {
-          "enum": [
-            "fixture_verified",
-            "source",
-            "inferred",
-            "unknown"
-          ],
-          "title": "Date Quality",
-          "type": "string"
-        },
-        "match_date": {
-          "anyOf": [
-            {
-              "format": "date",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Match Date"
-        },
-        "match_id": {
-          "title": "Match Id",
-          "type": "string"
-        },
-        "opponent_club_id": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Opponent Club Id"
-        },
-        "opponent_name": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Opponent Name"
-        },
-        "result": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Result"
-        },
-        "stage_label": {
-          "title": "Stage Label",
-          "type": "string"
-        },
-        "stats": {
-          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
           "items": {
             "anyOf": [
               {
-                "type": "number"
+                "type": "integer"
               },
               {
                 "type": "null"
               }
             ]
+          },
+          "title": "Career Game Counter",
+          "type": "array"
+        },
+        "club_id": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Club Id",
+          "type": "array"
+        },
+        "date_quality": {
+          "items": {
+            "enum": [
+              "fixture_verified",
+              "source",
+              "inferred",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "title": "Date Quality",
+          "type": "array"
+        },
+        "match_date": {
+          "items": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Match Date",
+          "type": "array"
+        },
+        "match_id": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Match Id",
+          "type": "array"
+        },
+        "opponent_club_id": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Opponent Club Id",
+          "type": "array"
+        },
+        "opponent_name": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Opponent Name",
+          "type": "array"
+        },
+        "result": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Result",
+          "type": "array"
+        },
+        "stage_label": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stage Label",
+          "type": "array"
+        },
+        "stats": {
+          "description": "per game, positional values aligned to stat_columns",
+          "items": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array"
           },
           "title": "Stats",
           "type": "array"
@@ -109,7 +140,7 @@
         "career_game_counter",
         "stats"
       ],
-      "title": "PlayerGame",
+      "title": "PlayerGameColumns",
       "type": "object"
     }
   },
@@ -118,11 +149,7 @@
   "additionalProperties": false,
   "properties": {
     "games": {
-      "items": {
-        "$ref": "#/$defs/PlayerGame"
-      },
-      "title": "Games",
-      "type": "array"
+      "$ref": "#/$defs/PlayerGameColumns"
     },
     "player_id": {
       "title": "Player Id",

@@ -122,6 +122,13 @@ function statLine(base, games, coverage = 1) {
     return { stat, total: per * observed, mean: per, observed_games: observed, eligible_games: games, coverage };
   });
 }
+/** Compact player-page stats (StatColumns): mean and coverage are derived by the client. */
+function statColumns(base, games, coverage = 1) {
+  const lines = statLine(base, games, coverage);
+  return { total: lines.map((l) => l.total), observed_games: lines.map((l) => l.observed_games), eligible_games: lines.map((l) => l.eligible_games) };
+}
+const GAME_FIELDS = ['match_id', 'match_date', 'date_quality', 'stage_label', 'club_id', 'opponent_club_id', 'opponent_name', 'result', 'career_game_counter', 'stats'];
+const gameColumns = (rows) => Object.fromEntries(GAME_FIELDS.map((f) => [f, rows.map((r) => r[f])]));
 const PLAYERS = [];
 function player(o) {
   const id = `legacy:${o.slug}`;
@@ -204,8 +211,8 @@ for (const p of PLAYERS) {
       });
     }
     const gamesRel = `player-games/${p.key}/${season}.json`;
-    put(gamesRel, 'player_season_games', { player_id: p.id, season, stat_columns: STAT_COLS, games });
-    seasonLines.push({ season, clubs: p.clubs, games: GAMES_PER_SEASON, stats: statLine(p.base, GAMES_PER_SEASON, p.coverage === undefined ? 1 : p.coverage), games_resource: gamesRel });
+    put(gamesRel, 'player_season_games', { player_id: p.id, season, stat_columns: STAT_COLS, games: gameColumns(games) });
+    seasonLines.push({ season, clubs: p.clubs, games: GAMES_PER_SEASON, stats: statColumns(p.base, GAMES_PER_SEASON, p.coverage === undefined ? 1 : p.coverage), games_resource: gamesRel });
     careerGames += GAMES_PER_SEASON;
   }
   const detail = {
@@ -215,7 +222,7 @@ for (const p of PLAYERS) {
     debut_date: p.filler ? null : `${p.seasons[0]}-04-01`, height_cm: p.filler ? null : 190, weight_kg: p.filler ? null : 90,
     identity_status: 'canonical', aliases: p.slug === 'demo_zoe_arger' ? ['Demo Zoe Arger'] : [],
     clubs: p.clubs.map(clubRef), career_games: careerGames, career_counter_max: careerGames,
-    career: statLine(p.base, careerGames, p.coverage === undefined ? 1 : p.coverage), seasons: seasonLines,
+    stat_names: [...STAT_COLS], career: statColumns(p.base, careerGames, p.coverage === undefined ? 1 : p.coverage), seasons: seasonLines,
     forecast: forecastByPlayer.get(p.id) ?? null,
     sources: [{ label: 'DEMO fixture generator', url: null, note: DEMO_NOTE }],
     coverage_note: p.coverage === null ? 'DEMO: no per-game statistics recorded for this era.' : p.coverage === 0.5 ? 'DEMO: half the games have statistics recorded.' : 'DEMO: full coverage.',

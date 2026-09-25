@@ -587,7 +587,7 @@ export interface PlayerDetail {
   aliases: string[];
   birth_date: string | null;
   birth_date_quality: 'source' | 'legacy_filename' | 'conflicting' | 'unknown';
-  career: StatValue[];
+  career: StatColumns;
   /**
    * source career counter, may exceed rows
    */
@@ -604,23 +604,21 @@ export interface PlayerDetail {
   key: string;
   last_name: string | null;
   name: string;
-  seasons: SeasonLine[];
+  seasons: PlayerSeason[];
   sources: Source[];
+  /**
+   * stat order for career and every season's StatColumns
+   */
+  stat_names: string[];
   weight_kg: number | null;
 }
 /**
- * An aggregate that discloses its denominator and coverage.
- *
- * This interface was referenced by `PublicContracts`'s JSON-Schema
- * via the `definition` "StatValue".
+ * coverage scope: career_games
  */
-export interface StatValue {
-  coverage: number | null;
-  eligible_games: number;
-  mean: number | null;
-  observed_games: number;
-  stat: string;
-  total: number | null;
+export interface StatColumns {
+  eligible_games: number[];
+  observed_games: number[];
+  total: (number | null)[];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
@@ -631,18 +629,37 @@ export interface ClubRef {
   name: string;
 }
 /**
+ * Compact public ``SeasonLine``: stats are positional (``PlayerDetail.stat_names``).
+ *
  * This interface was referenced by `PublicContracts`'s JSON-Schema
- * via the `definition` "SeasonLine".
+ * via the `definition` "PlayerSeason".
  */
-export interface SeasonLine {
+export interface PlayerSeason {
   clubs: string[];
+  /**
+   * coverage scope for this season's stats
+   */
   games: number;
   /**
    * resource key of this season's game log
    */
   games_resource: string;
   season: number;
-  stats: StatValue[];
+  stats: StatColumns1;
+}
+/**
+ * Positional ``StatValue`` data aligned to a parent's ``stat_names`` (compact player pages).
+ *
+ * ``mean`` and ``coverage`` are not stored: they are exactly ``total / observed_games`` and
+ * ``min(1, observed_games / scope games)`` (``expand_stats``; web ``expandStats``).
+ *
+ * This interface was referenced by `PublicContracts`'s JSON-Schema
+ * via the `definition` "StatColumns".
+ */
+export interface StatColumns1 {
+  eligible_games: number[];
+  observed_games: number[];
+  total: (number | null)[];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
@@ -678,7 +695,7 @@ export interface PlayerIndexEntry {
  * via the `definition` "PlayerSeasonGames".
  */
 export interface PlayerSeasonGames {
-  games: PlayerGame[];
+  games: PlayerGameColumns;
   player_id: string;
   season: number;
   /**
@@ -687,23 +704,25 @@ export interface PlayerSeasonGames {
   stat_columns: string[];
 }
 /**
+ * A season game log as parallel arrays (one entry per game; ``game_rows`` restores rows).
+ *
  * This interface was referenced by `PublicContracts`'s JSON-Schema
- * via the `definition` "PlayerGame".
+ * via the `definition` "PlayerGameColumns".
  */
-export interface PlayerGame {
-  career_game_counter: number | null;
-  club_id: string;
-  date_quality: 'fixture_verified' | 'source' | 'inferred' | 'unknown';
-  match_date: string | null;
-  match_id: string;
-  opponent_club_id: string | null;
-  opponent_name: string | null;
-  result: string | null;
-  stage_label: string;
+export interface PlayerGameColumns {
+  career_game_counter: (number | null)[];
+  club_id: string[];
+  date_quality: ('fixture_verified' | 'source' | 'inferred' | 'unknown')[];
+  match_date: (string | null)[];
+  match_id: string[];
+  opponent_club_id: (string | null)[];
+  opponent_name: (string | null)[];
+  result: (string | null)[];
+  stage_label: string[];
   /**
-   * positional values aligned to the parent's stat_columns; null = not recorded
+   * per game, positional values aligned to stat_columns
    */
-  stats: (number | null)[];
+  stats: (number | null)[][];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
@@ -910,6 +929,20 @@ export interface Heuristic {
   label: string;
   method: string;
   text: string;
+}
+/**
+ * An aggregate that discloses its denominator and coverage.
+ *
+ * This interface was referenced by `PublicContracts`'s JSON-Schema
+ * via the `definition` "StatValue".
+ */
+export interface StatValue {
+  coverage: number | null;
+  eligible_games: number;
+  mean: number | null;
+  observed_games: number;
+  stat: string;
+  total: number | null;
 }
 
 /** Resource schema key -> TypeScript type. */

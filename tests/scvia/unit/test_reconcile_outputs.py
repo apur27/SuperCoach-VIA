@@ -20,6 +20,7 @@ from typing import Any
 import pytest
 
 from supercoach_via.publish import builder as B
+from supercoach_via.publish.view_models import PlayerDetail, expand_stats
 from tests.scvia.unit.demo_release_env import FORECAST_CUTOFF, full_release
 
 
@@ -162,11 +163,12 @@ def test_players_csv_matches_player_json(cand: B.ReleaseCandidate) -> None:
     for r in rows:
         detail = _j(cand, f"players/{idx[r['player_id']]['key']}.json")
         assert int(r["career_games"]) == detail["career_games"]
-        career = {s["stat"]: s for s in detail["career"]}
+        d = PlayerDetail.model_validate(detail)
+        career = {s.stat: s for s in expand_stats(d.stat_names, d.career, d.career_games)}
         for stat in ("disposals", "goals"):
-            total = career[stat]["total"] if stat in career else None  # no games -> no career lines
+            total = career[stat].total if stat in career else None  # no games -> no career lines
             assert (r[f"{stat}_total"] == "" and total is None) or float(r[f"{stat}_total"]) == total
-            assert int(r[f"{stat}_observed_games"]) == (career[stat]["observed_games"] if stat in career else 0)
+            assert int(r[f"{stat}_observed_games"]) == (career[stat].observed_games if stat in career else 0)
 
 
 def test_accuracy_rows_reproduce_the_headline(cand: B.ReleaseCandidate) -> None:

@@ -22,10 +22,25 @@ from supercoach_via.publish.view_models import PUBLIC_MODELS, PUBLIC_SCHEMA_VERS
 SCHEMA_BASE_ID = "https://supercoach-via.local/schemas/v1/"
 
 
+_EXACT_INT = 2.0**53
+
+
+def _compact_numbers(value: Any) -> Any:
+    """Write integral floats as integers (8.0 -> 8): same JSON number, fewer bytes."""
+    if isinstance(value, float):
+        return int(value) if value.is_integer() and abs(value) <= _EXACT_INT else value
+    if isinstance(value, list):
+        return [_compact_numbers(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _compact_numbers(v) for k, v in value.items()}
+    return value
+
+
 def canonical_json_bytes(payload: Any) -> bytes:
     """Serialize ``payload`` deterministically; raises ValueError on NaN/Infinity."""
     if isinstance(payload, BaseModel):
         payload = payload.model_dump(mode="json")
+    payload = _compact_numbers(payload)
     text = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
     return (text + "\n").encode("utf-8")
 
