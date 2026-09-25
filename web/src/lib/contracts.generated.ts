@@ -390,8 +390,8 @@ export interface LivePlayerRow {
  */
 export interface MatchDetail {
   attendance: number | null;
-  away_players: BoxScoreRow[];
-  home_players: BoxScoreRow[];
+  away_players: BoxScoreColumns;
+  home_players: BoxScoreColumns;
   /**
    * live resource keys
    */
@@ -405,16 +405,18 @@ export interface MatchDetail {
   summary: MatchSummary;
 }
 /**
+ * One side's box score as parallel arrays (``box_rows`` restores ``BoxScoreRow``s).
+ *
  * This interface was referenced by `PublicContracts`'s JSON-Schema
- * via the `definition` "BoxScoreRow".
+ * via the `definition` "BoxScoreColumns".
  */
-export interface BoxScoreRow {
-  name: string;
-  player_id: string;
+export interface BoxScoreColumns {
+  name: string[];
+  player_id: string[];
   /**
-   * positional values aligned to the parent's stat_columns; null = not recorded
+   * per player, positional values aligned to stat_columns
    */
-  stats: (number | null)[];
+  stats: (number | null)[][];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema

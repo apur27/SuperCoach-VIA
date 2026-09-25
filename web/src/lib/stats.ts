@@ -3,7 +3,7 @@
  * exactly total / observed_games and min(1, observed_games / scope games), the same
  * arithmetic as the Python view models (publish/view_models.expand_stats).
  */
-import type { PlayerGameColumns, StatColumns, StatValue } from './contracts';
+import type { BoxScoreColumns, PlayerGameColumns, StatColumns, StatValue } from './contracts';
 
 export function expandStats(names: readonly string[], cols: StatColumns, scopeGames: number): StatValue[] {
   if (names.length !== cols.total.length) throw new Error('stat_names and StatColumns differ in length');
@@ -47,4 +47,10 @@ export function gameRows(g: PlayerGameColumns): GameRow[] {
     career_game_counter: g.career_game_counter[i] ?? null,
     stats: g.stats[i] ?? [],
   }));
+}
+
+export interface BoxRow { player_id: string; name: string; stats: (number | null)[] }
+
+export function boxRows(b: BoxScoreColumns): BoxRow[] {
+  return b.player_id.map((player_id, i) => ({ player_id, name: b.name[i] ?? player_id, stats: b.stats[i] ?? [] }));
 }

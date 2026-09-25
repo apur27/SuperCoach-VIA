@@ -60,3 +60,14 @@ def test_game_log_columns_round_trip_and_alignment() -> None:
     assert game_rows(to_game_columns([])) == []
     with pytest.raises(ValueError, match="length"):
         PlayerGameColumns.model_validate({**cols.model_dump(), "result": ["W"]})
+
+
+def test_box_score_columns_round_trip_and_alignment() -> None:
+    from supercoach_via.publish.view_models import BoxScoreColumns, BoxScoreRow, box_rows, to_box_columns
+
+    rows = [BoxScoreRow(player_id="p:1", name="A", stats=[1.0, None]), BoxScoreRow(player_id="p:2", name="B", stats=[0.0, 3.0])]
+    cols = to_box_columns(rows)
+    assert cols == BoxScoreColumns(player_id=["p:1", "p:2"], name=["A", "B"], stats=[[1.0, None], [0.0, 3.0]])
+    assert box_rows(cols) == rows and box_rows(to_box_columns([])) == []
+    with pytest.raises(ValueError, match="length"):
+        BoxScoreColumns(player_id=["p:1"], name=[], stats=[[1.0]])

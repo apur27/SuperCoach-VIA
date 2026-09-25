@@ -49,7 +49,12 @@ function validateTree(root: string) {
     const aligned = (cols: string[], rows: { stats: unknown[] }[]) => {
       for (const r of rows) expect(r.stats.length, `${rel}: stats length`).toBe(cols.length);
     };
-    if (kind === 'match_detail') aligned(data.stat_columns, [...data.home_players, ...data.away_players]);
+    if (kind === 'match_detail') {
+      for (const side of [data.home_players, data.away_players]) {
+        aligned(data.stat_columns, side.stats.map((stats: unknown[]) => ({ stats })));
+        expect(side.name.length, `${rel}: box name length`).toBe(side.player_id.length);
+      }
+    }
     if (kind === 'player_season_games') {
       aligned(data.stat_columns, data.games.stats.map((stats: unknown[]) => ({ stats })));
       for (const k of Object.keys(data.games)) expect(data.games[k].length, `${rel}: games.${k} length`).toBe(data.games.match_id.length);

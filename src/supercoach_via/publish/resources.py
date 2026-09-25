@@ -24,6 +24,7 @@ from supercoach_via.publish.view_models import (
     QuarterScore,
     Source,
     TeamScore,
+    to_box_columns,
     to_game_columns,
 )
 from supercoach_via.storage.queries import SnapshotQuery
@@ -142,8 +143,8 @@ def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
                 for qn in ("q1", "q2", "q3", "final")
             ],
             attendance=r["attendance"],
-            home_players=box(r["home_club_id"]),
-            away_players=box(r["away_club_id"]),
+            home_players=to_box_columns(box(r["home_club_id"])),
+            away_players=to_box_columns(box(r["away_club_id"])),
             stat_columns=cols,
             sources=[Source(label="Legacy match/player CSV import", url=None, note=r.get("source_path"))],
         )

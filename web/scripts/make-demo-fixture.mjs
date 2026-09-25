@@ -128,6 +128,7 @@ function statColumns(base, games, coverage = 1) {
   return { total: lines.map((l) => l.total), observed_games: lines.map((l) => l.observed_games), eligible_games: lines.map((l) => l.eligible_games) };
 }
 const GAME_FIELDS = ['match_id', 'match_date', 'date_quality', 'stage_label', 'club_id', 'opponent_club_id', 'opponent_name', 'result', 'career_game_counter', 'stats'];
+const boxColumns = (rows) => ({ player_id: rows.map((r) => r.player_id), name: rows.map((r) => r.name), stats: rows.map((r) => r.stats) });
 const gameColumns = (rows) => Object.fromEntries(GAME_FIELDS.map((f) => [f, rows.map((r) => r[f])]));
 const PLAYERS = [];
 function player(o) {
@@ -271,7 +272,7 @@ for (const m of ALL_MATCHES) {
     summary: m,
     quarters: done ? [q('q1', [1, 1, 1, 1]), q('q2', [2, 2, 2, 2]), q('q3', [3, 3, 3, 3]), q('final', [m.home.goals, m.home.behinds, m.away.goals, m.away.behinds])] : [],
     attendance: done ? 10000 : null,
-    home_players: done ? playersFor(m.home.club_id) : [], away_players: done ? playersFor(m.away.club_id) : [],
+    home_players: boxColumns(done ? playersFor(m.home.club_id) : []), away_players: boxColumns(done ? playersFor(m.away.club_id) : []),
     stat_columns: STAT_COLS,
     live_snapshots: m.match_id === 'demo:2026:qf1:a-b:replay' ? ['live/demo-live-final/latest.json'] : [],
     sources: [{ label: 'DEMO fixture generator', url: null, note: DEMO_NOTE }],

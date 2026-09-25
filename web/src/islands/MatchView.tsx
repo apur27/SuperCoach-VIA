@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { BoxScoreRow, MatchDetail } from '../lib/contracts';
+import type { BoxScoreColumns, MatchDetail } from '../lib/contracts';
+import { boxRows } from '../lib/stats';
 import { encodeId, isSafeKey, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
 import { isReplay, resultLine, statusLabel, teamScoreText } from '../lib/matches';
@@ -28,7 +29,8 @@ export default function MatchView({ downloadHref }: { downloadHref: string }) {
   );
 }
 
-function Box({ rows, cols, caption }: { rows: BoxScoreRow[]; cols: string[]; caption: string }) {
+function Box({ side, cols, caption }: { side: BoxScoreColumns; cols: string[]; caption: string }) {
+  const rows = boxRows(side);
   const base = siteBase();
   if (!rows.length) return <p className="muted">{caption}: no player statistics recorded.</p>;
   return (
@@ -73,8 +75,8 @@ function MatchBody({ d }: { d: MatchDetail }) {
       </section>
       <section aria-labelledby="box-h">
         <h2 id="box-h">Box scores</h2>
-        <Box rows={d.home_players} cols={d.stat_columns} caption={`${s.home.name} players`} />
-        <Box rows={d.away_players} cols={d.stat_columns} caption={`${s.away.name} players`} />
+        <Box side={d.home_players} cols={d.stat_columns} caption={`${s.home.name} players`} />
+        <Box side={d.away_players} cols={d.stat_columns} caption={`${s.away.name} players`} />
       </section>
       {d.live_snapshots?.length ? (
         <section aria-labelledby="live-h">

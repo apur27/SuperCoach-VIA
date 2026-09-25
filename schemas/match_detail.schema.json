@@ -1,27 +1,37 @@
 {
   "$defs": {
-    "BoxScoreRow": {
+    "BoxScoreColumns": {
       "additionalProperties": false,
+      "description": "One side's box score as parallel arrays (``box_rows`` restores ``BoxScoreRow``s).",
       "properties": {
         "name": {
+          "items": {
+            "type": "string"
+          },
           "title": "Name",
-          "type": "string"
+          "type": "array"
         },
         "player_id": {
+          "items": {
+            "type": "string"
+          },
           "title": "Player Id",
-          "type": "string"
+          "type": "array"
         },
         "stats": {
-          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
+          "description": "per player, positional values aligned to stat_columns",
           "items": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array"
           },
           "title": "Stats",
           "type": "array"
@@ -32,7 +42,7 @@
         "name",
         "stats"
       ],
-      "title": "BoxScoreRow",
+      "title": "BoxScoreColumns",
       "type": "object"
     },
     "MatchSummary": {
@@ -356,18 +366,10 @@
       "title": "Attendance"
     },
     "away_players": {
-      "items": {
-        "$ref": "#/$defs/BoxScoreRow"
-      },
-      "title": "Away Players",
-      "type": "array"
+      "$ref": "#/$defs/BoxScoreColumns"
     },
     "home_players": {
-      "items": {
-        "$ref": "#/$defs/BoxScoreRow"
-      },
-      "title": "Home Players",
-      "type": "array"
+      "$ref": "#/$defs/BoxScoreColumns"
     },
     "live_snapshots": {
       "description": "live resource keys",

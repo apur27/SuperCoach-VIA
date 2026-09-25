@@ -243,12 +243,37 @@ class BoxScoreRow(PublicModel):
     )
 
 
+class BoxScoreColumns(PublicModel):
+    """One side's box score as parallel arrays (``box_rows`` restores ``BoxScoreRow``s)."""
+
+    player_id: list[str]
+    name: list[str]
+    stats: list[list[float | None]] = Field(description="per player, positional values aligned to stat_columns")
+
+    @model_validator(mode="after")
+    def _aligned(self) -> BoxScoreColumns:
+        if not len(self.player_id) == len(self.name) == len(self.stats):
+            raise ValueError("BoxScoreColumns arrays differ in length")
+        return self
+
+
+def to_box_columns(rows: list[BoxScoreRow]) -> BoxScoreColumns:
+    return BoxScoreColumns(player_id=[r.player_id for r in rows], name=[r.name for r in rows],
+                           stats=[r.stats for r in rows])  # fmt: skip
+
+
+def box_rows(cols: BoxScoreColumns) -> list[BoxScoreRow]:
+    return [
+        BoxScoreRow(player_id=p, name=n, stats=s) for p, n, s in zip(cols.player_id, cols.name, cols.stats, strict=True)
+    ]
+
+
 class MatchDetail(PublicModel):
     summary: MatchSummary
     quarters: list[QuarterScore]
     attendance: int | None
-    home_players: list[BoxScoreRow]
-    away_players: list[BoxScoreRow]
+    home_players: BoxScoreColumns
+    away_players: BoxScoreColumns
     stat_columns: list[str] = Field(description="stats observed at least once in this file, in canonical order")
     live_snapshots: list[str] = Field(default_factory=list, description="live resource keys")
     sources: list[Source]

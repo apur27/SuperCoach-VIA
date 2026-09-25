@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { expandStats, gameRows } from '../../src/lib/stats';
+import { boxRows, expandStats, gameRows } from '../../src/lib/stats';
 
 describe('compact player resources', () => {
   it('derives mean and coverage exactly; unknown stays null and zero stays zero', () => {
@@ -21,5 +21,9 @@ describe('compact player resources', () => {
     expect(rows).toHaveLength(2);
     expect(rows[1]).toEqual({ match_id: 'm2', match_date: null, date_quality: 'unknown', stage_label: 'QF', club_id: 'a',
       opponent_club_id: null, opponent_name: null, result: null, career_game_counter: null, stats: [0, 2] });
+  });
+  it('restores box-score rows from columns', () => {
+    expect(boxRows({ player_id: ['p1', 'p2'], name: ['A', 'B'], stats: [[1, null], [0, 3]] })).toEqual([
+      { player_id: 'p1', name: 'A', stats: [1, null] }, { player_id: 'p2', name: 'B', stats: [0, 3] }]);
   });
 });
