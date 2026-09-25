@@ -60,10 +60,10 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 **Compact public contracts (2026-09-25, after the owner said to go ahead).** Player pages are positional (`stat_names` + `StatColumns`). They no longer ship mean or coverage, because these equal `total/observed` and `min(1, observed/scope games)` exactly: verified on 240,580 real values, and the Python packer refuses any value that does not derive. Game logs (`PlayerGameColumns`) and box scores (`BoxScoreColumns`) are columnar. Integral floats are written as JSON integers. The artifact went from 560 to 292.7 MiB. Internal analytics types are unchanged, and a builder test proves every published page expands back to the analytics values.
 
 **Open items, most important first:**
-1. Release-build time and RSS (216 s, 3.6 GiB). Season resources take 103 s and validation re-parses 91k files in 46 s. Artifact size is fixed (see below); its headroom is only 7.3 MiB and each new season adds data, so watch it.
+1. Release-build time and RSS (216 s, 3.6 GiB). Season resources take 103 s and validation re-parses 91k files in 46 s. Artifact size is fixed (see above); its headroom is only 7.3 MiB and each new season adds data, so watch it.
 2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
 3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
-4. Fast-tier runtime (68 s) is over the 30 s CI budget.
+4. Fast-tier runtime (66 s) is over the 30 s CI budget.
 5. Phase 8 old/new rehearsal on identical input, and a local publish/rollback/restore exercise, are not yet run. Phase 9 switch-over is not started.
 
 ## Decisions
