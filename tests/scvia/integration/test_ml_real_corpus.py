@@ -1,7 +1,7 @@
 """Real-corpus ML invariants (auto-marked integration).
 
-Uses the promoted import snapshot under ``var/agent-import`` (override the root with
-``SCVIA_ML_DATA_ROOT`` and the selector with ``SCVIA_ML_SNAPSHOT``; default ``current``).
+Uses the session ``real_snapshot_root`` fixture (``SCVIA_SNAPSHOT_ROOT`` overrides the root,
+``SCVIA_SNAPSHOT`` the selector; default ``current``).
 Writes only under pytest's tmp_path. Fails (never skips) if the snapshot is absent.
 """
 
@@ -26,9 +26,9 @@ REPO = Path(__file__).resolve().parents[3]
 
 
 @pytest.fixture(scope="module")
-def history() -> F.History:
-    root = Path(os.environ.get("SCVIA_ML_DATA_ROOT", REPO / "var" / "agent-import"))
-    sel = os.environ.get("SCVIA_ML_SNAPSHOT", "current")
+def history(real_snapshot_root: Path) -> F.History:
+    root = real_snapshot_root
+    sel = os.environ.get("SCVIA_SNAPSHOT", "current")
     return F.load_history(root, sel, extra_tables=("legacy_predictions",))
 
 

@@ -104,3 +104,25 @@ def test_refresh_plan_is_offline_and_write_free(tmp_path: Path) -> None:
 def test_real_refresh_requires_explicit_network_opt_in(tmp_path: Path) -> None:
     res = runner.invoke(app, ["refresh", "--season", "2026", "--data-only", "--data-root", str(tmp_path / "var")])
     assert res.exit_code == EXIT["invalid_input"]
+
+
+def test_build_release_without_forecast_inputs_is_honestly_unavailable(tmp_path: Path) -> None:
+    src = _demo_src(tmp_path)
+    var, dist = str(tmp_path / "var"), str(tmp_path / "dist")
+    assert runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", var]).exit_code == 0
+    res = runner.invoke(app, ["build-release", "--snapshot", "current", "--editorial", "off", "--demo",
+                              "--data-root", var, "--output-root", dist, "--json"])  # fmt: skip
+    assert res.exit_code == 0, res.output
+    out = json.loads(res.stdout.strip().splitlines()[-1])
+    assert out["outputs"]["forecast_status"] == "unavailable"
+    rid = out["outputs"]["release_id"]
+    val = runner.invoke(app, ["validate-release", "--release", rid, "--output-root", dist, "--json"])
+    assert val.exit_code == 0, val.output
+
+
+def test_build_release_rejects_unknown_bundle_and_editorial_on(tmp_path: Path) -> None:
+    var = str(tmp_path / "var")
+    bad = runner.invoke(app, ["build-release", "--bundle", "../escape", "--data-root", var, "--json"])
+    assert bad.exit_code == EXIT["invalid_input"]
+    ed = runner.invoke(app, ["build-release", "--editorial", "on", "--data-root", var, "--json"])
+    assert ed.exit_code == EXIT["invalid_input"]

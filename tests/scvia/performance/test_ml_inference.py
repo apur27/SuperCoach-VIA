@@ -17,9 +17,8 @@ REPO = Path(__file__).resolve().parents[3]
 SMALL = {"hgb": {"max_iter": 100, "learning_rate": 0.1, "max_leaf_nodes": 31, "min_samples_leaf": 40}}
 
 
-def test_batch_inference_1000_under_2s(tmp_path: Path) -> None:
-    root = Path(os.environ.get("SCVIA_ML_DATA_ROOT", REPO / "var" / "agent-import"))
-    h = F.load_history(root, os.environ.get("SCVIA_ML_SNAPSHOT", "current"))
+def test_batch_inference_1000_under_2s(tmp_path: Path, real_snapshot_root: Path) -> None:
+    h = F.load_history(real_snapshot_root, os.environ.get("SCVIA_SNAPSHOT", "current"))
     cfg = T.TrainingConfig(train_cutoff=date(2025, 1, 1), calibration_end=date(2025, 7, 1),
                            holdout_end=date(2026, 1, 1), target_seasons_from=2022,
                            candidates=("hgb",), n_folds=2, params=SMALL, threads=4)

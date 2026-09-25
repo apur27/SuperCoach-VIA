@@ -35,3 +35,8 @@ def test_malformed_settings_fail_loudly(tmp_path: Path, content: str) -> None:
     cfg.write_text(content)
     with pytest.raises(SettingsError):
         load_settings(cfg, env={})
+
+
+def test_example_config_loads(repo_root: Path) -> None:
+    s = load_settings(repo_root / "config" / "app.example.toml", env={})
+    assert s.public_base == "/SuperCoach-VIA/" and s.retain_releases == 3 and not s.editorial_enabled

@@ -1,6 +1,6 @@
 """Real-corpus analytics parity against the legacy code on the same input bytes.
 
-Snapshot: ``SCVIA_SNAPSHOT_ROOT`` (default ``var/agent-import``) and ``SCVIA_SNAPSHOT``
+Snapshot: the session ``real_snapshot_root`` fixture (``SCVIA_SNAPSHOT_ROOT`` overrides) and ``SCVIA_SNAPSHOT``
 (default ``current``; may be a ``sha256:`` id). Legacy functions run IN-PROCESS: they only
 read ``data/`` and every legacy output path is redirected into ``tmp_path``; nothing is
 written to the repository.
@@ -33,8 +33,8 @@ SCORE_TOL = 1e-9
 
 
 @pytest.fixture(scope="module")
-def snap() -> tuple[Path, SnapshotManifest]:
-    root = Path(os.environ.get("SCVIA_SNAPSHOT_ROOT", REPO / "var" / "agent-import"))
+def snap(real_snapshot_root: Path) -> tuple[Path, SnapshotManifest]:
+    root = real_snapshot_root
     selector = os.environ.get("SCVIA_SNAPSHOT", "current")
     return root, load_snapshot(root, selector)
 

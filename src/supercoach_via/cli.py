@@ -475,6 +475,60 @@ def forecast(
     _run(json_out, body)
 
 
+@app.command("build-release")
+def build_release_cmd(
+    snapshot: Annotated[str, typer.Option("--snapshot")] = "current",
+    bundle: Annotated[list[str] | None, typer.Option("--bundle", help="model bundle ID (repeatable)")] = None,
+    predictions: Annotated[list[Path] | None, typer.Option("--predictions", help="prediction run dir")] = None,
+    evaluation: Annotated[list[Path] | None, typer.Option("--evaluation", help="evaluation dir")] = None,
+    content_manifest: Annotated[
+        Path | None, typer.Option("--content-manifest", help="public article manifest, e.g. config/public_content.toml")
+    ] = None,
+    content_root: Annotated[Path, typer.Option("--content-root", help="article path root")] = Path(),
+    live_root: Annotated[Path | None, typer.Option("--live-root", help="live monitor state root")] = None,
+    editorial: Annotated[str, typer.Option("--editorial", help="only 'off' is supported for numeric releases")] = "off",
+    demo_label: Annotated[bool, typer.Option("--demo", help="label every output DEMO")] = False,
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Build and validate a release from an accepted snapshot plus explicitly named forecast inputs."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via import pipeline
+        from supercoach_via.domain.schemas import is_safe_id
+        from supercoach_via.settings import RunContext
+
+        if editorial != "off":
+            raise CliFailure("invalid_input", "--editorial must be 'off'; editorial drafts never gate numeric releases")
+        bundles = bundle or []
+        bad = [b for b in bundles if not is_safe_id(b)]
+        if bad:
+            raise CliFailure("invalid_input", f"unsafe bundle id(s): {bad}")
+        settings = _settings(config, data_root=data_root, output_root=output_root)
+        ctx = RunContext(settings=settings)
+        try:
+            from supercoach_via.ml import bundles as B
+            from supercoach_via.ml import evaluate as E
+            from supercoach_via.publish.builder import ReleaseInputs
+
+            inputs = ReleaseInputs(
+                prediction_dirs=tuple(predictions or ()),
+                model_manifests=tuple(B.read_manifest(settings.data_root / "models", b) for b in bundles),
+                evaluations=tuple(E.read_evaluation(d) for d in evaluation or ()),
+                content_root=content_root if content_manifest else None,
+                content_manifest=content_manifest,
+                live_root=live_root,
+                demo=demo_label,
+            )
+        except (OSError, ValueError, KeyError) as exc:
+            raise CliFailure("invalid_input", f"cannot load release inputs: {exc}") from exc
+        return _stage_payload(pipeline.build(ctx, inputs, snapshot=snapshot))
+
+    _run(json_out, body)
+
+
 @app.command()
 def demo(
     output: Annotated[Path, typer.Option("--output", help="empty directory for the DEMO build")] = Path("dist/demo"),

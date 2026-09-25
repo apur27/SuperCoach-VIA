@@ -1,0 +1,15 @@
+# Example scvia settings (copy to a local file and pass --config, or set SCVIA_CONFIG).
+# Unknown keys fail validation. Narrow environment overrides win over this file:
+# SCVIA_DATA_ROOT, SCVIA_OUTPUT_ROOT, SCVIA_SOURCE_ROOT, SCVIA_PUBLIC_BASE, SCVIA_SITE_URL, SCVIA_TIMEZONE.
+
+data_root = "var"                      # snapshots, fragments, runs, models, predictions (gitignored)
+output_root = "dist"                   # release staging and built releases (gitignored)
+source_root = "."                      # legacy CSV corpus root (read-only)
+public_base = "/SuperCoach-VIA/"       # "/" for a root deployment
+site_url = "https://example.github.io" # https only; used for absolute links in reports
+timezone = "Australia/Melbourne"       # IANA zone for display/scheduling; data stays UTC
+# season = 2026                        # default: derived from source state, never a pasted constant
+source_policy_path = "config/source_policies.toml"
+user_agent = "supercoach-via/0.1 (+https://github.com/; research; contact via repository)"
+editorial_enabled = false              # optional adapter; never gates numeric releases
+retain_releases = 3                    # active + previous two

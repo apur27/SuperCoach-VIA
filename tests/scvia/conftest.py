@@ -50,6 +50,29 @@ def _block_network(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPat
     yield
 
 
+@pytest.fixture(scope="session")
+def real_snapshot_root(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """Data root holding a promoted real-corpus snapshot (integration/performance tiers only).
+
+    ``SCVIA_SNAPSHOT_ROOT`` reuses an existing root. Otherwise the checked-in corpus plus the
+    archived B1 repair evidence is imported, validated and promoted once per session under
+    pytest's tmp dir, so a fresh clone needs no pre-built ``var/`` state.
+    """
+    import os
+
+    override = os.environ.get("SCVIA_SNAPSHOT_ROOT")
+    if override:
+        return Path(override)
+    from supercoach_via import pipeline
+    from supercoach_via.settings import RunContext, Settings
+
+    root = tmp_path_factory.mktemp("real-corpus") / "var"
+    ctx = RunContext(settings=Settings(data_root=root))
+    res = pipeline.ingest(ctx, source_root=REPO_ROOT, repairs=[(REPO_ROOT / "docs/rewrite/evidence/b1", 2026)])
+    assert res.exit_code == 0 and res.promoted, res.as_dict()
+    return root
+
+
 @pytest.fixture
 def repo_root() -> Path:
     return REPO_ROOT

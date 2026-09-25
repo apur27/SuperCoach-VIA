@@ -192,6 +192,23 @@ class TestScoring:
         assert e1.evaluation_id != e2.evaluation_id
         assert {p.name: p.read_bytes() for p in d.iterdir()} == before
 
+    def test_written_evaluation_reads_back_identically(self, env: dict[str, Any], tmp_path: Path) -> None:
+        art = self._replay_art(env)
+        ev = E.evaluate(art, env["history"])
+        d = E.write_evaluation(ev, tmp_path / "eval")
+        back = E.read_evaluation(d)
+        assert back.evaluation_id == ev.evaluation_id and back.origin == ev.origin
+        assert back.headline == ev.headline and back.baseline_headline == ev.baseline_headline
+        assert back.cohorts == ev.cohorts and back.interval == ev.interval
+        assert back.populations == ev.populations and back.notes == ev.notes
+        pd.testing.assert_frame_equal(back.scored_rows, ev.scored_rows)
+
+    def test_read_evaluation_rejects_mismatched_directory(self, env: dict[str, Any], tmp_path: Path) -> None:
+        d = E.write_evaluation(E.evaluate(self._replay_art(env), env["history"]), tmp_path / "eval")
+        moved = d.rename(d.parent / "not-the-id")
+        with pytest.raises(ValueError, match="evaluation_id"):
+            E.read_evaluation(moved)
+
     def test_score_requires_prospective_by_default(self, env: dict[str, Any], tmp_path: Path) -> None:
         d = P.write_artifact(self._replay_art(env), tmp_path / "p2")
         with pytest.raises(E.OriginError):

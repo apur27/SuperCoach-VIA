@@ -575,3 +575,33 @@ def write_evaluation(ev: EvaluationArtifact, root: Any) -> Any:
     }
     atomic_write_bytes(d / "evaluation.json", json.dumps(json_safe(summary), indent=1, sort_keys=True).encode())
     return d
+
+
+def read_evaluation(directory: Any) -> EvaluationArtifact:
+    """Load an evaluation written by :func:`write_evaluation` (data files only; no code execution)."""
+    import json
+    from pathlib import Path
+
+    d = Path(directory)
+    summary = json.loads((d / "evaluation.json").read_text())
+    if summary["evaluation_id"] != d.name:
+        raise ValueError(f"evaluation_id {summary['evaluation_id']!r} does not match directory {d.name!r}")
+
+    def metrics(v: dict[str, Any] | None) -> Metrics | None:
+        return None if v is None else Metrics(**v)
+
+    headline = metrics(summary["headline"])
+    assert headline is not None
+    return EvaluationArtifact(
+        evaluation_id=summary["evaluation_id"], origin=summary["origin"], label=summary["label"],
+        prediction_run_ids=tuple(summary["prediction_run_ids"]), model_id=summary["model_id"],
+        baseline_model_id=summary["baseline_model_id"], actuals_snapshot_id=summary["actuals_snapshot_id"],
+        metric_version=summary["metric_version"], populations=summary["populations"], headline=headline,
+        baseline_headline=metrics(summary["baseline_headline"]), mean_of_rounds_mae=summary["mean_of_rounds_mae"],
+        cohorts=[CohortRow(dimension=c["dimension"], cohort=c["cohort"], model=Metrics(**c["model"]),
+                           baseline=metrics(c["baseline"]), sufficient=c["sufficient"], post_hoc=c["post_hoc"])
+                 for c in summary["cohorts"]],
+        interval=IntervalEvaluation(**summary["interval"]),
+        scored_rows=pd.read_parquet(d / "scored_rows.parquet"),
+        notes=list(summary["notes"]),
+    )  # fmt: skip
