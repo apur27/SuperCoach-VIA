@@ -583,3 +583,30 @@ def test_stage_timings_are_reported(built: B.ReleaseCandidate) -> None:
     ):
         assert stage in built.timings and built.timings[stage] >= 0
     assert built.counts["files"] == len(_files(built))
+
+
+def test_yearly_top100_csv_only_for_the_latest_final_season(built: B.ReleaseCandidate) -> None:
+    # Legacy cadence: data/top100/yearly/year_<season>.csv appears once a season is final.
+    # The DEMO corpus's 2026 season is in progress, so the CSV is 2025's and 2026 is listed unavailable.
+    files = sorted(p.name for p in (built.public_dir / "downloads").glob("yearly-top-100-*.csv"))
+    assert files == ["yearly-top-100-2025.csv"]
+    rows = list(csv.reader(io.StringIO((built.public_dir / "downloads" / files[0]).read_text())))
+    assert rows[0] == ["player", "score", "percentile_rank", "games_played"] and len(rows) > 1
+    table = _json(built, "history/yearly_top_100/2025.json")
+    assert [r[0] for r in rows[1:4]] and len(rows) - 1 == len(table["rows"])
+
+
+def test_era_summary_and_brownlow_proxy_downloads(built: B.ReleaseCandidate) -> None:
+    era = list(csv.DictReader(io.StringIO((built.public_dir / "downloads/era-summary.csv").read_text())))
+    assert era and {"era", "metric", "n_player_games", "n_with_metric", "mean_per_game", "recording_status"} <= set(
+        era[0]
+    )
+    for r in era:  # an unrecorded metric is blank (unknown), never a zero mean
+        assert r["n_with_metric"] != "0" or r["mean_per_game"] == ""
+    bl = list(csv.DictReader(io.StringIO((built.public_dir / "downloads/brownlow-proxy-2026.csv").read_text())))
+    assert bl and bl[0]["rank"] == "1"
+    assert {r["label"] for r in bl} == {"Brownlow stat-profile proxy"} and {r["version"] for r in bl} == {
+        "brownlow_proxy_v1.1"
+    }
+    items = {i["path"] for i in _json(built, "downloads.json")["items"]}
+    assert {"downloads/era-summary.csv", "downloads/brownlow-proxy-2026.csv"} <= items

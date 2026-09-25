@@ -1809,6 +1809,51 @@ def _downloads(
         rows=len(numeric),
     )
 
+    # yearly top 100, legacy data/top100/yearly shape, only once a season is final (legacy cadence)
+    final_seasons = [s for s, y in history.ranking.yearly.items() if not y.provisional]
+    if final_seasons:
+        season = max(final_seasons)
+        yearly_rows = ranking_analytics.yearly_export_rows(history.ranking.yearly[season])
+        add(
+            "yearly_top100_csv",
+            f"Top 100 of the {season} season, legacy yearly shape (final season)",
+            f"yearly-top-100-{season}.csv",
+            safe_csv_bytes(["player", "score", "percentile_rank", "games_played"], yearly_rows),
+            rows=len(yearly_rows),
+        )
+    for s in sorted(history.ranking.provisional_seasons):
+        unavailable[f"yearly-top-100-{s}.csv"] = f"{s} season not final; yearly CSV is published at season end"
+
+    # era summaries and the Brownlow proxy (labelled analytics; never presented as observed votes)
+    import math
+
+    from supercoach_via.analytics import awards as award_analytics
+
+    def _cell(v: Any) -> Any:
+        return None if isinstance(v, float) and math.isnan(v) else v
+
+    era_cols = ["era", "metric", "legacy_metric", "n_player_games", "n_with_metric", "mean_per_game", "std_per_game",
+                "median_per_game", "mean_per_100pct_played", "recorded_from", "recording_status"]  # fmt: skip
+    with SnapshotQuery(b.data_root, b.manifest) as q:
+        q.con.execute("SET threads TO 1")  # parallel float aggregation is not bit-reproducible
+        era_df = era_analytics.era_stats(q)
+        proxy = award_analytics.brownlow_proxy(q, b.season)
+    era_rows = [[_cell(r[c]) for c in era_cols] for r in era_df.to_dict("records")]
+    add("era_summary_csv", "Era summaries per stat (observed games; unrecorded stats are blank, not zero)",
+        "era-summary.csv", safe_csv_bytes(era_cols, era_rows), rows=len(era_rows))  # fmt: skip
+    if proxy.rows:
+        bl_cols = ["rank", "player_id", "name", "club", "games", "disposals_pg", "clearances_pg",
+                   "contested_possessions_pg", "goals_pg", "effective_disposals_pg", "tackles_pg", "proxy_per_game",
+                   "season_proxy_scaled", "observed_votes", "votes_observed_games", "ineligible",
+                   "ineligible_reason", "ineligible_source"]  # fmt: skip
+        bl_rows = [[*(getattr(r, c) for c in bl_cols), proxy.label, proxy.version, proxy.scale_label]
+                   for r in proxy.rows]  # fmt: skip
+        add("brownlow_proxy_csv", f"{proxy.label} {proxy.season} ({proxy.version}; an index, not predicted votes)",
+            f"brownlow-proxy-{proxy.season}.csv",
+            safe_csv_bytes([*bl_cols, "label", "version", "scale"], bl_rows), rows=len(bl_rows))  # fmt: skip
+    else:
+        unavailable[f"brownlow-proxy-{b.season}.csv"] = f"no player met the {proxy.min_games}-game minimum"
+
     # charts (values and alt text from the same spec)
     charts, missing_charts = _charts(b, fc, leaders)
     unavailable.update(missing_charts)
