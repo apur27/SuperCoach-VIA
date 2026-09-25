@@ -403,8 +403,15 @@ def refresh(
             if not json_out:
                 typer.echo(the_plan.describe(), err=True)
             return {**the_plan.to_dict(), "ok": True}
-        raise CliFailure("source_unavailable", "networked refresh is not wired in this build",
-                         "use --plan; networked refresh needs an operator-approved run")  # fmt: skip
+        from supercoach_via import pipeline
+        from supercoach_via.ingest.http import HttpClient, RawArchive, load_policies
+
+        policies = load_policies(settings.source_root / "config" / "source_policies.toml")
+        with HttpClient(policies, user_agent=f"SuperCoach-VIA ({pipeline.CODE_VERSION}; operator refresh)",
+                        archive=RawArchive(settings.data_root / "raw")) as http:  # fmt: skip
+            ctx.http = http
+            res = pipeline.refresh(ctx, season=season, repair_season=repair_season)
+        return _stage_payload(res)
 
     _run(json_out, body)
 

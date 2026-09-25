@@ -106,3 +106,28 @@ def test_pipeline_never_touches_git(tmp_path: Path, corpus: Path, monkeypatch: p
     monkeypatch.setattr(subprocess, "Popen", spy)
     pipeline.ingest(_ctx(tmp_path, corpus), source_root=corpus)
     assert not calls
+
+
+def _http(tmp_path: Path, status: int) -> object:
+    import httpx
+
+    from supercoach_via.ingest.http import HttpClient, RawArchive, load_policies
+
+    repo = Path(__file__).resolve().parents[3]
+    return HttpClient(
+        load_policies(repo / "config" / "source_policies.toml"), user_agent="scvia-test",
+        archive=RawArchive(tmp_path / "raw"), transport=httpx.MockTransport(lambda _r: httpx.Response(status)),
+        resolver=lambda _h: ["93.184.215.14"], sleep=lambda _s: None,
+    )  # fmt: skip
+
+
+def test_unreachable_source_refresh_is_partial_and_never_moves_the_pointer(tmp_path: Path, corpus: Path) -> None:
+    ctx = _ctx(tmp_path, corpus)
+    first = pipeline.ingest(ctx, source_root=corpus)
+    before = (tmp_path / "var" / "current.json").read_bytes()
+    ctx.http = _http(tmp_path, 503)
+    res = pipeline.refresh(ctx, season=2026)
+    assert res.exit_code == 3 and res.state is RunState.PARTIAL and not res.promoted
+    assert (tmp_path / "var" / "current.json").read_bytes() == before
+    assert res.outputs["summary"]["outcome"] in ("UNKNOWN", "FAIL")
+    assert first.snapshot_id == read_current(tmp_path / "var").snapshot_id  # type: ignore[union-attr]

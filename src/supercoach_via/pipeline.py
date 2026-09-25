@@ -195,7 +195,7 @@ def ingest(
             blocking = [i for i in report.issues if i.get("severity") == "blocking"]
             raise _Failure(EXIT_VALIDATION, "validation_failed",
                            f"validation {report.outcome.value}: {len(blocking)} blocking issue(s)",
-                           f"read {store.directory}/validation-report.json; repair the data, re-run ingest")  # fmt: skip
+                           f"read {store.directory}/validation-report.json, repair, re-run ingest")  # fmt: skip
         store.transition(RunState.VALIDATED)
         if not promote:
             return
@@ -206,6 +206,72 @@ def ingest(
         result.promoted = True
 
     return _locked(ctx, "ingest", run_id, body)
+
+
+def refresh(
+    ctx: RunContext,
+    *,
+    season: int | None = None,
+    repair_season: int | None = None,
+    run_id: str | None = None,
+) -> StageResult:
+    """Networked data-only refresh (``ctx.http`` required): fetch -> merge -> validate -> promote.
+
+    A result that is not promotable as verified (any mandatory fetch failed, quarantined or
+    UNKNOWN) ends PARTIAL with exit 3 and never moves the accepted pointer.
+    """
+    from supercoach_via.ingest import reconcile
+    from supercoach_via.ingest import refresh as rf
+    from supercoach_via.ingest.legacy import DatasetCandidate
+    from supercoach_via.storage import snapshots
+
+    def body(store: runs.RunStore, result: StageResult) -> None:
+        base_manifest = snapshots.load_snapshot(ctx.data_root)
+        base = rf.base_state_from_snapshot(ctx.data_root, base_manifest.snapshot_id)
+        plan = rf.plan_refresh(base, rf.RefreshRequest(current_season=season, repair_season=repair_season), ctx)
+        _write_json(store.directory / "refresh-plan.json", plan.to_dict())
+        store.transition(RunState.PLANNED)
+        store.transition(RunState.FETCHING)
+        res = _timed(result, "fetch", lambda: rf.refresh_sources(base, plan, ctx))
+        summary = res.summary()
+        _write_json(store.directory / "refresh-result.json", {**summary, "work_log": res.work_log})
+        result.outputs = {"summary": summary}
+        store.record_step("fetch", input_hashes={"base": base_manifest.snapshot_id},
+                          outputs={"outcome": res.outcome.value}, state="succeeded" if res.promotable_as_verified
+                          else "failed", counts={k: v.attempted for k, v in res.counts.items()})  # fmt: skip
+        if not res.promotable_as_verified:
+            store.transition(RunState.PARTIAL, error_code="source_unavailable",
+                             recovery="inspect refresh-result.json; retry when the source is reachable")  # fmt: skip
+            result.exit_code, result.error_code = EXIT_SOURCE, "source_unavailable"
+            result.message = f"refresh {res.outcome.value}: {res.issues[:3]}"
+            return
+        store.transition(RunState.PARSED)
+        ups = {k: v for k, v in res.upserts.items() if v}
+        if not ups:
+            store.transition(RunState.VALIDATED)
+            result.snapshot_id = base_manifest.snapshot_id
+            return  # nothing changed at the source
+        merged = snapshots.apply_upserts(ctx.data_root, base_manifest, ups, clock=ctx.clock, code_version=CODE_VERSION,
+                                         status=base_manifest.status, source_revisions=res.revisions,
+                                         notes=[f"refresh {plan.current_season}"])  # fmt: skip
+        target = plan.current_season
+        relink = reconcile.relink_quarantined_lineups(ctx.data_root, merged.manifest, season=target)
+        if any(relink.values()):
+            merged = snapshots.apply_upserts(ctx.data_root, merged.manifest, relink, clock=ctx.clock,
+                                             code_version=CODE_VERSION, status=base_manifest.status)  # fmt: skip
+        cand = DatasetCandidate(candidate=merged, report={"refresh": summary}, data_root=ctx.data_root)
+        result.snapshot_id = cand.snapshot_id
+        report = _validate(cand)
+        _write_json(store.directory / "validation-report.json", _report_json(report))
+        if not report.ok:
+            raise _Failure(EXIT_VALIDATION, "validation_failed", "refreshed candidate failed validation",
+                           f"read {store.directory}/validation-report.json")  # fmt: skip
+        store.transition(RunState.VALIDATED)
+        snapshots.promote(ctx.data_root, merged, report, promoted_at=ctx.clock())
+        store.transition(RunState.DATASET_PROMOTED)
+        result.promoted = True
+
+    return _locked(ctx, "refresh", run_id, body)
 
 
 # ---------------------------------------------------------------------------
