@@ -65,6 +65,8 @@ test('keyboard: desktop More menu reachable and focus visible', async ({ page })
 
 test('keyboard-only predictions flow', async ({ page }) => {
   await page.goto('predictions/');
+  // the filters render with the loaded set; focusing before then races the island's re-render
+  await expect(page.getByRole('table', { name: /predicted disposals/i })).toBeVisible();
   await page.getByLabel('Team').focus();
   await page.keyboard.press('ArrowDown');
   await expect(page).toHaveURL(/team=/);

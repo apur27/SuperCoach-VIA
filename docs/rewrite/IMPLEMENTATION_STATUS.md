@@ -46,7 +46,7 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 | `pytest tests/scvia -m "not integration"` | 580 passed, 68 s | ≤30 s: **miss** (the real-data builder tests dominate) |
 | Real-corpus integration + performance (`tests/scvia/integration`, `performance`) | 25 of 25 pass after fixes. Last full run: 20 passed, then 5 fixed and re-run individually | - |
 | Web `npm run check` / `lint` / `vitest` | 0 errors / clean / 148 passed, 1 skipped | - |
-| Web Playwright e2e (DEMO, `/` and `/SuperCoach-VIA/`) | 184 passed (before the local session's added specs) | - |
+| Web Playwright e2e (DEMO, `/` and `/SuperCoach-VIA/`, `SCVIA_CHROMIUM_PATH=/opt/pw-browsers/chromium`) | 284 passed, 4 skipped (run-once checks for a single base). One keyboard-flow race was fixed; it then passed 30 of 30 repeated runs | - |
 | `scvia import-legacy --repair b1:2026` (real) | 61.7 s, peak RSS 1,982 MiB, PASS, promoted `sha256:55e295f1…` | ≤120 s, ≤2 GiB: met (tight) |
 | `scvia forecast` (train + 2026 replay) | 1,575 s wall (OOF fits 1,360 s), `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
 | Model gate | `lgbm` promoted: holdout MAE 3.753 vs prior-5 3.900 (3.79%), 80% interval coverage 81.1% (see model card) | ≥1% improvement: met |
