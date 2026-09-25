@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 
+import re
 import pytest
 
 from supercoach_via.domain.schemas import TABLES, CheckOutcome, DateQuality, MatchStatus, StageType
@@ -326,3 +327,13 @@ def test_club_resolver_yields_shared_match_ids_and_chronological_stage_order() -
 def test_unresolved_club_is_blocking_with_resolver() -> None:
     fx = at.parse_season_page(CAPTURED.read_bytes(), season=2026, club_resolver=lambda n, s: None)
     assert fx.outcome is CheckOutcome.FAIL
+
+
+def test_match_detail_accepts_real_bold_points_markup() -> None:
+    # Real AFLTables pages (captured 2026-09-25, B1 repair) bold the points: 13.14.<b>92</b>,
+    # which text extraction yields as "13.14. 92".
+    html = re.sub(r">(\d+\.\d+\.)(\d+)</td>", r">\1<b>\2</b></td>", _detail())
+    assert "<b>" in html
+    d = at.parse_match_detail(html, season=2026, game_id="031620260305")
+    assert d.outcome is CheckOutcome.PASS, d.issues
+    assert (d.home_score, d.away_score) == (132, 69)

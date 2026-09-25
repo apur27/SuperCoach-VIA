@@ -24,17 +24,11 @@ from supercoach_via.storage.queries import SnapshotQuery
 
 REPO = Path(__file__).resolve().parents[3]
 
-#: Current-season corpus gaps known at 2026-09-25 (players named in 2026 lineups whose
-#: 2026 player rows are absent from data/player_data). The check below allows the set to
-#: SHRINK (data repaired) but fails if any new blocking issue appears.
-KNOWN_2026_GAP_FILES = {
-    "data/lineups/team_lineups_hawthorn.csv",  # Flynn Perez, Jack Dalton
-    "data/lineups/team_lineups_port_adelaide.csv",  # Will Brodie
-}
-KNOWN_2026_GOAL_KEYS = {
-    "m:2026:r17:greater_western_sydney:hawthorn:0|hawthorn",
-    "m:2026:r18:hawthorn:melbourne:0|hawthorn",
-}
+#: B1 (2026 rows missing for Flynn Perez, Will Brodie and Jack Dalton) was repaired on
+#: 2026-09-25 from source player pages (docs/rewrite/evidence/b1-repair-manifest.json).
+#: No current-season gap is tolerated any more: any blocking issue fails.
+KNOWN_2026_GAP_FILES: set[str] = set()
+KNOWN_2026_GOAL_KEYS: set[str] = set()
 
 
 @pytest.fixture(scope="module")
@@ -162,6 +156,7 @@ def test_validation_structure_and_known_gaps(real: legacy.DatasetCandidate, repo
         else:
             pytest.fail(f"new blocking issue: {i}")
     assert (report.outcome is CheckOutcome.PASS) == (not blocking)
+    assert report.outcome is CheckOutcome.PASS
 
 
 def test_rerun_idempotent(real: legacy.DatasetCandidate, tmp_path: Path) -> None:

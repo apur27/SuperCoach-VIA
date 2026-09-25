@@ -557,7 +557,7 @@ def parse_match_detail(content: bytes | str, *, season: int, game_id: str) -> Ma
         cells = tr.find_all("td")
         if link is None or len(cells) < 5:
             continue
-        final = _text(cells[-1])
+        final = re.sub(r"\s+", "", _text(cells[-1]))  # real pages bold the points: 13.14.<b>92</b>
         mm = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", final)
         if not mm or int(mm.group(1)) * 6 + int(mm.group(2)) != int(mm.group(3)):
             out.issues.append(f"unrecognised final score {final!r}")
