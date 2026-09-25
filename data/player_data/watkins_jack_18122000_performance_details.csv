@@ -1,12 +1,12 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Port Adelaide,2026,1,North Melbourne,2,L,37,7,5.0,3,10,,,,2.0,,4.0,,1.0,,1.0,,4,7,2.0,1.0,1.0,,1.0,65,2026-03-08
-Port Adelaide,2026,2,Essendon,3,W,37,15,5.0,8,23,1.0,,,4.0,1.0,6.0,4.0,3.0,,1.0,,6,16,,,,,1.0,64,2026-03-15
-Port Adelaide,2026,3,West Coast,4,L,37,12,5.0,7,19,1.0,,,1.0,,4.0,3.0,1.0,1.0,1.0,,6,13,,,,,,65,2026-03-22
-Port Adelaide,2026,4,Richmond,5,W,37,5,,3,8,,,,,,1.0,,3.0,,,,2,5,,,,,,64,2026-03-29
-Port Adelaide,2026,5,St Kilda,6,L,37,8,1.0,5,13,,,,1.0,1.0,2.0,,4.0,,,,4,7,,,,,,54,2026-04-05
-Port Adelaide,2026,6,Geelong,8,W,37,2,1.0,4,6,,,,3.0,1.0,,,,,,,1,5,,,1.0,,,34,2026-04-19
-Port Adelaide,2026,7,Western Bulldogs,10,L,37,6,3.0,7,13,1.0,,,5.0,1.0,1.0,1.0,2.0,1.0,1.0,,4,8,,,,,,72,2026-05-03
-Port Adelaide,2026,8,Gold Coast,11,L,37,8,2.0,3,11,,,,3.0,,3.0,,1.0,,,,2,9,,,2.0,,,77,2026-05-10
+Port Adelaide,2026,1,North Melbourne,2,L,37,7,5.0,3,10,,,,2.0,,4.0,,1.0,,1.0,,4,7,2.0,1.0,1.0,,1.0,65,2026-03-15
+Port Adelaide,2026,2,Essendon,3,W,37,15,5.0,8,23,1.0,,,4.0,1.0,6.0,4.0,3.0,,1.0,,6,16,,,,,1.0,64,2026-03-22
+Port Adelaide,2026,3,West Coast,4,L,37,12,5.0,7,19,1.0,,,1.0,,4.0,3.0,1.0,1.0,1.0,,6,13,,,,,,65,2026-03-29
+Port Adelaide,2026,4,Richmond,5,W,37,5,,3,8,,,,,,1.0,,3.0,,,,2,5,,,,,,64,2026-04-04
+Port Adelaide,2026,5,St Kilda,6,L,37,8,1.0,5,13,,,,1.0,1.0,2.0,,4.0,,,,4,7,,,,,,54,2026-04-12
+Port Adelaide,2026,6,Geelong,8,W,37,2,1.0,4,6,,,,3.0,1.0,,,,,,,1,5,,,1.0,,,34,2026-04-25
+Port Adelaide,2026,7,Western Bulldogs,10,L,37,6,3.0,7,13,1.0,,,5.0,1.0,1.0,1.0,2.0,1.0,1.0,,4,8,,,,,,72,2026-05-08
+Port Adelaide,2026,8,Gold Coast,11,L,37,8,2.0,3,11,,,,3.0,,3.0,,1.0,,,,2,9,,,2.0,,,77,2026-05-15
 Port Adelaide,2026,9,Carlton,12,L,37,8,2.0,6,14,,,,2.0,1.0,4.0,2.0,5.0,,2.0,,3,11,,,,1.0,,70,2026-05-23
 Port Adelaide,2026,10,Brisbane Lions,21,L,37,11,6.0,9,20,,,,2.0,1.0,,1.0,1.0,,,,5,14,,1.0,,,,75,2026-07-26
 Port Adelaide,2026,11,Greater Western Sydney,22,L,37,7,3,5,12,,,,1,,1,2,1,,,,4,8,,,1,,1,51,2026-08-01

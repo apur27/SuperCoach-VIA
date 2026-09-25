@@ -1,0 +1,35 @@
+alias,club_id,club_name,lineage_id,is_primary,valid_from_season,valid_to_season,note
+Adelaide,adelaide,Adelaide,adelaide,true,1991,,
+Adelaide Crows,adelaide,Adelaide,adelaide,false,1991,,draft-list spelling
+Brisbane Bears,brisbane_bears,Brisbane Bears,brisbane,true,1987,1996,Bears licence continued as Brisbane Lions from 1997 (documented continuity); separate entity retained
+Brisbane,brisbane_bears,Brisbane Bears,brisbane,false,1987,1995,draft-list short name; 1996 intentionally unmapped (ambiguous around the 1996 merger)
+Brisbane Lions,brisbane_lions,Brisbane Lions,brisbane,true,1997,,1996 merger with Fitzroy is NOT collapsed: Fitzroy keeps its own lineage (no automatic merger)
+Brisbane,brisbane_lions,Brisbane Lions,brisbane,false,1997,,draft/contract short name
+Carlton,carlton,Carlton,carlton,true,1897,,
+Collingwood,collingwood,Collingwood,collingwood,true,1897,,
+Essendon,essendon,Essendon,essendon,true,1897,,
+Fitzroy,fitzroy,Fitzroy,fitzroy,true,1897,1996,own lineage; not merged into Brisbane Lions
+Footscray,footscray,Footscray,bulldogs,true,1925,1996,renamed Western Bulldogs from 1997 (documented rename; shared lineage)
+Western Bulldogs,western_bulldogs,Western Bulldogs,bulldogs,true,1997,,documented rename of Footscray; separate entity retained
+Fremantle,fremantle,Fremantle,fremantle,true,1995,,
+Geelong,geelong,Geelong,geelong,true,1897,,
+Gold Coast,gold_coast,Gold Coast,gold_coast,true,2011,,
+Greater Western Sydney,greater_western_sydney,Greater Western Sydney,greater_western_sydney,true,2012,,
+GWS Giants,greater_western_sydney,Greater Western Sydney,greater_western_sydney,false,2012,,draft-list spelling
+GWS,greater_western_sydney,Greater Western Sydney,greater_western_sydney,false,2012,,contract-list spelling
+Hawthorn,hawthorn,Hawthorn,hawthorn,true,1925,,
+Melbourne,melbourne,Melbourne,melbourne,true,1897,,
+North Melbourne,north_melbourne,North Melbourne,north_melbourne,true,1925,1998,
+North Melbourne,kangaroos,Kangaroos,north_melbourne,false,1999,2007,legal club name during the Kangaroos trading-name period
+North Melbourne,north_melbourne,North Melbourne,north_melbourne,true,2008,,
+Nth Melbourne,north_melbourne,North Melbourne,north_melbourne,false,1925,1998,draft-list abbreviation
+Kangaroos,kangaroos,Kangaroos,north_melbourne,true,1999,2007,documented trading name of North Melbourne; separate entity retained
+Port Adelaide,port_adelaide,Port Adelaide,port_adelaide,true,1997,,
+Richmond,richmond,Richmond,richmond,true,1908,,
+South Melbourne,south_melbourne,South Melbourne,swans,true,1897,1981,relocated/renamed Sydney from 1982 (documented; shared lineage)
+Sydney,sydney,Sydney,swans,true,1982,,documented relocation of South Melbourne; separate entity retained
+Sydney Swans,sydney,Sydney,swans,false,1982,,draft-list spelling
+St Kilda,st_kilda,St Kilda,st_kilda,true,1897,,
+University,university,University,university,true,1908,1914,
+West Coast,west_coast,West Coast,west_coast,true,1987,,
+West Coast Eagles,west_coast,West Coast,west_coast,false,1987,,draft-list spelling

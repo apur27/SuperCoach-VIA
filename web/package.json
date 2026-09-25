@@ -1,0 +1,46 @@
+{
+  "name": "supercoach-via-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "gen:types": "node scripts/gen-types.mjs",
+    "dev": "astro dev --host 127.0.0.1",
+    "check": "astro check && tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "build": "astro build",
+    "preview": "node scripts/serve.mjs --dir dist --base ${SCVIA_PUBLIC_BASE:-/}",
+    "test:e2e": "node scripts/build-e2e.mjs && playwright test",
+    "budget": "node scripts/budget.mjs",
+    "gen:fixture": "node scripts/make-demo-fixture.mjs",
+    "gen:types:check": "node scripts/gen-types.mjs --check"
+  },
+  "dependencies": {
+    "@astrojs/react": "7.0.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "astro": "7.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.11.0",
+    "eslint-plugin-astro": "3.2.1",
+    "jsdom": "30.1.1",
+    "json-schema-to-typescript": "16.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1",
+    "vitest": "5.0.1"
+  }
+}

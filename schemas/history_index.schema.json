@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "HistoryIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "eras": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Eras",
+          "type": "array"
+        },
+        "resources": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Resources",
+          "type": "object"
+        },
+        "scope": {
+          "enum": [
+            "career",
+            "single_season",
+            "ranking"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "title",
+        "scope",
+        "eras",
+        "resources"
+      ],
+      "title": "HistoryIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/history_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "era_summary": {
+      "items": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "title": "Era Summary",
+      "type": "array"
+    },
+    "tables": {
+      "items": {
+        "$ref": "#/$defs/HistoryIndexEntry"
+      },
+      "title": "Tables",
+      "type": "array"
+    }
+  },
+  "required": [
+    "tables",
+    "era_summary"
+  ],
+  "title": "HistoryIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

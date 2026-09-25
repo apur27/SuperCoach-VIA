@@ -1,0 +1,16 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import MatchesExplorer from '../../islands/MatchesExplorer';
+import MatchTable from '../../components/MatchTable.astro';
+import { matchSeasons, overview } from '../../lib/release-server';
+const seasons = matchSeasons();
+const ov = overview();
+---
+<AppLayout title="Matches" description="Fixtures and results by season, stage, club and status, with box scores." current="matches">
+  <h1>Matches</h1>
+  <div class="nojs-only">
+    <h2>Recent results</h2>
+    <MatchTable matches={ov.recent_results} caption="Most recent completed matches" />
+  </div>
+  <MatchesExplorer client:load seasons={seasons} />
+</AppLayout>

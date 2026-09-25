@@ -1,0 +1,35 @@
+```json
+{
+  "verdict": "PASS",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-07-13T21:44:45Z",
+  "summary": {
+    "tags_total": 12,
+    "tags_verified": 12,
+    "tags_failed": 0,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    { "claim": "Nick Daicos (Collingwood) 34.8 per game disposals", "source": "docs/afl-stat-leaders-2026.md (rank 1 disposals table); cross-checked data/player_data/daicos_nick_03012003_performance_details.csv", "matched_value": "doc table: 34.8; computed df[(year==2026)&(round<=19)]['disposals'].mean() = 34.75 (16 games) -> rounds to 34.8", "line": 22 },
+    { "claim": "Bailey Smith (Geelong) 32.2 per game disposals", "source": "docs/afl-stat-leaders-2026.md (rank 2 disposals table); cross-checked data/player_data/smith_bailey_07122000_performance_details.csv", "matched_value": "doc table: 32.2; computed mean = 32.19 (16 games) -> rounds to 32.2", "line": 22 },
+    { "claim": "Clayton Oliver (Greater Western Sydney) 31.9 per game disposals", "source": "docs/afl-stat-leaders-2026.md (rank 3 disposals table); cross-checked data/player_data/oliver_clayton_22071997_performance_details.csv", "matched_value": "doc table: 31.9; computed mean = 31.94 (17 games) -> rounds to 31.9; team confirmed 'Greater Western Sydney' for all 2026 rows", "line": 22 },
+    { "claim": "league mean 15.08 disposals per game", "source": "docs/afl-stat-leaders-2026.md (League distribution line)", "matched_value": "doc: 'mean 15.08'; reproduction (per-player season-average basis, 585 eligible players, >=3 games, rounds<=19) gave mean 15.1, std 5.7, p50 14.36, max 34.75 (exact match on max) -- consistent within reproduction tolerance of the named source", "line": 22 },
+    { "claim": "Fremantle 14-2 (56 points, 143.7%) after Round 19", "source": "docs/afl-finals-2026.md (1st — Fremantle); underlying data/matches/matches_2026.csv", "matched_value": "doc: '14-2, 56 points, 143.7%'; computed from matches_2026.csv (round_num<=19): {'w':14,'l':2,'d':0} points=56 pct=143.7", "line": 24 },
+    { "claim": "eight competition points clear of 2nd-placed Sydney", "source": "docs/afl-finals-2026.md ladder (Fremantle 56 pts vs Sydney 48 pts); underlying data/matches/matches_2026.csv", "matched_value": "computed gap = Fremantle_pts(56) - Sydney_pts(48) = 8, matches 'eight'", "line": 24 },
+    { "claim": "Sydney 12-3, 48 points after Round 19", "source": "docs/afl-finals-2026.md (2nd — Sydney); underlying data/matches/matches_2026.csv", "matched_value": "doc: '12-3, 48 points, 140.2%'; computed from matches_2026.csv (round_num<=19): {'w':12,'l':3,'d':0} points=48 pct=140.2", "line": 24 },
+    { "claim": "Harry Sheezel (North Melbourne) top projected disposal getter at 30.0 for Round 20", "source": "data/prediction/next_round_20_prediction_20260713_2050.csv", "matched_value": "CSV row: 'Sheezel Harry,North Melbourne,30'", "line": 26 },
+    { "claim": "Nasiah Wanganeen-Milera (St Kilda) and Finn Callaghan (GWS) both projected at 29.0 for Round 20", "source": "data/prediction/next_round_20_prediction_20260713_2050.csv", "matched_value": "CSV rows: 'Callaghan Finn,Greater Western Sydney,29' and 'Wanganeen-Milera Nasiah,St Kilda,29'", "line": 26 },
+    { "claim": "Contested possessions vs clearances correlation r = +0.74", "source": "docs/afl-stat-leaders-2026.md (Top per-game correlates, Contested possessions and Clearances sections)", "matched_value": "doc states r=+0.74 in both directions; reproduction on flattened per-game frame (585 eligible players, rounds<=19) gave r=0.75 -- within 1-in-last-decimal rounding tolerance", "line": 28 },
+    { "claim": "Clayton Oliver (GWS) 15.53 contested possessions per game", "source": "docs/afl-stat-leaders-2026.md (rank 1, contested possessions table); cross-checked data/player_data/oliver_clayton_22071997_performance_details.csv", "matched_value": "doc table: 15.53; computed mean = 15.53 (17 games, exact match)", "line": 28 },
+    { "claim": "Clayton Oliver (GWS) 7.94 clearances per game", "source": "docs/afl-stat-leaders-2026.md (rank 1, clearances table); cross-checked data/player_data/oliver_clayton_22071997_performance_details.csv", "matched_value": "doc table: 7.94; computed mean = 7.94 (17 games, exact match)", "line": 28 }
+  ],
+  "failed_tags": [],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

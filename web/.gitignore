@@ -1,0 +1,7 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.astro/
+src/lib/contracts.generated.ts.tmp
+.e2e-dist/

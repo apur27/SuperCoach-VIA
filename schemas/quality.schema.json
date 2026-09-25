@@ -1,0 +1,135 @@
+{
+  "$defs": {
+    "QualityIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "title": "Count",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "blocking"
+          ],
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "severity",
+        "count",
+        "description"
+      ],
+      "title": "QualityIssue",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/quality.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "dataset_status": {
+      "enum": [
+        "legacy_unverified",
+        "verified",
+        "partial",
+        "demo"
+      ],
+      "title": "Dataset Status",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/QualityIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "quarantined_rows": {
+      "title": "Quarantined Rows",
+      "type": "integer"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "table_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Table Counts",
+      "type": "object"
+    }
+  },
+  "required": [
+    "dataset_status",
+    "table_counts",
+    "quarantined_rows",
+    "issues",
+    "limitations",
+    "sources"
+  ],
+  "title": "QualityReport",
+  "type": "object",
+  "x-public-schema-version": 1
+}

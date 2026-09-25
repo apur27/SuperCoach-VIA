@@ -1,0 +1,58 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import Instant from '../../components/Instant.astro';
+import DateOnly from '../../components/DateOnly.astro';
+import { manifest, overview, readResource } from '../../lib/release-server';
+import { reasonText } from '../../lib/matches';
+const rel = manifest();
+const ov = overview();
+const q = readResource('quality', 'quality.json');
+const f = ov.freshness;
+const SEV = { info: 'Information', warning: 'Warning', error: 'Error', blocking: 'Blocking' } as const;
+const DS = { legacy_unverified: 'Imported legacy data, not yet independently verified', verified: 'Verified', partial: 'Partial coverage', demo: 'DEMO (synthetic)' } as const;
+---
+<AppLayout title="Data status" description="Source freshness, coverage, forecast status, quality issues and known limitations for this release." current="data-status">
+  <h1>Data status</h1>
+  <p class="lede">What this release contains, how current it is, and what is known to be missing.</p>
+  {f.stale ? <p class="banner banner-stale"><strong>Stale:</strong> {f.stale_reason ?? 'the source has not been confirmed recently.'}</p> : <p class="banner banner-ok">Data is current as of the last source check.</p>}
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Freshness">
+    <table>
+      <caption>Freshness and release identity</caption>
+      <tbody>
+        <tr><th scope="row">Release</th><td><code>{rel.release_id}</code>{rel.demo && <span class="badge badge-demo">DEMO</span>}</td></tr>
+        <tr><th scope="row">Snapshot</th><td><code>{rel.snapshot_id}</code></td></tr>
+        <tr><th scope="row">Season</th><td>{rel.season} ({f.season_active === null ? 'active status not declared by source' : f.season_active ? 'in progress' : 'not in progress'})</td></tr>
+        <tr><th scope="row">Source last checked</th><td><Instant iso={f.source_checked_at} /></td></tr>
+        <tr><th scope="row">Latest completed match</th><td>{f.latest_completed_match_at ? <Instant iso={f.latest_completed_match_at} /> : <DateOnly date={f.latest_completed_match_date} />}</td></tr>
+        <tr><th scope="row">Coverage through</th><td>{f.coverage_through ?? 'not recorded'} ({DS[rel.coverage.status]})</td></tr>
+        <tr><th scope="row">Generated</th><td><Instant iso={f.generated_at} /></td></tr>
+        <tr><th scope="row">Published</th><td>{f.published_at ? <Instant iso={f.published_at} /> : 'not published (local build)'}</td></tr>
+        <tr><th scope="row">Validation</th><td>{f.validation_state}</td></tr>
+        <tr><th scope="row">Dataset status</th><td>{DS[q.dataset_status]}</td></tr>
+        <tr><th scope="row">Forecast</th><td>{rel.forecast.status}{rel.forecast.status !== 'available' && <> — {reasonText(rel.forecast.reason)}</>}{rel.forecast.model_id && <> (model <code>{rel.forecast.model_id}</code>)</>}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>Row counts</h2>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Row counts">
+    <table>
+      <caption>Rows per table ({q.quarantined_rows} quarantined rows excluded)</caption>
+      <thead><tr><th scope="col">Table</th><th scope="col" class="num">Rows</th></tr></thead>
+      <tbody>{Object.entries(q.table_counts).map(([k, v]) => <tr><th scope="row">{k.replaceAll('_', ' ')}</th><td class="num">{v.toLocaleString('en-AU')}</td></tr>)}</tbody>
+    </table>
+  </div>
+  <h2>Quality issues</h2>
+  {q.issues.length === 0 ? <p>No open quality issues.</p> : (
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Quality issues">
+      <table>
+        <caption>Open quality issues</caption>
+        <thead><tr><th scope="col">Rule</th><th scope="col">Severity</th><th scope="col" class="num">Count</th><th scope="col">Description</th></tr></thead>
+        <tbody>{q.issues.map((i) => <tr><th scope="row"><code>{i.rule_id}</code></th><td>{SEV[i.severity]}</td><td class="num">{i.count}</td><td>{i.description}</td></tr>)}</tbody>
+      </table>
+    </div>
+  )}
+  <h2>Known limitations</h2>
+  <ul>{q.limitations.map((l) => <li>{l}</li>)}</ul>
+  <h2>Sources</h2>
+  <ul>{q.sources.map((s) => <li>{s.label}{s.note && <> — {s.note}</>}</li>)}</ul>
+</AppLayout>

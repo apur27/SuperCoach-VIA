@@ -1,0 +1,15 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import PlayerView from '../../islands/PlayerView';
+import { manifest, readResource } from '../../lib/release-server';
+import { withBase } from '../../lib/ids';
+import { findDownload } from '../../lib/downloads';
+const base = import.meta.env.BASE_URL;
+const rel = manifest();
+const dl = findDownload(readResource('downloads', 'downloads.json'), 'players_csv', 'csv');
+const downloadHref = dl ? withBase(base, `data/${rel.release_id}/${dl.path}`) : withBase(base, 'downloads/');
+---
+<AppLayout title="Player" description="Player profile: career and season statistics with coverage, game logs, form and forecast." current="players" breadcrumbs={[{ label: 'Players', href: 'players/' }, { label: 'Player' }]}>
+  <h1 id="page-h1">Player</h1>
+  <PlayerView client:load downloadHref={downloadHref} />
+</AppLayout>

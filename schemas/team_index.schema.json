@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "TeamIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "first_season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Season"
+        },
+        "last_season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Season"
+        },
+        "lineage_id": {
+          "title": "Lineage Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "seasons": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Seasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "club_id",
+        "name",
+        "lineage_id",
+        "first_season",
+        "last_season",
+        "active",
+        "seasons"
+      ],
+      "title": "TeamIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/team_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "teams": {
+      "items": {
+        "$ref": "#/$defs/TeamIndexEntry"
+      },
+      "title": "Teams",
+      "type": "array"
+    }
+  },
+  "required": [
+    "teams"
+  ],
+  "title": "TeamIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

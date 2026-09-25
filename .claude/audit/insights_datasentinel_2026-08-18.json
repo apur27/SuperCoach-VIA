@@ -1,0 +1,35 @@
+```json
+{
+  "verdict": "PASS",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-08-18T02:05:39Z",
+  "summary": {
+    "tags_total": 12,
+    "tags_verified": 12,
+    "tags_failed": 0,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    { "claim": "Nick Daicos leads at 35.3 per game", "source": "docs/afl-stat-leaders-2026.md (data/player_data/, 2026 rounds 1-24)", "matched_value": "35.285714 -> rounds to 35.3 (recomputed via update_team_analysis._build_stat_leaders_eligible; doc table shows 35.3)", "line": 22 },
+    { "claim": "Bailey Smith at 32.3", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "32.285714 -> rounds to 32.3", "line": 22 },
+    { "claim": "Errol Gulden at 30.5", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "30.5 exact", "line": 22 },
+    { "claim": "league mean of 14.91 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "14.907518 -> rounds to 14.91 (per-player season-average basis, 611 eligible players)", "line": 22 },
+    { "claim": "Fremantle average winning margin of +29.9", "source": "docs/afl-stat-leaders-2026.md (data/matches/matches_2026.csv)", "matched_value": "29.863636 -> rounds to 29.9", "line": 24 },
+    { "claim": "Sydney's +28.2 margin", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "28.227273 -> rounds to 28.2", "line": 24 },
+    { "claim": "Sydney average score at 110.0 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "110.0 exact", "line": 24 },
+    { "claim": "Sheezel and Gulden top projected disposal count at 29.0 each", "source": "data/prediction/next_round_25_prediction_20260818_1146.csv (via docs/afl-predictions-2026.md / docs/weekly/round-current-2026.md)", "matched_value": "29 (Sheezel Harry, Gulden Errol both rank 1/2 at 29 predicted_disposals)", "line": 26 },
+    { "claim": "Nick Daicos next at 28.0", "source": "data/prediction/next_round_25_prediction_20260818_1146.csv", "matched_value": "28 (Daicos Nick rank 3 predicted_disposals)", "line": 26 },
+    { "claim": "cheat sheet's typical error is ±4 disposals", "source": "docs/weekly/round-current-2026.md", "matched_value": "'typical error is ±4 disposals' (line 5) / 'Typical error: ±4 disposals' (line 147)", "line": 26 },
+    { "claim": "clearances correlate with contested possessions r = +0.75", "source": "docs/afl-stat-leaders-2026.md (data/player_data/, 2026 rounds 1-24)", "matched_value": "0.751306 (Pearson r, per-game frame, clearances vs contested_possessions) -> rounds to +0.75", "line": 28 },
+    { "claim": "Jai Newcombe tops clearance leaderboard at 7.73 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "7.727273 -> rounds to 7.73", "line": 28 }
+  ],
+  "failed_tags": [],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "ArticleSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "As Of"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "editorial_state": {
+          "enum": [
+            "published_archive",
+            "generated",
+            "draft"
+          ],
+          "title": "Editorial State",
+          "type": "string"
+        },
+        "excerpt": {
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "original_path": {
+          "title": "Original Path",
+          "type": "string"
+        },
+        "published": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Published"
+        },
+        "resource": {
+          "title": "Resource",
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "frozen",
+            "live",
+            "archive"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slug",
+        "title",
+        "category",
+        "published",
+        "as_of",
+        "scope",
+        "excerpt",
+        "editorial_state",
+        "original_path",
+        "resource"
+      ],
+      "title": "ArticleSummary",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/article_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "articles": {
+      "items": {
+        "$ref": "#/$defs/ArticleSummary"
+      },
+      "title": "Articles",
+      "type": "array"
+    }
+  },
+  "required": [
+    "articles"
+  ],
+  "title": "ArticleIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

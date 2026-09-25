@@ -1,0 +1,36 @@
+```json
+{
+  "verdict": "PASS",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-08-11T00:49:41Z",
+  "summary": {
+    "tags_total": 13,
+    "tags_verified": 13,
+    "tags_failed": 0,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    { "claim": "Nick Daicos 35.2 per game", "source": "docs/afl-stat-leaders-2026.md (data/player_data/daicos_nick_03012003_performance_details.csv)", "matched_value": "computed disposals_pg rounds<=23 2026 = 35.25 (rounds to 35.2); stat-leaders table row 1 = 35.2", "line": 22 },
+    { "claim": "Bailey Smith 32.2", "source": "docs/afl-stat-leaders-2026.md (data/player_data/smith_bailey_07122000_performance_details.csv)", "matched_value": "computed disposals_pg = 32.200000; stat-leaders table row 2 = 32.2", "line": 22 },
+    { "claim": "Harry Sheezel 31.1", "source": "docs/afl-stat-leaders-2026.md (data/player_data/sheezel_harry_13102004_performance_details.csv)", "matched_value": "computed disposals_pg = 31.142857 (rounds to 31.1); stat-leaders table row 3 = 31.1", "line": 22 },
+    { "claim": "league mean of 14.92 per game", "source": "docs/afl-stat-leaders-2026.md (608 eligible players, data/player_data/*)", "matched_value": "computed elig['disposals_pg'].mean() = 14.92", "line": 22 },
+    { "claim": "Fremantle average winning margin +30.1", "source": "docs/afl-stat-leaders-2026.md (data/matches/matches_2026.csv)", "matched_value": "computed avg_margin Fremantle = 30.14 (rounds to 30.1)", "line": 24 },
+    { "claim": "Sydney average winning margin +27.9", "source": "docs/afl-stat-leaders-2026.md (data/matches/matches_2026.csv)", "matched_value": "computed avg_margin Sydney = 27.86 (rounds to 27.9)", "line": 24 },
+    { "claim": "Sydney average score 109.9 per game", "source": "docs/afl-stat-leaders-2026.md (data/matches/matches_2026.csv)", "matched_value": "computed avg_score Sydney = 109.90", "line": 24 },
+    { "claim": "Nick Daicos projected 30.0 disposals Round 24", "source": "docs/afl-predictions-2026.md / docs/weekly/round-current-2026.md (data/prediction/next_round_24_prediction_20260811_1028.csv)", "matched_value": "CSV row: Daicos Nick, Collingwood, predicted_disposals=30", "line": 26 },
+    { "claim": "Harry Sheezel and Nasiah Wanganeen-Milera 29.0 each", "source": "docs/afl-predictions-2026.md / docs/weekly/round-current-2026.md (data/prediction/next_round_24_prediction_20260811_1028.csv)", "matched_value": "CSV rows: Sheezel Harry=29, Wanganeen-Milera Nasiah=29", "line": 26 },
+    { "claim": "cheat sheet's typical error ±4 disposals", "source": "docs/afl-predictions-2026.md / docs/weekly/round-current-2026.md (referencing docs/afl-backtest-2026.md)", "matched_value": "round-current-2026.md states 'typical error is ±4 disposals'; backtest doc MAE overall 3.97/3.962 consistent with rule-of-thumb ±4", "line": 26 },
+    { "claim": "marks inside 50 to goals correlation r = +0.67", "source": "docs/afl-stat-leaders-2026.md (per-game frame, data/player_data/*, 608 eligible players / 8597 player-games)", "matched_value": "computed gg['marks_inside_50'].corr(gg['goals']) = 0.6748898 (rounds to 0.67); eligible players=608, eligible player-games=8597 matches doc header exactly", "line": 28 },
+    { "claim": "Jack Gunston 4.27 marks inside 50 per game", "source": "docs/afl-stat-leaders-2026.md (data/player_data/gunston_jack_16101991_performance_details.csv)", "matched_value": "computed sum(marks_inside_50)/games_played = 64/15 = 4.27", "line": 28 },
+    { "claim": "Jack Gunston 3.47 goals per game", "source": "docs/afl-stat-leaders-2026.md (data/player_data/gunston_jack_16101991_performance_details.csv)", "matched_value": "computed sum(goals, skipna)/games_played = 52/15 = 3.4667 (rounds to 3.47)", "line": 28 }
+  ],
+  "failed_tags": [],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

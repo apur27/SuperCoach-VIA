@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "DownloadItem": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "title": "As Of",
+          "type": "string"
+        },
+        "bytes": {
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "csv",
+            "png",
+            "svg",
+            "zip",
+            "json",
+            "md"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "rows": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rows"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "kind",
+        "path",
+        "bytes",
+        "sha256",
+        "as_of"
+      ],
+      "title": "DownloadItem",
+      "type": "object"
+    },
+    "RetainedRelease": {
+      "additionalProperties": false,
+      "properties": {
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "release_id": {
+          "title": "Release Id",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "title": "Snapshot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "release_id",
+        "generated_at",
+        "snapshot_id",
+        "path"
+      ],
+      "title": "RetainedRelease",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/downloads.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "#/$defs/DownloadItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "release_id": {
+      "title": "Release Id",
+      "type": "string"
+    },
+    "retained": {
+      "items": {
+        "$ref": "#/$defs/RetainedRelease"
+      },
+      "title": "Retained",
+      "type": "array"
+    }
+  },
+  "required": [
+    "release_id",
+    "items",
+    "retained"
+  ],
+  "title": "Downloads",
+  "type": "object",
+  "x-public-schema-version": 1
+}

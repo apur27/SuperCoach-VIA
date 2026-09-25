@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "ArticleSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "As Of"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "editorial_state": {
+          "enum": [
+            "published_archive",
+            "generated",
+            "draft"
+          ],
+          "title": "Editorial State",
+          "type": "string"
+        },
+        "excerpt": {
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "original_path": {
+          "title": "Original Path",
+          "type": "string"
+        },
+        "published": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Published"
+        },
+        "resource": {
+          "title": "Resource",
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "frozen",
+            "live",
+            "archive"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slug",
+        "title",
+        "category",
+        "published",
+        "as_of",
+        "scope",
+        "excerpt",
+        "editorial_state",
+        "original_path",
+        "resource"
+      ],
+      "title": "ArticleSummary",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/article.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "html": {
+      "description": "sanitized at build time; allowlisted tags only",
+      "title": "Html",
+      "type": "string"
+    },
+    "provenance": {
+      "title": "Provenance",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "summary": {
+      "$ref": "#/$defs/ArticleSummary"
+    }
+  },
+  "required": [
+    "summary",
+    "html",
+    "sources",
+    "provenance"
+  ],
+  "title": "Article",
+  "type": "object",
+  "x-public-schema-version": 1
+}

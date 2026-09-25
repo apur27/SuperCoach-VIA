@@ -1,0 +1,6 @@
+---
+import { formatInstant } from '../lib/format';
+interface Props { iso: string | null | undefined }
+const { iso } = Astro.props;
+---
+{iso ? <time datetime={iso} data-instant={iso}>{formatInstant(iso, 'Australia/Melbourne')}</time> : <span class="missing">not recorded</span>}

@@ -1,0 +1,39 @@
+Permission allow rule (.claude/settings.local.json): Bash(cp /home/abhi/git/SuperCoach-VIA/data/top100/yearly/*.csv /tmp/baseline_yearly/) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+```json
+{
+  "verdict": "PASS",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-08-29T03:46:48Z",
+  "summary": {
+    "tags_total": 17,
+    "tags_verified": 17,
+    "tags_failed": 0,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    { "claim": "Nick Daicos leads at 34.9 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "34.9", "line": 22 },
+    { "claim": "Bailey Smith at 32.6", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "32.6", "line": 22 },
+    { "claim": "Errol Gulden at 31.5", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "31.5", "line": 22 },
+    { "claim": "Gulden's figure from 11 games", "source": "data/player_data/gulden_errol_18072002_performance_details.csv", "matched_value": "11 (2026 rows), disposal mean 31.5", "line": 22 },
+    { "claim": "22 games each for Daicos and Smith", "source": "data/player_data/daicos_nick_03012003_performance_details.csv, data/player_data/smith_bailey_07122000_performance_details.csv", "matched_value": "22 and 22", "line": 22 },
+    { "claim": "Harry Sheezel 30.5 from 22 games", "source": "data/player_data/sheezel_harry_13102004_performance_details.csv", "matched_value": "22 games, mean 30.5", "line": 22 },
+    { "claim": "Clayton Oliver 30.2 from 23 games", "source": "data/player_data/oliver_clayton_22071997_performance_details.csv", "matched_value": "23 games, mean 30.2", "line": 22 },
+    { "claim": "league mean of 14.91 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "mean 14.91", "line": 22 },
+    { "claim": "616 eligible players", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "616 eligible players", "line": 22 },
+    { "claim": "at least 3 games threshold", "source": "docs/afl-stat-leaders-2026.md", "matched_value": ">=3 games", "line": 22 },
+    { "claim": "Sydney average score 110.6 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "Sydney | 110.6", "line": 24 },
+    { "claim": "Sydney average margin +29.3", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "Sydney | +29.3", "line": 24 },
+    { "claim": "Fremantle margin +27.0", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "Fremantle | +27.0", "line": 24 },
+    { "claim": "Fremantle scoring average 99.4", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "Fremantle | 99.4", "line": 24 },
+    { "claim": "clearances correlate with contested possessions r = +0.75", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "contested_possessions top correlate: clearances (r = +0.75)", "line": 26 }
+  ],
+  "failed_tags": [],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

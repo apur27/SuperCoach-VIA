@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "LiveIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "final": {
+          "title": "Final",
+          "type": "boolean"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "last_fetched_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Fetched At"
+        },
+        "match_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Id"
+        },
+        "resource": {
+          "title": "Resource",
+          "type": "string"
+        },
+        "source_game_id": {
+          "title": "Source Game Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_game_id",
+        "match_id",
+        "label",
+        "last_fetched_at",
+        "final",
+        "resource"
+      ],
+      "title": "LiveIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/live_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "delivery": {
+      "title": "Delivery",
+      "type": "string"
+    },
+    "matches": {
+      "items": {
+        "$ref": "#/$defs/LiveIndexEntry"
+      },
+      "title": "Matches",
+      "type": "array"
+    }
+  },
+  "required": [
+    "delivery",
+    "matches"
+  ],
+  "title": "LiveIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

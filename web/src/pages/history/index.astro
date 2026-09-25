@@ -1,0 +1,25 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import HistoryExplorer from '../../islands/HistoryExplorer';
+import { readResource } from '../../lib/release-server';
+import { formatStat } from '../../lib/format';
+const idx = readResource('history_index', 'history/index.json');
+const cols = [...new Set(idx.era_summary.flatMap((r) => Object.keys(r)))];
+---
+<AppLayout title="History" description="All-time and single-season leaders and rankings with method, version and coverage." current="history">
+  <h1>History and records</h1>
+  <p class="banner banner-stale"><strong>Historical methodology:</strong> early eras have incomplete statistics. Rankings show games with data and coverage so gaps are never read as zero.</p>
+  <HistoryExplorer client:load index={idx} />
+  <section aria-labelledby="eras-h">
+    <h2 id="eras-h">Era coverage summary</h2>
+    {idx.era_summary.length === 0 ? <p class="muted">No era summary in this release.</p> : (
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Era coverage summary">
+        <table>
+          <caption>Era coverage summary</caption>
+          <thead><tr>{cols.map((c) => <th scope="col">{c.replaceAll('_', ' ')}</th>)}</tr></thead>
+          <tbody>{idx.era_summary.map((r) => <tr>{cols.map((c) => { const v = r[c]; return <td class={typeof v === 'number' ? 'num' : undefined}>{v === null || v === undefined ? <span class="missing">not recorded</span> : typeof v === 'number' ? formatStat(v, v % 1 ? 2 : 0) : v}</td>; })}</tr>)}</tbody>
+        </table>
+      </div>
+    )}
+  </section>
+</AppLayout>

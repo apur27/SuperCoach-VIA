@@ -1,0 +1,299 @@
+"""`scvia` command line: wiring and exit-code translation only.
+
+Heavy modules (pandas, duckdb, pyarrow, scikit-learn, matplotlib) are imported inside
+command bodies so ``--help`` and ``doctor`` stay fast and side-effect free.
+
+Exit codes (PLAN 5.4): 0 ok; 2 invalid input/config; 3 unavailable source / partial
+required refresh; 4 validation failure; 5 locked; 6 model/forecast unavailable;
+7 publication failure.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from typing import Annotated, Any, NoReturn
+
+import typer
+
+EXIT = {
+    "ok": 0,
+    "invalid_input": 2,
+    "source_unavailable": 3,
+    "validation_failed": 4,
+    "locked": 5,
+    "model_unavailable": 6,
+    "publish_failed": 7,
+}
+
+app = typer.Typer(
+    name="scvia",
+    help="SuperCoach VIA: AFL disposal forecasting, analytics and static release builder.",
+    no_args_is_help=True,
+    add_completion=False,
+    pretty_exceptions_enable=False,
+)
+
+ConfigOpt = Annotated[Path | None, typer.Option("--config", help="TOML settings file")]
+DataRootOpt = Annotated[Path | None, typer.Option("--data-root", help="dataset/run root (default var/)")]
+OutputRootOpt = Annotated[Path | None, typer.Option("--output-root", help="release root (default dist/)")]
+JsonOpt = Annotated[bool, typer.Option("--json", help="print one JSON result on stdout")]
+
+
+class CliFailure(Exception):
+    def __init__(self, code: str, message: str, recovery: str | None = None):
+        super().__init__(message)
+        self.code = code
+        self.recovery = recovery
+
+
+def _settings(config: Path | None, **overrides: Any) -> Any:
+    from supercoach_via.settings import SettingsError, load_settings
+
+    try:
+        return load_settings(config, overrides=overrides)
+    except SettingsError as exc:
+        raise CliFailure("invalid_input", str(exc)) from exc
+
+
+def _emit(result: dict[str, Any], as_json: bool) -> None:
+    if as_json:
+        typer.echo(json.dumps(result, sort_keys=True, default=str))
+    else:
+        for key, value in result.items():
+            if key != "details":
+                typer.echo(f"{key}: {value}", err=True)
+
+
+def _fail(exc: CliFailure, as_json: bool) -> NoReturn:
+    payload = {"ok": False, "error_code": exc.code, "message": str(exc)[:2000], "recovery": exc.recovery}
+    if as_json:
+        typer.echo(json.dumps(payload, sort_keys=True))
+    typer.echo(f"error [{exc.code}]: {exc}", err=True)
+    if exc.recovery:
+        typer.echo(f"recovery: {exc.recovery}", err=True)
+    raise typer.Exit(EXIT[exc.code])
+
+
+def _run(as_json: bool, fn: Any, *args: Any, **kwargs: Any) -> None:
+    from supercoach_via.storage.runs import LockedError
+
+    try:
+        result = fn(*args, **kwargs)
+    except CliFailure as exc:
+        _fail(exc, as_json)
+    except LockedError as exc:
+        _fail(CliFailure("locked", str(exc), "wait for the other writer or inspect `scvia status`"), as_json)
+    _emit(result, as_json)
+    code = result.get("exit", "ok")
+    if code != "ok":
+        raise typer.Exit(EXIT[code])
+
+
+# ---------------------------------------------------------------------------
+# doctor / schemas / status
+# ---------------------------------------------------------------------------
+
+
+def doctor_checks(settings: Any) -> list[dict[str, Any]]:
+    import importlib.util
+    import os
+    import platform
+    import tomllib
+
+    checks: list[dict[str, Any]] = []
+
+    def add(name: str, status: str, detail: str) -> None:
+        checks.append({"name": name, "status": status, "detail": detail})
+
+    add("python", "pass" if sys.version_info[:2] == (3, 12) else "warn", platform.python_version())
+    for label, root in (("writable_data_root", settings.data_root), ("writable_output_root", settings.output_root)):
+        probe = root if root.exists() else next((p for p in root.parents if p.exists()), Path())
+        add(label, "pass" if os.access(probe, os.W_OK) else "fail", str(root))
+    add("public_base", "pass", settings.public_base)
+    lock = Path("uv.lock")
+    add(
+        "lock_file",
+        "pass" if lock.is_file() else "warn",
+        "uv.lock present" if lock.is_file() else "uv.lock not found in cwd",
+    )
+    policy = settings.source_policy_path
+    if policy.is_file():
+        try:
+            tomllib.loads(policy.read_text(encoding="utf-8"))
+            add("source_policy", "pass", str(policy))
+        except tomllib.TOMLDecodeError as exc:
+            add("source_policy", "fail", f"{policy}: {exc}")
+    else:
+        add("source_policy", "warn", f"{policy} not found (needed only for live refresh)")
+    ml = importlib.util.find_spec("lightgbm") is not None
+    add(
+        "ml_extra",
+        "pass" if ml else "warn",
+        "lightgbm available" if ml else "optional `ml` extra not installed; sklearn candidates only",
+    )
+    current = settings.data_root / "current.json"
+    add(
+        "current_snapshot",
+        "pass" if current.is_file() else "warn",
+        str(current) if current.is_file() else "no accepted snapshot yet (run import-legacy)",
+    )
+    if settings.editorial_enabled:
+        add("editorial_adapter", "warn", "editorial enabled: adapter credentials are checked when a draft is requested")
+    return checks
+
+
+@app.command()
+def doctor(
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Check runtime, roots, lock, source policy and optional extras (no network)."""
+
+    def body() -> dict[str, Any]:
+        settings = _settings(config, data_root=data_root, output_root=output_root)
+        checks = doctor_checks(settings)
+        ok = not any(c["status"] == "fail" for c in checks)
+        if not json_out:
+            for c in checks:
+                typer.echo(f"[{c['status']:>4}] {c['name']}: {c['detail']}", err=True)
+        return {"ok": ok, "checks": checks, "exit": "ok" if ok else "invalid_input"}
+
+    _run(json_out, body)
+
+
+@app.command()
+def schemas(out: Annotated[Path, typer.Option("--out")] = Path("schemas")) -> None:
+    """Regenerate public JSON Schemas from the view models."""
+    from supercoach_via.publish.web_data import export_json_schemas
+
+    written = export_json_schemas(out)
+    typer.echo(f"wrote {len(written)} schemas to {out}", err=True)
+
+
+# ---------------------------------------------------------------------------
+# release validation / publication
+# ---------------------------------------------------------------------------
+
+
+def _release_dir(settings: Any, release: str) -> Path:
+    from supercoach_via.domain.schemas import is_safe_id
+
+    if not is_safe_id(release) or ":" in release:
+        raise CliFailure("invalid_input", f"invalid release id {release!r}")
+    path: Path = settings.output_root / "releases" / release
+    if not path.is_dir():
+        raise CliFailure("invalid_input", f"release {release} not found under {settings.output_root}/releases")
+    return path
+
+
+@app.command("validate-release")
+def validate_release_cmd(
+    release: Annotated[str, typer.Option("--release")],
+    config: ConfigOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Validate a built release (closure, hashes, schemas, allowlist, references)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.publish.release import validate_release
+
+        settings = _settings(config, output_root=output_root)
+        report = validate_release(_release_dir(settings, release))
+        return {
+            "ok": report.ok,
+            "release_id": release,
+            "outcome": report.outcome.value,
+            "issues": report.issues[:50],
+            "exit": "ok" if report.ok else "validation_failed",
+        }
+
+    _run(json_out, body)
+
+
+@app.command()
+def publish(
+    release: Annotated[str, typer.Option("--release")],
+    destination: Annotated[Path, typer.Option("--destination", help="local static-host directory")],
+    config: ConfigOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """The only public mutation: publish a VALIDATED release to a configured destination."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.publish.release import LocalDirectoryDestination, PublishError, publish_release
+        from supercoach_via.settings import utc_now
+
+        settings = _settings(config, output_root=output_root)
+        dest = LocalDirectoryDestination("local", destination)
+        try:
+            receipt = publish_release(_release_dir(settings, release), dest, clock=utc_now)
+        except PublishError as exc:
+            raise CliFailure("publish_failed", str(exc), "fix the release and re-run validate-release") from exc
+        return {"ok": True, "receipt": receipt.model_dump(mode="json")}
+
+    _run(json_out, body)
+
+
+@app.command()
+def rollback(
+    release: Annotated[str, typer.Option("--release", help="previously validated release to reactivate")],
+    destination: Annotated[Path, typer.Option("--destination")],
+    config: ConfigOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Reactivate a previous validated release (new receipt; data stays immutable)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.publish.release import LocalDirectoryDestination, PublishError
+        from supercoach_via.publish.release import rollback as do_rollback
+        from supercoach_via.settings import utc_now
+
+        settings = _settings(config, output_root=output_root)
+        try:
+            receipt = do_rollback(
+                settings.output_root, LocalDirectoryDestination("local", destination), release, clock=utc_now
+            )
+        except PublishError as exc:
+            raise CliFailure("publish_failed", str(exc)) from exc
+        return {"ok": True, "receipt": receipt.model_dump(mode="json")}
+
+    _run(json_out, body)
+
+
+@app.command()
+def preview(
+    release: Annotated[str, typer.Option("--release")],
+    config: ConfigOpt = None,
+    output_root: OutputRootOpt = None,
+    port: Annotated[int, typer.Option("--port", min=1024, max=65535)] = 4321,
+    host: Annotated[str, typer.Option("--host")] = "127.0.0.1",
+) -> None:
+    """Serve a built release's static site read-only (localhost by default)."""
+    import functools
+    import http.server
+
+    settings = _settings(config, output_root=output_root)
+    rdir = _release_dir(settings, release)
+    root = rdir / "site" if (rdir / "site").is_dir() else rdir / "public"
+    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(root))
+    with http.server.ThreadingHTTPServer((host, port), handler) as srv:
+        typer.echo(f"serving {root} at http://{host}:{port}/ (Ctrl-C to stop)", err=True)
+        srv.serve_forever()
+
+
+def main() -> None:
+    try:
+        app()
+    except CliFailure as exc:  # pragma: no cover - defensive
+        _fail(exc, False)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()

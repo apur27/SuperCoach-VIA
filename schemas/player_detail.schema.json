@@ -1,0 +1,604 @@
+{
+  "$defs": {
+    "ClubRef": {
+      "additionalProperties": false,
+      "properties": {
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "club_id",
+        "name"
+      ],
+      "title": "ClubRef",
+      "type": "object"
+    },
+    "PredictionRow": {
+      "additionalProperties": false,
+      "properties": {
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "club_name": {
+          "title": "Club Name",
+          "type": "string"
+        },
+        "eligibility_basis": {
+          "title": "Eligibility Basis",
+          "type": "string"
+        },
+        "forecast_cutoff": {
+          "format": "date-time",
+          "title": "Forecast Cutoff",
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "history_games": {
+          "title": "History Games",
+          "type": "integer"
+        },
+        "interval_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval High"
+        },
+        "interval_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Level"
+        },
+        "interval_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Low"
+        },
+        "interval_method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Method"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "opponent_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Club Id"
+        },
+        "opponent_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Name"
+        },
+        "origin": {
+          "enum": [
+            "prospective",
+            "replay",
+            "legacy_unknown"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "player_name": {
+          "title": "Player Name",
+          "type": "string"
+        },
+        "predicted_disposals": {
+          "title": "Predicted Disposals",
+          "type": "number"
+        },
+        "prediction_id": {
+          "title": "Prediction Id",
+          "type": "string"
+        },
+        "prediction_run_id": {
+          "title": "Prediction Run Id",
+          "type": "string"
+        },
+        "recent_mean_5": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Recent Mean 5"
+        },
+        "scheduled_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Scheduled At"
+        },
+        "scheduled_local": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Scheduled Local"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "selection_status": {
+          "enum": [
+            "confirmed",
+            "unconfirmed"
+          ],
+          "title": "Selection Status",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Venue"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "prediction_id",
+        "prediction_run_id",
+        "snapshot_id",
+        "model_id",
+        "player_id",
+        "player_name",
+        "club_id",
+        "club_name",
+        "opponent_club_id",
+        "opponent_name",
+        "match_id",
+        "season",
+        "stage_id",
+        "stage_label",
+        "scheduled_at",
+        "scheduled_local",
+        "venue",
+        "forecast_cutoff",
+        "origin",
+        "generated_at",
+        "selection_status",
+        "eligibility_basis",
+        "history_games",
+        "recent_mean_5",
+        "predicted_disposals",
+        "interval_low",
+        "interval_high",
+        "interval_level",
+        "interval_method",
+        "warnings"
+      ],
+      "title": "PredictionRow",
+      "type": "object"
+    },
+    "SeasonLine": {
+      "additionalProperties": false,
+      "properties": {
+        "clubs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clubs",
+          "type": "array"
+        },
+        "games": {
+          "title": "Games",
+          "type": "integer"
+        },
+        "games_resource": {
+          "description": "resource key of this season's game log",
+          "title": "Games Resource",
+          "type": "string"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stats": {
+          "items": {
+            "$ref": "#/$defs/StatValue"
+          },
+          "title": "Stats",
+          "type": "array"
+        }
+      },
+      "required": [
+        "season",
+        "clubs",
+        "games",
+        "stats",
+        "games_resource"
+      ],
+      "title": "SeasonLine",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "StatValue": {
+      "additionalProperties": false,
+      "description": "An aggregate that discloses its denominator and coverage.",
+      "properties": {
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Coverage"
+        },
+        "eligible_games": {
+          "title": "Eligible Games",
+          "type": "integer"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean"
+        },
+        "observed_games": {
+          "title": "Observed Games",
+          "type": "integer"
+        },
+        "stat": {
+          "title": "Stat",
+          "type": "string"
+        },
+        "total": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total"
+        }
+      },
+      "required": [
+        "stat",
+        "total",
+        "mean",
+        "observed_games",
+        "eligible_games",
+        "coverage"
+      ],
+      "title": "StatValue",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/player_detail.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aliases": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Aliases",
+      "type": "array"
+    },
+    "birth_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Birth Date"
+    },
+    "birth_date_quality": {
+      "enum": [
+        "source",
+        "legacy_filename",
+        "conflicting",
+        "unknown"
+      ],
+      "title": "Birth Date Quality",
+      "type": "string"
+    },
+    "career": {
+      "items": {
+        "$ref": "#/$defs/StatValue"
+      },
+      "title": "Career",
+      "type": "array"
+    },
+    "career_counter_max": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "source career counter, may exceed rows",
+      "title": "Career Counter Max"
+    },
+    "career_games": {
+      "title": "Career Games",
+      "type": "integer"
+    },
+    "clubs": {
+      "items": {
+        "$ref": "#/$defs/ClubRef"
+      },
+      "title": "Clubs",
+      "type": "array"
+    },
+    "coverage_note": {
+      "title": "Coverage Note",
+      "type": "string"
+    },
+    "debut_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Debut Date"
+    },
+    "first_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "First Name"
+    },
+    "forecast": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PredictionRow"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "height_cm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Height Cm"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "identity_status": {
+      "enum": [
+        "canonical",
+        "alias",
+        "quarantined_duplicate",
+        "ambiguous"
+      ],
+      "title": "Identity Status",
+      "type": "string"
+    },
+    "key": {
+      "title": "Key",
+      "type": "string"
+    },
+    "last_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Last Name"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "seasons": {
+      "items": {
+        "$ref": "#/$defs/SeasonLine"
+      },
+      "title": "Seasons",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "weight_kg": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Weight Kg"
+    }
+  },
+  "required": [
+    "id",
+    "key",
+    "name",
+    "first_name",
+    "last_name",
+    "birth_date",
+    "birth_date_quality",
+    "debut_date",
+    "height_cm",
+    "weight_kg",
+    "identity_status",
+    "aliases",
+    "clubs",
+    "career_games",
+    "career_counter_max",
+    "career",
+    "seasons",
+    "forecast",
+    "sources",
+    "coverage_note"
+  ],
+  "title": "PlayerDetail",
+  "type": "object",
+  "x-public-schema-version": 1
+}

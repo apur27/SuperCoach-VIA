@@ -1,0 +1,6 @@
+---
+import { formatDateOnly } from '../lib/format';
+interface Props { date: string | null | undefined }
+const { date } = Astro.props;
+---
+{date ? <time datetime={date}>{formatDateOnly(date)}</time> : <span class="missing">date unknown</span>}

@@ -1,0 +1,46 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { manifest, readResource, hasResource } from '../../lib/release-server';
+import { withBase } from '../../lib/ids';
+import { formatStat } from '../../lib/format';
+const base = import.meta.env.BASE_URL;
+const rel = manifest();
+const idx = readResource('team_index', 'teams/index.json');
+const current = idx.teams.filter((t) => t.active).sort((a, b) => a.name.localeCompare(b.name));
+const historical = idx.teams.filter((t) => !t.active).sort((a, b) => a.name.localeCompare(b.name));
+const ladderSource = current.find((t) => t.seasons.includes(rel.season) && hasResource(`teams/${t.club_id}/${rel.season}.json`));
+const ladder = ladderSource ? readResource('team_season', `teams/${ladderSource.club_id}/${rel.season}.json`).ladder : [];
+---
+<AppLayout title="Teams" description="Current and historical clubs with the regular-season ladder." current="teams">
+  <h1>Teams</h1>
+  <section aria-labelledby="ladder-h">
+    <h2 id="ladder-h">{rel.season} ladder</h2>
+    {ladder.length === 0 ? <p class="muted">No {rel.season} ladder in this release.</p> : (
+      <div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${`${rel.season} ladder`}`}>
+        <table>
+          <caption>{rel.season} ladder (regular season only; finals are excluded)</caption>
+          <thead><tr><th scope="col" class="num">Pos</th><th scope="col">Club</th><th scope="col" class="num">P</th><th scope="col" class="num">W</th><th scope="col" class="num">L</th><th scope="col" class="num">D</th><th scope="col" class="num">%</th><th scope="col" class="num">Pts</th></tr></thead>
+          <tbody>
+            {ladder.map((r) => (
+              <tr><td class="num">{r.position}</td><th scope="row"><a href={withBase(base, `team/?id=${r.club_id}&season=${rel.season}`)}>{r.name}</a></th><td class="num">{r.played}</td><td class="num">{r.won}</td><td class="num">{r.lost}</td><td class="num">{r.drawn}</td><td class="num">{r.percentage === null ? <span class="missing">n/a</span> : formatStat(r.percentage, 1)}</td><td class="num">{r.premiership_points}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </section>
+  <section aria-labelledby="current-h">
+    <h2 id="current-h">Current clubs</h2>
+    <ul class="grid list-plain">
+      {current.map((t) => <li><a href={withBase(base, `team/?id=${t.club_id}`)}>{t.name}</a> <span class="muted">{t.first_season ?? '?'}–{t.last_season ?? '?'}</span></li>)}
+    </ul>
+  </section>
+  <section aria-labelledby="hist-h">
+    <h2 id="hist-h">Historical clubs</h2>
+    {historical.length === 0 ? <p class="muted">None in this release.</p> : (
+      <ul class="grid list-plain">
+        {historical.map((t) => <li><a href={withBase(base, `team/?id=${t.club_id}`)}>{t.name}</a> <span class="muted">{t.first_season ?? '?'}–{t.last_season ?? '?'} · lineage {t.lineage_id}</span></li>)}
+      </ul>
+    )}
+  </section>
+</AppLayout>

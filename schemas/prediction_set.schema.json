@@ -1,0 +1,706 @@
+{
+  "$defs": {
+    "IntervalInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "title": "Available",
+          "type": "boolean"
+        },
+        "calibrated": {
+          "title": "Calibrated",
+          "type": "boolean"
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Level"
+        },
+        "method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Method"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "available",
+        "level",
+        "method",
+        "calibrated",
+        "reason"
+      ],
+      "title": "IntervalInfo",
+      "type": "object"
+    },
+    "MatchSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "away": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "date_precision": {
+          "enum": [
+            "minute",
+            "day",
+            "unknown"
+          ],
+          "title": "Date Precision",
+          "type": "string"
+        },
+        "home": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "local_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "local wall time as sourced, 'YYYY-MM-DD HH:MM'",
+          "title": "Local Start"
+        },
+        "match_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Date"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "replay_occurrence": {
+          "title": "Replay Occurrence",
+          "type": "integer"
+        },
+        "round_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Round Number"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "stage_order": {
+          "title": "Stage Order",
+          "type": "integer"
+        },
+        "stage_type": {
+          "enum": [
+            "regular",
+            "final",
+            "other"
+          ],
+          "title": "Stage Type",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "scheduled",
+            "in_progress",
+            "complete",
+            "postponed",
+            "cancelled",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Venue"
+        },
+        "winner_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null for draws, incomplete or unknown",
+          "title": "Winner Club Id"
+        }
+      },
+      "required": [
+        "match_id",
+        "season",
+        "stage_id",
+        "stage_label",
+        "stage_type",
+        "round_number",
+        "stage_order",
+        "replay_occurrence",
+        "local_start",
+        "match_date",
+        "date_precision",
+        "status",
+        "venue",
+        "home",
+        "away",
+        "winner_club_id"
+      ],
+      "title": "MatchSummary",
+      "type": "object"
+    },
+    "ModelInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "baseline",
+            "model"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "promoted": {
+          "title": "Promoted",
+          "type": "boolean"
+        },
+        "promotion_note": {
+          "title": "Promotion Note",
+          "type": "string"
+        },
+        "trained_cutoff": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Trained Cutoff"
+        }
+      },
+      "required": [
+        "model_id",
+        "kind",
+        "name",
+        "description",
+        "trained_cutoff",
+        "promoted",
+        "promotion_note"
+      ],
+      "title": "ModelInfo",
+      "type": "object"
+    },
+    "OmissionSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "title": "Count",
+          "type": "integer"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "reason": {
+          "enum": [
+            "unresolved_identity",
+            "insufficient_history",
+            "not_in_fixture",
+            "retired",
+            "other"
+          ],
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "count"
+      ],
+      "title": "OmissionSummary",
+      "type": "object"
+    },
+    "PredictionRow": {
+      "additionalProperties": false,
+      "properties": {
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "club_name": {
+          "title": "Club Name",
+          "type": "string"
+        },
+        "eligibility_basis": {
+          "title": "Eligibility Basis",
+          "type": "string"
+        },
+        "forecast_cutoff": {
+          "format": "date-time",
+          "title": "Forecast Cutoff",
+          "type": "string"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "history_games": {
+          "title": "History Games",
+          "type": "integer"
+        },
+        "interval_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval High"
+        },
+        "interval_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Level"
+        },
+        "interval_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Low"
+        },
+        "interval_method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval Method"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "opponent_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Club Id"
+        },
+        "opponent_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Name"
+        },
+        "origin": {
+          "enum": [
+            "prospective",
+            "replay",
+            "legacy_unknown"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "player_name": {
+          "title": "Player Name",
+          "type": "string"
+        },
+        "predicted_disposals": {
+          "title": "Predicted Disposals",
+          "type": "number"
+        },
+        "prediction_id": {
+          "title": "Prediction Id",
+          "type": "string"
+        },
+        "prediction_run_id": {
+          "title": "Prediction Run Id",
+          "type": "string"
+        },
+        "recent_mean_5": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Recent Mean 5"
+        },
+        "scheduled_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Scheduled At"
+        },
+        "scheduled_local": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Scheduled Local"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "selection_status": {
+          "enum": [
+            "confirmed",
+            "unconfirmed"
+          ],
+          "title": "Selection Status",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Venue"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "prediction_id",
+        "prediction_run_id",
+        "snapshot_id",
+        "model_id",
+        "player_id",
+        "player_name",
+        "club_id",
+        "club_name",
+        "opponent_club_id",
+        "opponent_name",
+        "match_id",
+        "season",
+        "stage_id",
+        "stage_label",
+        "scheduled_at",
+        "scheduled_local",
+        "venue",
+        "forecast_cutoff",
+        "origin",
+        "generated_at",
+        "selection_status",
+        "eligibility_basis",
+        "history_games",
+        "recent_mean_5",
+        "predicted_disposals",
+        "interval_low",
+        "interval_high",
+        "interval_level",
+        "interval_method",
+        "warnings"
+      ],
+      "title": "PredictionRow",
+      "type": "object"
+    },
+    "TeamScore": {
+      "additionalProperties": false,
+      "properties": {
+        "behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Behinds"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Goals"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        }
+      },
+      "required": [
+        "club_id",
+        "name",
+        "goals",
+        "behinds",
+        "score"
+      ],
+      "title": "TeamScore",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/prediction_set.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "forecast_cutoff": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Forecast Cutoff"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "interval": {
+      "$ref": "#/$defs/IntervalInfo"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelInfo"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "omissions": {
+      "items": {
+        "$ref": "#/$defs/OmissionSummary"
+      },
+      "title": "Omissions",
+      "type": "array"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/PredictionRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "season": {
+      "title": "Season",
+      "type": "integer"
+    },
+    "stage_id": {
+      "title": "Stage Id",
+      "type": "string"
+    },
+    "stage_label": {
+      "title": "Stage Label",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "available",
+        "unavailable",
+        "expired"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "target_matches": {
+      "items": {
+        "$ref": "#/$defs/MatchSummary"
+      },
+      "title": "Target Matches",
+      "type": "array"
+    },
+    "units": {
+      "const": "disposals",
+      "default": "disposals",
+      "title": "Units",
+      "type": "string"
+    }
+  },
+  "required": [
+    "season",
+    "stage_id",
+    "stage_label",
+    "status",
+    "reason",
+    "generated_at",
+    "forecast_cutoff",
+    "target_matches",
+    "model",
+    "interval",
+    "rows",
+    "omissions"
+  ],
+  "title": "PredictionSet",
+  "type": "object",
+  "x-public-schema-version": 1
+}

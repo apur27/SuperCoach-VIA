@@ -1,0 +1,13 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import LiveView from '../../islands/LiveView';
+import { readResource } from '../../lib/release-server';
+import { withBase } from '../../lib/ids';
+const idx = readResource('live_index', 'live/index.json');
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Live" description="Last accepted live snapshots for matches, with delivery latency and stale state." current="matches" breadcrumbs={[{ label: 'Matches', href: 'matches/' }, { label: 'Live' }]}>
+  <h1 id="page-h1">Live snapshots</h1>
+  <p class="muted">{idx.delivery} This site shows the last accepted snapshot; it does not scrape sources itself.</p>
+  <LiveView client:load index={idx} downloadHref={withBase(base, 'downloads/')} />
+</AppLayout>

@@ -1,0 +1,60 @@
+# Source policies for supercoach_via.ingest.http (PLAN section 5.1).
+#
+# Every outbound request must match exactly one [sources.*] entry: HTTPS only, the
+# listed host, and one of that source's path grammars. Anything else is rejected
+# before a connection is made. Redirects are revalidated against the same rules.
+# A source may be stricter than [defaults]; it may not be looser without review.
+#
+# Hosts verified against the legacy scrapers (scrapers/*.py, scripts/fetch_live_match.py):
+#   afltables.com             season pages, match stats, player pages
+#   en.wikipedia.org          national + rookie drafts (scrapers/draft_scraper.py,
+#                             scrapers/rookie_draft_scraper.py; afltables 404s drafts)
+#   www.draftguru.com.au      DraftGuru year pages (scrapers/draftguru_scraper.py)
+#   www.afl.com.au            free-agent list article (scrapers/free_agency_scraper.py)
+#   www.zerohanger.com        off-contract list (scrapers/free_agency_scraper.py)
+#   www.fanfooty.com.au       live text feed (scripts/fetch_live_match.py)
+
+[defaults]
+requests_per_second = 2.0
+max_concurrent_per_host = 2
+connect_timeout_s = 10.0
+read_timeout_s = 30.0
+max_attempts = 3
+backoff_base_s = 1.0
+backoff_max_s = 20.0
+retry_after_max_s = 60.0
+max_response_bytes = 10485760
+max_redirects = 3
+
+[live]
+poll_interval_s = 90
+
+[sources.afltables]
+host = "afltables.com"
+path_patterns = [
+  '^/afl/seas/(18|19|20)\d{2}\.html$',
+  '^/afl/stats/games/(18|19|20)\d{2}/[0-9]{6,20}\.html$',
+  '^/afl/stats/players/[A-Z]/[A-Za-z0-9_\-]{1,80}\.html$',
+]
+
+[sources.wikipedia_drafts]
+host = "en.wikipedia.org"
+path_patterns = ['^/wiki/(19|20)\d{2}_AFL_draft$']
+
+[sources.draftguru]
+host = "www.draftguru.com.au"
+path_patterns = ['^/years/(19|20)\d{2}$']
+
+[sources.afl_com_au]
+host = "www.afl.com.au"
+path_patterns = ['^/news/[0-9]{1,10}/[a-z0-9\-]{1,120}$']
+
+[sources.zerohanger]
+host = "www.zerohanger.com"
+path_patterns = ['^/afl/players/off-contract-(19|20)\d{2}/?$']
+
+[sources.fanfooty]
+host = "www.fanfooty.com.au"
+requests_per_second = 0.5
+max_response_bytes = 2097152
+path_patterns = ['^/live/[0-9]{1,8}\.txt$']

@@ -1,0 +1,109 @@
+/* Design tokens. Light is the default; dark applies via [data-theme="dark"] (explicit
+   choice) or prefers-color-scheme when no explicit light choice is stored.
+   Contrast of these exact values is asserted in tests/unit/contrast.test.ts. */
+:root {
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --surface-2: #eef2f6;
+  --text: #13213a;
+  --text-muted: #4a5870;
+  --border: #c9d2de;
+  --border-strong: #6b7a90;
+  --link: #0b5d6b;
+  --accent: #0e6e7c;
+  --accent-text: #ffffff;
+  --header-bg: #13213a;
+  --header-text: #ffffff;
+  --nav-bg: #1c2e4d;
+  --nav-text: #ffffff;
+  --focus: #b35c00;
+  --stale-bg: #fff3d6;
+  --stale-text: #6b4000;
+  --stale-border: #b37400;
+  --error-bg: #fde8e8;
+  --error-text: #8a1c1c;
+  --ok-bg: #e3f4ee;
+  --ok-text: #135c40;
+  --demo-bg: #ede7ff;
+  --demo-text: #3d2a80;
+  --chart-1: #0e6e7c;
+  --chart-2: #9a4f00;
+  --chart-grid: #d5dce6;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0d1626;
+  --surface: #14213a;
+  --surface-2: #1b2b48;
+  --text: #e8eef7;
+  --text-muted: #b0bdd0;
+  --border: #33476a;
+  --border-strong: #8395b3;
+  --link: #6fd3de;
+  --accent: #4fc0cc;
+  --accent-text: #0d1626;
+  --header-bg: #081020;
+  --header-text: #ffffff;
+  --nav-bg: #101c33;
+  --nav-text: #ffffff;
+  --focus: #ffb454;
+  --stale-bg: #3d2c00;
+  --stale-text: #ffd98a;
+  --stale-border: #d99a1c;
+  --error-bg: #3e1414;
+  --error-text: #ffb4b4;
+  --ok-bg: #0f3326;
+  --ok-text: #9be3c3;
+  --demo-bg: #2a2150;
+  --demo-text: #d9ceff;
+  --chart-1: #4fc0cc;
+  --chart-2: #ffb454;
+  --chart-grid: #2c3e5e;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1626;
+    --surface: #14213a;
+    --surface-2: #1b2b48;
+    --text: #e8eef7;
+    --text-muted: #b0bdd0;
+    --border: #33476a;
+    --border-strong: #8395b3;
+    --link: #6fd3de;
+    --accent: #4fc0cc;
+    --accent-text: #0d1626;
+    --header-bg: #081020;
+    --header-text: #ffffff;
+    --nav-bg: #101c33;
+    --nav-text: #ffffff;
+    --focus: #ffb454;
+    --stale-bg: #3d2c00;
+    --stale-text: #ffd98a;
+    --stale-border: #d99a1c;
+    --error-bg: #3e1414;
+    --error-text: #ffb4b4;
+    --ok-bg: #0f3326;
+    --ok-text: #9be3c3;
+    --demo-bg: #2a2150;
+    --demo-text: #d9ceff;
+    --chart-1: #4fc0cc;
+    --chart-2: #ffb454;
+    --chart-grid: #2c3e5e;
+    color-scheme: dark;
+  }
+}
+:root {
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 6px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --max: 72rem;
+  --target: 24px;
+  --target-primary: 44px;
+}

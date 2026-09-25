@@ -1,3 +1,68 @@
+[project]
+name = "supercoach-via"
+version = "0.1.0"
+description = "AFL disposal forecasting, historical analytics and static browser dashboard (SuperCoach VIA rewrite)"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "typer>=0.12",
+    "pydantic>=2.8",
+    "duckdb>=1.1",
+    "pyarrow>=17",
+    "numpy>=1.26",
+    # pandas is used only at the model boundary. <3 keeps the lock compatible with the
+    # legacy application (AUDIT.md: pandas 3 breaks legacy test collection); the new
+    # package avoids APIs removed in pandas 3.
+    "pandas>=2.2,<3",
+    "scikit-learn>=1.5",
+    "scipy>=1.13",  # t-distribution for era significance tests (analytics.eras)
+    "matplotlib>=3.9",
+    "httpx>=0.27",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.2",
+    "jinja2>=3.1",
+    "pyyaml>=6.0",
+    "markdown-it-py>=3.0",
+    "nh3>=0.2.17",
+]
+
+[project.optional-dependencies]
+ml = ["lightgbm>=4.3"]
+
+[project.scripts]
+scvia = "supercoach_via.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-timeout>=2.3",
+    "hypothesis>=6.100",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pandas-stubs>=2.2,<3",
+    "types-PyYAML>=6.0",
+    "pip-audit>=2.7",
+]
+# Runs the LEGACY application and its test suite in a reproducible environment
+# (baseline comparison / rehearsal). Not required by the new package.
+legacy = [
+    "requests>=2.31",
+    "tqdm>=4.66",
+    "scipy>=1.13",
+    "optuna>=3.6",
+    "lightgbm>=4.3",
+    "tabulate>=0.9",
+]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "supercoach_via"
+module-root = "src"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -12,6 +77,38 @@ python_functions = ["test_*"]
 # weekly harness rather than pre-commit.
 #   fast tier:  pytest tests/unit -m "not integration"
 #   full tier:  pytest tests
+# New package (src/supercoach_via) tests live under tests/scvia/{unit,contract,
+# integration,performance}; its integration/performance tests carry the
+# `integration` marker so the pre-commit fast tier excludes them.
 markers = [
     "integration: asserts against real repo data/docs; excluded from the pre-commit tier",
+    "contract: cross-language / schema contract tests (hermetic)",
+    "performance: opt-in benchmark/budget tests against the real corpus",
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["src", "tests/scvia"]
+extend-include = []
+# Ruff is enforced on the new package and its tests; legacy modules are reference code.
+include = ["src/**/*.py", "tests/scvia/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "BLE", "RUF", "SIM", "PTH"]
+# PTH105/PTH115: os.replace/os.readlink are used deliberately (atomic-replace semantics; tests inject failures)
+ignore = ["S101", "RUF001", "RUF002", "RUF003", "PTH105", "PTH115"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/scvia/**" = ["S", "PTH", "B017", "E501"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src/supercoach_via"]
+strict = true
+warn_unreachable = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["scipy.*", "sklearn.*", "lightgbm.*", "duckdb.*", "pyarrow.*", "nh3.*", "matplotlib.*", "bs4.*", "lxml.*", "markdown_it.*"]
+ignore_missing_imports = true

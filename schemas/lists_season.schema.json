@@ -1,0 +1,361 @@
+{
+  "$defs": {
+    "ContractRow": {
+      "additionalProperties": false,
+      "properties": {
+        "club": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Club"
+        },
+        "contract_end": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Contract End"
+        },
+        "fa_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fa Category"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed At"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Player Id"
+        },
+        "player_name": {
+          "title": "Player Name",
+          "type": "string"
+        },
+        "source_type": {
+          "title": "Source Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "player_name",
+        "player_id",
+        "club",
+        "contract_end",
+        "fa_category",
+        "observed_at",
+        "source_type",
+        "notes"
+      ],
+      "title": "ContractRow",
+      "type": "object"
+    },
+    "DraftRow": {
+      "additionalProperties": false,
+      "properties": {
+        "club": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Club"
+        },
+        "draft_round": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Draft Round"
+        },
+        "event_type": {
+          "title": "Event Type",
+          "type": "string"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Grade"
+        },
+        "pick": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Pick"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Player Id"
+        },
+        "player_name": {
+          "title": "Player Name",
+          "type": "string"
+        },
+        "recruited_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Recruited From"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "season",
+        "event_type",
+        "draft_round",
+        "pick",
+        "club",
+        "player_name",
+        "player_id",
+        "recruited_from",
+        "grade"
+      ],
+      "title": "DraftRow",
+      "type": "object"
+    },
+    "SchoolRow": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "title": "Confidence",
+          "type": "string"
+        },
+        "draft_year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Draft Year"
+        },
+        "pick": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Pick"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Player Id"
+        },
+        "player_name": {
+          "title": "Player Name",
+          "type": "string"
+        },
+        "school": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "School"
+        },
+        "school_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "School Type"
+        }
+      },
+      "required": [
+        "draft_year",
+        "pick",
+        "player_name",
+        "player_id",
+        "school",
+        "school_type",
+        "confidence"
+      ],
+      "title": "SchoolRow",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/lists_season.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contracts": {
+      "items": {
+        "$ref": "#/$defs/ContractRow"
+      },
+      "title": "Contracts",
+      "type": "array"
+    },
+    "drafts": {
+      "items": {
+        "$ref": "#/$defs/DraftRow"
+      },
+      "title": "Drafts",
+      "type": "array"
+    },
+    "schools": {
+      "items": {
+        "$ref": "#/$defs/SchoolRow"
+      },
+      "title": "Schools",
+      "type": "array"
+    },
+    "season": {
+      "title": "Season",
+      "type": "integer"
+    },
+    "source_note": {
+      "title": "Source Note",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "season",
+    "drafts",
+    "contracts",
+    "schools",
+    "source_note",
+    "sources"
+  ],
+  "title": "ListsSeason",
+  "type": "object",
+  "x-public-schema-version": 1
+}

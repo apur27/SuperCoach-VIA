@@ -1,0 +1,94 @@
+Permission allow rule (.claude/settings.local.json): Bash(cp /home/abhi/git/SuperCoach-VIA/data/top100/yearly/*.csv /tmp/baseline_yearly/) has a wildcard before the rest of the command, so it also matches any options inserted at that position and approves them without a prompt. Replace that * with the exact value you mean, or only use * after the subcommand.
+```json
+{
+  "verdict": "PASS_WITH_CONCERNS",
+  "doc": "docs/afl-insights.md",
+  "section": "## Round 25 — Week in Review",
+  "agent": "Skeptic",
+  "reviewed_at": "2026-08-29T03:48:46Z",
+  "reason": "No causal language, no coach names, and the prior R25 defects (the 'average winning margin' mislabel and the undisclosed games-played disparity in the disposal ordering) are correctly fixed on disk. Three prose findings remain, none clear-cut enough to BLOCK: the Tactical note asserts a definitional nesting of clearances inside contested possessions that the cited source does not claim and its own glossary contradicts; 'Team form' labels rounds 1-25 aggregates with recency language the source has no time series for; and the Fremantle defensive-profile inference rests on a points-against figure that never appears in the doc.",
+  "findings": [
+    {
+      "id": "S1",
+      "severity": "concern",
+      "category": "claim-exceeds-source",
+      "line": 26,
+      "quote": "worth flagging that the two overlap by definition, since a clearance is itself a type of contested-possession event, so this is not an independent relationship",
+      "detail": "This is an over-claim in the deflationary direction, and it exceeds the cited source. docs/afl-stat-leaders-2026.md annotates mechanically-related correlates inline — effective_disposals r=+0.97 '(mechanically related)', free_kicks_against r=+0.61, clangers r=+0.61 — and pointedly does NOT annotate clearances<->contested_possessions (L138, L154). It frames the pair substantively instead: 'It correlates strongly with clearances and tackles' (L126). The source's own definitions do not nest: a clearance is 'Disposals that move the ball clear of a stoppage' (L142); a contested possession is a 'win of the ball under physical pressure — ground-balls, taps, and contested marks' (L126). A clearance recorded off an uncontested handball receive at a stoppage satisfies the first and not the second, so 'by definition' is not established by anything in this repo. The recap converts a genuine r=+0.75 into an artifact on the strength of an unsourced, untagged definitional assertion that DataSentinel cannot see.",
+      "uncertainty": "I am uncertain about the external ground truth of the AFL/Champion Data definitions (a gather-from-hitout clearance IS a contested possession; a handball-receive clearance is not), which is why this is a concern rather than a BLOCK. What I am confident about is that the cited source does not support the claim and withholds the exact annotation the recap supplies.",
+      "proposed_fix": "Either downgrade to what the source supports — 'the two stats measure overlapping events, so part of this correlation is structural' — or have Scientist add the '(mechanically related)' annotation to this pair in afl-stat-leaders-2026.md so the recap is inheriting the judgement rather than inventing it."
+    },
+    {
+      "id": "S2",
+      "severity": "concern",
+      "category": "window-mismatch",
+      "line": 24,
+      "quote": "**Team form:** Sydney lead the competition in both average score",
+      "detail": "'Form' implies recency. The cited figures are rounds 1-25 per-game aggregates over all team-games; the source (docs/afl-stat-leaders-2026.md, Team-level stats) is a single end-of-round snapshot with no round-by-round series, so nothing in the methodology can distinguish a team trending up from one that banked its margin in March. Compounded by the '## Round 25 — Week in Review' heading, which frames season-to-date aggregates as the week's news. The disposal-leader paragraph does this correctly ('rounds 1-25'); this paragraph carries no window at all in the body.",
+      "proposed_fix": "Relabel to 'Team season aggregates (rounds 1-25)', or state the window inline as the disposal paragraph does."
+    },
+    {
+      "id": "S3",
+      "severity": "concern",
+      "category": "uncited-inference",
+      "line": 24,
+      "quote": "Fremantle sit second on margin at **+27.0** **[data]** despite a lower scoring average of **99.4** **[data]** — a profile built more on limiting opponents than outscoring them.",
+      "detail": "The conclusion is directionally supportable but rests entirely on a points-against figure the reader is never given: 99.4 - 27.0 = 72.4 against, versus the league mean team score of 89.1 stated in the source (L304). Offence is +10.3 above league mean, defence is 16.7 below it — that asymmetry is the whole argument and it appears nowhere in the doc. Separately, 'a lower scoring average of 99.4' has an unstated referent (lower than Sydney's 110.6) and reads as low-scoring, when 99.4 is 5th in the competition and comfortably above the 89.1 league mean.",
+      "proposed_fix": "Cite the derived points-against figure with a [data] tag and the league-mean comparison, and change 'a lower scoring average' to 'a scoring average of 99.4, fifth in the league but below Sydney's'."
+    }
+  ],
+  "audits": {
+    "tripwire_observability": {
+      "verdict": "PASS",
+      "note": "n/a — recap format issues no tiered recommendation and no tripwires."
+    },
+    "caveat_hierarchy": {
+      "verdict": "CONCERN",
+      "upstream": "docs/afl-stat-leaders-2026.md (auto-generated; no [Blast] line — deterministic aggregate surface)",
+      "causal_language": "upheld — no causal verb anywhere in the section; the prior 'shows association / translating into' template is absent, and the r is not attached to any named individual",
+      "drift": "S1 only, and in the deflationary direction (recap asserts a structural artifact the source declines to assert)"
+    },
+    "lens_tension": {
+      "verdict": "PASS",
+      "note": "Recap format — no lens reads. Prior smoothing defect (cherry-picked pairing fusing Fremantle margin with Sydney score into 'the two clearest form lines') is resolved: Sydney is now correctly credited with both leads and Fremantle is distinguished on profile."
+    },
+    "coach_anonymity": {
+      "verdict": "PASS",
+      "names_found": 0
+    },
+    "sentinel_smoke_test": {
+      "verdict": "PASS",
+      "note": "Operator waived arithmetic re-verification; ran the deterministic 3-tag sample anyway as a Sentinel-operational check. Tags 3/8/11 (all L22): Gulden 31.5 from 11 games -> 31.45/11 MATCH; Sheezel 30.5 from 22 -> 30.45/22 MATCH; Oliver 30.2 from 23 -> 30.22/23 MATCH. Club attributions cross-checked against the source table (Oliver/Greater Western Sydney confirmed at L24, L52, L130).",
+      "mismatches": 0
+    }
+  },
+  "regressions_checked": [
+    {
+      "prior_finding": "R24/R25 'average winning margin' mislabel over the signed all-games Avg margin column",
+      "status": "fixed",
+      "evidence": "L24 now reads 'average margin across all games, wins and losses combined', with the methodology clause '(margin is averaged across ALL games, not wins only)'"
+    },
+    {
+      "prior_finding": "Eligibility-filter disparity — half-season player outranking full-season players with no games-played disclosure",
+      "status": "fixed",
+      "evidence": "L22 discloses Gulden's 11 games against 22 for Daicos and Smith, and gives games played for all five named leaders"
+    },
+    {
+      "prior_finding": "Tactical-note template '<player> tops both leaderboards … a pairing that shows <relationship>' (n=1 individual as subject of an evidentiary verb)",
+      "status": "fixed",
+      "evidence": "L26 cites only the population r; no individual exemplar is adjoined"
+    },
+    {
+      "prior_finding": "Named-individual tie completeness in the projection paragraph",
+      "status": "n/a",
+      "evidence": "the projection/season-average paragraph is absent from the R25 recap as currently written"
+    }
+  ],
+  "out_of_scope": [
+    "Full [data] tag verification (DataSentinel; 3 deterministic tags spot-checked only)",
+    "Arithmetic re-verification (explicitly waived by operator)",
+    "Editorial tone and readability",
+    "Whether afl-stat-leaders-2026.md should itself annotate the clearances/contested-possessions pair as mechanically related (Scientist's territory; see S1 proposed_fix)"
+  ]
+}
+```

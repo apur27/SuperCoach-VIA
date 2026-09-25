@@ -1,0 +1,25 @@
+---
+import type { LeaderRow } from '../lib/contracts';
+import { encodeId, withBase } from '../lib/ids';
+import { formatStat } from '../lib/format';
+interface Props { rows: LeaderRow[]; caption: string }
+const { rows, caption } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+{rows.length === 0 ? <p class="muted">None in this release.</p> : (
+<div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`}>
+  <table>
+    <caption>{caption}</caption>
+    <thead><tr><th scope="col">Player</th><th scope="col">Statistic</th><th scope="col" class="num">Value</th><th scope="col" class="num">Games observed</th></tr></thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <th scope="row"><a href={withBase(base, `player/?id=${encodeURIComponent(encodeId(r.player_id))}`)}>{r.name}</a></th>
+          <td>{r.stat}</td>
+          <td class="num">{formatStat(r.value, 1)}</td>
+          <td class="num">{r.observed_games}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>)}

@@ -1,0 +1,29 @@
+---
+import type { MatchSummary } from '../lib/contracts';
+import { teamScoreText, resultLine, statusLabel, isReplay } from '../lib/matches';
+import { encodeId, withBase } from '../lib/ids';
+import DateOnly from './DateOnly.astro';
+interface Props { matches: MatchSummary[]; caption: string; testid?: string }
+const { matches, caption, testid } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+{matches.length === 0 ? <p class="muted">None in this release.</p> : (
+<div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`} data-testid={testid}>
+  <table>
+    <caption>{caption}</caption>
+    <thead><tr><th scope="col">Match</th><th scope="col">Date</th><th scope="col">Stage</th><th scope="col">Status</th><th scope="col" class="num">Home</th><th scope="col" class="num">Away</th><th scope="col">Result</th></tr></thead>
+    <tbody>
+      {matches.map((m) => (
+        <tr>
+          <th scope="row"><a href={withBase(base, `match/?id=${encodeURIComponent(encodeId(m.match_id))}`)}>{m.home.name} v {m.away.name}</a></th>
+          <td>{m.local_start ? <span>{m.local_start} <span class="muted">(local)</span></span> : <DateOnly date={m.match_date} />}</td>
+          <td>{m.stage_label}{isReplay(m) && <span class="badge badge-muted">Replay</span>}</td>
+          <td>{statusLabel(m.status)}</td>
+          <td class="num">{m.status === 'scheduled' ? '—' : teamScoreText(m.home)}</td>
+          <td class="num">{m.status === 'scheduled' ? '—' : teamScoreText(m.away)}</td>
+          <td>{resultLine(m)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>)}

@@ -1,0 +1,153 @@
+{
+  "$defs": {
+    "PlayerGame": {
+      "additionalProperties": false,
+      "properties": {
+        "career_game_counter": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Career Game Counter"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "date_quality": {
+          "enum": [
+            "fixture_verified",
+            "source",
+            "inferred",
+            "unknown"
+          ],
+          "title": "Date Quality",
+          "type": "string"
+        },
+        "match_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Date"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "opponent_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Club Id"
+        },
+        "opponent_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opponent Name"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Result"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "stats": {
+          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Stats",
+          "type": "array"
+        }
+      },
+      "required": [
+        "match_id",
+        "match_date",
+        "date_quality",
+        "stage_label",
+        "club_id",
+        "opponent_club_id",
+        "opponent_name",
+        "result",
+        "career_game_counter",
+        "stats"
+      ],
+      "title": "PlayerGame",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/player_season_games.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "games": {
+      "items": {
+        "$ref": "#/$defs/PlayerGame"
+      },
+      "title": "Games",
+      "type": "array"
+    },
+    "player_id": {
+      "title": "Player Id",
+      "type": "string"
+    },
+    "season": {
+      "title": "Season",
+      "type": "integer"
+    },
+    "stat_columns": {
+      "description": "stats observed at least once in this file, in canonical order",
+      "items": {
+        "type": "string"
+      },
+      "title": "Stat Columns",
+      "type": "array"
+    }
+  },
+  "required": [
+    "player_id",
+    "season",
+    "stat_columns",
+    "games"
+  ],
+  "title": "PlayerSeasonGames",
+  "type": "object",
+  "x-public-schema-version": 1
+}

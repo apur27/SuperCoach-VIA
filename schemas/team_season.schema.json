@@ -1,0 +1,558 @@
+{
+  "$defs": {
+    "ClubRef": {
+      "additionalProperties": false,
+      "properties": {
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "club_id",
+        "name"
+      ],
+      "title": "ClubRef",
+      "type": "object"
+    },
+    "FormEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "margin": {
+          "title": "Margin",
+          "type": "integer"
+        },
+        "match_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Date"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "opponent": {
+          "title": "Opponent",
+          "type": "string"
+        },
+        "result": {
+          "enum": [
+            "W",
+            "L",
+            "D"
+          ],
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "match_id",
+        "match_date",
+        "opponent",
+        "result",
+        "margin"
+      ],
+      "title": "FormEntry",
+      "type": "object"
+    },
+    "Heuristic": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "text",
+        "method"
+      ],
+      "title": "Heuristic",
+      "type": "object"
+    },
+    "LadderRow": {
+      "additionalProperties": false,
+      "properties": {
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "drawn": {
+          "title": "Drawn",
+          "type": "integer"
+        },
+        "lost": {
+          "title": "Lost",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "percentage": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null when points_against is zero",
+          "title": "Percentage"
+        },
+        "played": {
+          "title": "Played",
+          "type": "integer"
+        },
+        "points_against": {
+          "title": "Points Against",
+          "type": "integer"
+        },
+        "points_for": {
+          "title": "Points For",
+          "type": "integer"
+        },
+        "position": {
+          "title": "Position",
+          "type": "integer"
+        },
+        "premiership_points": {
+          "title": "Premiership Points",
+          "type": "integer"
+        },
+        "won": {
+          "title": "Won",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "position",
+        "club_id",
+        "name",
+        "played",
+        "won",
+        "lost",
+        "drawn",
+        "points_for",
+        "points_against",
+        "percentage",
+        "premiership_points"
+      ],
+      "title": "LadderRow",
+      "type": "object"
+    },
+    "LeaderRow": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "observed_games": {
+          "title": "Observed Games",
+          "type": "integer"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "stat": {
+          "title": "Stat",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "player_id",
+        "name",
+        "stat",
+        "value",
+        "observed_games"
+      ],
+      "title": "LeaderRow",
+      "type": "object"
+    },
+    "MatchSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "away": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "date_precision": {
+          "enum": [
+            "minute",
+            "day",
+            "unknown"
+          ],
+          "title": "Date Precision",
+          "type": "string"
+        },
+        "home": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "local_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "local wall time as sourced, 'YYYY-MM-DD HH:MM'",
+          "title": "Local Start"
+        },
+        "match_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Date"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "replay_occurrence": {
+          "title": "Replay Occurrence",
+          "type": "integer"
+        },
+        "round_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Round Number"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "stage_order": {
+          "title": "Stage Order",
+          "type": "integer"
+        },
+        "stage_type": {
+          "enum": [
+            "regular",
+            "final",
+            "other"
+          ],
+          "title": "Stage Type",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "scheduled",
+            "in_progress",
+            "complete",
+            "postponed",
+            "cancelled",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Venue"
+        },
+        "winner_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null for draws, incomplete or unknown",
+          "title": "Winner Club Id"
+        }
+      },
+      "required": [
+        "match_id",
+        "season",
+        "stage_id",
+        "stage_label",
+        "stage_type",
+        "round_number",
+        "stage_order",
+        "replay_occurrence",
+        "local_start",
+        "match_date",
+        "date_precision",
+        "status",
+        "venue",
+        "home",
+        "away",
+        "winner_club_id"
+      ],
+      "title": "MatchSummary",
+      "type": "object"
+    },
+    "StatValue": {
+      "additionalProperties": false,
+      "description": "An aggregate that discloses its denominator and coverage.",
+      "properties": {
+        "coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Coverage"
+        },
+        "eligible_games": {
+          "title": "Eligible Games",
+          "type": "integer"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean"
+        },
+        "observed_games": {
+          "title": "Observed Games",
+          "type": "integer"
+        },
+        "stat": {
+          "title": "Stat",
+          "type": "string"
+        },
+        "total": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total"
+        }
+      },
+      "required": [
+        "stat",
+        "total",
+        "mean",
+        "observed_games",
+        "eligible_games",
+        "coverage"
+      ],
+      "title": "StatValue",
+      "type": "object"
+    },
+    "TeamScore": {
+      "additionalProperties": false,
+      "properties": {
+        "behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Behinds"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Goals"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        }
+      },
+      "required": [
+        "club_id",
+        "name",
+        "goals",
+        "behinds",
+        "score"
+      ],
+      "title": "TeamScore",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/team_season.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "club": {
+      "$ref": "#/$defs/ClubRef"
+    },
+    "five_year": {
+      "items": {
+        "$ref": "#/$defs/LadderRow"
+      },
+      "title": "Five Year",
+      "type": "array"
+    },
+    "fixtures": {
+      "items": {
+        "$ref": "#/$defs/MatchSummary"
+      },
+      "title": "Fixtures",
+      "type": "array"
+    },
+    "form": {
+      "items": {
+        "$ref": "#/$defs/FormEntry"
+      },
+      "title": "Form",
+      "type": "array"
+    },
+    "form_window": {
+      "title": "Form Window",
+      "type": "integer"
+    },
+    "heuristics": {
+      "items": {
+        "$ref": "#/$defs/Heuristic"
+      },
+      "title": "Heuristics",
+      "type": "array"
+    },
+    "ladder": {
+      "items": {
+        "$ref": "#/$defs/LadderRow"
+      },
+      "title": "Ladder",
+      "type": "array"
+    },
+    "ladder_note": {
+      "title": "Ladder Note",
+      "type": "string"
+    },
+    "leaders": {
+      "items": {
+        "$ref": "#/$defs/LeaderRow"
+      },
+      "title": "Leaders",
+      "type": "array"
+    },
+    "position": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Position"
+    },
+    "season": {
+      "title": "Season",
+      "type": "integer"
+    },
+    "team_stats": {
+      "items": {
+        "$ref": "#/$defs/StatValue"
+      },
+      "title": "Team Stats",
+      "type": "array"
+    }
+  },
+  "required": [
+    "club",
+    "season",
+    "ladder",
+    "ladder_note",
+    "position",
+    "form_window",
+    "form",
+    "fixtures",
+    "team_stats",
+    "leaders",
+    "five_year",
+    "heuristics"
+  ],
+  "title": "TeamSeason",
+  "type": "object",
+  "x-public-schema-version": 1
+}

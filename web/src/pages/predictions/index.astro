@@ -1,0 +1,32 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import ForecastStatus from '../../components/ForecastStatus.astro';
+import Instant from '../../components/Instant.astro';
+import PredictionsExplorer from '../../islands/PredictionsExplorer';
+import { manifest, readResource, hasResource } from '../../lib/release-server';
+import { withBase } from '../../lib/ids';
+import { findDownload } from '../../lib/downloads';
+const base = import.meta.env.BASE_URL;
+const rel = manifest();
+const idx = readResource('prediction_index', 'predictions/index.json');
+const current = idx.current && hasResource(idx.current) ? readResource('prediction_set', idx.current) : null;
+const dls = readResource('downloads', 'downloads.json');
+const dl = findDownload(dls, 'predictions_csv') ?? findDownload(dls, 'players_csv', 'csv');
+const downloadHref = dl ? withBase(base, `data/${rel.release_id}/${dl.path}`) : withBase(base, 'downloads/');
+---
+<AppLayout title="Predictions" description="Disposal forecasts for upcoming fixtures, with filters, intervals and selection status." current="predictions">
+  <h1>Disposal predictions</h1>
+  <p class="lede">Predicted disposals per player-game for real scheduled fixtures. These are disposal counts, not fantasy scores.</p>
+  <section data-testid="predictions-summary" aria-labelledby="sum-h">
+    <h2 id="sum-h" class="visually-hidden">Summary</h2>
+    <ForecastStatus status={idx.status} reason={idx.reason} />
+    {current ? (
+      <p>Current set: <strong>{current.stage_label} {current.season}</strong> — {current.rows.length} players, {current.target_matches.length} target matches; forecast cutoff <Instant iso={current.forecast_cutoff} />. Model: {current.model?.name ?? 'not recorded'}. {current.interval.available ? 'Prediction intervals are shown.' : `No intervals: ${current.interval.reason ?? 'unavailable'}.`}</p>
+    ) : <p>No current prediction set is published in this release.</p>}
+    {idx.sets.length > 0 && <p class="muted">Sets in this release: {idx.sets.map((s) => `${s.season} ${s.stage_label} (${s.status})`).join('; ')}.</p>}
+  </section>
+  <section aria-labelledby="table-h">
+    <h2 id="table-h">Explore predictions</h2>
+    <PredictionsExplorer client:load downloadHref={downloadHref} />
+  </section>
+</AppLayout>

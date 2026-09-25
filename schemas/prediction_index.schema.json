@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "PredictionIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "resource": {
+          "title": "Resource",
+          "type": "string"
+        },
+        "rows": {
+          "title": "Rows",
+          "type": "integer"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "expired"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "season",
+        "stage_id",
+        "stage_label",
+        "status",
+        "resource",
+        "rows"
+      ],
+      "title": "PredictionIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/prediction_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "current": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "resource key of the current set, if any",
+      "title": "Current"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Reason"
+    },
+    "sets": {
+      "items": {
+        "$ref": "#/$defs/PredictionIndexEntry"
+      },
+      "title": "Sets",
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "available",
+        "unavailable",
+        "expired"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "current",
+    "status",
+    "reason",
+    "sets"
+  ],
+  "title": "PredictionIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

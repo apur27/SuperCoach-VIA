@@ -1,0 +1,425 @@
+# Explicit public-content manifest (PLAN 8.2). Only listed files become browser articles.
+# Everything else under docs/ (rewrite/, council/agent/operator docs, run reports, sentinel logs,
+# architecture/installation notes, how-to-use-this-for-supercoach.md [MAE-as-range, AUDIT C14]) is excluded.
+# scope: frozen = dated article with frozen as-of facts; archive = legacy generated/curated report kept at its vintage.
+schema_version = 1
+
+[[article]]
+path = "docs/news/2026-05-13-voss-carlton.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-15-carlton-next-coach.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-15-richmond-vs-stkilda-r11.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-19-pendlebury-stormrider.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-25-neale-daniher-tribute.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-27-hird-essendon-coach.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-29-greg-williams-possession-engine.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-05-29-jonathan-brown-fist-of-god.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-06-19-afl-2026-free-agency-trade-window.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/news/2026-06-21-dustin-martin-the-storm.md"
+category = "news"
+scope = "frozen"
+
+[[article]]
+path = "docs/articles/afl-draft-analysis-2025.md"
+category = "analysis"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/adelaide-vs-geelong-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/afl-2026-draft-trade-strategy.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/brisbane-lions-vs-fremantle-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/carlton-vs-geelong-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/collingwood-vs-melbourne-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/essendon-vs-carlton-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/gold-coast-vs-brisbane-lions-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/hawthorn-vs-western-bulldogs-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/melbourne-vs-greater-western-sydney-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/north-melbourne-vs-fremantle-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-executive-summary.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-half-time-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-head-to-head-history.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-player-matchups.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-postmortem-footystrategy.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-postmortem.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-q3-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-q4-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-executive-summary.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-full-time-verdict.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-half-time-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-head-to-head-history.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-player-matchups.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-postmortem.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q1-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q2-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q3-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q4-live.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/stkilda-vs-hawthorn-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/sydney-vs-richmond-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/sydney-vs-st-kilda-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/west-coast-vs-essendon-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/west-coast-vs-port-adelaide-round-14-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/coaches-strategy-corner/western-bulldogs-vs-collingwood-round-13-2026.md"
+category = "strategy"
+scope = "frozen"
+
+[[article]]
+path = "docs/hall-of-fame-captains.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-careers-cut-short.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-coaches.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-courageous.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-dynasties.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-forgotten-heroes.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-indigenous.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-brownlow.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-clearances.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-contested.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-disposals.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-games.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-goalassists.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-goals.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-hitouts.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-kicks-handballs.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-leaders.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-marks.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-single-season.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-stat-tackles.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame-top100.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/hall-of-fame.md"
+category = "hall-of-fame"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-season-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-finals-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-brownlow-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-stat-leaders-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-team-analysis-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-team-profiles.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-history.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-insights.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-predictions-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/afl-backtest-2026.md"
+category = "report"
+scope = "archive"
+
+[[article]]
+path = "docs/glossary.md"
+category = "guide"
+scope = "archive"
+
+[[article]]
+path = "docs/list-management-101.md"
+category = "guide"
+scope = "archive"

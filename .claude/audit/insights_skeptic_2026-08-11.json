@@ -1,0 +1,113 @@
+```json
+{
+  "verdict": "PASS_WITH_CONCERNS",
+  "doc": "docs/afl-insights.md",
+  "section": "## Round 24 — Week in Review",
+  "agent": "Skeptic",
+  "reviewed_at": "2026-08-11T00:52:03Z",
+  "reason": "No BLOCK trigger: no causal assertion, no coach name, no tier/tripwire violation (recap format carries neither), and all 3 deterministically sampled **[data]** tags MATCH their cited sources — Data Sentinel is operational. Six prose findings, none fatal: the Tactical note assigns evidentiary weight to an n=1 pairing and inherits an un-annotated partly-mechanical correlation with the source's scope qualifiers dropped; the Team form line mislabels signed average margin as 'average winning margin' and fuses two disagreeing leaderboards into a single superlative; the Round 24 projections omit the source's own 'experimental v0' status.",
+  "blockers": [],
+  "findings": [
+    {
+      "id": "S1",
+      "severity": "concern",
+      "audit": "lens-tension-smoothing",
+      "line": 28,
+      "quote": "a pairing that shows association between forward positioning and scoreboard impact, not that either stat causes the other",
+      "issue": "Evidentiary-weight misassignment, and a verbatim recurrence of a defect logged on the Round 21 recap. The causal verb is correctly absent, but the subject of the evidentiary verb 'shows' is one player's two figures (n=1). A single co-leadership is two independent facts; it cannot show an association. Only the population r (+0.67, n=608 eligible players) can. The clause shape '<player> tops both leaderboards ... a pairing that shows <relationship>' is now a repeat template, not a one-off.",
+      "rule": "Skeptic memory feedback_recap_tactical_note_causal_relapse item 5 — named individual takes illustrative predicates only ('consistent with', 'illustrates'), never 'shows'/'demonstrates'/'is evidence of'.",
+      "proposed_fix": "Reassign the verb's subject: '... a pairing consistent with that population-level relationship' — or attribute the association to the r and leave Gunston as a plain illustration."
+    },
+    {
+      "id": "S2",
+      "severity": "concern",
+      "audit": "caveat-hierarchy-fidelity",
+      "line": 28,
+      "quote": "Marks inside 50 is the strongest single predictor of goal output in the correlation data (r = **+0.67**)",
+      "issue": "Three-part overreach on the cited r. (a) Scope widened: the source (docs/afl-stat-leaders-2026.md L226) says 'strongest single predictor of A FORWARD'S goal output' and 'highest of any stat IN THIS SECTION'; the recap generalises to all goal output across the whole correlation dataset — the r is computed on all 608 eligible players, not forwards. (b) 'Predictor' implies forecasting; this is a contemporaneous same-game Pearson r, not an out-of-sample predictive relationship. (c) The relationship is substantially mechanical — the source's own gloss is 'marks that turn directly into shots on goal'. The same document annotates mechanical correlates inline (effective_disposals r=+0.97 '(mechanically related)') but omits that annotation here, and the recap inherits the omission while presenting the r as a substantive finding about 'forward positioning'.",
+      "rule": "Do not exceed the upstream statement's scope; mechanically-related correlations must not be narrated as informative association.",
+      "proposed_fix": "Restore the source's qualifiers ('a forward's goal output ... the highest correlation in the stat-leaders section') and note that a mark inside 50 is itself a shot on goal, so part of the r is definitional."
+    },
+    {
+      "id": "S3",
+      "severity": "concern",
+      "audit": "claim-vs-number",
+      "line": 24,
+      "quote": "Fremantle's average winning margin of **+30.1** is the highest in the competition",
+      "issue": "The number is mislabelled. The cited source column is signed average margin across ALL team-games — the same table states 'League distribution of margins (signed, per team-game): mean ~0 by construction'. It is not margin-in-wins. 'Average winning margin' reads as 'when Fremantle win, they win by 30.1', which is a different and larger quantity. The source's own section header ('Winning margin') is the likely origin, so this is inherited ambiguity rather than invention — but the recap is the reader-facing surface.",
+      "rule": "A prose label must describe what the cited column actually measures.",
+      "proposed_fix": "'Fremantle's average margin of +30.1 (across all games, wins and losses)'."
+    },
+    {
+      "id": "S4",
+      "severity": "concern",
+      "audit": "lens-tension-smoothing",
+      "line": 24,
+      "quote": "Sydney also leads average score at **109.9 per game** — the two clearest form lines as the season nears its end",
+      "issue": "A superlative built by citing each club on the one metric it happens to lead, which smooths a disagreement visible in the same source. On average score Fremantle is 4th (99.6), behind Brisbane (106.9) and Geelong (99.9); on margin Sydney is 2nd. The two cited tables do not agree on who the standout teams are, and no ladder position is cited. Separately, 'form lines' implies a recent window, but these are rounds 1–23 season aggregates and the named source contains no round-by-round series to support a trajectory reading.",
+      "rule": "Skeptic memory feedback_superlative_and_jersey_collision (rebuild the sort before any comparative claim) and feedback_recap_tactical_note_causal_relapse item 3 (season aggregates must not be narrated as form/recency).",
+      "proposed_fix": "Either name the metric with the claim ('the two strongest season-long margin and scoring lines') and drop 'form', or surface the disagreement — Brisbane and Geelong sit between them depending on which measure you read."
+    },
+    {
+      "id": "S5",
+      "severity": "concern",
+      "audit": "caveat-hierarchy-fidelity",
+      "line": 26,
+      "quote": "Nick Daicos is again the model's top projected disposal getter at **30.0**, with Harry Sheezel and Nasiah Wanganeen-Milera (St Kilda) next at **29.0** each. The cheat sheet's typical error is **±4 disposals**",
+      "issue": "The ±4 error is propagated and the 'shortlist, not a lock' hedge is good, but the named source (docs/weekly/round-current-2026.md L5) leads with a stronger caveat the recap drops entirely: 'Status: experimental v0. Predictions are model output, not certainties.' The model's experimental designation is a materially stronger qualifier than its error bar. Compounding this, the 30.0 / 29.0 / 29.0 spread is 1.0 disposal — entirely inside the ±4 band the same sentence cites — so the ordering language 'top projected' asserts a rank the stated uncertainty cannot distinguish.",
+      "rule": "Caveat propagation must restate the strongest upstream caveat, not a weaker one.",
+      "proposed_fix": "Carry the 'experimental v0' status through, and phrase the three as an undifferentiated leading group rather than a ranked 1-2-3."
+    },
+    {
+      "id": "S6",
+      "severity": "minor",
+      "audit": "claim-vs-number",
+      "line": 22,
+      "quote": "well clear of the league mean of **14.92 per game**",
+      "issue": "Population-scope omission. The source qualifies this as 'League distribution (eligible players, season-to-date)', where eligibility is >=3 games and n=608. Unqualified 'the league mean' implies all players. Low severity — the comparison's direction is unaffected — but the denominator is the kind of detail this doc otherwise discloses.",
+      "rule": "Disclose the qualification threshold behind any cited mean.",
+      "proposed_fix": "'the league mean of 14.92 for players with 3+ games'."
+    }
+  ],
+  "audits": {
+    "tripwire_observability": {
+      "verdict": "PASS",
+      "tripwires_identified": 0,
+      "note": "Weekly recap format carries no tiered recommendation and therefore requires no tripwire. Not a defect."
+    },
+    "caveat_hierarchy_fidelity": {
+      "verdict": "CONCERN",
+      "upstream": "docs/afl-stat-leaders-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md (cited in the methodology paragraph, L30; all exist and were read)",
+      "causal_language_detected": false,
+      "note": "No causal assertion anywhere in the section — the Tactical note explicitly disclaims causation. Drift is in dropped scope qualifiers (S2) and an omitted upstream status caveat (S5), not in causal framing."
+    },
+    "lens_tension_smoothing": {
+      "verdict": "CONCERN",
+      "note": "No formal lens-read structure in a recap. Smoothing is present in the interpretive layer instead: S4 fuses two disagreeing leaderboards into one superlative; S1 over-credits an n=1 pairing."
+    }
+  },
+  "coach_anonymity": {
+    "verdict": "PASS",
+    "names_found": 0,
+    "method": "config/coach_names.txt scanned line-by-line against the doc, comment and blank lines filtered"
+  },
+  "sentinel_smoke_test": {
+    "verdict": "PASS",
+    "method": "scripts/skeptic_sample_tags.py docs/afl-insights.md (deterministic, path-seeded)",
+    "samples": [
+      {"line": 22, "claim": "Nick Daicos 35.2 disposals per game; league mean 14.92", "source": "docs/afl-stat-leaders-2026.md L19, L26", "result": "MATCH"},
+      {"line": 26, "claim": "30.0 projected; 29.0 each; ±4 typical error", "source": "docs/afl-predictions-2026.md L16-18; docs/weekly/round-current-2026.md L147", "result": "MATCH"},
+      {"line": 28, "claim": "r = +0.67; Gunston 4.27 marks i50, 3.47 goals, tops both leaderboards", "source": "docs/afl-stat-leaders-2026.md L94, L230, L86", "result": "MATCH"}
+    ],
+    "note": "'Tops both leaderboards' independently confirmed — Gunston is rank 1 on both tables, not merely equal to the max."
+  },
+  "out_of_scope": [
+    "Full **[data]** tag verification (DataSentinel's job; 3 tags spot-checked as an operational smoke test)",
+    "Arithmetic re-verification (explicitly excluded by the operator; already gated)",
+    "Editorial tone and readability",
+    "Whether the upstream correlation methodology in afl-stat-leaders-2026.md is itself sound (Scientist's territory) — though S2 notes its missing 'mechanically related' annotation is inherited from there and worth routing upstream"
+  ],
+  "recorded": ".claude/audit/sentinel-55defcd005f132bc39e1174b0c4ddd3c35f5fc62905e1dd633c7d0f1ff5e96d5-20260811T005203Z.json",
+  "document_modified": false
+}
+```

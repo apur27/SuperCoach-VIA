@@ -1,0 +1,14 @@
+# Survey — 2026-07-20 — scope: PULSE (post-run review, R20/R21 cycle, first run after F1–F8 hardening)
+
+- **F1 HOF hub gate — GREEN**: hub verdict sentinel written for hall-of-fame-stat-leaders.md (hash 4e461fa0, 20260720T101631Z, agent_id check_hof_numbers); check_hof_hub() wired at check_hof_numbers.py:182; Phase-4 stamp checker verified 13/13 docs against audit records.
+- **F2 insights gate — GREEN**: DataSentinel PASS on pass 1 (20:19:30Z), 12/12 tags; sentinel hash e64eca83… == current raw sha256 of docs/afl-insights.md. Ladder-gap "12" verified by executed python, not prose arithmetic.
+- **F3 phase tracking — GREEN**: HARNESS_PHASE exported per phase (weekly_refresh.sh:41-45) and stamped on every log line; last_refresh_complete.json = {round 21, 2026-07-20T20:19:53}.
+- **F4 synthetic dates — GREEN**: 5-file spot check (achkar/addinsall/acres/aliir/adams_jed) 0 suspects; clarke_angus 2025 row now dated 2025-08-27.
+- **F5 settlement probe — GREEN**: fired at phase 0 in both runs (15:23:24 and 19:49:42), "round settled — proceeding".
+- **F6 match-completeness gate — GREEN**: PASS 20:14:08, blocking before the Phase-1 push (gates the push, not the scrape — acceptable placement).
+- **F7 prediction/backtest CSVs — GREEN**: 10 CSVs + optuna_best_params.json committed in 268cd00b8, including the R18/R19 archive backfill. WF-F7 retired.
+- **F8 matches_2026 completeness — GREEN**: 162 rows; R10=9, R17=7 (bye-round counts elsewhere consistent); "[match-gate] PASS: all covered rounds complete".
+- **Dedup fix 8badf8dc5 — GREEN, validated live**: run 1 (15:23) FATALed at 16:04 with hundreds of duplicated-counter rows; phantom gate blocked the push exactly as designed (S11-F7 fix re-proven); fix committed 19:49:23; run 2 phantom gate PASS 20:14:07; spot checks show 0 duplicate 2026 rounds.
+- **MAE series (measured from backtest_summary CSVs)**: R16 3.981 → R17 3.825 → R18 3.767 → R19 3.973 → R20 3.920. R20's −0.053 vs R19 is inside the round-to-round noise band and above R17/R18 — NOT attributable to the S1b TOG% fix, and see the red below.
+- **RED — published R20 backtest has tainted provenance** [class 2, cadence/stale-artifact]. Evidence: backtest_summary_20260720_155725.csv was produced at 15:57 during run 1, on the corpus that FAILED the phantom-row gate at 16:04 (mass doubled rows, pre-dedup-fix); run 2 logged "Last complete backtest: round 20" and skipped recomputation; the run-1 artifact was committed in 268cd00b8 and published at docs/afl-backtest-2026.md:56 (MAE 3.92, n=361). Routed action → **Scientist**: re-run the R20 backtest from the archived forward CSV against the deduped corpus and republish the row (or record that the delta is nil). Secondary hardening → **Gaffer**: backtest artifacts from a FATALed run must be quarantined so the incremental-completeness check cannot count them as done.
+- Push state clean: HEAD == origin/main == 64b366702; both pushes logged (20:14:15, 20:19:53).

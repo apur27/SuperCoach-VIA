@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "AccuracyIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "prospective",
+            "replay",
+            "legacy_unknown"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "resource": {
+          "title": "Resource",
+          "type": "string"
+        },
+        "season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Season"
+        }
+      },
+      "required": [
+        "model_id",
+        "season",
+        "origin",
+        "label",
+        "resource"
+      ],
+      "title": "AccuracyIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/accuracy_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_model_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Baseline Model Id"
+    },
+    "champion_model_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Champion Model Id"
+    },
+    "model_card": {
+      "title": "Model Card",
+      "type": "string"
+    },
+    "reports": {
+      "items": {
+        "$ref": "#/$defs/AccuracyIndexEntry"
+      },
+      "title": "Reports",
+      "type": "array"
+    }
+  },
+  "required": [
+    "champion_model_id",
+    "baseline_model_id",
+    "reports",
+    "model_card"
+  ],
+  "title": "AccuracyIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

@@ -1,0 +1,34 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import DateOnly from '../../components/DateOnly.astro';
+import { readResource } from '../../lib/release-server';
+import { assertSanitizedHtml } from '../../lib/html-allowlist';
+import { isSafeKey } from '../../lib/ids';
+
+export function getStaticPaths() {
+  const idx = readResource('article_index', 'articles/index.json');
+  return idx.articles.map((a) => {
+    if (!isSafeKey(a.slug)) throw new Error(`unsafe article slug: ${a.slug}`);
+    return { params: { slug: a.slug }, props: { resource: a.resource } };
+  });
+}
+const { resource } = Astro.props as { resource: string };
+const art = readResource('article', resource);
+const s = art.summary;
+// Defence in depth: the Python build sanitizes; refuse to publish anything outside the allowlist.
+const html = assertSanitizedHtml(art.html, resource);
+const SCOPE = { frozen: 'Frozen: figures are as of publication and are not recalculated.', live: 'Live: regenerated from each release.', archive: 'Archive: preserved as originally published.' } as const;
+---
+<AppLayout title={s.title} description={s.excerpt} current="articles" breadcrumbs={[{ label: 'Articles', href: 'articles/' }, { label: s.title }]}>
+  <article>
+    <h1>{s.title}</h1>
+    <p class="muted">{s.category} · published <DateOnly date={s.published} />{s.as_of && <> · {s.as_of}</>}{s.editorial_state === 'draft' && <strong> · DRAFT (unverified)</strong>}</p>
+    <p class="banner banner-info">{SCOPE[s.scope]}</p>
+    <div class="prose" set:html={html} />
+    <section aria-labelledby="src-h">
+      <h2 id="src-h">Sources and provenance</h2>
+      <ul>{art.sources.map((src) => <li>{src.label}{src.note && <> — {src.note}</>}{src.url && /^https:\/\//.test(src.url) && <> (<a href={src.url} rel="noopener noreferrer">{src.url}</a>)</>}</li>)}</ul>
+      <p class="muted">{art.provenance} Original path: <code>{s.original_path}</code>.</p>
+    </section>
+  </article>
+</AppLayout>

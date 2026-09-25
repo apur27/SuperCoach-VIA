@@ -1,0 +1,51 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { withBase } from '../../lib/ids';
+import { readResource } from '../../lib/release-server';
+const base = import.meta.env.BASE_URL;
+const acc = readResource('accuracy_index', 'accuracy/index.json');
+---
+<AppLayout title="Methodology" description="How the disposal forecasts, statistics, rankings and data freshness work." current="methodology">
+  <h1>Methodology</h1>
+  <section aria-labelledby="plain-h">
+    <h2 id="plain-h">In plain language</h2>
+    <p>SuperCoach VIA predicts how many <strong>disposals</strong> (kicks plus handballs) each listed player will have in an upcoming AFL match. It is not a fantasy-score or team-selection tool.</p>
+    <p>Forecasts are published only when there is a real scheduled fixture to predict. When the season is over, or no fixture is confirmed, the site says so instead of guessing.</p>
+    <p>A missing statistic is shown as “not recorded”, never as zero. Older eras have gaps, so every total shows how many games actually had data.</p>
+    <p>Every page shows when the source was last checked and when the data was built. Amber means the data may be out of date.</p>
+  </section>
+  <section aria-labelledby="target-h">
+    <h2 id="target-h">Forecast target</h2>
+    <p>The target is the disposal count for one player in one scheduled match. Forecasts use only information available before a stated cutoff time (the forecast cutoff shown with each set). Players without a confirmed selection are marked “Not confirmed”; players with no prior games get a labelled baseline.</p>
+  </section>
+  <section aria-labelledby="stats-h">
+    <h2 id="stats-h">Statistical definitions</h2>
+    <ul>
+      <li><strong>Per game</strong>: total divided by the number of games with a recorded value (the “games with data” shown alongside).</li>
+      <li><strong>Coverage</strong>: games with data divided by games played. Low coverage means the figure describes only part of a career.</li>
+      <li><strong>Ladder</strong>: regular-season matches only; finals are reported separately. Percentage is points for divided by points against (not defined when nothing was conceded).</li>
+      <li><strong>Heuristics</strong> on team pages are labelled rules of thumb, not model outputs.</li>
+    </ul>
+  </section>
+  <section aria-labelledby="missing-h">
+    <h2 id="missing-h">Missing data</h2>
+    <p>A zero score and a missing score are different: “0.0 (0)” is a recorded zero, “score not recorded” means the source has no value. Dates without a known start time are shown as calendar dates only, never converted between time zones.</p>
+  </section>
+  <section aria-labelledby="model-h">
+    <h2 id="model-h">Models and intervals</h2>
+    <p>{acc.model_card}</p>
+    <p>A model is promoted only if it beats the baseline on held-out, time-ordered data. Intervals are shown only when calibrated on held-out data, with their stated level and measured coverage. Prediction accuracy is reported separately for predictions made before the match (prospective) and reconstructed afterwards (replay); they are never mixed. See <a href={withBase(base, 'accuracy/')}>Accuracy</a>.</p>
+  </section>
+  <section aria-labelledby="source-h">
+    <h2 id="source-h">Sources and freshness</h2>
+    <p>Data is gathered by an operator-run pipeline with rate limits and validation; this website never contacts data providers. Each release is immutable and identified by a release ID; pages never mix data from two releases. See <a href={withBase(base, 'data-status/')}>Data status</a> for this release.</p>
+  </section>
+  <section aria-labelledby="rank-h">
+    <h2 id="rank-h">Rankings</h2>
+    <p>Historical rankings state their method and version on the <a href={withBase(base, 'history/')}>History</a> page. Early-era rankings carry a methodology warning because statistics were not recorded consistently.</p>
+  </section>
+  <section aria-labelledby="sec-h">
+    <h2 id="sec-h">Privacy and security</h2>
+    <p>No accounts, cookies or trackers. Your watchlist, theme and time-zone choice are stored only in your browser. The site sets a Content Security Policy by meta tag; on GitHub Pages a meta tag cannot set <code>frame-ancestors</code>, HSTS or other response headers, which require a header-capable host.</p>
+  </section>
+</AppLayout>

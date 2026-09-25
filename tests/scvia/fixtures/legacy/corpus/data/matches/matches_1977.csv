@@ -1,0 +1,4 @@
+round_num,venue,date,year,attendance,team_1_team_name,team_1_q1_goals,team_1_q1_behinds,team_1_q2_goals,team_1_q2_behinds,team_1_q3_goals,team_1_q3_behinds,team_1_final_goals,team_1_final_behinds,team_2_team_name,team_2_q1_goals,team_2_q1_behinds,team_2_q2_goals,team_2_q2_behinds,team_2_q3_goals,team_2_q3_behinds,team_2_final_goals,team_2_final_behinds
+1,M.C.G.,1977-04-02 14:10,1977,50000,Collingwood,3,2,6,4,9,6,12,8,North Melbourne,2,2,4,4,6,6,8,8
+Grand Final,M.C.G.,1977-09-24 14:30,1977,108244,North Melbourne,2,3,5,6,7,10,9,22,Collingwood,1,2,4,6,7,8,10,16
+Grand Final,M.C.G.,1977-10-01 14:30,1977,98366,North Melbourne,5,6,11,10,16,17,21,25,Collingwood,3,2,8,5,13,7,19,10

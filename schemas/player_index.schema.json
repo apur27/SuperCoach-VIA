@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "PlayerIndexEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "clubs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clubs",
+          "type": "array"
+        },
+        "first_season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Season"
+        },
+        "games": {
+          "title": "Games",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "key": {
+          "description": "encoded id used in resource paths",
+          "title": "Key",
+          "type": "string"
+        },
+        "last_season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Season"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "search": {
+          "description": "lower-case diacritic-stripped search terms",
+          "title": "Search",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "key",
+        "name",
+        "clubs",
+        "first_season",
+        "last_season",
+        "games",
+        "active",
+        "search"
+      ],
+      "title": "PlayerIndexEntry",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/player_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "players": {
+      "items": {
+        "$ref": "#/$defs/PlayerIndexEntry"
+      },
+      "title": "Players",
+      "type": "array"
+    }
+  },
+  "required": [
+    "count",
+    "players"
+  ],
+  "title": "PlayerIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

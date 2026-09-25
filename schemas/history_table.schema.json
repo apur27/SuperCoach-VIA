@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "HistoryRow": {
+      "additionalProperties": false,
+      "properties": {
+        "clubs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Clubs",
+          "type": "array"
+        },
+        "coverage": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Coverage"
+        },
+        "eligible_games": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Eligible Games"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "observed_games": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Games"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Player Id"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        },
+        "seasons": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seasons"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "value_label": {
+          "title": "Value Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rank",
+        "player_id",
+        "name",
+        "clubs",
+        "value",
+        "value_label",
+        "observed_games",
+        "eligible_games",
+        "coverage",
+        "seasons"
+      ],
+      "title": "HistoryRow",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/history_table.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "title": "Category",
+      "type": "string"
+    },
+    "coverage_note": {
+      "title": "Coverage Note",
+      "type": "string"
+    },
+    "era": {
+      "title": "Era",
+      "type": "string"
+    },
+    "method": {
+      "title": "Method",
+      "type": "string"
+    },
+    "method_version": {
+      "title": "Method Version",
+      "type": "string"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/HistoryRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "scope": {
+      "enum": [
+        "career",
+        "single_season",
+        "ranking"
+      ],
+      "title": "Scope",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "warning": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Warning"
+    }
+  },
+  "required": [
+    "category",
+    "title",
+    "scope",
+    "era",
+    "method",
+    "method_version",
+    "coverage_note",
+    "warning",
+    "rows"
+  ],
+  "title": "HistoryTable",
+  "type": "object",
+  "x-public-schema-version": 1
+}

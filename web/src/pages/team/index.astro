@@ -1,0 +1,10 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import TeamView from '../../islands/TeamView';
+import { withBase } from '../../lib/ids';
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Team" description="Club season view: regular-season ladder, form, fixtures, team statistics, leaders and labelled heuristics." current="teams" breadcrumbs={[{ label: 'Teams', href: 'teams/' }, { label: 'Team' }]}>
+  <h1 id="page-h1">Team</h1>
+  <TeamView client:load downloadHref={withBase(base, 'downloads/')} />
+</AppLayout>

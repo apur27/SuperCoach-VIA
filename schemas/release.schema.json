@@ -1,0 +1,179 @@
+{
+  "$defs": {
+    "CoverageInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "legacy_unverified",
+            "verified",
+            "partial",
+            "demo"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "through": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Through"
+        }
+      },
+      "required": [
+        "status",
+        "through"
+      ],
+      "title": "CoverageInfo",
+      "type": "object"
+    },
+    "ForecastInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "resource key of the current prediction set",
+          "title": "Artifact"
+        },
+        "model_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Id"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "expired"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "artifact"
+      ],
+      "title": "ForecastInfo",
+      "type": "object"
+    },
+    "ResourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "title": "ResourceRef",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/release.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "base_label": {
+      "description": "'DEMO' for demo releases, else ''",
+      "title": "Base Label",
+      "type": "string"
+    },
+    "coverage": {
+      "$ref": "#/$defs/CoverageInfo"
+    },
+    "demo": {
+      "title": "Demo",
+      "type": "boolean"
+    },
+    "forecast": {
+      "$ref": "#/$defs/ForecastInfo"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "release_id": {
+      "title": "Release Id",
+      "type": "string"
+    },
+    "resources": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ResourceRef"
+      },
+      "title": "Resources",
+      "type": "object"
+    },
+    "schema_version": {
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "season": {
+      "title": "Season",
+      "type": "integer"
+    },
+    "snapshot_id": {
+      "title": "Snapshot Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_id",
+    "snapshot_id",
+    "generated_at",
+    "season",
+    "demo",
+    "base_label",
+    "coverage",
+    "forecast",
+    "resources"
+  ],
+  "title": "ReleaseManifest",
+  "type": "object",
+  "x-public-schema-version": 1
+}

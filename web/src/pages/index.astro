@@ -1,0 +1,82 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import MatchTable from '../components/MatchTable.astro';
+import ForecastStatus from '../components/ForecastStatus.astro';
+import LeaderTable from '../components/LeaderTable.astro';
+import DateOnly from '../components/DateOnly.astro';
+import Instant from '../components/Instant.astro';
+import { overview } from '../lib/release-server';
+import { encodeId, withBase } from '../lib/ids';
+import { formatStat } from '../lib/format';
+const ov = overview();
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Overview" description={`Season ${ov.season} overview: fixture status, disposal forecasts, recent results and latest articles.`} current="overview">
+  <h1>Season {ov.season} overview</h1>
+  <p class="lede">Current results, upcoming disposal forecasts and data status for release <code>{ov.release_id}</code>.</p>
+  {ov.warnings.length > 0 && (
+    <div class="banner banner-stale" data-testid="warnings"><p><strong>Public warnings</strong></p><ul>{ov.warnings.map((w) => <li>{w}</li>)}</ul></div>
+  )}
+
+  <form class="controls" method="get" action={withBase(base, 'players/')} role="search" aria-label="Quick player search">
+    <div class="field"><label for="quick-q">Find a player</label><input id="quick-q" type="search" name="q" maxlength="60" autocomplete="off" /></div>
+    <button type="submit">Search players</button>
+    <a class="button secondary" href={withBase(base, 'downloads/')}>Downloads</a>
+  </form>
+
+  <section aria-labelledby="next-h">
+    <h2 id="next-h">Next fixture and forecast</h2>
+    <ForecastStatus status={ov.next_fixture_status} reason={ov.next_fixture_reason} />
+    <p>Model: {ov.model_status.model ? <>{ov.model_status.model.name} ({ov.model_status.model.kind}){ov.model_status.model.trained_cutoff && <>, trained to <Instant iso={ov.model_status.model.trained_cutoff} /></>}</> : <span class="missing">no model recorded</span>}.</p>
+    <h3>Upcoming matches</h3>
+    <MatchTable matches={ov.upcoming} caption="Upcoming scheduled matches" testid="upcoming" />
+    {ov.prediction_highlights.length > 0 && (
+      <>
+        <h3>Forecast highlights</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Forecast highlights">
+          <table>
+            <caption>Predicted disposals (units: disposals per player-game)</caption>
+            <thead><tr><th scope="col">Player</th><th scope="col">Club</th><th scope="col">Opponent</th><th scope="col" class="num">Predicted</th><th scope="col" class="num">Recent mean (5)</th><th scope="col">Selection</th></tr></thead>
+            <tbody>
+              {ov.prediction_highlights.map((r) => (
+                <tr>
+                  <th scope="row"><a href={withBase(base, `player/?id=${encodeURIComponent(encodeId(r.player_id))}`)}>{r.player_name}</a></th>
+                  <td>{r.club_name}</td><td>{r.opponent_name ?? <span class="missing">not recorded</span>}</td>
+                  <td class="num">{formatStat(r.predicted_disposals, 1)}</td>
+                  <td class="num">{r.recent_mean_5 === null ? <span class="missing">not recorded</span> : formatStat(r.recent_mean_5, 1)}</td>
+                  <td>{r.selection_status === 'confirmed' ? 'Confirmed' : 'Not confirmed'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p><a href={withBase(base, 'predictions/')}>All predictions</a></p>
+      </>
+    )}
+  </section>
+
+  <section aria-labelledby="recent-h">
+    <h2 id="recent-h">Recent results</h2>
+    <MatchTable matches={ov.recent_results} caption="Most recent completed matches" testid="recent" />
+    <p><a href={withBase(base, 'matches/')}>All matches</a></p>
+  </section>
+
+  <section aria-labelledby="form-h">
+    <h2 id="form-h">Form and leaders</h2>
+    <div class="grid">
+      <div><LeaderTable rows={ov.form_highlights} caption="Form highlights" /></div>
+      <div><LeaderTable rows={ov.leaders} caption="Season leaders" /></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="articles-h">
+    <h2 id="articles-h">Latest articles</h2>
+    {ov.latest_articles.length === 0 ? <p class="muted">No articles in this release.</p> : (
+      <ul class="list-plain">
+        {ov.latest_articles.slice(0, 2).map((a) => (
+          <li><a href={withBase(base, `articles/${a.slug}/`)}>{a.title}</a> <span class="muted">· {a.category} · <DateOnly date={a.published} />{a.as_of && <> · {a.as_of}</>}</span><p>{a.excerpt}</p></li>
+        ))}
+      </ul>
+    )}
+  </section>
+</AppLayout>

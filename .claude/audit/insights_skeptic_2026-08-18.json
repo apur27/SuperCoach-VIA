@@ -1,0 +1,82 @@
+```json
+{
+  "verdict": "BLOCK",
+  "doc": "docs/afl-insights.md",
+  "section": "## Round 25 — Week in Review",
+  "agent": "Skeptic",
+  "reviewed_at": "2026-08-18T02:08:07Z",
+  "reason": "Line 24 mislabels the cited number: '+29.9' is the source's signed average margin across all 22 team-games (league mean ~0 by construction), not an average WINNING margin. Recomputed from data/matches/matches_2026.csv, Fremantle's actual average margin in wins is +36.4 (19 wins) and Sydney's is +44.8 (17 wins) — so the sentence is false as written and its superlative ('the highest in the competition, just ahead of Sydney') inverts under the label the prose uses. This is a verbatim recurrence of a defect logged on the Round 24 recap. Four further prose concerns follow; arithmetic was not re-verified (DataSentinel scope).",
+  "findings": [
+    {
+      "id": "S1",
+      "severity": "BLOCK",
+      "line": 24,
+      "category": "claim-exceeds-cited-number",
+      "quote": "Fremantle's average winning margin of **+29.9** **[data]** is the highest in the competition, just ahead of Sydney's **+28.2** **[data]**",
+      "detail": "The cited value is the 'Avg margin' column of docs/afl-stat-leaders-2026.md L308-314, defined at L292 as 'the team's score minus the opponent's' over every team-game, with L316 stating 'mean ~0 by construction' — i.e. losses included. 'Average winning margin' names a different quantity. Wins-only recomputation: Fremantle +36.4 (19 wins), Sydney +44.8 (17 wins). Under the prose's own label Sydney leads by 8.4 points, reversing the asserted ranking.",
+      "falsifiable_check": "Group data/matches/matches_2026.csv by team, filter margin>0, take the mean.",
+      "proposed_fix": "Either restate as 'average margin across all games (+29.9)' or cite the wins-only figures. Do not carry the source's '#### Winning margin' heading into prose as a description of the number."
+    },
+    {
+      "id": "S2",
+      "severity": "CONCERN",
+      "line": 24,
+      "category": "cherry-picked-pairing",
+      "quote": "Sydney also leads average score at **110.0 per game** **[data]** — the two clearest form lines as the season heads into its closing rounds.",
+      "detail": "Each club is cited on the metric it happens to lead. Fremantle is 5th on average score (100.2, behind Brisbane 106.4, Geelong 101.0, Melbourne 100.6 — stat-leaders L296-302), so the two cited tables disagree about the second-best team; 'the two clearest form lines' papers over that disagreement. Separately, 'form lines' implies recency, but the cited source is a rounds 1–24 aggregate with no round-by-round series, so no recency claim is supportable from it.",
+      "proposed_fix": "Name the metric each club leads without the fused superlative, and drop 'form' or cite a recent-N-round series."
+    },
+    {
+      "id": "S3",
+      "severity": "CONCERN",
+      "line": 28,
+      "category": "unsupported-exemplar",
+      "quote": "Jai Newcombe (Hawthorn) tops the clearance leaderboard at **7.73 per game** **[data]** — a pairing that shows association between stoppage craft and ball-winning",
+      "detail": "The population r (+0.75) supports the association; the Newcombe clause does not, and is not shown to. He is absent from the contested-possessions top 5 (5th is Harley Reid 13.41; his own file gives 13.32). His clearance:contested-possession ratio, 7.73/13.32 = 0.58, is the highest among the clearance top 5 (Oliver 0.49, Cripps 0.51, Rowell 0.53) — the cited exemplar sits above the association rather than illustrating it. Also, r = +0.75 is partly definitional (a clearance is typically credited as a contested possession in the same act); the source annotates other mechanically related pairs '(mechanically related)' (L28, L256) but not this one, so glossing the two as distinct skills ('stoppage craft and ball-winning') overstates. The causal disclaimer at the end of the sentence is correct and is not the defect.",
+      "proposed_fix": "Either drop the individual clause or state the population claim alone; if an exemplar is kept, cite both of his figures and use illustrative language ('consistent with'), never 'shows'."
+    },
+    {
+      "id": "S4",
+      "severity": "CONCERN",
+      "line": 22,
+      "category": "undisclosed-sample-disparity",
+      "quote": "ahead of Bailey Smith (Geelong) at **32.3** **[data]** and Errol Gulden (Sydney) at **30.5** **[data]**",
+      "detail": "The asserted third place rests on 30.500 (Gulden, 10 games) versus 30.455 (Clayton Oliver and Harry Sheezel, 22 games each) — a 0.045 separation across a 12-game sample gap, admitted by the source's >=3-game eligibility filter. The prose states a clean ordering and discloses neither the near-tie nor the games-played disparity. The same paragraph's comparison 'well clear of the league mean of **14.91**' also drops the source's qualifier that the mean is over 611 eligible players with >=3 games.",
+      "proposed_fix": "Note the three-way effective tie at 30.5 and Gulden's game count, and carry the eligibility qualifier onto the league mean."
+    },
+    {
+      "id": "S5",
+      "severity": "CONCERN",
+      "line": 26,
+      "category": "smoothed-tension",
+      "quote": "Harry Sheezel (North Melbourne) and Errol Gulden share the model's top projected disposal count at **29.0** each **[data]**, with Nick Daicos next at **28.0** **[data]**.",
+      "detail": "The projections sit systematically below season averages, most sharply for the competition leader — Daicos 35.3 actual against 28.0 projected, a 7.3 gap that is ~1.8x the stated +/-4 typical error, and the reason he ranks third here while ranking first at line 22. The recap narrates the ordering without surfacing that tension. The whole cited spread (29.0/29.0/28.0) also falls inside the +/-4 band, so 'next at 28.0' reports a difference the doc's own error figure calls noise. The closing 'shortlist, not a lock' caveat partially covers this, which is why this is a concern and not a block.",
+      "proposed_fix": "State that the projections regress toward the mean relative to season averages, and name the Daicos 35.3-vs-28.0 divergence rather than letting the two paragraphs disagree silently."
+    }
+  ],
+  "audits": {
+    "coach_anonymity": {
+      "verdict": "PASS",
+      "matches": 0,
+      "method": "word-boundary case-insensitive scan of lines 20-32 against config/coach_names.txt"
+    },
+    "causal_language": {
+      "verdict": "PASS",
+      "note": "Line 28 carries an explicit non-causal disclaimer; no causal verb ('driving', 'translating into', 'converting') present anywhere in the section. The defect at S3 is the evidentiary subject, not causation."
+    },
+    "methodology_paths": {
+      "verdict": "PASS",
+      "note": "All four files cited in the line-30 methodology paragraph exist and contain the cited sections."
+    },
+    "arithmetic": {
+      "verdict": "NOT_IN_SCOPE",
+      "note": "Per operator instruction, DataSentinel-verified numbers were not re-checked. The wins-only margin recomputation under S1 is a new quantity, not a re-verification."
+    }
+  },
+  "blocking_actions": [
+    "Fix or requalify the line 24 'average winning margin' claim (S1) before commit."
+  ],
+  "audit_record": ".claude/audit/sentinel-0423ffe479bddfac13fa9aca0b49451ceb09f3cd0d87870ee66e9e2e8a663e2d-20260818T020807Z.json",
+  "document_modified": false
+}
+```

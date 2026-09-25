@@ -1,0 +1,378 @@
+{
+  "$defs": {
+    "CohortMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricBlock"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cohort": {
+          "title": "Cohort",
+          "type": "string"
+        },
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/MetricBlock"
+        },
+        "sufficient": {
+          "title": "Sufficient",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "dimension",
+        "cohort",
+        "model",
+        "baseline",
+        "sufficient"
+      ],
+      "title": "CohortMetric",
+      "type": "object"
+    },
+    "IntervalInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "title": "Available",
+          "type": "boolean"
+        },
+        "calibrated": {
+          "title": "Calibrated",
+          "type": "boolean"
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Level"
+        },
+        "method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Method"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "available",
+        "level",
+        "method",
+        "calibrated",
+        "reason"
+      ],
+      "title": "IntervalInfo",
+      "type": "object"
+    },
+    "MetricBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "bias": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bias"
+        },
+        "mae": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mae"
+        },
+        "median_ae": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Median Ae"
+        },
+        "n": {
+          "title": "N",
+          "type": "integer"
+        },
+        "rmse": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rmse"
+        },
+        "within_10": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Within 10"
+        },
+        "within_5": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Within 5"
+        }
+      },
+      "required": [
+        "n",
+        "mae",
+        "rmse",
+        "bias",
+        "median_ae",
+        "within_5",
+        "within_10"
+      ],
+      "title": "MetricBlock",
+      "type": "object"
+    },
+    "Populations": {
+      "additionalProperties": false,
+      "properties": {
+        "excluded": {
+          "title": "Excluded",
+          "type": "integer"
+        },
+        "exclusion_reasons": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Exclusion Reasons",
+          "type": "object"
+        },
+        "intended": {
+          "title": "Intended",
+          "type": "integer"
+        },
+        "joined": {
+          "title": "Joined",
+          "type": "integer"
+        },
+        "missing": {
+          "title": "Missing",
+          "type": "integer"
+        },
+        "played": {
+          "title": "Played",
+          "type": "integer"
+        },
+        "predicted": {
+          "title": "Predicted",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "intended",
+        "predicted",
+        "joined",
+        "played",
+        "missing",
+        "excluded",
+        "exclusion_reasons"
+      ],
+      "title": "Populations",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/accuracy_report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_headline": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MetricBlock"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "baseline_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Baseline Id"
+    },
+    "cohorts": {
+      "items": {
+        "$ref": "#/$defs/CohortMetric"
+      },
+      "title": "Cohorts",
+      "type": "array"
+    },
+    "headline": {
+      "$ref": "#/$defs/MetricBlock"
+    },
+    "interval": {
+      "$ref": "#/$defs/IntervalInfo"
+    },
+    "interval_coverage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Interval Coverage"
+    },
+    "interval_median_width": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Interval Median Width"
+    },
+    "label": {
+      "title": "Label",
+      "type": "string"
+    },
+    "mean_of_rounds_mae": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Mean Of Rounds Mae"
+    },
+    "model_id": {
+      "title": "Model Id",
+      "type": "string"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "origin": {
+      "enum": [
+        "prospective",
+        "replay",
+        "legacy_unknown"
+      ],
+      "title": "Origin",
+      "type": "string"
+    },
+    "populations": {
+      "$ref": "#/$defs/Populations"
+    },
+    "promotion": {
+      "title": "Promotion",
+      "type": "string"
+    },
+    "rows_resource": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "download key for the scored rows CSV",
+      "title": "Rows Resource"
+    },
+    "season": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Season"
+    }
+  },
+  "required": [
+    "model_id",
+    "baseline_id",
+    "season",
+    "origin",
+    "label",
+    "headline",
+    "baseline_headline",
+    "mean_of_rounds_mae",
+    "populations",
+    "cohorts",
+    "interval",
+    "interval_coverage",
+    "interval_median_width",
+    "promotion",
+    "notes",
+    "rows_resource"
+  ],
+  "title": "AccuracyReport",
+  "type": "object",
+  "x-public-schema-version": 1
+}

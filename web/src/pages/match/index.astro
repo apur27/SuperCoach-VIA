@@ -1,0 +1,10 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import MatchView from '../../islands/MatchView';
+import { withBase } from '../../lib/ids';
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Match" description="Match detail: score by quarter, box scores, status and live snapshots." current="matches" breadcrumbs={[{ label: 'Matches', href: 'matches/' }, { label: 'Match' }]}>
+  <h1 id="page-h1">Match</h1>
+  <MatchView client:load downloadHref={withBase(base, 'downloads/')} />
+</AppLayout>

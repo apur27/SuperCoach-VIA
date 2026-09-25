@@ -1,0 +1,418 @@
+{
+  "$defs": {
+    "BoxScoreRow": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "stats": {
+          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Stats",
+          "type": "array"
+        }
+      },
+      "required": [
+        "player_id",
+        "name",
+        "stats"
+      ],
+      "title": "BoxScoreRow",
+      "type": "object"
+    },
+    "MatchSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "away": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "date_precision": {
+          "enum": [
+            "minute",
+            "day",
+            "unknown"
+          ],
+          "title": "Date Precision",
+          "type": "string"
+        },
+        "home": {
+          "$ref": "#/$defs/TeamScore"
+        },
+        "local_start": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "local wall time as sourced, 'YYYY-MM-DD HH:MM'",
+          "title": "Local Start"
+        },
+        "match_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Match Date"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "replay_occurrence": {
+          "title": "Replay Occurrence",
+          "type": "integer"
+        },
+        "round_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Round Number"
+        },
+        "season": {
+          "title": "Season",
+          "type": "integer"
+        },
+        "stage_id": {
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_label": {
+          "title": "Stage Label",
+          "type": "string"
+        },
+        "stage_order": {
+          "title": "Stage Order",
+          "type": "integer"
+        },
+        "stage_type": {
+          "enum": [
+            "regular",
+            "final",
+            "other"
+          ],
+          "title": "Stage Type",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "scheduled",
+            "in_progress",
+            "complete",
+            "postponed",
+            "cancelled",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Venue"
+        },
+        "winner_club_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null for draws, incomplete or unknown",
+          "title": "Winner Club Id"
+        }
+      },
+      "required": [
+        "match_id",
+        "season",
+        "stage_id",
+        "stage_label",
+        "stage_type",
+        "round_number",
+        "stage_order",
+        "replay_occurrence",
+        "local_start",
+        "match_date",
+        "date_precision",
+        "status",
+        "venue",
+        "home",
+        "away",
+        "winner_club_id"
+      ],
+      "title": "MatchSummary",
+      "type": "object"
+    },
+    "QuarterScore": {
+      "additionalProperties": false,
+      "properties": {
+        "away_behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Away Behinds"
+        },
+        "away_goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Away Goals"
+        },
+        "home_behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Home Behinds"
+        },
+        "home_goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Home Goals"
+        },
+        "quarter": {
+          "enum": [
+            "q1",
+            "q2",
+            "q3",
+            "final"
+          ],
+          "title": "Quarter",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quarter",
+        "home_goals",
+        "home_behinds",
+        "away_goals",
+        "away_behinds"
+      ],
+      "title": "QuarterScore",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "TeamScore": {
+      "additionalProperties": false,
+      "properties": {
+        "behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Behinds"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Goals"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        }
+      },
+      "required": [
+        "club_id",
+        "name",
+        "goals",
+        "behinds",
+        "score"
+      ],
+      "title": "TeamScore",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/match_detail.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attendance": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Attendance"
+    },
+    "away_players": {
+      "items": {
+        "$ref": "#/$defs/BoxScoreRow"
+      },
+      "title": "Away Players",
+      "type": "array"
+    },
+    "home_players": {
+      "items": {
+        "$ref": "#/$defs/BoxScoreRow"
+      },
+      "title": "Home Players",
+      "type": "array"
+    },
+    "live_snapshots": {
+      "description": "live resource keys",
+      "items": {
+        "type": "string"
+      },
+      "title": "Live Snapshots",
+      "type": "array"
+    },
+    "quarters": {
+      "items": {
+        "$ref": "#/$defs/QuarterScore"
+      },
+      "title": "Quarters",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "stat_columns": {
+      "description": "stats observed at least once in this file, in canonical order",
+      "items": {
+        "type": "string"
+      },
+      "title": "Stat Columns",
+      "type": "array"
+    },
+    "summary": {
+      "$ref": "#/$defs/MatchSummary"
+    }
+  },
+  "required": [
+    "summary",
+    "quarters",
+    "attendance",
+    "home_players",
+    "away_players",
+    "stat_columns",
+    "sources"
+  ],
+  "title": "MatchDetail",
+  "type": "object",
+  "x-public-schema-version": 1
+}

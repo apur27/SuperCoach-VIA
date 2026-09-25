@@ -1,0 +1,232 @@
+{
+  "$defs": {
+    "BoxScoreRow": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "stats": {
+          "description": "positional values aligned to the parent's stat_columns; null = not recorded",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Stats",
+          "type": "array"
+        }
+      },
+      "required": [
+        "player_id",
+        "name",
+        "stats"
+      ],
+      "title": "BoxScoreRow",
+      "type": "object"
+    },
+    "TeamScore": {
+      "additionalProperties": false,
+      "properties": {
+        "behinds": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Behinds"
+        },
+        "club_id": {
+          "title": "Club Id",
+          "type": "string"
+        },
+        "goals": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Goals"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        }
+      },
+      "required": [
+        "club_id",
+        "name",
+        "goals",
+        "behinds",
+        "score"
+      ],
+      "title": "TeamScore",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/v1/live_snapshot.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "anomalies": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Anomalies",
+      "type": "array"
+    },
+    "away": {
+      "$ref": "#/$defs/TeamScore"
+    },
+    "fetched_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Fetched At"
+    },
+    "final": {
+      "title": "Final",
+      "type": "boolean"
+    },
+    "home": {
+      "$ref": "#/$defs/TeamScore"
+    },
+    "match_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Match Id"
+    },
+    "players": {
+      "items": {
+        "$ref": "#/$defs/BoxScoreRow"
+      },
+      "title": "Players",
+      "type": "array"
+    },
+    "quarter": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Quarter"
+    },
+    "reads": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reads",
+      "type": "array"
+    },
+    "reliable_fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reliable Fields",
+      "type": "array"
+    },
+    "source_game_id": {
+      "title": "Source Game Id",
+      "type": "string"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Status"
+    },
+    "timeline": {
+      "items": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "title": "Timeline",
+      "type": "array"
+    },
+    "unavailable_fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unavailable Fields",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_game_id",
+    "match_id",
+    "fetched_at",
+    "status",
+    "quarter",
+    "home",
+    "away",
+    "reliable_fields",
+    "unavailable_fields",
+    "players",
+    "timeline",
+    "reads",
+    "anomalies",
+    "final"
+  ],
+  "title": "LiveSnapshot",
+  "type": "object",
+  "x-public-schema-version": 1
+}

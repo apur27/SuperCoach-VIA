@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+import Freshness from '../components/Freshness.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { MORE_NAV, PRIMARY_NAV } from '../lib/nav';
+import { withBase } from '../lib/ids';
+import { manifest, overview } from '../lib/release-server';
+
+interface Props {
+  title: string;
+  description: string;
+  current?: string;
+  breadcrumbs?: { label: string; href?: string }[];
+}
+const { title, description, current, breadcrumbs } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const rel = manifest();
+const ov = overview();
+if (ov.release_id !== rel.release_id) throw new Error('overview.json belongs to a different release than release.json');
+const demoPrefix = rel.demo ? `${rel.base_label || 'DEMO'} · ` : '';
+const fullTitle = `${demoPrefix}${title} · SuperCoach VIA`;
+---
+<!doctype html>
+<html lang="en-AU" data-release={rel.release_id} data-base={base} data-demo={rel.demo ? 'true' : 'false'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="scvia-release" content={rel.release_id} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={withBase(base, 'favicon.svg')} type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try {
+          var t = localStorage.getItem('supercoach-via:theme:v1');
+          if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href={withBase(base, '')}>SuperCoach VIA{rel.demo && <span class="badge badge-demo">{rel.base_label || 'DEMO'}</span>}</a>
+        <div class="header-tools">
+          <label for="theme-select">Theme</label>
+          <select id="theme-select" data-theme-select>
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <label for="zone-select">Times</label>
+          <select id="zone-select" data-zone-select>
+            <option value="Australia/Melbourne">Melbourne</option>
+            <option value="local">My time zone</option>
+            <option value="UTC">UTC</option>
+          </select>
+        </div>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Main" data-open="false">
+        <ul class="wrap nav-primary">
+          {PRIMARY_NAV.map((item) => (
+            <li><a href={withBase(base, item.href)} aria-current={current === item.key ? 'page' : undefined}>{item.label}</a></li>
+          ))}
+          <li class="more">
+            <button class="more-toggle" type="button" aria-expanded="false" aria-controls="more-list" data-more-toggle>More</button>
+            <ul class="more-list" id="more-list" hidden>
+              {MORE_NAV.map((item) => (
+                <li><a href={withBase(base, item.href)} aria-current={current === item.key ? 'page' : undefined}>{item.label}</a></li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <Freshness freshness={ov.freshness} season={rel.season} demo={rel.demo} releaseId={rel.release_id} />
+    {breadcrumbs && <div class="wrap"><Breadcrumbs items={breadcrumbs} /></div>}
+    <main id="main" class="wrap" tabindex="-1">
+      {rel.demo && (
+        <div class="banner banner-demo" data-testid="demo-banner">
+          <p><strong>DEMO release.</strong> Every name and number here is synthetic test data, not AFL statistics.</p>
+        </div>
+      )}
+      <div class="banner banner-info" data-release-notice hidden role="alert">
+        <p><strong>A newer release is available.</strong> This page was built for release <code>{rel.release_id}</code>, whose data is no longer being served.</p>
+        <p><button type="button" data-reload>Reload to get the newest release</button></p>
+      </div>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <nav aria-label="Footer">
+          <ul>
+            {[...PRIMARY_NAV, ...MORE_NAV].map((item) => <li><a href={withBase(base, item.href)}>{item.label}</a></li>)}
+          </ul>
+        </nav>
+        <p class="muted">Release <code>{rel.release_id}</code> · snapshot <code>{rel.snapshot_id}</code>. Forecasts are disposal counts per player-game, not fantasy scores. <a href={withBase(base, 'methodology/')}>How this works</a>.</p>
+      </div>
+    </footer>
+    <script>
+      import { initShell } from '../lib/shell';
+      initShell();
+    </script>
+  </body>
+</html>

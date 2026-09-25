@@ -1,0 +1,12 @@
+---
+import { reasonText } from '../lib/matches';
+interface Props { status: 'available' | 'unavailable' | 'expired'; reason: string | null }
+const { status, reason } = Astro.props;
+---
+{status === 'available' ? (
+  <p class="banner banner-ok" data-testid="forecast-status"><strong>Forecast available.</strong> Upcoming disposal predictions target real scheduled fixtures.</p>
+) : status === 'expired' ? (
+  <div class="banner banner-stale" data-testid="forecast-status"><p><strong>Forecast expired.</strong> {reasonText(reason ?? 'expired')}</p><p>Past predictions stay visible for accuracy review but are not current.</p></div>
+) : (
+  <div class="banner banner-info" data-testid="forecast-status"><p><strong>No current forecast.</strong> {reasonText(reason)}</p></div>
+)}

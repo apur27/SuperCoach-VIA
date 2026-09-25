@@ -1,0 +1,14 @@
+---
+import { withBase } from '../lib/ids';
+interface Props { items: { label: string; href?: string }[] }
+const { items } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href={withBase(base, '')}>Overview</a></li>
+    {items.map((it, i) => (
+      <li>{it.href !== undefined && i < items.length - 1 ? <a href={withBase(base, it.href)}>{it.label}</a> : <span aria-current="page">{it.label}</span>}</li>
+    ))}
+  </ol>
+</nav>

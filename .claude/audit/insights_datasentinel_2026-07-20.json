@@ -1,0 +1,35 @@
+```json
+{
+  "verdict": "PASS",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-07-20T10:19:30Z",
+  "summary": {
+    "tags_total": 12,
+    "tags_verified": 12,
+    "tags_failed": 0,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 0,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [
+    { "claim": "Nick Daicos leads disposals at 34.8 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "row: | 1 | Nick Daicos | Collingwood | 34.8 |", "line": 22 },
+    { "claim": "Bailey Smith 32.4 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "row: | 2 | Bailey Smith | Geelong | 32.4 |", "line": 22 },
+    { "claim": "Harry Sheezel 31.7 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "row: | 3 | Harry Sheezel | North Melbourne | 31.7 |", "line": 22 },
+    { "claim": "league mean of 15.03 per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "League distribution ... mean 15.03, std 5.68 ...", "line": 22 },
+    { "claim": "Fremantle 16-2 (64 points, 142.0%)", "source": "docs/afl-finals-2026.md", "matched_value": "Fremantle sit 1st on the ladder after Round 20 (16-2, 64 points, 142.0%)", "line": 24 },
+    { "claim": "12 competition points clear of Sydney", "source": "docs/afl-finals-2026.md", "matched_value": "computed: 64 (Fremantle) - 52 (Sydney) = 12 [python -c \"print(64-52)\" -> 12]", "line": 24 },
+    { "claim": "Sydney 13-5, 52 points", "source": "docs/afl-finals-2026.md", "matched_value": "Sydney sit 2nd on the ladder after Round 20 (13-5, 52 points, 128.3%)", "line": 24 },
+    { "claim": "Lachie Neale projected 30.0 disposals R21", "source": "data/prediction/next_round_21_prediction_20260720_2007.csv", "matched_value": "player='Neale Lachie', team='Brisbane Lions', predicted_disposals=30", "line": 26 },
+    { "claim": "Wanganeen-Milera / Sheezel / Nick Daicos each projected 29.0", "source": "data/prediction/next_round_21_prediction_20260720_2007.csv", "matched_value": "Wanganeen-Milera Nasiah=29 (St Kilda); Sheezel Harry=29 (North Melbourne); Daicos Nick=29 (Collingwood) [Daicos Josh=27 correctly excluded, doc names Nick]", "line": 26 },
+    { "claim": "contested possessions -> clearances correlation r = +0.75", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "Clearances section: Top per-game correlates: `contested_possessions` (r = +0.75), `handballs` (r = +0.56), `disposals` (r = +0.49).", "line": 28 },
+    { "claim": "Clayton Oliver 15.61 contested possessions per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "row: | 1 | Clayton Oliver | Greater Western Sydney | 15.61 |", "line": 28 },
+    { "claim": "Clayton Oliver 7.94 clearances per game", "source": "docs/afl-stat-leaders-2026.md", "matched_value": "row: | 1 | Clayton Oliver | Greater Western Sydney | 7.94 |", "line": 28 }
+  ],
+  "failed_tags": [],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

@@ -1,0 +1,28 @@
+{
+  "$id": "https://supercoach-via.local/schemas/v1/lists_index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "resources": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Resources",
+      "type": "object"
+    },
+    "seasons": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Seasons",
+      "type": "array"
+    }
+  },
+  "required": [
+    "seasons",
+    "resources"
+  ],
+  "title": "ListsIndex",
+  "type": "object",
+  "x-public-schema-version": 1
+}

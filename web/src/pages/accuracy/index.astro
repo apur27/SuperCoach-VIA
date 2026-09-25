@@ -1,0 +1,16 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import AccuracyView from '../../islands/AccuracyView';
+import { manifest, readResource } from '../../lib/release-server';
+const rel = manifest();
+const idx = readResource('accuracy_index', 'accuracy/index.json');
+---
+<AppLayout title="Accuracy" description="How accurate the disposal forecasts were: champion vs baseline, denominators, cohorts and intervals." current="accuracy">
+  <h1>Forecast accuracy</h1>
+  <p class="lede">Champion model <code>{idx.champion_model_id ?? 'none'}</code> compared with baseline <code>{idx.baseline_model_id ?? 'none'}</code>. Prospective and replayed predictions are always reported separately.</p>
+  <AccuracyView client:load index={idx} releaseId={rel.release_id} />
+  <section aria-labelledby="card-h">
+    <h2 id="card-h">Model card</h2>
+    <p>{idx.model_card}</p>
+  </section>
+</AppLayout>

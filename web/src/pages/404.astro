@@ -1,0 +1,9 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import { withBase } from '../lib/ids';
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Page not found" description="The page you asked for does not exist.">
+  <h1>Page not found</h1>
+  <p>That page does not exist. Try the <a href={withBase(base, '')}>overview</a> or <a href={withBase(base, 'players/')}>player search</a>.</p>
+</AppLayout>

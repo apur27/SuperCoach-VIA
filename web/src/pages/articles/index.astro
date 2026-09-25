@@ -1,0 +1,12 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import ArticleFilter from '../../islands/ArticleFilter';
+import { readResource } from '../../lib/release-server';
+const idx = readResource('article_index', 'articles/index.json');
+const articles = [...idx.articles].sort((a, b) => (b.published ?? '').localeCompare(a.published ?? ''));
+const base = import.meta.env.BASE_URL;
+---
+<AppLayout title="Articles" description="Analysis, recaps and archive articles with their as-of dates and sources." current="articles">
+  <h1>Articles</h1>
+  <ArticleFilter client:load articles={articles} base={base} />
+</AppLayout>

@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "b4ce74770b20e670a43a3165913dc4e188a25bad",
+  "audit_date": "2026-09-23",
+  "runtime": "Python 3.12.3",
+  "fresh_install": {
+    "pandas": "3.0.6",
+    "result": "collection_error",
+    "error": "pandas.errors.SettingWithCopyWarning missing"
+  },
+  "compatibility_environment": {
+    "pandas": "2.3.3",
+    "matplotlib": "3.11.2",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "optuna": "5.0.0",
+    "pytest": "9.1.1"
+  },
+  "unit": {
+    "passed": 555,
+    "skipped": 45,
+    "warnings": 16,
+    "seconds": 8.03
+  },
+  "integration": {
+    "passed": 19,
+    "skipped": 1,
+    "failed": 1,
+    "failure": "top100 chart byte reproducibility differs in a new renderer environment",
+    "note": "Two omitted-agent-registry setup failures were resolved by copying tracked agent definitions and rerunning those tests."
+  },
+  "scope": "Tests used tracked working-tree copies before raw-data refresh; ignored generated _stat_leaders.json was not copied. These are test-environment baseline results, not a replacement-app validation."
+}

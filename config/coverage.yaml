@@ -1,0 +1,57 @@
+# Coverage and validation policy for the canonical dataset (supercoach_via).
+#
+# Migrated from config/stat_coverage_eras.yaml (legacy gate config, still read by the
+# legacy DataSentinel/Skeptic gates and left untouched). Stat names here are the
+# CANONICAL player_games column names (domain.schemas.PLAYER_STAT_COLUMNS); the
+# `legacy_name` field records the original column so parity can be tested.
+#
+# recorded_from = first match season at which the stat is populated at scale. Before it,
+# a NULL means "not collected league-wide" and must never be treated as zero; general
+# statistics use observed denominators and disclose coverage (PLAN section 4.3).
+schema_version: 1
+policy_version: coverage-v1
+migrated_from: config/stat_coverage_eras.yaml
+
+stats:
+  kicks: {recorded_from: 1965, legacy_name: kicks}
+  marks: {recorded_from: 1965, legacy_name: marks}
+  handballs: {recorded_from: 1965, legacy_name: handballs}
+  disposals: {recorded_from: 1965, legacy_name: disposals}
+  goals: {recorded_from: 1897, legacy_name: goals}
+  behinds: {recorded_from: 1965, legacy_name: behinds}
+  frees_for: {recorded_from: 1965, legacy_name: free_kicks_for}
+  frees_against: {recorded_from: 1965, legacy_name: free_kicks_against}
+  hitouts:
+    recorded_from: 1966
+    legacy_name: hit_outs
+    method_breaks: [2017]  # counting-method change 2016->2017; do not compare across
+  tackles: {recorded_from: 1987, legacy_name: tackles}
+  rebound_50s: {recorded_from: 1998, legacy_name: rebound_50s}
+  inside_50s: {recorded_from: 1998, legacy_name: inside_50s}
+  clearances: {recorded_from: 1998, legacy_name: clearances}
+  clangers: {recorded_from: 1998, legacy_name: clangers}
+  contested_possessions: {recorded_from: 1999, legacy_name: contested_possessions}
+  uncontested_possessions: {recorded_from: 1999, legacy_name: uncontested_possessions}
+  contested_marks: {recorded_from: 1999, legacy_name: contested_marks}
+  marks_inside_50: {recorded_from: 1999, legacy_name: marks_inside_50}
+  one_percenters: {recorded_from: 1999, legacy_name: one_percenters}
+  bounces: {recorded_from: 1999, legacy_name: bounces}
+  goal_assists: {recorded_from: 2003, legacy_name: goal_assist}
+  time_on_ground_pct: {recorded_from: 2003, legacy_name: percentage_of_game_played}
+  brownlow_votes:
+    recorded_from: 1984
+    legacy_name: brownlow_votes
+    isolated_fragments: [[1931, 1934]]  # real but isolated; 1935-1983 is a dead zone
+
+# Coverage-report era buckets (inclusive season ranges). Reporting only; no imputation.
+eras:
+  - {name: pre-1965, from: 1897, to: 1964}
+  - {name: 1965-1986, from: 1965, to: 1986}
+  - {name: 1987-1997, from: 1987, to: 1997}
+  - {name: 1998-2002, from: 1998, to: 2002}
+  - {name: 2003-present, from: 2003, to: null}
+
+# Known historical exceptions. Each entry must name an explicit rule_id and row_key and
+# give a reason. An exception whose row is in the current season is REJECTED by
+# validation (it can never suppress a current-season defect).
+known_exceptions: []

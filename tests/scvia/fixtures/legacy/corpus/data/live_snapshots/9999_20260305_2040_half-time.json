@@ -1,0 +1,15 @@
+{
+  "gameid": "9999",
+  "fetched_at_utc": "2026-03-05T09:40:00Z",
+  "header": {
+    "home_team_full": "Sydney",
+    "away_team_full": "Carlton",
+    "round": "R1",
+    "home_score": "10.5.65",
+    "away_score": "3.2.20",
+    "status": "Half Time"
+  },
+  "meta": {
+    "year": "2026"
+  }
+}

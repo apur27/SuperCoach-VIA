@@ -1,0 +1,36 @@
+```json
+{
+  "verdict": "FAIL",
+  "doc_path": "docs/afl-insights.md",
+  "checked_at_utc": "2026-07-13T11:00:49Z",
+  "summary": {
+    "tags_total": 11,
+    "tags_verified": 0,
+    "tags_failed": 11,
+    "tags_unverifiable_by_design": 0,
+    "untagged_numbers_flagged": 1,
+    "coach_names_flagged": 0,
+    "schema_violations": 0
+  },
+  "verified_tags": [],
+  "failed_tags": [
+    { "claim": "Nick Daicos tops the competition at 34.8 per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 22 },
+    { "claim": "Bailey Smith at 32.2 per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 22 },
+    { "claim": "Clayton Oliver (Greater Western Sydney) at 31.9 per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 22 },
+    { "claim": "league mean of 15.08 per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 22 },
+    { "claim": "Fremantle 14-2 (56 points, 143.7%)", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 24 },
+    { "claim": "Sydney 12-3, 48 points", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 24 },
+    { "claim": "Harry Sheezel projected 30.0 disposals", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 26 },
+    { "claim": "Wanganeen-Milera and Callaghan projected 29.0 disposals", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 26 },
+    { "claim": "r = +0.74 correlation contested possessions vs clearances", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 28 },
+    { "claim": "Clayton Oliver 15.53 contested possessions per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 28 },
+    { "claim": "Clayton Oliver 7.94 clearances per game", "declared_source": null, "reason": "no source file declared in methodology paragraph", "line": 28 }
+  ],
+  "unverifiable_by_design": [],
+  "untagged_numbers": [
+    { "text": "eight competition points clear", "line": 24, "context": "[data]**, now eight competition points clear of 2nd", "suggestion": "tag as [data] with source, or as [historical record], or as [unverified]" }
+  ],
+  "coach_name_violations": [],
+  "schema_violations": []
+}
+```

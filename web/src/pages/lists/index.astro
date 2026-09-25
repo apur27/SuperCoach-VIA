@@ -1,0 +1,10 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import ListsView from '../../islands/ListsView';
+import { readResource } from '../../lib/release-server';
+const idx = readResource('lists_index', 'lists/index.json');
+---
+<AppLayout title="Lists" description="Draft picks, contract observations and school classifications with source dates." current="lists">
+  <h1>Lists: drafts, contracts and schools</h1>
+  <ListsView client:load index={idx} />
+</AppLayout>
