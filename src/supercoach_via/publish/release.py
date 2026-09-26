@@ -259,40 +259,23 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
         fail("closure", name, "listed file is missing")
 
     listed = set(sums)
+    names = sorted(present & listed)
+    if VALIDATE_WORKERS > 1 and len(names) >= PARALLEL_MIN_FILES:
+        import multiprocessing
+        from concurrent.futures import ProcessPoolExecutor
+
+        size = -(-len(names) // (VALIDATE_WORKERS * 4))
+        chunks = [names[k : k + size] for k in range(0, len(names), size)]
+        with ProcessPoolExecutor(VALIDATE_WORKERS, mp_context=multiprocessing.get_context("spawn")) as pool:
+            parts = list(pool.map(_check_files, [public] * len(chunks), chunks,
+                                  [{n: sums[n] for n in c} for c in chunks], [listed] * len(chunks)))  # fmt: skip
+    else:
+        parts = [_check_files(public, names, sums, listed)]
     manifest: Any = None  # only the release manifest is kept; other documents are checked then dropped
-    for name in sorted(present & set(sums)):
-        path = public / name
-        try:
-            check_release_path(name)
-        except ValueError as exc:
-            fail("allowlist", name, str(exc))
-            continue
-        data = path.read_bytes()
-        if sha256_bytes(data) != sums[name]["sha256"] or len(data) != sums[name]["bytes"]:
-            fail("hashes", name, "content does not match checksums.json")
-        if any(marker in data for marker in PRIVATE_MARKERS):
-            fail("private_content", name, "contains a local path or secret marker")
-        if name.endswith(".json"):
-            key = model_for_path(name)
-            if name.startswith("downloads/"):
-                key = None
-            try:
-                doc = _strict_json(data)
-            except ValueError as exc:
-                fail("json", name, str(exc))
-                continue
-            if key is None:
-                if not name.startswith("downloads/"):
-                    fail("schema", name, "no public model for this path")
-                continue
-            try:
-                model = PUBLIC_MODELS[key].model_validate(doc)
-            except ValidationError as exc:
-                fail("schema", name, str(exc))
-                continue
-            if name == "release.json":
-                manifest = model
-            _check_references({name: model}, listed, fail)
+    for part_issues, part_manifest in parts:  # chunk order == sorted file order: reports are identical
+        for issue in part_issues:
+            fail(issue["check"], issue["path"], issue["why"])
+        manifest = part_manifest or manifest
 
     if not isinstance(manifest, ReleaseManifest):
         fail("manifest", "release.json", "missing or invalid release manifest")
@@ -330,6 +313,54 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
         }
         atomic_write_bytes(release_dir / "validation.json", canonical_json_bytes(payload))
     return report
+
+
+VALIDATE_WORKERS = min(3, os.cpu_count() or 1)
+PARALLEL_MIN_FILES = 2000  # below this, process start-up costs more than it saves
+
+
+def _check_files(
+    public: Path, names: list[str], sums: dict[str, dict[str, Any]], listed: set[str]
+) -> tuple[list[dict[str, Any]], ReleaseManifest | None]:
+    """Per-file checks (allowlist, hashes, private content, JSON, schema, references) for ``names``."""
+    issues: list[dict[str, Any]] = []
+    manifest: ReleaseManifest | None = None
+
+    def fail(check: str, path: str, why: str) -> None:
+        issues.append({"check": check, "path": path, "why": why[:300]})
+
+    for name in names:
+        try:
+            check_release_path(name)
+        except ValueError as exc:
+            fail("allowlist", name, str(exc))
+            continue
+        data = (public / name).read_bytes()
+        if sha256_bytes(data) != sums[name]["sha256"] or len(data) != sums[name]["bytes"]:
+            fail("hashes", name, "content does not match checksums.json")
+        if any(marker in data for marker in PRIVATE_MARKERS):
+            fail("private_content", name, "contains a local path or secret marker")
+        if not name.endswith(".json"):
+            continue
+        key = None if name.startswith("downloads/") else model_for_path(name)
+        try:
+            doc = _strict_json(data)
+        except ValueError as exc:
+            fail("json", name, str(exc))
+            continue
+        if key is None:
+            if not name.startswith("downloads/"):
+                fail("schema", name, "no public model for this path")
+            continue
+        try:
+            model = PUBLIC_MODELS[key].model_validate(doc)
+        except ValidationError as exc:
+            fail("schema", name, str(exc))
+            continue
+        if name == "release.json" and isinstance(model, ReleaseManifest):
+            manifest = model
+        _check_references({name: model}, listed, fail)
+    return issues, manifest
 
 
 def _check_references(parsed: dict[str, Any], files: set[str], fail: Callable[[str, str, str], None]) -> None:

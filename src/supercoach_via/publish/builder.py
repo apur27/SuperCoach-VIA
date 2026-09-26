@@ -1274,7 +1274,11 @@ def _history(b: _Build, q: SnapshotQuery) -> _History:
     ranking = ranking_analytics.run_legacy_v1(q)
     all_time = ranking_analytics.all_time_history_table(q, ranking)
     publish(all_time.category, all_time.title, "ranking", [("all", all_time)])
-    yearly = [(str(s), ranking_analytics.yearly_history_table(q, ranking, s)) for s in sorted(ranking.yearly)]
+    ranked = sorted({e.player_id for y in ranking.yearly.values() for e in y.entries})
+    meta = ranking_analytics.player_meta(q, ranked)  # one lookup instead of one full scan per season
+    yearly = [
+        (str(s), ranking_analytics.yearly_history_table(q, ranking, s, meta=meta)) for s in sorted(ranking.yearly)
+    ]
     if yearly:
         publish("yearly_top_100", "Yearly top 100", "ranking", yearly)
     summary: list[dict[str, float | int | str | None]] = []

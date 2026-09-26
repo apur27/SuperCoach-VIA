@@ -573,6 +573,11 @@ def biography_export_rows(q: SnapshotQuery, result: RankingResult) -> list[tuple
 # ---------------------------------------------------------------------------
 
 
+def player_meta(q: SnapshotQuery, ids: Sequence[str]) -> dict[str, tuple[str, list[str], str | None]]:
+    """(display name, clubs, season span) per player; per-player values do not depend on ``ids``."""
+    return _player_meta(q, ids)
+
+
 def _player_meta(q: SnapshotQuery, ids: Sequence[str]) -> dict[str, tuple[str, list[str], str | None]]:
     if not ids:
         return {}
@@ -651,11 +656,19 @@ def all_time_history_table(q: SnapshotQuery, result: RankingResult) -> Any:
     )
 
 
-def yearly_history_table(q: SnapshotQuery, result: RankingResult, season: int) -> Any:
+def yearly_history_table(
+    q: SnapshotQuery,
+    result: RankingResult,
+    season: int,
+    *,
+    meta: Mapping[str, tuple[str, list[str], str | None]] | None = None,
+) -> Any:
+    """``meta``: optional ``player_meta`` over a superset of this season's players (batched builds)."""
     from supercoach_via.publish.view_models import HistoryRow, HistoryTable
 
     yr = result.yearly[season]
-    meta = _player_meta(q, [e.player_id for e in yr.entries])
+    if meta is None:
+        meta = _player_meta(q, [e.player_id for e in yr.entries])
     rows = [
         HistoryRow(
             rank=e.rank,

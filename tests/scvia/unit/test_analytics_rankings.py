@@ -241,6 +241,17 @@ class TestExports:
         assert rankings.YEARLY_EXPORT_COLUMNS == ("player", "score", "percentile_rank", "games_played")
         assert rows[0][1] >= rows[-1][1]
 
+    def test_yearly_tables_from_one_batched_meta_lookup_are_identical(self, snapshot) -> None:  # type: ignore[no-untyped-def]
+        root, manifest = snapshot
+        with SnapshotQuery(root, manifest) as q:
+            result = rankings.run_legacy_v1(q)
+            ids = sorted({e.player_id for y in result.yearly.values() for e in y.entries})
+            meta = rankings.player_meta(q, ids)
+            for season in sorted(result.yearly):
+                assert rankings.yearly_history_table(q, result, season, meta=meta) == rankings.yearly_history_table(
+                    q, result, season
+                ), season
+
     def test_history_table_view_model(self, snapshot) -> None:  # type: ignore[no-untyped-def]
         root, manifest = snapshot
         with SnapshotQuery(root, manifest) as q:

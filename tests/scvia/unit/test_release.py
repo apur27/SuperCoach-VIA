@@ -212,3 +212,20 @@ def test_index_referencing_a_missing_resource_fails_references(tmp_path: Path) -
     assert report.checks["references"] is CheckOutcome.FAIL
     assert any(i["check"] == "references" and i["path"] == "downloads.json" for i in report.issues)
     assert report.checks["closure"] is CheckOutcome.PASS
+
+
+def test_parallel_validation_reports_exactly_what_sequential_does(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    rdir = _write_minimal(tmp_path / "dist")
+    public = rdir / "public"
+    (public / "quality.json").write_text('{"not": "a quality report"}')  # schema + hash
+    (public / "downloads" / "players.csv").write_bytes(b"id\n/home/someone/x\n")  # hash + private marker
+    monkeypatch.setattr(rel, "PARALLEL_MIN_FILES", 1)
+    reports = {}
+    for workers in (1, 2):
+        monkeypatch.setattr(rel, "VALIDATE_WORKERS", workers)
+        reports[workers] = rel.validate_release(rdir, write=False)
+    assert reports[1].outcome is CheckOutcome.FAIL
+    assert {i["check"] for i in reports[1].issues} >= {"schema", "hashes", "private_content"}
+    assert reports[1] == reports[2]
