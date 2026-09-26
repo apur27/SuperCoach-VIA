@@ -94,11 +94,11 @@ from supercoach_via.publish.view_models import (
     RetainedRelease,
     SeasonLine,
     Source,
+    StatColumns,
     StatValue,
     TeamIndex,
     TeamIndexEntry,
     TeamSeason,
-    to_stat_columns,
 )
 from supercoach_via.publish.web_data import canonical_json_bytes, sha256_bytes
 from supercoach_via.storage.queries import SnapshotQuery
@@ -965,7 +965,9 @@ def player_stat_lines(
     """
 
     def sv(r: Mapping[Any, Any]) -> StatValue:
-        return StatValue(
+        # Trusted typed analytics rows (1.6M on the real corpus): skip per-object validation.
+        # to_stat_columns re-checks every mean/coverage derivation before anything is published.
+        return StatValue.model_construct(
             stat=str(r["stat"]),
             total=_nn(r["total"]),
             mean=_nn(r["mean"]),
@@ -1000,6 +1002,71 @@ def player_stat_lines(
     return out
 
 
+class PlayerStatColumns:
+    """Per-player compact stats straight from the bundle frames, one player at a time.
+
+    Equal to packing ``player_stat_lines`` with ``to_stat_columns`` (a test holds this) but never
+    materialises the ~1.7M per-stat objects of the real corpus. Mean and coverage are verified to
+    be the derived values once, vectorised, before anything is returned (fails closed).
+    """
+
+    def __init__(self, bundle: player_analytics.PlayerStatsBundle, games_resource: Callable[[str, int], str]):
+        self._res = games_resource
+        self._c, self._c_idx = self._arrays(bundle.careers, ["player_id"], "career_games")
+        self._s, s_idx = self._arrays(bundle.seasons, ["player_id", "season"], "games")
+        self._s_by_player: dict[str, list[tuple[int, Any]]] = {}
+        for (pid, season), idx in sorted(s_idx.items()):
+            self._s_by_player.setdefault(str(pid), []).append((int(season), idx))
+        sc = bundle.season_clubs
+        self._clubs = {
+            (str(p), int(s)): [str(c) for c in clubs]
+            for p, s, clubs in zip(sc["player_id"], sc["season"], sc["clubs"], strict=True)
+        }
+
+    @staticmethod
+    def _arrays(frame: Any, keys: list[str], scope: str) -> tuple[dict[str, Any], dict[Any, Any]]:
+        import numpy as np
+
+        total = frame["total"].to_numpy(dtype="float64")
+        obs = frame["observed_games"].to_numpy(dtype="int64")
+        den = frame[scope].to_numpy(dtype="int64")
+        mean = frame["mean"].to_numpy(dtype="float64")
+        cov = frame["coverage"].to_numpy(dtype="float64")
+        with np.errstate(divide="ignore", invalid="ignore"):
+            want_mean = np.where((obs > 0) & ~np.isnan(total), total / np.maximum(obs, 1), np.nan)
+            want_cov = np.where(den > 0, np.minimum(1.0, obs / np.maximum(den, 1)), np.nan)
+        mean_ok = (mean == want_mean) | (np.isnan(mean) & np.isnan(want_mean))
+        cov_ok = (cov == want_cov) | (np.isnan(cov) & np.isnan(want_cov))
+        if not (mean_ok.all() and cov_ok.all()):
+            raise ValueError("bundle mean/coverage is not derived from total/observed/scope games")
+        arrays = {"stat": frame["stat"].to_numpy(dtype=object), "total": total, "observed": obs,
+                  "eligible": frame["eligible_games"].to_numpy(dtype="int64"), "scope": den}  # fmt: skip
+        key = keys[0] if len(keys) == 1 else keys
+        return arrays, frame.groupby(key, sort=False).indices
+
+    def _cols(self, a: dict[str, Any], idx: Any) -> StatColumns:
+        t = a["total"][idx]
+        return StatColumns(
+            total=[None if v != v else float(v) for v in t.tolist()],
+            observed_games=a["observed"][idx].tolist(),
+            eligible_games=a["eligible"][idx].tolist(),
+        )
+
+    def get(self, pid: str) -> tuple[list[str], StatColumns, list[PlayerSeason]]:
+        idx = self._c_idx.get(pid)
+        if idx is None:
+            return [], StatColumns(total=[], observed_games=[], eligible_games=[]), []
+        names = [str(x) for x in self._c["stat"][idx].tolist()]
+        seasons = []
+        for season, sidx in self._s_by_player.get(pid, []):
+            if [str(x) for x in self._s["stat"][sidx].tolist()] != names:
+                raise ValueError(f"{pid} {season}: season stat order differs from career order")
+            seasons.append(PlayerSeason(season=season, clubs=self._clubs.get((pid, season), []),
+                                        games=int(self._s["scope"][sidx[0]]), stats=self._cols(self._s, sidx),
+                                        games_resource=self._res(pid, season)))  # fmt: skip
+        return names, self._cols(self._c, idx), seasons
+
+
 def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _Forecast) -> dict[str, _PlayerRow]:
     """Write every canonical player's detail page; returns the rows for the players CSV."""
     import pandas as pd
@@ -1008,7 +1075,7 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
         return f"player-games/{resources.public_key(pid)}/{season}.json"
 
     bundle = player_analytics.player_stats_bundle(q, b.eras)
-    stat_lines = player_stat_lines(bundle, games_resource)
+    stat_cols = PlayerStatColumns(bundle, games_resource)
     games = {str(r["player_id"]): r for r in bundle.games.to_dict("records")}
     club_names = dict(q.rows("SELECT club_id, name FROM clubs"))
     people = {r["player_id"]: r for r in _records(q, "SELECT * FROM players")}
@@ -1020,15 +1087,14 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
     out_rows: dict[str, _PlayerRow] = {}
     for entry in pidx.players:
         pid = entry.id
-        career, lines = stat_lines.get(pid, ([], []))
+        names, career_cols, player_seasons = stat_cols.get(pid)
         club_ids: list[str] = []
-        for line in lines:
+        for line in player_seasons:
             club_ids.extend(c for c in line.clubs if c not in club_ids)
         g = games.get(pid)
         counter = None if g is None or pd.isna(g["counter_max"]) else int(g["counter_max"])
         p = people[pid]
         career_games = int(g["career_games"]) if g is not None else 0
-        names = [v.stat for v in career]
         urls = json.loads(p["source_urls"]) if p.get("source_urls") else []
         sources = [Source(label="Legacy player CSV import", url=None, note=p.get("source_path"))]
         sources += [Source(label="Verified source page", url=u) for u in urls if str(u).startswith("https://")]
@@ -1049,24 +1115,15 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
             career_games=career_games,
             career_counter_max=counter,
             stat_names=names,
-            career=to_stat_columns(names, career, career_games),
-            seasons=[
-                PlayerSeason(
-                    season=ln.season,
-                    clubs=ln.clubs,
-                    games=ln.games,
-                    stats=to_stat_columns(names, ln.stats, ln.games),
-                    games_resource=ln.games_resource,
-                )
-                for ln in lines
-            ],
+            career=career_cols,
+            seasons=player_seasons,
             forecast=forecast_rows.get(pid),
             sources=sources,
             coverage_note=player_analytics.COVERAGE_NOTE,
         )
         b.put_json(f"players/{entry.key}.json", detail)
         b.bump("player_pages")
-        by_stat = {s.stat: s for s in career}
+        by_stat = {n: (t, o) for n, t, o in zip(names, career_cols.total, career_cols.observed_games, strict=True)}
         out_rows[pid] = _PlayerRow(
             player_id=pid,
             name=entry.name,
@@ -1076,7 +1133,7 @@ def _player_details(b: _Build, q: SnapshotQuery, pidx: PlayerIndex, forecast: _F
             career_games=detail.career_games,
             active=entry.active,
             stats=tuple(
-                (by_stat[s].total, by_stat[s].observed_games) if s in by_stat else (None, 0) for s in PLAYER_CSV_STATS
+                by_stat.get(s, (None, 0)) for s in PLAYER_CSV_STATS
             ),
         )
     return out_rows

@@ -26,14 +26,33 @@ _EXACT_INT = 2.0**53
 
 
 def _compact_numbers(value: Any) -> Any:
-    """Write integral floats as integers (8.0 -> 8): same JSON number, fewer bytes."""
-    if isinstance(value, float):
-        return int(value) if value.is_integer() and abs(value) <= _EXACT_INT else value
-    if isinstance(value, list):
-        return [_compact_numbers(v) for v in value]
-    if isinstance(value, dict):
-        return {k: _compact_numbers(v) for k, v in value.items()}
+    """Write integral floats as integers (8.0 -> 8): same JSON number, fewer bytes.
+
+    Leaves are handled inline (no call per number): a release has tens of millions of them.
+    """
+    t = type(value)
+    if t is not float and t not in _PLAIN and isinstance(value, float):  # e.g. numpy.float64
+        value, t = float(value), float
+    if t is float:
+        return int(value) if value.is_integer() and -_EXACT_INT <= value <= _EXACT_INT else value
+    if t is list:
+        return [
+            (int(v) if v.is_integer() and -_EXACT_INT <= v <= _EXACT_INT else v)
+            if type(v) is float
+            else (v if type(v) in _PLAIN else _compact_numbers(v))
+            for v in value
+        ]
+    if t is dict:
+        return {
+            k: (int(v) if v.is_integer() and -_EXACT_INT <= v <= _EXACT_INT else v)
+            if type(v) is float
+            else (v if type(v) in _PLAIN else _compact_numbers(v))
+            for k, v in value.items()
+        }
     return value
+
+
+_PLAIN = (str, int, bool, type(None))
 
 
 def canonical_json_bytes(payload: Any) -> bytes:

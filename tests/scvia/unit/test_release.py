@@ -200,3 +200,15 @@ def test_writer_rejects_unsafe_paths(tmp_path: Path, bad: str) -> None:
 def test_release_id_is_validated(tmp_path: Path, bad: str) -> None:
     with pytest.raises(ValueError):
         rel.ReleaseWriter(tmp_path, bad)
+
+
+def test_index_referencing_a_missing_resource_fails_references(tmp_path: Path) -> None:
+    rdir = _write_minimal(tmp_path)
+    (rdir / "public" / "downloads" / "players.csv").unlink()
+    sums = json.loads((rdir / "checksums.json").read_text())
+    del sums["files"]["downloads/players.csv"]  # closure stays consistent; only the reference is dangling
+    (rdir / "checksums.json").write_text(json.dumps(sums))
+    report = rel.validate_release(rdir, write=False)
+    assert report.checks["references"] is CheckOutcome.FAIL
+    assert any(i["check"] == "references" and i["path"] == "downloads.json" for i in report.issues)
+    assert report.checks["closure"] is CheckOutcome.PASS

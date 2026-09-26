@@ -19,6 +19,7 @@ import os
 import shutil
 import zipfile
 from pathlib import Path
+from dataclasses import replace
 from typing import Any
 
 import pytest
@@ -641,3 +642,44 @@ def test_player_pages_are_positional_and_expand_to_the_analytics_values(built: B
             assert expand_stats(d.stat_names, got.stats, got.games) == want.stats
         checked += 1
     assert checked > 10
+
+
+def _bundle(env: DemoEnv) -> Any:
+    from supercoach_via.analytics import players
+    from supercoach_via.domain.metrics import CoverageEras
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+
+    manifest = load_snapshot(env.data_root, env.snapshot.snapshot_id)
+    with SnapshotQuery(env.data_root, manifest) as q:
+        return players.player_stats_bundle(q, CoverageEras.load(B.DEFAULT_CONFIG_DIR / "coverage.yaml"))
+
+
+def test_streamed_player_columns_equal_the_object_path(env: DemoEnv) -> None:
+    from supercoach_via.publish.view_models import PlayerSeason, to_stat_columns
+
+    bundle = _bundle(env)
+
+    def res(pid: str, s: int) -> str:
+        return f"player-games/{pid}/{s}.json"
+
+    lines = B.player_stat_lines(bundle, res)
+    cols = B.PlayerStatColumns(bundle, res)
+    games = {str(r["player_id"]): int(r["career_games"]) for r in bundle.games.to_dict("records")}
+    for pid, (career, seasons) in lines.items():
+        names = [v.stat for v in career]
+        want = (names, to_stat_columns(names, career, games[pid]),
+                [PlayerSeason(season=s.season, clubs=s.clubs, games=s.games,
+                              stats=to_stat_columns(names, s.stats, s.games), games_resource=s.games_resource)
+                 for s in seasons])  # fmt: skip
+        assert cols.get(pid) == want, pid
+    assert cols.get("legacy:nobody") == ([], B.StatColumns(total=[], observed_games=[], eligible_games=[]), [])
+
+
+def test_streamed_player_columns_refuse_a_mean_that_is_not_derived(env: DemoEnv) -> None:
+    bundle = _bundle(env)
+    bad = bundle.seasons.copy()
+    i = bad.index[bad["observed_games"] > 0][0]
+    bad.loc[i, "mean"] = float(bad.loc[i, "mean"]) + 1.0
+    with pytest.raises(ValueError, match="derived"):
+        B.PlayerStatColumns(replace(bundle, seasons=bad), lambda p, s: f"x/{p}/{s}.json")

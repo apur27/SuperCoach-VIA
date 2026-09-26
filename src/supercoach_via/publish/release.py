@@ -240,7 +240,8 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
     for name in sorted(set(sums) - present):
         fail("closure", name, "listed file is missing")
 
-    parsed: dict[str, Any] = {}
+    listed = set(sums)
+    manifest: Any = None  # only the release manifest is kept; other documents are checked then dropped
     for name in sorted(present & set(sums)):
         path = public / name
         try:
@@ -267,11 +268,14 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
                     fail("schema", name, "no public model for this path")
                 continue
             try:
-                parsed[name] = PUBLIC_MODELS[key].model_validate(doc)
+                model = PUBLIC_MODELS[key].model_validate(doc)
             except ValidationError as exc:
                 fail("schema", name, str(exc))
+                continue
+            if name == "release.json":
+                manifest = model
+            _check_references({name: model}, listed, fail)
 
-    manifest = parsed.get("release.json")
     if not isinstance(manifest, ReleaseManifest):
         fail("manifest", "release.json", "missing or invalid release manifest")
     else:
@@ -281,7 +285,6 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
             info = sums.get(ref.path)
             if info is None or info["sha256"] != ref.sha256 or info["bytes"] != ref.bytes:
                 fail("manifest", ref.path, f"resource {key} hash/size mismatch")
-    _check_references(parsed, set(sums), fail)
 
     for c in (
         "checksums",

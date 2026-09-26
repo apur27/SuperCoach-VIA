@@ -13,19 +13,17 @@ from typing import Any
 
 from supercoach_via.domain.schemas import PLAYER_STAT_COLUMNS
 from supercoach_via.publish.view_models import (
-    BoxScoreRow,
+    BoxScoreColumns,
     MatchDetail,
     MatchIndex,
     MatchSummary,
-    PlayerGame,
+    PlayerGameColumns,
     PlayerIndex,
     PlayerIndexEntry,
     PlayerSeasonGames,
     QuarterScore,
     Source,
     TeamScore,
-    to_box_columns,
-    to_game_columns,
 )
 from supercoach_via.storage.queries import SnapshotQuery
 
@@ -102,9 +100,10 @@ def seasons(q: SnapshotQuery) -> list[int]:
 
 def compact_stats(rows: list[dict[str, Any]]) -> tuple[list[str], list[list[float | None]]]:
     """Columns observed at least once (canonical order) and positional value arrays."""
-    cols = [c for c in PLAYER_STAT_COLUMNS if any(r.get(c) is not None for r in rows)]
-    values = [[None if r.get(c) is None else float(r[c]) for c in cols] for r in rows]
-    return cols, values
+    raw = [[r.get(c) for c in PLAYER_STAT_COLUMNS] for r in rows]
+    keep = [i for i in range(len(PLAYER_STAT_COLUMNS)) if any(row[i] is not None for row in raw)]
+    values = [[None if (x := row[i]) is None else float(x) for i in keep] for row in raw]
+    return [PLAYER_STAT_COLUMNS[i] for i in keep], values
 
 
 def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
@@ -123,12 +122,10 @@ def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
 
         def box(
             club: str, rows: list[dict[str, Any]] = rows, values: list[list[float | None]] = values
-        ) -> list[BoxScoreRow]:
-            return [
-                BoxScoreRow(player_id=g["player_id"], name=g["display_name"], stats=v)
-                for g, v in zip(rows, values, strict=True)
-                if g["club_id"] == club
-            ]
+        ) -> BoxScoreColumns:
+            side = [(g, v) for g, v in zip(rows, values, strict=True) if g["club_id"] == club]
+            return BoxScoreColumns(player_id=[g["player_id"] for g, _ in side],
+                                   name=[g["display_name"] for g, _ in side], stats=[v for _, v in side])  # fmt: skip
 
         yield MatchDetail(
             summary=_summary(r, names),
@@ -143,8 +140,8 @@ def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
                 for qn in ("q1", "q2", "q3", "final")
             ],
             attendance=r["attendance"],
-            home_players=to_box_columns(box(r["home_club_id"])),
-            away_players=to_box_columns(box(r["away_club_id"])),
+            home_players=box(r["home_club_id"]),
+            away_players=box(r["away_club_id"]),
             stat_columns=cols,
             sources=[Source(label="Legacy match/player CSV import", url=None, note=r.get("source_path"))],
         )
@@ -163,25 +160,20 @@ def player_season_games(q: SnapshotQuery, season: int) -> Iterator[PlayerSeasonG
         by_player.setdefault(g["player_id"], []).append(g)
     for player_id, prows in by_player.items():
         cols, values = compact_stats(prows)
-        games = []
-        for g, v in zip(prows, values, strict=True):
-            opp = g["opponent_club_id"]
-            md = g["match_date"]
-            games.append(
-                PlayerGame(
-                    match_id=g["match_id"],
-                    match_date=md if isinstance(md, date) else None,
-                    date_quality=g["date_quality"],
-                    stage_label=g["stage_label"],
-                    club_id=g["club_id"],
-                    opponent_club_id=opp,
-                    opponent_name=names.get(opp) if opp else None,
-                    result=g["result"],
-                    career_game_counter=g["career_game_counter"],
-                    stats=v,
-                )
-            )
-        yield PlayerSeasonGames(player_id=player_id, season=season, stat_columns=cols, games=to_game_columns(games))
+        opps = [g["opponent_club_id"] for g in prows]
+        games = PlayerGameColumns(
+            match_id=[g["match_id"] for g in prows],
+            match_date=[g["match_date"] if isinstance(g["match_date"], date) else None for g in prows],
+            date_quality=[g["date_quality"] for g in prows],
+            stage_label=[g["stage_label"] for g in prows],
+            club_id=[g["club_id"] for g in prows],
+            opponent_club_id=opps,
+            opponent_name=[names.get(o) if o else None for o in opps],
+            result=[g["result"] for g in prows],
+            career_game_counter=[g["career_game_counter"] for g in prows],
+            stats=values,
+        )
+        yield PlayerSeasonGames(player_id=player_id, season=season, stat_columns=cols, games=games)
 
 
 def normalise_search(text: str) -> str:
