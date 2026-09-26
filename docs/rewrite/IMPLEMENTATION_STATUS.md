@@ -60,6 +60,10 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 **Compact public contracts (2026-09-25, after the owner said to go ahead).** Player pages are positional (`stat_names` + `StatColumns`). They no longer ship mean or coverage, because these equal `total/observed` and `min(1, observed/scope games)` exactly: verified on 240,580 real values, and the Python packer refuses any value that does not derive. Game logs (`PlayerGameColumns`) and box scores (`BoxScoreColumns`) are columnar. Integral floats are written as JSON integers. The artifact went from 560 to 292.7 MiB. Internal analytics types are unchanged, and a builder test proves every published page expands back to the analytics values.
 
 **Open items, most important first:**
+0. **2026 grand final (Brisbane Lions v Fremantle, played 2026-09-26) is not in the snapshot yet.** afltables usually posts a match 3–4 days later. A check-in is scheduled for 2026-09-29 09:07 AEST, repeating daily until the match appears:
+   - first a cheap `scvia refresh --new-matches-only`;
+   - once the match is promoted, one full overlap recheck, then duplicate and completeness checks and a release rebuild.
+   The owner lifted the request cap for this, but accuracy comes first: no duplicates and no missing rows. Until then 2026 is non-final, and the 2026 yearly top 100 is correctly withheld.
 1. Watch the artifact headroom: 7.3 MiB, about 4.3 MiB per season (REHEARSAL.md). Release build now meets §12 (57 s / 1.4 GiB, see the table): three spawned season workers at about 400 MiB each, history overlapped, parallel validation, and player pages streamed from arrays. If the corpus or CPU count grows, the 60 s margin (about 2–3 s) is the first thing to re-measure.
 2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
 3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
