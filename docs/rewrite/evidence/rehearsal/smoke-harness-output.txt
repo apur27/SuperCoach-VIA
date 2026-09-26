@@ -1,5 +1,5 @@
-[smoke] worktree : /tmp/claude-0/rehearsal/wt/20260925T122908Z
-[smoke] log      : /tmp/claude-0/rehearsal/wt/20260925T122908Z.log
+[smoke] worktree : /tmp/claude-0/rehearsal2/wt/20260926T035222Z
+[smoke] log      : /tmp/claude-0/rehearsal2/wt/20260926T035222Z.log
 [smoke] ref      : HEAD
 [smoke] working tree clean; testing HEAD as committed
 [smoke] scrape STUBBED — lower fidelity, not valid for scraper changes
@@ -12,7 +12,7 @@
     =========================================
     [Step 4] Summary
     =========================================
-      date              : 2026-09-25 12:39:00
+      date              : 2026-09-26 03:59:19
       current year      : 2026
       max round played  : 25
       5-year window     : 2021-2025
@@ -20,8 +20,8 @@
       top-100 charts    : 2 written
       top-100 markdown  : 2 written
       team-analysis run : OK
-      elapsed           : 446.9s
+      elapsed           : 315.3s
     update_eval_surface: team-n reconciliation FAILED — per-team rows sum to 9,099 but the round summaries sum to 9,135 (delta -36). Two backtest vintages have been crossed; the team-level sentence would contradict the headline figures. Refusing to write.
-[smoke] RESULT: FAIL — died in phase 1. Full log: /tmp/claude-0/rehearsal/wt/20260925T122908Z.log
-TIMED exit=1 wall_s=595.6 peak_rss_mib=947
+[smoke] RESULT: FAIL — died in phase 1. Full log: /tmp/claude-0/rehearsal2/wt/20260926T035222Z.log
+TIMED exit=1 wall_s=419.8 peak_rss_mib=947
 exit=1

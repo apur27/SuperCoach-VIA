@@ -2,6 +2,14 @@
 
 Operator evidence for [PLAN.md](PLAN.md) Phase 8. Nothing in this rehearsal committed, pushed, published to a real host or called an LLM. The raw results are in [evidence/rehearsal/](evidence/rehearsal/), and every step can be rerun with the scripts named below.
 
+## Re-run at `208a54e2` (2026-09-26)
+
+The whole rehearsal was repeated on the current head, one heavy job at a time. The evidence files in `evidence/rehearsal/` are from this re-run.
+- **Legacy harness:** fails closed at the same step with the same numbers (9,099 vs 9,135). Wall time 420 s, peak RSS 947 MiB. The `claude` stub was never called.
+- **Old-vs-new comparison:** JSON identical to the first run.
+- **New release:** `20260926T040027Z-5d77ea2146ab` built uncontended by the current code in 160 s, peak RSS 3.5 GiB.
+- **Publish, rollback and restore:** 9/9 as expected. Here "publish second" is that head-built release, and the rollback target `114838` predates the compact-contract change.
+
 ## Summary
 
 | Question | Answer |

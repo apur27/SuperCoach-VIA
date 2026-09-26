@@ -1,11 +1,11 @@
 {
- "at": "2026-09-25T12:47:00.956640+00:00",
- "host": "/tmp/claude-0/rehearsal/publish/host",
+ "at": "2026-09-26T04:04:34.913402+00:00",
+ "host": "/tmp/claude-0/rehearsal2/publish/host",
  "receipts": [
-  "20260925T124546.512198Z-20260925T114838Z-e20f2caf086d-publish-published.json",
-  "20260925T124610.155496Z-20260925T115914Z-103b1f82beb7-publish-published.json",
-  "20260925T124621.903331Z-20260925T114838Z-e20f2caf086d-publish-failed.json",
-  "20260925T124633.300092Z-20260925T114838Z-e20f2caf086d-rollback-published.json"
+  "20260926T040341.293526Z-20260925T114838Z-e20f2caf086d-publish-published.json",
+  "20260926T040357.078777Z-20260926T040027Z-5d77ea2146ab-publish-published.json",
+  "20260926T040404.870345Z-20260925T114838Z-e20f2caf086d-publish-failed.json",
+  "20260926T040411.889498Z-20260925T114838Z-e20f2caf086d-rollback-published.json"
  ],
  "all_as_expected": true,
  "steps": [
@@ -18,7 +18,7 @@
    "result": {
     "ok": true,
     "receipt": {
-     "at": "2026-09-25T12:45:46.512198Z",
+     "at": "2026-09-26T04:03:41.293526Z",
      "destination": "local",
      "kind": "publish",
      "message": null,
@@ -33,19 +33,19 @@
    "step": "publish second",
    "expected_success": true,
    "as_expected": true,
-   "live_after": "20260925T115914Z-103b1f82beb7",
+   "live_after": "20260926T040027Z-5d77ea2146ab",
    "exit_code": 0,
    "result": {
     "ok": true,
     "receipt": {
-     "at": "2026-09-25T12:46:10.155496Z",
+     "at": "2026-09-26T04:03:57.078777Z",
      "destination": "local",
      "kind": "publish",
      "message": null,
      "previous_release": "20260925T114838Z-e20f2caf086d",
-     "release_id": "20260925T115914Z-103b1f82beb7",
+     "release_id": "20260926T040027Z-5d77ea2146ab",
      "status": "published",
-     "validation_checksums_sha256": "d92afb523174491ae6095efba383bc730c212e9b3286ec2140d900a239c9950b"
+     "validation_checksums_sha256": "79575d1dc0fc4d4526263f95596b3ddc76567fc453ac0b18dbaa9b2253fe0033"
     }
    }
   },
@@ -53,7 +53,7 @@
    "step": "publish an unvalidated (FAIL) release is refused",
    "expected_success": false,
    "as_expected": true,
-   "live_after": "20260925T115914Z-103b1f82beb7",
+   "live_after": "20260926T040027Z-5d77ea2146ab",
    "exit_code": 7,
    "result": {
     "error_code": "publish_failed",
@@ -66,9 +66,9 @@
    "step": "injected upload failure keeps the previous release live",
    "expected_success": false,
    "as_expected": true,
-   "live_after": "20260925T115914Z-103b1f82beb7",
+   "live_after": "20260926T040027Z-5d77ea2146ab",
    "exit_code": 7,
-   "result": "publication failed; 20260925T115914Z-103b1f82beb7 remains active: [Errno 28] No space left on device (injected)"
+   "result": "publication failed; 20260926T040027Z-5d77ea2146ab remains active: [Errno 28] No space left on device (injected)"
   },
   {
    "step": "rollback to first",
@@ -79,11 +79,11 @@
    "result": {
     "ok": true,
     "receipt": {
-     "at": "2026-09-25T12:46:33.300092Z",
+     "at": "2026-09-26T04:04:11.889498Z",
      "destination": "local",
      "kind": "rollback",
      "message": null,
-     "previous_release": "20260925T115914Z-103b1f82beb7",
+     "previous_release": "20260926T040027Z-5d77ea2146ab",
      "release_id": "20260925T114838Z-e20f2caf086d",
      "status": "published",
      "validation_checksums_sha256": "a7d984c9dfe57b4d9bf2aa0a668521a39c2c5c4d6307c87c7d73db2b9909cb99"
@@ -159,22 +159,22 @@
     "ok": true,
     "outputs": {
      "bundle_id": "bundle-ac063296460d42d54d9c",
-     "bundle_root": "/tmp/claude-0/rehearsal/publish/restored/var/models",
+     "bundle_root": "/tmp/claude-0/rehearsal2/publish/restored/var/models",
      "evaluations": [],
      "forecast_reason": "no_valid_future_fixture",
      "forecast_status": "unavailable",
-     "prediction_dir": "/tmp/claude-0/rehearsal/publish/restored/var/predictions/prospective-20260925T100000Z-49f525e6e2b9bee2",
+     "prediction_dir": "/tmp/claude-0/rehearsal2/publish/restored/var/predictions/prospective-20260925T100000Z-69af6d7dd0dee680",
      "promoted_model": true
     },
     "promoted": false,
     "recovery": null,
-    "run_id": "20260925T124640.438917Z-ae2c61ec",
+    "run_id": "20260926T040416.409056Z-c64ea1d6",
     "snapshot_id": "sha256:55e295f184c49096c4c8c783e6d7d59f416ca70e108ce0ca7f186f16157fb09c",
     "state": "parsed",
     "timings": {
-     "forecast": 0.016,
-     "load_history": 5.077,
-     "train": 14.745
+     "forecast": 0.013,
+     "load_history": 4.465,
+     "train": 13.384
     }
    }
   }
