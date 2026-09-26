@@ -548,8 +548,12 @@ def build_release(snapshot: SnapshotRef, inputs: ReleaseInputs, context: RunCont
     timings: dict[str, float] = {}
     mark = t0
 
-    def tick(label: str) -> None:
+    def tick(label: str, seconds: float | None = None) -> None:
+        """Record time since the previous tick, or an explicitly measured (overlapped) duration."""
         nonlocal mark
+        if seconds is not None:
+            timings[label] = round(seconds, 4)
+            return
         now = time.perf_counter()
         timings[label] = round(now - mark, 4)
         mark = now
@@ -690,7 +694,7 @@ def _build_all(
     live: list[tuple[str, LiveIndexEntry, LiveSnapshot, bytes]],
     retained: list[RetainedRelease],
     template_dir: Path,
-    tick: Callable[[str], None],
+    tick: Callable[..., None],
 ) -> _Forecast:
     live_by_match: dict[str, list[str]] = {}
     for rel, entry, snap, _raw in live:
@@ -705,12 +709,22 @@ def _build_all(
         seasons = resources.seasons(q)
         team_index = _team_index(q)
         b.put_json("teams/index.json", team_index, "team_index")
-    _season_resources(b, seasons, live_by_match)
-    tick("season_resources_s")
+    history_s = 0.0
+
+    def history_meanwhile() -> _History:
+        nonlocal history_s
+        t0 = time.perf_counter()
+        with SnapshotQuery(b.data_root, b.manifest) as hq:
+            out = _history(b, hq)
+        history_s = time.perf_counter() - t0
+        return out
+
+    # history needs nothing from the season stage: it runs in this process while the workers build
+    history = _season_resources(b, seasons, live_by_match, while_waiting=history_meanwhile)
+    tick("season_resources_s")  # wall time of the overlapped stage (includes history)
+    tick("history_s", history_s)
 
     with SnapshotQuery(b.data_root, b.manifest) as q:
-        history = _history(b, q)
-        tick("history_s")
         light = _light_history(b, q) if predictions or _legacy_prediction_rows(b) else None
         forecast = _predictions(b, q, predictions, rejected, light)
         tick("predictions_s")
@@ -859,14 +873,24 @@ def _season_ladders(b: _Build, seasons: list[int]) -> dict[int, list[LadderRow]]
     return ladders
 
 
-def _season_resources(b: _Build, seasons: list[int], live_by_match: dict[str, list[str]]) -> None:
-    """Season resources, in a small process pool when SEASON_WORKERS > 1 (byte-identical either way)."""
+def _season_resources(
+    b: _Build,
+    seasons: list[int],
+    live_by_match: dict[str, list[str]],
+    while_waiting: Callable[[], Any] = lambda: None,
+) -> Any:
+    """Season resources, in a small process pool when SEASON_WORKERS > 1 (byte-identical either way).
+
+    ``while_waiting`` runs in this process while the workers build (sequentially: afterwards); its
+    result is returned. It must not use anything this stage produces.
+    """
     results: list[_SeasonResult] = []
     if SEASON_WORKERS <= 1:
         ladders: dict[int, list[LadderRow]] = {}
         own = _isolated(b)
         for season in seasons:  # ascending, so prior ladders are cached for the five-year view
             results.append(_one_season(own, season, ladders, live_by_match))  # files go to b.writer directly
+        extra = while_waiting()
     else:
         import multiprocessing
         from concurrent.futures import ProcessPoolExecutor
@@ -881,6 +905,7 @@ def _season_resources(b: _Build, seasons: list[int], live_by_match: dict[str, li
         ctx = multiprocessing.get_context("spawn")  # never fork an open DuckDB/process state
         with ProcessPoolExecutor(max_workers=SEASON_WORKERS, mp_context=ctx) as pool:
             futures = [pool.submit(_season_worker, base, s, *args(s)) for s in seasons]
+            extra = while_waiting()
             results = [f.result() for f in futures]
         for r in results:
             b.writer.merge(r.files)
@@ -894,6 +919,7 @@ def _season_resources(b: _Build, seasons: list[int], live_by_match: dict[str, li
         match_frags, pg_frags = max(match_frags, r.match_frags), max(pg_frags, r.pg_frags)
     b.counts["season_context_match_fragments_max"] = match_frags
     b.counts["season_context_player_game_fragments_max"] = pg_frags
+    return extra
 
 
 @dataclass(frozen=True)
