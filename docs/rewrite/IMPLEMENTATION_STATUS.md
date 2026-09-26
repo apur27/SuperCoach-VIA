@@ -50,7 +50,7 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 | `scvia import-legacy --repair b1:2026` (real) | 61.7 s, peak RSS 1,982 MiB, PASS, promoted `sha256:55e295f1…` | ≤120 s, ≤2 GiB: met (tight) |
 | `scvia forecast` (train + 2026 replay) | 1,575 s wall when run alongside the integration suite (OOF fits 1,360 s, from 4-thread OpenMP oversubscription on 4 vCPUs). **Uncontended, the train-only command takes 105.7 s** (OOF 42 s) with a byte-identical bundle; a second machine measured 108 s. `forecast_status=unavailable` (no future fixture) | train is outside the weekly budget |
 | Model gate | `lgbm` promoted: holdout MAE 3.753 vs prior-5 3.900 (3.79%), 80% interval coverage 81.1% (see model card) | ≥1% improvement: met |
-| `scvia build-release` (real) | 216 s here, 100 s on an independent second machine; peak RSS 3.6 GiB on both (was 286 s / 5.1 GiB before the compact contracts), 91k files, validation PASS | ≤60 s, ≤2 GiB: **miss** |
+| `scvia build-release` (real) | **56.9–57.8 s wall, peak 1.39–1.43 GiB across the process tree** (3 runs, 2026-09-26, uncontended). Earlier: 155 s / 3.55 GiB uncontended; 216 s contended; 100 s on a second machine. 91,381 files, validation PASS, output byte-identical apart from files that embed the release ID | ≤60 s, ≤2 GiB: **met** (small margin) |
 | Astro build against the real release | 17.9 s, 663 MiB RSS | ≤120 s: met |
 | Route transfer (gzip) | max 129.8 KiB total (`/compare/`), max JS 94.6 KiB | ≤250 / ≤120 KiB: met |
 | Player search index | 442 KiB gzip | ≤750 KiB: met |
@@ -60,7 +60,7 @@ Update 2026-09-25 ~11:15 UTC: the owner confirmed that only the cloud session is
 **Compact public contracts (2026-09-25, after the owner said to go ahead).** Player pages are positional (`stat_names` + `StatColumns`). They no longer ship mean or coverage, because these equal `total/observed` and `min(1, observed/scope games)` exactly: verified on 240,580 real values, and the Python packer refuses any value that does not derive. Game logs (`PlayerGameColumns`) and box scores (`BoxScoreColumns`) are columnar. Integral floats are written as JSON integers. The artifact went from 560 to 292.7 MiB. Internal analytics types are unchanged, and a builder test proves every published page expands back to the analytics values.
 
 **Open items, most important first:**
-1. Release-build time and RSS (216 s, 3.6 GiB). Season resources take 103 s and validation re-parses 91k files in 46 s. Artifact size is fixed (see above); its headroom is only 7.3 MiB and each new season adds data, so watch it.
+1. Watch the artifact headroom: 7.3 MiB, about 4.3 MiB per season (REHEARSAL.md). Release build now meets §12 (57 s / 1.4 GiB, see the table): three spawned season workers at about 400 MiB each, history overlapped, parallel validation, and player pages streamed from arrays. If the corpus or CPU count grows, the 60 s margin (about 2–3 s) is the first thing to re-measure.
 2. A release embeds its public base in article asset URLs. Build the release with the same `SCVIA_PUBLIC_BASE` as the site (see `docs/operations.md`).
 3. Browser views for the era summary and Brownlow proxy. Both are currently CSV downloads only (`docs/migration.md` gaps).
 4. Fast-tier runtime (66 s) is over the 30 s CI budget.

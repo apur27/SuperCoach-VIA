@@ -19,7 +19,7 @@ Consequences: §6.1 freeze (no landing while a cycle is active, checked by the `
 | P2 | Old-vs-new rehearsal on identical input shows only documented differences | Done (REHEARSAL.md): ties at the rank cut, duplicate-identity correction, B1 refusal |
 | P3 | Publish, rollback and restore rehearsal is green | Done (9/9), after the integrity-only publish fix |
 | P4 | Owner decisions in section 6 are made | **Open** |
-| P5 | Release-build cost within §12 budgets, or an explicit owner acceptance | **Open**: 216 s and 3.6 GiB against 60 s and 2 GiB |
+| P5 | Release-build cost within §12 budgets, or an explicit owner acceptance | **Met 2026-09-26**: 56.9–57.8 s and 1.39–1.43 GiB against 60 s and 2 GiB (4 vCPU; small margin) |
 | P6 | Artifact budget sized for at least 3 seasons of growth | **Open**: 7.2 MiB headroom ≈ 1.7 seasons (REHEARSAL.md) |
 
 ## 3. The change, in three separately smoke-tested steps
@@ -76,5 +76,5 @@ The weekly run no longer commits generated docs, charts or CSVs to `main`. The r
 1. Should `main` still receive committed generated docs and charts, or is the release artifact the only published output? The plan above assumes the release artifact only, with the legacy docs frozen as archive.
 2. Hosting and retention: GitHub Pages with active plus 2 previous releases is about 880 MiB against its 1 GB limit. Choose 1 retained release, cross-release deduplication, or another host.
 3. The artifact budget: raise it to about 320 MiB (about five more seasons), or trim game logs further.
-4. Release-build cost (P5): fix first (next task), or accept the current numbers for the switch.
+4. Release-build cost (P5): met; no decision needed unless the reference machine changes.
 5. Whether the LLM editorial recap continues, as an optional non-blocking lane.
