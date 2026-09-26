@@ -138,3 +138,17 @@ def test_demo_output_is_the_release_root(tmp_path: Path) -> None:
     assert not (out / "dist").exists()
     val = runner.invoke(app, ["validate-release", "--release", rid, "--output-root", str(out), "--json"])
     assert val.exit_code == 0, val.output
+
+
+def test_bounded_refresh_plan_is_offline_and_reports_the_budget(tmp_path: Path) -> None:
+    src = _demo_src(tmp_path)
+    var = str(tmp_path / "var")
+    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", var])
+    res = runner.invoke(app, ["refresh", "--season", "2026", "--plan", "--new-matches-only", "--max-requests", "2",
+                              "--data-root", var, "--json"])  # fmt: skip
+    assert res.exit_code == 0, res.output
+    plan = json.loads(res.stdout.strip().splitlines()[-1])
+    assert [w["season"] for w in plan["work"]] == [2026]
+    assert plan["recheck_unchanged"] is False and plan["max_requests"] == 2 and plan["network_during_plan"] is False
+    bad = runner.invoke(app, ["refresh", "--season", "2026", "--plan", "--max-requests", "0", "--data-root", var])
+    assert bad.exit_code == EXIT["invalid_input"]

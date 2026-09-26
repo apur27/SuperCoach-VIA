@@ -65,7 +65,15 @@ calibration end before the season you replay.
 uv run scvia refresh --season 2026 --plan --json                    # offline: sources, estimated requests, no writes
 uv run scvia refresh --season 2026 --data-only --allow-network      # explicit network opt-in
 uv run scvia refresh --season 2026 --repair-season 2026 --allow-network
+# owner-bounded: current season page + only new/changed matches, hard request cap, retries off
+uv run scvia refresh --season 2026 --data-only --allow-network --new-matches-only --max-requests 2 \
+  --proxy "$HTTPS_PROXY" --json
 ```
+
+`--max-requests N` counts every HTTP request (retries are disabled when it is set). Once the
+budget is spent, the remaining items are recorded as failed and the run ends PARTIAL, with
+exit 3 and no promotion. It never exceeds N. Each attempt spends budget, so don't poll with it.
+`--new-matches-only` skips the prior-season overlap and the recheck of unchanged matches.
 
 A refresh fetches the season fixture first. It then plans only the missing and changed match
 details, merges upserts into a new candidate snapshot, validates it, and promotes it only on

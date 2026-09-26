@@ -375,6 +375,13 @@ def refresh(
     data_only: Annotated[bool, typer.Option("--data-only", help="refresh data only (no release build)")] = False,
     repair_season: Annotated[int | None, typer.Option("--repair-season")] = None,
     allow_network: Annotated[bool, typer.Option("--allow-network", help="explicit opt-in to contact sources")] = False,
+    new_matches_only: Annotated[
+        bool, typer.Option("--new-matches-only", help="current season only; skip re-checking unchanged matches")
+    ] = False,
+    max_requests: Annotated[
+        int | None, typer.Option("--max-requests", help="hard cap on HTTP requests (retries disabled); fails closed")
+    ] = None,
+    proxy: Annotated[str | None, typer.Option("--proxy", help="explicit proxy URL (env is ignored)")] = None,
     config: ConfigOpt = None,
     data_root: DataRootOpt = None,
     json_out: JsonOpt = False,
@@ -395,7 +402,9 @@ def refresh(
         except FileNotFoundError as exc:
             raise CliFailure("invalid_input", str(exc), "run import-legacy first") from exc
         try:
-            req = rf.RefreshRequest(current_season=season, repair_season=repair_season)
+            req = rf.RefreshRequest(current_season=season, repair_season=repair_season, max_requests=max_requests,
+                                    overlap_seasons=1 if new_matches_only else 2,
+                                    recheck_unchanged=not new_matches_only)  # fmt: skip
             the_plan = rf.plan_refresh(base, req, ctx)
         except rf.RefreshConfigError as exc:
             raise CliFailure("invalid_input", str(exc)) from exc
@@ -403,14 +412,25 @@ def refresh(
             if not json_out:
                 typer.echo(the_plan.describe(), err=True)
             return {**the_plan.to_dict(), "ok": True}
-        from supercoach_via import pipeline
-        from supercoach_via.ingest.http import HttpClient, RawArchive, load_policies
+        import os
+        import re
 
-        policies = load_policies(settings.source_root / "config" / "source_policies.toml")
+        import httpx
+
+        from supercoach_via import pipeline
+        from supercoach_via.ingest.http import HttpClient, RawArchive, parse_policies
+
+        text = (settings.source_root / "config" / "source_policies.toml").read_text()
+        if max_requests is not None:  # one attempt per URL, so the cap counts real HTTP requests
+            text = re.sub(r"(?m)^max_attempts = \d+$", "max_attempts = 1", text)
+        policies = parse_policies(text)
+        transport = None
+        if proxy:
+            transport = httpx.HTTPTransport(proxy=proxy, verify=os.environ.get("SSL_CERT_FILE") or True)
         with HttpClient(policies, user_agent=f"SuperCoach-VIA ({pipeline.CODE_VERSION}; operator refresh)",
-                        archive=RawArchive(settings.data_root / "raw")) as http:  # fmt: skip
+                        archive=RawArchive(settings.data_root / "raw"), transport=transport) as http:  # fmt: skip
             ctx.http = http
-            res = pipeline.refresh(ctx, season=season, repair_season=repair_season)
+            res = pipeline.refresh(ctx, season=season, repair_season=repair_season, request=req)
         return _stage_payload(res)
 
     _run(json_out, body)

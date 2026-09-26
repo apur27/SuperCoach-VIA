@@ -214,6 +214,7 @@ def refresh(
     season: int | None = None,
     repair_season: int | None = None,
     run_id: str | None = None,
+    request: Any = None,
 ) -> StageResult:
     """Networked data-only refresh (``ctx.http`` required): fetch -> merge -> validate -> promote.
 
@@ -228,7 +229,8 @@ def refresh(
     def body(store: runs.RunStore, result: StageResult) -> None:
         base_manifest = snapshots.load_snapshot(ctx.data_root)
         base = rf.base_state_from_snapshot(ctx.data_root, base_manifest.snapshot_id)
-        plan = rf.plan_refresh(base, rf.RefreshRequest(current_season=season, repair_season=repair_season), ctx)
+        req = request or rf.RefreshRequest(current_season=season, repair_season=repair_season)
+        plan = rf.plan_refresh(base, req, ctx)
         _write_json(store.directory / "refresh-plan.json", plan.to_dict())
         store.transition(RunState.PLANNED)
         store.transition(RunState.FETCHING)

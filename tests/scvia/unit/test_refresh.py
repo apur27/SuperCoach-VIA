@@ -431,3 +431,38 @@ def test_base_state_from_real_snapshot(tmp_path: Path) -> None:
     assert state.source_revisions["afltables:season:2026"] == "a" * 64
     assert state.matches[rows[0]["match_id"]].status == MatchStatus.COMPLETE.value
     assert state.load_player_rows is not None and state.load_player_rows(2026, rows[0]["match_id"]) == []
+
+
+# ---------------------------------------------------------------------------
+# Owner-bounded refresh: new matches only + a hard request budget
+# ---------------------------------------------------------------------------
+
+
+def test_new_matches_only_fetches_current_season_and_only_new_or_changed_matches(tmp_path: Path) -> None:
+    site = build_site()
+    result, _base = run(site, tmp_path, overlap_seasons=1, recheck_unchanged=False)
+    assert result.plan.work and [w.url for w in result.plan.work] == [at.season_url(2026)]
+    fetched = set(site.hits)
+    new_or_changed = {at.match_url(2026, _gid(n, d)) for n, d in
+                      ((2, "0815"), (3, "0314"), (5, "0328"), (6, "0828"), (7, "0903"))}  # fmt: skip
+    assert fetched == {at.season_url(2026), *new_or_changed, at.player_url("N/New_Debut")}
+    # unchanged accepted matches are not re-checked (their later corrections wait for a full refresh)
+    assert at.match_url(2026, _gid(1, "0305")) not in fetched and at.match_url(2026, _gid(4, "0321")) not in fetched
+    assert result.outcome is CheckOutcome.PASS and result.exit_code == 0, result.issues
+    assert sum(site.hits.values()) == len(fetched)
+
+
+def test_request_budget_is_hard_and_fails_closed(tmp_path: Path) -> None:
+    site = build_site()
+    result, _base = run(site, tmp_path, overlap_seasons=1, recheck_unchanged=False, max_requests=3)
+    assert sum(site.hits.values()) == 3
+    assert result.exit_code == 3 and result.dataset_status is DatasetStatus.PARTIAL
+    assert not result.promotable_as_verified
+    assert any("request budget" in i for i in result.issues)
+
+
+def test_request_budget_must_be_positive(tmp_path: Path) -> None:
+    base = build_base(build_site())
+    ctx = RunContext(settings=Settings(data_root=tmp_path, season=2026), clock=lambda: NOW)
+    with pytest.raises(rf.RefreshConfigError):
+        rf.plan_refresh(base, rf.RefreshRequest(max_requests=0), ctx)

@@ -44,6 +44,7 @@ from supercoach_via.domain.schemas import (
     MatchStatus,
     Provenance,
     Severity,
+    SourceMode,
 )
 from supercoach_via.ingest import afltables as at
 from supercoach_via.ingest.http import FetchResult, HttpClient, fit_table_row
@@ -163,6 +164,10 @@ class RefreshRequest:
     repair_season: int | None = None
     seasons: tuple[int, ...] = ()  # extra explicit seasons
     include_new_player_pages: bool = True
+    # Owner-bounded runs: skip re-checking unchanged completed matches (their later source
+    # corrections then wait for a full refresh), and a hard cap on HTTP requests (fail closed).
+    recheck_unchanged: bool = True
+    max_requests: int | None = None
 
 
 @dataclass(frozen=True)
@@ -188,6 +193,8 @@ class RefreshPlan:
     estimated_requests: dict[str, int]
     outputs: tuple[str, ...]
     include_new_player_pages: bool = True
+    recheck_unchanged: bool = True
+    max_requests: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -201,6 +208,8 @@ class RefreshPlan:
             "work": [w.__dict__ for w in self.work],
             "estimated_requests": dict(self.estimated_requests),
             "outputs": list(self.outputs),
+            "recheck_unchanged": self.recheck_unchanged,
+            "max_requests": self.max_requests,
             "network_during_plan": False,
         }
 
@@ -235,6 +244,8 @@ def plan_refresh(base: BaseState, request: RefreshRequest, context: RunContext) 
     current = _current_season(request, context)
     if request.overlap_seasons < 1:
         raise RefreshConfigError("overlap_seasons must be >= 1")
+    if request.max_requests is not None and request.max_requests < 1:
+        raise RefreshConfigError("max_requests must be >= 1")
     for s in (*request.seasons, *((request.repair_season,) if request.repair_season else ())):
         if not 1897 <= s <= current:
             raise RefreshConfigError(f"season {s} outside 1897..{current}")
@@ -267,6 +278,8 @@ def plan_refresh(base: BaseState, request: RefreshRequest, context: RunContext) 
         estimated_requests={"min": len(work), "max": len(work) + detail_max},
         outputs=OUTPUT_TABLES,
         include_new_player_pages=request.include_new_player_pages,
+        recheck_unchanged=request.recheck_unchanged,
+        max_requests=request.max_requests,
     )
 
 
@@ -388,6 +401,14 @@ class _Run:
     def fetch(self, item: WorkItem, *, conditional: bool) -> FetchResult:
         c = self.counts[item.kind]
         c.required += 1
+        budget = self.plan.max_requests
+        if budget is not None and sum(self.http.request_counts.values()) >= budget:
+            c.failed += 1
+            self.blocking = True
+            self.note(item, "failed", CheckOutcome.UNKNOWN, f"request budget of {budget} exhausted; not fetched")
+            return FetchResult(url=item.url, final_url=item.url, source="budget", outcome=CheckOutcome.UNKNOWN,
+                               source_mode=SourceMode.LIVE, freshness="unknown", fetched_at=self.ctx.clock(),
+                               error="request budget exhausted")  # fmt: skip
         c.attempted += 1
         res = self.http.fetch(item.url, conditional=conditional)
         self.upserts["source_observations"].append(
@@ -499,7 +520,7 @@ class _Run:
                 reason = "new" if b is None else "changed"
             elif repair:
                 reason = "repair"
-            elif s in self.plan.overlap_seasons:
+            elif s in self.plan.overlap_seasons and self.plan.recheck_unchanged:
                 reason = "overlap_recheck"
             else:
                 continue
