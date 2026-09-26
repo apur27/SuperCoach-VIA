@@ -31,15 +31,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import posixpath
 import re
 import shutil
 import time
 from collections.abc import Callable, Iterable, Mapping, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 from pydantic import TypeAdapter
 
@@ -778,39 +779,133 @@ def _team_index(q: SnapshotQuery) -> TeamIndex:
     )
 
 
-def _season_resources(b: _Build, seasons: list[int], live_by_match: dict[str, list[str]]) -> None:
+SEASON_WORKERS = min(3, os.cpu_count() or 1)  # ~400 MiB per worker; keeps the build under 2 GiB
+
+
+@dataclass
+class _SeasonResult:
+    season: int
+    files: dict[str, dict[str, Any]]
+    counts: dict[str, int]
+    summaries: list[MatchSummary]
+    current_teams: list[TeamSeason]
+    match_frags: int
+    pg_frags: int
+
+
+_SEASON_TABLES = {"matches", "player_games", "clubs", "players", "seasons"}
+
+
+def _season_query(b: _Build, season: int) -> SnapshotQuery:
+    parts = {
+        "matches": {str(s) for s in range(season - FIVE_YEARS, season + 1)},
+        "player_games": {str(season)},
+    }
+    return SnapshotQuery(b.data_root, b.manifest, tables=_SEASON_TABLES, partitions=parts)
+
+
+def _one_season(
+    b: _Build, season: int, ladders: dict[int, list[LadderRow]], live_by_match: dict[str, list[str]]
+) -> _SeasonResult:
+    """Every season-scoped resource of one season (match index/detail, game logs, team pages)."""
+    start = dict(b.counts)
+    with _season_query(b, season) as q:
+        if SEASON_WORKERS > 1:
+            q.con.execute("SET threads TO 1")  # workers run side by side: no oversubscription
+        b.bump("season_contexts")
+        mindex = resources.match_index(q, season)
+        b.put_json(f"matches/{season}/index.json", mindex)
+        for detail in resources.match_details(q, season):
+            links = live_by_match.get(detail.summary.match_id)
+            if links:
+                detail = detail.model_copy(update={"live_snapshots": links})
+            b.put_json(f"matches/detail/{resources.match_key(detail.summary.match_id)}.json", detail)
+            b.bump("match_details")
+        for log in resources.player_season_games(q, season):
+            b.put_json(f"player-games/{resources.public_key(log.player_id)}/{season}.json", log)
+            b.bump("player_season_logs")
+        teams = []
+        for ts in _team_seasons(b, q, season, ladders, mindex.matches):
+            b.put_json(f"teams/{ts.club.club_id}/{season}.json", ts)
+            b.bump("team_pages")
+            if season == b.season:
+                teams.append(ts)
+        frags = (q.fragments_registered.get("matches", 0), q.fragments_registered.get("player_games", 0))
+    counts = {k: v - start.get(k, 0) for k, v in b.counts.items() if v != start.get(k, 0)}
+    return _SeasonResult(season, {}, counts, mindex.matches, teams, *frags)
+
+
+def _isolated(b: _Build, writer: ReleaseWriter | None = None) -> _Build:
+    """A copy of ``b`` with its own counters/collections (and optionally another writer)."""
+    return replace(b, writer=writer or b.writer, counts={}, index={}, summaries={}, current_teams=[], downloads=[],
+                   warnings=[])  # fmt: skip
+
+
+def _season_worker(
+    b: _Build, season: int, ladders: dict[int, list[LadderRow]], live_by_match: dict[str, list[str]]
+) -> _SeasonResult:
+    """Process-pool entry: same work as the sequential path, through an attached writer."""
+    wb = _isolated(b, ReleaseWriter.attach(b.writer.output_root, b.writer.release_id))
+    res = _one_season(wb, season, ladders, live_by_match)
+    res.files = wb.writer.files
+    return res
+
+
+def _season_ladders(b: _Build, seasons: list[int]) -> dict[int, list[LadderRow]]:
     ladders: dict[int, list[LadderRow]] = {}
-    tables = {"matches", "player_games", "clubs", "players", "seasons"}
-    match_frags = 0
-    pg_frags = 0
-    for season in seasons:  # ascending, so prior ladders are cached for the five-year view
-        parts = {
-            "matches": {str(s) for s in range(season - FIVE_YEARS, season + 1)},
-            "player_games": {str(season)},
-        }
-        with SnapshotQuery(b.data_root, b.manifest, tables=tables, partitions=parts) as q:
-            b.bump("season_contexts")
-            match_frags = max(match_frags, q.fragments_registered.get("matches", 0))
-            pg_frags = max(pg_frags, q.fragments_registered.get("player_games", 0))
-            mindex = resources.match_index(q, season)
-            b.put_json(f"matches/{season}/index.json", mindex, f"match_index:{season}")
-            b.summaries.update({m.match_id: m for m in mindex.matches})
-            for detail in resources.match_details(q, season):
-                links = live_by_match.get(detail.summary.match_id)
-                if links:
-                    detail = detail.model_copy(update={"live_snapshots": links})
-                b.put_json(f"matches/detail/{resources.match_key(detail.summary.match_id)}.json", detail)
-                b.bump("match_details")
-            for log in resources.player_season_games(q, season):
-                b.put_json(f"player-games/{resources.public_key(log.player_id)}/{season}.json", log)
-                b.bump("player_season_logs")
-            for ts in _team_seasons(b, q, season, ladders, mindex.matches):
-                b.put_json(f"teams/{ts.club.club_id}/{season}.json", ts)
-                b.bump("team_pages")
-                if season == b.season:
-                    b.current_teams.append(ts)
+    for season in seasons:
+        with _season_query(b, season) as q:
+            ladders[season] = team_analytics.ladder(q, season)
+    return ladders
+
+
+def _season_resources(b: _Build, seasons: list[int], live_by_match: dict[str, list[str]]) -> None:
+    """Season resources, in a small process pool when SEASON_WORKERS > 1 (byte-identical either way)."""
+    results: list[_SeasonResult] = []
+    if SEASON_WORKERS <= 1:
+        ladders: dict[int, list[LadderRow]] = {}
+        own = _isolated(b)
+        for season in seasons:  # ascending, so prior ladders are cached for the five-year view
+            results.append(_one_season(own, season, ladders, live_by_match))  # files go to b.writer directly
+    else:
+        import multiprocessing
+        from concurrent.futures import ProcessPoolExecutor
+
+        all_ladders = _season_ladders(b, seasons)  # the only cross-season dependency (five-year view)
+        base = _isolated(b, cast(ReleaseWriter, _DetachedWriter(b.writer)))
+
+        def args(s: int) -> tuple[dict[int, list[LadderRow]], dict[str, list[str]]]:
+            prior = {y: all_ladders[y] for y in range(s - FIVE_YEARS, s + 1) if y in all_ladders}
+            return prior, {m: v for m, v in live_by_match.items() if m.startswith(f"m:{s}:")}
+
+        ctx = multiprocessing.get_context("spawn")  # never fork an open DuckDB/process state
+        with ProcessPoolExecutor(max_workers=SEASON_WORKERS, mp_context=ctx) as pool:
+            futures = [pool.submit(_season_worker, base, s, *args(s)) for s in seasons]
+            results = [f.result() for f in futures]
+        for r in results:
+            b.writer.merge(r.files)
+    match_frags = pg_frags = 0
+    for r in sorted(results, key=lambda r: r.season):
+        for k, v in r.counts.items():
+            b.bump(k, v)
+        b.index[f"match_index:{r.season}"] = f"matches/{r.season}/index.json"
+        b.summaries.update({m.match_id: m for m in r.summaries})
+        b.current_teams.extend(r.current_teams)
+        match_frags, pg_frags = max(match_frags, r.match_frags), max(pg_frags, r.pg_frags)
     b.counts["season_context_match_fragments_max"] = match_frags
     b.counts["season_context_player_game_fragments_max"] = pg_frags
+
+
+@dataclass(frozen=True)
+class _DetachedWriter:
+    """Picklable stand-in carrying only what a worker needs to attach to the staging directory."""
+
+    output_root: Path
+    release_id: str
+
+    def __init__(self, writer: ReleaseWriter) -> None:
+        object.__setattr__(self, "output_root", writer.output_root)
+        object.__setattr__(self, "release_id", writer.release_id)
 
 
 TEAM_LEADER_STATS = ("disposals", "goals", "tackles")  # = analytics.teams.club_season_leaders default
@@ -903,8 +998,9 @@ def _team_seasons(
            ORDER BY c.club_id""",
         [season, season],
     )
-    ladder = team_analytics.ladder(q, season)
-    ladders[season] = ladder
+    ladder = ladders.get(season)
+    if ladder is None:  # the parallel path passes every season's ladder precomputed
+        ladder = ladders[season] = team_analytics.ladder(q, season)
     pathway = team_analytics.finals_pathway(q, season)
     tg = team_analytics.team_games(q, stats=TEAM_STATS, seasons=[season])
     parts = season_team_parts(q, season, [c for c, _n in clubs], matches)

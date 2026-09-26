@@ -122,6 +122,24 @@ class ReleaseWriter:
         (self.staging / "public").mkdir(parents=True)
         self.files: dict[str, dict[str, Any]] = {}
 
+    @classmethod
+    def attach(cls, output_root: Path, release_id: str) -> ReleaseWriter:
+        """A writer onto an EXISTING staging directory (parallel build workers); records its own files."""
+        w = cls.__new__(cls)
+        w.output_root, w.release_id = output_root, release_id
+        w.staging = output_root / "releases" / f".staging-{release_id}"
+        if not (w.staging / "public").is_dir():
+            raise ValueError(f"no staging directory for {release_id}")
+        w.files = {}
+        return w
+
+    def merge(self, files: dict[str, dict[str, Any]]) -> None:
+        """Adopt files written by an attached writer; a path may only be written once."""
+        clash = set(files) & set(self.files)
+        if clash:
+            raise ValueError(f"duplicate release paths {sorted(clash)[:3]}")
+        self.files.update(files)
+
     @property
     def public(self) -> Path:
         return self.staging / "public"

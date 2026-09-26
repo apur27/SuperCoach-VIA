@@ -18,8 +18,8 @@ import json
 import os
 import shutil
 import zipfile
-from pathlib import Path
 from dataclasses import replace
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -79,6 +79,9 @@ def variant(env: DemoEnv, tmp_path_factory: pytest.TempPathFactory) -> tuple[B.R
 
     mp = pytest.MonkeyPatch()
     mp.setattr(teams, "ladder", counting)
+    # call counting sees this process only: pin the sequential season path (the parallel path is
+    # proven byte-identical to it by test_parallel_season_build_is_byte_identical_to_sequential)
+    mp.setattr(B, "SEASON_WORKERS", 1)
     try:
         inputs = B.ReleaseInputs(
             demo=True,
@@ -683,3 +686,18 @@ def test_streamed_player_columns_refuse_a_mean_that_is_not_derived(env: DemoEnv)
     bad.loc[i, "mean"] = float(bad.loc[i, "mean"]) + 1.0
     with pytest.raises(ValueError, match="derived"):
         B.PlayerStatColumns(replace(bundle, seasons=bad), lambda p, s: f"x/{p}/{s}.json")
+
+
+def test_parallel_season_build_is_byte_identical_to_sequential(
+    env: DemoEnv, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    out = {}
+    for workers in (1, 3):
+        monkeypatch.setattr(B, "SEASON_WORKERS", workers)
+        cand = B.build_release(env.snapshot, full_inputs(env), context_for(env, tmp_path / f"w{workers}"))
+        assert cand.validation.ok, cand.validation.issues[:3]
+        out[workers] = cand
+    assert out[1].release_id == out[3].release_id
+    assert (out[1].release_dir / "checksums.json").read_bytes() == (out[3].release_dir / "checksums.json").read_bytes()
+    keep = ("season_contexts", "match_details", "player_season_logs", "team_pages")
+    assert {k: out[1].counts[k] for k in keep} == {k: out[3].counts[k] for k in keep}
