@@ -1,5 +1,7 @@
 # Opus 5.5 payload — review and improve the finalized app
 
+For the owner's later request to use **Claude Code** for a thorough review and implement a deterministic data-integrity checker, use [the Claude Code payload](CLAUDE_CODE_OPUS_55_REVIEW_PAYLOAD.md). This file preserves the earlier Cursor handoff.
+
 Prepared after the reviewed app was merged into local `main` on 28 September 2026. This file is a ready-to-use task for the next agent; creating it did not launch Opus.
 
 ## Launch

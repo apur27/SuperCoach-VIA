@@ -54,4 +54,4 @@ The performance result is specific to the measured machine and CPU placement. Th
 
 The local app is ready for use and further development. Production activation still requires two genuine shadow cycles and the deployment/retention decisions in [SWITCH_PLAN.md](SWITCH_PLAN.md). The offline rehearsal does not count as either shadow cycle. `SCVIA_NUMERIC_ENTRY=1` remains opt-in; the legacy default harness and schedules remain in place.
 
-The next-agent payload is [OPUS_55_PAYLOAD_2026-09-28.md](OPUS_55_PAYLOAD_2026-09-28.md). It was prepared after the code merge. Opus was not launched.
+The current next-agent payload is [the Claude Code Opus 5.5 review and integrity-checker task](CLAUDE_CODE_OPUS_55_REVIEW_PAYLOAD.md). The [earlier Cursor payload](OPUS_55_PAYLOAD_2026-09-28.md) is preserved. Both were prepared after the code merge. Opus was not launched.
