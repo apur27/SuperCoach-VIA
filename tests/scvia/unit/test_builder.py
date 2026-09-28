@@ -17,6 +17,7 @@ import io
 import json
 import os
 import shutil
+import subprocess
 import zipfile
 from dataclasses import replace
 from pathlib import Path
@@ -136,8 +137,8 @@ def test_every_resource_family_is_produced(built: B.ReleaseCandidate, env: DemoE
     assert f"predictions/2026/{env.target_stage}.json" in files
     assert {f"matches/{s}/index.json" for s in (2024, 2025, 2026)} <= files
     assert any(f.startswith("matches/detail/") for f in files)
-    assert any(f.startswith("players/legacy__") for f in files)
-    assert any(f.startswith("player-games/legacy__") and f.endswith("/2026.json") for f in files)
+    assert any(f.startswith("players/k.") for f in files)
+    assert any(f.startswith("player-games/k.") and f.endswith("/2026.json") for f in files)
     assert {f"teams/demo_harbour/{s}.json" for s in (2024, 2025, 2026)} <= files
     assert "live/demo-live-1/latest.json" in files
     assert {"articles/2026-05-01-demo-article.json", "articles/demo-generated-note.json"} <= files
@@ -191,7 +192,9 @@ def test_forecast_available_with_full_precision(built: B.ReleaseCandidate, env: 
         assert m == mindex[m["match_id"]]
     # the player detail carries that player's current forecast row
     row = pset["rows"][0]
-    detail = _json(built, f"players/{row['player_id'].replace(':', '__')}.json")
+    from supercoach_via.publish.resources import public_key
+
+    detail = _json(built, f"players/{public_key(row['player_id'])}.json")
     assert detail["forecast"] == row
 
 
@@ -290,7 +293,9 @@ def test_overview_quality_and_team_index(built: B.ReleaseCandidate, env: DemoEnv
 def test_live_and_match_detail_link(built: B.ReleaseCandidate, env: DemoEnv) -> None:
     live = _json(built, "live/index.json")
     assert [m["resource"] for m in live["matches"]] == ["live/demo-live-1/latest.json"]
-    detail = _json(built, f"matches/detail/{env.live_match_id.replace(':', '__')}.json")
+    from supercoach_via.publish.resources import public_key
+
+    detail = _json(built, f"matches/detail/{public_key(env.live_match_id)}.json")
     assert detail["live_snapshots"] == ["live/demo-live-1/latest.json"]
 
 
@@ -598,6 +603,38 @@ def test_yearly_top100_csv_only_for_the_latest_final_season(built: B.ReleaseCand
     assert rows[0] == ["player", "score", "percentile_rank", "games_played"] and len(rows) > 1
     table = _json(built, "history/yearly_top_100/2025.json")
     assert [r[0] for r in rows[1:4]] and len(rows) - 1 == len(table["rows"])
+
+
+def test_game_logs_point_at_the_match_index_for_shared_facts(built: B.ReleaseCandidate) -> None:
+    from supercoach_via.publish.view_models import MatchIndex, PlayerSeasonGames, apply_match_facts, game_rows
+
+    logs = sorted((built.public_dir / "player-games").rglob("*.json"))
+    assert logs
+    doc = json.loads(logs[0].read_text())
+    log = PlayerSeasonGames.model_validate(doc)
+    assert log.match_facts and log.match_facts.startswith("matches/")
+    assert log.games.opponent_name == [] and log.games.stage_label == [] and log.games.stats
+    idx = MatchIndex.model_validate(_json(built, log.match_facts))
+    restored = game_rows(apply_match_facts(log.games, {m.match_id: m for m in idx.matches}))
+    assert restored[0].stage_label and restored[0].opponent_name and restored[0].stats == log.games.stats[0]
+
+
+def test_browser_readers_accept_the_python_release(built: B.ReleaseCandidate) -> None:
+    """The TypeScript readers, not a second Python parse, accept the builder's public tree."""
+    web = Path(__file__).resolve().parents[3] / "web"
+    env = os.environ.copy()
+    env["PATH"] = "/usr/bin:" + env.get("PATH", "")
+    env["SCVIA_PY_PUBLIC"] = str(built.public_dir)
+    proc = subprocess.run(
+        ["/usr/bin/node", "node_modules/vitest/vitest.mjs", "run", "tests/unit/python-release.test.ts"],
+        cwd=web,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=120,
+        check=False,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
 
 
 def test_era_summary_and_brownlow_proxy_downloads(built: B.ReleaseCandidate) -> None:

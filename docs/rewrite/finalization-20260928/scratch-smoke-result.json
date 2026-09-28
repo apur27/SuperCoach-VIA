@@ -1,0 +1,22 @@
+{
+  "host_live": "releases/20260928T111557Z-b26f3b884476",
+  "first": "20260928T111557Z-b26f3b884476",
+  "second": "20260928T112050Z-50974bb13ad2",
+  "seal_first": "79771226fae6aa463237c9a1755aa84f0c5dc04127b8aac4635c4c078a2d3b87",
+  "seal_second": "d16fa983aa2258d722f13cabd0969fc02c70aa2a31378e4ba335c85f7d638798",
+  "injected_copy_failure": {
+    "live": "20260928T111557Z-b26f3b884476",
+    "injected": "20260928T112050Z-50974bb13ad2",
+    "bytes_unchanged": true
+  },
+  "source_inventory_sha256": "318c37e8b2a80d6f518f89cde1427923dc4d7a1a389224d58f81400442c8ea5a",
+  "source_inventory_files": 854,
+  "source_inventory_bytes": 18202333,
+  "scratch_matches_source": true,
+  "captured_input_sha256": "995b138997fad3efdbc310ca95910490e0357fa5b3e2fe6d23491dd2fd7e9b5e",
+  "captured_input_files": 27350,
+  "rss_peak_kib": {
+    "first": 1940520,
+    "second": 1934412
+  }
+}

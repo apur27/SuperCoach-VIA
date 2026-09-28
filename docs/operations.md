@@ -34,30 +34,41 @@ uv run scvia demo --output dist/demo                 # ~10 s; every output is la
 uv run scvia import-legacy --source . --repair docs/rewrite/evidence/b1:2026 --json
 uv run scvia status --json
 
-# 2. Train (or reuse the cached bundle), forecast the next REAL fixtures, and replay-evaluate a season.
+# 2. Train (or reuse the cached bundle) and forecast the next REAL fixtures.
 #    With no future fixture in the source, forecast_status=unavailable is the correct outcome.
 uv run scvia forecast --train-cutoff 2025-01-01 --calibration-end 2026-01-01 \
-  --cutoff 2026-09-25T10:00:00+00:00 --replay-season 2026 --json
+  --cutoff 2026-09-28T10:00:00+00:00 --json
 
 # 3. Build and validate a release from the accepted snapshot. Forecast inputs are named
 #    explicitly (IDs and paths printed by step 2); nothing is selected by mtime.
-uv run scvia build-release --snapshot current --editorial off \
+SCVIA_PUBLIC_BASE=/SuperCoach-VIA/ uv run scvia build-release --snapshot current --editorial off \
   --bundle <bundle_id> --predictions var/predictions/<prediction_run_id> \
-  --evaluation var/evaluations/<evaluation_id> \
   --content-manifest config/public_content.toml --content-root . --json
 uv run scvia validate-release --release <release_id> --json
 
-# 4. Browser build against that release, then local read-only preview.
+# 4. Browser build against that release, attach the site, then seal and validate it.
 #    SCVIA_RELEASE_DIR must be ABSOLUTE and point at the release's public/ directory (the build
 #    refuses a relative path). SCVIA_PUBLIC_BASE must equal the base the release was built with.
-(cd web && SCVIA_RELEASE_DIR="$(realpath ../dist/releases/<release_id>/public)" SCVIA_PUBLIC_BASE=/SuperCoach-VIA/ npm run build)
-uv run scvia preview --release <release_id>          # binds 127.0.0.1
+RELEASE_DIR="$(realpath dist/releases/<release_id>)"
+(cd web && SCVIA_RELEASE_DIR="$RELEASE_DIR/public" SCVIA_PUBLIC_BASE=/SuperCoach-VIA/ npm run build)
+# Use a fresh release. Do not copy over an existing sealed site.
+test ! -e "$RELEASE_DIR/site" && cp -a web/dist "$RELEASE_DIR/site"
+uv run scvia seal-site --release <release_id> --json
+uv run scvia validate-release --release <release_id> --json
+# 5. Preview at http://127.0.0.1:4321/SuperCoach-VIA/ (Ctrl-C to stop).
+node web/scripts/serve.mjs --dir "$RELEASE_DIR/site" --base /SuperCoach-VIA/ --port 4321
 ```
 
 Build the release with the same `SCVIA_PUBLIC_BASE` as the site: article image URLs are resolved against the base at release-build time.
 
-The dates above are examples. Pick a training cutoff before the calibration block, and the
-calibration end before the season you replay.
+The dates above are examples; use the current UTC time for a new forecast. A replay
+also requires every stage cutoff to be on or after the bundle's knowledge cutoff,
+including its holdout evaluation period. Do not replay that holdout as if it were an
+independent forecast. Attach an eligible evaluation with `--evaluation` only when
+you have produced one; the recorded holdout results are described in the model card.
+
+`scvia preview` serves the site at `/`. For a release built with a subpath such as
+`/SuperCoach-VIA/`, use the base-aware Node server shown above.
 
 ## Refresh from sources
 

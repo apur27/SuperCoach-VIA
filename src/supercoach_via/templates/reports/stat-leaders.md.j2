@@ -1,0 +1,21 @@
+{% include "_provenance.md.j2" %}
+
+Season totals over observed games only; a blank cell in the source is "not recorded", never zero. Equal values share a rank.
+{% for group in leader_groups %}
+
+## {{ group.title }}
+
+{% if group.rows %}
+| Rank | Player | {{ group.value_header }} | Observed games |
+|---:|---|---:|---:|
+{% for rank, r in group.rows %}
+| {{ rank }} | {{ r.name|md }} | {{ r.value|num }} | {{ r.observed_games }} |
+{% endfor %}
+{% else %}
+No observed values for this statistic in {{ meta.season }}.
+{% endif %}
+{% endfor %}
+{% if chart %}
+
+![{{ chart.alt_text }}](../{{ chart.rel }})
+{% endif %}

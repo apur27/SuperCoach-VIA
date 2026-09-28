@@ -4,9 +4,9 @@ import { test, expect, expectClean } from './helpers';
 
 test.describe('unknown IDs', () => {
   const CASES: [string, RegExp, RegExp][] = [
-    ['match/?id=demo__2026__r99__nobody', /match not found/i, /browse matches/i],
+    ['match/?id=k.ZGVtbzoyMDI2OnI5OTpub2JvZHk', /match not found/i, /browse matches/i],
     ['team/?id=demo_zz&season=2026', /team not found/i, /teams/i],
-    ['live/?match=no-such-feed', /live match not found/i, /./],
+    ['live/?match=no-such-feed', /snapshot not found/i, /match snapshots/i],
   ];
   for (const [path, heading, link] of CASES) {
     test(`${path} explains the ID is not in this release and links onward`, async ({ page, problems }) => {
@@ -96,8 +96,8 @@ test.describe('revalidation and partial views', () => {
   });
 
   test('compare: one unavailable player is reported while the others still render (partial)', async ({ page }) => {
-    await page.route('**/data/*/players/legacy__demo_player_b1.json', (route) => route.fulfill({ status: 503, body: 'down' }));
-    await page.goto('compare/?players=legacy__demo_player_a1,legacy__demo_player_b1,legacy__nobody_here');
+    await page.route('**/data/*/players/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix.json', (route) => route.fulfill({ status: 503, body: 'down' }));
+    await page.goto('compare/?players=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex,k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix,k.bGVnYWN5Om5vYm9keV9oZXJl');
     await expect(page.getByRole('table', { name: /career comparison/i })).toContainText('Demo Player A1');
     await expect(page.getByText(/demo_player_b1: could not load/)).toBeVisible();
     await expect(page.getByText(/nobody_here: not in this release/)).toBeVisible();

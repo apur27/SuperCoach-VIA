@@ -41,6 +41,47 @@ def env(tmp_path_factory: pytest.TempPathFactory) -> dict[str, Any]:
     return {"root": root, "corpus": corpus, "history": hist, "bundle": res.bundle}
 
 
+def test_future_bundle_is_rejected_and_persisted_window_is_used(env: dict[str, Any], tmp_path: Path) -> None:
+    early = _prospective(forecast_cutoff=datetime(2024, 3, 1, tzinfo=UTC), origin=Origin.REPLAY,
+                         generated_at=datetime(2026, 9, 25, tzinfo=UTC))
+    with pytest.raises(P.ModelEligibilityError, match="knowledge cutoff"):
+        P.forecast(env["history"], env["bundle"], early)
+    boundary = datetime.fromisoformat(env["bundle"].manifest.training["knowledge_cutoff"])
+    art = P.forecast(env["history"], env["bundle"], _prospective(
+        forecast_cutoff=boundary, origin=Origin.REPLAY, generated_at=datetime(2026, 9, 25, tzinfo=UTC),
+    ))
+    assert art.manifest.status in ("available", "unavailable")
+
+    spec = F.FeatureSpec(window_long=2)
+    cfg = _cfg()
+    cfg = T.TrainingConfig(
+        train_cutoff=cfg.train_cutoff, calibration_end=cfg.calibration_end, holdout_end=date(2026, 3, 10),
+        target_seasons_from=cfg.target_seasons_from, candidates=cfg.candidates, n_folds=cfg.n_folds,
+        params=cfg.params, threads=1, feature_spec=spec,
+    )
+    bundle = T.train_model(env["history"], cfg, bundle_root=tmp_path, clock=clock).bundle
+    later = _prospective()
+    artifact = P.forecast(env["history"], bundle, later)
+    expected = F.build_features(env["history"], artifact.features.keys, spec)
+    mismatch = (artifact.features.X["disposals_prior5_mean"] - expected.X["disposals_prior5_mean"]).abs().fillna(0)
+    assert int((mismatch > 1e-10).sum()) == 0
+    assert artifact.features.spec.window_long == 2
+    original = dict(bundle.manifest.cache_inputs["config"]["feature_spec"])
+    stored = bundle.manifest.cache_inputs["config"]["feature_spec"]
+    stored["window_long"] = 5
+    with pytest.raises(F.FeatureSpecError, match="fingerprint"):
+        P.forecast(env["history"], bundle, later)
+    bare = {k: v for k, v in original.items() if k != "fingerprint"}
+    bare["window_long"] = 9
+    bundle.manifest.cache_inputs["config"]["feature_spec"] = bare
+    with pytest.raises(F.FeatureSpecError, match="fingerprint"):
+        P.forecast(env["history"], bundle, later)
+    bundle.manifest.cache_inputs["config"]["feature_spec"] = dict(original)
+    bundle.manifest.cache_inputs["code"] = "0" * 64
+    with pytest.raises(F.FeatureSpecError, match="code"):
+        P.forecast(env["history"], bundle, later)
+
+
 def _prospective(**kw: Any) -> P.ForecastRequest:
     base: dict[str, Any] = dict(forecast_cutoff=datetime(2026, 3, 10, tzinfo=UTC),
                                 generated_at=GEN, origin=Origin.PROSPECTIVE)

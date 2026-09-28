@@ -33,6 +33,14 @@ export function hasResource(path: string): boolean {
   return isSafeResourcePath(path) && existsSync(join(dir, path));
 }
 
+/** Read a published download when it is present. Missing files are an empty state, not a build failure. */
+export function readOptionalText(path: string): string | null {
+  if (!isSafeResourcePath(path)) throw new Error(`unsafe resource path: ${path}`);
+  const full = join(dir, path);
+  if (!existsSync(full)) return null;
+  return readFileSync(full, 'utf8');
+}
+
 export function manifest(): ReleaseManifest {
   return readResource('release', 'release.json');
 }

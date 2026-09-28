@@ -151,6 +151,19 @@
     "games": {
       "$ref": "#/$defs/PlayerGameColumns"
     },
+    "match_facts": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "season match index that holds date, stage and opponent when those game-log arrays are empty",
+      "title": "Match Facts"
+    },
     "player_id": {
       "title": "Player Id",
       "type": "string"

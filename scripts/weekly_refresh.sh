@@ -30,6 +30,11 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Isolated numeric entry. Default remains this legacy script. Operators set
+# SCVIA_NUMERIC_ENTRY=1 only in a scratch checkout; this does not change cron or hooks.
+if [ "${SCVIA_NUMERIC_ENTRY:-0}" = "1" ]; then
+  exec "$REPO_ROOT/scripts/scvia_weekly.sh"
+fi
 PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
 CLAUDE=/home/abhi/.claude/local/claude
 LOG_DIR="$REPO_ROOT/.claude/audit"

@@ -21,7 +21,13 @@ const downloadHref = dl ? withBase(base, `data/${rel.release_id}/${dl.path}`) : 
     <h2 id="sum-h" class="visually-hidden">Summary</h2>
     <ForecastStatus status={idx.status} reason={idx.reason} />
     {current ? (
-      <p>Current set: <strong>{current.stage_label} {current.season}</strong> — {current.rows.length} players, {current.target_matches.length} target matches; forecast cutoff <Instant iso={current.forecast_cutoff} />. Model: {current.model?.name ?? 'not recorded'}. {current.interval.available ? 'Prediction intervals are shown.' : `No intervals: ${current.interval.reason ?? 'unavailable'}.`}</p>
+      <>
+        <p>Current set: <strong>{current.stage_label} {current.season}</strong> — {current.rows.length} players, {current.target_matches.length} target matches.</p>
+        <details class="provenance">
+          <summary>Model, cutoff and intervals</summary>
+          <p>Forecast cutoff <Instant iso={current.forecast_cutoff} />. Model: {current.model?.name ?? 'not recorded'}. {current.interval.available ? 'Prediction intervals are shown.' : `No intervals: ${current.interval.reason ?? 'unavailable'}.`}</p>
+        </details>
+      </>
     ) : <p>No current prediction set is published in this release.</p>}
     {idx.sets.length > 0 && <p class="muted">Sets in this release: {idx.sets.map((s) => `${s.season} ${s.stage_label} (${s.status})`).join('; ')}.</p>}
   </section>

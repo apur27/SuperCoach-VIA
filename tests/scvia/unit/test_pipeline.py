@@ -121,6 +121,159 @@ def _http(tmp_path: Path, status: int) -> object:
     )  # fmt: skip
 
 
+def test_refresh_merge_recomputes_season_aggregates_from_the_added_match(
+    tmp_path: Path, corpus: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Adding one completed match through refresh updates that season from the merged table."""
+    from datetime import timedelta
+
+    from supercoach_via.domain.schemas import CheckOutcome, DatasetStatus
+    from supercoach_via.ingest import refresh as rf
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+
+    ctx = _ctx(tmp_path, corpus)
+    pipeline.ingest(ctx, source_root=corpus)
+    root = tmp_path / "var"
+    manifest = load_snapshot(root)
+    with SnapshotQuery(root, manifest, tables={"matches", "player_games", "seasons"}) as q:
+        sample = q.arrow(
+            "SELECT * FROM matches WHERE season = 2026 AND status = 'complete' ORDER BY match_date DESC LIMIT 1"
+        ).to_pylist()[0]
+        games = q.arrow("SELECT * FROM player_games WHERE match_id = ?", [sample["match_id"]]).to_pylist()
+        before = q.arrow("SELECT * FROM seasons WHERE season = 2026").to_pylist()[0]
+        latest = q.scalar("SELECT max(match_date) FROM matches WHERE season = 2026")
+    assert games, "demo complete match has no player rows to clone"
+    latest_day = latest.date() if isinstance(latest, datetime) else latest
+    added_day = latest_day + timedelta(days=7)
+    added = dict(sample)
+    added["match_id"] = f"{sample['match_id']}:added"
+    added["match_date"] = added_day
+    added["status"] = "complete"
+    added_games = []
+    for game in games:
+        row = dict(game)
+        row["match_id"] = added["match_id"]
+        row["match_date"] = added_day
+        added_games.append(row)
+    checked = datetime(2026, 9, 28, tzinfo=UTC)
+
+    def fake_refresh(base: object, plan: rf.RefreshPlan, context: object, **_kwargs: object) -> rf.RefreshResult:
+        return rf.RefreshResult(
+            plan=plan,
+            outcome=CheckOutcome.PASS,
+            dataset_status=DatasetStatus.VERIFIED,
+            exit_code=0,
+            source_checked_at=checked,
+            counts={},
+            upserts={"matches": [added], "player_games": added_games},
+            revisions={},
+            corrections=[],
+            superseded=[],
+            interior_gaps=[],
+            stale_fixtures=[],
+            work_log=[],
+            issues=[],
+            latest_completed_match_date=added_day,
+            request_counts={},
+            bytes_received=0,
+        )
+
+    monkeypatch.setattr(rf, "refresh_sources", fake_refresh)
+    res = pipeline.refresh(ctx, season=2026)
+    assert res.exit_code == 0 and res.promoted, res.message
+    promoted = load_snapshot(root)
+    with SnapshotQuery(root, promoted, tables={"matches", "seasons"}) as q:
+        season = q.arrow("SELECT * FROM seasons WHERE season = 2026").to_pylist()[0]
+        n_complete = q.scalar("SELECT count(*) FROM matches WHERE season = 2026 AND status = 'complete'")
+        n_scheduled = q.scalar("SELECT count(*) FROM matches WHERE season = 2026 AND status = 'scheduled'")
+        present = q.scalar("SELECT count(*) FROM matches WHERE match_id = ?", [added["match_id"]])
+    last = season["last_match_date"]
+    last = last.date() if isinstance(last, datetime) else last
+    assert present == 1
+    assert season["matches_complete"] == n_complete == before["matches_complete"] + 1
+    assert season["matches_scheduled"] == n_scheduled == before["matches_scheduled"]
+    assert last == added_day
+    assert season["fixture_checked_at"] == checked
+    assert season["schedule_complete"] is None and season["source_status"] is None
+
+
+def test_unchanged_fixture_still_records_freshness_for_checked_seasons(
+    tmp_path: Path, corpus: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A passing refresh whose only writes are source observations still stamps checked seasons."""
+    from supercoach_via.domain.schemas import CheckOutcome, DatasetStatus
+    from supercoach_via.ingest import refresh as rf
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+
+    ctx = _ctx(tmp_path, corpus)
+    pipeline.ingest(ctx, source_root=corpus)
+    root = tmp_path / "var"
+    before = load_snapshot(root)
+    with SnapshotQuery(root, before, tables={"seasons"}) as q:
+        prior = {int(r["season"]): r for r in q.arrow("SELECT * FROM seasons").to_pylist()}
+    checked = datetime(2026, 9, 28, 10, 42, tzinfo=UTC)
+
+    def fake_refresh(base: object, plan: rf.RefreshPlan, context: object, **_kwargs: object) -> rf.RefreshResult:
+        return rf.RefreshResult(
+            plan=plan,
+            outcome=CheckOutcome.PASS,
+            dataset_status=DatasetStatus.VERIFIED,
+            exit_code=0,
+            source_checked_at=checked,
+            counts={},
+            upserts={
+                "source_observations": [
+                    {
+                        "source_ref": "afltables:season:2026",
+                        "adapter": "afltables.season_fixture",
+                        "adapter_version": "test",
+                        "url": "https://afltables.com/afl/seas/2026.html",
+                        "fetched_at": checked,
+                        "content_sha256": "ab" * 32,
+                        "http_status": 200,
+                        "etag": None,
+                        "last_modified": None,
+                        "bytes": 12,
+                        "source_mode": "live",
+                        "outcome": "PASS",
+                    }
+                ]
+            },
+            revisions={},
+            corrections=[],
+            superseded=[],
+            interior_gaps=[],
+            stale_fixtures=[],
+            work_log=[],
+            issues=[],
+            latest_completed_match_date=None,
+            request_counts={},
+            bytes_received=0,
+        )
+
+    monkeypatch.setattr(rf, "refresh_sources", fake_refresh)
+    res = pipeline.refresh(ctx, season=2026)
+    assert res.exit_code == 0 and res.promoted, res.message
+    promoted = load_snapshot(root)
+    assert promoted.snapshot_id != before.snapshot_id
+    with SnapshotQuery(root, promoted, tables={"seasons", "matches"}) as q:
+        rows = {int(r["season"]): r for r in q.arrow("SELECT * FROM seasons").to_pylist()}
+        n_matches = q.scalar("SELECT count(*) FROM matches")
+    assert n_matches == sum(r.rows for r in before.tables["matches"].fragments)
+    for season in (2025, 2026):
+        got = rows[season]
+        old = prior[season]
+        assert got["fixture_checked_at"] == checked
+        assert got["matches_complete"] == old["matches_complete"]
+        assert got["matches_scheduled"] == old["matches_scheduled"]
+        assert got["first_match_date"] == old["first_match_date"]
+        assert got["last_match_date"] == old["last_match_date"]
+        assert got["schedule_complete"] is None and got["source_status"] is None
+    assert rows[2024]["fixture_checked_at"] is None
+
+
 def test_unreachable_source_refresh_is_partial_and_never_moves_the_pointer(tmp_path: Path, corpus: Path) -> None:
     ctx = _ctx(tmp_path, corpus)
     first = pipeline.ingest(ctx, source_root=corpus)

@@ -7,6 +7,9 @@ source round number.
 
 from __future__ import annotations
 
+import base64
+import binascii
+import re
 from collections.abc import Iterator
 from datetime import date
 from typing import Any
@@ -28,11 +31,60 @@ from supercoach_via.publish.view_models import (
 from supercoach_via.storage.queries import SnapshotQuery
 
 _ORDER = "match_date NULLS LAST, local_start NULLS LAST, stage_order, match_id"
+_KEY_PREFIX = "k."
+_MAX_KEY_BYTES = 200
+_CANONICAL_TOKEN = re.compile(r"[A-Za-z0-9_\-]+")
+
+
+class KeyCodecError(ValueError):
+    """A public id cannot be encoded without truncation or is not a canonical key."""
 
 
 def public_key(identifier: str) -> str:
-    """Encode an ID for use in a resource path (':' -> '__')."""
-    return identifier.replace(":", "__")
+    """Injective path key: ``k.`` plus unpadded base64url of the ASCII id.
+
+    Colons are not rewritten as underscores. A key longer than 200 bytes is refused
+    so the caller can persist an explicit alias; the id is never truncated.
+    """
+    try:
+        raw = identifier.encode("ascii")
+    except UnicodeEncodeError as exc:
+        raise KeyCodecError("public id must be ASCII") from exc
+    if not raw:
+        raise KeyCodecError("empty public id")
+    token = base64.urlsafe_b64encode(raw).rstrip(b"=").decode("ascii")
+    key = _KEY_PREFIX + token
+    if len(key) > _MAX_KEY_BYTES:
+        raise KeyCodecError(
+            f"encoded key is {len(key)} bytes; persist an explicit alias, do not truncate"
+        )
+    return key
+
+
+def _decode_canonical(key: str) -> str:
+    token = key[len(_KEY_PREFIX) :]
+    if not token or _CANONICAL_TOKEN.fullmatch(token) is None:
+        raise KeyCodecError("malformed public key")
+    pad = "=" * ((4 - len(token) % 4) % 4)
+    try:
+        text = base64.urlsafe_b64decode(token + pad).decode("ascii")
+    except (binascii.Error, UnicodeDecodeError) as exc:
+        raise KeyCodecError("malformed public key") from exc
+    if public_key(text) != key:
+        raise KeyCodecError("non-canonical public key")
+    return text
+
+
+def parse_public_key(key: str) -> str:
+    """Inverse of :func:`public_key`.
+
+    Keys that do not use the ``k.`` prefix are legacy aliases from the historical
+    colon-to-``__`` encoding. That alias is not injective for ids that already
+    contain underscores; new paths always use :func:`public_key`.
+    """
+    if key.startswith(_KEY_PREFIX):
+        return _decode_canonical(key)
+    return key.replace("__", ":")
 
 
 def match_key(match_id: str) -> str:
@@ -106,6 +158,16 @@ def compact_stats(rows: list[dict[str, Any]]) -> tuple[list[str], list[list[floa
     return [PLAYER_STAT_COLUMNS[i] for i in keep], values
 
 
+def _match_source(row: dict[str, Any]) -> Source:
+    """Label a match from its recorded provenance. The captured path or URL stays on the source."""
+    path = row.get("source_path")
+    note = path if isinstance(path, str) else None
+    if row.get("provenance") == "source_fetch":
+        url = note if note and note.startswith(("http://", "https://")) else None
+        return Source(label="AFL Tables source page", url=url, note=note)
+    return Source(label="Legacy match/player CSV import", url=None, note=note)
+
+
 def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
     names = _club_names(q)
     games: dict[str, list[dict[str, Any]]] = {}
@@ -143,7 +205,7 @@ def match_details(q: SnapshotQuery, season: int) -> Iterator[MatchDetail]:
             home_players=box(r["home_club_id"]),
             away_players=box(r["away_club_id"]),
             stat_columns=cols,
-            sources=[Source(label="Legacy match/player CSV import", url=None, note=r.get("source_path"))],
+            sources=[_match_source(r)],
         )
 
 
@@ -151,8 +213,10 @@ def player_season_games(q: SnapshotQuery, season: int) -> Iterator[PlayerSeasonG
     names = _club_names(q)
     rows = _records(
         q,
-        "SELECT g.*, m.local_start FROM player_games g LEFT JOIN matches m USING (match_id) "
-        "WHERE g.season = ? ORDER BY g.player_id, g.match_date NULLS LAST, m.local_start NULLS LAST, g.match_id",
+        "SELECT g.*, m.match_date AS event_date, m.local_start FROM player_games g "
+        "LEFT JOIN matches m USING (match_id) "
+        "WHERE g.season = ? ORDER BY g.player_id, coalesce(m.match_date, g.match_date) NULLS LAST, "
+        "m.local_start NULLS LAST, g.match_id",
         [season],
     )
     by_player: dict[str, list[dict[str, Any]]] = {}
@@ -161,10 +225,21 @@ def player_season_games(q: SnapshotQuery, season: int) -> Iterator[PlayerSeasonG
     for player_id, prows in by_player.items():
         cols, values = compact_stats(prows)
         opps = [g["opponent_club_id"] for g in prows]
+        shown_dates: list[date | None] = []
+        shown_quality: list[str] = []
+        for g in prows:
+            event = g.get("event_date")
+            row_date = g["match_date"] if isinstance(g["match_date"], date) else None
+            if isinstance(event, date):
+                shown_dates.append(event)
+                shown_quality.append(g["date_quality"] if row_date == event else "source")
+            else:
+                shown_dates.append(row_date)
+                shown_quality.append(g["date_quality"])
         games = PlayerGameColumns(
             match_id=[g["match_id"] for g in prows],
-            match_date=[g["match_date"] if isinstance(g["match_date"], date) else None for g in prows],
-            date_quality=[g["date_quality"] for g in prows],
+            match_date=shown_dates,
+            date_quality=shown_quality,
             stage_label=[g["stage_label"] for g in prows],
             club_id=[g["club_id"] for g in prows],
             opponent_club_id=opps,
@@ -190,7 +265,8 @@ def player_index(q: SnapshotQuery) -> PlayerIndex:
         """
         SELECT p.player_id, p.display_name,
                list(DISTINCT c.name ORDER BY c.name) FILTER (WHERE c.name IS NOT NULL) AS clubs,
-               min(g.season), max(g.season), count(g.match_id)
+               min(g.season), max(g.season), count(g.match_id),
+               list_sort(list(DISTINCT g.season) FILTER (WHERE g.season IS NOT NULL))
         FROM players p
         LEFT JOIN player_games g USING (player_id)
         LEFT JOIN clubs c ON c.club_id = g.club_id
@@ -207,10 +283,11 @@ def player_index(q: SnapshotQuery) -> PlayerIndex:
             clubs=list(clubs or []),
             first_season=first,
             last_season=last,
+            seasons=[int(s) for s in (played or [])],
             games=int(n),
             active=last is not None and last == latest,
             search=normalise_search(f"{name} {' '.join(clubs or [])}"),
         )
-        for pid, name, clubs, first, last, n in rows
+        for pid, name, clubs, first, last, n, played in rows
     ]
     return PlayerIndex(count=len(players), players=players)

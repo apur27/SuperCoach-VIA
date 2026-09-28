@@ -72,8 +72,8 @@ def _snap(root: Path):
             "opponent_club_id": "demo-ridge",
             "stage_label": "1",
             "stage_id": "r01",
-            "match_date": date(2025, 3, 20),
-            "date_quality": "fixture_verified",
+            "match_date": date(2025, 3, 3),
+            "date_quality": "inferred",
             "career_game_counter": 1,
             "kicks": 0,
             "handballs": 0,
@@ -110,9 +110,67 @@ def test_match_detail_and_game_logs_keep_nulls(tmp_path: Path) -> None:
     row = dict(zip(cols, box_rows(d.home_players)[0].stats, strict=True))
     assert row["disposals"] == 0  # zero stays zero
     assert logs[0].player_id == "legacy:demo_a_01011990"
+    shown = game_rows(logs[0].games)[0]
+    assert shown.match_date == date(2025, 3, 20) and shown.date_quality == "source"
     g = dict(zip(logs[0].stat_columns, game_rows(logs[0].games)[0].stats, strict=True))
     assert g["disposals"] == 0 and "tackles" not in g
     assert game_rows(logs[0].games)[0].opponent_name == "Demo Ridge"
+
+
+def test_match_source_label_follows_recorded_provenance(tmp_path: Path) -> None:
+    url = "https://afltables.com/afl/stats/games/2026/081920260926.html"
+    matches = [
+        _m("m:2025:r01:a", "1", 0, 0, 3, "complete", date(2025, 3, 20)),
+        _m("m:2025:r02:a", "2", 0, None, None, "complete", date(2025, 3, 27)),
+    ]
+    matches[0]["provenance"] = "legacy_import"
+    matches[0]["source_path"] = "data/matches/matches_2025.csv"
+    matches[1]["provenance"] = "source_fetch"
+    matches[1]["source_path"] = url
+    games = [
+        {
+            "match_id": "m:2025:r02:a",
+            "player_id": "legacy:demo_a_01011990",
+            "club_id": "demo-harbour",
+            "season": 2025,
+            "opponent_club_id": "demo-ridge",
+            "stage_label": "2",
+            "stage_id": "r02",
+            "match_date": date(2025, 3, 27),
+            "date_quality": "fixture_verified",
+            "kicks": 2,
+            "handballs": None,
+            "disposals": 2,
+            "revision_id": "r",
+            "provenance": "source_fetch",
+            "source_path": url,
+        }
+    ]
+    players = [
+        {
+            "player_id": "legacy:demo_a_01011990",
+            "display_name": "Demo A",
+            "birth_date_quality": "source",
+            "identity_status": "canonical",
+            "provenance": "source_fetch",
+        }
+    ]
+    clubs = [
+        {"club_id": "demo-harbour", "name": "Demo Harbour", "lineage_id": "demo-harbour", "active": True},
+        {"club_id": "demo-ridge", "name": "Demo Ridge", "lineage_id": "demo-ridge", "active": True},
+    ]
+    manifest = build(tmp_path, lambda: NOW, {"matches": matches, "clubs": clubs, "players": players, "player_games": games})
+    with SnapshotQuery(tmp_path, manifest) as q:
+        details = {d.summary.match_id: d for d in resources.match_details(q, 2025)}
+    legacy = details["m:2025:r01:a"].sources[0]
+    fetched = details["m:2025:r02:a"].sources[0]
+    assert legacy.label == "Legacy match/player CSV import" and legacy.url is None
+    assert legacy.note == "data/matches/matches_2025.csv"
+    assert fetched.label == "AFL Tables source page" and fetched.url == url and fetched.note == url
+    cols = details["m:2025:r02:a"].stat_columns
+    assert "handballs" not in cols
+    row = dict(zip(cols, box_rows(details["m:2025:r02:a"].home_players)[0].stats, strict=True))
+    assert row["kicks"] == 2 and row["disposals"] == 2
 
 
 def test_stat_arrays_keep_partial_nulls() -> None:
@@ -122,8 +180,18 @@ def test_stat_arrays_keep_partial_nulls() -> None:
 
 
 def test_public_key_roundtrip() -> None:
-    assert resources.public_key("legacy:x_y_01011990") == "legacy__x_y_01011990"
-    assert resources.match_key("m:2025:gf:a:1") == "m__2025__gf__a__1"
+    canonical = resources.public_key("legacy:x_y_01011990")
+    assert canonical.startswith("k.") and "__" not in canonical.split(".", 1)[0]
+    assert ":" not in canonical
+    assert resources.parse_public_key(canonical) == "legacy:x_y_01011990"
+    # Historical links keep the colon-to-double-underscore alias. New paths do not emit it.
+    assert resources.parse_public_key("legacy__x_y_01011990") == "legacy:x_y_01011990"
+    assert resources.public_key("legacy:x_y_01011990") != "legacy__x_y_01011990"
+    assert resources.parse_public_key(resources.match_key("m:2025:gf:a:1")) == "m:2025:gf:a:1"
+    assert resources.public_key("a__b") != resources.public_key("id.a_x_b")
+    assert resources.parse_public_key(resources.public_key("a__b")) == "a__b"
+    assert resources.parse_public_key(resources.public_key("id.a_x_b")) == "id.a_x_b"
+    assert resources.parse_public_key(resources.public_key("legacy:a___b")) == "legacy:a___b"
 
 
 def test_player_index_search_terms_and_active(tmp_path: Path) -> None:
@@ -132,8 +200,9 @@ def test_player_index_search_terms_and_active(tmp_path: Path) -> None:
         idx = resources.player_index(q)
     assert idx.count == 1
     e = idx.players[0]
-    assert e.key == "legacy__demo_a_01011990" and e.clubs == ["Demo Harbour"]
-    assert e.first_season == 2025 and e.last_season == 2025 and e.games == 1 and e.active is True
+    assert e.key == resources.public_key("legacy:demo_a_01011990") and e.clubs == ["Demo Harbour"]
+    assert e.first_season == 2025 and e.last_season == 2025 and e.seasons == [2025]
+    assert e.games == 1 and e.active is True
 
 
 def test_normalise_search_strips_diacritics() -> None:

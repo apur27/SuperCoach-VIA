@@ -1,0 +1,16 @@
+---
+interface Props { columns: string[]; rows: string[][]; caption: string }
+const { columns, rows, caption } = Astro.props;
+const numeric = (v: string) => /^-?\d+(\.\d+)?$/.test(v);
+---
+<div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`}>
+  <table>
+    <caption>{caption}</caption>
+    <thead><tr>{columns.map((c) => <th scope="col" class={numeric(rows[0]?.[columns.indexOf(c)] ?? '') ? 'num' : undefined}>{c.replaceAll('_', ' ')}</th>)}</tr></thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>{r.map((v) => <td class={numeric(v) ? 'num' : undefined}>{v === '' ? <span class="missing">not recorded</span> : v}</td>)}</tr>
+      ))}
+    </tbody>
+  </table>
+</div>

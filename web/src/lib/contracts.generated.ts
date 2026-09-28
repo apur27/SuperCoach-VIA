@@ -691,6 +691,10 @@ export interface PlayerIndexEntry {
    * lower-case diacritic-stripped search terms
    */
   search: string;
+  /**
+   * seasons with a player-game; empty on indexes written before membership was exported
+   */
+  seasons?: number[];
 }
 /**
  * This interface was referenced by `PublicContracts`'s JSON-Schema
@@ -698,6 +702,10 @@ export interface PlayerIndexEntry {
  */
 export interface PlayerSeasonGames {
   games: PlayerGameColumns;
+  /**
+   * season match index that holds date, stage and opponent when those game-log arrays are empty
+   */
+  match_facts?: string | null;
   player_id: string;
   season: number;
   /**

@@ -9,7 +9,7 @@ body {
   line-height: 1.55;
   color: var(--text);
   background: var(--bg);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 img, svg { max-width: 100%; }
 a { color: var(--link); text-underline-offset: 0.15em; }
@@ -20,7 +20,7 @@ h2 { font-size: 1.35rem; margin: var(--space-8) 0 var(--space-3); }
 h3 { font-size: 1.1rem; margin: var(--space-6) 0 var(--space-2); }
 p { max-width: 70ch; }
 .num, td.num, th.num, .tabular { font-variant-numeric: tabular-nums; }
-code { font-family: var(--mono); }
+code, .checksum { font-family: var(--mono); overflow-wrap: anywhere; }
 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
 
@@ -142,9 +142,9 @@ fieldset { border: 1px solid var(--border); border-radius: var(--radius); paddin
 /* Tables */
 .table-wrap { position: relative; overflow-x: auto; max-width: 100%; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .table-wrap:focus-visible { outline-offset: -3px; }
-table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 0.95rem; }
 caption { text-align: left; font-weight: 700; padding: var(--space-2) var(--space-3); caption-side: top; }
-th, td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th, td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: normal; word-break: normal; }
 thead th { background: var(--surface-2); white-space: nowrap; }
 td.num, th.num { text-align: right; }
 th button.sort {
@@ -171,7 +171,7 @@ tbody tr:hover { background: var(--surface-2); }
 .chart .point-2 { fill: var(--surface); stroke: var(--chart-2); stroke-width: 2; }
 .chart .bar-1 { fill: var(--chart-1); }
 .chart .bar-2 { fill: var(--chart-2); }
-details.data-table summary { cursor: pointer; min-height: var(--target); display: flex; align-items: center; font-weight: 600; }
+details.data-table summary, details.provenance summary { cursor: pointer; min-height: var(--target); display: flex; align-items: center; font-weight: 600; }
 
 /* Article content */
 .prose { max-width: 70ch; }

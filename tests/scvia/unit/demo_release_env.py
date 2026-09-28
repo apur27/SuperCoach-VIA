@@ -182,6 +182,7 @@ def demo_env(base: Path) -> DemoEnv:
     cfg = T.TrainingConfig(
         train_cutoff=date(2025, 6, 1),
         calibration_end=date(2026, 1, 1),
+        holdout_end=date(2026, 5, 1),
         target_seasons_from=2024,
         candidates=("hgb",),
         n_folds=2,

@@ -1,0 +1,26 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import FactTable from '../../components/FactTable.astro';
+import { findDownload } from '../../lib/downloads';
+import { withBase } from '../../lib/ids';
+import { readOptionalText, readResource } from '../../lib/release-server';
+import { BROWNLOW_VIEW_COLUMNS, parseCsv, project } from '../../lib/tabular';
+
+const base = import.meta.env.BASE_URL;
+const dls = readResource('downloads', 'downloads.json');
+const item = findDownload(dls, 'brownlow_proxy_csv');
+const text = item ? readOptionalText(item.path) : null;
+const table = text ? project(parseCsv(text), BROWNLOW_VIEW_COLUMNS) : null;
+const labelCol = table ? table.columns.indexOf('label') : -1;
+const proxyLabel = table && labelCol >= 0 ? (table.rows[0]?.[labelCol] || null) : null;
+---
+<AppLayout title="Brownlow proxy" description="Season Brownlow proxy index. This is not official votes and not a prediction of votes." current="history" breadcrumbs={[{ label: 'History', href: 'history/' }, { label: 'Brownlow proxy' }]}>
+  <h1>Brownlow proxy</h1>
+  <p class="banner banner-info"><strong>Proxy, not votes.</strong> {proxyLabel ?? 'This table is an index built from on-field statistics.'} It is not the Brownlow Medal and not a forecast of votes.</p>
+  {table && item ? (
+    <>
+      <FactTable columns={table.columns} rows={table.rows} caption={`${proxyLabel ?? 'Brownlow proxy'} — full published rows`} />
+      <p><a href={withBase(base, `data/${dls.release_id}/${item.path}`)} download>Download the full CSV</a> ({item.rows ?? table.rows.length} rows).</p>
+    </>
+  ) : <p class="muted" data-state="empty">No Brownlow proxy export is in this release. <a href={withBase(base, 'downloads/')}>Downloads</a>.</p>}
+</AppLayout>

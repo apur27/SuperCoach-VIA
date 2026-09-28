@@ -1,0 +1,14 @@
+{
+ "release_id": "20260928T111014Z-ca96603163ad",
+ "snapshot_id": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f",
+ "site_bytes": 276821039,
+ "attributed_total": 276821039,
+ "base_bytes": 40862206,
+ "season_2026": 4144495,
+ "mean_2021_2025": 4007870.0,
+ "projection_bytes": 294087529.0,
+ "projection_mib": 280.4637231826782,
+ "prior_release": "20260928T104520Z-2561b2316c8a",
+ "prior_site_bytes": 276820994,
+ "prior_projection_mib": 280.463680267334
+}

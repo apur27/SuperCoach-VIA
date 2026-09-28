@@ -17,8 +17,9 @@ Conventions:
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from datetime import date, datetime
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -385,6 +386,10 @@ class PlayerIndexEntry(PublicModel):
     clubs: list[str]
     first_season: int | None
     last_season: int | None
+    seasons: list[int] = Field(
+        default_factory=list,
+        description="seasons with a player-game; empty on indexes written before membership was exported",
+    )
     games: int
     active: bool
     search: str = Field(description="lower-case diacritic-stripped search terms")
@@ -472,8 +477,12 @@ class PlayerGameColumns(PublicModel):
     @model_validator(mode="after")
     def _aligned(self) -> PlayerGameColumns:
         n = len(self.match_id)
-        if any(len(getattr(self, f)) != n for f in _GAME_FIELDS):
-            raise ValueError("PlayerGameColumns arrays differ in length")
+        for f in _GAME_FIELDS:
+            got = len(getattr(self, f))
+            if f in _SHARED_MATCH_FIELDS and got == 0:
+                continue
+            if got != n:
+                raise ValueError("PlayerGameColumns arrays differ in length")
         return self
 
 
@@ -481,17 +490,69 @@ _GAME_FIELDS = (
     "match_id", "match_date", "date_quality", "stage_label", "club_id", "opponent_club_id", "opponent_name",
     "result", "career_game_counter", "stats",
 )  # fmt: skip
+# Present on the season match index. Empty arrays mean "read them from that index".
+_SHARED_MATCH_FIELDS = ("match_date", "stage_label", "opponent_club_id", "opponent_name")
 
 
 def to_game_columns(rows: list[PlayerGame]) -> PlayerGameColumns:
     return PlayerGameColumns(**{f: [getattr(r, f) for r in rows] for f in _GAME_FIELDS})
 
 
+def _column(cols: PlayerGameColumns, name: str, n: int) -> list[Any]:
+    vals = list(getattr(cols, name))
+    if name in _SHARED_MATCH_FIELDS and not vals and n:
+        return [None] * n
+    return vals
+
+
 def game_rows(cols: PlayerGameColumns) -> list[PlayerGame]:
+    n = len(cols.match_id)
     return [
         PlayerGame(**dict(zip(_GAME_FIELDS, vals, strict=True)))
-        for vals in zip(*(getattr(cols, f) for f in _GAME_FIELDS), strict=True)
+        for vals in zip(*(_column(cols, f, n) for f in _GAME_FIELDS), strict=True)
     ]
+
+
+def share_match_facts(log: PlayerSeasonGames, path: str) -> PlayerSeasonGames:
+    """Drop match fields the season index already stores. Stats and identity stay on the log."""
+    if not log.games.match_id:
+        return log
+    return log.model_copy(update={
+        "match_facts": path,
+        "games": log.games.model_copy(update={f: [] for f in _SHARED_MATCH_FIELDS}),
+    })  # fmt: skip
+
+
+def apply_match_facts(cols: PlayerGameColumns, by_id: Mapping[str, MatchSummary]) -> PlayerGameColumns:
+    """Fill shared columns from match summaries. Rows that already carry them are unchanged."""
+    n = len(cols.match_id)
+    if n == 0 or any(getattr(cols, f) for f in _SHARED_MATCH_FIELDS):
+        return cols
+    dates: list[date | None] = []
+    stages: list[str] = []
+    opp_ids: list[str | None] = []
+    opp_names: list[str | None] = []
+    for mid, club in zip(cols.match_id, cols.club_id, strict=True):
+        summary = by_id.get(mid)
+        if summary is None:
+            dates.append(None)
+            stages.append("")
+            opp_ids.append(None)
+            opp_names.append(None)
+            continue
+        if club == summary.home.club_id:
+            opp = summary.away
+        elif club == summary.away.club_id:
+            opp = summary.home
+        else:
+            opp = None
+        dates.append(summary.match_date)
+        stages.append(summary.stage_label)
+        opp_ids.append(opp.club_id if opp else None)
+        opp_names.append(opp.name if opp else None)
+    return cols.model_copy(update={
+        "match_date": dates, "stage_label": stages, "opponent_club_id": opp_ids, "opponent_name": opp_names,
+    })  # fmt: skip
 
 
 class PlayerSeasonGames(PublicModel):
@@ -499,6 +560,10 @@ class PlayerSeasonGames(PublicModel):
     season: int
     stat_columns: list[str] = Field(description="stats observed at least once in this file, in canonical order")
     games: PlayerGameColumns
+    match_facts: str | None = Field(
+        default=None,
+        description="season match index that holds date, stage and opponent when those game-log arrays are empty",
+    )
 
 
 # ---------------------------------------------------------------------------

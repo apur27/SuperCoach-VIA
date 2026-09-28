@@ -8,7 +8,7 @@ export const ROUTES = [
   { route: '', json: [] },
   { route: 'predictions/', json: [R, { kind: 'prediction_index', glob: 'predictions/index.json' }, { kind: 'prediction_set', glob: 'predictions/*/*.json', optional: true }] },
   { route: 'players/', json: [] }, // index loads only on search interaction (measured separately)
-  { route: 'player/', json: [R, PLAYER, { kind: 'player_season_games', glob: 'player-games/*/*.json' }] },
+  { route: 'player/', json: [R, PLAYER, { kind: 'player_season_games', glob: 'player-games/*/*.json' }, { kind: 'match_index', glob: 'matches/*/index.json' }] },
   { route: 'compare/', json: [R, { ...PLAYER, count: 4 }] },
   { route: 'teams/', json: [] },
   { route: 'team/', json: [R, { kind: 'team_index', glob: 'teams/index.json' }, { kind: 'team_season', glob: 'teams/*/*.json' }] },

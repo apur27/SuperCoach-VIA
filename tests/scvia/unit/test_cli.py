@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+import pytest
 from typer.testing import CliRunner
 
 from supercoach_via.cli import EXIT, app
@@ -69,6 +71,25 @@ def _demo_src(tmp_path: Path) -> Path:
     return tmp_path / "src"
 
 
+@pytest.fixture(scope="module")
+def imported_demo_var(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """One immutable demo import. Read-only CLI tests copy it; they do not share the directory."""
+    root = tmp_path_factory.mktemp("cli-demo")
+    src, var = root / "src", root / "var"
+    from supercoach_via.demo import write_demo_corpus
+
+    write_demo_corpus(src)
+    res = runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(var), "--json"])
+    assert res.exit_code == 0, res.output
+    return var
+
+
+def _copy_imported(imported_demo_var: Path, tmp_path: Path) -> Path:
+    dest = tmp_path / "var"
+    shutil.copytree(imported_demo_var, dest)
+    return dest
+
+
 def test_import_legacy_promotes_and_status_reports_it(tmp_path: Path) -> None:
     src = _demo_src(tmp_path)
     res = runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var"), "--json"])
@@ -82,17 +103,15 @@ def test_import_legacy_promotes_and_status_reports_it(tmp_path: Path) -> None:
     assert status["last_run"]["state"] == "dataset_promoted"
 
 
-def test_validate_command_on_current_snapshot(tmp_path: Path) -> None:
-    src = _demo_src(tmp_path)
-    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var")])
-    res = runner.invoke(app, ["validate", "--snapshot", "current", "--data-root", str(tmp_path / "var"), "--json"])
+def test_validate_command_on_current_snapshot(tmp_path: Path, imported_demo_var: Path) -> None:
+    var = _copy_imported(imported_demo_var, tmp_path)
+    res = runner.invoke(app, ["validate", "--snapshot", "current", "--data-root", str(var), "--json"])
     assert res.exit_code == 0, res.output
     assert json.loads(res.stdout.strip().splitlines()[-1])["outcome"] == "PASS"
 
 
-def test_refresh_plan_is_offline_and_write_free(tmp_path: Path) -> None:
-    src = _demo_src(tmp_path)
-    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", str(tmp_path / "var")])
+def test_refresh_plan_is_offline_and_write_free(tmp_path: Path, imported_demo_var: Path) -> None:
+    _copy_imported(imported_demo_var, tmp_path)
     before = sorted(p.relative_to(tmp_path) for p in (tmp_path / "var").rglob("*"))
     res = runner.invoke(app, ["refresh", "--season", "2026", "--plan", "--data-root", str(tmp_path / "var"), "--json"])
     assert res.exit_code == 0, res.output
@@ -106,10 +125,10 @@ def test_real_refresh_requires_explicit_network_opt_in(tmp_path: Path) -> None:
     assert res.exit_code == EXIT["invalid_input"]
 
 
-def test_build_release_without_forecast_inputs_is_honestly_unavailable(tmp_path: Path) -> None:
-    src = _demo_src(tmp_path)
-    var, dist = str(tmp_path / "var"), str(tmp_path / "dist")
-    assert runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", var]).exit_code == 0
+def test_build_release_without_forecast_inputs_is_honestly_unavailable(
+    tmp_path: Path, imported_demo_var: Path
+) -> None:
+    var, dist = str(_copy_imported(imported_demo_var, tmp_path)), str(tmp_path / "dist")
     res = runner.invoke(app, ["build-release", "--snapshot", "current", "--editorial", "off", "--demo",
                               "--data-root", var, "--output-root", dist, "--json"])  # fmt: skip
     assert res.exit_code == 0, res.output
@@ -140,10 +159,8 @@ def test_demo_output_is_the_release_root(tmp_path: Path) -> None:
     assert val.exit_code == 0, val.output
 
 
-def test_bounded_refresh_plan_is_offline_and_reports_the_budget(tmp_path: Path) -> None:
-    src = _demo_src(tmp_path)
-    var = str(tmp_path / "var")
-    runner.invoke(app, ["import-legacy", "--source", str(src), "--data-root", var])
+def test_bounded_refresh_plan_is_offline_and_reports_the_budget(tmp_path: Path, imported_demo_var: Path) -> None:
+    var = str(_copy_imported(imported_demo_var, tmp_path))
     res = runner.invoke(app, ["refresh", "--season", "2026", "--plan", "--new-matches-only", "--max-requests", "2",
                               "--data-root", var, "--json"])  # fmt: skip
     assert res.exit_code == 0, res.output

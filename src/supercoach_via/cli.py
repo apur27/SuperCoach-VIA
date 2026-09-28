@@ -215,6 +215,35 @@ def validate_release_cmd(
     _run(json_out, body)
 
 
+@app.command("seal-site")
+def seal_site_cmd(
+    release: Annotated[str, typer.Option("--release")],
+    config: ConfigOpt = None,
+    output_root: OutputRootOpt = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Seal ``site/`` and bind validation.json to that exact tree."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.publish.release import seal_problems, validate_release, write_seal
+
+        settings = _settings(config, output_root=output_root)
+        rdir = _release_dir(settings, release)
+        seal = write_seal(rdir, build_inputs={"command": "seal-site"})
+        report = validate_release(rdir)
+        problems, bound = seal_problems(rdir)
+        return {
+            "ok": report.ok and not problems and bound == seal,
+            "release_id": release,
+            "seal_sha256": seal,
+            "outcome": report.outcome.value,
+            "issues": report.issues[:50],
+            "exit": "ok" if report.ok else "validation_failed",
+        }
+
+    _run(json_out, body)
+
+
 @app.command()
 def publish(
     release: Annotated[str, typer.Option("--release")],
@@ -281,7 +310,15 @@ def preview(
 
     settings = _settings(config, output_root=output_root)
     rdir = _release_dir(settings, release)
-    root = rdir / "site" if (rdir / "site").is_dir() else rdir / "public"
+    if (rdir / "site").is_dir():
+        from supercoach_via.publish.release import seal_problems
+
+        problems, _seal = seal_problems(rdir)
+        if problems:
+            raise CliFailure("validation_failed", f"site is not sealed: {problems[0]}", "run scvia seal-site")
+        root = rdir / "site"
+    else:
+        root = rdir / "public"
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(root))
     with http.server.ThreadingHTTPServer((host, port), handler) as srv:
         typer.echo(f"serving {root} at http://{host}:{port}/ (Ctrl-C to stop)", err=True)

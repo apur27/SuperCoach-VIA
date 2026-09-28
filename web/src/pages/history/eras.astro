@@ -1,0 +1,24 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import FactTable from '../../components/FactTable.astro';
+import { findDownload } from '../../lib/downloads';
+import { withBase } from '../../lib/ids';
+import { readOptionalText, readResource } from '../../lib/release-server';
+import { ERA_VIEW_COLUMNS, parseCsv, project } from '../../lib/tabular';
+
+const base = import.meta.env.BASE_URL;
+const dls = readResource('downloads', 'downloads.json');
+const item = findDownload(dls, 'era_summary_csv');
+const text = item ? readOptionalText(item.path) : null;
+const table = text ? project(parseCsv(text), ERA_VIEW_COLUMNS) : null;
+---
+<AppLayout title="Era summary" description="Observed per-stat era summaries. Unrecorded statistics stay blank rather than zero." current="history" breadcrumbs={[{ label: 'History', href: 'history/' }, { label: 'Era summary' }]}>
+  <h1>Era summary</h1>
+  <p class="banner banner-stale"><strong>Observed games only.</strong> A blank cell means the stat was not recorded, not that the value was zero.</p>
+  {table && item ? (
+    <>
+      <FactTable columns={table.columns} rows={table.rows} caption="Era summary — full published rows" />
+      <p><a href={withBase(base, `data/${dls.release_id}/${item.path}`)} download>Download the full CSV</a> ({item.rows ?? table.rows.length} rows).</p>
+    </>
+  ) : <p class="muted" data-state="empty">No era-summary export is in this release. The coverage table on <a href={withBase(base, 'history/')}>History</a> is the compact index. <a href={withBase(base, 'downloads/')}>Downloads</a>.</p>}
+</AppLayout>

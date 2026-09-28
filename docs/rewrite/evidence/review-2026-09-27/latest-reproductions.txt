@@ -1,0 +1,8 @@
+Revision: 2aad178730990aad2623bd06cb0abfb17c5b0987
+Temporary exported source; no production publication.
+
+PUBLICATION {"status": "published", "unvalidated_private_file_published": true, "uploaded_index": "<h1>Unvalidated replacement</h1>"}
+FEATURE_SPEC {"training_window": 2, "forecast_window": 5, "changed_rows": 20, "player": "legacy:adel_p0", "trained_spec_value": 7.5, "actual_forecast_feature": 9.2}
+TEMPORAL_MODEL {"forecast_cutoff": "2024-03-01T00:00:00+00:00", "model_train_cutoff": "2025-01-01", "model_calibration_end": "2025-04-01", "status": "available", "predicted_rows": 19, "scored_rows": 19}
+TEMP_ROOT /tmp/scvia-review-repro-9lfm8w09
+LATE_CORRECTION FeatureOrderError: season order disagrees with date order for a player

@@ -16,19 +16,19 @@ test.describe('fetch states', () => {
 
   test('malformed JSON is refused with a verification error', async ({ page }) => {
     await page.route('**/matches/detail/*.json', (route) => route.fulfill({ contentType: 'application/json', body: '{"summary": 1' }));
-    await page.goto('match/?id=demo__2026__r01__a-b');
+    await page.goto('match/?id=k.ZGVtbzoyMDI2OnIwMTphLWI');
     await expect(page.locator('[data-state="error"]')).toHaveAttribute('data-error-kind', 'invalid');
     await expect(page.locator('[data-state="error"]')).toContainText(/could not be verified/);
   });
 
   test('schema-drifted payload is refused (null where not allowed)', async ({ page }) => {
-    await page.route('**/players/legacy__demo_player_a1.json', async (route) => {
+    await page.route('**/players/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex.json', async (route) => {
       const res = await route.fetch();
       const body = await res.json();
       body.career_games = null;
       await route.fulfill({ response: res, body: JSON.stringify(body) });
     });
-    await page.goto('player/?id=legacy__demo_player_a1');
+    await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex');
     await expect(page.locator('[data-state="error"]')).toHaveAttribute('data-error-kind', 'invalid');
   });
 
@@ -50,14 +50,14 @@ test.describe('fetch states', () => {
 
   test('old release: missing resource shows "A newer release is available" and reload', async ({ page }) => {
     await page.route('**/data/*/release.json', (route) => route.fulfill({ status: 404, body: 'gone' }));
-    await page.goto('player/?id=legacy__demo_player_a1');
+    await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex');
     await expect(page.locator('[data-release-notice]')).toBeVisible();
     await expect(page.locator('[data-release-notice]')).toContainText('A newer release is available');
     await expect(page.getByRole('button', { name: /Reload to get the newest release/ })).toBeVisible();
     await expect(page.locator('[data-state="error"]')).toHaveAttribute('data-error-kind', 'release');
   });
 
-  test('live view marks a stale in-progress snapshot and polls only while visible', async ({ page }) => {
+  test('an archived in-progress snapshot is labelled old and is not polled', async ({ page }) => {
     await page.clock.install({ time: new Date('2026-09-25T02:00:00Z') });
     let hits = 0;
     await page.route('**/live/demo-live-progress/latest.json', (route) => {
@@ -65,18 +65,11 @@ test.describe('fetch states', () => {
       return route.continue();
     });
     await page.goto('live/?match=demo-live-progress');
-    await expect(page.getByTestId('live-status')).toContainText(/stale|delayed/i);
+    await expect(page.getByTestId('live-status')).toContainText(/already old/i);
     await expect(page.getByTestId('live-status')).toContainText(/Last accepted update/);
     const before = hits;
-    await page.clock.runFor(91_000);
-    await expect.poll(() => hits).toBeGreaterThan(before);
-    await page.evaluate(() => {
-      Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });
-      document.dispatchEvent(new Event('visibilitychange'));
-    });
-    const hidden = hits;
     await page.clock.runFor(300_000);
-    expect(hits).toBe(hidden);
+    expect(hits).toBe(before);
   });
 
   test('final live snapshot stops polling', async ({ page }) => {

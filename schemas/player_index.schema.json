@@ -57,6 +57,14 @@
           "description": "lower-case diacritic-stripped search terms",
           "title": "Search",
           "type": "string"
+        },
+        "seasons": {
+          "description": "seasons with a player-game; empty on indexes written before membership was exported",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Seasons",
+          "type": "array"
         }
       },
       "required": [

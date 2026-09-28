@@ -239,6 +239,62 @@ def run(site: Site, tmp_path: Path, **req: object) -> tuple[rf.RefreshResult, rf
 # ---------------------------------------------------------------------------
 
 
+def test_added_completed_match_recomputes_season_counts_without_declaring_the_schedule() -> None:
+    """A merged completed match updates dates and counts; schedule completeness stays unknown."""
+    checked = datetime(2026, 9, 28, tzinfo=UTC)
+    existing = {
+        2026: {
+            "season": 2026,
+            "first_match_date": date(2026, 3, 5),
+            "last_match_date": date(2026, 9, 19),
+            "matches_complete": 217,
+            "matches_scheduled": 0,
+            "fixture_checked_at": None,
+            "schedule_complete": None,
+            "source_status": None,
+        }
+    }
+    matches = [
+        {"season": 2026, "match_date": date(2026, 3, 5), "status": "complete"},
+        {"season": 2026, "match_date": date(2026, 9, 19), "status": "complete"},
+        {"season": 2026, "match_date": date(2026, 9, 26), "status": "complete"},
+    ]
+    row = rf.season_aggregate_rows(matches, existing, seasons=[2026], checked_at=checked, checked_seasons={2026})[0]
+    assert row["first_match_date"] == date(2026, 3, 5)
+    assert row["last_match_date"] == date(2026, 9, 26)
+    assert row["matches_complete"] == 3
+    assert row["matches_scheduled"] == 0
+    assert row["fixture_checked_at"] == checked
+    assert row["schedule_complete"] is None and row["source_status"] is None
+
+
+def test_completion_or_date_change_updates_counts_and_keeps_source_uncertainty() -> None:
+    """A scheduled match becoming complete, or moving date, follows the merged rows."""
+    previous_check = datetime(2026, 9, 19, tzinfo=UTC)
+    existing = {
+        2026: {
+            "season": 2026,
+            "first_match_date": date(2026, 3, 5),
+            "last_match_date": date(2026, 9, 19),
+            "matches_complete": 1,
+            "matches_scheduled": 1,
+            "fixture_checked_at": previous_check,
+            "schedule_complete": False,
+            "source_status": "partial",
+        }
+    }
+    matches = [
+        {"season": 2026, "match_date": datetime(2026, 3, 5, 14, 30), "status": MatchStatus.COMPLETE},
+        {"season": 2026, "match_date": date(2026, 9, 26), "status": "complete"},
+    ]
+    row = rf.season_aggregate_rows(matches, existing, seasons=[2026], checked_at=None, checked_seasons=set())[0]
+    assert row["matches_complete"] == 2 and row["matches_scheduled"] == 0
+    assert row["last_match_date"] == date(2026, 9, 26)
+    assert row["first_match_date"] == date(2026, 3, 5)
+    assert row["fixture_checked_at"] == previous_check
+    assert row["schedule_complete"] is False and row["source_status"] == "partial"
+
+
 def test_plan_is_offline_fast_and_describes_work(tmp_path: Path) -> None:
     site = build_site()
     base = build_base(site)

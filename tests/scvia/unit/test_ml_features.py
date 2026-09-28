@@ -57,6 +57,22 @@ def _targets_for(history: F.History, season: int, stage: str) -> pd.DataFrame:
     return t[t.stage_label == stage].reset_index(drop=True)
 
 
+class TestLateAvailability:
+    def test_late_stamp_does_not_reorder_or_leak(self, history: F.History) -> None:
+        games = history.player_games
+        early = games[games["season"] == 2023].iloc[0]
+        revised_games = games.copy()
+        revised_games.loc[early.name, "available_at"] = datetime(2026, 2, 1, tzinfo=UTC)
+        revised = dataclasses.replace(history, player_games=revised_games)
+        dropped = dataclasses.replace(history, player_games=games.drop(index=early.name))
+        targets = F.historical_targets(history, seasons=(2025,))
+        late = F.build_features(revised, targets, F.FeatureSpec())
+        gone = F.build_features(dropped, targets, F.FeatureSpec())
+        base = F.build_features(history, targets, F.FeatureSpec())
+        pd.testing.assert_frame_equal(late.X, gone.X)
+        assert not late.X.equals(base.X)
+
+
 class TestContract:
     def test_base_stats_are_the_legacy_six(self) -> None:
         # supercoach/prediction.py base_rolling_features (reference, not imported)

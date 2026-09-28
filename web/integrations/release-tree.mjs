@@ -87,12 +87,44 @@ export function walkRelease(dir) {
   return out;
 }
 
+/** Closed file inventory from the release checksums beside a ``public/`` directory. */
+export function closedInventory(dir) {
+  const side = join(dir, '..', 'checksums.json');
+  if (!existsSync(side) || !lstatSync(side).isFile()) {
+    // The generated demo fixture has no sibling checksums. Every other release must.
+    if (resolve(dir) === resolve(DEFAULT_RELEASE_DIR)) return null;
+    throw new Error(`checksums.json is required beside ${dir}; the missing-checksum path is only the generated demo fixture`);
+  }
+  const doc = JSON.parse(readFileSync(side, 'utf8'));
+  if (!doc || !doc.files || typeof doc.files !== 'object') {
+    throw new Error(`checksums.json beside ${dir} has no files inventory`);
+  }
+  return doc.files;
+}
+
 export function copyRelease(srcDir, siteDir) {
   const manifest = readManifest(srcDir);
   const problems = verifyManifest(srcDir, manifest);
   if (problems.length) throw new Error(`release ${manifest.release_id} failed verification:\n${problems.join('\n')}`);
   const dest = join(siteDir, 'data', manifest.release_id);
-  const files = walkRelease(srcDir);
+  const walked = walkRelease(srcDir);
+  const inventory = closedInventory(srcDir);
+  let files = walked;
+  if (inventory) {
+    const listed = new Set(Object.keys(inventory));
+    const extras = walked.filter((rel) => !listed.has(rel));
+    if (extras.length) throw new Error(`unlisted file in release tree: ${extras[0]}`);
+    const missing = [...listed].filter((rel) => !walked.includes(rel));
+    if (missing.length) throw new Error(`listed file missing from release tree: ${missing[0]}`);
+    for (const rel of walked) {
+      const info = inventory[rel];
+      const bytes = readFileSync(join(srcDir, rel));
+      if (bytes.length !== info.bytes) throw new Error(`${rel}: size ${bytes.length} != ${info.bytes}`);
+      const digest = createHash('sha256').update(bytes).digest('hex');
+      if (digest !== info.sha256) throw new Error(`${rel}: sha256 mismatch`);
+    }
+    files = [...listed].sort();
+  }
   for (const rel of files) {
     const to = join(dest, rel);
     mkdirSync(dirname(to), { recursive: true });

@@ -7,10 +7,10 @@ import { ROUTES } from '../../scripts/budget-routes.mjs';
 import { measureSite } from '../../scripts/budget-lib.mjs';
 
 const QUERY: Record<string, string> = {
-  'player/': '?id=legacy__demo_player_a1',
-  'compare/': '?players=legacy__demo_player_a1,legacy__demo_player_b1',
+  'player/': '?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex',
+  'compare/': '?players=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex,k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix',
   'team/': '?id=demo_a&season=2026',
-  'match/': '?id=demo__2026__r01__a-b',
+  'match/': '?id=k.ZGVtbzoyMDI2OnIwMTphLWI',
   'live/': '?match=demo-live-final',
 };
 

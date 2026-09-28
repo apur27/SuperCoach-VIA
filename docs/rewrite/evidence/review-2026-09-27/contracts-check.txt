@@ -1,0 +1,6 @@
+generated contracts are stale; run npm run gen:types:
+/home/abhi/git/SuperCoach-VIA/web/src/lib/contracts.generated.ts
+/home/abhi/git/SuperCoach-VIA/web/src/lib/validators.generated.js
+/home/abhi/git/SuperCoach-VIA/web/src/lib/validators/live_snapshot.generated.js
+/home/abhi/git/SuperCoach-VIA/web/src/lib/validators/match_detail.generated.js
+/home/abhi/git/SuperCoach-VIA/web/src/lib/validators/player_season_games.generated.js

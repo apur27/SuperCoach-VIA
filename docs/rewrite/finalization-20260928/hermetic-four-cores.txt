@@ -1,0 +1,38 @@
+bringing up nodes...
+bringing up nodes...
+
+........................................................................ [ 10%]
+........................................................................ [ 20%]
+........................................................................ [ 31%]
+........................................................................ [ 41%]
+........................................................................ [ 51%]
+........................................................................ [ 62%]
+........................................................................ [ 72%]
+........................................................................ [ 82%]
+........................................................................ [ 93%]
+...............................................                          [100%]
+=============================== warnings summary ===============================
+tests/scvia/unit/test_builder.py: 12 warnings
+tests/scvia/unit/test_ml_evaluate.py: 5 warnings
+tests/scvia/unit/test_ml_features.py: 15 warnings
+tests/scvia/unit/test_ml_predict.py: 31 warnings
+tests/scvia/unit/test_ml_train.py: 10 warnings
+tests/scvia/unit/test_pipeline.py: 12 warnings
+tests/scvia/unit/test_reconcile_outputs.py: 6 warnings
+tests/scvia/unit/test_reconcile_relink.py: 2 warnings
+tests/scvia/unit/test_cli.py: 6 warnings
+  /home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47/src/supercoach_via/storage/queries.py:102: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+    return self.con.execute(sql, params or []).fetch_arrow_table()
+
+tests/scvia/unit/test_ml_features.py::TestLeakage::test_cutoff_after_target_start_is_rejected
+  /home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47/tests/scvia/unit/test_ml_features.py:207: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    bad = t.assign(forecast_cutoff=t.forecast_cutoff + pd.Timedelta(days=2))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 5 durations ==============================
+5.21s setup    tests/scvia/unit/test_builder.py::test_legacy_shapes
+5.13s setup    tests/scvia/unit/test_builder.py::test_release_validates_and_is_listed
+4.08s call     tests/scvia/unit/test_builder.py::test_parallel_season_build_is_byte_identical_to_sequential
+3.99s setup    tests/scvia/unit/test_reconcile_outputs.py::test_snapshot_release_and_cutoff_agree_everywhere
+3.62s setup    tests/scvia/unit/test_analytics_eras.py::TestEraParity::test_era_stats_match_legacy
+695 passed, 100 warnings in 29.33s

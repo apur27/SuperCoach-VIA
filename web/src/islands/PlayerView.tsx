@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { PlayerDetail, PlayerSeasonGames, PredictionRow } from '../lib/contracts';
-import { parsePlayerIdParam, withBase } from '../lib/ids';
+import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
 import { DataState } from './common/DataState';
 import { siteBase, useHeading, useResource, useUrlSearch } from './common/runtime';
@@ -10,7 +10,7 @@ import { LineChart } from './common/Charts';
 import { Instant } from './common/Instant';
 import { WatchButton } from './common/watch';
 import { NoScriptNotice } from './common/NoScript';
-import { expandStats, gameRows } from '../lib/stats';
+import { applyMatchFacts, expandStats, gameRows } from '../lib/stats';
 
 const QUALITY: Record<PlayerDetail['birth_date_quality'], string> = {
   source: 'from source', legacy_filename: 'from legacy file name (unverified)', conflicting: 'sources conflict', unknown: 'unknown',
@@ -124,9 +124,20 @@ function PlayerBody({ p }: { p: PlayerDetail }) {
 }
 
 function GameLog({ g }: { g: PlayerSeasonGames }) {
+  const facts = useResource('match_index', g.match_facts ?? null);
+  if (g.match_facts) {
+    return (
+      <DataState state={facts.state} retry={facts.retry} what="match list">
+        {(idx) => <GameLogTable g={g} rows={applyMatchFacts(gameRows(g.games), idx)} />}
+      </DataState>
+    );
+  }
+  return <GameLogTable g={g} rows={gameRows(g.games)} />;
+}
+
+function GameLogTable({ g, rows }: { g: PlayerSeasonGames; rows: ReturnType<typeof gameRows> }) {
   const base = siteBase();
   const main = g.stat_columns.includes('disposals') ? 'disposals' : g.stat_columns[0];
-  const rows = gameRows(g.games);
   return (
     <div className="stack">
       {main ? (
@@ -142,7 +153,7 @@ function GameLog({ g }: { g: PlayerSeasonGames }) {
           <tbody>
             {rows.map((x) => (
               <tr key={x.match_id}>
-                <th scope="row"><a href={withBase(base, `match/?id=${x.match_id.replaceAll(':', '__')}`)}>{formatDateOnly(x.match_date)}</a>{x.date_quality !== 'fixture_verified' && x.date_quality !== 'source' ? <span className="muted"> ({x.date_quality})</span> : null}</th>
+                <th scope="row"><a href={withBase(base, `match/?id=${encodeId(x.match_id)}`)}>{formatDateOnly(x.match_date)}</a>{x.date_quality !== 'fixture_verified' && x.date_quality !== 'source' ? <span className="muted"> ({x.date_quality})</span> : null}</th>
                 <td>{x.stage_label}</td>
                 <td>{x.opponent_name ?? <span className="missing">not recorded</span>}</td>
                 <td>{x.result ?? <span className="missing">not recorded</span>}</td>

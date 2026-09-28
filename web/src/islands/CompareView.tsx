@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { PlayerDetail } from '../lib/contracts';
-import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
+import { decodeKey, encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatPercent, formatStat } from '../lib/format';
 import { toCsv } from '../lib/csv';
 import { classifyError, getLoader, siteBase, useUrlSearch, type ErrorKind } from './common/runtime';
@@ -35,7 +35,7 @@ export default function CompareView({ downloadHref }: { downloadHref: string }) 
   useEffect(() => {
     if (!ready) return undefined;
     const ac = new AbortController();
-    setEntries(keys.map((key) => ({ key, id: key.replaceAll('__', ':'), state: 'loading' })));
+    setEntries(keys.map((key) => ({ key, id: decodeKey(key), state: 'loading' })));
     keys.forEach((key, i) => {
       getLoader()
         .then((l) => l.load('player_detail', `players/${key}.json`, { signal: ac.signal }))

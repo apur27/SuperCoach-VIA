@@ -6,8 +6,8 @@ import { withBase } from '../../lib/ids';
 const idx = readResource('live_index', 'live/index.json');
 const base = import.meta.env.BASE_URL;
 ---
-<AppLayout title="Live" description="Last accepted live snapshots for matches, with delivery latency and stale state." current="matches" breadcrumbs={[{ label: 'Matches', href: 'matches/' }, { label: 'Live' }]}>
-  <h1 id="page-h1">Live snapshots</h1>
-  <p class="muted">{idx.delivery} This site shows the last accepted snapshot; it does not scrape sources itself.</p>
+<AppLayout title="Match snapshots" description="Captured match snapshots from this release. They do not update in place." current="matches" breadcrumbs={[{ label: 'Matches', href: 'matches/' }, { label: 'Snapshots' }]}>
+  <h1 id="page-h1">Match snapshots</h1>
+  <p class="muted">{idx.delivery} These are archived captures from the release. Opening this page does not poll a live feed.</p>
   <LiveView client:load index={idx} downloadHref={withBase(base, 'downloads/')} />
 </AppLayout>

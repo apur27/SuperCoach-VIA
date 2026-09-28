@@ -7,7 +7,7 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symli
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import {
-  DEFAULT_RELEASE_DIR, copyRelease, isSafeRelPath, readManifest, releaseDirFromEnv, retainedDirsFromEnv, verifyManifest, walkRelease,
+  DEFAULT_RELEASE_DIR, closedInventory, copyRelease, isSafeRelPath, readManifest, releaseDirFromEnv, retainedDirsFromEnv, verifyManifest, walkRelease,
 } from '../../integrations/release-tree.mjs';
 
 const WEB = resolve(__dirname, '../..');
@@ -50,6 +50,12 @@ function externalRelease(dir: string, id: string) {
     }
   }
   writeFileSync(join(dir, 'release.json'), JSON.stringify(manifest));
+  const files: Record<string, { sha256: string; bytes: number }> = {};
+  for (const rel of walkRelease(dir)) {
+    const body = readFileSync(join(dir, rel));
+    files[rel] = { sha256: sha(body), bytes: body.length };
+  }
+  writeFileSync(join(dir, '..', 'checksums.json'), JSON.stringify({ files }));
 }
 
 describe('environment', () => {
@@ -94,9 +100,36 @@ describe('manifest verification and copy', () => {
     writeFileSync(join(dir, 'model.pkl'), 'x');
     expect(() => walkRelease(dir)).toThrow(/unexpected file type/);
   });
-  it('copies a verified release under data/<release_id>/ and refuses a tampered one', () => {
-    const dir = join(tmp, 'r');
+  it('copies only the checksum inventory and refuses an unlisted file', () => {
+    const dir = join(tmp, 'public');
     writeRelease(dir, 'r1', { 'a.json': '{"a":1}' });
+    const files: Record<string, { sha256: string; bytes: number }> = {};
+    for (const rel of walkRelease(dir)) {
+      const body = readFileSync(join(dir, rel));
+      files[rel] = { sha256: sha(body), bytes: body.length };
+    }
+    writeFileSync(join(tmp, 'checksums.json'), JSON.stringify({ files }));
+    expect(closedInventory(dir)).toBeTruthy();
+    const site = join(tmp, 'site');
+    expect(copyRelease(dir, site).files).toBe(2);
+    writeFileSync(join(dir, 'stray.json'), '{"extra":true}');
+    expect(() => copyRelease(dir, join(tmp, 'site2'))).toThrow(/unlisted file/);
+  });
+  it('allows a missing checksum inventory only for the generated demo fixture', () => {
+    expect(closedInventory(DEFAULT_RELEASE_DIR)).toBeNull();
+    const dir = join(tmp, 'public');
+    writeRelease(dir, 'r1', { 'a.json': '{}' });
+    expect(() => copyRelease(dir, join(tmp, 'site'))).toThrow(/generated demo fixture/);
+  });
+  it('copies a verified release under data/<release_id>/ and refuses a tampered one', () => {
+    const dir = join(tmp, 'public');
+    writeRelease(dir, 'r1', { 'a.json': '{"a":1}' });
+    const files: Record<string, { sha256: string; bytes: number }> = {};
+    for (const rel of walkRelease(dir)) {
+      const body = readFileSync(join(dir, rel));
+      files[rel] = { sha256: sha(body), bytes: body.length };
+    }
+    writeFileSync(join(tmp, 'checksums.json'), JSON.stringify({ files }));
     const site = join(tmp, 'site');
     expect(copyRelease(dir, site)).toEqual({ releaseId: 'r1', files: 2 });
     expect(readFileSync(join(site, 'data/r1/a.json'), 'utf8')).toBe('{"a":1}');

@@ -57,7 +57,16 @@ function validateTree(root: string) {
     }
     if (kind === 'player_season_games') {
       aligned(data.stat_columns, data.games.stats.map((stats: unknown[]) => ({ stats })));
-      for (const k of Object.keys(data.games)) expect(data.games[k].length, `${rel}: games.${k} length`).toBe(data.games.match_id.length);
+      const shared = new Set(['match_date', 'stage_label', 'opponent_club_id', 'opponent_name']);
+      const n = data.games.match_id.length;
+      for (const k of Object.keys(data.games)) {
+        const len = data.games[k].length;
+        if (shared.has(k) && len === 0) {
+          expect(data.match_facts, `${rel}: empty ${k} needs match_facts`).toBeTruthy();
+          continue;
+        }
+        expect(len, `${rel}: games.${k} length`).toBe(n);
+      }
     }
     if (kind === 'player_detail') {
       const blocks = [data.career, ...data.seasons.map((x: { stats: unknown }) => x.stats)];

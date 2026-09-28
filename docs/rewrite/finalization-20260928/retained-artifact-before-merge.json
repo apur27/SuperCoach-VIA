@@ -1,0 +1,21 @@
+{
+  "release_id": "20260928T111014Z-ca96603163ad",
+  "snapshot_id": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f",
+  "seal_sha256": "bd9a655b06795c2d83ca77a48adb9df85fb2774463fa390f814dac2ff72474fa",
+  "archive_sha256": "59496b26d421998b874ea879277b63365bc49fa1427c95902565bc4abc9599f7",
+  "data_copy": {
+    "files": 447,
+    "bytes": 51521155,
+    "all_copied_hashes_match": true
+  },
+  "release_copy": {
+    "files": 182929,
+    "bytes": 580835523,
+    "all_copied_hashes_match": true
+  },
+  "site_bytes": 276821039,
+  "source_worktree": "/home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47",
+  "merged_commit": null,
+  "publication": "local artifact only; no remote deployment",
+  "preview": "node web/scripts/serve.mjs --dir var/final-site"
+}

@@ -1,6 +1,6 @@
 # Entry-point switch plan (PLAN Phase 9) as a CLAUDE.md §6.2 harness change
 
-Status: **plan only**. No harness, gate or hook file has been changed. This document is the written §6.2 scope decision, merge condition and operator answer that the change must carry. Evidence from the rehearsal is in [REHEARSAL.md](REHEARSAL.md).
+Status: **not activated**. The default body of `scripts/weekly_refresh.sh` is still the legacy pipeline. An opt-in (`SCVIA_NUMERIC_ENTRY=1`) execs `scripts/scvia_weekly.sh`. Cron, `core.hooksPath`, and the installed hook are unchanged. This document is the written §6.2 scope decision, merge condition and operator answer. Evidence from the rehearsal is in [REHEARSAL.md](REHEARSAL.md).
 
 ## 1. Scope decision (§6.2, in writing)
 
@@ -20,7 +20,7 @@ Consequences: §6.1 freeze (no landing while a cycle is active, checked by the `
 | P3 | Publish, rollback and restore rehearsal is green | Done (9/9), after the integrity-only publish fix |
 | P4 | Owner decisions in section 6 are made | **Open** |
 | P5 | Release-build cost within §12 budgets, or an explicit owner acceptance | **Met 2026-09-26**: 56.9–57.8 s and 1.39–1.43 GiB against 60 s and 2 GiB (4 vCPU; small margin) |
-| P6 | Artifact budget sized for at least 3 seasons of growth | **Open**: 7.2 MiB headroom ≈ 1.7 seasons (REHEARSAL.md) |
+| P6 | Artifact budget sized for at least 3 seasons of growth | **Met against the unchanged 300 MiB budget** (2026-09-27): final site 276,795,445 bytes; three further seasons at the 2021–2025 mean plus 5 MiB projects to 280.44 MiB. Headroom to 300 MiB is 36.03 MiB. The projection is not a measured future season. |
 
 ## 3. The change, in three separately smoke-tested steps
 
@@ -71,10 +71,55 @@ The weekly run no longer commits generated docs, charts or CSVs to `main`. The r
 
 **Rolling back the switch itself:** revert the switch commit. Legacy scripts are archived in place, and the new pipeline never writes `data/` CSVs, so the legacy harness runs again from the same inputs. (It still needs REHEARSAL.md Finding 1 handled to run from a fresh checkout.)
 
-## 6. Owner decisions needed (P4)
+## 6. Prepared working defaults (not activated)
 
-1. Should `main` still receive committed generated docs and charts, or is the release artifact the only published output? The plan above assumes the release artifact only, with the legacy docs frozen as archive.
-2. Hosting and retention: GitHub Pages with active plus 2 previous releases is about 880 MiB against its 1 GB limit. Choose 1 retained release, cross-release deduplication, or another host.
-3. The artifact budget: raise it to about 320 MiB (about five more seasons), or trim game logs further.
+These are the defaults the candidate is built to. They are not an owner signature and they do not switch production.
+
+1. Published numeric output is the sealed release artifact. Old generated documents stay in the tree as archives. The candidate does not commit them.
+2. The active artifact is the one on the local or static host. Two sealed backups stay on that host. The earlier ~880 MiB Pages-retention figure is not the working plan.
+3. The site budget stays 300 MiB. It is not raised to ~320 MiB.
 4. Release-build cost (P5): met; no decision needed unless the reference machine changes.
-5. Whether the LLM editorial recap continues, as an optional non-blocking lane.
+5. Editorial generation stays off (`--editorial off`).
+
+Runtime is the static site plus the local locked Python environment. Pages deployment stays a manually triggered job that uploads an already sealed tree; this plan does not dispatch it.
+
+## 7. Continuation status (2026-09-27, not activated)
+
+This section records the local continuation. It does not switch, push, deploy, or enable a schedule.
+
+The default body of `scripts/weekly_refresh.sh` still calls `/home/abhi/sourceCode/python/coding/.venv/bin/python`. An opt-in at the top execs `scripts/scvia_weekly.sh` only when `SCVIA_NUMERIC_ENTRY=1`. Cron and `core.hooksPath` were not changed. The live hook is still the main repo's `.githooks`. `docs/rewrite/switch-candidate/pre-commit-python.sh` is a proposal and is not installed.
+
+`scripts/scvia_weekly.sh` is the candidate. `SCVIA_SOURCE_MODE=production` refreshes `--data-root` the same root later stages use, and requires `SCVIA_ALLOW_NETWORK=1`. Its forecast cutoff is the run's UTC time unless `SCVIA_FORECAST_CUTOFF` is set. The default mode is `rehearsal`: it imports `SCVIA_CAPTURED_SOURCE`, requires an explicit `SCVIA_FORECAST_CUTOFF`, and does not pass `--allow-network`. It then forecasts, builds with editorial off, runs the Astro site, checks the budget, seals, and validates. When `SCVIA_LEGACY_ROOT` is set, the comparison ranks that promoted snapshot, not a second import. Every exit, including a refused start, writes `var/scvia-weekly-status.json` (or `SCVIA_VAR_DIR`) with `run_id`, `started`, and `exit_code`. The script refuses to start when the cycle marker has no `exit_code` or a `weekly_refresh.sh` / `refresh_and_rank.sh` process is running. It does not publish. `SCVIA_SKIP_SITE=1` exists only for the command-order unit test.
+
+Pack a sealed release, then give the job those two digests. The job does not trust a digest found inside the download:
+
+```bash
+python -m supercoach_via.publish.deploy pack RELEASE_DIR bundle.tar
+# prints {"seal_sha256": "...", "archive_sha256": "..."}
+```
+
+`scvia forecast` still refuses a bundle whose code fingerprint does not match the current feature code. The final uncontended run retrained (`train` 44.71s) and returned exit 0 with `forecast_status=unavailable` / `no_valid_future_fixture`. Bundle `bundle-d8349be6008314f2f6ac`. Release `20260927T100844Z-bc1ed67add68`. A missing fixture is still success. A partial source remains exit 3. Publish failure remains exit 7 with the previous live tree left in place.
+
+Measured final site `var/corpus-site-final` is 276,795,445 bytes (263.97 MiB). The earlier `var/corpus-site` (276,794,969 bytes) and release `20260927T085937Z-d71eb27f6618` are preserved. Mean 2021–2025 season is 4,007,870 bytes. Three further seasons at that mean plus 5 MiB is 280.44 MiB, under the 282 MiB target. 2026 in the snapshot is 4,128,965 bytes and is not a complete season.
+
+Node is pinned to 22.23.3 in `.node-version` and `web/.node-version`. CI selects that file. The verified host binary and the Playwright run are v22.23.3. The earlier file pin 22.23.2 was not the binary those checks used.
+
+The final local scratch smoke is `/tmp/scvia-scratch-smoke-20260927c` (exit 0, wall 557s). It used `SCVIA_NUMERIC_ENTRY=1 scripts/weekly_refresh.sh` on a scratch copy of this tree. Source inventory `fb871edaad740cd19eca046142328127747d4843f552dc5eff637d8b8b0dc38e` (857 files) matched the scratch bytes. Captured inputs `995b138997fad3efdbc310ca95910490e0357fa5b3e2fe6d23491dd2fd7e9b5e` (27,350 files). Compare verdict passed with all-time delta 0. Releases `20260927T130550Z-d424a18cd169` and `20260927T131007Z-fd89198bce47`; an injected copy failure left the first release's bytes in place, then rollback returned to it. Forecast stayed `unavailable` / `no_valid_future_fixture`. 2026 is still incomplete. Earlier scratch logs remain historical and are not this result.
+
+A later rehearsal on the sealed corpus releases, host `/tmp/scvia-rehearsal-final/host`, published the preserved release and then `20260927T100844Z-bc1ed67add68`, refused a missing release, kept the previous tree live when upload raised, and rolled back to `20260927T085937Z-d71eb27f6618`. Nothing was sent to a remote host.
+
+Proposed activation, not run, and only after section 6 is decided, two shadow cycles have matched, and the cycle marker has `exit_code` set:
+
+```bash
+# Not run. After two matching shadow cycles and an exit_code on the cycle marker:
+# 1. Confirm no weekly_refresh.sh or refresh_and_rank.sh process is running.
+# 2. Remove the SCVIA_NUMERIC_ENTRY gate so weekly_refresh.sh execs
+#    scripts/scvia_weekly.sh unconditionally.
+# 3. Run a production cycle with SCVIA_SOURCE_MODE=production and
+#    SCVIA_ALLOW_NETWORK=1. Do not point core.hooksPath at
+#    docs/rewrite/switch-candidate/.
+```
+
+Recovery if that activation is wrong: restore the legacy body of `scripts/weekly_refresh.sh` (the opt-in exec is the only new branch) and leave `scripts/scvia_weekly.sh` unused. The live host pointer can be moved back with `scvia rollback --release <previous-sealed-id> --destination <host>`. Do not delete `data/` CSVs.
+
+Still open before an activation choice: two real shadow cycles and the owner decisions in section 6. The 2026 grand final is in the local snapshot `sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f` only. That is not a production refresh. The switch is not activated.

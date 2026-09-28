@@ -44,11 +44,11 @@ from supercoach_via.domain.schemas import (
     Severity,
     StageType,
 )
-from supercoach_via.settings import RunContext
+from supercoach_via.settings import RunContext, default_config_dir
 from supercoach_via.storage.snapshots import SnapshotBuilder, SnapshotCandidate
 
 IMPORTER_VERSION = "legacy-import-v1"
-REPO_CONFIG_DIR = Path(__file__).resolve().parents[3] / "config"
+REPO_CONFIG_DIR = default_config_dir()
 EVIDENCE_REL = "docs/rewrite/evidence/refresh-sources.json"
 ROOT_BIOS = "all_time_top_100.csv"
 

@@ -100,8 +100,10 @@ from supercoach_via.publish.view_models import (
     TeamIndex,
     TeamIndexEntry,
     TeamSeason,
+    share_match_facts,
 )
 from supercoach_via.publish.web_data import canonical_json_bytes, sha256_bytes
+from supercoach_via.settings import default_config_dir, default_template_dir
 from supercoach_via.storage.queries import SnapshotQuery
 from supercoach_via.storage.snapshots import SnapshotRef, load_snapshot, read_current
 
@@ -115,8 +117,8 @@ if TYPE_CHECKING:  # pragma: no cover
 
 BUILDER_VERSION = "release-builder-v1"
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_TEMPLATE_DIR = REPO_ROOT / "templates" / "reports"
-DEFAULT_CONFIG_DIR = REPO_ROOT / "config"
+DEFAULT_TEMPLATE_DIR = default_template_dir()
+DEFAULT_CONFIG_DIR = default_config_dir()
 
 REPORTS: dict[str, str] = {
     "season-summary": "Season summary",
@@ -836,6 +838,7 @@ def _one_season(
             b.put_json(f"matches/detail/{resources.match_key(detail.summary.match_id)}.json", detail)
             b.bump("match_details")
         for log in resources.player_season_games(q, season):
+            log = share_match_facts(log, f"matches/{season}/index.json")
             b.put_json(f"player-games/{resources.public_key(log.player_id)}/{season}.json", log)
             b.bump("player_season_logs")
         teams = []

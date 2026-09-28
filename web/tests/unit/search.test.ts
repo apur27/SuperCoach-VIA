@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeText, matchesQuery, searchPlayers, disambiguate } from '../../src/lib/search';
+import { normalizeText, matchesQuery, searchPlayers, disambiguate, passesFilters } from '../../src/lib/search';
 import type { PlayerIndexEntry } from '../../src/lib/contracts';
 
 const entry = (o: Partial<PlayerIndexEntry>): PlayerIndexEntry => ({
@@ -23,6 +23,13 @@ describe('search', () => {
     const list = [entry({ id: 'a', name: 'Alpha Demo', search: 'alpha demo' }), entry({ id: 'b', name: 'Demo Beta', search: 'demo beta' })];
     expect(searchPlayers(list, 'demo').map((e) => e.id)).toEqual(['b', 'a']);
     expect(searchPlayers(list, 'demo', { active: true })).toEqual([]);
+  });
+  it('excludes a gap year when exact season membership is present', () => {
+    const gapped = entry({ first_season: 2020, last_season: 2022, seasons: [2020, 2022] });
+    const legacy = entry({ first_season: 2020, last_season: 2022 });
+    expect(passesFilters(gapped, { season: 2021 })).toBe(false);
+    expect(passesFilters(gapped, { season: 2022 })).toBe(true);
+    expect(passesFilters(legacy, { season: 2021 })).toBe(true);
   });
   it('disambiguates same-name players by clubs and era', () => {
     const a = entry({ id: 'p1', name: 'Demo Same Name', clubs: ['Demo Club A'], first_season: 2020, last_season: 2026 });

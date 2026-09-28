@@ -31,7 +31,7 @@ import platform
 import time
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from datetime import date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -428,6 +428,7 @@ def train_model(history: History, config: TrainingConfig, *, bundle_root: Path,
         "tuning": tuning,
         "timings": timings,
         "cpu": cpu_info(),
+        "knowledge_cutoff": _exclusive_knowledge_cutoff(config, ds),
     }
     predictors = {"champion": fitted[champion], "baseline": fitted[M.BASELINE_PRIOR5]}
     manifest = BundleManifest(
@@ -461,6 +462,19 @@ def train_model(history: History, config: TrainingConfig, *, bundle_root: Path,
     )
     bundle = save_bundle(bundle_root, manifest, predictors)
     return TrainingResult(bundle, holdout_report, hold, reused=False)
+
+
+def _exclusive_knowledge_cutoff(config: TrainingConfig, ds: Dataset) -> str:
+    """First instant that did not influence fitting, calibration or the promotion gate.
+
+    A forecast is eligible when its cutoff is on or after this instant.
+    """
+    if config.holdout_end is not None:
+        exclusive = config.holdout_end
+    else:
+        consumed = ds.dates[ds.blocks != "unused"]
+        exclusive = (max(consumed) + timedelta(days=1)) if len(consumed) else config.calibration_end
+    return datetime(exclusive.year, exclusive.month, exclusive.day, tzinfo=UTC).isoformat()
 
 
 def _cohort_json(c: Any) -> dict[str, Any]:

@@ -26,6 +26,7 @@ SEASON_FILE = [
     re.compile(r"^lists/(\d{4})\.json$"),
 ]
 PLAYER_PAGE = re.compile(r"^players/(?!index\.json$)[^/]+\.json$")
+MATCH_DETAIL = re.compile(r"^matches/detail/[^/]+\.json$")
 
 
 def attribute(site: Path) -> dict[str, object]:
@@ -54,7 +55,12 @@ def attribute(site: Path) -> dict[str, object]:
                 by_family.setdefault(s, Counter())[rel.split("/")[0]] += size
                 break
         else:
-            if PLAYER_PAGE.match(rel):
+            if MATCH_DETAIL.match(rel):
+                doc = json.loads(p.read_bytes())
+                s = int(doc["summary"]["season"])
+                by_season[s] += size
+                by_family.setdefault(s, Counter())["matches"] += size
+            elif PLAYER_PAGE.match(rel):
                 doc = json.loads(p.read_bytes())
                 seasons = doc.get("seasons", [])
                 used = 0

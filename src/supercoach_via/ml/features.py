@@ -23,8 +23,9 @@ An observation is a canonical ``player_games`` row. It is *eligible history* onl
      start is known to the minute *and* its venue has a verified IANA timezone *and*
      ``start_utc + game_hours <= cutoff``; otherwise the same-day order is unknown and the
      observation is excluded (``excluded_same_day_ambiguous``);
-   * when an archived ``available_at`` exists it must also be ``<= cutoff``; such rows
-     enter the ordered history on the later of event date and availability date.
+   * when an archived ``available_at`` exists it must also be ``<= cutoff``. The row
+     stays at its event time: a late timestamp hides the row until that instant and
+     never moves it past a later game.
 4. Ties on the same date are broken by the stable ``match_id``.
 
 Target rows carry an explicit ``forecast_cutoff``; a cutoff after the target match's
@@ -42,8 +43,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, dataclass, field
-from datetime import UTC, date, datetime, time, timedelta
+from dataclasses import asdict, dataclass, field, fields
+from datetime import UTC, date, datetime, time
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -95,6 +96,43 @@ class TargetCutoffError(ValueError):
 
 class FeatureOrderError(RuntimeError):
     """History ordering violated an invariant the feature algorithm relies on."""
+
+
+class FeatureSpecError(ValueError):
+    """A persisted feature spec cannot be reconstructed or does not match its fingerprint."""
+
+
+def feature_spec_from_stored(stored: dict[str, Any] | None, *, feature_version: str) -> FeatureSpec:
+    """Rebuild the exact spec persisted with a bundle. A version string alone is not enough."""
+    raw = dict(stored or {})
+    fingerprint = raw.pop("fingerprint", None)
+    if not raw:
+        spec = FeatureSpec()
+        if spec.version != feature_version:
+            raise FeatureSpecError(
+                f"bundle feature version {feature_version} != {spec.version} and no feature spec was persisted"
+            )
+        return spec
+    defaults = FeatureSpec()
+    kwargs: dict[str, Any] = {}
+    for item in fields(FeatureSpec):
+        if item.name not in raw:
+            continue
+        val = raw[item.name]
+        if isinstance(getattr(defaults, item.name), tuple) and isinstance(val, list):
+            val = tuple(val)
+        kwargs[item.name] = val
+    try:
+        spec = FeatureSpec(**kwargs)
+    except TypeError as exc:
+        raise FeatureSpecError(f"persisted feature spec is not usable: {exc}") from exc
+    if not fingerprint or spec.fingerprint() != fingerprint:
+        raise FeatureSpecError(
+            "persisted feature spec does not match its fingerprint; retrain with the current feature code"
+        )
+    if spec.version != feature_version:
+        raise FeatureSpecError(f"bundle feature version {feature_version} != persisted spec {spec.version}")
+    return spec
 
 
 @dataclass(frozen=True)
@@ -336,13 +374,11 @@ def _prepare_observations(history: History, spec: FeatureSpec) -> tuple[pd.DataF
     if "available_at" in obs and obs["available_at"].notna().any():
         av = pd.to_datetime(obs["available_at"], utc=True)
         obs["avail_epoch"] = av.map(lambda x: x.timestamp() if pd.notna(x) else np.nan).astype(float)
-        # enters ordered history on the later of event date and (availability date + 1)
-        av_ord = av.map(lambda t: (t.date() + timedelta(days=1)).toordinal() if pd.notna(t) else 0)
-        obs["eff_ord"] = np.maximum(obs["event_ord"].to_numpy(), av_ord.to_numpy(dtype=np.int64))
     else:
         obs["avail_epoch"] = np.nan
-        obs["eff_ord"] = obs["event_ord"]
-    obs = obs.sort_values(["player_id", "eff_ord", "event_ord", "match_id"], kind="stable")
+    # Event time is the order. Availability hides a row until cutoff; it does not reorder it.
+    obs["eff_ord"] = obs["event_ord"]
+    obs = obs.sort_values(["player_id", "event_ord", "match_id"], kind="stable")
     return obs.reset_index(drop=True), diag
 
 
@@ -360,6 +396,7 @@ class _Prepared:
     match_ids: np.ndarray
     end_epoch: np.ndarray
     avail: np.ndarray
+    o_season: np.ndarray
     cums: dict[str, tuple[np.ndarray, np.ndarray]]
     last: dict[str, np.ndarray]  # value at each observation (NaN if missing)
     ewm: dict[str, np.ndarray]  # EWM state after each observation
@@ -408,10 +445,98 @@ def _prepare(history: History, spec: FeatureSpec) -> _Prepared:
         obs=obs, diag=diag, players=players, o_key=o_key, s_key=s_key, o_eff=o_eff,
         o_event=obs["event_ord"].to_numpy(dtype=np.int64), match_ids=obs["match_id"].to_numpy(dtype=object),
         end_epoch=obs["end_epoch"].to_numpy(dtype=float), avail=obs["avail_epoch"].to_numpy(dtype=float),
+        o_season=obs["season"].to_numpy(dtype=np.int64),
         cums=cums, last=last, ewm=ewm,
     )
     history.cache[key] = prep
     return prep
+
+
+def _tail_mean(values: np.ndarray, n: int) -> float:
+    if len(values) == 0:
+        return float("nan")
+    tail = values[-n:]
+    ok = tail[~np.isnan(tail)]
+    if len(ok) == 0:
+        return float("nan")
+    return float(ok.mean())
+
+
+def _ewm_last(values: np.ndarray, alpha: float) -> float:
+    e = np.nan
+    for x in values:
+        if np.isnan(x):
+            continue
+        xv = float(x)
+        e = xv if np.isnan(e) else (1.0 - alpha) * float(e) + alpha * xv
+    return float(e) if not np.isnan(e) else float("nan")
+
+
+def _drop_unreleased(
+    P: _Prepared,
+    spec: FeatureSpec,
+    t: pd.DataFrame,
+    feats: dict[str, np.ndarray],
+    hist: np.ndarray,
+    cutoff_epoch: np.ndarray,
+    cutoff_ord: np.ndarray,
+    seg_start: np.ndarray,
+    k: np.ndarray,
+    known: np.ndarray,
+    pc: np.ndarray,
+) -> None:
+    """Remove observations whose archived availability is still after the cutoff.
+
+    Prefix sums are in event order, so a late correction that sits between earlier
+    games would otherwise leak into every later window. Players with no availability
+    stamp stay on the prefix path.
+    """
+    if not len(P.avail) or bool(np.isnan(P.avail).all()):
+        return
+    pcs = (P.o_key >> _DAY_BITS).astype(np.int64)
+    stamped = ~np.isnan(P.avail)
+    if not bool(stamped.any()):
+        return
+    player_late = np.zeros(len(P.players), dtype=bool)
+    player_late[pcs[stamped]] = True
+    mask = known.copy()
+    mask[known] = player_late[pc[known]]
+    if not bool(mask.any()):
+        return
+    alpha = 2.0 / (spec.ewm_span + 1.0)
+    seasons = t["season"].to_numpy(dtype=np.int64)
+    for i in np.flatnonzero(mask):
+        a, b = int(seg_start[i]), int(k[i])
+        if b <= a:
+            continue
+        idx = np.arange(a, b)
+        av = P.avail[idx]
+        drop = ~np.isnan(av) & (av > float(cutoff_epoch[i]))
+        if not bool(drop.any()):
+            continue
+        keep = idx[~drop]
+        nkeep = len(keep)
+        hist[i] = nkeep
+        feats["history_games"][i] = float(nkeep)
+        sea = keep[P.o_season[keep] == int(seasons[i])] if nkeep else keep
+        feats["season_games_prior"][i] = float(len(sea))
+        for stat in spec.base_stats:
+            vals = P.last[stat][keep] if nkeep else np.array([], dtype=float)
+            # Column names stay prior5/season3; the counts come from the spec.
+            feats[f"{stat}_prior5_mean"][i] = _tail_mean(vals, spec.window_long)
+            svals = P.last[stat][sea] if len(sea) else np.array([], dtype=float)
+            feats[f"{stat}_season3_mean"][i] = _tail_mean(svals, spec.window_season)
+            feats[f"{stat}_season_mean"][i] = _tail_mean(svals, max(len(svals), 1)) if len(svals) else np.nan
+            feats[f"{stat}_ewm3"][i] = _ewm_last(vals, alpha)
+        tog = P.last["time_on_ground_pct"][keep] if nkeep else np.array([], dtype=float)
+        feats["tog_last"][i] = float(tog[-1]) if nkeep and not np.isnan(tog[-1]) else np.nan
+        feats["tog_prior5_mean"][i] = _tail_mean(tog, spec.window_long)
+        if nkeep:
+            feats["days_since_last_game"][i] = float(int(cutoff_ord[i]) - int(P.o_event[keep[-1]]))
+        else:
+            feats["days_since_last_game"][i] = np.nan
+        career = P.last["career_game_counter"][keep] if nkeep else np.array([], dtype=float)
+        feats["career_counter_last"][i] = float(career[-1]) if nkeep and not np.isnan(career[-1]) else np.nan
 
 
 def _window_mean(cs_v: np.ndarray, cs_c: np.ndarray, lo: np.ndarray, hi: np.ndarray) -> np.ndarray:
@@ -470,8 +595,6 @@ def build_features(history: History, targets: pd.DataFrame, spec: FeatureSpec | 
             break
         k = np.where(ok, k + 1, k)
     diag["excluded_same_day_ambiguous"] = ambiguous
-    # rows with an availability stamp enter on (availability date + 1) > their stamp, so
-    # the day-prefix rule already guarantees available_at < cutoff for in-window rows.
     hist = (k - seg_start).astype(np.int64)
     t_season = t["season"].to_numpy(dtype=np.int64)
     j0 = np.where(known, np.searchsorted(P.s_key, (pc << 16) | (t_season - 1800), "left"), 0)
@@ -507,6 +630,7 @@ def build_features(history: History, targets: pd.DataFrame, spec: FeatureSpec | 
     feats["is_final"] = (t["stage_type"] == "final").to_numpy(dtype=float)
     feats["stage_order"] = t["stage_order"].to_numpy(dtype=float)
     feats["season"] = t_season.astype(float)
+    _drop_unreleased(P, spec, t, feats, hist, cutoff_epoch, cutoff_ord, seg_start, k, known, pc)
 
     names, nullable = numeric_feature_names(spec)
     X = pd.DataFrame({c: feats[c] for c in names})

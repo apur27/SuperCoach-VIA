@@ -30,8 +30,9 @@ def legacy(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):  # type: ignore[no-
     return era
 
 
-@pytest.fixture
-def corpus(tmp_path: Path):  # type: ignore[no-untyped-def]
+@pytest.fixture(scope="module")
+def corpus(tmp_path_factory: pytest.TempPathFactory):  # type: ignore[no-untyped-def]
+    tmp_path = tmp_path_factory.mktemp("era-corpus")
     rng = random.Random(11)
     rows, matches = [], []
     for season in (1960, 1961, 1975, 1988, 1995, 2012, 2026):

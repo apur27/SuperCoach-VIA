@@ -1,9 +1,11 @@
 /** Public ID / resource-path helpers. Everything fetched is validated here first. */
 
-/** Resource keys: encoded public ids (':' -> '__'). Mirrors the release key grammar. */
-export const SAFE_KEY_RE = /^[A-Za-z0-9][A-Za-z0-9_\-.]{0,159}$/;
+/** Canonical resource keys are `k.` plus unpadded base64url, at most 200 bytes. */
+export const SAFE_KEY_RE = /^[A-Za-z0-9][A-Za-z0-9_\-.]{0,199}$/;
 /** Public ids as emitted by the Python side (domain.schemas.SAFE_ID_RE). */
 export const SAFE_ID_RE = /^[A-Za-z0-9][A-Za-z0-9:_\-.]{0,159}$/;
+const KEY_PREFIX = 'k.';
+const MAX_KEY_BYTES = 200;
 
 export function isSafeKey(key: string): boolean {
   return SAFE_KEY_RE.test(key) && !key.includes('..');
@@ -13,25 +15,65 @@ export function isSafeId(id: string): boolean {
   return SAFE_ID_RE.test(id) && !id.includes('..');
 }
 
+function asciiBytes(text: string): Uint8Array {
+  const bytes = new Uint8Array(text.length);
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    if (c > 127) throw new Error('public id must be ASCII');
+    bytes[i] = c;
+  }
+  return bytes;
+}
+
+function encodeB64Url(text: string): string {
+  const bytes = asciiBytes(text);
+  let bin = '';
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
+}
+
+function decodeB64Url(token: string): string {
+  if (!/^[A-Za-z0-9_-]+$/.test(token)) throw new Error('malformed public key');
+  const pad = token + '='.repeat((4 - (token.length % 4)) % 4);
+  const bin = atob(pad.replaceAll('-', '+').replaceAll('_', '/'));
+  let text = '';
+  for (let i = 0; i < bin.length; i++) {
+    const c = bin.charCodeAt(i);
+    if (c > 127) throw new Error('malformed public key');
+    text += String.fromCharCode(c);
+  }
+  return text;
+}
+
 export function encodeId(id: string): string {
-  return id.replaceAll(':', '__');
+  if (!id) throw new Error('empty public id');
+  const key = KEY_PREFIX + encodeB64Url(id);
+  if (key.length > MAX_KEY_BYTES) throw new Error('encoded key exceeds 200 bytes; persist an explicit alias, do not truncate');
+  return key;
 }
 
 export function decodeKey(key: string): string {
+  if (key.startsWith(KEY_PREFIX)) {
+    const text = decodeB64Url(key.slice(KEY_PREFIX.length));
+    if (encodeId(text) !== key) throw new Error('non-canonical public key');
+    return text;
+  }
+  // Legacy alias from the historical colon-to-`__` paths. Not used for new files.
   return key.replaceAll('__', ':');
 }
 
-/** Accept either a public id or its encoded key from a query parameter. */
+/** Accept a public id, its canonical key, or a legacy `__` alias. The returned key is canonical. */
 export function parsePlayerIdParam(raw: string | null | undefined): { id: string; key: string } | null {
   if (!raw) return null;
   const value = raw.trim();
-  if (value.includes(':')) {
-    if (!isSafeId(value)) return null;
-    const key = encodeId(value);
-    return isSafeKey(key) ? { id: value, key } : null;
+  try {
+    const id = value.includes(':') || value.startsWith(KEY_PREFIX) ? (value.startsWith(KEY_PREFIX) ? decodeKey(value) : value) : decodeKey(value);
+    if (!isSafeId(id)) return null;
+    const key = encodeId(id);
+    return isSafeKey(key) ? { id, key } : null;
+  } catch {
+    return null;
   }
-  if (!isSafeKey(value)) return null;
-  return { id: decodeKey(value), key: value };
 }
 
 const SEGMENT_RE = /^[A-Za-z0-9][A-Za-z0-9_\-.]*$/;

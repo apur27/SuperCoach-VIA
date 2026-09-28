@@ -42,9 +42,10 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
+from supercoach_via.settings import default_config_dir
 from supercoach_via.storage.queries import SnapshotQuery
 
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[3] / "config" / "ranking_legacy_v1.toml"
+DEFAULT_CONFIG_PATH = default_config_dir() / "ranking_legacy_v1.toml"
 
 NUMERIC_EXPORT_COLUMNS: tuple[str, ...] = ("player", "all_time_score")
 BIOGRAPHY_EXPORT_COLUMNS: tuple[str, ...] = ("Serial Number", "Player Name", "Footy Teams", "Comment")

@@ -74,6 +74,6 @@ test.describe('predictions explorer', () => {
     await page.getByRole('checkbox', { name: 'Compare Demo Player A1' }).check();
     await page.getByRole('checkbox', { name: 'Compare Demo Player B1' }).check();
     await page.getByRole('link', { name: /Compare selected \(2\)/ }).click();
-    await expect(page).toHaveURL(/compare\/\?players=legacy__demo_player_a1(%2C|,)legacy__demo_player_b1/);
+    await expect(page).toHaveURL(/compare\/\?players=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex(%2C|,)k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix/);
   });
 });

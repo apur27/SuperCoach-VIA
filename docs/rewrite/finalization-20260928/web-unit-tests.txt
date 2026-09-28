@@ -1,0 +1,17 @@
+
+> supercoach-via-web@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.1 /home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47/web
+
+
+ Test Files  20 passed | 1 skipped (21)
+      Tests  163 passed | 2 skipped (165)
+   Start at  20:16:46
+   Duration  2.05s (transform 42%, tests 40%, import 16%, worker 1%)
+
+  Transform  transforming modules took 3.66s · 42% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

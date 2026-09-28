@@ -26,6 +26,7 @@ export function passesFilters(e: PlayerIndexEntry, f: SearchFilters): boolean {
   if (f.active !== undefined && e.active !== f.active) return false;
   if (f.club && !e.clubs.includes(f.club)) return false;
   if (f.season !== undefined) {
+    if (e.seasons && e.seasons.length) return e.seasons.includes(f.season);
     if (e.first_season === null || e.last_season === null) return false;
     if (f.season < e.first_season || f.season > e.last_season) return false;
   }

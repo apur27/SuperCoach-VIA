@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { BoxScoreColumns, MatchDetail } from '../lib/contracts';
 import { boxRows } from '../lib/stats';
-import { encodeId, isSafeKey, withBase } from '../lib/ids';
+import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
 import { isReplay, resultLine, statusLabel, teamScoreText } from '../lib/matches';
 import { DataState } from './common/DataState';
@@ -14,8 +14,9 @@ export default function MatchView({ downloadHref }: { downloadHref: string }) {
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
   const raw = new URLSearchParams(search).get('id') ?? '';
-  const key = raw.includes(':') ? encodeId(raw) : raw;
-  const valid = key && isSafeKey(key);
+  const parsed = parsePlayerIdParam(raw);
+  const key = parsed?.key ?? '';
+  const valid = parsed !== null;
   const detail = useResource('match_detail', ready && valid ? `matches/detail/${key}.json` : null);
   useHeading(detail.state.status === 'success' ? `${detail.state.data.summary.home.name} v ${detail.state.data.summary.away.name}, ${detail.state.data.summary.stage_label} ${detail.state.data.summary.season}` : null);
   const base = siteBase();
@@ -80,7 +81,7 @@ function MatchBody({ d }: { d: MatchDetail }) {
       </section>
       {d.live_snapshots?.length ? (
         <section aria-labelledby="live-h">
-          <h2 id="live-h">Live snapshots</h2>
+          <h2 id="live-h">Captured snapshots</h2>
           <ul>{(d.live_snapshots ?? []).map((k) => { const g = /^live\/([^/]+)\//.exec(k)?.[1]; return g ? <li key={k}><a href={withBase(base, `live/?match=${g}`)}>Snapshot {g}</a></li> : null; })}</ul>
         </section>
       ) : null}

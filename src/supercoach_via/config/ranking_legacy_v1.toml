@@ -1,0 +1,91 @@
+# legacy_v1 all-time / yearly top-100 ranking methodology.
+#
+# Extracted from the EXECUTABLE values in top_players_comprehensive.py at baseline
+# HEAD b4ce74770 (compile_all_time_top_100, _generate_yearly_from_memory,
+# _aggregate_one_file and helpers) — NOT from its explanatory comments, several of
+# which are stale (they say gamma=0.20/0.27, TOP_N=10, career bonus 0.60 or
+# 0.50+0.20; the code runs gamma=0.37, TOP_N=11, career bonus 2.00*min(seasons/18,1)).
+#
+# Documented imputation: legacy_v1 treats a blank stat cell as ZERO
+# (pd.to_numeric(...).fillna(0)). This is kept only as this named historical
+# methodology; general statistics use the coverage rules in domain/metrics.py.
+#
+# Any numeric change to this file is a new methodology: copy it to a new file with a
+# new formula_version and record before/after evidence in docs/migration.md.
+
+formula_version = "legacy_v1"
+baseline = "top_players_comprehensive.py @ b4ce74770"
+imputation = "blank stat cell = 0 (legacy zero fill)"
+
+[constants]
+z_cap = 3.0                    # Z_CAP: per-year z clipped to +/- z_cap
+top_n_seasons = 11             # TOP_N_SEASONS: best adj season scores averaged
+rank_gamma = 0.37              # RANK_GAMMA: rank_score = ((101 - rank)/100) ** gamma
+z_blend = 0.20                 # Z_BLEND: year_score = (1-b)*rank_score + b*z_signal
+single_stat_cap = 0.55         # SINGLE_STAT_CAP: max share of raw score per stat
+min_position_group = 5         # MIN_POSITION_GROUP: defined, NOT used by the executable path
+                               # (position stratification removed; full-cohort z only)
+active_player_discount = 0.95  # ACTIVE_PLAYER_DISCOUNT
+recent_years = [2025, 2026]    # RECENT_YEARS: active = in a yearly top list for these seasons
+yearly_top_n = 100             # yearly list length (sorted_players[:100])
+all_time_top_n = 100           # final_100
+min_career_games = 150         # eligibility: canonical career games >= 150
+career_bonus_factor = 2.00     # career_bonus = factor * min(seasons / cap, 1)
+career_bonus_seasons_cap = 18.0
+missing_era_shrinkage = 0.40   # ERA_COMPLETENESS.get(era, 0.40) default in the yearly shrinkage
+z_ddof = 0                     # np.std population standard deviation
+
+# ERA_COMPLETENESS (epistemic discount). 'unknown' also feeds the all-time lookup default.
+[era_completeness]
+pre_1965 = 0.84
+"1965_1990" = 0.92
+"1990_2010" = 0.89
+post_2010 = 0.89
+unknown = 0.85
+
+# ERAS: which stats are scored per season. Canonical stat names (legacy goal_assist ->
+# goal_assists). 'disposals' is deliberately absent (kicks + handballs double count).
+[[eras]]
+name = "pre_1965"
+start = 1897
+end = 1964
+stats = ["goals", "behinds"]
+
+[[eras]]
+name = "1965_1990"
+start = 1965
+end = 1990
+stats = ["goals", "behinds", "kicks", "handballs"]
+
+[[eras]]
+name = "1990_2010"
+start = 1991
+end = 2010
+stats = ["goals", "behinds", "kicks", "handballs", "marks"]
+
+[[eras]]
+name = "post_2010"
+start = 2011
+end = 2030
+stats = ["goals", "behinds", "kicks", "handballs", "marks", "tackles", "one_percenters",
+         "clearances", "contested_possessions", "contested_marks", "goal_assists"]
+
+# WEIGHTS (per unit of season total).
+[weights]
+goals = 55.0
+behinds = 1.5
+kicks = 4.5
+handballs = 3.0
+marks = 2.5
+goal_assists = 4.0
+contested_marks = 7.0
+contested_possessions = 5.5
+tackles = 3.5
+one_percenters = 3.0
+clearances = 5.5
+
+# Ordering / tie-breakers (the legacy code leaves exact ties in filesystem glob order;
+# legacy_v1 here appends player_id ascending as a deterministic final key).
+[ordering]
+yearly = ["score desc", "games desc", "player_id asc"]
+all_time = ["all_time_score desc", "mean_adj desc", "career_games desc", "player_id asc"]

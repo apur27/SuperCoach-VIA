@@ -1,0 +1,3426 @@
+{
+  "source_root": "/home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47",
+  "scratch_root": "/tmp/scvia-scratch-smoke-final-20260928/scratch",
+  "inventory_sha256": "318c37e8b2a80d6f518f89cde1427923dc4d7a1a389224d58f81400442c8ea5a",
+  "files": 854,
+  "bytes": 18202333,
+  "scratch_differences": [],
+  "paths": {
+    ".gitignore": {
+      "sha256": "d34086e304b89c2d891fd78636c34a279d23212d83b0aa6fb2bcc95d55302e79",
+      "bytes": 3870
+    },
+    ".node-version": {
+      "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921",
+      "bytes": 8
+    },
+    ".python-version": {
+      "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "bytes": 5
+    },
+    "CLAUDE.md": {
+      "sha256": "56eff3294c5ab200fc8b86ea639402c7fe30bf5d86d531b82e39293a3484bae2",
+      "bytes": 12732
+    },
+    "pyproject.toml": {
+      "sha256": "5a0d96b2595371181d83aa2a725466e03a8197801d66bdb3d9512abf8fade452",
+      "bytes": 3989
+    },
+    "uv.lock": {
+      "sha256": "d28243bbfc643befbf60a05c9c8a44431f73303ee3802a41e0d16a634555f873",
+      "bytes": 183554
+    },
+    "backtest.py": {
+      "sha256": "41f369466385fba0d09b252efa29d74b1da4ddb703e2042715cb41d31cd8b675",
+      "bytes": 30612
+    },
+    "config.py": {
+      "sha256": "dbf142532f2ba90767501dcbcf92156ca731acb3635ee5420b76bdc51893b9c0",
+      "bytes": 7460
+    },
+    "generate_readme_charts.py": {
+      "sha256": "a6c7e3311c00adb9b4123887193845e7ab57f84a2661c246116c6f258969a08b",
+      "bytes": 58950
+    },
+    "main.py": {
+      "sha256": "da7087c9d8d0c2acfe818c84524b90bf2af1f5bafb4eb8b147b83bbac924ef8c",
+      "bytes": 527
+    },
+    "refresh_data.py": {
+      "sha256": "7dde48aabeab5302c01ada0d51ac306d3c137561b3377b1e16429d2c0c8e2147",
+      "bytes": 13584
+    },
+    "refresh_readme.py": {
+      "sha256": "a71f329c8b7200a1c2f50d030ea4061d1645f6e93c1130c166f539b87d36d0f9",
+      "bytes": 20802
+    },
+    "top_players_comprehensive.py": {
+      "sha256": "53449e76bfcb2eaabab0f1f3477dce7900f918db700941a3a8f0a90e96c0885b",
+      "bytes": 40668
+    },
+    "update_team_analysis.py": {
+      "sha256": "d7f6940c26d70207188945bdfb5bbd78e476bd092e8a5288b32910b3698438e6",
+      "bytes": 224868
+    },
+    "refresh_and_rank.sh": {
+      "sha256": "f6ec5d4fbba53f1778a21dcb2a7f8f534c6be680af5e4f2204509ded0445a092",
+      "bytes": 17403
+    },
+    "src/supercoach_via/__init__.py": {
+      "sha256": "19166c19b50c2107752a54dd0210fd90e33da2942811cadbbde4dd892af7328c",
+      "bytes": 165
+    },
+    "src/supercoach_via/analytics/__init__.py": {
+      "sha256": "325c96d9c1bd02e186dd2cf8d711d6ca7047ab5c4ec6ffcd18182fea8480ffba",
+      "bytes": 23
+    },
+    "src/supercoach_via/analytics/awards.py": {
+      "sha256": "db251d66b3b06687e47aca5794b56f90871b99c4e1961418b279ac55290a7ad3",
+      "bytes": 9124
+    },
+    "src/supercoach_via/analytics/eras.py": {
+      "sha256": "eba6378b30fd6eef1f441b189cdb28871de6dd781076a7730f4f13d91ab99cdd",
+      "bytes": 10261
+    },
+    "src/supercoach_via/analytics/lists.py": {
+      "sha256": "2943cfb50d107978bb17ee9fdd203bb1de6728656865bc239a4e406f5fa64381",
+      "bytes": 7150
+    },
+    "src/supercoach_via/analytics/players.py": {
+      "sha256": "1b77c89d928cf7435134ef6c9b5f23179acab6e9d06c1777c7aaecdc28b891b2",
+      "bytes": 15910
+    },
+    "src/supercoach_via/analytics/rankings.py": {
+      "sha256": "6fe2e06b8259c49089de4fbc33cb2da117c5ed86cd54819fcc384414149a49af",
+      "bytes": 26840
+    },
+    "src/supercoach_via/analytics/teams.py": {
+      "sha256": "b42bae0efbf8a9252c229d8d23d838570d0f31d59a65a08fb503fb24ebc24daa",
+      "bytes": 29085
+    },
+    "src/supercoach_via/cli.py": {
+      "sha256": "6b89aee11fd6ff87668f786fa800d2662a31512f1e532dde49757c68dae16da4",
+      "bytes": 25788
+    },
+    "src/supercoach_via/config/app.example.toml": {
+      "sha256": "dd32a45beadd4f8556d6f479413852b5f2635544da28aad681ee91468416179b",
+      "bytes": 1184
+    },
+    "src/supercoach_via/config/coach_names.txt": {
+      "sha256": "6f0741239aa90ab66df72948c4c51ebfdd4c970ec668c8e86d62756700463ffe",
+      "bytes": 1301
+    },
+    "src/supercoach_via/config/coverage.yaml": {
+      "sha256": "cb850d7fa35727d171b9ff27af2a09b42312837cd9de10b6b18068c01b5b49e0",
+      "bytes": 2978
+    },
+    "src/supercoach_via/config/fanfooty_schema.yaml": {
+      "sha256": "f392dda31cab80e33221aa3b6996426c3f0dd9149c8ecb20b1f44965d3dac8a6",
+      "bytes": 1855
+    },
+    "src/supercoach_via/config/public_content.toml": {
+      "sha256": "bf722807ad253eb4455e88daacb7cfb4da521371b73c8b85c0b7c144e1de97d0",
+      "bytes": 10074
+    },
+    "src/supercoach_via/config/ranking_legacy_v1.toml": {
+      "sha256": "20b804f6215755d053ed6dff1b22871a1e1ee804608b0127d27666e45bdb89ca",
+      "bytes": 3667
+    },
+    "src/supercoach_via/config/source_policies.toml": {
+      "sha256": "4f390dab331ff6595cd6d6fbfcfdaf31fce62623ed7e562886bf28f5c9300b45",
+      "bytes": 2115
+    },
+    "src/supercoach_via/config/stat_coverage_eras.yaml": {
+      "sha256": "003d0fe850d6d7356170394ad34a629e971265f7fb2e35d57ee4e55047ace871",
+      "bytes": 2410
+    },
+    "src/supercoach_via/config/team_aliases.csv": {
+      "sha256": "dd34c53787ef9049458175fb4b474047e098477f321ed145c0d1039a18903c18",
+      "bytes": 3025
+    },
+    "src/supercoach_via/config/venue_aliases.csv": {
+      "sha256": "d94e06555368177f5571d261c050b914660936f567a0515e6e29a3345dca3e15",
+      "bytes": 5056
+    },
+    "src/supercoach_via/demo.py": {
+      "sha256": "ced160c2ff0d3af5356317872270a49e2856ff1ef89e6e2bf809a6edf628f12b",
+      "bytes": 13455
+    },
+    "src/supercoach_via/domain/__init__.py": {
+      "sha256": "c64eb7ac6b5b77f50de04a6294cd816dcfcd04955d65bdc153f965dfc7bc7288",
+      "bytes": 20
+    },
+    "src/supercoach_via/domain/ids.py": {
+      "sha256": "a093681a138e1a5f52e7a75ea2882197ae1e0d5895ddb853ddf531138d5f365e",
+      "bytes": 14233
+    },
+    "src/supercoach_via/domain/metrics.py": {
+      "sha256": "d76f9be27a5234fb8b7263b211ce7a9bd41851276aa82e3727edbaa41d3b0415",
+      "bytes": 7560
+    },
+    "src/supercoach_via/domain/schemas.py": {
+      "sha256": "9baef73862c19e42fa147ffdfef622c4b556f4f4e5344b75483fb28f2c69636f",
+      "bytes": 26807
+    },
+    "src/supercoach_via/domain/season.py": {
+      "sha256": "ab0eaea3109591897ef3e06f768fbe4f77768e52906899310df0ae949b508026",
+      "bytes": 5627
+    },
+    "src/supercoach_via/editorial/__init__.py": {
+      "sha256": "146745422f1e6eea80a8b7f4209f0cca22fba53a1d6443105fb6766c4614784d",
+      "bytes": 23
+    },
+    "src/supercoach_via/editorial/adapter.py": {
+      "sha256": "7b5d235315ec1d3a6b10e1bdcdf21af88405fbfa17b4e875557c278ba943ecd8",
+      "bytes": 7468
+    },
+    "src/supercoach_via/editorial/evidence.py": {
+      "sha256": "65a0b44e19d938cd76bb4586cbbda26dbc6d9c8fc6b5794037cd2589758709fa",
+      "bytes": 3997
+    },
+    "src/supercoach_via/editorial/verify.py": {
+      "sha256": "b758ec05e6e2f3dc97a7323aa42b7596cab1854d549b3bb77a789df6dfc1d001",
+      "bytes": 7089
+    },
+    "src/supercoach_via/ingest/__init__.py": {
+      "sha256": "dd433423722e6b6e59d24e4612e9978ebc9a2ac041b2748296424a34b36269f5",
+      "bytes": 20
+    },
+    "src/supercoach_via/ingest/afltables.py": {
+      "sha256": "2f0da8ffffe2ca0e6fc8c120410782730dd28f9c2f8d486af172f0a058b042d4",
+      "bytes": 28776
+    },
+    "src/supercoach_via/ingest/contracts.py": {
+      "sha256": "124456a3c701d45ac80f0e4d6e71fed875bc52b740795485251a08ff916b8eda",
+      "bytes": 6118
+    },
+    "src/supercoach_via/ingest/drafts.py": {
+      "sha256": "2594a2447bdb4ca82075b7c3923038aaba1b4dfb43144051b74485cc986025d7",
+      "bytes": 8811
+    },
+    "src/supercoach_via/ingest/fanfooty.py": {
+      "sha256": "499aaf9123091691f712c2bde5cefff2acbcb668552dd95e016d4249a0b9ed4b",
+      "bytes": 10934
+    },
+    "src/supercoach_via/ingest/http.py": {
+      "sha256": "58141a151c50d9481d9e3968a68376268a3033668ff70191318274f818936cb2",
+      "bytes": 28807
+    },
+    "src/supercoach_via/ingest/legacy.py": {
+      "sha256": "d841ae1900712c77dada2b4de0b945ca2b6a8ed48dd8b627f3e380b6dfbb59dd",
+      "bytes": 90506
+    },
+    "src/supercoach_via/ingest/reconcile.py": {
+      "sha256": "6d8339ea3c64fe7468a6956fc995debd3a8215ac73385b17bf204d8f776ca2d1",
+      "bytes": 31532
+    },
+    "src/supercoach_via/ingest/refresh.py": {
+      "sha256": "a01753ecb30ccb5c9d548885a86cf1bc2ec5519dd86b5c4e91f2f1da623e051d",
+      "bytes": 55473
+    },
+    "src/supercoach_via/live/__init__.py": {
+      "sha256": "0ca69d3bd99519c5bab321d75e161427f4cde6cdeb7076ccc9b6ac54b604c0ce",
+      "bytes": 18
+    },
+    "src/supercoach_via/live/commentary.py": {
+      "sha256": "499aca5eb4c227c740cec2fb554e5d71cc3474d4aae3ae7d45964f390c2a9494",
+      "bytes": 2338
+    },
+    "src/supercoach_via/live/monitor.py": {
+      "sha256": "9e8beeb2e06ee469242a57b41133f7dde0ca1c3abf5e7a4f05998174d4b78bb8",
+      "bytes": 12509
+    },
+    "src/supercoach_via/ml/__init__.py": {
+      "sha256": "3171a54bb89572e1ca37a96656e390b28408afff2c4f574cf20054ea5e36f4b5",
+      "bytes": 16
+    },
+    "src/supercoach_via/ml/bundles.py": {
+      "sha256": "bddfb938ff60d374892cd19d09035777f59b0ce295284fb4e991301e3ea8a07b",
+      "bytes": 9412
+    },
+    "src/supercoach_via/ml/evaluate.py": {
+      "sha256": "aef30d5ed79d2b21f7f394a416d2a0949876d3837f5fd8816d95f5b97d70a118",
+      "bytes": 28174
+    },
+    "src/supercoach_via/ml/features.py": {
+      "sha256": "85cd17ac7b46bc0d5298384217ca653ee6fc33921b3c6a4643eb7360a6111c54",
+      "bytes": 29161
+    },
+    "src/supercoach_via/ml/models.py": {
+      "sha256": "82572b27a94ae6fb2d7d835cfe5678f9e959a477087ee5098559b21e1931d7d2",
+      "bytes": 9327
+    },
+    "src/supercoach_via/ml/predict.py": {
+      "sha256": "2f403c5cf4ef574128470de5e61cc61d279b25ff3a9aefe3144aff1a6851d5e0",
+      "bytes": 28998
+    },
+    "src/supercoach_via/ml/splits.py": {
+      "sha256": "64a43118cc92290984706935de859e0a2cd73b5d6c12088a53a158529690fb69",
+      "bytes": 6482
+    },
+    "src/supercoach_via/ml/train.py": {
+      "sha256": "e86191460f2097c4de1c8b855aed895ef70d8a3968a3cdd36432b81f4d5dd898",
+      "bytes": 21660
+    },
+    "src/supercoach_via/pipeline.py": {
+      "sha256": "acf316ddd7951a33e2efb47b06eb5c38e495a4d55471ff5b0a151f5aeff96073",
+      "bytes": 26967
+    },
+    "src/supercoach_via/publish/__init__.py": {
+      "sha256": "c4524f4406f565576226d6b50a3ab1a3be9b3a308eaef665ef77c459d9de34f1",
+      "bytes": 21
+    },
+    "src/supercoach_via/publish/articles.py": {
+      "sha256": "b77c36032f80dcaffd3b303b4609f7e7d45fbd6b352081adb8e0760c7dc2e04e",
+      "bytes": 7169
+    },
+    "src/supercoach_via/publish/builder.py": {
+      "sha256": "063d78b76d8708301dc0e1f025e7d4570239a07d8274185c54f1e7a08cdb4265",
+      "bytes": 90608
+    },
+    "src/supercoach_via/publish/bundle.py": {
+      "sha256": "600cccfccc7c64f70c9d19e4e04ef3a4eb25715f0491e4e2cd07cb1eb836d5ef",
+      "bytes": 2022
+    },
+    "src/supercoach_via/publish/charts.py": {
+      "sha256": "106e8a456028528f73915100bb3ad4ab8ed2d7d7c1af0d4848fcc4450917a145",
+      "bytes": 3007
+    },
+    "src/supercoach_via/publish/content.py": {
+      "sha256": "0dff8c2f6c4ea14c0c4f22a92e2cc7fd2fbf8e684551453b9740af3e54030dff",
+      "bytes": 2972
+    },
+    "src/supercoach_via/publish/deploy.py": {
+      "sha256": "f7a1db4a75a4ef05b968f797ca34d730f8dd37dbcbcee68850a35b8f3af70955",
+      "bytes": 7776
+    },
+    "src/supercoach_via/publish/release.py": {
+      "sha256": "4f3cdbc7e731011f996c174c8f02a7f994dd90f2e21d92005adcfbfa0f02b745",
+      "bytes": 36399
+    },
+    "src/supercoach_via/publish/reports.py": {
+      "sha256": "a1ef159d58ae455f0af248c9efd60e2ff264971c4d4f99c4a2ad3c7e157f63cb",
+      "bytes": 996
+    },
+    "src/supercoach_via/publish/resources.py": {
+      "sha256": "9e54e219aa19d7719b01a3b0a45cc7b7a0a8bc82f666ca43ed6e612bc7e80409",
+      "bytes": 11309
+    },
+    "src/supercoach_via/publish/view_models.py": {
+      "sha256": "1062036afb42d5ae1c23c0e27de2efc5523b0586ac3997d9bda382d33fb10e07",
+      "bytes": 27632
+    },
+    "src/supercoach_via/publish/web_data.py": {
+      "sha256": "50cd657e809ed04ab31da5db50811a2d1f23e1b288ecd989fc77661c939dd098",
+      "bytes": 3070
+    },
+    "src/supercoach_via/py.typed": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "src/supercoach_via/settings.py": {
+      "sha256": "9eba00e264569008c98e22d93bca5323c1022a1f83394c629680486769ed001c",
+      "bytes": 4784
+    },
+    "src/supercoach_via/storage/__init__.py": {
+      "sha256": "6357754d3dbee0a0cce27fae4c53cad40376a1b91c63ba91d4f01169d0c62ed8",
+      "bytes": 21
+    },
+    "src/supercoach_via/storage/queries.py": {
+      "sha256": "60a99f6f6348866486c5360816a27dce7ba18edf5e3192d4bb23aa74ed08a3c7",
+      "bytes": 3948
+    },
+    "src/supercoach_via/storage/runs.py": {
+      "sha256": "4137eec8f22c1ac7a7f2958b4ffbda3a3bb0b95050ddd07324aefced99bbfc69",
+      "bytes": 6528
+    },
+    "src/supercoach_via/storage/snapshots.py": {
+      "sha256": "b8064724e3d7782a1cd15b082876be15b7f163d81baef862697f897b3c0ca33f",
+      "bytes": 16188
+    },
+    "src/supercoach_via/templates/reports/_provenance.md.j2": {
+      "sha256": "3d5a1d083513a372d2bb4d10e3919d365f32ae5c248fc269355b5989b31fbc20",
+      "bytes": 359
+    },
+    "src/supercoach_via/templates/reports/document.md.j2": {
+      "sha256": "310e306294214abafb31db19ccd47f06e93155f6a7492452e47b800b230907b2",
+      "bytes": 97
+    },
+    "src/supercoach_via/templates/reports/readme.md.j2": {
+      "sha256": "162c5f5566101b2befccfbc4ee543312e525f003271d5989f92e3b0d1394595e",
+      "bytes": 849
+    },
+    "src/supercoach_via/templates/reports/season-summary.md.j2": {
+      "sha256": "514a628f441f86cedf895eae674d74059982cefed35d13d7b608671a661343f8",
+      "bytes": 1659
+    },
+    "src/supercoach_via/templates/reports/stat-leaders.md.j2": {
+      "sha256": "3005814c3f6d46e51ff3cb00b61a1f91fdc0db7c98a22ecc9f29660e8cabecd6",
+      "bytes": 610
+    },
+    "src/supercoach_via/templates/reports/team-analysis.md.j2": {
+      "sha256": "6edc15762f5bd9865c401cdc4153aa6f50436534c2c8b716385efd7b403e5099",
+      "bytes": 1216
+    },
+    "scripts/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "scripts/backtest_completeness.py": {
+      "sha256": "5b0da65175395c77db7919338e9b4034ad94f431db0c53ecc3c74ef860cd4fed",
+      "bytes": 8369
+    },
+    "scripts/build_conceded_stats.py": {
+      "sha256": "1f32895a0fc19c9bd493c64a460f5f407f24391f3708aa9e0bca5a3e6edaaadc",
+      "bytes": 4119
+    },
+    "scripts/check-council-stamp.sh": {
+      "sha256": "32370c5bf686eaed2a51c7eb986af6c6865c31445ec563d0beeb40d4bbd7b3bb",
+      "bytes": 11260
+    },
+    "scripts/check_hof_numbers.py": {
+      "sha256": "3d305490e22d5524fc16f420db68edfe695f935921c5831ceae8d64e26a995c9",
+      "bytes": 7257
+    },
+    "scripts/check_round_settled.py": {
+      "sha256": "4a6e2fc9a69d773a0323a7680e782826d2990da7c293f212226017c5c2da5d2d",
+      "bytes": 7352
+    },
+    "scripts/compute_r10_player_table.py": {
+      "sha256": "74ab6af28b2760317315494615f5daa4d833e521751cf2b154e06d43523f5f7c",
+      "bytes": 7288
+    },
+    "scripts/compute_r10_team_aggregates.py": {
+      "sha256": "41030ff0915e34f92508b893356f4ad10950dc6d1f73fab68e6ad7c4bb996d75",
+      "bytes": 7364
+    },
+    "scripts/council-content-hash.sh": {
+      "sha256": "fca3b27d5ab83ec91e21a76baaa7ee066fc51fc594017c908ce49359c1c8d963",
+      "bytes": 1585
+    },
+    "scripts/era_boundary_threshold.py": {
+      "sha256": "bfb13427297e12db8224a6e938aeb6d2837531db47b0f57e8ec70dbc83785aae",
+      "bytes": 7379
+    },
+    "scripts/feature_engineering.py": {
+      "sha256": "ec9458126cd66f0189a88e9f172ea39c3de85c9c7d5a370736f57dba0479e6e2",
+      "bytes": 4431
+    },
+    "scripts/fetch_live_match.py": {
+      "sha256": "9d9de816b560ef549135c9eee1e95edb09938f67a6ff77c13aaa7b6e40865518",
+      "bytes": 16943
+    },
+    "scripts/fix_synthetic_dates.py": {
+      "sha256": "a59fc59eaf173843ab119bf5a4988a5602c82cecdf7bbcf736d4fbf108dd78bc",
+      "bytes": 9136
+    },
+    "scripts/generate_player_cards.py": {
+      "sha256": "d2add6761a69fd3a582429f75ad107325ba8ae34d7b8518032e210823d320acb",
+      "bytes": 11641
+    },
+    "scripts/generate_player_status.py": {
+      "sha256": "ee300c9467351d99610e421c54648a71ca344be587692a9fa06f99687ae425e9",
+      "bytes": 5483
+    },
+    "scripts/generate_weekly_cheat_sheet.py": {
+      "sha256": "9667fa463cc9c70c00f21b6c575bcabe83355615b3dbe716ed6ebef6b84b8d8d",
+      "bytes": 7444
+    },
+    "scripts/git_commit_safe.sh": {
+      "sha256": "99f808dcc16d951ef95e058b6c0e3b3a741708c0e42ca6c1c52bfe590261dfe6",
+      "bytes": 1475
+    },
+    "scripts/inject_trust_badge.py": {
+      "sha256": "0f024bdabea3b8227330f4f4fb7608bad3eabe6e56966b93f20fb669ed893bd8",
+      "bytes": 4789
+    },
+    "scripts/live_analysis_pipeline.py": {
+      "sha256": "bac92ba9b09eebccb0655927fc415489a285e8bf207316288cc7dc601f70adae",
+      "bytes": 51056
+    },
+    "scripts/live_match_monitor.py": {
+      "sha256": "20ceacaf4e9acfdb4d788f46aa986a6c4b8116ba4a5aafa4f94f97be08deb0fe",
+      "bytes": 15840
+    },
+    "scripts/log-agent-turn.sh": {
+      "sha256": "8b687471b4f62a7824287402e344fe5c8cd2f50b052e81f92079e64560e8e9a2",
+      "bytes": 2733
+    },
+    "scripts/match_completeness_gate.py": {
+      "sha256": "4945bc3b15a21d47804cbe59b386f1c5227c6deaedbb61bf19745e8b31b77971",
+      "bytes": 3566
+    },
+    "scripts/package_fan_pack.sh": {
+      "sha256": "a07d9b3e918516f2286bdbce5ca2b98eab638a8ae768674b99e20d6f3828a3b4",
+      "bytes": 3529
+    },
+    "scripts/phantom_row_validator.py": {
+      "sha256": "5c0253663ef62512062a743479112bd8a174202f6071ad9e81bdd61fc7e183f9",
+      "bytes": 14459
+    },
+    "scripts/record-sentinel-verdict.sh": {
+      "sha256": "097eeda4ce15c0152602b24e12d4e2b53ef3c57d2e91eb71a7ca79bd11f297f1",
+      "bytes": 5734
+    },
+    "scripts/scvia_weekly.sh": {
+      "sha256": "09e2c42e8e071ffb680b5556df812ce3bf9df3928e8701bec344636083db1ca5",
+      "bytes": 8108
+    },
+    "scripts/skeptic_sample_tags.py": {
+      "sha256": "ba43f2e2f5def038f5a9dde2d0fbe593605ff2d698516d7115d00a1964a0abb8",
+      "bytes": 3339
+    },
+    "scripts/skeptic_verdict.py": {
+      "sha256": "91c0ea8652b2420a987a4741896300d1d3b0adfb2194c6b7aace03e4439dd7f3",
+      "bytes": 3644
+    },
+    "scripts/smoke_harness.sh": {
+      "sha256": "4f1bc7ec4898d352b37342b352610421fdcd86420103aad3530ca2b8c5fec73e",
+      "bytes": 6019
+    },
+    "scripts/smoke_scvia_candidate.sh": {
+      "sha256": "efc50b281bea547bdc8421f0cb963c9b92720adf6c808bcc64d5cc3029e713ea",
+      "bytes": 8060
+    },
+    "scripts/smoke_test_live_pipeline.py": {
+      "sha256": "e9b476d67ab5e6337b99fb84057e7352482b2a666fb6218cd0eae9b934cc0cd6",
+      "bytes": 6585
+    },
+    "scripts/tag_vocabulary.py": {
+      "sha256": "328e67621c75b6713157bea1129191a01e54138e009be8a5cb815b53a03c72d0",
+      "bytes": 6628
+    },
+    "scripts/update_eval_surface.sh": {
+      "sha256": "7d8dac1385652bb2a395106140efc82672b3d9c1fb39c22ff5d93de742e6a09f",
+      "bytes": 32929
+    },
+    "scripts/update_hof_pages.py": {
+      "sha256": "956d911a8366b5cf563ce1730f04fe73218c67adffc65d3fb78e89af803a432f",
+      "bytes": 12504
+    },
+    "scripts/update_r10_player_data.py": {
+      "sha256": "88a9a8f6662ee9997956b514ff121b7db9d7aed3cb5c2e951cfcd38466bcd379",
+      "bytes": 11885
+    },
+    "scripts/weekly_refresh.sh": {
+      "sha256": "e4b71bf913b0eeb76a9143e761f985bdc7ab048109077effb3be2917e94de2e3",
+      "bytes": 30357
+    },
+    "web/.gitignore": {
+      "sha256": "cd3fb2fa6d34b12b7f9092e5dd527841d1f1e837c0eb59fb5ae2cac1dbfe21f5",
+      "bytes": 107
+    },
+    "web/.node-version": {
+      "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921",
+      "bytes": 8
+    },
+    "web/astro.config.mjs": {
+      "sha256": "c2ef3386b2d99205b60153defbf6aa6a0101e61ddc3407d2853c964971abd307",
+      "bytes": 3396
+    },
+    "web/eslint.config.js": {
+      "sha256": "53d6e89bcc9654de3ee320e00e82a32498016cdfb658416764bd5528067fdded",
+      "bytes": 1263
+    },
+    "web/integrations/release-tree.mjs": {
+      "sha256": "8dad21716adffd6e45fb12bf42083e799d30c4d8800eee936784d4905d84c59a",
+      "bytes": 6038
+    },
+    "web/package-lock.json": {
+      "sha256": "3bff66d0c3ab314fa05e8eb3d0af033349352db30fba8b8f4ede23490353ea7b",
+      "bytes": 268317
+    },
+    "web/package.json": {
+      "sha256": "9b60679501886cd2b9825e141c001cbd31094fa1b5df64b2968c0f86881cadb7",
+      "bytes": 1610
+    },
+    "web/playwright.config.ts": {
+      "sha256": "4281afd77c5a1f400cd0fbecfcd355e3a87cb90bfd8f51da9e64f240545b90d7",
+      "bytes": 1530
+    },
+    "web/public/favicon.svg": {
+      "sha256": "fbc16e551a83bafe1e0ae8de5d56040d43c659dbb13371af81fad58e248ab5c7",
+      "bytes": 225
+    },
+    "web/public/theme-init.js": {
+      "sha256": "c475fe3b0fc8bff618683180c009f03f339b4df75d57239429971c5f84e323fc",
+      "bytes": 478
+    },
+    "web/scripts/budget-lib.mjs": {
+      "sha256": "fdce310a2e3891a5c80a51ac2c928c6389bde4f6796bb28d50ab63903e0b0e63",
+      "bytes": 8379
+    },
+    "web/scripts/budget-routes.mjs": {
+      "sha256": "d80b07a64be3fb0261cd3745cc9a179d65df98dddb4bcfd3072e09a32a1cd9b8",
+      "bytes": 2066
+    },
+    "web/scripts/budget.mjs": {
+      "sha256": "a0f6199ba5de4da6b754cbad144b31066838b9063f28c54bb4b81544cad16df2",
+      "bytes": 1455
+    },
+    "web/scripts/build-e2e.mjs": {
+      "sha256": "1e856cfca47fdae65c44c54d487bd92d37ae29c206e2e046541dcd4035cbc35a",
+      "bytes": 593
+    },
+    "web/scripts/gen-types.mjs": {
+      "sha256": "c8b2b55e8aa3d266b7d1062acb865c814a5dcdb08dcc477d090937fc55507504",
+      "bytes": 7737
+    },
+    "web/scripts/make-demo-fixture.mjs": {
+      "sha256": "c8cda863ca83ca04f742adb9fabf3dbe48e82246bb18f580b593ca3df52ac495",
+      "bytes": 38858
+    },
+    "web/scripts/serve.mjs": {
+      "sha256": "2a0044a51339f1a0e28609e15b35d024a311958000cf394b1d359388112dd327",
+      "bytes": 2429
+    },
+    "web/src/components/Breadcrumbs.astro": {
+      "sha256": "0d58933e737db00d30a77cde06e45382d3943d0f69f79aef0c2eb7dfe7ff46e5",
+      "bytes": 502
+    },
+    "web/src/components/DateOnly.astro": {
+      "sha256": "4a88af7e44edd8c8bf65d85d316570ce355d7a1ddb160023358427c6f3964d21",
+      "bytes": 243
+    },
+    "web/src/components/FactTable.astro": {
+      "sha256": "e9d993618e09e467abfe8be4104d4af4aa9afb7ca071273e336bc67cafaa2973",
+      "bytes": 713
+    },
+    "web/src/components/ForecastStatus.astro": {
+      "sha256": "f3ab8deb52e0fadc4918cf1a095cc413b379bd96d79a205e4625ced42c02c0e9",
+      "bytes": 773
+    },
+    "web/src/components/Freshness.astro": {
+      "sha256": "a565a92594f9083b30eafad451eb776803fb8ef967596c5ddc0c76eeb770c7df",
+      "bytes": 1692
+    },
+    "web/src/components/Instant.astro": {
+      "sha256": "d68a3fed21adc7450f47e11f583506c4159b35fc1046005d88552cf879791db3",
+      "bytes": 278
+    },
+    "web/src/components/LeaderTable.astro": {
+      "sha256": "582ec4d5f0984181b417432d7021c7e3db0a4d14ea741de1350d890a4a809c99",
+      "bytes": 1032
+    },
+    "web/src/components/MatchTable.astro": {
+      "sha256": "fd97d618ece77064f9e694b55c6c6286fefc388a3bdf88a42cd8865ad0672b02",
+      "bytes": 1615
+    },
+    "web/src/islands/AccuracyView.tsx": {
+      "sha256": "3c21763b34dd12bd5d79cea45754fbb2e574bd87728d75ac8f9f89e785c0001a",
+      "bytes": 8040
+    },
+    "web/src/islands/ArticleFilter.tsx": {
+      "sha256": "ab4e2eb28c0fc1519b08b8e8f28728bd601a4bacc96db85367edd37c0ee3257c",
+      "bytes": 3194
+    },
+    "web/src/islands/CompareView.tsx": {
+      "sha256": "2dd3aedcfe93535ab4660a1c7219ffcde63f7f7558eda3170125b51c327ff9bb",
+      "bytes": 8533
+    },
+    "web/src/islands/HistoryExplorer.tsx": {
+      "sha256": "047045f944a5c5150402e01ea01401c367ea919b1a2567a30b202468adf23638",
+      "bytes": 6409
+    },
+    "web/src/islands/ListsView.tsx": {
+      "sha256": "9b5da93ff905d94534f19e0bb2a8127f4ea8bb3e75cee2b53126e657c1864c7d",
+      "bytes": 5824
+    },
+    "web/src/islands/LiveView.tsx": {
+      "sha256": "96039e979693a772940316c69049ecf4d0216ed273e1890ec5d9df53df24228f",
+      "bytes": 6310
+    },
+    "web/src/islands/MatchView.tsx": {
+      "sha256": "6ef025cbb63dbdc9dedbe0e5e1941a067732b18f06c13098e446b462746d20e1",
+      "bytes": 5892
+    },
+    "web/src/islands/MatchesExplorer.tsx": {
+      "sha256": "8753bcf9f59c8c07f964486533436cd88584ebed5004e31a445b856d345f20d9",
+      "bytes": 4924
+    },
+    "web/src/islands/PlayerSearch.tsx": {
+      "sha256": "6fbb8815689f79b2bd2413e400ccc46d62886c08f88c41813e4bf7b3cc9235bb",
+      "bytes": 7613
+    },
+    "web/src/islands/PlayerView.tsx": {
+      "sha256": "f45ff72672d05d8020a65d00494777f348b4db54fccd7048593e06ee825c4fbe",
+      "bytes": 9660
+    },
+    "web/src/islands/PredictionsExplorer.tsx": {
+      "sha256": "e5ddbe26281bc12329fd35ea1bfebb1ad35e1d9bd0c112ebbab3c71a19b81283",
+      "bytes": 13838
+    },
+    "web/src/islands/TeamView.tsx": {
+      "sha256": "7e797fe51c89e278b863108df3c04846d3b2d90aef0d86ad6665a8e9ab918bac",
+      "bytes": 6518
+    },
+    "web/src/islands/WatchlistView.tsx": {
+      "sha256": "9dffea87a316e1c030d0037d1a5bcd2c85a86cc8e6ef4d0abe1d0cc5f10d5fba",
+      "bytes": 6213
+    },
+    "web/src/islands/common/Charts.tsx": {
+      "sha256": "4a79f19dec509cbc27416cf3bfeda18680180b1a5406131c66dfc758605524d9",
+      "bytes": 6811
+    },
+    "web/src/islands/common/DataState.tsx": {
+      "sha256": "ad4bfb51a48ad98faabbcf30398a71596978fc1522f75047b2e6cc687a00befc",
+      "bytes": 2989
+    },
+    "web/src/islands/common/Instant.tsx": {
+      "sha256": "0c34d43950d70325e873a7d873d3343681524c0b3b22f67b399bebb32d4d4d3b",
+      "bytes": 763
+    },
+    "web/src/islands/common/Ladder.tsx": {
+      "sha256": "a1412cdc6f7938aa61229369e6f470e74bacda19ff830207d4c2b484cdfa2ec6",
+      "bytes": 1816
+    },
+    "web/src/islands/common/MatchRows.tsx": {
+      "sha256": "a546420b8b0e22373aa91da1920b9ba86585c8f345eb679470483cc1e293a0f3",
+      "bytes": 1645
+    },
+    "web/src/islands/common/NoScript.tsx": {
+      "sha256": "55ee43ca9ac2c2290d63138e2000a2e8b88548d74ee041af158005761580ddaa",
+      "bytes": 372
+    },
+    "web/src/islands/common/Pagination.tsx": {
+      "sha256": "3352ff5c11cfc71b43b7b61a8ca30cd264b99d56c85e98329a97abcf999b5a42",
+      "bytes": 952
+    },
+    "web/src/islands/common/SortHeader.tsx": {
+      "sha256": "2af014ea9ca7101bac5fb2db3fda39b3c452a23f23e94291f2eface97a091efa",
+      "bytes": 1126
+    },
+    "web/src/islands/common/Stat.tsx": {
+      "sha256": "757720831a222e1e9c52478f1be4b716c13d469fb987d32f45ce2ccb0a35a20e",
+      "bytes": 354
+    },
+    "web/src/islands/common/StatTable.tsx": {
+      "sha256": "7c1aaffa9aa7e74c649b76a1745f77056b8b06bd2c09cbe03c2c9b431c8b317a",
+      "bytes": 1375
+    },
+    "web/src/islands/common/download.ts": {
+      "sha256": "743e73226bbcf42e710689a960ef84404ae01a71d734f42ab2166a39eafd48ec",
+      "bytes": 398
+    },
+    "web/src/islands/common/runtime.ts": {
+      "sha256": "1990e0e19a21c7945e6dc79e3cf54f1012031345b485287abb5a8ec0196b406e",
+      "bytes": 5108
+    },
+    "web/src/islands/common/watch.tsx": {
+      "sha256": "ff601502f3c588a99e53079e3c2cc3607356055005da7f7d3bf7a3133fc6cea9",
+      "bytes": 1258
+    },
+    "web/src/layouts/AppLayout.astro": {
+      "sha256": "d1be7fe0280e1a63bbd54ad51343040e640a862e0a84268ef03543bc225e5c17",
+      "bytes": 4926
+    },
+    "web/src/lib/contracts.generated.ts": {
+      "sha256": "cf4dbe8be04fcfc5987d0547afa8d4eedabe9a254650d911132da7cce401d9e3",
+      "bytes": 25812
+    },
+    "web/src/lib/contracts.ts": {
+      "sha256": "f75aacba77a4443fa7bb1f609ac68753112997f294e0c1e3d3ce80efede6b54e",
+      "bytes": 3118
+    },
+    "web/src/lib/contrast.ts": {
+      "sha256": "97e5a2476305d017b34589a8450b71edb4291650d9603d7cf2b62d2c2c687783",
+      "bytes": 1268
+    },
+    "web/src/lib/csv.ts": {
+      "sha256": "dbf7a3a6b98f85ed22b41d596259b57b639a24f9f12df8afa014989575dc2e5c",
+      "bytes": 589
+    },
+    "web/src/lib/data.ts": {
+      "sha256": "7649c82e27ba659c109e8023ddb61255ef0eabc75f1f11a20d70937ea984bfe7",
+      "bytes": 4216
+    },
+    "web/src/lib/downloads.ts": {
+      "sha256": "8588fadadd486febd3111ad16de86c4d763c433c1c91c245c79df58a16af1eb2",
+      "bytes": 314
+    },
+    "web/src/lib/filters.ts": {
+      "sha256": "3562c525ae5c3b5bde0c2977a9f33ada1cab5c3366323ded74b5aea80cb693dd",
+      "bytes": 4037
+    },
+    "web/src/lib/format.ts": {
+      "sha256": "d6ffdcb4367321382f037c38e83186bce5825b393d8cd6dc1d1274a4d277e238",
+      "bytes": 2687
+    },
+    "web/src/lib/html-allowlist.ts": {
+      "sha256": "389b09bc8cbe50efdb65a0d228d87fcb717f13a65f1ee04983415acd5df2d160",
+      "bytes": 3372
+    },
+    "web/src/lib/ids.ts": {
+      "sha256": "8171996bba3f1c27849a67dd383b6296c441a1eda8686562fddec4a4b9982052",
+      "bytes": 3987
+    },
+    "web/src/lib/live.ts": {
+      "sha256": "e1e5490746984c64d01275eaa31753d45cd2545e14b324223bec0be471ca8b2f",
+      "bytes": 727
+    },
+    "web/src/lib/matches.ts": {
+      "sha256": "79958b4922781f7c5c8cc5f6b6730cd0653b8b28e8dbbaf5de435ac5da6a91c7",
+      "bytes": 1821
+    },
+    "web/src/lib/nav.ts": {
+      "sha256": "0d6f808e726cb28bd4850cebd7079884b6192942698e4c711e98601d83771486",
+      "bytes": 1045
+    },
+    "web/src/lib/prefs.ts": {
+      "sha256": "923dd1bbddce5a6c7b1da49ce0a5dca3e3cba1ff8df997cad9445bddbe302611",
+      "bytes": 1669
+    },
+    "web/src/lib/release-server.ts": {
+      "sha256": "514a5c9e85c8d67049c7b850de6a87f50e474b14657924e948d89b90c5060539",
+      "bytes": 2617
+    },
+    "web/src/lib/search.ts": {
+      "sha256": "39f9d2188dd2a4081b4936b08f905da77a29eeeb6fdcb65e30aab195d90e5d34",
+      "bytes": 2515
+    },
+    "web/src/lib/shell.ts": {
+      "sha256": "8c57160a3ea51c3d06c4e93f46f68723ade106876cd35a6979065b1eca63be78",
+      "bytes": 3230
+    },
+    "web/src/lib/stats.ts": {
+      "sha256": "9f93411681fda72586787b44aa039f33d00eee56c49bcc7fcba27593e2eb0db6",
+      "bytes": 3004
+    },
+    "web/src/lib/tabular.ts": {
+      "sha256": "f76227d2f809c6aac4120bc559452359f96d8885f9b57b9c10b6837227762f74",
+      "bytes": 1879
+    },
+    "web/src/lib/validate-client.ts": {
+      "sha256": "824a5094bde97971941bb7e8b61cb041e8d5aa69a4437f2b430c6a0aa0883308",
+      "bytes": 623
+    },
+    "web/src/lib/validators/accuracy_index.generated.js": {
+      "sha256": "5b5ffd060eb7524ed49ceb403d451e6a329c70110ca4a8f3a2bb848aa1cec011",
+      "bytes": 11676
+    },
+    "web/src/lib/validators/accuracy_report.generated.js": {
+      "sha256": "7c26b6ea82b5a8df035094db4bd55afe64b3268fba21246982ac50f08e040398",
+      "bytes": 77722
+    },
+    "web/src/lib/validators/article.generated.js": {
+      "sha256": "1ee7bd64bec82b2870eea49863d84c694c1f39d42f51c2c35f0c76e31b7d1929",
+      "bytes": 18597
+    },
+    "web/src/lib/validators/article_index.generated.js": {
+      "sha256": "b3a37639f59e78e50d39d0701ec1ae4f7d0ffdb55235d1da43acddf01b36c27a",
+      "bytes": 12780
+    },
+    "web/src/lib/validators/downloads.generated.js": {
+      "sha256": "443f434a9fd8f19ee883bb1e0611148dde02b1cc7f02d5ef5e690fa3e90aea1f",
+      "bytes": 14796
+    },
+    "web/src/lib/validators/history_index.generated.js": {
+      "sha256": "5545f2d6fdbb44af334d694ffd3ca924cdf9f7dd96a3750038436fad42a43ae8",
+      "bytes": 11545
+    },
+    "web/src/lib/validators/history_table.generated.js": {
+      "sha256": "a7e2e9c7f68a27f6fb951a58b97dd57312834d30ba53aba6774dfb015960dd0d",
+      "bytes": 20302
+    },
+    "web/src/lib/validators/index.generated.ts": {
+      "sha256": "6b864924a3fcd683f4b6366af9f0a1b8e00023d46f6a87185068eb1464e21895",
+      "bytes": 3825
+    },
+    "web/src/lib/validators/lists_index.generated.js": {
+      "sha256": "74ead2d7c52aa2f1dadf67529d22dceff8c8330a7dcc4e37ca3f450a1f62ae4f",
+      "bytes": 3629
+    },
+    "web/src/lib/validators/lists_season.generated.js": {
+      "sha256": "08fb52365ab5a20e41655ab613d3a8b09e0c83c15795be93ce3255e6f21caba8",
+      "bytes": 47189
+    },
+    "web/src/lib/validators/live_index.generated.js": {
+      "sha256": "d0a26535ddc9191a02672620b087569cd6f3a46d3ba80cb67166849d328f11f0",
+      "bytes": 10341
+    },
+    "web/src/lib/validators/live_snapshot.generated.js": {
+      "sha256": "83066c3f40eb19fca9fab6af953b78e2577cce277ba1d55b61926a4de912f984",
+      "bytes": 33978
+    },
+    "web/src/lib/validators/match_detail.generated.js": {
+      "sha256": "dd059a5b9bc08d687c83b53ea2f958ad4ea271f7a4789806834bb602d1a42fcf",
+      "bytes": 63858
+    },
+    "web/src/lib/validators/match_index.generated.js": {
+      "sha256": "d4f47c5b5394ab4f0366baaa716721b8c43416bbd7a363029ff0f58b783231e8",
+      "bytes": 33657
+    },
+    "web/src/lib/validators/overview.generated.js": {
+      "sha256": "775c06b0b9e238368ec306d72aa798fb6dc2b6bfb9d1c0f4e282093dbef9abcc",
+      "bytes": 128401
+    },
+    "web/src/lib/validators/player_detail.generated.js": {
+      "sha256": "4e05102f76b39f2da072172d798cbb2b5eb379277a39c5507409916d53a4658c",
+      "bytes": 80601
+    },
+    "web/src/lib/validators/player_index.generated.js": {
+      "sha256": "2b0a93660a08f689c7519e3964e71c5eac96e5a6400e4cd9514c21305ef37397",
+      "bytes": 13391
+    },
+    "web/src/lib/validators/player_season_games.generated.js": {
+      "sha256": "d67fb4c2ee41928fb99c0c1a5681db907dd1e252bcf8f732111f57b5972ae834",
+      "bytes": 26427
+    },
+    "web/src/lib/validators/prediction_index.generated.js": {
+      "sha256": "254838d41e4bda421ed8fb2b616d47820cb0f0b6e7e9f5cb0251667c46688cf0",
+      "bytes": 11412
+    },
+    "web/src/lib/validators/prediction_set.generated.js": {
+      "sha256": "44c17d5ee1d89cba0880f0eb6705955e5ee59373df40fc051789758ab907b1ea",
+      "bytes": 96227
+    },
+    "web/src/lib/validators/quality.generated.js": {
+      "sha256": "dc6635692cbdee0d191a7abfb09735fa48356151be5fa249bb9470e340ce56d9",
+      "bytes": 15517
+    },
+    "web/src/lib/validators/release.generated.js": {
+      "sha256": "3a982c723c93bdb256e3cc945b98d0b2e5ff9090b9cd1e394748e0eb8c1f4438",
+      "bytes": 20867
+    },
+    "web/src/lib/validators/team_index.generated.js": {
+      "sha256": "eaef7a81217a609dccdbef9e84a453eaa6bbf20c2c2c358052856d5f274017aa",
+      "bytes": 10398
+    },
+    "web/src/lib/validators/team_season.generated.js": {
+      "sha256": "adf16e6b4dbeb4ac5cf53319fd3d035b06c55058b008da057c4d2a43119f8686",
+      "bytes": 81697
+    },
+    "web/src/lib/validators.generated.d.ts": {
+      "sha256": "d7d0313b27861574139844e2c079ea7f008c9bf8df99920385e55418d1fa36f1",
+      "bytes": 2432
+    },
+    "web/src/lib/validators.generated.js": {
+      "sha256": "5a91fb4ab0f2ccf3d951f6f9230794fe40a3c324e80f20652b424d9e4b11d0ec",
+      "bytes": 840359
+    },
+    "web/src/lib/watchlist.ts": {
+      "sha256": "a372ece8729f385c822f9b5bb67a0f8d9b3b823067146b7e24c87b2bdb3c7c72",
+      "bytes": 4137
+    },
+    "web/src/pages/404.astro": {
+      "sha256": "2470f5e93ad960e9cc76bf03c252ce54a990b81bc86fc6e19bc2c9a9891da10b",
+      "bytes": 409
+    },
+    "web/src/pages/accuracy/index.astro": {
+      "sha256": "4e5121a03fed1bf28d7c6a9fcca7e65afa1f1d9d504559e076677998da5e4ca5",
+      "bytes": 889
+    },
+    "web/src/pages/articles/[slug].astro": {
+      "sha256": "2a8f15f888610676920f4055599dd37edfa11fb87e10a3358c32cb1c4687d64d",
+      "bytes": 1962
+    },
+    "web/src/pages/articles/index.astro": {
+      "sha256": "541a1033d22935e4f9eda4ee016a0ebdc075fe518fb550890dd62e5ba59e3f98",
+      "bytes": 620
+    },
+    "web/src/pages/compare/index.astro": {
+      "sha256": "05e16b1b149616aaf5f4a1ba5f0e0b75e5a6baa560922a11184a0a8dc2d23255",
+      "bytes": 878
+    },
+    "web/src/pages/data-status/index.astro": {
+      "sha256": "2f7520706fc015e25f34f325daad4647543fd2c73c5f405e44d6d21bbcfbda0f",
+      "bytes": 4248
+    },
+    "web/src/pages/downloads/index.astro": {
+      "sha256": "a9620e41bf1571fe00bd4a81ba69c95cdbd36b15efd618c49b5dc17b7d8e7c34",
+      "bytes": 3329
+    },
+    "web/src/pages/history/brownlow.astro": {
+      "sha256": "68203ba295e22eb47ee2a87aa3f148abd1774f66160294632e58660e552904ba",
+      "bytes": 1747
+    },
+    "web/src/pages/history/eras.astro": {
+      "sha256": "5af57e7b0ccf21c432555b68c4071a8dec2245165244caa28b9835fa26b94926",
+      "bytes": 1586
+    },
+    "web/src/pages/history/index.astro": {
+      "sha256": "b460fb2bcb5724ab04005a1a9b0be190f9a209b3a45da099ef9a479534ee256e",
+      "bytes": 1828
+    },
+    "web/src/pages/index.astro": {
+      "sha256": "786fde7cea97900b0dcea7566c9dd6ae6515eb1987ef76ec78dcba1640cffcf4",
+      "bytes": 4649
+    },
+    "web/src/pages/lists/index.astro": {
+      "sha256": "2429a290c73f9ce5a8bc820348ec46f468bdef7e808e2bce9f5e14fe2e09f247",
+      "bytes": 468
+    },
+    "web/src/pages/live/index.astro": {
+      "sha256": "003c4bcb0a84cb6cb839c6038539ed1041b0cb5d00480fe62184407f2eec2ee1",
+      "bytes": 792
+    },
+    "web/src/pages/match/index.astro": {
+      "sha256": "a28ad119856243403a2e37552c7a7dfd94a11f461440efea0a36988e13c5061e",
+      "bytes": 512
+    },
+    "web/src/pages/matches/index.astro": {
+      "sha256": "315a68dbe136c40185f3f7824818f06ddf58ff071c4f407bf24278f732506a0f",
+      "bytes": 673
+    },
+    "web/src/pages/methodology/index.astro": {
+      "sha256": "7dea8a788d69467be83e43e8c5da077c8a0de07368a145aaf6a81acf943e2823",
+      "bytes": 4336
+    },
+    "web/src/pages/player/index.astro": {
+      "sha256": "b7161598402093fab7943748b2165ae74e3907df8c2059e764f4d52a4164c7dc",
+      "bytes": 866
+    },
+    "web/src/pages/players/index.astro": {
+      "sha256": "54d53727ae0c8033c88a616608b7c627f12439e6d16b95fb8f482fc86a3295bf",
+      "bytes": 888
+    },
+    "web/src/pages/predictions/index.astro": {
+      "sha256": "042843ed57974352f182eee274c7482f549bf321ff15546a7575c6147b6e26e1",
+      "bytes": 2426
+    },
+    "web/src/pages/team/index.astro": {
+      "sha256": "2d8e5b8e270bc726fbbb11fe58eb7f9ad4b43152a098c90b96daab9bcd75cf3f",
+      "bytes": 536
+    },
+    "web/src/pages/teams/index.astro": {
+      "sha256": "1b102a3abebec5c538b0289105de8d0a893f09c9b3ce8677a42b4721ecff8b04",
+      "bytes": 2968
+    },
+    "web/src/pages/watchlist/index.astro": {
+      "sha256": "2d6a37f4a676495984ab90f6122f2ddcc4f7908af921d2289bee16a6a02123c6",
+      "bytes": 790
+    },
+    "web/src/styles/global.css": {
+      "sha256": "ff09cdcc74dc8ce13febbaa4c25f0b5272bcf3100c9cd09e77b90be559636436",
+      "bytes": 11423
+    },
+    "web/src/styles/tokens.css": {
+      "sha256": "b3fbacc083a7bc8321a880b7bda3f4d82d379db44ea509980c6e1d5d3dc54639",
+      "bytes": 2706
+    },
+    "web/tests/astro-modules.d.ts": {
+      "sha256": "12bafab7c1cac18f6dc2d3204b52868c1594e2ccb739a7bb3ce29f1dc26163c3",
+      "bytes": 363
+    },
+    "web/tests/e2e/budget-map.spec.ts": {
+      "sha256": "0e11f88042ab38241234420967a742c606ebd3987922e0ebc217f1d0fc53737a",
+      "bytes": 1882
+    },
+    "web/tests/e2e/compare.spec.ts": {
+      "sha256": "fa6197ff4a583969fdab4b7ce2f3fac9d792d358537b2a8dca4f541c66165355",
+      "bytes": 1962
+    },
+    "web/tests/e2e/csp.spec.ts": {
+      "sha256": "a1ab5ea63c5c96551c5cbaeebfc12676f2a82f80b1f3b2d4d6b5ee0e44dda017",
+      "bytes": 5219
+    },
+    "web/tests/e2e/detail-states.spec.ts": {
+      "sha256": "b5938f8adf92d822f9e7b87ad68e2b11d1381776917d03be689987328d9dbcf8",
+      "bytes": 5821
+    },
+    "web/tests/e2e/facts.spec.ts": {
+      "sha256": "e3efecbb16b4ae3858dea318e8d9186ebdea4746216b1a00e533f13906f0515e",
+      "bytes": 1613
+    },
+    "web/tests/e2e/helpers.ts": {
+      "sha256": "41976abde2c998782496f1db51df86d1c67c307eb1b06517fb42b9c2dc59c1a7",
+      "bytes": 4310
+    },
+    "web/tests/e2e/layout.spec.ts": {
+      "sha256": "463b8fda0bcdd78caaa4fa248f4cff58ef1c284bb9cd769b7b86fec59fa42dec",
+      "bytes": 5520
+    },
+    "web/tests/e2e/nojs.spec.ts": {
+      "sha256": "f2c1d4cba8bf67ea64c758996aa4aed35ca113c46f3fead0deaccba998626589",
+      "bytes": 1610
+    },
+    "web/tests/e2e/players.spec.ts": {
+      "sha256": "ba89886b4cdd60dfc9af91a03df988506564e9f50ba6bbc886970461f1e57c1d",
+      "bytes": 4224
+    },
+    "web/tests/e2e/predictions.spec.ts": {
+      "sha256": "d8bed8d35dca4eca29e4b758ac081997833fb49a8c3d576ef2ca21e4d7d9b132",
+      "bytes": 4251
+    },
+    "web/tests/e2e/routes.spec.ts": {
+      "sha256": "6d9768821b01f481eb2926ad1533fe907fc8cc37f342e3eb0a551ef84f110f27",
+      "bytes": 3235
+    },
+    "web/tests/e2e/screenshots.spec.ts": {
+      "sha256": "f5723d69bdcc11d70bfea226b33307a1da966a8bb06a3ee7a1ac18c1a5d6dd9b",
+      "bytes": 1061
+    },
+    "web/tests/e2e/states.spec.ts": {
+      "sha256": "685f19dd2cd8128322aa3d2796d6c7cdff5d14f2b37087facb43431c8e5749db",
+      "bytes": 4450
+    },
+    "web/tests/e2e/watchlist.spec.ts": {
+      "sha256": "0c4f43bea65eda4869595c35cbab1959026782d50fcf51929878df02705bf6a2",
+      "bytes": 2870
+    },
+    "web/tests/fixtures/demo-release/accuracy/demo_model_v1/2026-prospective.json": {
+      "sha256": "63458aca5aa554119e6b41acd471b5780978b58098a1b40217518d3e98b361ec",
+      "bytes": 1544
+    },
+    "web/tests/fixtures/demo-release/accuracy/demo_model_v1/2026-replay.json": {
+      "sha256": "1b68f98da49c2ee8eebc345bb6afe33155a7a245521b3cd1dde4a78503db11da",
+      "bytes": 1534
+    },
+    "web/tests/fixtures/demo-release/accuracy/index.json": {
+      "sha256": "60eaac5744cae32ab5fed4b9a339bb737eb6eeef012602955a1e49c93854ff67",
+      "bytes": 509
+    },
+    "web/tests/fixtures/demo-release/articles/demo-article-archive.json": {
+      "sha256": "a1306fc5774693947b4c491338ee1b21c5b9a21ca6ce329c982bd1213f32cee4",
+      "bytes": 1077
+    },
+    "web/tests/fixtures/demo-release/articles/demo-article-one.json": {
+      "sha256": "9dcc005d512739e550967e589e0b226b4bb1fe0e1923e3d55f64f2ad8b58d3a0",
+      "bytes": 1065
+    },
+    "web/tests/fixtures/demo-release/articles/demo-article-two.json": {
+      "sha256": "f32229486b3974122f6501343c4e244f52176e3b5848aa81c6bd19653833dd88",
+      "bytes": 1025
+    },
+    "web/tests/fixtures/demo-release/articles/index.json": {
+      "sha256": "b5c103d6346a3ec277ee21a3207e286cae5935cc117122599cf3d163c904797e",
+      "bytes": 1142
+    },
+    "web/tests/fixtures/demo-release/downloads/README.md": {
+      "sha256": "33a8d1db6bdd4a83a2e1c035d28be0fe18739f4bb01ed78102e205ee0744374d",
+      "bytes": 125
+    },
+    "web/tests/fixtures/demo-release/downloads/accuracy-rows.csv": {
+      "sha256": "a85e8270ed48e8a673a4305004991e6e40e4193ff155e9def4ea3f1983801d42",
+      "bytes": 83
+    },
+    "web/tests/fixtures/demo-release/downloads/brownlow-proxy-2026.csv": {
+      "sha256": "7e8edc39617c009afa0ad4685da4cdb1cd74a2658e7f0c9453707a1331010de9",
+      "bytes": 243
+    },
+    "web/tests/fixtures/demo-release/downloads/era-summary.csv": {
+      "sha256": "0509352ec95abbf924636c6bba3942c6af1491c851176df24c2536b8c3b9cec0",
+      "bytes": 141
+    },
+    "web/tests/fixtures/demo-release/downloads/fan-pack.zip": {
+      "sha256": "570cbfbaf36f2c2c231d2014bff8535181a4658cd1aca371e7818d5e39b49c8b",
+      "bytes": 5578
+    },
+    "web/tests/fixtures/demo-release/downloads/players.csv": {
+      "sha256": "8b04aa8f378cf208b61f998c532f78847842fb00f08629a6e1348570aeae8739",
+      "bytes": 4141
+    },
+    "web/tests/fixtures/demo-release/downloads/predictions.csv": {
+      "sha256": "9926f07bf1742ed8384c2dbeec8a9ac270d47befd3e819ffa3823fab83cb9bd2",
+      "bytes": 992
+    },
+    "web/tests/fixtures/demo-release/downloads.json": {
+      "sha256": "d4584283ddec15c1575797f9beb4c34697df87110a1412418570484d253784a1",
+      "bytes": 1695
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_career/1990s.json": {
+      "sha256": "4eafa10492a96b0a69a53f3d613060fb04c47947d9b3adc3a847df5770a23edc",
+      "bytes": 835
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_career/2020s.json": {
+      "sha256": "ea6a8d37ae09cc11b916fd19854aedc05a96860bfc1955a4e88510e8ddf37290",
+      "bytes": 1173
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_career/all.json": {
+      "sha256": "6f05294c48e3bc76cc3a15b8991e73dbe8d18ba1cde9ccfcfc579593a8c9349b",
+      "bytes": 1660
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_season/1990s.json": {
+      "sha256": "0795020e1e397ca210fdbae8cfd798cfdee28a9479b5b07d6e718cbddc558e11",
+      "bytes": 849
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_season/2020s.json": {
+      "sha256": "7f233c8ba7325f1e8646e18e29ce5b2c8e3c273821518204f0804a6f74491d5f",
+      "bytes": 1187
+    },
+    "web/tests/fixtures/demo-release/history/demo_disposals_season/all.json": {
+      "sha256": "648ae5f1797e427fa55395e7d32cbb75ca40c9d530cb1134e6da9a1268f906ba",
+      "bytes": 1674
+    },
+    "web/tests/fixtures/demo-release/history/index.json": {
+      "sha256": "e1d28ed8200d9757c8c7aad93d5efae59c3b8f18dd45240b0be8ad585f4ca61f",
+      "bytes": 738
+    },
+    "web/tests/fixtures/demo-release/lists/2026.json": {
+      "sha256": "5d7c8a3403c4d7e8d1a625ef136811fc36f5b977f251593d0a3fb1062b1d8042",
+      "bytes": 1026
+    },
+    "web/tests/fixtures/demo-release/lists/index.json": {
+      "sha256": "04a40790e872524bd8095652a090cd06bc61a38063dcd9f262bef4af99e4373e",
+      "bytes": 58
+    },
+    "web/tests/fixtures/demo-release/live/demo-live-final/latest.json": {
+      "sha256": "a997ba601dd25561088b525cfe233f4bb141ebf92fb4a2f0a924c9ebcd07a0f5",
+      "bytes": 800
+    },
+    "web/tests/fixtures/demo-release/live/demo-live-progress/latest.json": {
+      "sha256": "1d31bd5ed5cf99caae45d25842348e4a030b637618be7eadd103c5bd473419db",
+      "bytes": 834
+    },
+    "web/tests/fixtures/demo-release/live/index.json": {
+      "sha256": "5e40d743c6d85eab23985643a5b6729d9fa2e9eb13f4d2b5b64386edf96cfc70",
+      "bytes": 530
+    },
+    "web/tests/fixtures/demo-release/matches/1994/index.json": {
+      "sha256": "c24bf834a0aa34eb37269c2faae644eb6e75a8ca1c1ff49dab5cd9efd907ac5a",
+      "bytes": 525
+    },
+    "web/tests/fixtures/demo-release/matches/2025/index.json": {
+      "sha256": "8d5fc533712a5c26b3929e8fe544e5eade5dd649d9583959348af6f28efe16ee",
+      "bytes": 972
+    },
+    "web/tests/fixtures/demo-release/matches/2026/index.json": {
+      "sha256": "295c1c36d10dfc27dcd8ad84040a29cd25a57e9a4a8169fd5f2532be9563a35e",
+      "bytes": 4975
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoxOTk0OnIwMTpvbGQtYQ.json": {
+      "sha256": "3c5ada57847bf7fe8c4fe95191c6e89f4498cd509ab3db55227d07e93f019f55",
+      "bytes": 1344
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI1OnIwMTphLWI.json": {
+      "sha256": "0923a52275e27ed4549ff5c82fbd8ecb8fac24a7773021f95ae5740ffcbbe27b",
+      "bytes": 1300
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI1OnIwMTpjLWQ.json": {
+      "sha256": "a350c6b99969ff5958d47c0d1a4e3852bd1452289a44f821490e501407667190",
+      "bytes": 1238
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnFmMTphLWI.json": {
+      "sha256": "be6f65dd91e6e3457cc34db58921f8be5437983f5cc6a3d52d2d79a8fb8afb0d",
+      "bytes": 1665
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnFmMTphLWI6cmVwbGF5.json": {
+      "sha256": "53d219a8971bd8ca19704681d0d1f4f51201eec59fb1654aacf9392f56854d64",
+      "bytes": 1727
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMTphLWI.json": {
+      "sha256": "e68ffd01a7f2243fbaf1f01f1ea96ad7e2acd9c2c1027bffdc0e1826808c7a39",
+      "bytes": 1662
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMTpjLWQ.json": {
+      "sha256": "3837d5324198e75da4f9473810e78067622e9616b86700d3db65800c5588c47d",
+      "bytes": 1658
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMjphLWM.json": {
+      "sha256": "33bff7004601fe99d85035a65ad6b0f6db10cc2ec7fc6dafb4af59347817fb34",
+      "bytes": 1661
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMjpiLWQ.json": {
+      "sha256": "215db26b83b42c4f6b9ee570678b533da6a0e6dacd20d760bd2b8b214f8aa274",
+      "bytes": 862
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMzphLWQ.json": {
+      "sha256": "f90c728353873be1abc511dcd97db789749970b32066e2b82346694711186066",
+      "bytes": 881
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwMzpiLWM.json": {
+      "sha256": "52d4243fa5b513c2f9d2d6cb10a4c9deb95556d0a5066ce1603e16467f169496",
+      "bytes": 1660
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwNTphLWM.json": {
+      "sha256": "5d775a2fb47aad0354e89dc32138336298cdc96b74b5c6cd546cb96a865d7613",
+      "bytes": 881
+    },
+    "web/tests/fixtures/demo-release/matches/detail/k.ZGVtbzoyMDI2OnIwNTpiLWQ.json": {
+      "sha256": "f11ff33e778fc60f74544d43139a9c7425481a8eba7b36e4f05e101441d1d1f3",
+      "bytes": 881
+    },
+    "web/tests/fixtures/demo-release/overview.json": {
+      "sha256": "a7018f1e736a1c2522d5c76b5b45ea0efd07090043cdaa77a566eeacb412e830",
+      "bytes": 7851
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA0/2026.json": {
+      "sha256": "75ffc4399954bf25d619708551b3ae58d67c58bd6de440abf9f3fdad846e7be8",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA1/2026.json": {
+      "sha256": "f6bcb5e151a520b4f3596bb519c161a219cb5f8a51736413c85186e2f1ef1c35",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA2/2026.json": {
+      "sha256": "2db525cfd81a64af5d7752ef5a46c5abd6ed12a67539fefd4c46818a6fc7580b",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA3/2026.json": {
+      "sha256": "0458606ae842ddd8688e85670b5dd09dde6d11d428e1da7d2abed22ba9a362db",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA4/2026.json": {
+      "sha256": "56506f818ac4ee97414bbd61b895b0c6a008a87c75a747bdcac931a3ba29f416",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA5/2026.json": {
+      "sha256": "d325f3bd10ae5cc44e1cd5d11eb3a7056b8ae2c373217d05fe67d0d407e14c7b",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAx/2026.json": {
+      "sha256": "fd4155dc308ba181aed76791ffb5e21198b6c3829c3a68afde2b16daf14fdc35",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAy/2026.json": {
+      "sha256": "6457180a98deeaacb02c7d99c695333d75e7f5ee0c3d5ad1f734c0ef21498071",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAz/2026.json": {
+      "sha256": "df4e625b358306dda03d638333410e306ae11dd9a831ecdd9c3c01f06442913c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE0/2026.json": {
+      "sha256": "ebf0756dc4d5ce3ff22db0c98259e3ab22b2c879699982e4c98c8cbb79eb4397",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE1/2026.json": {
+      "sha256": "91abbc5d18951920b178687acb9febed638e608010bbc36efecbc6ad6f37f7a7",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE2/2026.json": {
+      "sha256": "b7adc2b4e3563fdce3ba9ed854f5a8cced9967f467a076fa7b4f86bf8081817b",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE3/2026.json": {
+      "sha256": "c792c71b038200afbc803bffcab33a5618c527c6acc76781d64483724fd7d3b1",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE4/2026.json": {
+      "sha256": "d423b12efd8b3a9b2eac219c3e4044d7416977f70a151c4076e06916ce7ed8f0",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE5/2026.json": {
+      "sha256": "834ce8c306a48e30c68ebe958538e34b7579c8ab3a5f2a972539da58229c14da",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEw/2026.json": {
+      "sha256": "ec1d97c5c3ffa96898ba96a07adf8afc08d5ade845878ed29e8f0a8490341ac1",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEx/2026.json": {
+      "sha256": "d48273d7030405457f27b2e5e9b3202b5227a0a3d56a779f2cf035d74b03dda2",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEy/2026.json": {
+      "sha256": "c6549de79d9a1daeb014f1751c83b1bb75bef3d876bd9b4b224283d9b2357f2f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEz/2026.json": {
+      "sha256": "86f2731c711477db9acf66910683cc7edd8d83e555c104affbe9e888b29b182e",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI0/2026.json": {
+      "sha256": "7e1b98e42cd55d3ec515ea92bca3bbe01d763cc0b99d7228cdb3e679592b3748",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI1/2026.json": {
+      "sha256": "b3dc6ac530e2ef6755023c13760e1bd72f432e68a8154894f3b52f4a1837b939",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI2/2026.json": {
+      "sha256": "55b13458c3cc7925c7616e8e15820b7c8d42d28460be83a7b3970838c3ca736c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI3/2026.json": {
+      "sha256": "a8f21dbf58749401cf9494e6887754fd9ee2fcc6925edf9decb2ffc9e122ef21",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI4/2026.json": {
+      "sha256": "c356ce91e4659bb3bddbeaf0d29971aaccea12581f00327d9fbccc9cc3db3c32",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI5/2026.json": {
+      "sha256": "eec9620e14a33855bedacf9f3719fdb43ece6effb501583ebf33937b440e6b7d",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIw/2026.json": {
+      "sha256": "65f5018094a3361200fd1e99895b38a01a39994a147e8e24d347b68c67f59790",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIx/2026.json": {
+      "sha256": "f4f0ef702cafca95dae590917441bb3edada525d3fe75c97bb1938f757f46e7f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIy/2026.json": {
+      "sha256": "30df9f8180191daae7af5abebfd57c86ad865ffe44c3e4d658354b7db7e76646",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIz/2026.json": {
+      "sha256": "a62ca3a7584f641e0e7fdf1d52f50b33c41afc3c06893fa1db89dd79820ae686",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM0/2026.json": {
+      "sha256": "d9d256e0951d2fe9ae4e25e9480ea829f604c708b38a3c78e20fdb90507fe1ba",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM1/2026.json": {
+      "sha256": "f22c61fd5771c3b9b543902704da03d7c23d43cd3fb4a2255014ae0b510335f3",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM2/2026.json": {
+      "sha256": "ca811f09bbbffad003716d6a5224d1b8546fb6c7c8fd525c83beacb015770fe4",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM3/2026.json": {
+      "sha256": "89b0c261c7fa11c2011005c54c14be9d7ff5fad6f9db672085b7166f1bb60e46",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM4/2026.json": {
+      "sha256": "e784584dfec8d1940b5682830be0170764a058b29d95ba4a27cf42b36dc8cfe6",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM5/2026.json": {
+      "sha256": "c8c7c0dca9f0433bf080d12e60ef5647060670df09820c67d0e8fdd72edadd0a",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMw/2026.json": {
+      "sha256": "edd92f418b5d8701096572102eeae5ea437546e887f61d83a5dccfae25f6725c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMx/2026.json": {
+      "sha256": "9a0a4ac731c5778ee29b1b9aa24ba56e69a7110b5cec1a9a08ac09c42d4749be",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMy/2026.json": {
+      "sha256": "e7b36aa5d9d23f1783bc9f074e403c67a7ee3c11f54ebfa7d26aee80166f5410",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMz/2026.json": {
+      "sha256": "9977fc73787fb8d92290fcde4f8add8578400fdcb2d743358cda0d22e63f16aa",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ0/2026.json": {
+      "sha256": "453c67b531abb8d208a72451aed837054aab733809d367573308aa31e83e5e88",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ1/2026.json": {
+      "sha256": "97d944eeb172eabae3eb9a3e375180f773a0b068004745070398d4714980d45f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ2/2026.json": {
+      "sha256": "d779d7e4ba25face5ddb765f71c6aa7b66c6953758b6e985344776b3cd5eaaa7",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ3/2026.json": {
+      "sha256": "4ac9f69a09b91ffafd8d109794e614a90c66be0ec3d47696772c449c2f07185f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ4/2026.json": {
+      "sha256": "c2a29ec1a8514bcc0304bd4e6650a9b31ab4bc26c56b33e18fbf008a3627d24c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ5/2026.json": {
+      "sha256": "03f996dad6d41c6bf0436d8d58b79aa456a6732c71aa8f634dd84a37614f0be1",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQw/2026.json": {
+      "sha256": "5b9b07d7e1373be1be64f259066499cd87f868bc22cc21202e96a4c64196bb29",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQx/2026.json": {
+      "sha256": "29bd1864dc5610d327696070cd5205d2d1fbae76f45dd7ef35dae1fe92aac5f1",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQy/2026.json": {
+      "sha256": "0b32ea82272b6292b47ce00b4a55169e736f39414a53fc09d5766d2ec378502d",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQz/2026.json": {
+      "sha256": "6a37467290ed24971c405c2eb5126adb43dc4d45a65b39525c060d69e1b3344d",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU0/2026.json": {
+      "sha256": "5120950a2454d97490aca14897c0674edf0143a2f64835c749c6bd2fe68445e3",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU1/2026.json": {
+      "sha256": "2efe086d30083154e372c9388011f4f0d447a0066cd89b30090843787279500c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU2/2026.json": {
+      "sha256": "6459f7b8ded3806ccb2cbe839fb6b6a589d680f4efb56259716ffa5a50e7f668",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU3/2026.json": {
+      "sha256": "cc9550f1c53ff4eaa6ed65cd88ae360730135d6c601eb365fba533c207e6997c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU4/2026.json": {
+      "sha256": "0b48fbcc1ccb5471bc225b4a83fd271c597d26fba1a86ad7428ae4478373603c",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU5/2026.json": {
+      "sha256": "c63a42f904b19450290d292a09b68bb91972ae75b6996caa9d9645eed6fdcc8e",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUw/2026.json": {
+      "sha256": "371d0f7b164b46c1295ac9bada298d4a3b4c2436767a124aab75bdbd68372a0f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUx/2026.json": {
+      "sha256": "919047bda46dac83f24af386d1067e463062a1a6a1a488f6f53199e40f4ed97f",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUy/2026.json": {
+      "sha256": "87b3dd3bb4f378c3b325420c2db1aac76db2fb514d8403342c4f44f1a863f0f2",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUz/2026.json": {
+      "sha256": "c29361b6e692f963698eaee909fb5d0e435b3fcb7c442eaba118ecb484db928e",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fZmlsbGVyXzYw/2026.json": {
+      "sha256": "a8c1d3c17d4dd942880516eb0b2b5406e7243c0a6e8376e740163cb7319f36d1",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fc2FtZV9uYW1lXzE5OTA/1994.json": {
+      "sha256": "f17a1bb772bbf3873efbc6bce0f7c947ff8ea896f8fd9cbd1b75538913299284",
+      "bytes": 623
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fc2FtZV9uYW1lXzIwMjA/2025.json": {
+      "sha256": "44a6e7120af9858e6bc48d69e7045958300d0be608288e9fe925e3dcff3ba77f",
+      "bytes": 619
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fc2FtZV9uYW1lXzIwMjA/2026.json": {
+      "sha256": "2b8d24321b374f61fc8f9366f429d4fde13b5e592a77cf2cb0026a53b714ab84",
+      "bytes": 620
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex/2025.json": {
+      "sha256": "814b8227dd437e861173e1be52a4960405541c361ec05675fd01c87d862e2a00",
+      "bytes": 614
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex/2026.json": {
+      "sha256": "a37bb794fcbe8184c4ee95cd1346f86768b9bc8cc18b53f47c029f1a8faa787a",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix/2026.json": {
+      "sha256": "48247f9ed228e287fc6dbb7cf6bbdbdfc87098e9fa9904d04a02c77f120b03fa",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fcGxheWVyX3NwYXJzZQ/1994.json": {
+      "sha256": "5a85cd3398ca95239b5b8e63467108dc8115a6ec5fec1523bb6a1ab3f2581112",
+      "bytes": 642
+    },
+    "web/tests/fixtures/demo-release/player-games/k.bGVnYWN5OmRlbW9fem9lX2FyZ2Vy/2026.json": {
+      "sha256": "c91b06a43d62ae01ce7d4693994675c2f0a5faa0ce2ef7b1ef629e206203d417",
+      "bytes": 615
+    },
+    "web/tests/fixtures/demo-release/players/index.json": {
+      "sha256": "455c4a97a45747a6dbcbf0872a9195c06d1965b6dbe031faf7bbb799e4129b42",
+      "bytes": 14611
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA0.json": {
+      "sha256": "6fb2fba34492a40b9815dd2a9d3d4e73b5f8ba8cc7fb0b202ed6c3d43b106c2f",
+      "bytes": 1818
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA1.json": {
+      "sha256": "404421ecc99e8471c2918a119df1d979c14925302b9281ef8ff4276594fecce0",
+      "bytes": 1819
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA2.json": {
+      "sha256": "b4e70444315616ea64f1d6b3f6cedf204db62d1a681a4be99ed3e04358ae5db7",
+      "bytes": 1821
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA3.json": {
+      "sha256": "469315f398272040d2d943d1f8cdd1dbde41a59b4bea517ae2f759eea193716a",
+      "bytes": 1867
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA4.json": {
+      "sha256": "131799201b49692344498e9bd79eb3843bc6c9d8b5b8f3ff9591fb414b2c6293",
+      "bytes": 1819
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzA5.json": {
+      "sha256": "09bbe209ddd07faaff6f003e689aca8c706479afcf50eb21c79bd1af9a53d1b1",
+      "bytes": 1821
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAx.json": {
+      "sha256": "ee0d2826203dd1184f087720f15e0717e77000f09473a46de267c1545e096a92",
+      "bytes": 1818
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAy.json": {
+      "sha256": "695cc2a5923bf5026e751b4dfb5ae1aee2fea575c5b3c8c0b586a96eab76711d",
+      "bytes": 1866
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzAz.json": {
+      "sha256": "b8fb0b804522e7ac5739c448534f691b91398a050df2665d496b5b4381a0b6f1",
+      "bytes": 1820
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE0.json": {
+      "sha256": "ad82737ad7fe7774e7aa567a39455ac48bc45cd8a9b3467fde2c07cc56d12b98",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE1.json": {
+      "sha256": "a55117c761e92aedc3c3a585cfd31c90bf806ec4bac3b05a5149b98ee048b67e",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE2.json": {
+      "sha256": "a086e9db9fc00a5780897a3e0467f7aab730bcf99faf70cc336206a7a7be1e39",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE3.json": {
+      "sha256": "7dba11d4cac4044cb29aa74522c7ef1a94cc20e75d18375e176f192a552d6352",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE4.json": {
+      "sha256": "7a2d149d3b93ab8242b8e66eb2af1ce899df51d5757582c1235d4ca1ebbeac3c",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzE5.json": {
+      "sha256": "b3e3a1519335e4c939c100c4e5fb08ab1521397dba9d8c4ea41ac3fb9165c479",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEw.json": {
+      "sha256": "7447fb24b9d1e128824ddb0f95653c7782b0605f40dd687e57b6d1ae45cd80b2",
+      "bytes": 1818
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEx.json": {
+      "sha256": "f02ef0b86ce967d40aa79cdaf6ef6a92ee04d49ed125cc2ad5d2d2502ff44c61",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEy.json": {
+      "sha256": "2586bf356d8266f69e51690ab902739f74f654a938f1be735297a384c4ec6f7f",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzEz.json": {
+      "sha256": "49eb71ce0a8445957652f181ac32ed6db77a124a71efbf950955089671efd269",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI0.json": {
+      "sha256": "6ae6e6c32fc3e0fd9e5e15b9b5642dae6e60c4d9d388d7cf2df00ef83505b33b",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI1.json": {
+      "sha256": "1cc767a39d56ddfe44dd76d98a87c80bd329c166a587e15ea9624325a788505e",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI2.json": {
+      "sha256": "5b362e78c4d3879dc65b6c44800598e2214d2af1ffab72a413075fd8368aea60",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI3.json": {
+      "sha256": "e3d4a6208f7a3a5b469ba2c44fa79588e26e7f639486a789445d25b4ec5d6ef1",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI4.json": {
+      "sha256": "29b2f988ecf9d4bdc455c81c903cb080fae7434afcc2c0cb4f15573e2894dae4",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzI5.json": {
+      "sha256": "8c8b1339878b82deefc9bbc2cd68037459ffd421671da4369ed840625a04ce8d",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIw.json": {
+      "sha256": "f41739e9104bf036c0e155f1de1a92d1cddf6e50d9344ecac8014757eb173d96",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIx.json": {
+      "sha256": "12bded848bb59c63ca849bcbfecc56f1084c705efa790bbb137da722d7660a5b",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIy.json": {
+      "sha256": "0c47a82f7faadf6dba29d736d3f037e7945fcf94c6f4880158a291b8787bbf51",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzIz.json": {
+      "sha256": "372312fedcb6c2203e434e718ffd0b624400e45fe38089a14c4527b5e0b86ac6",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM0.json": {
+      "sha256": "980eabaf00813b0e5a7d3ef49c1698426deb8ecab7c8f9592512ee27d47059bb",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM1.json": {
+      "sha256": "efed467f050afa4021a5e8054ef65ec87b00bbf361985401cdf32b1a8daa4b90",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM2.json": {
+      "sha256": "4bcfad198f5d8d75fa4a43f98e4d50803340c9ed9ca5138ac5d2e848d1fd920f",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM3.json": {
+      "sha256": "3497e822508ca14107385d697d60e7c087c76d1321708185096103a342b7375d",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM4.json": {
+      "sha256": "18f1b576e1d1885e17081fc23a8b643eeffd6068b59213aa1243bd2d2cd66a10",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzM5.json": {
+      "sha256": "a862696c216014ec34e98ba97e425501419efcac8c08b4ca869c7ca2f646890c",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMw.json": {
+      "sha256": "388d6a1585451c5adb573db0c520737dfec4316f6819ce1b1484555c83ad616b",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMx.json": {
+      "sha256": "cd9955326c14bb79ed592b664d50fd9e94936f32553941271546d26b66600d22",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMy.json": {
+      "sha256": "b8377790d883d50e99f1418f2e7332b0754b2e43a43efefef9b062a75e437808",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzMz.json": {
+      "sha256": "a334bf8b1ae699cc8955d269165b0c1ebb174be30644934e3d6edfb626c83809",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ0.json": {
+      "sha256": "b2dcb262e11274ab20d001bab12ba4ad59a791b18ea112ba2ba3e6f2e649239e",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ1.json": {
+      "sha256": "0b7e3c354c6efbf184f8d8126ee09c2bb7fd9a4e13e75a95264d33bb2105e501",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ2.json": {
+      "sha256": "820cef446a5f3b72295666389b1c04f0dfd5b9b263fcde81efb5b0d851c82f9f",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ3.json": {
+      "sha256": "19249a04539b7366816e6438ec4e568786fb636b319aecfee88570d8538b5cb0",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ4.json": {
+      "sha256": "53982de4b8d0e160989a5c0bef01d966ffd00b43579e7c5ade0702bb40d8ad98",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQ5.json": {
+      "sha256": "9ed9b09632355cd7f64544e83f3cdc13c07fe370701d78ca753736ce3480e3a2",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQw.json": {
+      "sha256": "e59a3edc47da14dfc996719750733b3738b9b639fdc8c847e1a93c7e271e20af",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQx.json": {
+      "sha256": "6ccb1bed68a5a48a797f85328374ff51a34ec5144ceaa9a75d862b17ea22adf7",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQy.json": {
+      "sha256": "eeebb5fb457994dd13853ae021fbe2bde098d90573099c8e291119fd12cb6824",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzQz.json": {
+      "sha256": "73048f341254ad2477848336616608974ae4921a90a76c8b4ca609b562b0198a",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU0.json": {
+      "sha256": "4b33cc48531ff796bd87ba7da5b52a5ecd7e814f9a5b5ce7969700060c40be4f",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU1.json": {
+      "sha256": "6272761412edc7836f013ea06c29c0333f02c70ed67902c55195845e6a07c486",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU2.json": {
+      "sha256": "1583f1117fc78c156f49a9d5e055829f798c6719f68d699332815e4fe5cafb3b",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU3.json": {
+      "sha256": "6b9021f3ee017acfaffe464e8e5ce88215a7930d5c935b651525598883ca7b72",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU4.json": {
+      "sha256": "79ef2a5bd5b56f75469a167f339d7083fc650627ff7aef1fca72310601ee29f0",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzU5.json": {
+      "sha256": "577726b8a1a9f40891913dc9387240af632e9c2ca7ee442d08c3f66048064f28",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUw.json": {
+      "sha256": "dc309105c3bb420229e8eaedf6cfef8d1b8db2339774ee1b5979e6c74738c48a",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUx.json": {
+      "sha256": "3283eea45045af13b515f06fb71bd9d5ef14306fd4f8dbffaf0ac00ece15eaa2",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUy.json": {
+      "sha256": "db111132c5a846038b2756ac0eb023c3423f0f99b016521ed38b872489ff41f1",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzUz.json": {
+      "sha256": "5a1cac8f68497a14889582a07d0a68b163952ca99d97b5011eb518c2366dea41",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fZmlsbGVyXzYw.json": {
+      "sha256": "0b727a363c02b9e64101b4cb4ad2166e7c327229fb95eb4b84d54324a0e4e5b4",
+      "bytes": 954
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fc2FtZV9uYW1lXzE5OTA.json": {
+      "sha256": "12deebac4f99a2688c4924740641e29663bab5d953d450e5515d94587a395004",
+      "bytes": 1039
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fc2FtZV9uYW1lXzIwMjA.json": {
+      "sha256": "d862b45175bf09ef36c49a77de05bdc91c8c4917c838372f38977712c105f18b",
+      "bytes": 2141
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex.json": {
+      "sha256": "08633141979170f22f714c8c2412e414cc3cc50197e28bd027588dc5e60d500a",
+      "bytes": 2097
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fcGxheWVyX2Ix.json": {
+      "sha256": "8b70c615d713280636441b9ce241be8986104fb732eb538933333075d93fcc73",
+      "bytes": 1831
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fcGxheWVyX3NwYXJzZQ.json": {
+      "sha256": "4971122b0d508aa95d45efef5ce67f4aa8de838427c82734bb5b70d9e94310a8",
+      "bytes": 1069
+    },
+    "web/tests/fixtures/demo-release/players/k.bGVnYWN5OmRlbW9fem9lX2FyZ2Vy.json": {
+      "sha256": "788b6f8ab7401839fa3b27f4be7ff82ebbb181f2d303170650333e6aeffed52d",
+      "bytes": 1855
+    },
+    "web/tests/fixtures/demo-release/predictions/2026/qf1.json": {
+      "sha256": "d34549f4220d414c0f4495fe9717afa7d459928da9422da6daf2060219f3cade",
+      "bytes": 4681
+    },
+    "web/tests/fixtures/demo-release/predictions/2026/r05.json": {
+      "sha256": "20a7d0ea2557f1d85d282bb7d0b3d9c0dcab4a10ed5c831e30c3e04158d49236",
+      "bytes": 14081
+    },
+    "web/tests/fixtures/demo-release/predictions/index.json": {
+      "sha256": "21fd11b3488f4fbd8cb38fc910238c0b416d57a45657ebeb3e0e866eeab4c554",
+      "bytes": 354
+    },
+    "web/tests/fixtures/demo-release/quality.json": {
+      "sha256": "58471d45994f4e037e003e7388c29ae0b2d77e12117b593ae65d858c7b6ed502",
+      "bytes": 595
+    },
+    "web/tests/fixtures/demo-release/release.json": {
+      "sha256": "ff0b412a22bf416aac6229367bffe03aebfeac035c1e937779dc1e1c00efcee9",
+      "bytes": 2246
+    },
+    "web/tests/fixtures/demo-release/teams/demo_a/2025.json": {
+      "sha256": "4aa781620bfbf4502047392548ec17afdf5ad5942a4ba4aa2edc6ef9ac4e610c",
+      "bytes": 2540
+    },
+    "web/tests/fixtures/demo-release/teams/demo_a/2026.json": {
+      "sha256": "bc4959ef346327f6c4fd1a2d081d9803d59f73d554d9121288e7370ddfae7382",
+      "bytes": 5276
+    },
+    "web/tests/fixtures/demo-release/teams/demo_b/2025.json": {
+      "sha256": "160662ebb6e4e9a7d32c96b6f45f124e51dffc50be39992708f0b18133e7b010",
+      "bytes": 2316
+    },
+    "web/tests/fixtures/demo-release/teams/demo_b/2026.json": {
+      "sha256": "c7989ca86b1d9b316ee4147e7d4322b52c40c1f6693361c07cc5ea96533433fa",
+      "bytes": 5259
+    },
+    "web/tests/fixtures/demo-release/teams/demo_c/2025.json": {
+      "sha256": "d9393658845224452823e7df2a56a38964e444ba0f43872bce845da81c2fa049",
+      "bytes": 2428
+    },
+    "web/tests/fixtures/demo-release/teams/demo_c/2026.json": {
+      "sha256": "b606b519e9187854960d3100c00a6e51ca9ae12fc7e0b6e277e5b1a7dd7f73ef",
+      "bytes": 4356
+    },
+    "web/tests/fixtures/demo-release/teams/demo_d/2025.json": {
+      "sha256": "23df6324a5ee1af98e1dfee6e308f6d1ee8126c513b1daa7a2c77159210ba648",
+      "bytes": 2309
+    },
+    "web/tests/fixtures/demo-release/teams/demo_d/2026.json": {
+      "sha256": "fc6574e9cfd09a616df87b4c9621b35bf03e57280170d2ce1309fc9eda569f6d",
+      "bytes": 4140
+    },
+    "web/tests/fixtures/demo-release/teams/demo_old/1994.json": {
+      "sha256": "ab16eace391da7e347ce87c78409917d513894f3be5bcc5f5c8e9709028791c1",
+      "bytes": 2281
+    },
+    "web/tests/fixtures/demo-release/teams/index.json": {
+      "sha256": "11a223a0847c76505f33b27e3a7426021e81b3fccfd0ccd106a54143c8ea0494",
+      "bytes": 762
+    },
+    "web/tests/unit/budget.test.ts": {
+      "sha256": "b6c76d1d5298e3d83ef6f6608fbc2fbb518f5b32018c5a6ca7bbaf394215f228",
+      "bytes": 8650
+    },
+    "web/tests/unit/charts.test.tsx": {
+      "sha256": "44bc0e60b527ffe0c3a4d59b335d8865cf7287a6cedf6854db5d3026ed836ac8",
+      "bytes": 2237
+    },
+    "web/tests/unit/contracts.test.ts": {
+      "sha256": "63d967ca541000c9b828d40142cc4ddabcaaa41b327dd475feb17c00993f5839",
+      "bytes": 7623
+    },
+    "web/tests/unit/contrast.test.ts": {
+      "sha256": "e88496966aa3953c7a773a062b059bd3ee5b185f7826d3c736605b9e79664e88",
+      "bytes": 2246
+    },
+    "web/tests/unit/csv.test.ts": {
+      "sha256": "bcb6c654780ed270437a9ebc7c9f484e8e1239d27a29b15f3f0d689f0937a1dd",
+      "bytes": 450
+    },
+    "web/tests/unit/data.test.ts": {
+      "sha256": "889708bd6fd699bd67ea600073ac93aa718161f1889252769feb52a5e6029aea",
+      "bytes": 5452
+    },
+    "web/tests/unit/filters.test.ts": {
+      "sha256": "f70f752775747e0c181f81b408250126bf4ded3efb7cae9b8e6f68e3e981dd1f",
+      "bytes": 2646
+    },
+    "web/tests/unit/fixture-facts.test.ts": {
+      "sha256": "a77a7f00348f920497adb72135f14382d57bbf8018d349e4f4e85e05c9b0931e",
+      "bytes": 2719
+    },
+    "web/tests/unit/format.test.ts": {
+      "sha256": "3c2eb5d68bc22310725ee5b1a36e2d6a448d80c2ecc47bb22c31d8454ce9a19d",
+      "bytes": 1608
+    },
+    "web/tests/unit/freshness.test.ts": {
+      "sha256": "9f94f9e9b75fb10b77798d6160f646118f146a3c219b3646cb19ede2420bc71a",
+      "bytes": 1934
+    },
+    "web/tests/unit/html-allowlist.test.ts": {
+      "sha256": "0313167750c5ded2940d8bf41a6a3e52ef6a69934a2007877ef8d98d9a2543a0",
+      "bytes": 2645
+    },
+    "web/tests/unit/ids.test.ts": {
+      "sha256": "eacf35f846b3f98699d7c6aa0b153579bd23ab56751d914cd3c11c6ed39eda53",
+      "bytes": 4218
+    },
+    "web/tests/unit/live.test.ts": {
+      "sha256": "27a962d3676147ba4b6d6ec40b11d919ca8c532fc4b8be6c7016ff09b59883f7",
+      "bytes": 1080
+    },
+    "web/tests/unit/matches.test.ts": {
+      "sha256": "e456df47703e54b981e4f7e46a558371a0cfbaa78e9bbdf5f4a94801cb3b5fd8",
+      "bytes": 2255
+    },
+    "web/tests/unit/python-release.test.ts": {
+      "sha256": "0bd1e5a1b6adaaafe5154fd2ccca1adf7f9948b1fe4d2140636941e5aaccd15d",
+      "bytes": 2225
+    },
+    "web/tests/unit/release-tree.test.ts": {
+      "sha256": "8b67d350dd70a123c1523e11d0f6d37112300b4ab07a72c482893ee6e9851d61",
+      "bytes": 8888
+    },
+    "web/tests/unit/search.test.ts": {
+      "sha256": "63676a4806d75169770f6d0865d8fcfff644f900ebb3b8ae2058bba5cbbe4259",
+      "bytes": 2574
+    },
+    "web/tests/unit/stats.test.ts": {
+      "sha256": "0155cbdfd7c298151098312caf442b105797fc57808353280bc47aa1d62b84a0",
+      "bytes": 2704
+    },
+    "web/tests/unit/tabular.test.ts": {
+      "sha256": "3686fccbdef5568962c67f3017cf59d9c817fa8a94d51e6d406810e7a51de532",
+      "bytes": 1246
+    },
+    "web/tests/unit/types.test.ts": {
+      "sha256": "e8797f638d1a44a3e1d8da9de0abf3dffc797e4534f2f3e307ba144ea740d53e",
+      "bytes": 1078
+    },
+    "web/tests/unit/watchlist.test.ts": {
+      "sha256": "c3b7f9e878f4b70f4c9b5a9675d3bef0ece9ba7d3f6b3795d5f9a2b96c0df6b8",
+      "bytes": 3834
+    },
+    "web/tsconfig.json": {
+      "sha256": "557c1c839789a1f98fb5b542ff5b9bf6052b32cbc05ad91444c6727778adc864",
+      "bytes": 409
+    },
+    "web/vitest.config.ts": {
+      "sha256": "29c7e97dcc2c9050d1c9ed774016753c3b8d5000b999a6dbdedcd083a5c75d6a",
+      "bytes": 323
+    },
+    "tests/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/fixtures/golden/sections/expected_sections_doc.md": {
+      "sha256": "ef098896494cdab73bb9dacbc71c3d0d5842d472dfb6363a4b31fc725d66517b",
+      "bytes": 1654
+    },
+    "tests/fixtures/golden/sections/sections_input.md": {
+      "sha256": "6382a1b909b4f5063b9283c0dfc9592b4fd864f5321980b96fdc45fbfa6e65d9",
+      "bytes": 1131
+    },
+    "tests/fixtures/golden/top100/bio.csv": {
+      "sha256": "9eb3fbdd59a762577f96d742c769ff886f4d38d2b28469a9801b0ce2e3fc15dc",
+      "bytes": 571
+    },
+    "tests/fixtures/golden/top100/expected_hof_doc.md": {
+      "sha256": "190a99093ae646d97b5c2139adc7cd78d856167a3dd4d8be93d7b95bd24341dc",
+      "bytes": 3040
+    },
+    "tests/fixtures/golden/top100/expected_top100_section.md": {
+      "sha256": "bfafe726326ec5c412dd33ded414b641d3d9165b5874789d31a5e0da93ae209e",
+      "bytes": 1664
+    },
+    "tests/fixtures/golden/top100/hof_input.md": {
+      "sha256": "7b399df56dc7797a8e365d7c302e2b45989b65e9e0be8e959ca9d54dc2b8ab91",
+      "bytes": 988
+    },
+    "tests/fixtures/golden/top100/scores.csv": {
+      "sha256": "1a9686553f8e4a58203c13103ecb715897c40d7f5b38ee15d767928b2308c128",
+      "bytes": 129
+    },
+    "tests/integration/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/integration/test_chart_reproducibility.py": {
+      "sha256": "8d96ea28b0a4d7bf04acf8ce528fec62fa9ba0dd35595a15deceba7b50daea1f",
+      "bytes": 4817
+    },
+    "tests/integration/test_lineup_integrity.py": {
+      "sha256": "fb8b7e678209f8a5c02683f184df095bbe884729a31891cf6cee7e18a0fa7e84",
+      "bytes": 6882
+    },
+    "tests/integration/test_pipeline_artifacts.py": {
+      "sha256": "a687b1e80280f0f67fed99f6ff5b01a3c76cb868b96d3f0a006650c18eaeb39e",
+      "bytes": 10207
+    },
+    "tests/integration/test_published_artifacts.py": {
+      "sha256": "4818cf91e98c6f305d62fdc498028a3362abef450b8e26125e9b5308648c3c35",
+      "bytes": 16303
+    },
+    "tests/scvia/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/conftest.py": {
+      "sha256": "88644a5095b65046bc7de0ef347034a0adbfdf04965507d59036a0db9dcc4943",
+      "bytes": 2866
+    },
+    "tests/scvia/contract/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/contract/test_public_schemas.py": {
+      "sha256": "c1793db597ff40e3d8a541b4f83d1ab4a04cdca1a56e5a22b1031afeb4deef1e",
+      "bytes": 2349
+    },
+    "tests/scvia/fixtures/analytics/__init__.py": {
+      "sha256": "c3b0263b95aba922c47756b9140a7c190b7be346ee1a124f108a2dffa864a847",
+      "bytes": 65
+    },
+    "tests/scvia/fixtures/analytics/synthetic.py": {
+      "sha256": "0bb73db6a84d237fa5c5dbc38874e8f665dea0cc46ca2f5637f80809897d2470",
+      "bytes": 8569
+    },
+    "tests/scvia/fixtures/legacy/corpus/all_time_top_100.csv": {
+      "sha256": "5059156d2b9947f62758d7d9eee3f6c41032a9486ef9b592675190c983179981",
+      "bytes": 114
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/contracts/afl_2026_contracts.csv": {
+      "sha256": "7c151bdde4f1a9d2587d3268dc28f4b54fbd80419c399fa371404decb3894065",
+      "bytes": 166
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/drafts/afl_draft_history.csv": {
+      "sha256": "f0e52b533f834805628ee42b8a7b361c259395ac474a0d30bb524ceb3b3bafd9",
+      "bytes": 130
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/drafts/afl_draft_schools.csv": {
+      "sha256": "01772988a357f14bccc5a077046eee49431174a5f83784f1f0b46e5e04ab2412",
+      "bytes": 191
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/drafts/afl_rookie_draft_history.csv": {
+      "sha256": "adee24f7f7b54f5173ecbe431b105ef8e01ebec0ceff05d18dcdc6f6f5400830",
+      "bytes": 126
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/drafts/draftguru_enrichment.csv": {
+      "sha256": "77b3d065aeebb7b2feac28cc6867fd023cb09f9605f7f7d5d94d0d58c64ec717",
+      "bytes": 96
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/era_stats.csv": {
+      "sha256": "25b654cf6ecd9dce50a0b8974216d2d7f1806304b6c79020d2c67ccf5d5da8ef",
+      "bytes": 26
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/lineups/team_lineups_carlton.csv": {
+      "sha256": "cb3a2b4511ff7df25ce87d82c6bd0ec7391667f3de7a86797275fcee2eb04122",
+      "bytes": 122
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/lineups/team_lineups_north_melbourne.csv": {
+      "sha256": "da0cd70f5050309e5a59617d789eabc1aefb24450ed5b2c415a75812e0081f8f",
+      "bytes": 227
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/lineups/team_lineups_sydney.csv": {
+      "sha256": "918939720da0d94388d0e3873b5f1bec8c7ca9e34279dd2969e357a19c55ae99",
+      "bytes": 105
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/lineups/team_lineups_western_bulldogs.csv": {
+      "sha256": "eac752b239a09a6f8795394aa14254518a7790c0aa3c0231a2f0f4b16329ab91",
+      "bytes": 106
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/live_snapshots/.gitkeep": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/live_snapshots/9999_20260305_2040_half-time.json": {
+      "sha256": "20c331429f9a50b20b629e7c14c5d1cc01239c760ae472935dfc3ceae55b55fd",
+      "bytes": 288
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/live_snapshots/9999_20260305_2040_players.csv": {
+      "sha256": "9d2575caab41b73100ee5881c3ab42b314559e2a199798de9a8dddb9c6435d2a",
+      "bytes": 72
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/matches/matches_1977.csv": {
+      "sha256": "053d1d90ecff28cc8bdf6608bef0c4f25cbc9fba95ac4a4e0eb32aeb874ac527",
+      "bytes": 681
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/matches/matches_2025.csv": {
+      "sha256": "57d857981efb23ccfafbf6f941d847651000971ad282668aff31ad427e62e0a5",
+      "bytes": 815
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/matches/matches_2026.csv": {
+      "sha256": "641caf4b5b61937343d03695507cb456eef7f4ae4cbf9baff073e888070cb348",
+      "bytes": 905
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/notes.txt": {
+      "sha256": "44e2f31edf6f3de673b664aea36d1aeff2119b4eca66e5815dfdeb46ff53d80c",
+      "bytes": 11
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/boer_matt_10031990_performance_details.csv": {
+      "sha256": "8ee447a8e6c587eaddeb09fa8a5409cb2ec65bdac97cda4624f4fe429c1e9c90",
+      "bytes": 421
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/boer_matt_10031990_personal_details.csv": {
+      "sha256": "fb7d9eabab723f568fa78bdf8afadce47786c92744e04503ff671d2053485246",
+      "bytes": 85
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/casey_dick_01011900_performance_details.csv": {
+      "sha256": "ebb0e512a76b5b77ffff23f0d3729b1d3ecf2f431c89b25e908535de3a2c8f22",
+      "bytes": 433
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/casey_dick_01011900_personal_details.csv": {
+      "sha256": "b18e78251ce01d305508fa17bd883e86062a48851f3111e783ddf87260e7d0c0",
+      "bytes": 84
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/dench_david_05091951_performance_details.csv": {
+      "sha256": "156a3ed275b8768bd93c0e06e9ca732f9dc38eccfa2fbefdb79741fc8f3ecb26",
+      "bytes": 603
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/dench_david_05091951_personal_details.csv": {
+      "sha256": "9b0fce3e6bab1038bca07c4bf102403b66ba710f5e5eac3d50addb0dc5d5003e",
+      "bytes": 87
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/eagle_ed_04041998_performance_details.csv": {
+      "sha256": "7babd9e2c608d077a06b1d0ce3b60070f17649a7c7c93e0ba1b91e68529cd885",
+      "bytes": 432
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/eagle_ed_04041998_personal_details.csv": {
+      "sha256": "6b3fa8a3043a12ce251cb6673d942884e9dc5dd2d5ab81c5a5559d5a87f56edc",
+      "bytes": 84
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/ghost_gary_02021960_performance_details.csv": {
+      "sha256": "cb6bebae6385b6e26b1990acffbaff402338264a02d7790920cea2196c927df9",
+      "bytes": 434
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/green_will_08092005_performance_details.csv": {
+      "sha256": "82c0e05953ded34c40c8ad2a5e0b17ec470f9d9d38202d5f5e7ffe7826fc3e99",
+      "bytes": 439
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/green_will_08092005_personal_details.csv": {
+      "sha256": "0c84c89979e741f44520c2deca458db70d876a208783e34589e025c88005133d",
+      "bytes": 86
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/green_william_08092005_performance_details.csv": {
+      "sha256": "590810e850951ab854356c3fcf67003d5990abbb3b308234e362adcb94821ef8",
+      "bytes": 437
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/green_william_08092005_personal_details.csv": {
+      "sha256": "28a9abd5bb5da7f8126d630a1e0023e6e03d153e311f00ca01cbd1d099cd5cb0",
+      "bytes": 89
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/hawk_harry_03031999_performance_details.csv": {
+      "sha256": "6a75eb1e8cae02243e3244b3b715ffe7ee4fe7fba846486404ca44d06604c41e",
+      "bytes": 723
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/hawk_harry_03031999_personal_details.csv": {
+      "sha256": "0c556d3ea7cf41e50c756a7ddf953c55a54e0686fff19e978de5dc30ec1bb2a8",
+      "bytes": 86
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/lynch_tom_09101992_performance_details.csv": {
+      "sha256": "1d3ed3e7245ce3f5e8a549a5558a5162fe0fc3f8b5d2b1bc034470e578690b74",
+      "bytes": 420
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/lynch_tom_09101992_personal_details.csv": {
+      "sha256": "baec695f3ba42304435d3e1ac58f777fa9cbcf537b2cf5034826ac097c42974e",
+      "bytes": 85
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/lynch_tom_31101990_performance_details.csv": {
+      "sha256": "3c0638b50fc4de3dc6886c765be2bb08dd6255db5b17a44dc1f5ad7a3936df23",
+      "bytes": 423
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/lynch_tom_31101990_personal_details.csv": {
+      "sha256": "bd2010d868ff65a0e1d7fce3462d9ed5890edbb9b512901a10328edf9095c182",
+      "bytes": 85
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/mover_max_01011995_performance_details.csv": {
+      "sha256": "9e2a9bc5711be159b1d1e4486a53499593c51635ec35a89634fe70983538205f",
+      "bytes": 506
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/mover_max_01011995_personal_details.csv": {
+      "sha256": "32850de5e8880e27d21f3e8b694e2906ca99f38b4eae0a94f3cfc04c98f4ac5a",
+      "bytes": 85
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/pie_pete_05051997_performance_details.csv": {
+      "sha256": "23224f4ae5b4a1630edf125fff86d3bd2ac869228e112f1ac9c3ecb6d8691b8f",
+      "bytes": 432
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/pie_pete_05051997_personal_details.csv": {
+      "sha256": "35849ec3af447700e6b6e86032535c8068409e5fd9374b78f1efd898a1c595e1",
+      "bytes": 84
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/steele_roan_19092002_performance_details.csv": {
+      "sha256": "fe7881a28b79f228a9c1812675632493a2377f8870cbd8b303900286617729f8",
+      "bytes": 436
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/steele_roan_19092002_personal_details.csv": {
+      "sha256": "95791bfda3df8bec321e5dc17063b945e651e7019600f9b8c4dffdd5d2794ac7",
+      "bytes": 87
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/steele_roan_22102001_performance_details.csv": {
+      "sha256": "018ac33581518320eee2165416fe8649e0819e9594acc7c0e5a9db783f932bef",
+      "bytes": 437
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/steele_roan_22102001_personal_details.csv": {
+      "sha256": "da673e4fbeb67e0a4a496ed3f1d213c447d3037059f0a3ef6cde83d4fc02450e",
+      "bytes": 87
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/wyk_alex_01072004_performance_details.csv": {
+      "sha256": "76b91acb6ef088c35d60629642a6c79e3f832afc141eda16095001647474d432",
+      "bytes": 420
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_data/wyk_alex_01072004_personal_details.csv": {
+      "sha256": "787d2fa7092a9a0d1a1e3198f17e573e5a1c724d3d068e627683d7ce3d95a3a9",
+      "bytes": 84
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/player_status.csv": {
+      "sha256": "5efcc68f047fcd5f2a8e5534ca9c882621479e7e065b4589b3f715800f387646",
+      "bytes": 48
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/backtest/backtest_summary_20260829_132805.csv": {
+      "sha256": "7da0d5ab613aba7f249ec82e7af04cd35bc66abdf1988899f571175760f0c60f",
+      "bytes": 26
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/next_game_round15_predictions_20250611_1748.csv": {
+      "sha256": "38189692d4900515ce1da500820d9464f5634f29a7fd929f33a653495d72248c",
+      "bytes": 42
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/next_round_2_prediction_20260430_1459.csv": {
+      "sha256": "9f9a904a656fc8348d11f6c48fdcc279ce4f9041a051c0ce03f1923b758d93d5",
+      "bytes": 95
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/oldModelData/next_round_predictions_20250605_1753.csv": {
+      "sha256": "654d1d2b3e05696c24760a09051384a250d1935ca9ced8c9b7ea082717a6207b",
+      "bytes": 42
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/optuna_best_params.json": {
+      "sha256": "b0a9ef299ad431f677ff505997d987a624da976abaa01f1442c2ec53ca1f0224",
+      "bytes": 11
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/prediction/prediction_vs_actual_round_16_2025_20250623_2132.csv": {
+      "sha256": "a7ff72db645fb12b23941dfbe740b187e374f9307876ce077135fe165c389875",
+      "bytes": 94
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/top100/all_time_top_100.csv": {
+      "sha256": "73cb2eaf721cc06b7e533f0b6a561d6d2d9f841aea50643a967e21d694b01035",
+      "bytes": 75
+    },
+    "tests/scvia/fixtures/legacy/corpus/data/top100/yearly/year_1977.csv": {
+      "sha256": "9a9736a0bed7d91cfff300171cfe5e87a3ad73b590c0e412aa937e7014f25c3c",
+      "bytes": 77
+    },
+    "tests/scvia/fixtures/ml/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/fixtures/ml/synthetic.py": {
+      "sha256": "f9706a0070613048a1d40bf6d732977329d85d9793020a5266804387f4733a28",
+      "bytes": 11007
+    },
+    "tests/scvia/fixtures/raw/afltables/game_2026_091020260406_captured_20260925.html": {
+      "sha256": "e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c",
+      "bytes": 56990
+    },
+    "tests/scvia/fixtures/raw/afltables/game_2026_131820260329_captured_20260925.html": {
+      "sha256": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+      "bytes": 57675
+    },
+    "tests/scvia/fixtures/raw/afltables/seas_2026_captured_20260925.html": {
+      "sha256": "b02240bfd1de70510f7b1ec44ea67336c1c8e9793c2051515554213d94ced3ba",
+      "bytes": 238743
+    },
+    "tests/scvia/fixtures/raw/contracts/afl_fa_2026.html": {
+      "sha256": "04a789dd2c4c2a3946a5383172a89a990568aa0836a55c2be3afbb3d7cafb8c8",
+      "bytes": 10183
+    },
+    "tests/scvia/fixtures/raw/contracts/zerohanger_offcontract_2026.html": {
+      "sha256": "ae918040aabb0206e02571270c144cd1541859670e623ed21a274b3d8d48b84b",
+      "bytes": 1234
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9781_final.txt": {
+      "sha256": "09ca0713795336f184a7544c817fe7b521e45ac805f4fbef61ce48bc5397f9ff",
+      "bytes": 11955
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9781_half_time.txt": {
+      "sha256": "5b4575805f3090b90d8f956724559c70f1af202afb880eece6a061e47c2a8faa",
+      "bytes": 11006
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9781_q4.txt": {
+      "sha256": "acd84972d67dcf8bcc027b6af147250c89ae72eac00bf813c0d2b25687314f43",
+      "bytes": 11624
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9789_q1.txt": {
+      "sha256": "a33e4bf223b777fed0abcd0b3ba1c2b3c9b10c5a24b77f98a6aff124505f118d",
+      "bytes": 9176
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9789_q2.txt": {
+      "sha256": "049ee82ac441582f21f81e7bd86d97adc9d476d3075dcccb1d6042944140286e",
+      "bytes": 10438
+    },
+    "tests/scvia/fixtures/raw/fanfooty/9789_qtr_time.txt": {
+      "sha256": "c7a7a6a40db144ff98f71a58cd03716c045d7994d5c630c0cce88e984f40c949",
+      "bytes": 10336
+    },
+    "tests/scvia/integration/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/integration/test_analytics_parity.py": {
+      "sha256": "1d73aeaea203529ba613219a40bb167306f1a2c23598460f68b86e21a0516b18",
+      "bytes": 10779
+    },
+    "tests/scvia/integration/test_legacy_import_real.py": {
+      "sha256": "5be3f2a9338e983e465e5f2864ff01a22e1c933fd9ae70e943319da98060fc24",
+      "bytes": 7657
+    },
+    "tests/scvia/integration/test_ml_real_corpus.py": {
+      "sha256": "c98553449a9a999ab3699820d169c117def688cf5b6f25eb049cae651c69df1d",
+      "bytes": 4802
+    },
+    "tests/scvia/integration/test_source_check.py": {
+      "sha256": "98acffdf208846fd5e333af018dc892f7dd5681b66e70d3702af02546dac938a",
+      "bytes": 1744
+    },
+    "tests/scvia/performance/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/performance/test_ml_inference.py": {
+      "sha256": "6c06e9d3c4c67d5459da781919ccd58281abc73718ebb2fa7b28e72bac6f1d0a",
+      "bytes": 1580
+    },
+    "tests/scvia/unit/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/scvia/unit/demo_release_env.py": {
+      "sha256": "a37957f6b088447dcebe5c22c2f7c1e333c65cc32237f8203209e302e7d8da5d",
+      "bytes": 8651
+    },
+    "tests/scvia/unit/snapshot_factory.py": {
+      "sha256": "2e7187085819110f925f830c4da32a3fde7a935c235a94e2bbc2f3c573234f4a",
+      "bytes": 1400
+    },
+    "tests/scvia/unit/test_afltables.py": {
+      "sha256": "74c46f3bd82e0b1a35eb2890d8f35c2ab596a688ac98769f5ea77dbe9db58ce8",
+      "bytes": 15420
+    },
+    "tests/scvia/unit/test_afltables_support.py": {
+      "sha256": "6e97e5ab34684e834e2a4882300ec9d3ba4c514ca802a4c4d400b07f966cc84a",
+      "bytes": 7205
+    },
+    "tests/scvia/unit/test_analytics_awards.py": {
+      "sha256": "c33d9a4f861c5158bc9535430f2d18beee6a7c867b030fa2bdab939171d273a7",
+      "bytes": 5802
+    },
+    "tests/scvia/unit/test_analytics_eras.py": {
+      "sha256": "e3a3c46ce6b961f3718c2090b8a8ad4d70e366d330a754a50e293de0246a34c6",
+      "bytes": 6938
+    },
+    "tests/scvia/unit/test_analytics_lists.py": {
+      "sha256": "af0dc55432aab476849e661ccd2a70e55724cca0541ac7bd3d8b9bb595ab1876",
+      "bytes": 3867
+    },
+    "tests/scvia/unit/test_analytics_players.py": {
+      "sha256": "d526c9de47b6f74b3356036e37181d3167c93267b49f8c58cc023ada5419f9bc",
+      "bytes": 6902
+    },
+    "tests/scvia/unit/test_analytics_rankings.py": {
+      "sha256": "79cc93bf302268f7897759454c7d6d6f9f9e3e2af1ce83fbe1f2a13f8e2484ae",
+      "bytes": 12874
+    },
+    "tests/scvia/unit/test_analytics_teams.py": {
+      "sha256": "63b5d26d2f1ed1ac594e51bd4cf74ba56739321f5cad4de7600c1abff450a4a6",
+      "bytes": 13256
+    },
+    "tests/scvia/unit/test_articles.py": {
+      "sha256": "4376233c3e7546a23eb5abcf20cd6dc57044e7d6322c9c51ff7ac1cda5586272",
+      "bytes": 5240
+    },
+    "tests/scvia/unit/test_b1_repair_driver.py": {
+      "sha256": "7a4044404f3be60f6d601de47bbc219779d78b87fc2db002110e6c98aa9e34ea",
+      "bytes": 1701
+    },
+    "tests/scvia/unit/test_builder.py": {
+      "sha256": "96242c467d9138fb91a64e00d14f6765578f20b55d0e004853a4fcd5c4676c41",
+      "bytes": 35299
+    },
+    "tests/scvia/unit/test_charts.py": {
+      "sha256": "18b5c3ea938b6c26c0aa73b6202399de4ce99074a4a999e36a1eeb90a549ef8e",
+      "bytes": 874
+    },
+    "tests/scvia/unit/test_cli.py": {
+      "sha256": "f067d44a059645bc064af380a91f6e0afb9d128494861def557f54d914067934",
+      "bytes": 7866
+    },
+    "tests/scvia/unit/test_contracts.py": {
+      "sha256": "bc2f2176cfea58ee9f42f99c25e0196b92fb0055c41376593baffdb227266d13",
+      "bytes": 3762
+    },
+    "tests/scvia/unit/test_demo_corpus.py": {
+      "sha256": "cfb678ce4703e36ee0d18250d1dcf4659c8d3d64e54bcb46eefbfaa89b9de791",
+      "bytes": 2659
+    },
+    "tests/scvia/unit/test_deploy.py": {
+      "sha256": "3df1f13b93031d03a2605da1ebc4302297e765a349bda77cf49bcfae5ecb843e",
+      "bytes": 8046
+    },
+    "tests/scvia/unit/test_drafts.py": {
+      "sha256": "419eb9ea74ac7fcc4cbcfd8e552709fe5b2728ab575befad87a0ba4d70257e8c",
+      "bytes": 3751
+    },
+    "tests/scvia/unit/test_editorial.py": {
+      "sha256": "a3633aa053700e969b54a4d77bc3e825fb4d19371b015e3394f78a9b420b293c",
+      "bytes": 7867
+    },
+    "tests/scvia/unit/test_fanfooty.py": {
+      "sha256": "f110c4158d1ebe8c0623e7cbae2dd038fd472ae3990282c9f98d1fac2f011115",
+      "bytes": 5203
+    },
+    "tests/scvia/unit/test_http.py": {
+      "sha256": "68b3c038a5aed54ebecf8b78bf1ae84dcc898ee3e0f2b3c12e02b0498c39214e",
+      "bytes": 16017
+    },
+    "tests/scvia/unit/test_ids.py": {
+      "sha256": "669458a5769aef9964a2e4bc3ac052351f16c6d6d2ff2a3a10059e286098f849",
+      "bytes": 8842
+    },
+    "tests/scvia/unit/test_legacy_import.py": {
+      "sha256": "46adf1cf725d222d49cf20aab54f7943a972d8997844cd6ec5231546b2c97863",
+      "bytes": 23195
+    },
+    "tests/scvia/unit/test_live.py": {
+      "sha256": "6f57190ec3319d6986a0dd6dcdbed386401e9c907fe4eab1aaa8d980a0b0689d",
+      "bytes": 8123
+    },
+    "tests/scvia/unit/test_metrics.py": {
+      "sha256": "1008279f2ebbf51e1fc4f22cb9335431954f8283333a121a29c1545a88c6fd2c",
+      "bytes": 6474
+    },
+    "tests/scvia/unit/test_ml_evaluate.py": {
+      "sha256": "6e04b742d2bcfc1860ef7d2bd7a24efd573b4cbdc479bdd8990e5b3d60e4f788",
+      "bytes": 14836
+    },
+    "tests/scvia/unit/test_ml_features.py": {
+      "sha256": "c3c139ab3383e88a62b6044c6b2fde0d97f18b00174a271e31ca588886f88e74",
+      "bytes": 12491
+    },
+    "tests/scvia/unit/test_ml_predict.py": {
+      "sha256": "3626fb2ffd44be51c8ef90c96a0d1b286acb36f12127242088eea44f5195cce6",
+      "bytes": 13426
+    },
+    "tests/scvia/unit/test_ml_splits.py": {
+      "sha256": "dfa680275bb74704cd3c4fafa515b437f6ff070cfb551d2fa7b6c67e12c6a891",
+      "bytes": 4549
+    },
+    "tests/scvia/unit/test_ml_train.py": {
+      "sha256": "3b07df58c8bd5cfe0fd585fa82c1900990a6b8ee8053a0fe723da4cc83a48dd1",
+      "bytes": 10150
+    },
+    "tests/scvia/unit/test_packaged_config.py": {
+      "sha256": "b878631413264ee6eec8f6c039f12469c390e0200d8a5197eb91a8cd5a226a4c",
+      "bytes": 2060
+    },
+    "tests/scvia/unit/test_pipeline.py": {
+      "sha256": "30b5cdc8531013e83154e5295f13ef24eb5ea4baf74d7a810285c2d9bf4beb30",
+      "bytes": 12396
+    },
+    "tests/scvia/unit/test_public_keys.py": {
+      "sha256": "b92518498646906fdeec3ab4c4c9db8c45b96740f9914afe9c808e49a303a969",
+      "bytes": 1626
+    },
+    "tests/scvia/unit/test_publish_safety.py": {
+      "sha256": "4e2f94bfa431011d8f3f11c2552a16226754df8c75e58b1c3fffcd075023e86c",
+      "bytes": 4064
+    },
+    "tests/scvia/unit/test_reconcile.py": {
+      "sha256": "b997806a969f5cf45ac84e1a2e2c1475ce9fff04e7ae3cf697390697fdbada50",
+      "bytes": 7513
+    },
+    "tests/scvia/unit/test_reconcile_outputs.py": {
+      "sha256": "a4a0c1e34604abb1eb8e691ccd6f93ffeee67890c3b1c48ab0d5e8714a6953d5",
+      "bytes": 9790
+    },
+    "tests/scvia/unit/test_reconcile_relink.py": {
+      "sha256": "fdacc3f61d8c9786c3847dfbff36144ead88b5e826878f3644a4eef9d04e4c68",
+      "bytes": 6196
+    },
+    "tests/scvia/unit/test_refresh.py": {
+      "sha256": "4ee987aa52bb0a91350ac4902547446342f61bef2ad469b5e1e7d551133c5547",
+      "bytes": 24229
+    },
+    "tests/scvia/unit/test_refresh_repair.py": {
+      "sha256": "8fe18c59e1e1347b9555fa75acb54695ce8cdc827cc946cfda179bf8702228d0",
+      "bytes": 10913
+    },
+    "tests/scvia/unit/test_rehearsal_compare.py": {
+      "sha256": "486e6a65fa1ef0ade943d8520aaf56e8c5c313f12bb3fcf293636df61b036fdc",
+      "bytes": 10437
+    },
+    "tests/scvia/unit/test_release.py": {
+      "sha256": "d59465d18f042035de26486cfbac727e8c975d82f8f70e6dd4712ed930e36aac",
+      "bytes": 31773
+    },
+    "tests/scvia/unit/test_resources_matches.py": {
+      "sha256": "dfab5b86ef43a275c746fb1f7d0b629b4a6ff179ae42dc415e15920bd0616d27",
+      "bytes": 9202
+    },
+    "tests/scvia/unit/test_season.py": {
+      "sha256": "1eedc335542a6bc7353a91af1590babfd248c894230ca7ee115dfb7dd9d0f5d4",
+      "bytes": 7198
+    },
+    "tests/scvia/unit/test_season_growth.py": {
+      "sha256": "5ac123fd18ebb1ed0597af21830c9e459ab86b42b273e88e4b74d992764e27cf",
+      "bytes": 985
+    },
+    "tests/scvia/unit/test_settings.py": {
+      "sha256": "7fa1decbd76bd9557d3a0e20822a3700ffe916a5b92614bba8b6789e10a11d14",
+      "bytes": 1322
+    },
+    "tests/scvia/unit/test_source_inventory.py": {
+      "sha256": "0d6fadc2b5cdf9fa721e12af310438ea2cc66b41cd93759030764ed73019ec83",
+      "bytes": 2737
+    },
+    "tests/scvia/unit/test_stat_columns.py": {
+      "sha256": "f594eb393fe28405cacf164585af5ebdb8945d23b776a152c5d6b0ad5ee8e171",
+      "bytes": 6110
+    },
+    "tests/scvia/unit/test_storage.py": {
+      "sha256": "cded48bf695752004ee3c86511df77d07dbc6eb87f38b42d65b030f03c38472e",
+      "bytes": 9367
+    },
+    "tests/scvia/unit/test_storage_upserts.py": {
+      "sha256": "83dfea784e5d7e41b5040e856052ed4838ea07ecaa1e8655ea4a588f07130910",
+      "bytes": 5410
+    },
+    "tests/scvia/unit/test_web_data.py": {
+      "sha256": "70e96da610582cce3441cef50fc0ae5cf37e9b7db9f18fa910127475e212f6bb",
+      "bytes": 2275
+    },
+    "tests/scvia/unit/test_weekly_candidate.py": {
+      "sha256": "0f21194889179056d8ba12d96f6e00c51d53c4748f82a317e2378abbcd82efda",
+      "bytes": 10546
+    },
+    "tests/unit/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/unit/test_age_experience_features.py": {
+      "sha256": "ef9a9c81194a7e1d09df25f25df1ab80df80f9e2af0fb9513fe4cdb8db69ec59",
+      "bytes": 7415
+    },
+    "tests/unit/test_asof_directive.py": {
+      "sha256": "ed5245f08f524557ab1b82f16114f4370ff58e7f72bcfc8a54494453344f1365",
+      "bytes": 2773
+    },
+    "tests/unit/test_backtest_archive.py": {
+      "sha256": "1e566c54237abed560aac62ed959a96adee3f82115dedaec9a4ba47d728852ca",
+      "bytes": 11496
+    },
+    "tests/unit/test_backtest_completeness.py": {
+      "sha256": "2b822094f6372f5275c9897cdac7a1be3488e21fef4f3f66656ccb5464368a93",
+      "bytes": 12093
+    },
+    "tests/unit/test_brownlow_proxy_column.py": {
+      "sha256": "507b348d33a481e05bf291857a41659f1b0a5cc04c34e5d35ba27cde8d1f3997",
+      "bytes": 5476
+    },
+    "tests/unit/test_chart_render_isolation.py": {
+      "sha256": "36bfaf7adad005db583ef368e4888a49ce4b76720e02177661e8ce69c30a03e7",
+      "bytes": 4730
+    },
+    "tests/unit/test_cheat_sheet_csv_arg.py": {
+      "sha256": "cffa7e7b871019087df6d41755bebc1d25d8925564108e3abee7e1c3a69c32fd",
+      "bytes": 2068
+    },
+    "tests/unit/test_check_hof_numbers.py": {
+      "sha256": "0afbf969535a98750b17732e3739d375c7730a8b26ed1cf30dea4f6949e1b0c1",
+      "bytes": 4720
+    },
+    "tests/unit/test_commit_authorization.py": {
+      "sha256": "3f1d512796feaf6e86277218dc186d8023ff90ee8d7d3a9911e549dfc051a9f0",
+      "bytes": 2853
+    },
+    "tests/unit/test_conceded_stats.py": {
+      "sha256": "9bdcbca82b20ff145ee3dae63dfc85d8c60412a23fb8bbf352b652bb46147b9f",
+      "bytes": 7975
+    },
+    "tests/unit/test_council_stamp_audit.py": {
+      "sha256": "286050bb7a270c0ab98ed2cb68f1379c265cef1e6e9a8b05b8ea6a66e02428f2",
+      "bytes": 7564
+    },
+    "tests/unit/test_draft_scraper.py": {
+      "sha256": "8df150daa9c63736ec30645b6f30e90b8a2529d178e2ca0139d448b6dc54853b",
+      "bytes": 14866
+    },
+    "tests/unit/test_draftguru_scraper.py": {
+      "sha256": "ed3a9f7260409f80ea1a51b87fee810cf0236ea08af851138830785d8457e91e",
+      "bytes": 12136
+    },
+    "tests/unit/test_drawn_gf_integrity.py": {
+      "sha256": "41007b7d5cc7a3bf83a4b022adf6884ae9ce3c24272bb59299cabdb2e2a529dc",
+      "bytes": 1995
+    },
+    "tests/unit/test_era_boundary_threshold.py": {
+      "sha256": "62cf7ad9add2ec872310b295fb8a9e8515da7dd724d8d1dc3e0c2af478227a76",
+      "bytes": 5336
+    },
+    "tests/unit/test_eval_surface_backtest_doc.py": {
+      "sha256": "36d687ad95b51472e2346c2cc30385232987f7813bb929cbc732af785a2638dd",
+      "bytes": 18809
+    },
+    "tests/unit/test_eval_surface_banner.py": {
+      "sha256": "c5e0453ba43072d78f6e91b1cf24653f16fd1ff668e7b5a4bd02717fb6d47c6b",
+      "bytes": 8301
+    },
+    "tests/unit/test_eval_surface_readme.py": {
+      "sha256": "0324a0d494bcd9ea8464d887e7aa68ddb53aae29a73d51517e74f2625001da58",
+      "bytes": 8166
+    },
+    "tests/unit/test_finals_mode.py": {
+      "sha256": "b010d79546e3a1226ef0e4020babd55ab9e76b55a5fb2a1707ce949a8e5aa31e",
+      "bytes": 8251
+    },
+    "tests/unit/test_free_agency_scraper.py": {
+      "sha256": "48a6992ac6c02474d83a65558f674f5af522d7d4bdbe38a26fa6559438bbe9b9",
+      "bytes": 14213
+    },
+    "tests/unit/test_game_scraper.py": {
+      "sha256": "94cc40bc7eff12f84787a45678016614ff3905d90bee60b15d2ea0089508c7fd",
+      "bytes": 17589
+    },
+    "tests/unit/test_gate_config.py": {
+      "sha256": "deab56901caa95e1326a99c2513b51b4f167694f71c05ba7dbc2980cd63083c8",
+      "bytes": 4885
+    },
+    "tests/unit/test_golden_section_replacers.py": {
+      "sha256": "c3d2f288b0db45e27edd1ba978c9d22a81cac33763e423e9681231de3a90b931",
+      "bytes": 6266
+    },
+    "tests/unit/test_golden_top100_render.py": {
+      "sha256": "7074619f9e9508ece320752033f9e27896b899f28280fc28a38dde0c31f8db75",
+      "bytes": 13436
+    },
+    "tests/unit/test_harness_wiring.py": {
+      "sha256": "4a268c40b9fdf9a84c241dfacca4a711d575d36450044326f12a6451349095c7",
+      "bytes": 12835
+    },
+    "tests/unit/test_hof_verdict_coverage.py": {
+      "sha256": "11bb1fa831600a4bf0b78cff6fed3ba6ed74dc0b765b9f57c6bccff17bd80ab3",
+      "bytes": 3590
+    },
+    "tests/unit/test_inject_trust_badge.py": {
+      "sha256": "a9ca86369dd10c4eb91611163d4126cc173e28cbb70dcc802b98be80d172ade2",
+      "bytes": 4020
+    },
+    "tests/unit/test_lineup_scraper.py": {
+      "sha256": "7bd79a2ad7d254884ac7d7ff81390eff08b2d2ff78bbb5f4939a156d4370193d",
+      "bytes": 4157
+    },
+    "tests/unit/test_match_completeness_gate.py": {
+      "sha256": "c72efe06f48f9c68151704f7ed560db8d93dbf4e4be3640477cf0735603d320d",
+      "bytes": 5074
+    },
+    "tests/unit/test_match_dedup.py": {
+      "sha256": "c08f7410e00873bbce7de3d4e9adc99ba2de2c6cee5365092c86e670477898c5",
+      "bytes": 7171
+    },
+    "tests/unit/test_optuna_cache.py": {
+      "sha256": "b1b5dd403b0ecb86de40379b96fa783242dca4d32e4ffa4c20d351c2d8861306",
+      "bytes": 7189
+    },
+    "tests/unit/test_phantom_row_validator.py": {
+      "sha256": "0a206e06ebfaa5e72929aa44c42dcc81ed2f3a25c073f642d3f053d26d6873a0",
+      "bytes": 9798
+    },
+    "tests/unit/test_player_date_fix.py": {
+      "sha256": "6c977c3b109a593d53f02250ef7a71cf35e1905235579295ccd2d9bb2f839ce6",
+      "bytes": 4912
+    },
+    "tests/unit/test_player_reconciler.py": {
+      "sha256": "bba1bd4a988e314f6986d2cef86318cb8a48f641fb802a2b5920db6eb64c029c",
+      "bytes": 11180
+    },
+    "tests/unit/test_player_scraper.py": {
+      "sha256": "6f0160076a90d118d4b3b94a68b7b584942a064b4fc3968afc67df643585b4dc",
+      "bytes": 13196
+    },
+    "tests/unit/test_player_scraper_date.py": {
+      "sha256": "f1f3aea517cd84876cdb46e09dcadb1fe674945db834a60f5336fe759a980f72",
+      "bytes": 5223
+    },
+    "tests/unit/test_player_scraper_dedup.py": {
+      "sha256": "59910077fe00189765ce3011c92cdd02151a2bef96052f9ea0317b27e5078311",
+      "bytes": 4691
+    },
+    "tests/unit/test_player_status.py": {
+      "sha256": "bd009cabaa3a36d83ad9827ae3fec605df52c92d4f3052fedbc0a8077702be8a",
+      "bytes": 4036
+    },
+    "tests/unit/test_precommit_hook_failclosed.py": {
+      "sha256": "2b58b2c2eec7df6d54460270dac69484bf8752a21ab2e9ad8c619c8fc76b6c52",
+      "bytes": 2240
+    },
+    "tests/unit/test_precommit_python_gate.py": {
+      "sha256": "bc4eca2ceafc7f5cca6cd0c37dd94dba02b69e9d7f0c7e5fb8863f696e372c10",
+      "bytes": 13205
+    },
+    "tests/unit/test_prediction_features.py": {
+      "sha256": "72a4b8de0386e14f097e0c7553b53e6a2535343cd80720adf1764c173f3097cb",
+      "bytes": 7042
+    },
+    "tests/unit/test_prediction_selection.py": {
+      "sha256": "3e34e754381ee2e50900ff2a3705db8c6e3167598e5e9029744504db0c2f1b21",
+      "bytes": 2187
+    },
+    "tests/unit/test_qa_stat_leaders_schema.py": {
+      "sha256": "ef21457f56dfedc1a44db416cddf89688656de493c38a9fe489dfaea2d07f0fb",
+      "bytes": 2419
+    },
+    "tests/unit/test_refresh_matches_gate.py": {
+      "sha256": "b01d4bbe693bd6bd2833860a0dd9c026706c8569d4b57a36581a671044d51cb2",
+      "bytes": 2910
+    },
+    "tests/unit/test_refresh_readme_top100_gate.py": {
+      "sha256": "734a65d3f9af65a06bbf2d2ba28081b0a22d6206a5cf4a4283c82936220d84a7",
+      "bytes": 5999
+    },
+    "tests/unit/test_requires_stamp_routing.py": {
+      "sha256": "673fa9f66a5647739082f77bbfd50d0dd8e9b1caead083d1934c5a7a9a4f8d9f",
+      "bytes": 4124
+    },
+    "tests/unit/test_rookie_draft_scraper.py": {
+      "sha256": "f3c0f42c2f5c39d03d6d66ddb3fc6296156d07d08ced595c15c78b9f40701a69",
+      "bytes": 9676
+    },
+    "tests/unit/test_round_settled.py": {
+      "sha256": "bd161e9e104276fe98f5db7fa36b197b8eb539c6351229496947b234fdbed348",
+      "bytes": 8091
+    },
+    "tests/unit/test_school_classifier.py": {
+      "sha256": "96f385f24e20ba9503a6c02f36e21e99a3a656f6f5a5c78eefe8d76065b94d5b",
+      "bytes": 3819
+    },
+    "tests/unit/test_skeptic_gate.py": {
+      "sha256": "a494f06918091aec47f9670be587d369029c2038e734258174c7e2a838c187f8",
+      "bytes": 3897
+    },
+    "tests/unit/test_skeptic_sample_tags.py": {
+      "sha256": "07af024e2a72322ec142f8d37d62cf7d393294d3069b5670c9828d17c49cf668",
+      "bytes": 2799
+    },
+    "tests/unit/test_smoke_harness_contract.py": {
+      "sha256": "971a316a75574ba78dccfad98cd20f2ab2bc0a4a6bd45b19d42826cfefdb6fd3",
+      "bytes": 1607
+    },
+    "tests/unit/test_squad_builder.py": {
+      "sha256": "60f10f524b98cc0c6d09b2764ea96d24780c8edcefb3422c819f972851751b93",
+      "bytes": 9932
+    },
+    "tests/unit/test_staged_blob_check.py": {
+      "sha256": "efdc8db321f5220be8e926a19653ea2d8117e9befda9bfc41eaaab4f484f9b67",
+      "bytes": 3533
+    },
+    "tests/unit/test_tag_vocabulary.py": {
+      "sha256": "3ce38c33d4077c3b123229c4195914ccc6fca5be315be30d796d52322f18aca8",
+      "bytes": 6049
+    },
+    "tests/unit/test_top100_consistency.py": {
+      "sha256": "119572897fc574bdf2b5ddfa7733f0cc0b3a84eb0fac8174343b5f7565f5d61c",
+      "bytes": 4189
+    },
+    "tests/unit/test_top100_sync.py": {
+      "sha256": "d68e0e58eb07501dff76efd5d5fb26ee57facb7cb0b88312ee959501718f8dbc",
+      "bytes": 3186
+    },
+    "tests/unit/test_top30_deviation_vintage.py": {
+      "sha256": "9669679783c4b14edc4119b38a424dc2e326e68d46c9e13882ede90ed0d9dab7",
+      "bytes": 15257
+    },
+    "tests/unit/test_update_hof_pages.py": {
+      "sha256": "e1e5c66da4fa4aca8ccb55b3f998465ef49b91683aa702f4dc990e881b19064a",
+      "bytes": 16814
+    },
+    "tests/unit/test_update_team_analysis_top100_gate.py": {
+      "sha256": "2bffe7b7aee4601a1b9a906a921cd4a5d5d95d075c32deb5ec684302332f3083",
+      "bytes": 8643
+    },
+    "tests/unit/test_verdict_findings.py": {
+      "sha256": "0895f7f2d3908acb3b16bc6897b2e2d9cfe9ea7ceaf88873980379604522b556",
+      "bytes": 5176
+    },
+    "tests/unit/test_verdict_vocabulary.py": {
+      "sha256": "465136a73458ce83ec0b4dba4ccbf099e3de60cd0f9b0e6f82b8b621e2a6f3e5",
+      "bytes": 1679
+    },
+    "schemas/accuracy_index.schema.json": {
+      "sha256": "a072570d981586bc666ff217de5ff23a6b5e545f16ac702268ee6f3f8cfb44ce",
+      "bytes": 1955
+    },
+    "schemas/accuracy_report.schema.json": {
+      "sha256": "e1a3c931c51e1494437f5754c085cf72c61dae5ada63f1fb0a86eef4a9eaf45a",
+      "bytes": 7365
+    },
+    "schemas/article.schema.json": {
+      "sha256": "e9f609a8b883a9f6124bf6f598c7dc986fdb89c34c9460068f6a51c6f2f751f6",
+      "bytes": 3280
+    },
+    "schemas/article_index.schema.json": {
+      "sha256": "3a914d6a9eef21a0ae7b55af5110808740556bb9c129c3cd5700788e38f9d718",
+      "bytes": 2245
+    },
+    "schemas/downloads.schema.json": {
+      "sha256": "abdc41d12db2c5a06fab7f49171696389960aa468818c7c7b8d0f03c944f309a",
+      "bytes": 2647
+    },
+    "schemas/history_index.schema.json": {
+      "sha256": "6f1789c4ac1dd6392b5e4172cdb305e25f0716e750606dafaa3f113b8dae97e2",
+      "bytes": 1895
+    },
+    "schemas/history_table.schema.json": {
+      "sha256": "3a2d60afd0906b7d3d6d1c325c85cb175e04c6e8e19ca039574ab515a49acec8",
+      "bytes": 3321
+    },
+    "schemas/lists_index.schema.json": {
+      "sha256": "e07558ac6a5b141e6f2b063f1e0b717798e30511c4827f6dfc42701724dca701",
+      "bytes": 591
+    },
+    "schemas/lists_season.schema.json": {
+      "sha256": "2817f0b625715dca73f8bd2ff09ebdf7382ec572b1e9d06e0d1feb5fe6aa7f81",
+      "bytes": 7188
+    },
+    "schemas/live_index.schema.json": {
+      "sha256": "9669a79823cbb9891cece7c00e0710687e3322fd3400c0b94d205e423d5c649d",
+      "bytes": 1705
+    },
+    "schemas/live_snapshot.schema.json": {
+      "sha256": "9224e4ed77b89ef4df73ff5e97ac653960bce0cbd0d31a7ec37166ad6a19b9f8",
+      "bytes": 4295
+    },
+    "schemas/match_detail.schema.json": {
+      "sha256": "6c2a807aa40ac6943fd78e44ef11fe425d18b1fcf534e885fc4341d43f0fde8a",
+      "bytes": 8891
+    },
+    "schemas/match_index.schema.json": {
+      "sha256": "e60a027a5fb76eff66a196d28ca780ec6f43c64f1aec7bef727c71ad18e968bd",
+      "bytes": 4767
+    },
+    "schemas/overview.schema.json": {
+      "sha256": "c2a5c4ac0cd0ce5e5b43ce4b888641f1265ed197cdb66ae940fbe8844e8580cd",
+      "bytes": 19768
+    },
+    "schemas/player_detail.schema.json": {
+      "sha256": "398d7de05207bfe93b3015f25c935977554b6f139e79b0a68cb4f342f31408f3",
+      "bytes": 12496
+    },
+    "schemas/player_index.schema.json": {
+      "sha256": "593dba472d66300e1ba9543d68d041f043facfafaf845fcc4d4d0900331edb73",
+      "bytes": 2390
+    },
+    "schemas/player_season_games.schema.json": {
+      "sha256": "6f260e6a1c5f79cdab538cbe3110e169c7bb9e412ab64c0c0ba7752f150cabf0",
+      "bytes": 4410
+    },
+    "schemas/prediction_index.schema.json": {
+      "sha256": "83381805a8fbc01bd0a88dcbcc2c3e7db88ab12bf44c7d10777eea67e4eb8eb9",
+      "bytes": 2023
+    },
+    "schemas/prediction_set.schema.json": {
+      "sha256": "06c10c28e0cb953f1339a3c3f6f7632a6b2a0b70c5b2a2f1a54a6df6370ab668",
+      "bytes": 14927
+    },
+    "schemas/quality.schema.json": {
+      "sha256": "755b06bb28d6ef55b5dd5f5828d93d5eb80d95d0754684cf74f8f115616b9319",
+      "bytes": 2728
+    },
+    "schemas/release.schema.json": {
+      "sha256": "6657298f3aaaa2f4720b00658162ced9482df907f66f851cb4521e4d58ddeff2",
+      "bytes": 3690
+    },
+    "schemas/team_index.schema.json": {
+      "sha256": "deb684bec8ee346002479c5cbc2cc3b9e21545238afd0d5f76012ad20d0e5da2",
+      "bytes": 1729
+    },
+    "schemas/team_season.schema.json": {
+      "sha256": "db91a648ae6911f9ef9c6a08d689c42c1c92ede587294a9f41d76d8c4ba6bb46",
+      "bytes": 11596
+    },
+    "config/app.example.toml": {
+      "sha256": "dd32a45beadd4f8556d6f479413852b5f2635544da28aad681ee91468416179b",
+      "bytes": 1184
+    },
+    "config/coach_names.txt": {
+      "sha256": "6f0741239aa90ab66df72948c4c51ebfdd4c970ec668c8e86d62756700463ffe",
+      "bytes": 1301
+    },
+    "config/coverage.yaml": {
+      "sha256": "cb850d7fa35727d171b9ff27af2a09b42312837cd9de10b6b18068c01b5b49e0",
+      "bytes": 2978
+    },
+    "config/fanfooty_schema.yaml": {
+      "sha256": "f392dda31cab80e33221aa3b6996426c3f0dd9149c8ecb20b1f44965d3dac8a6",
+      "bytes": 1855
+    },
+    "config/public_content.toml": {
+      "sha256": "bf722807ad253eb4455e88daacb7cfb4da521371b73c8b85c0b7c144e1de97d0",
+      "bytes": 10074
+    },
+    "config/ranking_legacy_v1.toml": {
+      "sha256": "20b804f6215755d053ed6dff1b22871a1e1ee804608b0127d27666e45bdb89ca",
+      "bytes": 3667
+    },
+    "config/source_policies.toml": {
+      "sha256": "4f390dab331ff6595cd6d6fbfcfdaf31fce62623ed7e562886bf28f5c9300b45",
+      "bytes": 2115
+    },
+    "config/stat_coverage_eras.yaml": {
+      "sha256": "003d0fe850d6d7356170394ad34a629e971265f7fb2e35d57ee4e55047ace871",
+      "bytes": 2410
+    },
+    "config/team_aliases.csv": {
+      "sha256": "dd34c53787ef9049458175fb4b474047e098477f321ed145c0d1039a18903c18",
+      "bytes": 3025
+    },
+    "config/venue_aliases.csv": {
+      "sha256": "d94e06555368177f5571d261c050b914660936f567a0515e6e29a3345dca3e15",
+      "bytes": 5056
+    },
+    ".github/ISSUE_TEMPLATE/bug_report.yml": {
+      "sha256": "20e678ff49e0bbaf0555eaeaafdd0ab90a818e80b579cf8c0bf90e134043b8e7",
+      "bytes": 1974
+    },
+    ".github/ISSUE_TEMPLATE/feature_request.yml": {
+      "sha256": "0d4d1dacd5b0eb4e6c85f1c58ac2f1bcacd8c7c9aa8fd5d5c69c95a693d871bd",
+      "bytes": 2192
+    },
+    ".github/ISSUE_TEMPLATE/prediction_feedback.yml": {
+      "sha256": "e15cfe9c2eb7b9998a68af9ed3520586f580c1af394388a20d25d37d50478efb",
+      "bytes": 2181
+    },
+    ".github/workflows/pylint.yml": {
+      "sha256": "c825d6fa18dd3f6bb245bf97f902194f23b71bf129bd2f29a6e786212f6166fe",
+      "bytes": 553
+    },
+    ".github/workflows/python-package-conda.yml": {
+      "sha256": "8088f8bc7de0d4ac95af6c5b4e79b7164f2c220ba34b0596c3a4c5b0f3e32a14",
+      "bytes": 1061
+    },
+    ".github/workflows/scvia-ci.yml": {
+      "sha256": "8073fa8bcd50856739d5e81b2c986f81b70c2a044e96ce015300c96a633c56c3",
+      "bytes": 2954
+    },
+    ".github/workflows/scvia-pages.yml": {
+      "sha256": "9c3fe9460b10afc81e565a1412f01c6119cd47550cdabbc100f09120ab2a3b65",
+      "bytes": 3308
+    },
+    ".github/workflows/sync-phase2.yml": {
+      "sha256": "5638d181fb37cd1f295dedfd305d0dfe965683dded2aa1ff5f455bbf9e34a08c",
+      "bytes": 855
+    },
+    ".github/workflows/tests.yml": {
+      "sha256": "425d0645884f1293313e4520ef480c02788a31815b37133c413640b1a122e71f",
+      "bytes": 481
+    },
+    ".github/workflows/weekly-fan-pack.yml": {
+      "sha256": "e64e2f4ee6abc410a829178f70f29b14ea2cf8a14114ef88d9bb9199e7b4e95c",
+      "bytes": 7089
+    },
+    ".githooks/pre-commit": {
+      "sha256": "677d8b7869e4446e8cfb33a92cbb28868919367e4093d6a2742e280382fe57fc",
+      "bytes": 7218
+    },
+    "docs/rewrite/switch-candidate/pre-commit-python.sh": {
+      "sha256": "a6c7845c03ff8d99c2fde165b2bd27e702fa8b9606964bf41678c03a509a5e8a",
+      "bytes": 1096
+    },
+    "docs/rewrite/evidence/b1/README.md": {
+      "sha256": "779a48754e4f515483bff8c3bcdcc83e760a3caab67eadf87d67750c9a3476ee",
+      "bytes": 3266
+    },
+    "docs/rewrite/evidence/b1/b1_repair_fetch.py": {
+      "sha256": "45c56acd395747a2fe13e377c052e17042b2c4cebcff4f8aec616dad94e9e3cf",
+      "bytes": 8920
+    },
+    "docs/rewrite/evidence/b1/fetch-manifest-run1.json": {
+      "sha256": "ec469eb961782989d523c204af3f444f007a6e9099ddfc6a046147b1ecc260e6",
+      "bytes": 6332
+    },
+    "docs/rewrite/evidence/b1/fetch-manifest.json": {
+      "sha256": "d84b4fa85742cc603fd39e2f13108595a9bf97f7151b3b8578150a509f400d90",
+      "bytes": 10217
+    },
+    "docs/rewrite/evidence/b1/raw/08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8.html.gz": {
+      "sha256": "a6857d336d7b8467eefd36e39ef5e7c561d6841ec7c37ae43b6d15f30a2ac4d0",
+      "bytes": 7482
+    },
+    "docs/rewrite/evidence/b1/raw/147ff4fa47727a9617ca5971f8e92c02891b70182f6cf637c787f4286cdbe6a6.html.gz": {
+      "sha256": "2b25aed449e31b67e5b56c6eb0b88ab0379bd8f6b38b87e5ee42930e6dcce91d",
+      "bytes": 3508
+    },
+    "docs/rewrite/evidence/b1/raw/6c0d5a3bd5476ce2af7f7f558eda05ebe05679bb282fed6c434c1722f2ac7fc0.html.gz": {
+      "sha256": "2e21b9126f28318c8faf6a4b988c4074daab67f93dd55a021694a7e22d95b53d",
+      "bytes": 20291
+    },
+    "docs/rewrite/evidence/b1/raw/c02ddb7fe9034c5e9ba1e58e3b6e2344a2185ca308f72f83eecc18beb5039ed6.html.gz": {
+      "sha256": "a9f9c1fed55aa08efb9131469babbba6de497dfa1da8cd1831632999f3a8f91b",
+      "bytes": 9591
+    },
+    "docs/rewrite/evidence/b1/raw/e1675c9dc8b2bb6cbcf1c77a9036a5c12c53e23eee10c3c4842bff7b665dd45c.html.gz": {
+      "sha256": "e5f2e2006cd50cdd7f335535dca356f3c57ab793c55d28ce517933ff4c11f097",
+      "bytes": 7445
+    },
+    "docs/rewrite/evidence/b1/raw/e8bf60340e0bbc0317221c7329850e15cdb61bfe20bbc1d90acc9ff3d21bfdd8.html.gz": {
+      "sha256": "c9b219d78b01d934c4178031fc16de7c7a8dfd7158ee21b847e226b6dcccfbee",
+      "bytes": 6660
+    },
+    "docs/rewrite/evidence/b1/rows.jsonl": {
+      "sha256": "853d9ff28658aae728cac426695d6b6d1b3c8dc2998140fcceff53347f1e202e",
+      "bytes": 20024
+    },
+    "docs/rewrite/evidence/baseline-tests.json": {
+      "sha256": "43a9c4b1f5351c09f8321a027cf7dc3bc49963aa87f5a5493ba9b714beeca7bb",
+      "bytes": 1065
+    },
+    "docs/rewrite/evidence/inject_upload_failure.py": {
+      "sha256": "34d223293b0e46315a27d123193f760e65fb5f8d17e1671453551f154ae64682",
+      "bytes": 1640
+    },
+    "docs/rewrite/evidence/input-v0-manifest.json": {
+      "sha256": "47a24cd7de4740a53c6698b493fcd8d1e1d3cfcb78daf1971809950749e5f1ef",
+      "bytes": 4627812
+    },
+    "docs/rewrite/evidence/refresh-corrections.csv": {
+      "sha256": "d9b0b4f1989251a5feb93a03a2a687c5c0dae1c8f966e2c09cb358c54b08c15d",
+      "bytes": 3705355
+    },
+    "docs/rewrite/evidence/refresh-manifest.json": {
+      "sha256": "bed0947de4b2aecc5faeee957672b0aa00c4085556597585aa0312015a5106a5",
+      "bytes": 303743
+    },
+    "docs/rewrite/evidence/refresh-sources.json": {
+      "sha256": "32ce871b4c9af118e6263c9f1bfd91481973ad9975aef513fa28eb49ea2b22ce",
+      "bytes": 378078
+    },
+    "docs/rewrite/evidence/rehearsal/legacy-harness-log-excerpt.txt": {
+      "sha256": "3d0de1d2456effb2530d4402e02ac757a70d5cabe8325998fabb60d47a01eff6",
+      "bytes": 2898
+    },
+    "docs/rewrite/evidence/rehearsal/old-vs-new-compare.json": {
+      "sha256": "7f07e2af72301e46f583ec2a090d5b8bcc57ea3a5c861a0f897f2df47f49aa0c",
+      "bytes": 3794
+    },
+    "docs/rewrite/evidence/rehearsal/publish-rollback-restore.json": {
+      "sha256": "0f28d32281a884c69d44e6aa26ca8c5ab90d5d031e5a7c609f03eb76cd45613b",
+      "bytes": 5573
+    },
+    "docs/rewrite/evidence/rehearsal/smoke-harness-output.txt": {
+      "sha256": "37dddd0e8ecd5e1d9dafc0ad6c206bb2e754df5bbacd4e245ce866f5bfcc78f0",
+      "bytes": 1331
+    },
+    "docs/rewrite/evidence/rehearsal_compare.py": {
+      "sha256": "c66a229bafaf786aef321dfa0f6fcf608333ad165a41744959ab41ab0df9899f",
+      "bytes": 21859
+    },
+    "docs/rewrite/evidence/rehearsal_publish_restore.py": {
+      "sha256": "2421f40c6fb7bfc0da113a53d3557eb806be76c91e6c41e2ade2967ad473fdb7",
+      "bytes": 6112
+    },
+    "docs/rewrite/evidence/review-2026-09-27/contracts-check.txt": {
+      "sha256": "02ee27244035d92b8adc661ca07418efdd7f799670a4cf71add058d50a76e88a",
+      "bytes": 430
+    },
+    "docs/rewrite/evidence/review-2026-09-27/cursor-tooling.json": {
+      "sha256": "2d684822005d01bcd79721987f6f389b8f24a5f87a911d5e93031fc3ff81be11",
+      "bytes": 875
+    },
+    "docs/rewrite/evidence/review-2026-09-27/latest-focused-tests.txt": {
+      "sha256": "138ea33658595137222ee8c1b1bbcd0160d1ba88fbe265a428b2107c5214dd59",
+      "bytes": 902
+    },
+    "docs/rewrite/evidence/review-2026-09-27/latest-reproductions.txt": {
+      "sha256": "83b079234f85b47eee56a9fbffe10472c92987b0042d12a80de6a3a596022810",
+      "bytes": 738
+    },
+    "docs/rewrite/evidence/review-2026-09-27/overview-mobile.png": {
+      "sha256": "5be0d1a194766dcb57bf847bf7002523e476ff4de4d628895cab94ffcaa715ce",
+      "bytes": 338130
+    },
+    "docs/rewrite/evidence/review-2026-09-27/predictions-desktop.png": {
+      "sha256": "6c854d49cdd947c1d8e5c785c412a32eb97f2f763ef1ceae0516bdf6322f5fed",
+      "bytes": 457114
+    },
+    "docs/rewrite/evidence/review-2026-09-27/reproduce_open_findings.py": {
+      "sha256": "33fa19bf86f4d006573d4dd69d2f803ca23ca7d8f6fb6714338fb26e97d2cae1",
+      "bytes": 4092
+    },
+    "docs/rewrite/evidence/review-2026-09-27/web-check.txt": {
+      "sha256": "4a1f3b7aa383fcb897928d36b0ce47bdb4f317135171b3247e96a37867548cd2",
+      "bytes": 46911
+    },
+    "docs/rewrite/evidence/season-growth.json": {
+      "sha256": "dbf1802eef1a63a8035e7b948ebb56fe24bb52293b9cdef7c2777f1052c46b72",
+      "bytes": 23784
+    },
+    "docs/rewrite/evidence/season_growth.py": {
+      "sha256": "a8c856ff48169ec7bbe8e34e51e952f3c3edbe27f93c144d1d70dc21f9d64708",
+      "bytes": 3814
+    },
+    "docs/rewrite/evidence/source_inventory.py": {
+      "sha256": "c4dacca1ad6afb6da89407881143026f86e4d535a989a0fb9bd1018c8192b5b0",
+      "bytes": 4176
+    },
+    "docs/news/2026-05-13-voss-carlton.md": {
+      "sha256": "ffbeeea9b23c37c336a57a1e1a54121ddcd1229e773f1dcf75fa74355a28fae9",
+      "bytes": 20503
+    },
+    "docs/news/2026-05-15-carlton-next-coach.md": {
+      "sha256": "f84f2d3bc4ea65b312bfab934dfef43982c6060e7e3613c9f7afc63ca29ed2a3",
+      "bytes": 17444
+    },
+    "docs/news/2026-05-15-richmond-vs-stkilda-r11.md": {
+      "sha256": "2f5f2890d93a2b13ecd2519170159fa22581313fb5950be4adce20a1f336c9d7",
+      "bytes": 11617
+    },
+    "docs/news/2026-05-19-pendlebury-stormrider.md": {
+      "sha256": "15d067ec93591a182d7bef85b6488f8ddab3fa553a7aa29305a553827a9e536d",
+      "bytes": 15926
+    },
+    "docs/news/2026-05-25-neale-daniher-tribute.md": {
+      "sha256": "a7fc425587333f5b192e7c2a9bd09a6425d31c06a4cb74b5f37b95fc5320815e",
+      "bytes": 17688
+    },
+    "docs/news/2026-05-27-hird-essendon-coach.md": {
+      "sha256": "27bac3928680978eadb99b5e6c072ff9875027142b13b5d53bc6f84bd98634b3",
+      "bytes": 25834
+    },
+    "docs/news/2026-05-29-greg-williams-possession-engine.md": {
+      "sha256": "6a1fe85aad94b2adf43b70780989a84b1f0283cbf2a5a9dd46635fe58e327f64",
+      "bytes": 37567
+    },
+    "docs/news/2026-05-29-jonathan-brown-fist-of-god.md": {
+      "sha256": "d3ca86ff5363b9b971216b23872c4d16e5a014618997647a09a35a08010de6da",
+      "bytes": 39451
+    },
+    "docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md": {
+      "sha256": "4c713947678327e0d99236c4112a1d0dc313af20b7d5e8a0fd109e1c8cb6498e",
+      "bytes": 87200
+    },
+    "docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md": {
+      "sha256": "76b88dbab30ef6413c68de16af68557b518e2f20fdb57df28d497d6a813b9ab5",
+      "bytes": 49446
+    },
+    "docs/news/2026-06-19-afl-2026-free-agency-trade-window.md": {
+      "sha256": "6adc08e54595c1c25f8c1bf1919115af5ad28c72bc21a8f395e223acca7a33b9",
+      "bytes": 23168
+    },
+    "docs/news/2026-06-21-dustin-martin-the-storm.md": {
+      "sha256": "7105836f9aa72958950d75306c7b0ecb30207695d06ae2366d9ca3ad42edc54b",
+      "bytes": 34490
+    },
+    "docs/articles/afl-draft-analysis-2025.md": {
+      "sha256": "96ce83f8e73939a4da3d75d426de2c589f54eef0a6bc9eadafd3d3eb9eea41cc",
+      "bytes": 46923
+    },
+    "docs/coaches-strategy-corner/adelaide-vs-geelong-round-14-2026.md": {
+      "sha256": "14aa7543b5875a31a62dbc12ab6670dd8067ef589811548cd81bacf0eb3b1a1a",
+      "bytes": 33304
+    },
+    "docs/coaches-strategy-corner/afl-2026-draft-trade-strategy.md": {
+      "sha256": "bff3ac0055ddbcf8b5aca0c0023436f69b6eda289da49f751061b2064820eb27",
+      "bytes": 39157
+    },
+    "docs/coaches-strategy-corner/brisbane-lions-vs-fremantle-round-13-2026.md": {
+      "sha256": "9bd3bf255723a3915ed3f4fea508f97a0aebcc91f91b5b49992b9ebd16301dbb",
+      "bytes": 27115
+    },
+    "docs/coaches-strategy-corner/carlton-vs-geelong-round-13-2026.md": {
+      "sha256": "19c126c7e8dfce7c10f97c6599a58fe10b25e14ff1035f704b03acc187e24589",
+      "bytes": 28889
+    },
+    "docs/coaches-strategy-corner/collingwood-vs-melbourne-round-14-2026.md": {
+      "sha256": "3d6bc6d4a552f2a0946e41861159142e8803d718ee7c047fe01422fa31e2c14d",
+      "bytes": 30891
+    },
+    "docs/coaches-strategy-corner/essendon-vs-carlton-round-14-2026.md": {
+      "sha256": "fded02aa1a1168c3a7a9f4aa334099cb9c08bae5d772c460a1b29b95645ae4de",
+      "bytes": 31598
+    },
+    "docs/coaches-strategy-corner/gold-coast-vs-brisbane-lions-round-14-2026.md": {
+      "sha256": "2f7754013fd67b4d7f4cb5e77449577de2dee43e8517a92def42e75b85744b37",
+      "bytes": 37771
+    },
+    "docs/coaches-strategy-corner/hawthorn-vs-western-bulldogs-round-14-2026.md": {
+      "sha256": "6b70afd28d8fba47033e6c7cca703c33c1103d85e7812eff5ee662f8b709845d",
+      "bytes": 30669
+    },
+    "docs/coaches-strategy-corner/melbourne-vs-greater-western-sydney-round-13-2026.md": {
+      "sha256": "f6db77158c9a9a4ccb345681809e2c7b72b31457a19eaac74dbb9de926dd6053",
+      "bytes": 35588
+    },
+    "docs/coaches-strategy-corner/north-melbourne-vs-fremantle-round-14-2026.md": {
+      "sha256": "72c106aa44963a1c0978c063adb8eb99685cff19cbaa2b5ee9cd22faf7d27d16",
+      "bytes": 37159
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-executive-summary.md": {
+      "sha256": "bcb1346e6b509de8f952a26e3e1b2a2f89db560d90ceb68f181fff89414eaf71",
+      "bytes": 6043
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-full-time-verdict.md": {
+      "sha256": "56263bd5c57d25527597ee1df397b655bb57a8a7b682a6000b6e8ae57353dc14",
+      "bytes": 39715
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-half-time-live.md": {
+      "sha256": "2cbd66bdd411c11f75c5ffab949c23b1d5e0d25536184fa30a7e54d7d817414d",
+      "bytes": 7207
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-head-to-head-history.md": {
+      "sha256": "d7cd4955d89a3af685e2f4574a85bf16087487a7312a4ce3e9b23daa67490ba9",
+      "bytes": 9003
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-player-matchups.md": {
+      "sha256": "3018407e8cfa7834a66f8270b01ee522bb2e7dc861efd5ec6c2932892b2cfc31",
+      "bytes": 15820
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-postmortem-footystrategy.md": {
+      "sha256": "040d9c6ebd4fd472c4d3067a38f02dbdf51dbd9c3dd96a390ae1b8bdc9aa8fd2",
+      "bytes": 25073
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-postmortem.md": {
+      "sha256": "87ca1352cd9178fa687b7ca3f01d24346b864d845059d4b8f8faebf76c5e2d96",
+      "bytes": 40161
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-q3-live.md": {
+      "sha256": "72a2c26acbd44aa7f87e39e3350acfa425e0d9a7cede0121a273ceb71fb5ebb3",
+      "bytes": 15771
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026-q4-live.md": {
+      "sha256": "0ca523a1309d7ee7d74d2a74ea867f5d94042c5cf8169ecf062792e50dfb38de",
+      "bytes": 20492
+    },
+    "docs/coaches-strategy-corner/richmond-vs-adelaide-round-9-2026.md": {
+      "sha256": "912ccc7709cfd35380d1f347e2965d2202407a1ada33512e1739d21801ba382d",
+      "bytes": 26807
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-executive-summary.md": {
+      "sha256": "dc4f6c349146b03dee77b518ad7e7f01321eb728fea5da179eb944f77f68e62c",
+      "bytes": 6369
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-full-time-verdict.md": {
+      "sha256": "cb1354bd3fd4aa1a2e21c699eae36ee347ece42a50bc477378b899d21915f9cd",
+      "bytes": 14465
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-half-time-live.md": {
+      "sha256": "2f6b40646ac1681835774fbbbbe4288a053aed9e7b6791c361a38e9f3a765dd4",
+      "bytes": 3973
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-head-to-head-history.md": {
+      "sha256": "92db94a237063ba29aca832a8b75540be39f6ee6628c7c8d7e073a9f4423923d",
+      "bytes": 8290
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-player-matchups.md": {
+      "sha256": "d2f8867cdbb92785fa9046b6d18740b24d23df45c5221cef8b7dfa70cf8c359d",
+      "bytes": 18996
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-postmortem.md": {
+      "sha256": "295146528097230a7a629a4c105bf8fc52ae551ddb72191a37f7aaf65ec2b7b8",
+      "bytes": 28236
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q1-live.md": {
+      "sha256": "70ca1721af9c0a1b52cff51886813d4675f18928857a4f036b8bb01f9dd979c4",
+      "bytes": 50532
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q2-live.md": {
+      "sha256": "fd4a596f97bda8a4f3e843d63a183ae0efdb27e57e29a7bb4d5668a26d8f6bf0",
+      "bytes": 21751
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q3-live.md": {
+      "sha256": "453b186551c5a73af296d940559439c81ceb578ea0ab954ee85f63fb7a762a88",
+      "bytes": 9740
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026-q4-live.md": {
+      "sha256": "afcb524dbb4e598ed6509f22d9769992294eb2560e737c0a662be303fc6a4298",
+      "bytes": 11083
+    },
+    "docs/coaches-strategy-corner/richmond-vs-stkilda-round-11-2026.md": {
+      "sha256": "cf4d4ac0fdfdf1c4af3792edd4f4677b5d554fce405ddf659d4ea333bd56d568",
+      "bytes": 23599
+    },
+    "docs/coaches-strategy-corner/stkilda-vs-hawthorn-round-13-2026.md": {
+      "sha256": "e44b2957a74d9c8e536447c2e597bd2ffab89975884aebb1b8751213ea3c314c",
+      "bytes": 30414
+    },
+    "docs/coaches-strategy-corner/sydney-vs-richmond-round-13-2026.md": {
+      "sha256": "6a6e3a00fc78f29675f2de861af5d9531a5be7d60d766bd5661968630eb12ec0",
+      "bytes": 32380
+    },
+    "docs/coaches-strategy-corner/sydney-vs-st-kilda-round-14-2026.md": {
+      "sha256": "d6be2e77122be555928170892fabf6550018ac7688f871cd7b827b7614efea76",
+      "bytes": 32904
+    },
+    "docs/coaches-strategy-corner/west-coast-vs-essendon-round-13-2026.md": {
+      "sha256": "e8e75c34907f0e5b161b62dd3b8b7a978c6cc3a23abe5f4da48e3ef53e8910ec",
+      "bytes": 30661
+    },
+    "docs/coaches-strategy-corner/west-coast-vs-port-adelaide-round-14-2026.md": {
+      "sha256": "1efa66d1603cf4fa281afe96d267377e6cd1f1393881d66454e87c425833fe17",
+      "bytes": 34872
+    },
+    "docs/coaches-strategy-corner/western-bulldogs-vs-collingwood-round-13-2026.md": {
+      "sha256": "a8a39ea8bf81967d71b8a59fd9d4daa12cc69f498eaee83b4671061e3d3d68fe",
+      "bytes": 29441
+    },
+    "docs/hall-of-fame-captains.md": {
+      "sha256": "dd3b34a6b946c430afabf2101539c0078f56d8819e632ba6bf4dacfe5c4f86c1",
+      "bytes": 30264
+    },
+    "docs/hall-of-fame-careers-cut-short.md": {
+      "sha256": "76a5cce47618852b6ffdcf3b41d8fed76b6166dae5c137edd628f0c761ee53d0",
+      "bytes": 30833
+    },
+    "docs/hall-of-fame-coaches.md": {
+      "sha256": "66b672fce2a0a95d75e8b1d86c47fe1ff03476961eb04a6cec62308ccbc514c5",
+      "bytes": 17223
+    },
+    "docs/hall-of-fame-courageous.md": {
+      "sha256": "5a39e7d8d4251f36e9513776bcccfb71b3bf2c89734c0117468fd129b3539339",
+      "bytes": 22341
+    },
+    "docs/hall-of-fame-dynasties.md": {
+      "sha256": "71785a93dcb556f68eb4407144b292f649d65b0ec8442d5c7138dcb39de0ec83",
+      "bytes": 51073
+    },
+    "docs/hall-of-fame-forgotten-heroes.md": {
+      "sha256": "a12b010750f8072e59cfbf8d6c6a1793055eebd0586e83bee6ec655d50ddddaf",
+      "bytes": 85167
+    },
+    "docs/hall-of-fame-indigenous.md": {
+      "sha256": "e8c3662c4a6fb772800f3bb273467fdbe26a26a4bca6d22cfafadeb5424ff43b",
+      "bytes": 31934
+    },
+    "docs/hall-of-fame-stat-brownlow.md": {
+      "sha256": "173e087990bb26b0664da229395b0f93862a749891ce0b33e8a511ded4fa8003",
+      "bytes": 8461
+    },
+    "docs/hall-of-fame-stat-clearances.md": {
+      "sha256": "acf07afeec5ede0e2171af2ff35fc698cdda9a4f5f423d0ede820955d29e9414",
+      "bytes": 7737
+    },
+    "docs/hall-of-fame-stat-contested.md": {
+      "sha256": "99b6de2a24a1c6754220448c8b0d1928c6de57008b7615fbc1d44f7400ddbe47",
+      "bytes": 8029
+    },
+    "docs/hall-of-fame-stat-disposals.md": {
+      "sha256": "3128b6ebe37be6a6b9e399c8ad92f994450eb9aa3c5f3979ca4ae3d5eb79cc44",
+      "bytes": 8315
+    },
+    "docs/hall-of-fame-stat-games.md": {
+      "sha256": "4d891d37a6c6c2d7db222ffac3411c9aa8abddbd7a113a9fa5097a463abc0cbf",
+      "bytes": 7288
+    },
+    "docs/hall-of-fame-stat-goalassists.md": {
+      "sha256": "64ed7482ba449d11061468d17f3574efaea238527ed0a3653e24c5f9bea0d954",
+      "bytes": 7662
+    },
+    "docs/hall-of-fame-stat-goals.md": {
+      "sha256": "eed4c4b07d15c89495106010cad5885f90d48b64d211b3e6b99d8bc4ae1490c6",
+      "bytes": 7683
+    },
+    "docs/hall-of-fame-stat-hitouts.md": {
+      "sha256": "84c9e590eedf0f75e5338f9c4475a52bb073e92286142369a5800942cf972e24",
+      "bytes": 7951
+    },
+    "docs/hall-of-fame-stat-kicks-handballs.md": {
+      "sha256": "bf77af292a744c02c5ebd95d55d7b6b779f97b1e68f22db81c73135705fdbb30",
+      "bytes": 9413
+    },
+    "docs/hall-of-fame-stat-leaders.md": {
+      "sha256": "40a1e0b21abf50d99a3e7bfb0175fbf0c441758cfc2d7841f5ad4aab30660ce4",
+      "bytes": 9766
+    },
+    "docs/hall-of-fame-stat-marks.md": {
+      "sha256": "a7e6b0ca15e69a06fcd675ef2558582c78abb7779712f928a64a632eeb6e908c",
+      "bytes": 7145
+    },
+    "docs/hall-of-fame-stat-single-season.md": {
+      "sha256": "73444e78eb2deb45cca9bedda601d2cc6c15e4891263a7c056830d72087fd4c1",
+      "bytes": 19844
+    },
+    "docs/hall-of-fame-stat-tackles.md": {
+      "sha256": "3ae4934b4ab91e2837a53724a8c10509d8ee14277065de28607eaa222965ed5c",
+      "bytes": 7505
+    },
+    "docs/hall-of-fame-top100.md": {
+      "sha256": "8d59ea92274c01a9261d512a75be83f705994e93b524d7c37f121bacba75214d",
+      "bytes": 75059
+    },
+    "docs/hall-of-fame.md": {
+      "sha256": "3238081275e913f8c821a72567634e43057af6b18e181ab4e91a8fd6c12e79af",
+      "bytes": 5625
+    },
+    "docs/afl-season-2026.md": {
+      "sha256": "30a65210d3eadcd5c5925ebf72e3635693a901115e28712c6aa89ce5b837d26c",
+      "bytes": 909
+    },
+    "docs/afl-finals-2026.md": {
+      "sha256": "12e7042f05126b87c19f28c57ff0d988ec40d3908375556804f4f0f8a2bb34b6",
+      "bytes": 17734
+    },
+    "docs/afl-brownlow-2026.md": {
+      "sha256": "4c78a4d59db5754da03ea8846be17da3aade4481787bac3283b5c419c24cf414",
+      "bytes": 4109
+    },
+    "docs/afl-stat-leaders-2026.md": {
+      "sha256": "bb57153f02a769b6a38154bfdd5f224a843ee38d8b218e2cea883ffb146cd124",
+      "bytes": 18232
+    },
+    "docs/afl-team-analysis-2026.md": {
+      "sha256": "5392a0469da0a439fdceb94b0de2155853dfbd34f2be0a6869abc5a44efc0b85",
+      "bytes": 21476
+    },
+    "docs/afl-team-profiles.md": {
+      "sha256": "4f1e42e228426efb332cca2c512074966d47b0f4047ece29292588ec230cfdd8",
+      "bytes": 22157
+    },
+    "docs/afl-history.md": {
+      "sha256": "4c63a0a2096f5e7f8abb5ace9b5f64e54cee8c153b46ef3cde5325dec5690b95",
+      "bytes": 5978
+    },
+    "docs/afl-insights.md": {
+      "sha256": "7d7bc5ce50a294bc3ddb9e135f1816ea1f07f259fd3737b34837698a9fec4496",
+      "bytes": 3867
+    },
+    "docs/afl-predictions-2026.md": {
+      "sha256": "01ed313f220252a12430b8cf2939333ecae051c59fa0292a0dc0a0c57eacf661",
+      "bytes": 2277
+    },
+    "docs/afl-backtest-2026.md": {
+      "sha256": "f1d13c68ff50308b40dbc80b1a001a291d999b0e11f40b47d3e77d6af826c120",
+      "bytes": 36160
+    },
+    "docs/glossary.md": {
+      "sha256": "728e26bacd9850cc277851231011abdbdedf682415b73ff21eb3c9197cbbaaf1",
+      "bytes": 7463
+    },
+    "docs/list-management-101.md": {
+      "sha256": "e554d76dd004132a534d81fb98bf2d3160272cc74c5d507354e662dba7f46183",
+      "bytes": 26663
+    }
+  }
+}

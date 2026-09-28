@@ -78,9 +78,9 @@ def recording_status(metric: str, lo: int, hi: int, eras: CoverageEras | None) -
 
 
 def _default_eras() -> CoverageEras:
-    from pathlib import Path
+    from supercoach_via.settings import default_config_dir
 
-    return CoverageEras.load(Path(__file__).resolve().parents[3] / "config" / "stat_coverage_eras.yaml")
+    return CoverageEras.load(default_config_dir() / "stat_coverage_eras.yaml")
 
 
 def era_stats(q: SnapshotQuery, *, eras: CoverageEras | None = None) -> pd.DataFrame:

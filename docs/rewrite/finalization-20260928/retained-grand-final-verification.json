@@ -1,0 +1,35 @@
+{
+  "snapshot_id": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f",
+  "source_url": "https://afltables.com/afl/stats/games/2026/081920260926.html",
+  "match_id": "m:2026:gf:brisbane_lions:fremantle:0",
+  "season_match_count": 218,
+  "player_rows": 46,
+  "players_per_club": {
+    "brisbane_lions": 23,
+    "fremantle": 23
+  },
+  "stat_cells_compared_including_nulls": 1058,
+  "all_stat_cells_match": true,
+  "quarter_scores_match": true,
+  "all_dates_and_match_links_match": true,
+  "season_summary_matches": true,
+  "season_summary": {
+    "season": 2026,
+    "first_match_date": "2026-03-05",
+    "last_match_date": "2026-09-26",
+    "matches_complete": 218,
+    "matches_scheduled": 0,
+    "fixture_checked_at": "2026-09-28 20:42:08.194641+10:00",
+    "schedule_complete": null,
+    "source_status": null
+  },
+  "public_site_verification": {
+    "release_id": "20260928T111014Z-ca96603163ad",
+    "snapshot_matches": true,
+    "match_detail_stat_cells_compared": 1012,
+    "player_log_stat_cells_compared": 966,
+    "player_log_links_checked": 46,
+    "public_resources_identical_in_sealed_site": 48,
+    "quarter_scores_and_summary_match": true
+  }
+}

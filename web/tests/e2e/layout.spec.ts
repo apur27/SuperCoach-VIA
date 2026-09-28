@@ -17,7 +17,7 @@ for (const width of WIDTHS) {
 test('200% zoom (1280px viewport at 2x text/zoom equivalent: 640 CSS px) stays usable', async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: { width: 640, height: 400 }, deviceScaleFactor: 2 });
   const page = await ctx.newPage();
-  for (const p of ['', 'predictions/', 'player/?id=legacy__demo_player_a1', 'data-status/']) {
+  for (const p of ['', 'predictions/', 'player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex', 'data-status/']) {
     await page.goto(p);
     await page.waitForLoadState('networkidle');
     expect(await noHorizontalOverflow(page), p).toBe(true);
@@ -76,7 +76,7 @@ test('keyboard-only predictions flow', async ({ page }) => {
 });
 
 test('accessible charts expose names and data tables', async ({ page }) => {
-  await page.goto('player/?id=legacy__demo_player_a1');
+  await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex');
   const chart = page.getByRole('img', { name: /form/i });
   await expect(chart).toBeVisible();
   await page.getByText(/Data table: .*form/i).click();

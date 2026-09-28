@@ -3,7 +3,7 @@ import { test, expect } from './helpers';
 
 test.describe('watchlist', () => {
   test('persists across reloads under the versioned key', async ({ page }) => {
-    await page.goto('player/?id=legacy__demo_player_a1');
+    await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex');
     await page.getByRole('button', { name: /Add to watchlist/ }).click();
     await page.goto('watchlist/');
     await expect(page.getByRole('link', { name: 'Demo Player A1' })).toBeVisible();

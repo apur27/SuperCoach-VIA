@@ -1,0 +1,25 @@
+**PASS** for a local merge. The two source findings are fixed in this tree, the final scratch smoke matches the current inventoried source, and the grand-final artifact is the later sealed release. Production activation is still separate.
+
+## Fixes
+
+A passing refresh now rebuilds season rows for every checked season, including a run whose only upserts are source observations. `_with_season_aggregates` uses the union of match upserts and `checked_seasons`, and returns only when that set is empty (`pipeline.py:136-138`). `fixture_checked_at` still advances only for a season that was checked. `test_unchanged_fixture_still_records_freshness_for_checked_seasons` promotes a new snapshot, stamps 2025 and 2026, leaves 2024 unset, and keeps match counts, dates, `schedule_complete`, and `source_status`. An unreachable refresh still returns before any upsert (`pipeline.py:293-298`).
+
+`match_details` labels `source_fetch` as `AFL Tables source page` and keeps an `https` URL; other rows stay `Legacy match/player CSV import` (`resources.py:161-168`). The regression covers both labels and a null stat cell.
+
+On release `20260928T111014Z-ca96603163ad`, snapshot `sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f`, the sealed grand-final detail and its `site/data` copy are the same 7,023 bytes. The source is `AFL Tables source page` with `https://afltables.com/afl/stats/games/2026/081920260926.html`. Round 1 is still `Legacy match/player CSV import` with note `data/matches/matches_2026.csv`. There are 23 and 23 players, date 2026-09-26, and 218 matches in the index. Jye Amiss’s behinds and hitouts are null. `validation.json` is PASS and the seal is `bd9a655b06795c2d83ca77a48adb9df85fb2774463fa390f814dac2ff72474fa`. That is the same release and snapshot as `parent-grand-final-final-site.json`. The browser report in `browser-20260928T111014Z-ca96603163ad/` records `source_label: true` and no browser errors. The earlier release `20260928T104520Z-2561b2316c8a` is the pre-label site. `gf-label-growth-summary.json` binds the current site at 276,821,039 bytes and a projection of 294,087,529 bytes (280.46 MiB).
+
+The lock tests wait until the owner status reaches `import`, which the script writes only after all three locks are held, then expect the second run to exit 5 without rewriting that status. A lock refusal exits before the status trap is installed. `finally` stops the owner process group, and a partial status read is ignored.
+
+## Evidence checked
+
+I recomputed the inventory with `docs/rewrite/evidence/source_inventory.py` and compared it with `/tmp/scvia-scratch-smoke-final-20260928/scratch`. Both are 854 files, 18,202,333 bytes, `318c37e8b2a80d6f518f89cde1427923dc4d7a1a389224d58f81400442c8ea5a`, 0 differences. The pipeline, resources, and new tests were last written at 21:06, before `smoke-result.json` at 21:24. The hermetic log was written at 21:26 and does not change that fingerprint.
+
+The final smoke log ends after rollback to `20260928T111557Z-b26f3b884476`. Wall time is 620.09s. Its compare file has `verdict.ok: true`, all-time delta 0, and 130/130 yearly lists, on captured snapshot `sha256:55e295f1…`. That is not the grand-final snapshot. The injected copy failure left the first release’s bytes in place. `hermetic-cores-0-2-4-6.txt` is 695 passed in 29.33s; `hermetic-post-review.txt` is the same 695 in 34.15s. `cpu-topology.json` shows CPUs 0–1 on core 0 and 2–3 on core 1. Affected integration is 9 passed in 49.92s.
+
+`SWITCH_PLAN.md` still says the switch is not activated. The local grand final is not described as a production refresh.
+
+## Still outside this merge
+
+Two genuine shadow cycles and the owner’s deployment, schedule, and live-publish decisions remain. The scratch smoke is a captured pre-final rehearsal.
+
+I did not rerun pytest, Playwright, the browser, mypy, ruff, pack/verify, or the smoke. I did not edit the worktree or the main checkout.

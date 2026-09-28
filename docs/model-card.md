@@ -20,7 +20,7 @@ The model predicts **disposals** (kicks + handballs) for one player in one speci
 
 - Training population: player-games from 2010 onward with a verified date, joined to a complete, dated match and a non-null disposal label. Blocks: 134,971 train rows before 2025-01-01, 9,907 calibration rows (2025), and 9,971 holdout rows (2026).
 - Features (`features_v1`) are built by one engine for both training and serving. For six base stats they are: prior-5 mean, within-season prior-3 mean, season-to-date mean and EWM(span 3). The rest are prior time on ground, days since the last game, career counter, age where the DOB is known, history and stage context, plus club, opponent and venue categories. Missingness indicators are derived before imputation. Encoders and imputers are fitted inside each training fold.
-- Leakage controls: only games whose match day precedes the target's cutoff are used. Ambiguous same-day games are excluded. Tests mutate future outcomes and assert the features do not change (M02), and assert that replay and prospective feature construction agree (M05).
+- Leakage controls: only games whose match day precedes the target's cutoff are used. A row with `available_at` stays hidden until that stamp and is not moved ahead of earlier games. Ambiguous same-day games are excluded. A forecast or replay stage earlier than the bundle's recorded `knowledge_cutoff` is refused; that cutoff covers training, calibration and the promotion gate. Tests mutate future outcomes and assert the features do not change (M02), and assert that replay and prospective feature construction agree (M05).
 - Known limitation: legacy rows have no archived `available_at`. Replay therefore assumes each game was available the following UTC day, and it cannot prove what an operator knew at the time.
 
 ## Selection and promotion
@@ -43,6 +43,8 @@ Champion gate: the candidate's MAE must beat the prior-5 baseline by at least 1%
 | Mean of round MAEs (separately labelled) | 3.742 | 3.905 |
 
 The 2026 replay evaluation scores the same bundle over all 30 stages. It covers 9,811 scored rows: 22,259 intended candidates, of which 17,759 were predicted and 9,826 joined to an actual outcome. 15 rows were excluded: 11 with an unknown actual and 4 with a club mismatch. Its pooled MAE is 3.755 against 3.899 for the baseline. The six finals stages have 92 rows each, below the 100-outcome threshold, so they are reported descriptively only.
+
+Those replay figures were produced before bundle knowledge cutoffs were enforced. The bundle's promotion gate consumed the 2026 holdout, and `holdout_end` was open, so the same bundle is not eligible to replay 2026 stages under the current rule. Treat the numbers above as the holdout evaluation. A leakage-free replay has to use a bundle whose recorded `knowledge_cutoff` is on or before each stage cutoff. This note does not replace the measured holdout metrics; they were not recomputed in the continuation.
 
 ## Uncertainty interval
 

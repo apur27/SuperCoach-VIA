@@ -19,6 +19,34 @@ from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+
+def resolve_existing_dir(checkout: Path, packaged: Path, marker: str) -> Path:
+    """Prefer a source checkout directory. An installed wheel ships the packaged copy."""
+    if (checkout / marker).is_file():
+        return checkout
+    if (packaged / marker).is_file():
+        return packaged
+    return checkout
+
+
+def resolve_config_dir(checkout: Path, packaged: Path) -> Path:
+    return resolve_existing_dir(checkout, packaged, "team_aliases.csv")
+
+
+def default_config_dir() -> Path:
+    here = Path(__file__).resolve()
+    return resolve_config_dir(here.parents[2] / "config", here.parents[0] / "config")
+
+
+def default_template_dir() -> Path:
+    here = Path(__file__).resolve()
+    return resolve_existing_dir(
+        here.parents[2] / "templates" / "reports",
+        here.parents[0] / "templates" / "reports",
+        "season-summary.md.j2",
+    )
+
+
 ENV_OVERRIDES: dict[str, str] = {
     "SCVIA_DATA_ROOT": "data_root",
     "SCVIA_OUTPUT_ROOT": "output_root",

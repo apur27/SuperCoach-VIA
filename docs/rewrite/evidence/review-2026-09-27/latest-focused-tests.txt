@@ -1,0 +1,13 @@
+...........................................................              [100%]
+=============================== warnings summary ===============================
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+  /tmp/scvia-review-2aad17873-1f8yta7x/src/supercoach_via/storage/queries.py:102: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+    return self.con.execute(sql, params or []).fetch_arrow_table()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+59 passed, 6 warnings in 14.67s

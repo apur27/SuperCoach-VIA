@@ -1,14 +1,25 @@
-# Manual GitHub Pages deployment for the SuperCoach VIA static site (PLAN 2, 11.6).
-# Never runs automatically: workflow_dispatch only, no schedule, no push trigger.
-# The build job has a read-only token; only the deploy job gets pages/id-token.
+# Manual deploy of an already sealed site. Never scheduled, never on push.
+# The verify job has a read-only token. Only the deploy job gets pages/id-token.
+# A clean checkout cannot see var/ or /tmp. The operator packs the release with
+# `python -m supercoach_via.publish.deploy` and puts that tar at an HTTPS URL
+# (a GitHub release asset). This job downloads that URL, checks the seal, and
+# uploads those exact site bytes. It does not run Astro again.
 # Third-party actions are pinned to full commit SHAs (tag noted alongside).
 name: scvia-pages
 
 on:
   workflow_dispatch:
     inputs:
-      release_dir:
-        description: "Repo-relative path to an already validated public release directory (contains release.json)"
+      bundle_url:
+        description: "HTTPS URL of a sealed site tar (validation.json, seal.json, site/). Not a repo path."
+        required: true
+        type: string
+      expected_seal:
+        description: "seal_sha256 printed by: python -m supercoach_via.publish.deploy pack RELEASE DEST"
+        required: true
+        type: string
+      expected_archive_sha256:
+        description: "archive_sha256 printed by that same pack command. Not read from the downloaded tar."
         required: true
         type: string
 
@@ -20,7 +31,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
@@ -29,39 +40,38 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Validate release_dir input
-        # Input is passed via env, never interpolated into shell code (script-injection guidance).
-        env:
-          RELEASE_DIR: ${{ inputs.release_dir }}
-        run: |
-          if ! printf '%s' "$RELEASE_DIR" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._/-]{0,200}$' || printf '%s' "$RELEASE_DIR" | grep -q '\.\.'; then
-            echo "release_dir must be a plain repo-relative path" >&2; exit 1
-          fi
-          test -f "$GITHUB_WORKSPACE/$RELEASE_DIR/release.json" || { echo "no release.json in release_dir" >&2; exit 1; }
-          echo "SCVIA_RELEASE_DIR=$GITHUB_WORKSPACE/$RELEASE_DIR" >> "$GITHUB_ENV"
-      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-        id: pages
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
         with:
-          node-version-file: ".node-version"
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      - name: Build and check the site
-        working-directory: web
+          version: "0.12.18"
+      - name: Install locked environment
+        run: uv sync --locked
+      - name: Download and verify the sealed bundle
         env:
-          SCVIA_PUBLIC_BASE: ${{ steps.pages.outputs.base_path }}/
-          SCVIA_PUBLIC_SITE: ${{ steps.pages.outputs.origin }}
+          BUNDLE_URL: ${{ inputs.bundle_url }}
+          EXPECTED_SEAL: ${{ inputs.expected_seal }}
+          EXPECTED_ARCHIVE_SHA256: ${{ inputs.expected_archive_sha256 }}
         run: |
-          npm ci
-          npm run gen:types:check
-          npm run build
-          npm run budget -- --out test-results/budget-pages.json
+          case "$BUNDLE_URL" in
+            https://*) ;;
+            *) echo "bundle_url must be an https URL" >&2; exit 1 ;;
+          esac
+          if [ "${#EXPECTED_SEAL}" -ne 64 ] || [ "${#EXPECTED_ARCHIVE_SHA256}" -ne 64 ]; then
+            echo "expected_seal and expected_archive_sha256 must be the pack command's digests" >&2
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/sealed"
+          curl --fail --silent --show-error --location --max-filesize 629145600 \
+            --output "$RUNNER_TEMP/sealed/bundle.tar" "$BUNDLE_URL"
+          echo "$EXPECTED_ARCHIVE_SHA256  $RUNNER_TEMP/sealed/bundle.tar" | sha256sum -c -
+          uv run --locked python -m supercoach_via.publish.deploy verify \
+            "$RUNNER_TEMP/sealed/bundle.tar" "$RUNNER_TEMP/sealed/extracted" \
+            --expect-seal "$EXPECTED_SEAL" --expect-archive "$EXPECTED_ARCHIVE_SHA256"
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: web/dist
+          path: ${{ runner.temp }}/sealed/extracted/site
 
   deploy:
-    needs: build
+    needs: verify
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

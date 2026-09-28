@@ -106,7 +106,15 @@ const M1994 = [
   match({ id: 'demo:1994:r01:old-a', season: 1994, stage: 'r01', label: 'Demo Round 1', round: 1, order: 1, date: '1994-04-02', status: 'complete', home: 'demo_old', away: 'demo_a', hg: 15, hb: 15, ag: 10, ab: 10 }),
 ];
 const ALL_MATCHES = [...M2026, ...M2025, ...M1994];
-const matchKey = (id) => id.replaceAll(':', '__');
+/** Same codec as web/src/lib/ids.ts encodeId and Python public_key. */
+function publicKey(id) {
+  const bytes = Buffer.from(id, 'ascii');
+  const token = bytes.toString('base64url').replace(/=+$/, '');
+  const key = `k.${token}`;
+  if (key.length > 200) throw new Error(`encoded key for ${id} exceeds 200 bytes`);
+  return key;
+}
+const matchKey = publicKey;
 const upcoming = M2026.filter((m) => m.status === 'scheduled');
 const recent = M2026.filter((m) => m.status === 'complete').slice(-3).reverse();
 
@@ -133,7 +141,7 @@ const gameColumns = (rows) => Object.fromEntries(GAME_FIELDS.map((f) => [f, rows
 const PLAYERS = [];
 function player(o) {
   const id = `legacy:${o.slug}`;
-  const p = { id, key: id.replaceAll(':', '__'), ...o };
+  const p = { id, key: publicKey(id), ...o };
   PLAYERS.push(p);
   return p;
 }
@@ -212,7 +220,13 @@ for (const p of PLAYERS) {
       });
     }
     const gamesRel = `player-games/${p.key}/${season}.json`;
-    put(gamesRel, 'player_season_games', { player_id: p.id, season, stat_columns: STAT_COLS, games: gameColumns(games) });
+    const cols = gameColumns(games);
+    // Date, stage and opponent live on the season match index. The log keeps identity and stats.
+    for (const field of ['match_date', 'stage_label', 'opponent_club_id', 'opponent_name']) cols[field] = [];
+    put(gamesRel, 'player_season_games', {
+      player_id: p.id, season, stat_columns: STAT_COLS, games: cols,
+      match_facts: `matches/${season}/index.json`,
+    });
     seasonLines.push({ season, clubs: p.clubs, games: GAMES_PER_SEASON, stats: statColumns(p.base, GAMES_PER_SEASON, p.coverage === undefined ? 1 : p.coverage), games_resource: gamesRel });
     careerGames += GAMES_PER_SEASON;
   }
@@ -481,6 +495,18 @@ function storedZip(files) {
   return Buffer.concat([...locals, cd, end]);
 }
 putRaw('downloads/fan-pack.zip', storedZip([['README.md', readme], ['players.csv', playersCsv], ['predictions.csv', predCsv]]));
+const eraCsv = [
+  'era,metric,n_player_games,n_with_metric,mean_per_game,recording_status',
+  '1990s,disposals,16,8,12.5,partial',
+  '2020s,disposals,512,512,22,recorded',
+].join('\n') + '\n';
+const brownlowCsv = [
+  'rank,name,club,games,proxy_per_game,season_proxy_scaled,ineligible,label',
+  '1,Demo Player A1,Demo Club A,8,1.25,100,false,DEMO proxy index — not Brownlow votes',
+  '2,Demo Player B1,Demo Club B,8,1.1,88,false,DEMO proxy index — not Brownlow votes',
+].join('\n') + '\n';
+putRaw('downloads/era-summary.csv', eraCsv);
+putRaw('downloads/brownlow-proxy-2026.csv', brownlowCsv);
 const dl = (key, label, kind, path, rows = null) => ({ key, label, kind, path, bytes: written.get(path).length, sha256: sha(written.get(path)), as_of: 'DEMO 2026-09-25', rows });
 put('downloads.json', 'downloads', {
   release_id: RELEASE_ID,
@@ -488,6 +514,8 @@ put('downloads.json', 'downloads', {
     dl('players_csv', 'DEMO player directory (all rows)', 'csv', 'downloads/players.csv', indexEntries.length),
     dl('predictions_csv', 'DEMO current predictions (all rows)', 'csv', 'downloads/predictions.csv', r05Rows.length),
     dl('accuracy_rows_csv', 'DEMO scored accuracy rows (all rows)', 'csv', 'downloads/accuracy-rows.csv', 2),
+    dl('era_summary_csv', 'DEMO era summary', 'csv', 'downloads/era-summary.csv', 2),
+    dl('brownlow_proxy_csv', 'DEMO Brownlow proxy (not votes)', 'csv', 'downloads/brownlow-proxy-2026.csv', 2),
     dl('fan_pack', 'DEMO fan pack ZIP', 'zip', 'downloads/fan-pack.zip'),
     dl('readme', 'DEMO release README', 'md', 'downloads/README.md'),
   ],

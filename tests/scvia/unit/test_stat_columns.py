@@ -62,6 +62,57 @@ def test_game_log_columns_round_trip_and_alignment() -> None:
         PlayerGameColumns.model_validate({**cols.model_dump(), "result": ["W"]})
 
 
+def test_shared_match_facts_restore_date_stage_and_opponent() -> None:
+    from datetime import date
+
+    from supercoach_via.publish.view_models import (
+        MatchSummary,
+        PlayerGame,
+        PlayerSeasonGames,
+        TeamScore,
+        apply_match_facts,
+        game_rows,
+        share_match_facts,
+        to_game_columns,
+    )
+    from supercoach_via.publish.web_data import canonical_json_bytes
+
+    rows = [
+        PlayerGame(match_id="m:1", match_date=date(2026, 3, 7), date_quality="source", stage_label="Round 1",
+                   club_id="a", opponent_club_id="b", opponent_name="Demo Ridge", result="W", career_game_counter=1,
+                   stats=[10.0]),
+        PlayerGame(match_id="m:2", match_date=date(2026, 3, 14), date_quality="source", stage_label="Round 2",
+                   club_id="a", opponent_club_id="c", opponent_name="Demo Coast", result="L", career_game_counter=2,
+                   stats=[4.0]),
+    ]  # fmt: skip
+    full = PlayerSeasonGames(player_id="p", season=2026, stat_columns=["disposals"], games=to_game_columns(rows))
+    slim = share_match_facts(full, "matches/2026/index.json")
+    assert slim.match_facts == "matches/2026/index.json"
+    assert slim.games.match_date == [] and slim.games.opponent_name == []
+    assert slim.games.stats == [[10.0], [4.0]] and slim.games.date_quality == ["source", "source"]
+    assert len(canonical_json_bytes(slim.model_dump(mode="json"))) < len(canonical_json_bytes(full.model_dump(mode="json")))
+
+    def summary(mid: str, day: date, stage: str, home: str, away: str, away_name: str) -> MatchSummary:
+        return MatchSummary(
+            match_id=mid, season=2026, stage_id="r01", stage_label=stage, stage_type="regular", round_number=1,
+            stage_order=1, replay_occurrence=1, local_start=None, match_date=day, date_precision="day",
+            status="complete", venue=None,
+            home=TeamScore(club_id=home, name="Demo Harbour", goals=10, behinds=8, score=68),
+            away=TeamScore(club_id=away, name=away_name, goals=8, behinds=6, score=54),
+            winner_club_id=home,
+        )
+
+    facts = {
+        "m:1": summary("m:1", date(2026, 3, 7), "Round 1", "a", "b", "Demo Ridge"),
+        "m:2": summary("m:2", date(2026, 3, 14), "Round 2", "a", "c", "Demo Coast"),
+    }
+    restored = game_rows(apply_match_facts(slim.games, facts))
+    assert [(r.match_date, r.stage_label, r.opponent_name, r.result, r.stats) for r in restored] == [
+        (date(2026, 3, 7), "Round 1", "Demo Ridge", "W", [10.0]),
+        (date(2026, 3, 14), "Round 2", "Demo Coast", "L", [4.0]),
+    ]
+
+
 def test_box_score_columns_round_trip_and_alignment() -> None:
     from supercoach_via.publish.view_models import BoxScoreColumns, BoxScoreRow, box_rows, to_box_columns
 

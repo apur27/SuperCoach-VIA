@@ -118,6 +118,51 @@ def _validate(candidate: Any, *, current_season: int | None = None) -> Validatio
     return validate_dataset(candidate, load_policy(current_season=current_season))
 
 
+def _with_season_aggregates(
+    data_root: Path,
+    merged: Any,
+    match_upserts: list[dict[str, Any]],
+    *,
+    clock: Any,
+    status: Any,
+    checked_at: datetime | None,
+    checked_seasons: set[int],
+    run_id: str | None = None,
+) -> Any:
+    """Recompute season date/count rows for changed matches and checked fixtures.
+
+    Uncertainty fields stay as recorded. A failed refresh never reaches this function.
+    """
+    seasons = sorted({int(row["season"]) for row in match_upserts} | set(checked_seasons))
+    if not seasons:
+        return merged
+    from supercoach_via.ingest import refresh as rf
+    from supercoach_via.storage import snapshots
+    from supercoach_via.storage.queries import SnapshotQuery
+    manifest = merged.manifest
+    with SnapshotQuery(
+        data_root, manifest, tables={"matches", "seasons"}, partitions={"matches": {str(s) for s in seasons}}
+    ) as q:
+        marks = ",".join("?" * len(seasons))
+        match_sql = f"SELECT season, match_date, status FROM matches WHERE season IN ({marks})"  # noqa: S608
+        season_sql = f"SELECT * FROM seasons WHERE season IN ({marks})"  # noqa: S608
+        matches = q.arrow(match_sql, seasons).to_pylist()
+        existing_rows = q.arrow(season_sql, seasons).to_pylist() if "seasons" in manifest.tables else []
+    rows = rf.season_aggregate_rows(
+        matches,
+        {int(row["season"]): row for row in existing_rows},
+        seasons=seasons,
+        checked_at=checked_at,
+        checked_seasons=checked_seasons,
+    )
+    if not rows:
+        return merged
+    return snapshots.apply_upserts(
+        data_root, manifest, {"seasons": rows}, clock=clock, code_version=CODE_VERSION, status=status, run_id=run_id,
+        notes=[f"season aggregates {', '.join(map(str, seasons))}"],
+    )  # fmt: skip
+
+
 def apply_repair_evidence(ctx: RunContext, candidate: Any, evidence_dir: Path, *, season: int) -> Any:
     """Merge one archived, re-verified repair into ``candidate`` and re-link lineup tokens."""
     from supercoach_via.domain.ids import ClubRegistry
@@ -144,6 +189,10 @@ def apply_repair_evidence(ctx: RunContext, candidate: Any, evidence_dir: Path, *
     note = f"repair evidence {evidence_dir.name}: " + ", ".join(f"{k}={len(v)}" for k, v in sorted(ups.items()))
     merged = snapshots.apply_upserts(root, manifest, ups, clock=ctx.clock, code_version=CODE_VERSION,
                                      status=manifest.status, run_id=manifest.run_id, notes=[note])  # fmt: skip
+    merged = _with_season_aggregates(
+        root, merged, ups.get("matches") or [], clock=ctx.clock, status=manifest.status, checked_at=None,
+        checked_seasons=set(), run_id=manifest.run_id,
+    )  # fmt: skip
     relink = reconcile.relink_quarantined_lineups(root, merged.manifest, season=season)
     if any(relink.values()):
         merged = snapshots.apply_upserts(
@@ -256,6 +305,10 @@ def refresh(
         merged = snapshots.apply_upserts(ctx.data_root, base_manifest, ups, clock=ctx.clock, code_version=CODE_VERSION,
                                          status=base_manifest.status, source_revisions=res.revisions,
                                          notes=[f"refresh {plan.current_season}"])  # fmt: skip
+        merged = _with_season_aggregates(
+            ctx.data_root, merged, ups.get("matches") or [], clock=ctx.clock, status=base_manifest.status,
+            checked_at=res.source_checked_at, checked_seasons=set(plan.seasons), run_id=merged.manifest.run_id,
+        )  # fmt: skip
         target = plan.current_season
         relink = reconcile.relink_quarantined_lineups(ctx.data_root, merged.manifest, season=target)
         if any(relink.values()):
@@ -317,7 +370,13 @@ def forecast(
                               outputs={"bundle_id": bundle.bundle_id, "reused": str(trained.reused),
                                        "champion": str(bundle.manifest.name)}, state="succeeded")  # fmt: skip
             req = P.ForecastRequest(forecast_cutoff=plan.forecast_cutoff, generated_at=ctx.clock())
-            art = _timed(result, "forecast", lambda: P.forecast(hist, bundle, req))
+            try:
+                art = _timed(result, "forecast", lambda: P.forecast(hist, bundle, req))
+            except P.ModelEligibilityError as exc:
+                raise _Failure(
+                    EXIT_MODEL, "model_ineligible", str(exc),
+                    "train or choose a bundle whose knowledge cutoff is on or before this forecast",
+                ) from exc
             pred_root = ctx.data_root / "predictions"
             pdir = pred_root / art.manifest.prediction_run_id
             if not pdir.exists():
@@ -330,7 +389,13 @@ def forecast(
                 kwargs: dict[str, Any] = {"season": plan.replay_season, "generated_at": ctx.clock()}
                 if plan.replay_stage_ids is not None:
                     kwargs["stage_ids"] = plan.replay_stage_ids
-                _arts, ev = _timed(result, "replay", lambda: E.replay(hist, bundle, **kwargs))
+                try:
+                    _arts, ev = _timed(result, "replay", lambda: E.replay(hist, bundle, **kwargs))
+                except P.ModelEligibilityError as exc:
+                    raise _Failure(
+                        EXIT_MODEL, "model_ineligible", str(exc),
+                        "replay needs a bundle whose knowledge cutoff is on or before each stage cutoff",
+                    ) from exc
                 edir = E.write_evaluation(ev, ctx.data_root / "evaluations")
                 evaluations.append(str(edir))
                 result.artifacts.setdefault("evaluations", []).append(ev)
@@ -399,7 +464,9 @@ def demo(out: Path) -> dict[str, Any]:
 
     src = out / "source"
     write_demo_corpus(src)
-    repo_config = Path(__file__).resolve().parents[2] / "config"
+    from supercoach_via.settings import default_config_dir
+
+    repo_config = default_config_dir()
     ctx = RunContext(settings=Settings(data_root=out / "var", output_root=out, source_root=src),
                      clock=lambda: DEMO_CLOCK)  # fmt: skip
     steps: dict[str, Any] = {}
@@ -409,9 +476,11 @@ def demo(out: Path) -> dict[str, Any]:
         return {"ok": False, "exit_code": ing.exit_code, "steps": steps}
     fc = forecast(ctx, ForecastPlan(
         train_cutoff=date(2025, 6, 1), calibration_end=date(2026, 1, 1), forecast_cutoff=DEMO_CLOCK,
-        replay_season=2026,
+        replay_season=2026, replay_stage_ids=("r08", "r09"),
+        # Hold the promotion gate at 1 May so the 06:00Z forecast and the later completed
+        # rounds are eligible. Earlier 2026 rounds are inside that gate and are not replayed.
         training_overrides={"target_seasons_from": 2024, "candidates": ("hgb",), "n_folds": 2, "threads": 1,
-                            "min_calibration": 50, "cohort_min_n": 20,
+                            "holdout_end": date(2026, 5, 1), "min_calibration": 50, "cohort_min_n": 20,
                             "params": {"hgb": {"max_iter": 10, "learning_rate": 0.1, "max_leaf_nodes": 7,
                                                "min_samples_leaf": 5}}},
     ))  # fmt: skip

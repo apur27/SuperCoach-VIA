@@ -1,0 +1,14 @@
+{
+  "release_id": "20260928T111014Z-ca96603163ad",
+  "grand_final_rows": 46,
+  "quarter_scores": true,
+  "match_date": true,
+  "source_label": true,
+  "player_to_match_link": true,
+  "mobile_page_overflow": false,
+  "browser_errors": [],
+  "screenshots": [
+    "grand-final-desktop.png",
+    "grand-final-mobile-dark.png"
+  ]
+}

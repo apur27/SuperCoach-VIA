@@ -29,7 +29,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -345,6 +345,55 @@ class RefreshResult:
             "bytes": self.bytes_received,
             "issues": self.issues[:50],
         }
+
+
+def _match_day(value: Any) -> date | None:
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    return date.fromisoformat(str(value)[:10])
+
+
+def season_aggregate_rows(
+    matches: Iterable[Mapping[str, Any]],
+    existing: Mapping[int, Mapping[str, Any]],
+    *,
+    seasons: Iterable[int],
+    checked_at: datetime | None,
+    checked_seasons: set[int],
+) -> list[dict[str, Any]]:
+    """Dates and complete/scheduled counts from the merged matches of ``seasons``.
+
+    ``schedule_complete`` and ``source_status`` stay as already recorded. Importing a
+    completed final does not establish them. ``fixture_checked_at`` advances only when
+    this refresh checked that season's fixture.
+    """
+    grouped: dict[int, list[Mapping[str, Any]]] = {}
+    for row in matches:
+        grouped.setdefault(int(row["season"]), []).append(row)
+    out: list[dict[str, Any]] = []
+    for season in sorted({int(s) for s in seasons}):
+        rows = grouped.get(season, [])
+        prior = existing.get(season, {})
+        days = [day for day in (_match_day(row.get("match_date")) for row in rows) if day is not None]
+        out.append(
+            {
+                "season": season,
+                "first_match_date": min(days) if days else None,
+                "last_match_date": max(days) if days else None,
+                "matches_complete": sum(row.get("status") == MatchStatus.COMPLETE for row in rows),
+                "matches_scheduled": sum(row.get("status") == MatchStatus.SCHEDULED for row in rows),
+                "fixture_checked_at": checked_at
+                if season in checked_seasons and checked_at is not None
+                else prior.get("fixture_checked_at"),
+                "schedule_complete": prior.get("schedule_complete"),
+                "source_status": prior.get("source_status"),
+            }
+        )
+    return out
 
 
 # ---------------------------------------------------------------------------

@@ -13,7 +13,7 @@ const base = import.meta.env.BASE_URL;
 ---
 <AppLayout title="Overview" description={`Season ${ov.season} overview: fixture status, disposal forecasts, recent results and latest articles.`} current="overview">
   <h1>Season {ov.season} overview</h1>
-  <p class="lede">Current results, upcoming disposal forecasts and data status for release <code>{ov.release_id}</code>.</p>
+  <p class="lede">Current results, upcoming disposal forecasts and data status.</p>
   {ov.warnings.length > 0 && (
     <div class="banner banner-stale" data-testid="warnings"><p><strong>Public warnings</strong></p><ul>{ov.warnings.map((w) => <li>{w}</li>)}</ul></div>
   )}
@@ -27,7 +27,10 @@ const base = import.meta.env.BASE_URL;
   <section aria-labelledby="next-h">
     <h2 id="next-h">Next fixture and forecast</h2>
     <ForecastStatus status={ov.next_fixture_status} reason={ov.next_fixture_reason} />
-    <p>Model: {ov.model_status.model ? <>{ov.model_status.model.name} ({ov.model_status.model.kind}){ov.model_status.model.trained_cutoff && <>, trained to <Instant iso={ov.model_status.model.trained_cutoff} /></>}</> : <span class="missing">no model recorded</span>}.</p>
+    <details class="provenance">
+      <summary>Forecast model and release</summary>
+      <p>Release <code>{ov.release_id}</code>. Model: {ov.model_status.model ? <>{ov.model_status.model.name} ({ov.model_status.model.kind}){ov.model_status.model.trained_cutoff && <>, trained to <Instant iso={ov.model_status.model.trained_cutoff} /></>}</> : <span class="missing">no model recorded</span>}.</p>
+    </details>
     <h3>Upcoming matches</h3>
     <MatchTable matches={ov.upcoming} caption="Upcoming scheduled matches" testid="upcoming" />
     {ov.prediction_highlights.length > 0 && (

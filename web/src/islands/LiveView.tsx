@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { LiveIndex, LiveSnapshot } from '../lib/contracts';
-import { isSafeKey, withBase } from '../lib/ids';
-import { liveFreshness, POLL_MS } from '../lib/live';
+import { encodeId, isSafeKey, withBase } from '../lib/ids';
+import { liveFreshness } from '../lib/live';
 import { teamScoreText } from '../lib/matches';
 import { classifyError, getLoader, siteBase, useHeading, useUrlSearch, type ErrorKind } from './common/runtime';
 import { announceReleaseUnavailable } from '../lib/prefs';
@@ -16,14 +16,14 @@ export default function LiveView({ index, downloadHref }: { index: LiveIndex; do
   const game = new URLSearchParams(search).get('match');
   const entry = game && isSafeKey(game) ? index.matches.find((m) => m.source_game_id === game) : undefined;
   const base = siteBase();
-  useHeading(entry ? `Live: ${entry.label}` : null);
+  useHeading(entry ? `Snapshot: ${entry.label}` : null);
   if (!ready) return <NoScriptNotice what="live view" href={downloadHref} linkText="browse downloads" />;
   if (!game) {
     return index.matches.length ? (
-      <ul className="list-plain">{index.matches.map((m) => <li key={m.source_game_id}><a href={withBase(base, `live/?match=${m.source_game_id}`)}>{m.label}</a> <span className="muted">{m.final ? 'final' : 'in progress at last snapshot'}</span></li>)}</ul>
-    ) : <p data-state="empty">No live snapshots in this release.</p>;
+      <ul className="list-plain">{index.matches.map((m) => <li key={m.source_game_id}><a href={withBase(base, `live/?match=${m.source_game_id}`)}>{m.label}</a> <span className="muted">{m.final ? 'final snapshot' : 'in progress at capture'}</span></li>)}</ul>
+    ) : <p data-state="empty">No match snapshots in this release.</p>;
   }
-  if (!entry) return <div className="banner banner-info" data-state="notfound"><h2>Live match not found</h2><p>No live snapshot for that match in this release. <a href={withBase(base, 'live/')}>All live snapshots</a>.</p></div>;
+  if (!entry) return <div className="banner banner-info" data-state="notfound"><h2>Snapshot not found</h2><p>No captured snapshot for that match in this release. <a href={withBase(base, 'live/')}>All match snapshots</a>.</p></div>;
   return <Poller resource={entry.resource} delivery={index.delivery} />;
 }
 
@@ -31,18 +31,11 @@ function Poller({ resource, delivery }: { resource: string; delivery: string }) 
   const [snap, setSnap] = useState<LiveSnapshot | null>(null);
   const [error, setError] = useState<ErrorKind | null>(null);
   const [checkedAt, setCheckedAt] = useState<number | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const snapRef = useRef<LiveSnapshot | null>(null);
 
   useEffect(() => {
     let stopped = false;
     const ac = new AbortController();
-    const schedule = () => {
-      if (timer.current) clearTimeout(timer.current);
-      const s = snapRef.current;
-      if (stopped || (s && s.final) || document.visibilityState !== 'visible') return;
-      timer.current = setTimeout(tick, POLL_MS);
-    };
     const tick = async () => {
       try {
         const loader = await getLoader();
@@ -62,29 +55,21 @@ function Poller({ resource, delivery }: { resource: string; delivery: string }) 
         setError(c.kind);
       }
       setCheckedAt(Date.now());
-      schedule();
     };
-    const onVis = () => {
-      if (document.visibilityState === 'visible') void tick();
-      else if (timer.current) clearTimeout(timer.current);
-    };
-    document.addEventListener('visibilitychange', onVis);
     void tick();
     return () => {
       stopped = true;
       ac.abort();
-      if (timer.current) clearTimeout(timer.current);
-      document.removeEventListener('visibilitychange', onVis);
     };
   }, [resource]);
 
   const fresh = snap ? liveFreshness(snap, checkedAt ?? Date.now()) : null;
   return (
     <div className="stack">
-      <div data-testid="live-status" role="status" className={`banner ${fresh?.state === 'live' ? 'banner-ok' : fresh?.state === 'final' ? 'banner-info' : 'banner-stale'}`}>
+      <div data-testid="live-status" role="status" className={`banner ${fresh?.state === 'snapshot' ? 'banner-ok' : fresh?.state === 'final' ? 'banner-info' : 'banner-stale'}`}>
         {snap ? (
           <>
-            <p><strong>{fresh?.state === 'final' ? 'Final: match complete. Updates have stopped.' : fresh?.state === 'live' ? 'Live snapshot (updates every 90 seconds while this tab is visible).' : 'Delayed or stale: the last accepted snapshot is more than 5 minutes old.'}</strong></p>
+            <p><strong>{fresh?.state === 'final' ? 'Final snapshot. Collection had stopped when this release was built.' : fresh?.state === 'snapshot' ? 'Captured snapshot from this release. It does not update in place.' : 'The captured snapshot was already old when it was archived.'}</strong></p>
             <p>Last accepted update: <Instant iso={snap.fetched_at} />. {checkedAt ? <>Last checked: <Instant iso={new Date(checkedAt).toISOString()} />.</> : null}</p>
           </>
         ) : error ? null : <p>Loading the last accepted snapshot…</p>}
@@ -104,7 +89,7 @@ function SnapshotBody({ s }: { s: LiveSnapshot }) {
       <div className="card">
         <p className="score">{s.home.name} {teamScoreText(s.home)} v {s.away.name} {teamScoreText(s.away)}</p>
         <p>Status: {s.status ?? 'not recorded'} · quarter {s.quarter ?? 'not recorded'}</p>
-        {s.match_id ? <p><a href={withBase(base, `match/?id=${s.match_id.replaceAll(':', '__')}`)}>Match page</a></p> : null}
+        {s.match_id ? <p><a href={withBase(base, `match/?id=${encodeId(s.match_id)}`)}>Match page</a></p> : null}
       </div>
       {s.unavailable_fields.length ? <p className="muted">Not shown because the feed is unreliable for them: {s.unavailable_fields.join(', ')}.</p> : null}
       {s.players.length ? (

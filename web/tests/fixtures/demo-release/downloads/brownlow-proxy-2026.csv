@@ -1,0 +1,3 @@
+rank,name,club,games,proxy_per_game,season_proxy_scaled,ineligible,label
+1,Demo Player A1,Demo Club A,8,1.25,100,false,DEMO proxy index — not Brownlow votes
+2,Demo Player B1,Demo Club B,8,1.1,88,false,DEMO proxy index — not Brownlow votes

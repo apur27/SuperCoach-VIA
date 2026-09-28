@@ -49,7 +49,7 @@ for (const r of ROUTES) {
 }
 
 test('detail pages show breadcrumbs', async ({ page }) => {
-  for (const p of ['player/?id=legacy__demo_player_a1', 'team/?id=demo_a&season=2026', 'match/?id=demo__2026__r01__a-b', 'articles/demo-article-one/']) {
+  for (const p of ['player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex', 'team/?id=demo_a&season=2026', 'match/?id=k.ZGVtbzoyMDI2OnIwMTphLWI', 'articles/demo-article-one/']) {
     await page.goto(p);
     await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toBeVisible();
   }

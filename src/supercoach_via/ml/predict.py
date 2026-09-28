@@ -41,10 +41,12 @@ from supercoach_via.ml.bundles import ModelBundle, canonical_json, json_safe
 from supercoach_via.ml.features import (
     FeatureFrame,
     FeatureSpec,
+    FeatureSpecError,
     History,
     _prepare_observations,
     _utc_start,
     build_features,
+    feature_spec_from_stored,
 )
 from supercoach_via.ml.models import COLD_START_NAME
 from supercoach_via.storage.snapshots import atomic_write_bytes, sha256_file
@@ -74,6 +76,36 @@ class ArtifactExistsError(FileExistsError):
 
 class ArtifactIntegrityError(RuntimeError):
     pass
+
+
+class ModelEligibilityError(ValueError):
+    """The bundle learned from outcomes that this forecast cutoff must not see."""
+
+
+def bundle_knowledge_cutoff(manifest: Any) -> datetime:
+    """Exclusive end of labels that influenced fitting, calibration or selection."""
+    raw = (manifest.training or {}).get("knowledge_cutoff") or manifest.holdout_end
+    if not raw:
+        raise ModelEligibilityError(
+            f"bundle {manifest.bundle_id} has no recorded knowledge cutoff. Retrain so the manifest "
+            "records one, then choose a bundle whose knowledge cutoff is on or before this forecast."
+        )
+    dt = datetime.fromisoformat(str(raw))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
+
+
+def assert_bundle_eligible(bundle: ModelBundle, forecast_cutoff: datetime) -> datetime:
+    boundary = bundle_knowledge_cutoff(bundle.manifest)
+    cut = forecast_cutoff.astimezone(UTC)
+    if cut < boundary:
+        raise ModelEligibilityError(
+            f"bundle {bundle.bundle_id} knowledge cutoff {boundary.isoformat()} is not before "
+            f"forecast cutoff {cut.isoformat()}. This bundle was fit, calibrated or selected using "
+            "later outcomes. Train or choose a bundle whose knowledge cutoff is on or before this forecast."
+        )
+    return boundary
 
 
 @dataclass(frozen=True)
@@ -181,6 +213,9 @@ def _roster(history: History, spec: FeatureSpec, req: ForecastRequest, seasons: 
     obs, _ = _prepare_observations(history, spec)
     cutoff_ord = req.forecast_cutoff.astimezone(UTC).date().toordinal()
     obs = obs[obs["eff_ord"] < cutoff_ord]
+    if "avail_epoch" in obs.columns:
+        av = obs["avail_epoch"]
+        obs = obs[av.isna() | (av <= req.forecast_cutoff.timestamp())]
     if obs.empty:
         return pd.DataFrame(columns=["player_id", "club_id", "season"])
     last = obs.groupby("player_id", sort=True).tail(1)
@@ -215,9 +250,16 @@ def _empty_rows() -> pd.DataFrame:
 
 def forecast(history: History, bundle: ModelBundle, request: ForecastRequest) -> PredictionArtifact:
     man = bundle.manifest
-    spec = FeatureSpec()
-    if spec.version != man.feature_version:
-        raise ValueError(f"bundle feature version {man.feature_version} != {spec.version}")
+    assert_bundle_eligible(bundle, request.forecast_cutoff)
+    from supercoach_via.ml.train import _code_hash
+
+    recorded_code = (man.cache_inputs or {}).get("code")
+    if recorded_code != _code_hash():
+        raise FeatureSpecError(
+            "bundle code fingerprint does not match the current feature code; retrain"
+        )
+    stored = ((man.cache_inputs or {}).get("config") or {}).get("feature_spec")
+    spec = feature_spec_from_stored(stored, feature_version=man.feature_version)
     matches = _select_matches(history, request)
     match_ids = list(matches["match_id"])
     run_id = _run_id(history, bundle, request, match_ids)
@@ -296,7 +338,9 @@ def forecast(history: History, bundle: ModelBundle, request: ForecastRequest) ->
     )
     ff = build_features(history, t, spec)
     if tuple(man.feature_names) != ff.feature_names:
-        raise ValueError("feature schema differs from the bundle's manifest")
+        raise FeatureSpecError("feature columns differ from the bundle's manifest")
+    if ff.dtypes() != dict(man.feature_dtypes):
+        raise FeatureSpecError("feature dtypes differ from the bundle's manifest")
     champ = bundle.predictor["champion"]
     base = bundle.predictor["baseline"]
     pred, basis = champ.predict(ff)

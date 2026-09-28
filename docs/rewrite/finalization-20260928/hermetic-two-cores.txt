@@ -1,0 +1,48 @@
+bringing up nodes...
+bringing up nodes...
+
+........................................................................ [ 10%]
+........................................................................ [ 20%]
+........................................................................ [ 31%]
+........................................................................ [ 41%]
+........................................................................ [ 51%]
+........................................................................ [ 62%]
+........................................................................ [ 72%]
+........................................................................ [ 82%]
+........................................................................ [ 93%]
+...............................................                          [100%]
+=============================== warnings summary ===============================
+tests/scvia/unit/test_builder.py: 12 warnings
+tests/scvia/unit/test_ml_evaluate.py: 5 warnings
+tests/scvia/unit/test_ml_features.py: 15 warnings
+tests/scvia/unit/test_ml_train.py: 10 warnings
+tests/scvia/unit/test_ml_predict.py: 31 warnings
+tests/scvia/unit/test_pipeline.py: 12 warnings
+tests/scvia/unit/test_reconcile_outputs.py: 6 warnings
+tests/scvia/unit/test_reconcile_relink.py: 2 warnings
+tests/scvia/unit/test_cli.py: 6 warnings
+  /home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47/src/supercoach_via/storage/queries.py:102: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+    return self.con.execute(sql, params or []).fetch_arrow_table()
+
+tests/scvia/unit/test_ml_features.py::TestLeakage::test_cutoff_after_target_start_is_rejected
+  /home/abhi/git/SuperCoach-VIA/var/worktrees/cursor-rewrite-grok47/tests/scvia/unit/test_ml_features.py:207: DeprecationWarning: The 'generic' unit for NumPy timedelta is deprecated, and will raise an error in the future. This includes implicit conversion of bare integers (e.g. `+ 1`). Please use a specific unit instead.
+    bad = t.assign(forecast_cutoff=t.forecast_cutoff + pd.Timedelta(days=2))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+6.11s setup    tests/scvia/unit/test_builder.py::test_release_validates_and_is_listed
+5.94s setup    tests/scvia/unit/test_builder.py::test_legacy_shapes
+4.78s call     tests/scvia/unit/test_builder.py::test_parallel_season_build_is_byte_identical_to_sequential
+4.53s setup    tests/scvia/unit/test_reconcile_outputs.py::test_snapshot_release_and_cutoff_agree_everywhere
+3.59s setup    tests/scvia/unit/test_analytics_eras.py::TestEraParity::test_era_stats_match_legacy
+3.24s call     tests/scvia/unit/test_cli.py::test_demo_output_is_the_release_root
+3.18s call     tests/scvia/unit/test_builder.py::test_identical_input_is_byte_identical_and_mtime_independent
+2.91s setup    tests/scvia/unit/test_builder.py::test_no_prediction_inputs_still_builds_with_honest_status
+2.53s setup    tests/scvia/unit/test_builder.py::test_rebuild_into_same_root_reuses_the_immutable_release
+2.48s setup    tests/scvia/unit/test_builder.py::test_rejected_prediction_artifacts_are_not_published
+2.42s call     tests/scvia/unit/test_cli.py::test_build_release_without_forecast_inputs_is_honestly_unavailable
+2.18s setup    tests/scvia/unit/test_builder.py::test_reports_keep_curated_text_outside_generated_markers
+1.67s call     tests/scvia/unit/test_pipeline.py::test_refresh_merge_recomputes_season_aggregates_from_the_added_match
+1.66s setup    tests/scvia/unit/test_ml_predict.py::TestM06::test_insufficient_history_when_cold_start_disallowed
+1.54s call     tests/scvia/unit/test_pipeline.py::test_rerun_is_idempotent
+695 passed, 100 warnings in 34.15s

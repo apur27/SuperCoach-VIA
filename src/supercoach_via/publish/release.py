@@ -17,6 +17,7 @@ and writes a failed receipt. Nothing here invokes Git or the network.
 
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
 import os
@@ -25,7 +26,7 @@ import shutil
 from collections.abc import Callable, Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, NamedTuple
 
 from pydantic import BaseModel, ConfigDict, ValidationError
 
@@ -51,7 +52,15 @@ FORBIDDEN_NAMES = re.compile(
     re.I,
 )
 DOWNLOAD_EXTENSIONS = {".csv", ".png", ".svg", ".zip", ".json", ".md"}
-PRIVATE_MARKERS = (b"/home/", b"/tmp/", b"/Users/", b".claude/audit", b"ANTHROPIC_API_KEY", b"BEGIN PRIVATE KEY")
+# `/home/<user>/` is a filesystem leak. `/home/behinds` is a TeamScore JSON pointer in the
+# generated validators, so a bare `/home/` substring is not a leak by itself.
+_HOME_DIR = re.compile(br"/home/[^/\s\"'`]+/")
+_PRIVATE_BYTES = (b"/tmp/", b"/Users/", b".claude/audit", b"ANTHROPIC_API_KEY", b"BEGIN PRIVATE KEY")
+
+
+def _has_private_marker(data: bytes) -> bool:
+    return _HOME_DIR.search(data) is not None or any(marker in data for marker in _PRIVATE_BYTES)
+SEAL_CHECKER = "scvia-seal-1"
 
 #: (compiled path pattern, public model key) — first match wins.
 _PATH_MODELS: list[tuple[re.Pattern[str], str]] = [
@@ -236,6 +245,212 @@ def _iter_files(root: Path) -> Iterable[str]:
             yield p.relative_to(root).as_posix()
 
 
+def _walk_tree(root: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """Regular files under ``root``. Symlinks and other non-files are problems."""
+    files: dict[str, dict[str, Any]] = {}
+    problems: list[str] = []
+    if not root.is_dir():
+        return files, ["site directory is missing"]
+    for path in sorted(root.rglob("*")):
+        rel = path.relative_to(root).as_posix()
+        if path.is_symlink():
+            problems.append(f"symlink refused: {rel}")
+            continue
+        if path.is_dir():
+            continue
+        if not path.is_file():
+            problems.append(f"non-regular file refused: {rel}")
+            continue
+        data = path.read_bytes()
+        files[rel] = {"sha256": sha256_bytes(data), "bytes": len(data)}
+    return files, problems
+
+
+def _tree_manifest(root: Path) -> tuple[tuple[str, str, int], ...]:
+    files, problems = _walk_tree(root)
+    if problems:
+        raise PublishError(problems[0])
+    return tuple((name, info["sha256"], info["bytes"]) for name, info in sorted(files.items()))
+
+
+def _inventory_from_record(files: dict[str, Any]) -> tuple[tuple[str, str, int], ...]:
+    return tuple((name, str(info["sha256"]), int(info["bytes"])) for name, info in sorted(files.items()))
+
+
+class ValidatedRef(NamedTuple):
+    """One capture of the metadata bytes that matched the validation record."""
+
+    release_id: str
+    source: Path
+    checksums_sha256: str
+    seal_sha256: str | None
+    inventory: tuple[tuple[str, str, int], ...]
+
+
+def _upload_source(release_dir: Path) -> Path:
+    """The publisher uploads ``site/`` when it exists, otherwise a legacy public tree."""
+    site = release_dir / "site"
+    if site.is_dir():
+        return site
+    public = release_dir / "public"
+    if public.is_dir():
+        return public
+    raise PublishError(f"release {release_dir.name} has no site or public tree")
+
+
+def write_seal(release_dir: Path, *, build_inputs: dict[str, Any] | None = None) -> str:
+    """Hash every file under ``site/`` into ``seal.json`` beside it, not inside it."""
+    site = release_dir / "site"
+    if not site.is_dir():
+        raise PublishError("no site directory to seal")
+    measured, problems = _walk_tree(site)
+    if problems:
+        raise PublishError(problems[0])
+    body: dict[str, Any] = {
+        "release_id": release_dir.name,
+        "checker": SEAL_CHECKER,
+        "build_inputs": build_inputs or {},
+        "files": measured,
+        "seal_sha256": "",
+    }
+    body["seal_sha256"] = sha256_bytes(canonical_json_bytes(body))
+    atomic_write_bytes(release_dir / "seal.json", canonical_json_bytes(body))
+    return str(body["seal_sha256"])
+
+
+def _site_content_problems(site: Path) -> list[str]:
+    """Content rules for the final site. A matching seal hash is not enough."""
+    problems: list[str] = []
+    if not site.is_dir():
+        return ["sealed site is missing"]
+    for path in sorted(site.rglob("*")):
+        rel = path.relative_to(site).as_posix()
+        if path.is_symlink():
+            problems.append(f"symlink refused: {rel}")
+            continue
+        if path.is_dir():
+            continue
+        if not path.is_file():
+            problems.append(f"non-regular file refused: {rel}")
+            continue
+        if FORBIDDEN_NAMES.search(rel) or any(part.startswith(".") for part in rel.split("/")):
+            problems.append(f"forbidden site path {rel}")
+            continue
+        data = path.read_bytes()
+        if _has_private_marker(data):
+            problems.append(f"private content in {rel}")
+    return problems
+
+
+def seal_problems(release_dir: Path) -> tuple[list[str], str | None]:
+    """Integrity of ``site/`` against ``seal.json``. Empty when the release has no site."""
+    site = release_dir / "site"
+    if not site.exists():
+        return [], None
+    seal_path = release_dir / "seal.json"
+    if not seal_path.is_file() or seal_path.is_symlink():
+        return ["seal.json is missing"], None
+    try:
+        raw = seal_path.read_bytes()
+    except OSError as exc:
+        return [f"seal.json unreadable: {exc}"], None
+    return _seal_problems_from_bytes(release_dir, raw)
+
+
+def _seal_problems_from_bytes(
+    release_dir: Path, raw: bytes, *, release_id: str | None = None
+) -> tuple[list[str], str | None]:
+    """Check ``site/`` against seal bytes already read. Does not touch ``seal.json`` again."""
+    site = release_dir / "site"
+    problems: list[str] = []
+    if not site.is_dir():
+        return ["sealed site is missing"], None
+    measured, walk_problems = _walk_tree(site)
+    problems.extend(walk_problems)
+    try:
+        seal = _strict_json(raw)
+    except ValueError as exc:
+        problems.append(f"seal.json unreadable: {exc}")
+        return problems, None
+    body = {
+        "release_id": seal.get("release_id"),
+        "checker": seal.get("checker"),
+        "build_inputs": seal.get("build_inputs") or {},
+        "files": seal.get("files") or {},
+        "seal_sha256": "",
+    }
+    expect = sha256_bytes(canonical_json_bytes(body))
+    if seal.get("seal_sha256") != expect:
+        problems.append("seal self-hash mismatch")
+    if seal.get("release_id") != (release_id or release_dir.name):
+        problems.append("seal release_id mismatch")
+    if seal.get("checker") != SEAL_CHECKER:
+        problems.append("seal checker mismatch")
+    declared = seal.get("files") or {}
+    if set(declared) != set(measured):
+        extra = sorted(set(measured) - set(declared))
+        missing = sorted(set(declared) - set(measured))
+        if extra:
+            problems.append(f"unlisted site file {extra[0]}")
+        if missing:
+            problems.append(f"sealed file missing {missing[0]}")
+    else:
+        for name, info in declared.items():
+            got = measured[name]
+            if info.get("sha256") != got["sha256"] or info.get("bytes") != got["bytes"]:
+                problems.append(f"sealed bytes differ for {name}")
+                break
+    if problems:
+        return problems, None
+    return [], str(seal.get("seal_sha256"))
+
+
+def _inventory_mismatch(declared: dict[str, Any], measured: dict[str, dict[str, Any]], label: str) -> list[str]:
+    problems: list[str] = []
+    extra = sorted(set(measured) - set(declared))
+    missing = sorted(set(declared) - set(measured))
+    if extra:
+        problems.append(f"extra {label} file {extra[0]}")
+    if missing:
+        problems.append(f"missing {label} file {missing[0]}")
+    for name in sorted(set(measured) & set(declared)):
+        info = declared[name]
+        got = measured[name]
+        if got["sha256"] != info.get("sha256") or got["bytes"] != info.get("bytes"):
+            problems.append(f"{label} bytes differ for {name}")
+            break
+    return problems
+
+
+def embedded_data_problems(release_dir: Path, sums: dict[str, Any]) -> list[str]:
+    """``site/data/<release-id>/`` must be the validated public tree.
+
+    A sealed site without that directory fails. Extra children fail too: a
+    self-declared inventory is not a retained release. Public-only releases
+    (no ``site/``) are not checked here. Rollback does not call this function,
+    so an older seal that already passed stays integrity-only.
+    """
+    site = release_dir / "site"
+    if not site.is_dir():
+        return []
+    data_root = site / "data"
+    if data_root.is_symlink() or not data_root.is_dir():
+        return [f"site/data/{release_dir.name} is required"]
+    problems: list[str] = []
+    current = data_root / release_dir.name
+    if not current.is_dir() or current.is_symlink():
+        problems.append(f"site data is missing {release_dir.name}")
+    else:
+        measured, walk_problems = _walk_tree(current)
+        problems.extend(walk_problems)
+        problems.extend(_inventory_mismatch(sums, measured, "embedded"))
+    for child in sorted(data_root.iterdir()):
+        if child.name == release_dir.name:
+            continue
+        problems.append(f"unexpected site data path {child.name}")
+    return problems
+
+
 def validate_release(release_dir: Path, *, write: bool = True) -> ValidationReport:
     """Closure, hashes, allowlist, schema and reference checks over a finished release."""
     issues: list[dict[str, Any]] = []
@@ -297,8 +512,18 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
         "schema",
         "manifest",
         "references",
+        "seal",
+        "embedded_data",
     ):
         checks.setdefault(c, CheckOutcome.PASS)
+    seal_issues, seal_hash = seal_problems(release_dir)
+    for msg in seal_issues:
+        fail("seal", "site", msg)
+    if (release_dir / "site").is_dir():
+        for msg in _site_content_problems(release_dir / "site"):
+            fail("private_content", "site", msg)
+        for msg in embedded_data_problems(release_dir, sums):
+            fail("embedded_data", "site", msg)
     outcome = CheckOutcome.FAIL if issues else CheckOutcome.PASS
     report = ValidationReport(outcome=outcome, checks=checks, issues=issues, counts={"files": len(present)})
     if write:
@@ -310,6 +535,8 @@ def validate_release(release_dir: Path, *, write: bool = True) -> ValidationRepo
             "checksums_sha256": sha256_file(release_dir / "checksums.json")
             if (release_dir / "checksums.json").exists()
             else None,
+            "seal_sha256": seal_hash,
+            "checker": SEAL_CHECKER,
         }
         atomic_write_bytes(release_dir / "validation.json", canonical_json_bytes(payload))
     return report
@@ -338,7 +565,7 @@ def _check_files(
         data = (public / name).read_bytes()
         if sha256_bytes(data) != sums[name]["sha256"] or len(data) != sums[name]["bytes"]:
             fail("hashes", name, "content does not match checksums.json")
-        if any(marker in data for marker in PRIVATE_MARKERS):
+        if _has_private_marker(data):
             fail("private_content", name, "contains a local path or secret marker")
         if not name.endswith(".json"):
             continue
@@ -421,6 +648,7 @@ class PublishReceipt(BaseModel):
     validation_checksums_sha256: str | None
     previous_release: str | None
     message: str | None = None
+    seal_sha256: str | None = None
 
 
 class LocalDirectoryDestination:
@@ -436,20 +664,44 @@ class LocalDirectoryDestination:
             raise ValueError("unsafe destination name")
         self.name = name
         self.root = root
+        self.expected_inventory: tuple[tuple[str, str, int], ...] | None = None
+        self.upload_root: Path | None = None
 
     def active_release(self) -> str | None:
         live = self.root / "live"
         return Path(os.readlink(live)).name if live.is_symlink() else None
 
+    def acquire_lock(self) -> int:
+        self.root.mkdir(parents=True, exist_ok=True)
+        fd = os.open(self.root / ".publish.lock", os.O_CREAT | os.O_RDWR, 0o644)
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        return fd
+
+    def release_lock(self, fd: int) -> None:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+        os.close(fd)
+
     def upload(self, release_dir: Path) -> None:
-        src = release_dir / "site" if (release_dir / "site").is_dir() else release_dir / "public"
-        target = self.root / "releases" / release_dir.name
+        src = self.upload_root if self.upload_root is not None else _upload_source(release_dir)
+        expected = self.expected_inventory
+        if expected is None:
+            raise PublishError("upload has no validated inventory")
+        releases = self.root / "releases"
+        releases.mkdir(parents=True, exist_ok=True)
+        target = releases / release_dir.name
         if target.exists():
-            return  # immutable: already uploaded
-        tmp = self.root / "releases" / f".upload-{release_dir.name}"
+            if _tree_manifest(target) != expected:
+                raise PublishError(
+                    f"existing destination {target.name} does not match the validated inventory"
+                )
+            return
+        tmp = releases / f".upload-{release_dir.name}"
         if tmp.exists():
-            shutil.rmtree(tmp)
+            shutil.rmtree(tmp)  # a partial upload is not a completed release
         shutil.copytree(src, tmp, symlinks=False)
+        if _tree_manifest(tmp) != expected:
+            shutil.rmtree(tmp)
+            raise PublishError("uploaded bytes do not match the validated inventory")
         os.replace(tmp, target)
 
     def _activate(self, release_id: str) -> None:
@@ -472,30 +724,7 @@ def _write_receipt(output_root: Path, receipt: PublishReceipt) -> Path:
     return path
 
 
-def _require_validated(release_dir: Path) -> str:
-    vpath = release_dir / "validation.json"
-    if not vpath.is_file():
-        raise PublishError("release has not been validated (run validate-release)")
-    record = _strict_json(vpath.read_bytes())
-    if record.get("outcome") != "PASS":
-        raise PublishError(f"release validation outcome is {record.get('outcome')}")
-    if record.get("checksums_sha256") != sha256_file(release_dir / "checksums.json"):
-        raise PublishError("checksums changed since validation")
-    drift = integrity_issues(release_dir)
-    if drift:
-        raise PublishError(f"release files differ from the validated release: {drift[:3]}")
-    return str(record["checksums_sha256"])
-
-
-def integrity_issues(release_dir: Path) -> list[str]:
-    """Files that differ from ``checksums.json`` (missing, extra or changed bytes).
-
-    Publication and rollback check integrity only: semantic validation happened at
-    validate-release time under the contract the release was built with, so a later
-    schema change must not strand an older validated release.
-    """
-    sums = _strict_json((release_dir / "checksums.json").read_bytes())["files"]
-    public = release_dir / "public"
+def _public_drift(public: Path, sums: dict[str, Any]) -> list[str]:
     present = set(_iter_files(public)) if public.is_dir() else set()
     issues = [f"extra {n}" for n in sorted(present - set(sums))]
     issues += [f"missing {n}" for n in sorted(set(sums) - present)]
@@ -506,6 +735,82 @@ def integrity_issues(release_dir: Path) -> list[str]:
     return issues
 
 
+def _require_validated(release_dir: Path) -> ValidatedRef:
+    """Read validation metadata once and return the inventory those bytes authorize.
+
+    Later publication steps must use this object. Re-reading ``seal.json`` or
+    ``checksums.json`` would let a concurrent rewrite choose a different tree.
+    """
+    vpath = release_dir / "validation.json"
+    if not vpath.is_file():
+        raise PublishError("release has not been validated (run validate-release)")
+    record = _strict_json(vpath.read_bytes())
+    if record.get("outcome") != "PASS":
+        raise PublishError(f"release validation outcome is {record.get('outcome')}")
+    try:
+        raw_sums = (release_dir / "checksums.json").read_bytes()
+    except OSError as exc:
+        raise PublishError(f"checksums unreadable: {exc}") from exc
+    digest = sha256_bytes(raw_sums)
+    if digest != record.get("checksums_sha256"):
+        raise PublishError("checksums changed since validation")
+    try:
+        sums = _strict_json(raw_sums)["files"]
+    except (ValueError, KeyError) as exc:
+        raise PublishError(f"checksums unreadable: {exc}") from exc
+    drift = _public_drift(release_dir / "public", sums)
+    if drift:
+        raise PublishError(f"release files differ from the validated release: {drift[:3]}")
+    record_seal = record.get("seal_sha256") or None
+    site = release_dir / "site"
+    seal_hash: str | None = None
+    if record_seal:
+        if not site.is_dir():
+            raise PublishError("sealed site is missing; refusing to publish public/ in its place")
+        seal_path = release_dir / "seal.json"
+        if not seal_path.is_file() or seal_path.is_symlink():
+            raise PublishError("final site is not the sealed validated tree: seal.json is missing")
+        try:
+            raw_seal = seal_path.read_bytes()
+        except OSError as exc:
+            raise PublishError(f"final site is not the sealed validated tree: {exc}") from exc
+        problems, seal_hash = _seal_problems_from_bytes(release_dir, raw_seal)
+        if problems or seal_hash != record_seal:
+            detail = problems[0] if problems else "validation is not bound to the final site seal"
+            raise PublishError(f"final site is not the sealed validated tree: {detail}")
+        content = _site_content_problems(site)
+        if content:
+            raise PublishError(f"final site failed content validation: {content[0]}")
+        inventory = _inventory_from_record(_strict_json(raw_seal).get("files") or {})
+        source = site
+    elif site.exists():
+        # Public checksums do not cover site/. A missing seal key and an explicit null
+        # are the same: the validation record cannot prove this tree. Do not publish it
+        # and do not fall back to public/.
+        raise PublishError(
+            "site/ has no exact-byte validation inventory; rebuild and seal the release before publishing. "
+            "A public-only validation record cannot authorize a site upload."
+        )
+    else:
+        inventory = _inventory_from_record(sums)
+        source = release_dir / "public"
+    return ValidatedRef(release_dir.name, source, digest, seal_hash, inventory)
+
+
+def integrity_issues(release_dir: Path) -> list[str]:
+    """Files that differ from ``checksums.json`` (missing, extra or changed bytes).
+
+    Publication and rollback check integrity only: semantic validation happened at
+    validate-release time under the contract the release was built with, so a later
+    schema change must not strand an older validated release.
+    """
+    try:
+        sums = _strict_json((release_dir / "checksums.json").read_bytes())["files"]
+    except (OSError, ValueError, KeyError):
+        return ["checksums.json is unreadable"]
+    return _public_drift(release_dir / "public", sums)
+
+
 def publish_release(
     release_dir: Path,
     destination: LocalDirectoryDestination,
@@ -514,7 +819,24 @@ def publish_release(
     kind: Literal["publish", "rollback"] = "publish",
 ) -> PublishReceipt:
     output_root = release_dir.parent.parent
-    checks = _require_validated(release_dir)
+    lock = destination.acquire_lock()
+    try:
+        return _publish_locked(release_dir, destination, clock=clock, kind=kind, output_root=output_root)
+    finally:
+        destination.release_lock(lock)
+
+
+def _publish_locked(
+    release_dir: Path,
+    destination: LocalDirectoryDestination,
+    *,
+    clock: Clock,
+    kind: Literal["publish", "rollback"],
+    output_root: Path,
+) -> PublishReceipt:
+    ref = _require_validated(release_dir)
+    destination.expected_inventory = ref.inventory
+    destination.upload_root = ref.source
     previous = destination.active_release()
     try:
         destination.upload(release_dir)
@@ -526,9 +848,10 @@ def publish_release(
             kind=kind,
             status="failed",
             at=clock(),
-            validation_checksums_sha256=checks,
+            validation_checksums_sha256=ref.checksums_sha256,
             previous_release=previous,
             message=str(exc)[:500],
+            seal_sha256=ref.seal_sha256,
         )
         _write_receipt(output_root, failed)
         raise PublishError(f"publication failed; {previous or 'no release'} remains active: {exc}") from exc
@@ -538,8 +861,9 @@ def publish_release(
         kind=kind,
         status="published",
         at=clock(),
-        validation_checksums_sha256=checks,
+        validation_checksums_sha256=ref.checksums_sha256,
         previous_release=previous,
+        seal_sha256=ref.seal_sha256,
     )
     _write_receipt(output_root, receipt)
     return receipt

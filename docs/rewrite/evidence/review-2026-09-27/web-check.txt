@@ -1,0 +1,312 @@
+npm notice run supercoach-via-web@0.1.0 check
+npm notice run astro check && tsc --noEmit -p tsconfig.json
+10:38:13 [types] Generated 50ms
+10:38:13 [check] Getting diagnostics for Astro files in /home/abhi/git/SuperCoach-VIA/web...
+[96msrc/islands/AccuracyView.tsx[0m:[93m48[0m:[93m69[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ dim: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly origin: { readonly kind: "enum"; readonly values: readonly ["prospective", "replay", "legacy_unknown"]; }; readonly report: { readonly kind: "token"; }; readonly dim: { readonly kind: "token"; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'dim' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m48[0m         {(r) => <Report r={r} dim={state.dim} setDim={(d) => update({ dim: d })} releaseId={releaseId} base={base} />}
+[7m  [0m [91m                                                                    ~~~~~~~~~~[0m
+[96msrc/islands/AccuracyView.tsx[0m:[93m35[0m:[93m157[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ origin: "prospective" | "replay" | "legacy_unknown"; report: undefined; dim: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly origin: { readonly kind: "enum"; readonly values: readonly ["prospective", "replay", "legacy_unknown"]; }; readonly report: { readonly kind: "token"; }; readonly dim: { readonly kind: "token"; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'report' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m35[0m             {origins.map((o) => <button key={o} type="button" aria-pressed={o === origin} className={o === origin ? '' : 'secondary'} onClick={() => update({ origin: o, report: undefined, dim: undefined })}>{ORIGIN_LABEL[o]}</button>)}
+[7m  [0m [91m                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/ArticleFilter.tsx[0m:[93m27[0m:[93m80[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ year: number | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly category: { readonly kind: "token"; }; readonly year: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'year' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+
+[7m27[0m           <select id="a-year" value={state.year ?? ''} onChange={(e) => update({ year: e.target.value ? Number(e.target.value) : undefined })}><option value="">All years</option>{years.map((y) => <option key={y} value={y}>{y}</option>)}</select></div>
+[7m  [0m [91m                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/ArticleFilter.tsx[0m:[93m25[0m:[93m83[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ category: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly category: { readonly kind: "token"; }; readonly year: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'category' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m25[0m           <select id="a-cat" value={state.category ?? ''} onChange={(e) => update({ category: e.target.value || undefined })}><option value="">All categories</option>{categories.map((c) => <option key={c} value={c}>{c}</option>)}</select></div>
+[7m  [0m [91m                                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/ArticleFilter.tsx[0m:[93m23[0m:[93m203[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ q: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly category: { readonly kind: "token"; }; readonly year: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'q' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m23[0m         <div className="field"><label htmlFor="a-q">Search articles</label><input id="a-q" name="q" type="search" defaultValue={state.q ?? ''} key={state.q ?? ''} maxLength={60} onChange={(e) => update({ q: e.target.value.trim() || undefined }, 'replace')} /></div>
+[7m  [0m [91m                                                                                                                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/HistoryExplorer.tsx[0m:[93m48[0m:[93m77[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ category: string; era: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly scope: { readonly kind: "enum"; readonly values: readonly ["career", "single_season", "ranking"]; }; readonly category: { readonly kind: "token"; }; readonly era: { readonly kind: "token"; }; readonly sort: { ...; }; readonly dir: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'era' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m48[0m           <select id="h-cat" value={table.category} onChange={(e) => update({ category: e.target.value, era: undefined })}>{tables.map((t) => <option key={t.category} value={t.category}>{t.title}</option>)}</select>
+[7m  [0m [91m                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/HistoryExplorer.tsx[0m:[93m43[0m:[93m154[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ scope: "career" | "single_season" | "ranking"; category: undefined; era: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly scope: { readonly kind: "enum"; readonly values: readonly ["career", "single_season", "ranking"]; }; readonly category: { readonly kind: "token"; }; readonly era: { readonly kind: "token"; }; readonly sort: { ...; }; readonly dir: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'category' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m43[0m             {scopes.map((s) => <button key={s} type="button" className={s === scope ? '' : 'secondary'} aria-pressed={s === scope} onClick={() => update({ scope: s, category: undefined, era: undefined })}>{SCOPE_LABEL[s]}</button>)}
+[7m  [0m [91m                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/ListsView.tsx[0m:[93m27[0m:[93m82[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ club: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly season: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; readonly club: { readonly kind: "text"; readonly maxLength: 80; }; readonly kind: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "drafts"; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'club' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m27[0m             <select id="l-club" value={state.club ?? ''} onChange={(e) => update({ club: e.target.value || undefined })}>
+[7m  [0m [91m                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/ListsView.tsx[0m:[93m24[0m:[93m86[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ kind: "drafts" | "contracts" | "schools" | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly season: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; readonly club: { readonly kind: "text"; readonly maxLength: 80; }; readonly kind: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "drafts"; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'kind' are incompatible.
+    Type '"drafts" | "contracts" | "schools" | undefined' is not assignable to type '"drafts" | "contracts" | "schools"'.
+      Type 'undefined' is not assignable to type '"drafts" | "contracts" | "schools"'.
+
+[7m24[0m           <select id="l-kind" value={state.kind ?? 'drafts'} onChange={(e) => update({ kind: e.target.value as typeof state.kind })}><option value="drafts">National and rookie drafts</option><option value="contracts">Contract observations</option><option value="schools">School classifications</option></select></div>
+[7m  [0m [91m                                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/ListsView.tsx[0m:[93m22[0m:[93m72[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ season: number; club: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly season: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; readonly club: { readonly kind: "text"; readonly maxLength: 80; }; readonly kind: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "drafts"; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'club' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m22[0m           <select id="l-season" value={season} onChange={(e) => update({ season: Number(e.target.value), club: undefined })}>{seasons.map((s) => <option key={s} value={s}>{s}</option>)}</select></div>
+[7m  [0m [91m                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/MatchView.tsx[0m:[93m82[0m:[93m16[0m - [91merror[0m[90m ts(18048): [0m'd.live_snapshots' is possibly 'undefined'.
+
+[7m82[0m           <ul>{d.live_snapshots.map((k) => { const g = /^live\/([^/]+)\//.exec(k)?.[1]; return g ? <li key={k}><a href={withBase(base, `live/?match=${g}`)}>Snapshot {g}</a></li> : null; })}</ul>
+[7m  [0m [91m               ~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/MatchView.tsx[0m:[93m79[0m:[93m8[0m - [91merror[0m[90m ts(18048): [0m'd.live_snapshots' is possibly 'undefined'.
+
+[7m79[0m       {d.live_snapshots.length ? (
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/MatchesExplorer.tsx[0m:[93m28[0m:[93m72[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ season: number; stage: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly season: { readonly kind: "int"; readonly min: 1850; readonly max: 2100; }; readonly stage: { readonly kind: "token"; }; readonly club: { readonly kind: "token"; }; readonly status: { readonly kind: "enum"; readonly values: readonly [...]; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'stage' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m28[0m           <select id="m-season" value={season} onChange={(e) => update({ season: Number(e.target.value), stage: undefined })}>
+[7m  [0m [91m                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/PlayerSearch.tsx[0m:[93m129[0m:[93m203[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ size: St["size"]; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly status: { readonly kind: "enum"; readonly values: readonly ["all", "active", "retired"]; readonly default: "all"; }; readonly club: { ...; }; readonly season: { ...; }; readonly page: { ...; }; readonly size: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'size' are incompatible.
+    Type '"25" | "50" | "100" | undefined' is not assignable to type '"25" | "50" | "100"'.
+      Type 'undefined' is not assignable to type '"25" | "50" | "100"'.
+
+[7m129[0m                 <Pagination label="Player results" page={pageData.page} pages={pageData.pages} total={pageData.total} size={state.size ?? '25'} onPage={(p) => update({ page: p })} onSize={(s) => update({ size: s as St['size'] })} />
+[7m   [0m [91m                                                                                                                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PlayerSearch.tsx[0m:[93m107[0m:[93m106[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ season: number | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly status: { readonly kind: "enum"; readonly values: readonly ["all", "active", "retired"]; readonly default: "all"; }; readonly club: { ...; }; readonly season: { ...; }; readonly page: { ...; }; readonly size: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'season' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+
+[7m107[0m             onFocus={() => setActivated(true)} onBlur={(e) => { const v = Number(e.target.value); update({ season: /^\d{4}$/.test(e.target.value) ? v : undefined }); }} />
+[7m   [0m [91m                                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PlayerSearch.tsx[0m:[93m99[0m:[93m120[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ club: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly status: { readonly kind: "enum"; readonly values: readonly ["all", "active", "retired"]; readonly default: "all"; }; readonly club: { ...; }; readonly season: { ...; }; readonly page: { ...; }; readonly size: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'club' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m99[0m           <select id="player-club" value={state.club ?? ''} onFocus={() => setActivated(true)} onChange={(e) => update({ club: e.target.value || undefined })}>
+[7m  [0m [91m                                                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PlayerSearch.tsx[0m:[93m93[0m:[93m114[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ status: St["status"]; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly status: { readonly kind: "enum"; readonly values: readonly ["all", "active", "retired"]; readonly default: "all"; }; readonly club: { ...; }; readonly season: { ...; }; readonly page: { ...; }; readonly size: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'status' are incompatible.
+    Type '"all" | "active" | "retired" | undefined' is not assignable to type '"all" | "active" | "retired"'.
+      Type 'undefined' is not assignable to type '"all" | "active" | "retired"'.
+
+[7m93[0m           <select id="player-status" value={state.status ?? 'all'} onChange={(e) => { setActivated(true); update({ status: e.target.value as St['status'] }); }}>
+[7m  [0m [91m                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PlayerSearch.tsx[0m:[93m42[0m:[93m45[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ q: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly status: { readonly kind: "enum"; readonly values: readonly ["all", "active", "retired"]; readonly default: "all"; }; readonly club: { ...; }; readonly season: { ...; }; readonly page: { ...; }; readonly size: { ...; }; }>>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'q' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m42[0m     timer.current = setTimeout(() => update({ q: v.trim() || undefined }, 'replace'), 150);
+[7m  [0m [91m                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/islands/PredictionsExplorer.tsx[0m:[93m140[0m:[93m57[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ sort: St["sort"]; dir: SortDir; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly stage: { readonly kind: "token"; }; readonly team: { readonly kind: "token"; }; readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly sel: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "all"; }; readonly sort: { ...; }; readonly dir: { ...;...' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'sort' are incompatible.
+    Type '"club" | "player" | "opponent" | "kickoff" | "predicted" | "interval" | "recent" | "history" | undefined' is not assignable to type '"club" | "player" | "opponent" | "kickoff" | "predicted" | "interval" | "recent" | "history"'.
+      Type 'undefined' is not assignable to type '"club" | "player" | "opponent" | "kickoff" | "predicted" | "interval" | "recent" | "history"'.
+
+[7m140[0m   const onSort = (column: string, d: SortDir) => update({ sort: column as St['sort'], dir: d });
+[7m   [0m [91m                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PredictionsExplorer.tsx[0m:[93m120[0m:[93m82[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ sel: St["sel"]; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly stage: { readonly kind: "token"; }; readonly team: { readonly kind: "token"; }; readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly sel: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "all"; }; readonly sort: { ...; }; readonly dir: { ...;...' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'sel' are incompatible.
+    Type '"all" | "confirmed" | "unconfirmed" | undefined' is not assignable to type '"all" | "confirmed" | "unconfirmed"'.
+      Type 'undefined' is not assignable to type '"all" | "confirmed" | "unconfirmed"'.
+
+[7m120[0m         <select id="pred-sel" value={state.sel ?? 'all'} onChange={(e) => update({ sel: e.target.value as St['sel'] })}>
+[7m   [0m [91m                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PredictionsExplorer.tsx[0m:[93m109[0m:[93m122[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ team: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly stage: { readonly kind: "token"; }; readonly team: { readonly kind: "token"; }; readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly sel: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "all"; }; readonly sort: { ...; }; readonly dir: { ...;...' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'team' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m109[0m         <select id="pred-team" value={clubs.some(([id]) => id === state.team) ? state.team : ''} onChange={(e) => update({ team: e.target.value || undefined })}>
+[7m   [0m [91m                                                                                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PredictionsExplorer.tsx[0m:[93m79[0m:[93m158[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ stage: string; team: undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly stage: { readonly kind: "token"; }; readonly team: { readonly kind: "token"; }; readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly sel: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "all"; }; readonly sort: { ...; }; readonly dir: { ...;...' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'team' are incompatible.
+    Type 'undefined' is not assignable to type 'string'.
+
+[7m79[0m                   <select id="pred-set" value={validStage?.stage_id ?? idx.sets.find((s) => s.resource === setPath)?.stage_id ?? ''} onChange={(e) => update({ stage: e.target.value, team: undefined })}>
+[7m  [0m [91m                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/islands/PredictionsExplorer.tsx[0m:[93m58[0m:[93m48[0m - [91merror[0m[90m ts(2379): [0mArgument of type '{ q: string | undefined; }' is not assignable to parameter of type 'Partial<UrlState<{ readonly stage: { readonly kind: "token"; }; readonly team: { readonly kind: "token"; }; readonly q: { readonly kind: "text"; readonly maxLength: 60; }; readonly sel: { readonly kind: "enum"; readonly values: readonly [...]; readonly default: "all"; }; readonly sort: { ...; }; readonly dir: { ...;...' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'q' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+[7m58[0m     debounce.current = setTimeout(() => update({ q: v.trim() || undefined }, 'replace'), 150);
+[7m  [0m [91m                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/lib/data.ts[0m:[93m41[0m:[93m91[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'ResourceRef | undefined' is not assignable to parameter of type '{ sha256: string; bytes: number; }'.
+  Type 'undefined' is not assignable to type '{ sha256: string; bytes: number; }'.
+
+[7m41[0m   for (const ref of Object.values(opts.manifest?.resources ?? {})) expected.set(ref.path, ref);
+[7m  [0m [91m                                                                                          ~~~[0m
+[96msrc/lib/data.ts[0m:[93m41[0m:[93m81[0m - [91merror[0m[90m ts(18048): [0m'ref' is possibly 'undefined'.
+
+[7m41[0m   for (const ref of Object.values(opts.manifest?.resources ?? {})) expected.set(ref.path, ref);
+[7m  [0m [91m                                                                                ~~~[0m
+
+[96msrc/lib/release-server.ts[0m:[93m7[0m:[93m1[0m - [91merror[0m[90m ts(2578): [0mUnused '@ts-expect-error' directive.
+
+[7m7[0m // @ts-expect-error untyped build helper shared with astro.config.mjs
+[7m [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/lib/validators/index.generated.ts[0m:[93m29[0m:[93m71[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate57' to type 'GeneratedValidator<TeamSeason>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m29[0m   team_season: () => import('./team_season.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['team_season']>),
+[7m  [0m [91m                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m28[0m:[93m69[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate56' to type 'GeneratedValidator<TeamIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m28[0m   team_index: () => import('./team_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['team_index']>),
+[7m  [0m [91m                                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m27[0m:[93m63[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate55' to type 'GeneratedValidator<ReleaseManifest>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m27[0m   release: () => import('./release.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['release']>),
+[7m  [0m [91m                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m26[0m:[93m63[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate54' to type 'GeneratedValidator<QualityReport>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m26[0m   quality: () => import('./quality.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['quality']>),
+[7m  [0m [91m                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m25[0m:[93m77[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate51' to type 'GeneratedValidator<PredictionSet>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m25[0m   prediction_set: () => import('./prediction_set.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['prediction_set']>),
+[7m  [0m [91m                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m24[0m:[93m81[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate50' to type 'GeneratedValidator<PredictionIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m24[0m   prediction_index: () => import('./prediction_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['prediction_index']>),
+[7m  [0m [91m                                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m23[0m:[93m87[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate49' to type 'GeneratedValidator<PlayerSeasonGames>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m23[0m   player_season_games: () => import('./player_season_games.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['player_season_games']>),
+[7m  [0m [91m                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m22[0m:[93m73[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate48' to type 'GeneratedValidator<PlayerIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m22[0m   player_index: () => import('./player_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['player_index']>),
+[7m  [0m [91m                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m21[0m:[93m75[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate45' to type 'GeneratedValidator<PlayerDetail>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m21[0m   player_detail: () => import('./player_detail.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['player_detail']>),
+[7m  [0m [91m                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m20[0m:[93m65[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate39' to type 'GeneratedValidator<Overview>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m20[0m   overview: () => import('./overview.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['overview']>),
+[7m  [0m [91m                                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m19[0m:[93m71[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate36' to type 'GeneratedValidator<MatchIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m19[0m   match_index: () => import('./match_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['match_index']>),
+[7m  [0m [91m                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m18[0m:[93m73[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate33' to type 'GeneratedValidator<MatchDetail>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m18[0m   match_detail: () => import('./match_detail.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['match_detail']>),
+[7m  [0m [91m                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m17[0m:[93m75[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate32' to type 'GeneratedValidator<LiveSnapshot>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m17[0m   live_snapshot: () => import('./live_snapshot.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['live_snapshot']>),
+[7m  [0m [91m                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m16[0m:[93m69[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate31' to type 'GeneratedValidator<LiveIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m16[0m   live_index: () => import('./live_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['live_index']>),
+[7m  [0m [91m                                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m15[0m:[93m73[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate30' to type 'GeneratedValidator<ListsSeason>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m15[0m   lists_season: () => import('./lists_season.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['lists_season']>),
+[7m  [0m [91m                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m14[0m:[93m71[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate29' to type 'GeneratedValidator<ListsIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m14[0m   lists_index: () => import('./lists_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['lists_index']>),
+[7m  [0m [91m                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m13[0m:[93m75[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate28' to type 'GeneratedValidator<HistoryTable>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m13[0m   history_table: () => import('./history_table.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['history_table']>),
+[7m  [0m [91m                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m12[0m:[93m75[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate27' to type 'GeneratedValidator<HistoryIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m12[0m   history_index: () => import('./history_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['history_index']>),
+[7m  [0m [91m                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m11[0m:[93m67[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate26' to type 'GeneratedValidator<Downloads>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m11[0m   downloads: () => import('./downloads.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['downloads']>),
+[7m  [0m [91m                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m10[0m:[93m75[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate25' to type 'GeneratedValidator<ArticleIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m10[0m   article_index: () => import('./article_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['article_index']>),
+[7m  [0m [91m                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m9[0m:[93m63[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate24' to type 'GeneratedValidator<Article>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m9[0m   article: () => import('./article.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['article']>),
+[7m [0m [91m                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m8[0m:[93m79[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate21' to type 'GeneratedValidator<AccuracyReport>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m8[0m   accuracy_report: () => import('./accuracy_report.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['accuracy_report']>),
+[7m [0m [91m                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/validators/index.generated.ts[0m:[93m7[0m:[93m77[0m - [91merror[0m[90m ts(2352): [0mConversion of type 'typeof validate20' to type 'GeneratedValidator<AccuracyIndex>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Signature '(data: any, { instancePath, parentData, parentDataProperty, rootData, dynamicAnchors }?: { instancePath?: string | undefined; rootData?: any; dynamicAnchors?: {} | undefined; }): boolean' must be a type predicate.
+
+[7m7[0m   accuracy_index: () => import('./accuracy_index.generated.js').then((m) => m.validate as GeneratedValidator<ResourceTypes['accuracy_index']>),
+[7m [0m [91m                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/data-status/index.astro[0m:[93m41[0m:[93m128[0m - [91merror[0m[90m ts(18048): [0m'v' is possibly 'undefined'.
+
+[7m41[0m       <tbody>{Object.entries(q.table_counts).map(([k, v]) => <tr><th scope="row">{k.replaceAll('_', ' ')}</th><td class="num">{v.toLocaleString('en-AU')}</td></tr>)}</tbody>
+[7m  [0m [91m                                                                                                                               ~[0m
+
+[96mtests/unit/contracts.test.ts[0m:[93m26[0m:[93m41[0m - [91merror[0m[90m ts(2352): [0mConversion of type '{ 'index.generated.ts': string; }' to type 'Record<string, string>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Index signature for type 'string' is missing in type '{ 'index.generated.ts': string; }'.
+
+[7m26[0m     for (const [f, c] of Object.entries(split as Record<string, string>)) {
+[7m  [0m [91m                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mtests/unit/contracts.test.ts[0m:[93m10[0m:[93m1[0m - [91merror[0m[90m ts(2578): [0mUnused '@ts-expect-error' directive.
+
+[7m10[0m // @ts-expect-error untyped build script
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+Result (126 files): 
+- 52 errors
+- 0 warnings
+- 0 hints
+

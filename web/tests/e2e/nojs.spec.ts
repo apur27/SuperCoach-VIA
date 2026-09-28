@@ -21,7 +21,7 @@ test('article is readable without JavaScript', async ({ page }) => {
   await expect(page.locator('article')).toContainText('DEMO section');
 });
 
-for (const p of ['player/?id=legacy__demo_player_a1', 'compare/?players=legacy__demo_player_a1', 'team/?id=demo_a&season=2026', 'match/?id=demo__2026__r01__a-b', 'live/?match=demo-live-final', 'watchlist/']) {
+for (const p of ['player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex', 'compare/?players=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex', 'team/?id=demo_a&season=2026', 'match/?id=k.ZGVtbzoyMDI2OnIwMTphLWI', 'live/?match=demo-live-final', 'watchlist/']) {
   test(`detail shell ${p} shows context and a download link, no spinner`, async ({ page }) => {
     await page.goto(p);
     await expect(page.locator('h1')).toBeVisible();

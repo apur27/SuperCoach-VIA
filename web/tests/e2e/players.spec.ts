@@ -21,7 +21,7 @@ test.describe('player directory', () => {
     await box.press('ArrowDown');
     await expect(page.getByRole('option', { name: /Demo Zoë Ärger/ })).toHaveAttribute('aria-selected', 'true');
     await box.press('Enter');
-    await expect(page).toHaveURL(/player\/\?id=legacy__demo_zoe_arger/);
+    await expect(page).toHaveURL(/player\/\?id=k.bGVnYWN5OmRlbW9fem9lX2FyZ2Vy/);
     await expect(page.locator('h1')).toContainText('Demo Zoë Ärger');
     expectClean(problems);
   });
@@ -49,7 +49,7 @@ test.describe('player directory', () => {
   });
 
   test('unknown player id shows a helpful not-found state', async ({ page }) => {
-    await page.goto('player/?id=legacy__nobody_here');
+    await page.goto('player/?id=k.bGVnYWN5Om5vYm9keV9oZXJl');
     await expect(page.getByRole('heading', { name: /player not found/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /search all players/i })).toBeVisible();
     await page.goto('player/?id=..%2F..%2Fetc');
@@ -59,15 +59,16 @@ test.describe('player directory', () => {
   test('player detail: null coverage is not zero; one season log fetched at a time', async ({ page }) => {
     const logs: string[] = [];
     page.on('request', (r) => { if (r.url().includes('/player-games/')) logs.push(r.url()); });
-    await page.goto('player/?id=legacy__demo_player_sparse');
+    await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX3NwYXJzZQ');
     await expect(page.locator('h1')).toContainText('Demo Player Sparse');
     await expect(page.getByRole('table', { name: /career/i })).toContainText('not recorded');
-    await page.goto('player/?id=legacy__demo_player_a1');
+    await page.goto('player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex');
     await expect(page.getByRole('table', { name: /game log/i })).toBeVisible();
-    expect(logs.filter((u) => u.includes('demo_player_a1'))).toHaveLength(1);
+    const a1 = 'k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex';
+    expect(logs.filter((u) => u.includes(a1))).toHaveLength(1);
     await page.getByLabel('Season', { exact: true }).selectOption('2025');
     await expect(page.getByRole('table', { name: /2025 game log/i })).toBeVisible();
-    expect(logs.filter((u) => u.includes('demo_player_a1'))).toHaveLength(2);
+    expect(logs.filter((u) => u.includes(a1))).toHaveLength(2);
     await expect(page.getByRole('img', { name: /form/i })).toBeVisible();
     await expect(page.getByTestId('player-forecast')).toContainText(/predicted/i);
   });

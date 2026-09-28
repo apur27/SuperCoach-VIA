@@ -33,7 +33,8 @@ def clock() -> datetime:
 def env(tmp_path_factory: pytest.TempPathFactory) -> dict[str, Any]:
     root = tmp_path_factory.mktemp("e")
     hist = F.load_history(build_corpus().write(root / "snap"))
-    cfg = T.TrainingConfig(train_cutoff=date(2024, 1, 1), calibration_end=date(2024, 6, 1),
+    cfg = T.TrainingConfig(train_cutoff=date(2024, 1, 1), calibration_end=date(2024, 4, 16),
+                           holdout_end=date(2024, 6, 1),
                            target_seasons_from=2023, candidates=("hgb",), n_folds=2, params=SMALL,
                            threads=1)
     bundle = T.train_model(hist, cfg, bundle_root=root / "models", clock=clock).bundle

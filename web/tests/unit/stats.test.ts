@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { boxRows, expandStats, gameRows } from '../../src/lib/stats';
+import { applyMatchFacts, boxRows, expandStats, gameRows } from '../../src/lib/stats';
 
 describe('compact player resources', () => {
   it('derives mean and coverage exactly; unknown stays null and zero stays zero', () => {
@@ -21,6 +21,19 @@ describe('compact player resources', () => {
     expect(rows).toHaveLength(2);
     expect(rows[1]).toEqual({ match_id: 'm2', match_date: null, date_quality: 'unknown', stage_label: 'QF', club_id: 'a',
       opponent_club_id: null, opponent_name: null, result: null, career_game_counter: null, stats: [0, 2] });
+  });
+  it('fills date, stage and opponent from the match index when the log omitted them', () => {
+    const rows = gameRows({
+      match_id: ['m1'], match_date: [], date_quality: ['source'], stage_label: [], club_id: ['a'],
+      opponent_club_id: [], opponent_name: [], result: ['W'], career_game_counter: [1], stats: [[10]],
+    });
+    const filled = applyMatchFacts(rows, {
+      matches: [{
+        match_id: 'm1', match_date: '2026-03-07', stage_label: 'Round 1',
+        home: { club_id: 'a', name: 'Demo Harbour' }, away: { club_id: 'b', name: 'Demo Ridge' },
+      }],
+    });
+    expect(filled[0]).toMatchObject({ match_date: '2026-03-07', stage_label: 'Round 1', opponent_name: 'Demo Ridge', result: 'W' });
   });
   it('restores box-score rows from columns', () => {
     expect(boxRows({ player_id: ['p1', 'p2'], name: ['A', 'B'], stats: [[1, null], [0, 3]] })).toEqual([

@@ -49,6 +49,25 @@ export function gameRows(g: PlayerGameColumns): GameRow[] {
   }));
 }
 
+/** Fill date, stage and opponent from the season match index when the log left those arrays empty. */
+export function applyMatchFacts(rows: GameRow[], index: { matches: { match_id: string; match_date: string | null; stage_label: string; home: { club_id: string; name: string }; away: { club_id: string; name: string } }[] } | null): GameRow[] {
+  if (!index) return rows;
+  const byId = new Map(index.matches.map((m) => [m.match_id, m]));
+  return rows.map((r) => {
+    if (r.stage_label) return r;
+    const m = byId.get(r.match_id);
+    if (!m) return r;
+    const opp = r.club_id === m.home.club_id ? m.away : r.club_id === m.away.club_id ? m.home : null;
+    return {
+      ...r,
+      match_date: r.match_date ?? m.match_date,
+      stage_label: m.stage_label,
+      opponent_club_id: r.opponent_club_id ?? opp?.club_id ?? null,
+      opponent_name: r.opponent_name ?? opp?.name ?? null,
+    };
+  });
+}
+
 export interface BoxRow { player_id: string; name: string; stats: (number | null)[] }
 
 export function boxRows(b: BoxScoreColumns): BoxRow[] {
