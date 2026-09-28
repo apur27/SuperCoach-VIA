@@ -1,5 +1,7 @@
 # Rewrite implementation status (ledger)
 
+> Local application finalized and merged at `2bcdfbeb4` on 28 September 2026. See [the finalization record](FINALIZATION_2026-09-28.md) for current artifacts, checks and grand-final status. Production activation remains pending. The dated records below preserve their original context.
+
 Owner of this ledger: Gaffer (integration). Spec: [PLAN.md](PLAN.md). Evidence: [AUDIT.md](AUDIT.md), [DATA_REFRESH.md](DATA_REFRESH.md).
 Session 2026-09-25 (cloud continuation): owner authorised commits/pushes to branch `rewrite/wip` only (never main, no PR/deploy/release/force-push).
 

@@ -1,5 +1,7 @@
 # Cursor continuation progress (2026-09-27)
 
+> Local application finalized and merged at `2bcdfbeb4` on 28 September 2026. See [the finalization record](FINALIZATION_2026-09-28.md) for current artifacts, checks and grand-final status. Production activation remains pending. The dated records below preserve their original context.
+
 ## Current local status (2026-09-28)
 
 Parent update: independent review returned **PASS for local merge** after the final scratch smoke and four-core timing run. See [final verification](finalization-20260928/README.md). The merge itself follows this review; historical sections below retain their original state.

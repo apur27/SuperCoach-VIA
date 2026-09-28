@@ -1,5 +1,7 @@
 # Entry-point switch plan (PLAN Phase 9) as a CLAUDE.md §6.2 harness change
 
+> Local application finalized and merged at `2bcdfbeb4` on 28 September 2026. See [the finalization record](FINALIZATION_2026-09-28.md) for current artifacts, checks and grand-final status. Production activation remains pending. The dated records below preserve their original context.
+
 Status: **not activated**. The default body of `scripts/weekly_refresh.sh` is still the legacy pipeline. An opt-in (`SCVIA_NUMERIC_ENTRY=1`) execs `scripts/scvia_weekly.sh`. Cron, `core.hooksPath`, and the installed hook are unchanged. This document is the written §6.2 scope decision, merge condition and operator answer. Evidence from the rehearsal is in [REHEARSAL.md](REHEARSAL.md).
 
 ## 1. Scope decision (§6.2, in writing)
