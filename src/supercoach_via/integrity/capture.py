@@ -214,15 +214,21 @@ class SnapshotCapture:
         frags = [f for f in self.fragments if f.table == name]
         if spec is None or not frags or not all(f.verified for f in frags):
             return None
-        # nullability is checked from the data (contract.null_required), so cast leniently
-        want = pa.schema([f.with_nullable(True) for f in spec.arrow_schema()])
+        # nullability is checked from the data (contract.null_required), so cast leniently;
+        # strings stay dictionary-encoded (a repeated id or path is stored once in memory)
+        def compact(field: pa.Field) -> pa.Field:
+            kind = pa.dictionary(pa.int32(), pa.string()) if pa.types.is_string(field.type) else field.type
+            return pa.field(field.name, kind, nullable=True)
+
+        want = pa.schema([compact(f) for f in spec.arrow_schema()])
         if columns is not None:
             want = pa.schema([want.field(c) for c in columns])
+        strings = [f.name for f in want if pa.types.is_dictionary(f.type)]
         parts = []
         for f in frags:
             assert f.data is not None
             try:
-                t = pq.read_table(pa.BufferReader(f.data), columns=columns)
+                t = pq.read_table(pa.BufferReader(f.data), columns=columns, read_dictionary=strings)
                 parts.append(t.select(want.names).cast(want))
             except Exception:  # noqa: BLE001 - schema problems are reported by the storage checks
                 return None

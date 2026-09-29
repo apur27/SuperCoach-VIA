@@ -519,18 +519,19 @@ def check_public(ctx: AuditContext) -> list[str]:
             f"SELECT {pg_sel} FROM player_games WHERE season = ? ORDER BY match_id, player_id, club_id",  # noqa: S608 - column names are PLAYER_STAT_COLUMNS constants
             [season],
         ).to_arrow_table()
-        m_rows, g_rows = matches.to_pylist(), games.to_pylist()
-        used = sorted({g["player_id"] for g in g_rows})
+        # Arrow, not Python rows: all seasons' payloads exist at once before the units run
+        match_ids = [str(x) for x in matches.column("match_id").to_pylist()]
+        used = sorted({str(x) for x in games.column("player_id").to_pylist()})
         payload = {
             "season": season,
-            "matches": m_rows,
-            "player_games": g_rows,
+            "matches": matches,
+            "player_games": games,
             "club_names": club_names,
             "player_names": {p: names.get(p, "") for p in used},
         }
         paths = [
             f"matches/{season}/index.json",
-            *(f"matches/detail/{pc.public_key(m['match_id'])}.json" for m in m_rows),
+            *(f"matches/detail/{pc.public_key(m)}.json" for m in match_ids),
             *(f"player-games/{pc.public_key(p)}/{season}.json" for p in used),
         ]
         deps = hashlib.sha256(

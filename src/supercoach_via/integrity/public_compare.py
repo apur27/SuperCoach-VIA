@@ -266,8 +266,8 @@ def season_unit(p: dict[str, Any]) -> UnitResult:
     inv: dict[str, tuple[str, int]] = p["inventory"]
     clubs: dict[str, str] = p["club_names"]
     names: dict[str, str] = p["player_names"]
-    matches = sorted(p["matches"], key=_order_key)
-    games: list[dict[str, Any]] = p["player_games"]
+    matches = sorted(p["matches"].to_pylist(), key=_order_key)
+    games: list[dict[str, Any]] = p["player_games"].to_pylist()
     by_match: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for g in games:
         by_match[g["match_id"]].append(g)
