@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { statusLabel, teamScoreText, resultLine, reasonText, isReplay } from '../../src/lib/matches';
+import { statusLabel, teamScoreText, resultLine, reasonText, isReplay, stageText, matchTitle } from '../../src/lib/matches';
 import type { MatchSummary } from '../../src/lib/contracts';
 
 const team = (club_id: string, goals: number | null, behinds: number | null) => ({ club_id, name: club_id, goals, behinds, score: goals === null || behinds === null ? null : goals * 6 + behinds });
@@ -33,5 +33,13 @@ describe('match display', () => {
     expect(reasonText('no_valid_future_fixture')).toMatch(/No valid future fixture/);
     expect(reasonText(null)).toBe('No reason was recorded.');
     expect(reasonText('custom reason text')).toBe('custom reason text');
+  });
+  it('titles a regular round "Round N" and keeps a final\'s name (O55-08)', () => {
+    expect(stageText('17', 'regular')).toBe('Round 17');
+    expect(stageText('Grand Final', 'final')).toBe('Grand Final');
+    expect(stageText('Opening Round', 'regular')).toBe('Opening Round');
+    const s = m({ stage_label: '17', stage_type: 'regular', home: team('Collingwood', 1, 1), away: team('Richmond', 0, 0) });
+    expect(matchTitle(s)).toBe('Collingwood v Richmond, Round 17 2026');
+    expect(matchTitle(m({ stage_label: 'Grand Final', stage_type: 'final' }))).toBe('a v b, Grand Final 2026');
   });
 });

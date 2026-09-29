@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { PlayerDetail, PlayerSeasonGames, PredictionRow } from '../lib/contracts';
 import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
+import { stageText } from '../lib/matches';
 import { DataState } from './common/DataState';
 import { siteBase, useHeading, useResource, useUrlSearch } from './common/runtime';
 import { StatTable } from './common/StatTable';
@@ -51,7 +52,7 @@ function Forecast({ f }: { f: PredictionRow | null }) {
       <h2 id="fc-h">Current forecast</h2>
       {f ? (
         <div className="card">
-          <p><strong>{formatStat(f.predicted_disposals, 1)} predicted disposals</strong> v {f.opponent_name ?? 'opponent not recorded'} ({f.stage_label} {f.season}){f.interval_low !== null && f.interval_high !== null ? `; ${formatStat((f.interval_level ?? 0) * 100)}% interval ${formatStat(f.interval_low, 1)}–${formatStat(f.interval_high, 1)}` : '; no interval available'}.</p>
+          <p><strong>{formatStat(f.predicted_disposals, 1)} predicted disposals</strong> v {f.opponent_name ?? 'opponent not recorded'} ({stageText(f.stage_label)} {f.season}){f.interval_low !== null && f.interval_high !== null ? `; ${formatStat((f.interval_level ?? 0) * 100)}% interval ${formatStat(f.interval_low, 1)}–${formatStat(f.interval_high, 1)}` : '; no interval available'}.</p>
           <p className="muted">Selection: {f.selection_status === 'confirmed' ? 'confirmed' : 'not confirmed'} ({f.eligibility_basis}). Based on {f.history_games} prior games. Kickoff {f.scheduled_at ? <Instant iso={f.scheduled_at} /> : (f.scheduled_local ?? 'not recorded')}. Model {f.model_id}, origin {f.origin}.</p>
           {f.warnings.length ? <ul>{f.warnings.map((w) => <li key={w}>{w}</li>)}</ul> : null}
         </div>

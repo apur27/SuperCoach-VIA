@@ -3,7 +3,7 @@ import type { PredictionRow, PredictionSet } from '../lib/contracts';
 import { parseUrlState, serializeUrlState, sortRows, type SortDir, type StateSpec } from '../lib/filters';
 import { encodeId, withBase } from '../lib/ids';
 import { formatStat } from '../lib/format';
-import { reasonText } from '../lib/matches';
+import { reasonText, stageText } from '../lib/matches';
 import { normalizeText } from '../lib/search';
 import { toCsv } from '../lib/csv';
 import { DataState } from './common/DataState';
@@ -77,7 +77,7 @@ export default function PredictionsExplorer({ downloadHref }: { downloadHref: st
                 <div className="field">
                   <label htmlFor="pred-set">Forecast set</label>
                   <select id="pred-set" value={validStage?.stage_id ?? idx.sets.find((s) => s.resource === setPath)?.stage_id ?? ''} onChange={(e) => update({ stage: e.target.value, team: undefined })}>
-                    {idx.sets.map((s) => <option key={s.resource} value={s.stage_id}>{s.season} {s.stage_label} ({s.status}, {s.rows} rows)</option>)}
+                    {idx.sets.map((s) => <option key={s.resource} value={s.stage_id}>{stageText(s.stage_label)} {s.season} ({s.status}, {s.rows} rows)</option>)}
                   </select>
                 </div>
                 <PredictionFilters set={set.state.status === 'success' ? set.state.data : null} state={state} update={update} qInput={qInput} onQuery={onQuery} />
@@ -147,7 +147,7 @@ function PredictionTable({ ps, state, update, compare, setCompare, downloadHref 
     <div className="stack">
       <div data-testid="set-status">
         {ps.status === 'available' ? (
-          <p className="banner banner-ok"><strong>{ps.stage_label} {ps.season}: forecast available.</strong> Units: {ps.units} per player-game. Cutoff <Instant iso={ps.forecast_cutoff} />; generated <Instant iso={ps.generated_at} />.</p>
+          <p className="banner banner-ok"><strong>{stageText(ps.stage_label, ps.target_matches[0]?.stage_type)} {ps.season}: forecast available.</strong> Units: {ps.units} per player-game. Cutoff <Instant iso={ps.forecast_cutoff} />; generated <Instant iso={ps.generated_at} />.</p>
         ) : ps.status === 'expired' ? (
           <div className="banner banner-stale"><p><strong>This forecast has expired.</strong> {reasonText(ps.reason ?? 'expired')} Shown for reference only.</p></div>
         ) : (
@@ -170,7 +170,7 @@ function PredictionTable({ ps, state, update, compare, setCompare, downloadHref 
       {sorted.length === 0 ? <p data-state="empty">No predictions match these filters.</p> : (
         <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table: Predictions table">
           <table>
-            <caption>Predicted disposals — {ps.stage_label} {ps.season}</caption>
+            <caption>Predicted disposals — {stageText(ps.stage_label, ps.target_matches[0]?.stage_type)} {ps.season}</caption>
             <thead>
               <tr>
                 <SortHeader label="Player" column="player" sort={state.sort} dir={dir} onSort={onSort} />

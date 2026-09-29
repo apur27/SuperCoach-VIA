@@ -33,4 +33,20 @@ describe('Freshness', () => {
     const html = await render({ ...base, coverage_through: null });
     expect(html).toMatch(/Coverage through<\/dt><dd[^>]*><span class="missing"[^>]*>not recorded/);
   });
+  it('keeps the strip compact: secondary provenance sits in a disclosure (O55-08)', async () => {
+    const html = await render(base);
+    const fold = html.indexOf('<details');
+    expect(fold).toBeGreaterThan(-1);
+    expect(html).toContain('Release details');
+    for (const label of ['Season', 'Coverage through', 'Source checked', 'Status', 'Source &amp; method']) {
+      expect(html.indexOf(`>${label}</dt>`), label).toBeGreaterThan(-1);
+      expect(html.indexOf(`>${label}</dt>`), label).toBeLessThan(fold);
+    }
+    for (const label of ['Generated', 'Published', 'Release']) expect(html.indexOf(`>${label}</dt>`), label).toBeGreaterThan(fold);
+  });
+  it('never hides a stale warning inside the disclosure', async () => {
+    const html = await render({ ...base, stale: true, stale_reason: 'Source not checked for 9 days.' });
+    expect(html.indexOf('data-testid="stale-banner"')).toBeGreaterThan(html.indexOf('</details>'));
+  });
 });
+

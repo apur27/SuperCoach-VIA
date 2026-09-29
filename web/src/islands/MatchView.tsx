@@ -3,7 +3,7 @@ import type { BoxScoreColumns, MatchDetail } from '../lib/contracts';
 import { boxRows } from '../lib/stats';
 import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
-import { isReplay, resultLine, statusLabel, teamScoreText } from '../lib/matches';
+import { isReplay, matchTitle, resultLine, stageText, statusLabel, teamScoreText } from '../lib/matches';
 import { DataState } from './common/DataState';
 import { siteBase, useHeading, useResource, useUrlSearch } from './common/runtime';
 import { NoScriptNotice } from './common/NoScript';
@@ -18,7 +18,7 @@ export default function MatchView({ downloadHref }: { downloadHref: string }) {
   const key = parsed?.key ?? '';
   const valid = parsed !== null;
   const detail = useResource('match_detail', ready && valid ? `matches/detail/${key}.json` : null);
-  useHeading(detail.state.status === 'success' ? `${detail.state.data.summary.home.name} v ${detail.state.data.summary.away.name}, ${detail.state.data.summary.stage_label} ${detail.state.data.summary.season}` : null);
+  useHeading(detail.state.status === 'success' ? matchTitle(detail.state.data.summary) : null);
   const base = siteBase();
   if (!ready) return <NoScriptNotice what="match view" href={downloadHref} linkText="browse downloads" />;
   if (!valid) return <div className="banner banner-info"><h2>Match not found</h2><p>That is not a valid match ID. <a href={withBase(base, 'matches/')}>Browse matches</a>.</p></div>;
@@ -57,9 +57,9 @@ function MatchBody({ d }: { d: MatchDetail }) {
     <div className="stack">
       <div className="card">
         <p><strong>{s.home.name}</strong> {s.status === 'scheduled' ? '' : teamScoreText(s.home)} v <strong>{s.away.name}</strong> {s.status === 'scheduled' ? '' : teamScoreText(s.away)}</p>
-        <p>{resultLine(s)} · {statusLabel(s.status)} · {s.stage_label} ({s.stage_type}){isReplay(s) ? <span className="badge badge-muted">Replay #{s.replay_occurrence}</span> : null}</p>
+        <p>{resultLine(s)} · {statusLabel(s.status)} · {stageText(s.stage_label, s.stage_type)}{isReplay(s) ? <span className="badge badge-muted">Replay #{s.replay_occurrence}</span> : null}</p>
         <p className="muted">{s.local_start ? `${s.local_start} local time` : formatDateOnly(s.match_date)} · {s.venue ?? 'venue not recorded'} · attendance {d.attendance === null ? 'not recorded' : formatStat(d.attendance)}</p>
-        {s.status === 'postponed' ? <p className="banner banner-stale">This match was postponed. A rescheduled fixture, if any, appears separately in the <a href={withBase(base, `matches/?season=${s.season}&stage=${s.stage_id}`)}>{s.stage_label} list</a>.</p> : null}
+        {s.status === 'postponed' ? <p className="banner banner-stale">This match was postponed. A rescheduled fixture, if any, appears separately in the <a href={withBase(base, `matches/?season=${s.season}&stage=${s.stage_id}`)}>{stageText(s.stage_label, s.stage_type)} list</a>.</p> : null}
         {isReplay(s) || s.stage_type === 'final' ? <p><a href={withBase(base, `matches/?season=${s.season}&stage=${s.stage_id}`)}>All matches in this stage (including replays)</a></p> : null}
       </div>
       <section aria-labelledby="q-h">

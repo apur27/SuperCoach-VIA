@@ -12,12 +12,17 @@ const base = import.meta.env.BASE_URL;
       <div><dt>Season</dt><dd>{season}{demo && <span class="badge badge-demo">DEMO</span>}</dd></div>
       <div><dt>Coverage through</dt><dd>{f.coverage_through ?? <span class="missing">not recorded</span>}</dd></div>
       <div><dt>Source checked</dt><dd><Instant iso={f.source_checked_at} /></dd></div>
-      <div><dt>Generated</dt><dd><Instant iso={f.generated_at} /></dd></div>
-      <div><dt>Published</dt><dd>{f.published_at ? <Instant iso={f.published_at} /> : <span class="missing">not published (local build)</span>}</dd></div>
       <div><dt>Status</dt><dd>{f.stale ? <span class="badge badge-stale">Stale</span> : <span class="badge badge-ok">Current</span>} <span class="muted">validation {f.validation_state}</span></dd></div>
-      <div><dt>Release</dt><dd><code>{releaseId}</code></dd></div>
       <div><dt>Source &amp; method</dt><dd><a href={withBase(base, 'data-status/')}>Data status</a> · <a href={withBase(base, 'methodology/')}>Methodology</a></dd></div>
     </dl>
+    <details class="context-more">
+      <summary>Release details</summary>
+      <dl>
+        <div><dt>Generated</dt><dd><Instant iso={f.generated_at} /></dd></div>
+        <div><dt>Published</dt><dd>{f.published_at ? <Instant iso={f.published_at} /> : <span class="missing">not published (local build)</span>}</dd></div>
+        <div><dt>Release</dt><dd><code>{releaseId}</code></dd></div>
+      </dl>
+    </details>
     {f.stale && (
       <div class="banner banner-stale" role="status" data-testid="stale-banner">
         <p><strong>Data may be out of date.</strong> {f.stale_reason ?? 'The source has not been confirmed recently.'}</p>

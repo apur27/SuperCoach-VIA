@@ -88,6 +88,16 @@ code, .checksum { font-family: var(--mono); overflow-wrap: anywhere; }
 .context dl div { display: flex; gap: var(--space-1); }
 .context dt { color: var(--text-muted); }
 .context dd { margin: 0; font-weight: 600; }
+.context-more { padding-bottom: var(--space-2); }
+.context-more > summary { cursor: pointer; color: var(--text-muted); }
+.context-more > dl { padding-top: var(--space-1); }
+/* O55-08: on phones the strip flows facts inline in a smaller size instead of one per line */
+@media (max-width: 40rem) {
+  .context { font-size: 0.8rem; }
+  .context dl { gap: 0 var(--space-3); padding: var(--space-1) 0; }
+  .context dt { white-space: nowrap; }
+  .context-more { padding-bottom: var(--space-1); }
+}
 .banner { padding: var(--space-3) var(--space-4); border-radius: var(--radius); margin: var(--space-3) 0; border: 1px solid; }
 .banner p { margin: 0.25rem 0; }
 .banner-stale { background: var(--stale-bg); color: var(--stale-text); border-color: var(--stale-border); }

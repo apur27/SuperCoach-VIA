@@ -115,3 +115,20 @@ test('deep-link reload keeps state and all links respect the base path', async (
   const assets = await page.locator('script[src], link[href]').evaluateAll((els) => els.map((e) => e.getAttribute('src') ?? e.getAttribute('href')));
   for (const a of assets) expect(new URL(a!, page.url()).pathname.startsWith(basePath), a!).toBe(true);
 });
+
+// O55-08: at phone width the provenance strip took ~270px before the heading on every page
+// (the DEMO fixture's long "Coverage through" label is the worst case).
+test('provenance strip stays compact at 320px and keeps the release details one tap away', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  for (const p of ['', 'player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex']) {
+    await page.goto(p);
+    await page.waitForLoadState('networkidle');
+    const strip = page.getByTestId('freshness');
+    const box = await strip.boundingBox();
+    expect(box!.height, p).toBeLessThanOrEqual(170);
+    await expect(strip.getByRole('link', { name: 'Methodology' })).toBeVisible();
+    await expect(strip.locator('code')).toBeHidden();
+    await strip.getByText('Release details').click();
+    await expect(strip.locator('code')).toBeVisible();
+  }
+});
