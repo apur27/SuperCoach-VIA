@@ -1,5 +1,26 @@
 {
   "$defs": {
+    "Authority": {
+      "additionalProperties": false,
+      "properties": {
+        "check": {
+          "description": "the check that compares it ('provenance' = provenance only)",
+          "title": "Check",
+          "type": "string"
+        },
+        "input": {
+          "description": "the authoritative input the type is derived from",
+          "title": "Input",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input",
+        "check"
+      ],
+      "title": "Authority",
+      "type": "object"
+    },
     "CheckRow": {
       "additionalProperties": false,
       "properties": {
@@ -154,6 +175,25 @@
         "examined"
       ],
       "title": "Counts",
+      "type": "object"
+    },
+    "Coverage": {
+      "additionalProperties": true,
+      "description": "Per-family counters (open) plus the typed semantic-coverage summary of the release.",
+      "properties": {
+        "semantic": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SemanticCoverage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Coverage",
       "type": "object"
     },
     "ExceptionRow": {
@@ -378,6 +418,20 @@
     "Inputs": {
       "additionalProperties": false,
       "properties": {
+        "comparators": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "evaluation, live-capture and content inputs the release was compared with",
+          "title": "Comparators"
+        },
         "digest": {
           "title": "Digest",
           "type": "string"
@@ -587,6 +641,19 @@
         "restricted": {
           "title": "Restricted",
           "type": "boolean"
+        },
+        "semantic_complete": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "every published resource had an executed semantic comparison or is provenance-only by type (release.coverage PASS); null when no release is audited",
+          "title": "Semantic Complete"
         }
       },
       "required": [
@@ -598,6 +665,75 @@
         "current_season"
       ],
       "title": "Scope",
+      "type": "object"
+    },
+    "SemanticCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Authority"
+          },
+          "title": "Authority",
+          "type": "object"
+        },
+        "by_type": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TypeCoverage"
+          },
+          "title": "By Type",
+          "type": "object"
+        },
+        "unaudited": {
+          "description": "what is deliberately not audited, stated",
+          "items": {
+            "type": "string"
+          },
+          "title": "Unaudited",
+          "type": "array"
+        },
+        "uncompared": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "type -> files with no executed semantic comparison; non-empty makes the audit UNKNOWN",
+          "title": "Uncompared",
+          "type": "object"
+        }
+      },
+      "required": [
+        "by_type",
+        "uncompared",
+        "unaudited",
+        "authority"
+      ],
+      "title": "SemanticCoverage",
+      "type": "object"
+    },
+    "TypeCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "compared": {
+          "description": "files an executed semantic comparison examined",
+          "title": "Compared",
+          "type": "integer"
+        },
+        "provenance_only": {
+          "description": "files verified for provenance/bytes only (prose, rendered images)",
+          "title": "Provenance Only",
+          "type": "integer"
+        },
+        "resources": {
+          "title": "Resources",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "resources",
+        "compared",
+        "provenance_only"
+      ],
+      "title": "TypeCoverage",
       "type": "object"
     }
   },
@@ -619,9 +755,7 @@
       "$ref": "#/$defs/Counts"
     },
     "coverage": {
-      "additionalProperties": true,
-      "title": "Coverage",
-      "type": "object"
+      "$ref": "#/$defs/Coverage"
     },
     "exceptions": {
       "$ref": "#/$defs/Exceptions"

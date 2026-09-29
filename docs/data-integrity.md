@@ -430,6 +430,11 @@ Other findings on the same snapshot are reported but do not block. The 25 `relat
 | `source.match_pages` | `source.revision_unobserved` | blocking | contradiction | a pinned source revision has no observation with that content | re-pin from a recorded observation |
 | `source.match_pages` | `source.stat_cell_mismatch` | blocking | contradiction | a statistic cell differs from the captured page (blank on the page = null) | repair the row from the captured source; a swapped or edited value surfaces here |
 | `source.match_pages` | `source.value_without_source_column` | warning | anomaly | a canonical statistic has a value although the page has no such column | confirm where the value came from |
+| `source.player_pages` | `source.player_page_membership` | blocking | contradiction | a game on the captured player page has no canonical row, or the player has a row the page does not list | repair the player's rows from the captured page |
+| `source.player_pages` | `source.player_page_missing` | error | missing_evidence | a captured player page that source-fetched rows depend on is not in the evidence store | restore the payload from the archive, or pass --evidence DIR |
+| `source.player_pages` | `source.player_page_unlinked` | error (blocking in current season) | missing_evidence | a captured player page names no canonical player, or one of its games matches several rows | record the player's source URL or resolve the duplicate rows |
+| `source.player_pages` | `source.player_page_unreadable` | error | missing_evidence | a captured player page cannot be read by the checker's own reader | inspect the archived page; the markup may have changed |
+| `source.player_pages` | `source.player_page_value` | blocking | contradiction | a canonical row differs from the captured player page (counter, result, jumper, non-blank cells; a blank cell only establishes that the count is not positive) | repair the row from the captured page |
 
 ### `release`
 
@@ -472,6 +477,18 @@ Other findings on the same snapshot are reported but do not block. The 25 `relat
 | `release.public` | `release.source_label` | blocking | contradiction | a match's source label disagrees with its recorded provenance | rebuild; provenance labels are claims to readers |
 | `release.public` | `release.stat_columns` | blocking | contradiction | stat_columns are not the canonical stats observed in the file, in canonical order (an all-null column must be omitted) | rebuild the release |
 | `release.public` | `release.unexpected_resource` | blocking | contradiction | a match/player resource has no canonical row behind it | rebuild the release; stale or foreign resources must not ship |
+| `release.derived` | `release.derived_resource` | blocking | contradiction | a team/history/list/summary/download resource the facts require is missing, unreadable, or not backed by any fact | rebuild the release from the audited snapshot |
+| `release.derived` | `release.download_metadata` | blocking | contradiction | downloads.json disagrees with the download files (bytes, sha256, rows, kind, membership) | rebuild the release |
+| `release.derived` | `release.download_value` | blocking | contradiction | a download (CSV rows, chart values, fan-pack member) differs from values recomputed from the facts | rebuild the release |
+| `release.derived` | `release.history_value` | blocking | contradiction | a history table differs from leaders or legacy_v1 rankings recomputed from the facts (membership, rank, value, denominators) | rebuild the release; never hand-edit a ranking |
+| `release.derived` | `release.list_value` | blocking | contradiction | a list season differs from the snapshot's draft, contract and school rows | rebuild the release |
+| `release.derived` | `release.summary_value` | blocking | contradiction | overview.json or quality.json states a value the facts or the release's own resources contradict | rebuild the release; a stale summary is shown on the home page |
+| `release.derived` | `release.team_value` | blocking | contradiction | a team page or the team index differs from values recomputed from the matches and player games (ladder, position, form, fixtures, team-game means, leaders, five-year view, heuristic facts) | rebuild the release; a stale or mis-joined team aggregate surfaces here |
+| `release.forecast` | `release.forecast_resource` | blocking | contradiction | a prediction, accuracy or live resource is missing, unreadable, or has no pinned input behind it | rebuild the release from the pinned artifacts |
+| `release.forecast` | `release.forecast_value` | blocking | contradiction | a published prediction, accuracy or live value differs from its pinned artifact or capture | rebuild the release; a forecast must be the artifact's own numbers |
+| `release.content` | `release.content_provenance` | blocking | contradiction | an article's provenance (source path and hash, or checked snapshot) does not match its input | rebuild the release from the current curated sources |
+| `release.content` | `release.content_resource` | blocking | contradiction | an article or asset is missing from its index, listed without a resource, or an unreferenced asset | rebuild the release |
+| `release.coverage` | `release.unclassified_resource` | blocking | contradiction | a public file has a type no comparison knows (it could publish anything unchecked) | remove the file or add its type to the resource inventory with a comparator |
 
 ### `models`
 

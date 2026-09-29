@@ -440,3 +440,90 @@ def person_name(source_name: str) -> str:
         last, first = (p.strip() for p in source_name.split(",", 1))
         return f"{first} {last}".strip()
     return source_name.strip()
+
+
+# ---------------------------------------------------------------------------
+# Player pages (``/afl/stats/players/<L>/<Name>.html``): one game table per club-season
+# ---------------------------------------------------------------------------
+
+#: player-page round token for a final -> canonical ``stage_label``
+FINAL_TOKENS = {
+    "WF": "Wildcard Final",
+    "QF": "Qualifying Final",
+    "EF": "Elimination Final",
+    "SF": "Semi Final",
+    "PF": "Preliminary Final",
+    "GF": "Grand Final",
+}
+_SEASON_HEAD = re.compile(r"^(.+?) - (\d{4})$")
+
+
+@dataclass
+class SourcePlayerGame:
+    team: str
+    season: int
+    counter: int | None
+    counter_token: str
+    opponent: str
+    round_token: str
+    result: str
+    jersey: str
+    #: canonical stat -> raw cell text ("" = blank)
+    cells: dict[str, str]
+
+
+@dataclass
+class SourcePlayerPage:
+    name: str | None = None
+    games: list[SourcePlayerGame] = field(default_factory=list)
+    problems: list[str] = field(default_factory=list)
+
+
+def read_player_page(content: bytes) -> SourcePlayerPage:
+    """Every game row of a player page, as raw text (no value interpretation)."""
+    out = SourcePlayerPage()
+    m = re.search(rb"<h1>(.*?)</h1>", content, re.S)
+    out.name = _WS.sub(" ", m.group(1).decode("utf-8", "replace")).strip() if m else None
+    for t in read_tables(content):
+        head = [r for r, s in zip(t.rows, t.sections, strict=True) if s == "head"]
+        if not head or not head[0] or head[0][0].colspan != 28:
+            continue
+        hm = _SEASON_HEAD.match(head[0][0].text)
+        if hm is None:
+            out.problems.append(f"season heading {head[0][0].text[:40]!r}")
+            continue
+        team, season = hm.group(1), int(hm.group(2))
+        labels = [c.text for c in expand(head[-1])] if len(head) > 1 else []
+        if labels[:5] != ["Gm", "Opponent", "Rd", "R", "#"] or any(x not in SOURCE_STAT_LABELS for x in labels[5:]):
+            out.problems.append(f"{team} {season}: column headings {labels[:8]}")
+            continue
+        for row, sec in zip(t.rows, t.sections, strict=True):
+            if sec != "body" or not row:
+                continue
+            cells = expand(row)
+            if len(cells) != len(labels):
+                out.problems.append(f"{team} {season}: row with {len(cells)} cells for {len(labels)} columns")
+                continue
+            digits = "".join(ch for ch in cells[0].text if ch.isdigit())
+            out.games.append(
+                SourcePlayerGame(
+                    team=team,
+                    season=season,
+                    counter=int(digits) if digits else None,
+                    counter_token=cells[0].text,
+                    opponent=cells[1].text,
+                    round_token=cells[2].text,
+                    result=cells[3].text,
+                    jersey=cells[4].text,
+                    cells={SOURCE_STAT_LABELS[lab]: c.text for lab, c in zip(labels[5:], cells[5:], strict=True)},
+                )
+            )
+    if not out.games and not out.problems:
+        out.problems.append("no game tables recognised")
+    return out
+
+
+def stage_label_for_round(token: str) -> str:
+    """Player-page ``Rd`` token -> canonical ``stage_label`` (``5`` -> ``5``, ``GF`` -> ``Grand Final``)."""
+    t = token.strip()
+    return FINAL_TOKENS.get(t, str(int(t)) if t.isdigit() else t)

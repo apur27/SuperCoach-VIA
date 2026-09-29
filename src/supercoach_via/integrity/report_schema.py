@@ -41,6 +41,9 @@ class Inputs(_S):
     release: dict[str, Any] | None
     evidence: dict[str, Any]
     models: dict[str, Any] | None
+    comparators: dict[str, Any] | None = Field(
+        default=None, description="evaluation, live-capture and content inputs the release was compared with"
+    )
     digest: str
 
 
@@ -50,6 +53,11 @@ class Scope(_S):
     families: list[str]
     restricted: bool
     complete: bool
+    semantic_complete: bool | None = Field(
+        default=None,
+        description="every published resource had an executed semantic comparison or is provenance-only by "
+        "type (release.coverage PASS); null when no release is audited",
+    )
     current_season: int | None
 
 
@@ -121,6 +129,33 @@ class Exceptions(_S):
     stale: list[ExceptionRow]
 
 
+class TypeCoverage(_S):
+    resources: int
+    compared: int = Field(description="files an executed semantic comparison examined")
+    provenance_only: int = Field(description="files verified for provenance/bytes only (prose, rendered images)")
+
+
+class Authority(_S):
+    input: str = Field(description="the authoritative input the type is derived from")
+    check: str = Field(description="the check that compares it ('provenance' = provenance only)")
+
+
+class SemanticCoverage(_S):
+    by_type: dict[str, TypeCoverage]
+    uncompared: dict[str, int] = Field(
+        description="type -> files with no executed semantic comparison; non-empty makes the audit UNKNOWN"
+    )
+    unaudited: list[str] = Field(description="what is deliberately not audited, stated")
+    authority: dict[str, Authority]
+
+
+class Coverage(BaseModel):
+    """Per-family counters (open) plus the typed semantic-coverage summary of the release."""
+
+    model_config = ConfigDict(extra="allow", allow_inf_nan=False)
+    semantic: SemanticCoverage | None = None
+
+
 class FindingsStream(_S):
     count: int
     sha256: str
@@ -140,7 +175,7 @@ class IntegrityReport(_S):
     rules: list[RuleRow]
     findings: list[FindingRow]
     exceptions: Exceptions
-    coverage: dict[str, Any]
+    coverage: Coverage
     findings_stream: FindingsStream | None = None
     report_sha256: str
 

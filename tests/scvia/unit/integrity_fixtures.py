@@ -370,6 +370,37 @@ def render_match_page(
     return "\n".join(body).encode()
 
 
+def render_player_page(rows: dict[str, list[dict[str, Any]]], player_id: str, *, blank_zeros: bool = False) -> bytes:
+    """AFL Tables player page: one game table per club-season (``Club - YYYY``), career counter first."""
+    names = {p["player_id"]: p["display_name"] for p in rows["players"]}
+    clubs = {c["club_id"]: c["name"] for c in rows["clubs"]}
+    matches = {m["match_id"]: m for m in rows["matches"]}
+    games = sorted((g for g in rows["player_games"] if g["player_id"] == player_id),
+                   key=lambda g: (g["season"], g["career_game_counter"]))  # fmt: skip
+    out = [f"<html><body><h1>{names[player_id]}</h1>"]
+    hdr = "".join(f"<th>{LABELS[s]}</th>" for s in PLAYER_STAT_COLUMNS)
+    blocks: dict[tuple[int, str], list[dict[str, Any]]] = {}
+    for g in games:
+        blocks.setdefault((g["season"], g["club_id"]), []).append(g)
+    for (season, club), gs in blocks.items():
+        out.append(f"<table class=sortable><thead><tr><th colspan=28>{clubs[club]} - {season}</th></tr>"
+                   f"<tr><th>Gm</th><th>Opponent</th><th>Rd</th><th>R</th><th>#</th>{hdr}</tr></thead><tbody>")  # fmt: skip
+        for g in gs:
+            m = matches[g["match_id"]]
+            rd = m["stage_label"] if m["stage_type"] == "regular" else FINAL_TOKENS.get(m["stage_label"], "?")
+            cells = "".join(_cell(g[s], blank_zeros and s != "time_on_ground_pct") for s in PLAYER_STAT_COLUMNS)
+            out.append(f"<tr><td align=center>{g['career_game_counter']}</td><td nowrap>{clubs[g['opponent_club_id']]}"
+                       f"</td><td><a href=\"../../games/{season}/x.html\">{rd}</a></td><td>{g['result']}</td>"
+                       f"<td>{g['jersey_number']}</td>{cells}</tr>")  # fmt: skip
+        out.append("</tbody></table>")
+    out.append("</body></html>")
+    return "\n".join(out).encode()
+
+
+FINAL_TOKENS = {"Qualifying Final": "QF", "Elimination Final": "EF", "Semi Final": "SF", "Preliminary Final": "PF",
+                "Grand Final": "GF", "Wildcard Final": "WF"}  # fmt: skip
+
+
 def render_season_page(
     rows: dict[str, list[dict[str, Any]]], season: int, extra: list[dict[str, Any]] | None = None
 ) -> bytes:
@@ -432,6 +463,7 @@ def with_sources(
     schedule: dict[str, Any] | None = None,
     columns: list[str] | None = None,
     blank_zeros: bool = False,
+    player_pages: tuple[str, ...] = (),
 ) -> dict[str, str]:
     """Clean corpus + archived season page and one source-fetched match page, all pinned.
 
@@ -450,6 +482,8 @@ def with_sources(
     season_page = render_season_page(src_rows, 2026, season_extra)
     gf_sha = archive(root, match_page)
     season_sha = archive(root, season_page)
+    pages = {pid: render_player_page(src_rows, pid, blank_zeros=blank_zeros) for pid in player_pages}
+    page_sha = {pid: archive(root, page) for pid, page in pages.items()}
     for m in rows["matches"]:
         m.pop("game_id", None)
         if m["match_id"] == "m:2026:r01:alpha:beta:0":
@@ -490,6 +524,21 @@ def with_sources(
                 "source_mode": "live",
                 "outcome": "PASS",
             },
+            *(
+                {
+                    "source_ref": f"src:afltables:player:{pid}",
+                    "adapter": "afltables.player_page",
+                    "adapter_version": "1",
+                    "url": player_url(pid),
+                    "fetched_at": checked,
+                    "content_sha256": page_sha[pid],
+                    "http_status": 200,
+                    "bytes": len(pages[pid]),
+                    "source_mode": "live",
+                    "outcome": "PASS",
+                }
+                for pid in player_pages
+            ),
         ]
     )
     if mutate is not None:
@@ -504,7 +553,7 @@ def with_sources(
     revisions = {"afltables:season:2026": season_sha, "afltables:game:000120260305": gf_sha}
     cand = b.finish(status=DatasetStatus.LEGACY_UNVERIFIED, source_revisions=revisions)
     snapshots.promote(root, cand, ValidationReport(outcome=CheckOutcome.PASS))
-    return {"season": season_sha, "match": gf_sha}
+    return {"season": season_sha, "match": gf_sha, **{f"player:{p}": h for p, h in page_sha.items()}}
 
 
 # ---------------------------------------------------------------------------

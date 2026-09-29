@@ -642,6 +642,14 @@ def check_integrity_cmd(
     ] = None,
     models_root: Annotated[Path | None, typer.Option("--models-root")] = None,
     predictions_root: Annotated[Path | None, typer.Option("--predictions-root")] = None,
+    evaluation: Annotated[
+        list[Path] | None, typer.Option("--evaluation", help="evaluation dir behind a published accuracy report")
+    ] = None,
+    live_root: Annotated[Path | None, typer.Option("--live-root", help="live monitor state root")] = None,
+    content_root: Annotated[Path | None, typer.Option("--content-root", help="curated article source root")] = None,
+    content_manifest: Annotated[
+        Path | None, typer.Option("--content-manifest", help="public article manifest, e.g. config/public_content.toml")
+    ] = None,
     report: Annotated[Path | None, typer.Option("--report", help="canonical report path (outside every input)")] = None,
     execution: Annotated[Path | None, typer.Option("--execution", help="execution metadata path")] = None,
     findings_stream: Annotated[Path | None, typer.Option("--findings-stream", help="every finding as JSONL")] = None,
@@ -662,9 +670,11 @@ def check_integrity_cmd(
             data_root=data_root, snapshot=snapshot, release_dir=release_dir, scope=scope, as_of=as_of,
             evidence_dirs=tuple(evidence or ()), models_root=models_root, predictions_root=predictions_root,
             workers=workers, sample_limit=sample_limit, findings_stream=findings_stream is not None,
-            cache_dir=cache, changed_since=changed_since,
+            cache_dir=cache, changed_since=changed_since, evaluation_dirs=tuple(evaluation or ()),
+            live_root=live_root, content_root=content_root, content_manifest=content_manifest,
         )  # fmt: skip
-        inputs = [data_root, *(evidence or []), *(p for p in (release_dir, models_root, predictions_root) if p)]
+        extra = (release_dir, models_root, predictions_root, live_root, content_manifest)
+        inputs = [data_root, *(evidence or []), *(evaluation or []), *(p for p in extra if p)]
         try:
             if report is not None:
                 R.plan_outputs(report=report, execution=execution, stream=findings_stream, inputs=inputs)

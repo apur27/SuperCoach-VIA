@@ -49,6 +49,10 @@ class AuditContext:
     models_root: Path | None
     predictions_root: Path | None
     workers: int = 1
+    evaluation_dirs: tuple[Path, ...] = ()
+    live_root: Path | None = None
+    content_root: Path | None = None
+    content_manifest: Path | None = None
     examined: dict[str, dict[str, int]] = field(default_factory=dict)
     coverage: dict[str, Any] = field(default_factory=dict)
     check_id: str = ""

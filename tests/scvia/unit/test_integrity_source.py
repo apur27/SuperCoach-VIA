@@ -303,3 +303,99 @@ def test_verified_status_over_legacy_rows(tmp_path: Path) -> None:
     fx.rewrite_manifest(tmp_path, lambda d: d.update(status="verified"))
     res = audit(tmp_path)
     assert found(res, "freshness.verified_claim")
+
+
+# ---------------------------------------------------------------------------
+# Captured player pages (B1 evidence): every row of the player's career
+# ---------------------------------------------------------------------------
+
+P1 = "legacy:p1"
+PLAYER_PAGES = ("source.player_pages",)
+
+
+def test_clean_player_page_establishes_every_career_row(tmp_path: Path) -> None:
+    fx.with_sources(tmp_path, player_pages=(P1,), blank_zeros=True)
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    assert not res.findings, [f.as_dict() for f in res.findings]
+    cov = res.report["coverage"]["player_pages"]
+    assert cov["pages_compared"] == 1 and cov["rows_compared"] == 4 and cov["rows_on_pages"] == 4
+    # non-blank cells are exact values; blanks only establish "not positive"
+    assert cov["cells_exact"] > 0 and cov["cells_blank_not_positive"] > 0
+
+
+def test_player_page_value_differs_from_the_snapshot(tmp_path: Path) -> None:
+    src = copy.deepcopy(fx.tables())
+    pg(src, P1).update(kicks=9, disposals=10)
+    fx.with_sources(tmp_path, page_rows=src, player_pages=(P1,))
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    fields = {f.field for f in found(res, "source.player_page_value")}
+    assert {"kicks", "disposals"} <= fields
+
+
+def test_player_page_blank_cannot_hold_a_positive_count(tmp_path: Path) -> None:
+    src = copy.deepcopy(fx.tables())
+    pg(src, P1).update(tackles=None)  # the page prints a blank; the snapshot says 1
+    fx.with_sources(tmp_path, page_rows=src, player_pages=(P1,))
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    hits = [f for f in found(res, "source.player_page_value") if f.field == "tackles"]
+    assert hits and hits[0].actual == 1
+
+
+def test_player_page_membership_both_ways(tmp_path: Path) -> None:
+    def drop(r: Rows) -> None:
+        r["player_games"].remove(pg(r, P1, "m:2026:r02:alpha:beta:0"))
+
+    fx.with_sources(tmp_path, player_pages=(P1,), mutate=drop)
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    hits = {f.entity for f in found(res, "source.player_page_membership")}
+    assert f"source_player_game:{P1}|2026|Alpha|2|Beta" in hits
+
+
+def test_player_page_counter_and_result(tmp_path: Path) -> None:
+    fx.with_sources(tmp_path, player_pages=(P1,), mutate=lambda r: pg(r, P1).update(career_game_counter=40, result="L"))
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    fields = {f.field for f in found(res, "source.player_page_value")}
+    assert {"career_game_counter", "result"} <= fields
+
+
+def test_missing_player_page_payload_is_unknown(tmp_path: Path) -> None:
+    """Rows repaired from the page (source_fetch, like B1's 14) make its payload required."""
+    import hashlib
+
+    page_sha = hashlib.sha256(fx.render_player_page(fx.tables(), P1)).hexdigest()
+
+    def from_page(r: Rows) -> None:
+        pg(r, P1, "m:2026:r02:alpha:beta:0").update(provenance="source_fetch", source_sha256=page_sha,
+                                                    source_path=fx.player_url(P1))  # fmt: skip
+
+    shas = fx.with_sources(tmp_path, player_pages=(P1,), mutate=from_page)
+    sha = shas[f"player:{P1}"]
+    assert sha == page_sha
+    (tmp_path / "raw" / "objects" / sha[:2] / sha).unlink()
+    res = audit(tmp_path, checks=PLAYER_PAGES)
+    status = next(c["status"] for c in res.report["checks"] if c["check_id"] == "source.player_pages")
+    assert status == "UNKNOWN"
+
+
+def test_checker_reading_of_the_real_b1_player_page() -> None:
+    """Jack Dalton's archived page (B1): five 2026 Hawthorn games, read without the production parser."""
+    import gzip
+
+    from supercoach_via.integrity import sourcepages as sp
+
+    raw = gzip.decompress(
+        (Path(__file__).parents[3] / "docs/rewrite/evidence/b1/raw"
+         / "147ff4fa47727a9617ca5971f8e92c02891b70182f6cf637c787f4286cdbe6a6.html.gz").read_bytes()
+    )  # fmt: skip
+    page = sp.read_player_page(raw)
+    assert page.problems == [] and page.name == "Jack Dalton"
+    assert [(g.team, g.season, g.counter, g.round_token, g.opponent, g.result) for g in page.games] == [
+        ("Hawthorn", 2026, 1, "5", "Geelong", "W"),
+        ("Hawthorn", 2026, 2, "8", "Gold Coast", "W"),
+        ("Hawthorn", 2026, 3, "17", "Greater Western Sydney", "W"),
+        ("Hawthorn", 2026, 4, "18", "Melbourne", "L"),
+        ("Hawthorn", 2026, 5, "25", "West Coast", "W"),
+    ]
+    first = page.games[0].cells
+    assert (first["kicks"], first["disposals"], first["goals"], first["time_on_ground_pct"]) == ("5", "10", "", "59")
+    assert page.games[0].jersey == "34"

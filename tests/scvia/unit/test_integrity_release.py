@@ -67,12 +67,29 @@ def _detail_with_players(release: Path) -> Path:
     return _first(release, "matches/detail/*.json", lambda d: len(d["home_players"]["player_id"]) >= 2)
 
 
-def test_clean_release_passes(rel: tuple[Path, Path]) -> None:
-    res = audit(*rel)
+def test_clean_release_passes(rel: tuple[Path, Path], integrity_demo: Any) -> None:
+    demo = integrity_demo.env
+    res = audit(
+        *rel,
+        models_root=demo.root / "models",
+        predictions_root=demo.root / "predictions",
+        evaluation_dirs=(demo.evaluation_dir,),
+        live_root=demo.live_root,
+        content_root=demo.content_root,
+        content_manifest=demo.content_manifest,
+    )
     assert res.outcome.value == "PASS", [f.as_dict() for f in res.findings][:5]
     cov = res.report["coverage"]["public_compare"]
     assert cov["match_details"] > 0 and cov["player_logs"] > 0 and cov["player_details"] > 0
     assert res.report["counts"]["cells_compared"] > 1000
+    assert res.report["scope"]["semantic_complete"] is True
+
+
+def test_release_without_comparator_inputs_is_not_a_pass(rel: tuple[Path, Path]) -> None:
+    """Byte and seal checks alone are not a semantic comparison: missing inputs leave it UNKNOWN."""
+    res = audit(*rel)
+    assert res.outcome.value == "UNKNOWN" and not res.findings
+    assert res.report["scope"]["semantic_complete"] is False
 
 
 def test_value_attached_to_the_wrong_player_with_unchanged_totals(rel: tuple[Path, Path]) -> None:

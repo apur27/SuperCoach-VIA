@@ -58,6 +58,7 @@ class DemoEnv:
     prediction_dir: Path
     model_manifest: BundleManifest
     evaluation: EvaluationArtifact
+    evaluation_dir: Path
     content_root: Path
     content_manifest: Path
     live_root: Path
@@ -201,6 +202,7 @@ def demo_env(base: Path) -> DemoEnv:
         _arts, ev = E.replay(
             hist, trained.bundle, season=2026, generated_at=IMPORT_CLOCK, stage_ids=("r08", "r09"), min_cohort=20
         )
+        evaluation_dir = E.write_evaluation(ev, root / "evaluations")
     content_root, content_manifest = _write_content(root / "content")
     live_match = str(art.rows["match_id"].iloc[0])
     _write_live(root / "live", live_match)
@@ -211,6 +213,7 @@ def demo_env(base: Path) -> DemoEnv:
         prediction_dir=pdir,
         model_manifest=trained.bundle.manifest,
         evaluation=ev,
+        evaluation_dir=evaluation_dir,
         content_root=content_root,
         content_manifest=content_manifest,
         live_root=root / "live",

@@ -236,7 +236,49 @@ RULES = [
         "note the source inconsistency",
         kind=Kind.ANOMALY,
     ),
+    rule(
+        "source.player_page_missing",
+        "source.player_pages",
+        E,
+        "a captured player page that source-fetched rows depend on is not in the evidence store",
+        "restore the payload from the archive, or pass --evidence DIR",
+        kind=Kind.MISSING_EVIDENCE,
+    ),
+    rule(
+        "source.player_page_unreadable",
+        "source.player_pages",
+        E,
+        "a captured player page cannot be read by the checker's own reader",
+        "inspect the archived page; the markup may have changed",
+        kind=Kind.MISSING_EVIDENCE,
+    ),
+    rule(
+        "source.player_page_unlinked",
+        "source.player_pages",
+        E,
+        "a captured player page names no canonical player, or one of its games matches several rows",
+        "record the player's source URL or resolve the duplicate rows",
+        kind=Kind.MISSING_EVIDENCE,
+        current_blocks=True,
+    ),
+    rule(
+        "source.player_page_membership",
+        "source.player_pages",
+        B,
+        "a game on the captured player page has no canonical row, or the player has a row the page does not list",
+        "repair the player's rows from the captured page",
+    ),
+    rule(
+        "source.player_page_value",
+        "source.player_pages",
+        B,
+        "a canonical row differs from the captured player page (counter, result, jumper, non-blank cells; a "
+        "blank cell only establishes that the count is not positive)",
+        "repair the row from the captured page",
+    ),
 ]
+
+PLAYER_ADAPTER = "afltables.player_page"
 
 
 def _season_url(season: int) -> str:
@@ -901,6 +943,190 @@ def _compare_players(
     return sorted(matched)
 
 
+def check_player_pages(ctx: AuditContext) -> list[str]:
+    """Captured AFL Tables player pages vs the player's canonical rows (the B1 repair evidence).
+
+    A page lists every game of a career, so it establishes the player's row MEMBERSHIP, and per
+    row the club, opponent and round (the link), the career game counter, result, jumper number
+    and every non-blank statistic cell exactly. A blank cell establishes only that the count
+    was not positive: whether it is a recorded zero is decided by the match-level blank rule.
+    Rows of players without a captured page are outside this check.
+    """
+    snap = ctx.snapshot
+    if snap is None or snap.manifest is None:
+        raise CheckSkipped(Status.UNKNOWN, "no parseable manifest")
+    ctx.need("matches", "player_games", "players", "source_observations", "clubs")
+    pages: dict[str, dict[str, Any]] = {}
+    for o in ctx.records(
+        "SELECT url, content_sha256 FROM source_observations WHERE adapter = ? AND outcome = 'PASS' "
+        "AND content_sha256 IS NOT NULL ORDER BY url, fetched_at NULLS FIRST, source_ref",
+        [PLAYER_ADAPTER],
+    ):
+        pages[str(o["url"])] = o  # the latest capture of each page
+    if not pages:
+        raise CheckSkipped(Status.NOT_APPLICABLE, "no captured player pages")
+    required = {
+        str(s)
+        for (s,) in ctx.rows(
+            "SELECT DISTINCT source_sha256 FROM player_games WHERE provenance = 'source_fetch' "
+            "AND source_sha256 IS NOT NULL"
+        )
+    }
+    url_to_player: dict[str, str] = {}
+    for pid, urls in ctx.rows("SELECT player_id, source_urls FROM players WHERE source_urls IS NOT NULL ORDER BY 1"):
+        try:
+            for u in json.loads(urls):
+                url_to_player.setdefault(str(u), str(pid))
+        except ValueError:
+            continue
+    cov: dict[str, Any] = {
+        "pages_observed": len(pages),
+        "pages_compared": 0,
+        "pages_missing_optional": 0,
+        "rows_on_pages": 0,
+        "rows_compared": 0,
+        "cells_exact": 0,
+        "cells_blank_not_positive": 0,
+        "players": [],
+    }
+    unknown: list[str] = []
+    for url, o in sorted(pages.items()):
+        sha = str(o["content_sha256"])
+        raw = ctx.evidence.get(sha)
+        if raw is None:
+            if sha in required:
+                ctx.add("source.player_page_missing", f"payload:{sha}", evidence={"url": url})
+                unknown.append(f"required player page {sha[:12]} missing")
+            else:
+                cov["pages_missing_optional"] += 1
+            continue
+        page = sp.read_player_page(raw)
+        if page.problems:
+            ctx.add(
+                "source.player_page_unreadable", f"payload:{sha}", evidence={"url": url, "problems": page.problems[:5]}
+            )
+            unknown.append(f"player page {sha[:12]} unreadable")
+            continue
+        pid = url_to_player.get(url)
+        if pid is None:
+            ctx.add(
+                "source.player_page_unlinked",
+                f"source:{url}",
+                message="no canonical player records this URL",
+                evidence={"sha256": sha},
+            )
+            continue
+        cov["pages_compared"] += 1
+        cov["players"].append(pid)
+        _compare_player_page(ctx, pid, page, {"source_sha256": sha, "url": url}, cov)
+    ctx.coverage["player_pages"] = cov
+    return unknown
+
+
+def _compare_player_page(
+    ctx: AuditContext, pid: str, page: sp.SourcePlayerPage, ev: dict[str, Any], cov: dict[str, Any]
+) -> None:
+    rows = ctx.records(
+        "SELECT g.*, m.stage_label AS m_stage_label FROM player_games g JOIN matches m USING (match_id) "
+        "WHERE g.player_id = ? ORDER BY g.season, g.career_game_counter, g.match_id",
+        [pid],
+    )
+    names = {s: _club_names(ctx, s) for s in {g.season for g in page.games}}
+    linked: set[str] = set()
+    cov["rows_on_pages"] += len(page.games)
+    for g in page.games:
+        club = _resolve(names[g.season], g.team)
+        opp = _resolve(names[g.season], g.opponent)
+        stage = sp.stage_label_for_round(g.round_token)
+        cands = [
+            r
+            for r in rows
+            if r["season"] == g.season
+            and r["club_id"] == club
+            and r["opponent_club_id"] == opp
+            and r["m_stage_label"] == stage
+            and r["match_id"] not in linked
+        ]
+        if len(cands) > 1:
+            cands = [r for r in cands if r["career_game_counter"] == g.counter] or cands
+        where = f"source_player_game:{pid}|{g.season}|{g.team}|{g.round_token}|{g.opponent}"
+        if not cands:
+            ctx.add(
+                "source.player_page_membership",
+                where,
+                season=g.season,
+                expected="a canonical row",
+                actual="absent",
+                evidence=ev,
+            )
+            continue
+        if len(cands) > 1:
+            ctx.add("source.player_page_unlinked", where, season=g.season, evidence={**ev, "rows": len(cands)})
+            continue
+        r = cands[0]
+        linked.add(r["match_id"])
+        cov["rows_compared"] += 1
+        entity = f"player_game:{r['match_id']}|{pid}|{r['club_id']}"
+        checks: list[tuple[str, Any, Any]] = [
+            ("career_game_counter", g.counter, r["career_game_counter"]),
+            ("result", g.result or None, r["result"]),
+            ("jersey_number", sp.jersey(g.jersey), r["jersey_number"]),
+        ]
+        for field, want, have in checks:
+            ctx.count("cells")
+            if want != have:
+                ctx.add(
+                    "source.player_page_value",
+                    entity,
+                    table="player_games",
+                    field=field,
+                    season=g.season,
+                    expected=want,
+                    actual=have,
+                    evidence=ev,
+                )
+        for stat, text in sorted(g.cells.items()):
+            ctx.count("cells")
+            have = r.get(stat)
+            if text.strip():
+                cov["cells_exact"] += 1
+                want = sp.cell_value(stat, text)
+                if not _same(want, have):
+                    ctx.add(
+                        "source.player_page_value",
+                        entity,
+                        table="player_games",
+                        field=stat,
+                        season=g.season,
+                        expected=want,
+                        actual=have,
+                        evidence=ev,
+                    )
+            else:
+                cov["cells_blank_not_positive"] += 1
+                if have is not None and float(have) > 0:
+                    ctx.add(
+                        "source.player_page_value",
+                        entity,
+                        table="player_games",
+                        field=stat,
+                        season=g.season,
+                        expected="blank: not a positive count",
+                        actual=have,
+                        evidence=ev,
+                    )
+    for r in rows:
+        if r["match_id"] not in linked:
+            ctx.add(
+                "source.player_page_membership",
+                f"player_game:{r['match_id']}|{pid}|{r['club_id']}",
+                season=int(r["season"]),
+                expected="listed on the player's page",
+                actual="absent",
+                evidence=ev,
+            )
+
+
 CHECKS = [
     CheckSpec(
         "freshness.observations",
@@ -914,5 +1140,11 @@ CHECKS = [
     ),
     CheckSpec(
         "source.match_pages", "source", "captured match pages vs canonical match and player rows", check_match_pages
+    ),
+    CheckSpec(
+        "source.player_pages",
+        "source",
+        "captured player pages vs every canonical row of that player's career",
+        check_player_pages,
     ),
 ]

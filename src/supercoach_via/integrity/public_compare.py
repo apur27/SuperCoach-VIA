@@ -780,3 +780,258 @@ def run_units(fn: Any, payloads: list[dict[str, Any]], workers: int) -> list[Uni
 
     with ProcessPoolExecutor(workers, mp_context=multiprocessing.get_context("spawn")) as pool:
         return list(pool.map(fn, payloads, chunksize=1))
+
+
+# ---------------------------------------------------------------------------
+# Expected documents (team, history, list, summary and download resources)
+# ---------------------------------------------------------------------------
+
+_DOC_TOL = 1e-9
+_ABSENT = "<absent>"
+_FORMULA_PREFIX = ("=", "+", "-", "@", "\t", "\r")
+
+
+def _scalar_equal(want: Any, have: Any) -> bool:
+    if isinstance(want, bool) or isinstance(have, bool):
+        return type(want) is type(have) and want == have
+    if isinstance(want, int | float) and isinstance(have, int | float):
+        if isinstance(want, float) or isinstance(have, float):
+            a, b = float(want), float(have)
+            return a == b or abs(a - b) <= _DOC_TOL * max(1.0, abs(a), abs(b))
+        return bool(want == have)
+    return type(want) is type(have) and bool(want == have)
+
+
+def _marker(want: Any) -> tuple[str, Any] | None:
+    if isinstance(want, dict) and len(want) == 1:
+        ((k, v),) = want.items()
+        if k in ("$skip", "$contains", "$one_of", "$instant"):
+            return k, v
+    return None
+
+
+def diff_value(want: Any, have: Any, path: str, counts: dict[str, int]) -> list[tuple[str, Any, Any]]:
+    """Every (path, expected, actual) difference; ``counts`` gets cells compared and fields skipped."""
+    mark = _marker(want)
+    if mark is not None:
+        kind, arg = mark
+        if kind == "$skip":
+            counts["fields_unaudited"] = counts.get("fields_unaudited", 0) + 1
+            return []
+        counts["cells"] = counts.get("cells", 0) + 1
+        if kind == "$contains":
+            ok = isinstance(have, str) and all(p in have for p in arg)
+            return [] if ok else [(path, {"contains": arg}, have[:300] if isinstance(have, str) else have)]
+        if kind == "$instant":
+            return [] if _instant(arg) == _instant(have) and _instant(arg) is not None else [(path, arg, have)]
+        scratch: dict[str, int] = {}
+        if any(not diff_value(alt, have, path, scratch) for alt in arg):
+            return []
+        return [(path, {"one_of": arg}, have[:300] if isinstance(have, str) else have)]
+    if isinstance(want, dict):
+        if not isinstance(have, dict):
+            return [(path, "object", have if have is _ABSENT else type(have).__name__)]
+        out = []
+        for k, v in want.items():
+            out += diff_value(v, have.get(k, _ABSENT), f"{path}.{k}" if path else k, counts)
+        out += [(f"{path}.{k}" if path else k, _ABSENT, have[k]) for k in sorted(have.keys() - want.keys())]
+        return out
+    if isinstance(want, list):
+        if not isinstance(have, list):
+            return [(path, "array", have if have is _ABSENT else type(have).__name__)]
+        out = [] if len(want) == len(have) else [(f"{path}.length", len(want), len(have))]
+        for i, (w, h) in enumerate(zip(want, have, strict=False)):
+            out += diff_value(w, h, f"{path}[{i}]", counts)
+        return out
+    counts["cells"] = counts.get("cells", 0) + 1
+    return [] if _scalar_equal(want, have) else [(path, want, have)]
+
+
+def _instant(v: Any) -> Any:
+    """A timestamp string as a UTC instant (the same instant may be written in any offset)."""
+    from datetime import UTC, datetime
+
+    if not isinstance(v, str):
+        return None
+    try:
+        dt = datetime.fromisoformat(v.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return dt.astimezone(UTC) if dt.tzinfo else None
+
+
+def _csv_text(want: Any) -> Any:
+    """How ``safe_csv_bytes`` writes a value (formula-looking text is quote-prefixed)."""
+    import re
+
+    numeric = re.compile(r"^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$")
+    if isinstance(want, str) and want.startswith(_FORMULA_PREFIX) and not numeric.match(want):
+        return "'" + want
+    return want
+
+
+def _cell_diff(want: Any, text: str, path: str, counts: dict[str, int]) -> list[tuple[str, Any, Any]]:
+    if _marker(want) is not None:
+        return diff_value(want, text, path, counts)
+    counts["cells"] = counts.get("cells", 0) + 1
+    if want is None:
+        ok = text == ""
+    elif isinstance(want, bool):
+        ok = text in (str(want), str(want).lower())
+    elif isinstance(want, int | float):
+        try:
+            ok = _scalar_equal(float(want), float(text))
+        except ValueError:
+            ok = False
+    else:
+        ok = text == _csv_text(str(want))
+    return [] if ok else [(path, want, text)]
+
+
+def _key_text(v: Any) -> str:
+    if v is None:
+        return ""
+    if isinstance(v, float) and v.is_integer():
+        return str(int(v))
+    return str(v)
+
+
+def diff_csv(want: dict[str, Any], data: bytes, counts: dict[str, int]) -> list[tuple[str, Any, Any]]:
+    """A published CSV vs expected ``{header, rows, key}`` (key: column index/indices, or None = by position)."""
+    import csv
+    import io
+
+    try:
+        table = list(csv.reader(io.StringIO(data.decode("utf-8"))))
+    except (UnicodeDecodeError, csv.Error) as exc:
+        return [("csv", "parseable CSV", str(exc)[:200])]
+    if not table:
+        return [("header", want["header"], None)]
+    out: list[tuple[str, Any, Any]] = [] if table[0] == want["header"] else [("header", want["header"], table[0])]
+    body, header = table[1:], want["header"]
+    key = want.get("key")
+    if key is None:
+        if len(body) != len(want["rows"]):
+            out.append(("rows.length", len(want["rows"]), len(body)))
+        pairs = [(str(i), w, h) for i, (w, h) in enumerate(zip(want["rows"], body, strict=False))]
+    else:
+        cols = key if isinstance(key, list | tuple) else (key,)
+
+        def kw(row: list[Any]) -> str:
+            return "|".join(_key_text(row[c]) for c in cols)
+
+        def kh(row: list[str]) -> str:
+            return "|".join(row[c] if c < len(row) else "" for c in cols)
+
+        wanted = {kw(r): r for r in want["rows"]}
+        have = {kh(r): r for r in body}
+        out += [(f"rows[{k}]", "present", _ABSENT) for k in wanted if k not in have]
+        out += [(f"rows[{k}]", _ABSENT, "present") for k in have if k not in wanted]
+        if len(have) != len(body):
+            out.append(("rows.duplicate_keys", len(body), len(have)))
+        common_w = [k for k in wanted if k in have]
+        common_h = [k for k in have if k in wanted]
+        if common_w != common_h:
+            out.append(("rows.order", "expected order", "different order"))
+        pairs = [(k, wanted[k], have[k]) for k in common_w]
+    for k, w, h in pairs:
+        if len(h) != len(header):
+            out.append((f"rows[{k}].width", len(header), len(h)))
+            continue
+        for j, col in enumerate(header):
+            out += _cell_diff(w[j], h[j], f"rows[{k}].{col}", counts)
+    return out
+
+
+def diff_zip(want: dict[str, Any], data: bytes, counts: dict[str, int]) -> list[tuple[str, Any, Any]]:
+    """Fan pack: every member byte-identical to its published download; manifest facts and checksums."""
+    import io
+    import zipfile
+
+    try:
+        zf = zipfile.ZipFile(io.BytesIO(data))
+        members = {i.filename: zf.read(i) for i in zf.infolist()}
+    except (zipfile.BadZipFile, OSError, ValueError) as exc:
+        return [("zip", "readable ZIP", str(exc)[:200])]
+    out: list[tuple[str, Any, Any]] = []
+    expected: dict[str, str] = want["members"]
+    for name, sha in sorted(expected.items()):
+        counts["cells"] = counts.get("cells", 0) + 1
+        got = members.get(name)
+        if got is None:
+            out.append((f"members.{name}", sha, _ABSENT))
+        elif hashlib.sha256(got).hexdigest() != sha:
+            out.append((f"members.{name}", sha, hashlib.sha256(got).hexdigest()))
+    for name in sorted(set(members) - set(expected) - {"manifest.json", "checksums.sha256"}):
+        out.append((f"members.{name}", _ABSENT, "present"))
+    try:
+        manifest = strict_json(members["manifest.json"])
+    except (KeyError, ValueError, UnicodeDecodeError):
+        return [*out, ("members.manifest.json", "valid manifest", _ABSENT)]
+    out += diff_value(want["meta"], {k: manifest.get(k, _ABSENT) for k in want["meta"]}, "manifest", counts)
+    listed = {m.get("name"): m.get("sha256") for m in _list(manifest.get("members")) if isinstance(m, dict)}
+    if listed != {n: hashlib.sha256(members[n]).hexdigest() for n in members if n in expected}:
+        out.append(("manifest.members", "the pack's members", "different list"))
+    lines = {f"{hashlib.sha256(members[n]).hexdigest()}  {n}" for n in members if n != "checksums.sha256"}
+    if set(members.get("checksums.sha256", b"").decode("utf-8", "replace").splitlines()) != lines:
+        out.append(("checksums.sha256", "sha256 of every member", "different"))
+    return out
+
+
+def docs_unit(p: dict[str, Any]) -> UnitResult:
+    """Compare published resources with expected documents (JSON, CSV or ZIP by extension)."""
+    out = _Out(p["rules"], p["current_season"], p["unit_id"])
+    inv, value_rule, resource_rule = p["inventory"], p["value_rule"], p["resource_rule"]
+    for rel, want in sorted(p["docs"].items()):
+        out.res.expected_paths.append(rel)
+        if rel not in inv:
+            out.add(resource_rule, f"resource:{rel}", expected="present", actual="absent")
+            continue
+        counts: dict[str, int] = {}
+        if rel.endswith(".json"):
+            have = _read_doc(out, p["release_dir"], inv, rel, resource_rule)
+            if have is _ABSENT:
+                continue
+            diffs = diff_value(want, have, "", counts)
+        else:
+            data = _read_bytes(out, p["release_dir"], inv, rel, resource_rule)
+            if data is None:
+                continue
+            diffs = diff_zip(want, data, counts) if rel.endswith(".zip") else diff_csv(want, data, counts)
+        for k, v in counts.items():
+            out.count(k, v)
+        for path, expected, actual in diffs:
+            out.add(value_rule, f"resource:{rel}", field=path or "(document)", expected=_jsonable(expected),
+                    actual=_jsonable(actual), season=p.get("season"))  # fmt: skip
+        out.count("resources_compared")
+    return out.done()
+
+
+def _jsonable(v: Any) -> Any:
+    if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
+        return str(v)
+    return v
+
+
+def _read_bytes(out: _Out, release_dir: Path, inventory: dict[str, tuple[str, int]], rel: str, rule: str) -> Any:
+    info = inventory[rel]
+    try:
+        data = (release_dir / "public" / rel).read_bytes()
+    except OSError:
+        data = b""
+    if len(data) != info[1] or hashlib.sha256(data).hexdigest() != info[0]:
+        out.add(rule, f"resource:{rel}", message="changed between inventory and comparison",
+                evidence={"sha256": info[0]})  # fmt: skip
+        return None
+    return data
+
+
+def _read_doc(out: _Out, release_dir: Path, inventory: dict[str, tuple[str, int]], rel: str, rule: str) -> Any:
+    data = _read_bytes(out, release_dir, inventory, rel, rule)
+    if data is None:
+        return _ABSENT
+    try:
+        return strict_json(data)
+    except (ValueError, UnicodeDecodeError) as exc:
+        out.add(rule, f"resource:{rel}", message=str(exc)[:300])
+        return _ABSENT

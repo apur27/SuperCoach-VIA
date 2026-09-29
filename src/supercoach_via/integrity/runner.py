@@ -40,6 +40,9 @@ SCOPES = ("full", "data")
 #: modules whose logic decides verdicts; their bytes form the checker's code identity
 _CODE_FILES = (
     "integrity",
+    "analytics/awards.py",
+    "analytics/rankings.py",
+    "analytics/teams.py",
     "ingest/reconcile.py",
     "publish/release.py",
     "publish/view_models.py",
@@ -79,6 +82,13 @@ class AuditOptions:
     findings_stream: bool = False
     #: a prior report whose inputs this run is compared with (changed-data mode; needs cache_dir)
     changed_since: Path | None = None
+    #: evaluation artifacts behind published accuracy reports (release.forecast)
+    evaluation_dirs: tuple[Path, ...] = ()
+    #: live monitor state root behind published live snapshots (release.forecast)
+    live_root: Path | None = None
+    #: curated article sources behind published articles and assets (release.content)
+    content_root: Path | None = None
+    content_manifest: Path | None = None
 
 
 @dataclass
@@ -93,7 +103,7 @@ class AuditResult:
 
 
 def registry() -> list[CheckSpec]:
-    from supercoach_via.integrity import checks_data, checks_models, checks_release, checks_source
+    from supercoach_via.integrity import checks_data, checks_derived, checks_models, checks_release, checks_source
 
     return [
         *checks_storage.CHECKS,
@@ -101,11 +111,12 @@ def registry() -> list[CheckSpec]:
         *checks_source.CHECKS,
         *checks_release.CHECKS,
         *checks_models.CHECKS,
+        *checks_derived.CHECKS,  # release.coverage last: it reads what every comparison claimed
     ]
 
 
 def rule_catalog() -> dict[str, RuleSpec]:
-    from supercoach_via.integrity import checks_data, checks_models, checks_release, checks_source
+    from supercoach_via.integrity import checks_data, checks_derived, checks_models, checks_release, checks_source
 
     out: dict[str, RuleSpec] = {}
     for spec in [
@@ -114,6 +125,7 @@ def rule_catalog() -> dict[str, RuleSpec]:
         *checks_source.RULES,
         *checks_release.RULES,
         *checks_models.RULES,
+        *checks_derived.RULES,
     ]:
         if spec.rule_id in out:
             raise CheckerError(f"duplicate rule id {spec.rule_id}")
@@ -221,6 +233,10 @@ def run_audit(options: AuditOptions) -> AuditResult:
         models_root=options.models_root or options.data_root / "models",
         predictions_root=options.predictions_root or options.data_root / "predictions",
         workers=options.workers,
+        evaluation_dirs=tuple(options.evaluation_dirs),
+        live_root=options.live_root,
+        content_root=options.content_root,
+        content_manifest=options.content_manifest,
     )
     salt = _cache_salt(policy, rules, options, as_of)
     changed = _baseline(options, snapshot, release, salt) if options.changed_since is not None else None
@@ -248,6 +264,7 @@ def run_audit(options: AuditOptions) -> AuditResult:
                     if collector.check_status(spec.check_id, unknown=[]) is Status.FAIL:
                         status = Status.FAIL
             results.append((spec, status, reason))
+            ctx.coverage.setdefault("_executed", []).append((spec.check_id, status.value))
             seconds[spec.check_id] = round(time.perf_counter() - t_check, 3)
         collector.finish_exceptions()
     except CheckSkipped as exc:  # pragma: no cover - raised outside a check body
@@ -379,6 +396,27 @@ def _baseline(
         and prior_release.get("inventory_sha256") != release.identity()["inventory_sha256"],
     )
     return out
+
+
+def _tree_digest(root: Path, pattern: str) -> str | None:
+    if not root.is_dir():
+        return None
+    h = hashlib.sha256()
+    for p in sorted(root.glob(pattern)):
+        if p.is_file() and not p.is_symlink():
+            h.update(p.relative_to(root).as_posix().encode() + b"\0" + hashlib.sha256(p.read_bytes()).digest())
+    return h.hexdigest()
+
+
+def _comparator_inputs(options: AuditOptions) -> dict[str, Any]:
+    """Identity of the non-snapshot inputs release.forecast and release.content compared with."""
+    return {
+        "evaluations": {d.name: _tree_digest(d, "*") for d in sorted(options.evaluation_dirs)},
+        "live_root": _tree_digest(options.live_root, "**/*.json") if options.live_root else None,
+        "content_manifest": hashlib.sha256(options.content_manifest.read_bytes()).hexdigest()
+        if options.content_manifest is not None and options.content_manifest.is_file()
+        else None,
+    }
 
 
 class OutputWriteError(CheckerError):
@@ -526,6 +564,7 @@ def _build_report(
             "release": ctx.release.identity() if ctx.release else None,
             "evidence": ctx.evidence.identity(),
             "models": ctx.coverage.get("model_inputs"),
+            "comparators": _comparator_inputs(options) if ctx.release is not None else None,
         },
         "scope": {
             "name": options.scope,
@@ -533,6 +572,9 @@ def _build_report(
             "families": families_requested,
             "restricted": restricted,
             "complete": complete,
+            "semantic_complete": None
+            if ctx.release is None
+            else any(c["check_id"] == "release.coverage" and c["status"] == Status.PASS.value for c in checks),
             "current_season": ctx.current_season,
         },
         "outcome": outcome.value,

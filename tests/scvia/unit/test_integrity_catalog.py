@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from supercoach_via.integrity import (
     checks_data,
+    checks_derived,
     checks_models,
     checks_release,
     checks_source,
@@ -11,7 +12,7 @@ from supercoach_via.integrity import (
 )
 from supercoach_via.integrity.runner import registry, rule_catalog
 
-FAMILY_MODULES = (checks_storage, checks_data, checks_source, checks_release, checks_models)
+FAMILY_MODULES = (checks_storage, checks_data, checks_source, checks_release, checks_models, checks_derived)
 
 
 def test_rule_ids_are_unique_and_namespaced() -> None:
