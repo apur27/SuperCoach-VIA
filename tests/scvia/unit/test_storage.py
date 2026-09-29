@@ -208,3 +208,14 @@ class TestRuns:
         assert run.reusable_step("analyze", {"snap": "a"}, code_version="v1") is not None
         assert run.reusable_step("analyze", {"snap": "b"}, code_version="v1") is None
         assert run.reusable_step("analyze", {"snap": "a"}, code_version="v2") is None
+
+
+def test_semantic_snapshot_id_is_the_single_identity_formula(tmp_path: Path) -> None:
+    """Builder, loader and the integrity checker all derive the id from this one function."""
+    cand = _build(tmp_path)
+    m = cand.manifest
+    assert snapshots.semantic_snapshot_id(m) == m.snapshot_id
+    renamed = m.model_copy(update={"notes": ("changed",)})
+    assert snapshots.semantic_snapshot_id(renamed) != m.snapshot_id
+    # created_at, run_id and code_version are provenance, not identity
+    assert snapshots.semantic_snapshot_id(m.model_copy(update={"run_id": "other", "code_version": "x"})) == m.snapshot_id

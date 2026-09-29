@@ -111,6 +111,32 @@ def _canonical(obj: Any) -> bytes:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 
 
+def _semantic_id(
+    tables: dict[str, TableEntry],
+    status: DatasetStatus,
+    parent: str | None,
+    source_revisions: dict[str, str],
+    quality: dict[str, int],
+    notes: Iterable[str],
+) -> str:
+    semantic = {
+        "tables": {k: v.model_dump(mode="json") for k, v in sorted(tables.items())},
+        "status": status.value,
+        "parent": parent,
+        "source_revisions": source_revisions,
+        "quality": quality,
+        "notes": list(notes),
+    }
+    return f"sha256:{hashlib.sha256(_canonical(semantic)).hexdigest()}"
+
+
+def semantic_snapshot_id(manifest: SnapshotManifest) -> str:
+    """The id a manifest's semantic content hashes to (creation time and run are excluded)."""
+    return _semantic_id(
+        manifest.tables, manifest.status, manifest.parent, manifest.source_revisions, manifest.quality, manifest.notes
+    )
+
+
 # ---------------------------------------------------------------------------
 # Fragment store
 # ---------------------------------------------------------------------------
@@ -231,17 +257,11 @@ class SnapshotBuilder:
             )
             for name, frags in sorted(self._tables.items())
         }
-        semantic = {
-            "tables": {k: v.model_dump(mode="json") for k, v in tables.items()},
-            "status": status.value,
-            "parent": parent,
-            "source_revisions": source_revisions or {},
-            "quality": quality or {},
-            "notes": list(notes),
-        }
-        digest = hashlib.sha256(_canonical(semantic)).hexdigest()
+        notes = tuple(notes)
+        snapshot_id = _semantic_id(tables, status, parent, source_revisions or {}, quality or {}, notes)
+        digest = snapshot_hex(snapshot_id)
         manifest = SnapshotManifest(
-            snapshot_id=f"sha256:{digest}",
+            snapshot_id=snapshot_id,
             created_at=self.clock(),
             parent=parent,
             status=status,
@@ -392,15 +412,7 @@ def load_snapshot(data_root: Path, selector: str = "current", *, verify: bool = 
     manifest = SnapshotManifest.model_validate_json(path.read_bytes())
     if manifest.snapshot_id != selector:
         raise IntegrityError("manifest snapshot_id does not match its selector")
-    semantic = {
-        "tables": {k: v.model_dump(mode="json") for k, v in sorted(manifest.tables.items())},
-        "status": manifest.status.value,
-        "parent": manifest.parent,
-        "source_revisions": manifest.source_revisions,
-        "quality": manifest.quality,
-        "notes": list(manifest.notes),
-    }
-    if f"sha256:{hashlib.sha256(_canonical(semantic)).hexdigest()}" != manifest.snapshot_id:
+    if semantic_snapshot_id(manifest) != manifest.snapshot_id:
         raise IntegrityError("manifest content does not hash to its snapshot id")
     verify_manifest(data_root, manifest, hashes=verify)
     return manifest

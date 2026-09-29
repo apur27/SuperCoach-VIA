@@ -146,6 +146,8 @@ class _Collector:
         self.issues: dict[str, dict[str, Any]] = {}
         self.exceptions = {(e.rule_id, e.row_key): e for e in policy.known_exceptions}
         self.failed_checks: set[str] = set()
+        #: exact rows found per row-level rule (listing is capped per historical season)
+        self.hit_totals: dict[str, int] = {}
 
     def add(
         self,
@@ -225,6 +227,8 @@ class _Collector:
         current_blocks: bool = True,
     ) -> int:
         """hits: (season, row_key, detail). Emit per-row issues (capped per historical season)."""
+        if hits:
+            self.hit_totals[rule_id] = self.hit_totals.get(rule_id, 0) + len(hits)
         per_season: dict[Any, int] = {}
         overflow: dict[Any, int] = {}
         for season, key, detail in hits:
@@ -415,6 +419,8 @@ def validate_dataset(candidate: DatasetCandidate, policy: ValidationPolicy | Non
     ):
         checks[name] = CheckOutcome.FAIL if name in col.failed_checks else CheckOutcome.PASS
     issues = [col.issues[k] for k in sorted(col.issues)]
+    for rule_id, total in sorted(col.hit_totals.items()):
+        counts[f"hits:{rule_id}"] = total
     for sev in Severity:
         counts[f"issues:{sev.value}"] = sum(1 for i in issues if i["severity"] == sev.value)
     blocking = any(i["severity"] == Severity.BLOCKING.value and i["status"] != "accepted" for i in issues)

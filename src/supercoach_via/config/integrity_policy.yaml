@@ -1,0 +1,45 @@
+# Integrity-checker policy (scvia check-integrity). See docs/data-integrity.md.
+#
+# The checker's rule logic is code; the thresholds and accepted exceptions that tune it live
+# here so they are hashed into every report (policy identity). Changing this file changes the
+# report's policy sha256 and invalidates the checker's semantic cache.
+schema_version: 1
+policy_version: integrity-v1
+
+# Deterministic example cap per rule in the report. Totals are always exact; the optional
+# findings stream (--findings-stream) holds every finding.
+sample_limit: 20
+
+freshness:
+  # Current-season fixture older than this at --as-of is reported as stale (warning).
+  max_fixture_age_hours: 192
+
+# Values above these are valid but unusual: reported as warnings with the value, never
+# treated as errors. Set above the largest value in the 2026-09-28 snapshot.
+plausible_max:
+  kicks: 50
+  marks: 30
+  handballs: 45
+  disposals: 60
+  goals: 20
+  behinds: 15
+  hitouts: 90
+  tackles: 25
+  rebound_50s: 25
+  inside_50s: 20
+  clearances: 25
+  clangers: 20
+  frees_for: 15
+  frees_against: 15
+  contested_possessions: 40
+  uncontested_possessions: 50
+  contested_marks: 12
+  marks_inside_50: 16
+  one_percenters: 30
+  bounces: 25
+  goal_assists: 12
+
+# Accepted exceptions: each needs the exact rule_id and entity from a report plus a reason.
+# An exception naming a current-season finding is rejected (blocking); one that matches no
+# finding is reported as stale.
+known_exceptions: []

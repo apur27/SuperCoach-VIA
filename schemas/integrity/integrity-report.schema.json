@@ -1,0 +1,699 @@
+{
+  "$defs": {
+    "CheckRow": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "examined": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Examined",
+          "type": "object"
+        },
+        "family": {
+          "title": "Family",
+          "type": "string"
+        },
+        "findings": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Findings",
+          "type": "object"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "required": {
+          "title": "Required",
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "check_id",
+        "family",
+        "summary",
+        "required",
+        "status",
+        "reason",
+        "examined",
+        "findings"
+      ],
+      "title": "CheckRow",
+      "type": "object"
+    },
+    "CheckerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "code_sha256": {
+          "title": "Code Sha256",
+          "type": "string"
+        },
+        "rules": {
+          "title": "Rules",
+          "type": "integer"
+        },
+        "rules_sha256": {
+          "title": "Rules Sha256",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "code_sha256",
+        "rules_sha256",
+        "rules"
+      ],
+      "title": "CheckerIdentity",
+      "type": "object"
+    },
+    "Counts": {
+      "additionalProperties": false,
+      "properties": {
+        "cells_compared": {
+          "title": "Cells Compared",
+          "type": "integer"
+        },
+        "checks": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Checks",
+          "type": "object"
+        },
+        "checks_performed": {
+          "title": "Checks Performed",
+          "type": "integer"
+        },
+        "checks_requested": {
+          "title": "Checks Requested",
+          "type": "integer"
+        },
+        "examined": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Examined",
+          "type": "object"
+        },
+        "findings_open": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Findings Open",
+          "type": "object"
+        },
+        "findings_total": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Findings Total",
+          "type": "object"
+        },
+        "resources_examined": {
+          "title": "Resources Examined",
+          "type": "integer"
+        },
+        "rows_examined": {
+          "title": "Rows Examined",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "checks_requested",
+        "checks_performed",
+        "checks",
+        "findings_open",
+        "findings_total",
+        "rows_examined",
+        "resources_examined",
+        "cells_compared",
+        "examined"
+      ],
+      "title": "Counts",
+      "type": "object"
+    },
+    "ExceptionRow": {
+      "additionalProperties": false,
+      "properties": {
+        "entity": {
+          "title": "Entity",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "entity",
+        "reason"
+      ],
+      "title": "ExceptionRow",
+      "type": "object"
+    },
+    "Exceptions": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "items": {
+            "$ref": "#/$defs/ExceptionRow"
+          },
+          "title": "Accepted",
+          "type": "array"
+        },
+        "rejected": {
+          "items": {
+            "$ref": "#/$defs/ExceptionRow"
+          },
+          "title": "Rejected",
+          "type": "array"
+        },
+        "stale": {
+          "items": {
+            "$ref": "#/$defs/ExceptionRow"
+          },
+          "title": "Stale",
+          "type": "array"
+        }
+      },
+      "required": [
+        "accepted",
+        "rejected",
+        "stale"
+      ],
+      "title": "Exceptions",
+      "type": "object"
+    },
+    "FindingRow": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Acceptance"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "actual": {
+          "title": "Actual"
+        },
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "entity": {
+          "title": "Entity",
+          "type": "string"
+        },
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "expected": {
+          "title": "Expected"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Field"
+        },
+        "issue_id": {
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "contradiction",
+            "anomaly",
+            "missing_evidence",
+            "policy"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Season"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "blocking"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "accepted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "table": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Table"
+        }
+      },
+      "required": [
+        "issue_id",
+        "rule_id",
+        "check_id",
+        "kind",
+        "severity",
+        "status",
+        "entity",
+        "table",
+        "field",
+        "season",
+        "expected",
+        "actual",
+        "evidence",
+        "message",
+        "action",
+        "acceptance"
+      ],
+      "title": "FindingRow",
+      "type": "object"
+    },
+    "FindingsStream": {
+      "additionalProperties": false,
+      "properties": {
+        "complete": {
+          "description": "false when a producer check listed only part of its rows",
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "count": {
+          "title": "Count",
+          "type": "integer"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "unlisted_by_producer": {
+          "title": "Unlisted By Producer",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "count",
+        "sha256",
+        "complete",
+        "unlisted_by_producer"
+      ],
+      "title": "FindingsStream",
+      "type": "object"
+    },
+    "Inputs": {
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "title": "Digest",
+          "type": "string"
+        },
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        },
+        "models": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Models"
+        },
+        "release": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Release"
+        },
+        "snapshot": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Snapshot"
+        }
+      },
+      "required": [
+        "snapshot",
+        "release",
+        "evidence",
+        "models",
+        "digest"
+      ],
+      "title": "Inputs",
+      "type": "object"
+    },
+    "PolicyIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Files",
+          "type": "object"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "sha256",
+        "files"
+      ],
+      "title": "PolicyIdentity",
+      "type": "object"
+    },
+    "RuleRow": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "title": "Accepted",
+          "type": "integer"
+        },
+        "by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Severity",
+          "type": "object"
+        },
+        "check_id": {
+          "title": "Check Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "contradiction",
+            "anomaly",
+            "missing_evidence",
+            "policy"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "open": {
+          "title": "Open",
+          "type": "integer"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "sampled": {
+          "title": "Sampled",
+          "type": "integer"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "blocking"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "unlisted_by_producer": {
+          "title": "Unlisted By Producer",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "rule_id",
+        "check_id",
+        "kind",
+        "severity",
+        "total",
+        "open",
+        "accepted",
+        "by_severity",
+        "sampled",
+        "truncated",
+        "unlisted_by_producer"
+      ],
+      "title": "RuleRow",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "As Of"
+        },
+        "complete": {
+          "title": "Complete",
+          "type": "boolean"
+        },
+        "current_season": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Current Season"
+        },
+        "families": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Families",
+          "type": "array"
+        },
+        "name": {
+          "enum": [
+            "full",
+            "data"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "restricted": {
+          "title": "Restricted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "as_of",
+        "families",
+        "restricted",
+        "complete",
+        "current_season"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "$id": "https://supercoach-via.local/schemas/integrity-report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checker": {
+      "$ref": "#/$defs/CheckerIdentity"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/CheckRow"
+      },
+      "title": "Checks",
+      "type": "array"
+    },
+    "counts": {
+      "$ref": "#/$defs/Counts"
+    },
+    "coverage": {
+      "additionalProperties": true,
+      "title": "Coverage",
+      "type": "object"
+    },
+    "exceptions": {
+      "$ref": "#/$defs/Exceptions"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/FindingRow"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "findings_stream": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FindingsStream"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "inputs": {
+      "$ref": "#/$defs/Inputs"
+    },
+    "outcome": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "UNKNOWN"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "policy": {
+      "$ref": "#/$defs/PolicyIdentity"
+    },
+    "report_sha256": {
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/RuleRow"
+      },
+      "title": "Rules",
+      "type": "array"
+    },
+    "schema": {
+      "const": "scvia.integrity-report/1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    }
+  },
+  "required": [
+    "schema",
+    "checker",
+    "policy",
+    "inputs",
+    "scope",
+    "outcome",
+    "counts",
+    "checks",
+    "rules",
+    "findings",
+    "exceptions",
+    "coverage",
+    "report_sha256"
+  ],
+  "title": "IntegrityReport",
+  "type": "object"
+}

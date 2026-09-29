@@ -5,7 +5,8 @@ command bodies so ``--help`` and ``doctor`` stay fast and side-effect free.
 
 Exit codes (PLAN 5.4): 0 ok; 2 invalid input/config; 3 unavailable source / partial
 required refresh; 4 validation failure; 5 locked; 6 model/forecast unavailable;
-7 publication failure.
+7 publication failure. ``check-integrity`` adds 8 (required verification incomplete) and
+9 (the checker itself failed; never a verdict).
 """
 
 from __future__ import annotations
@@ -25,6 +26,8 @@ EXIT = {
     "locked": 5,
     "model_unavailable": 6,
     "publish_failed": 7,
+    "verification_incomplete": 8,
+    "checker_failed": 9,
 }
 
 app = typer.Typer(
@@ -600,6 +603,74 @@ def demo(
             raise CliFailure("invalid_input", f"{output} is not empty", "choose an empty --output directory")
         res = pipeline.demo(output)
         return {**res, "exit": _STAGE_EXIT.get(int(res["exit_code"]), "invalid_input")}
+
+    _run(json_out, body)
+
+
+@app.command("check-integrity")
+def check_integrity_cmd(
+    data_root: Annotated[Path, typer.Option("--data-root", help="data root: current.json, snapshots, fragments")],
+    snapshot: Annotated[str, typer.Option("--snapshot", help="'current' (resolved once) or sha256:<id>")] = "current",
+    release_dir: Annotated[Path | None, typer.Option("--release-dir", help="release directory to audit")] = None,
+    scope: Annotated[str, typer.Option("--scope", help="full (snapshot + release) or data (snapshot only)")] = "full",
+    as_of: Annotated[str | None, typer.Option("--as-of", help="explicit UTC instant for time-dependent rules")] = None,
+    evidence: Annotated[
+        list[Path] | None, typer.Option("--evidence", help="extra content-addressed source payload directory")
+    ] = None,
+    models_root: Annotated[Path | None, typer.Option("--models-root")] = None,
+    predictions_root: Annotated[Path | None, typer.Option("--predictions-root")] = None,
+    report: Annotated[Path | None, typer.Option("--report", help="canonical report path (outside every input)")] = None,
+    execution: Annotated[Path | None, typer.Option("--execution", help="execution metadata path")] = None,
+    findings_stream: Annotated[Path | None, typer.Option("--findings-stream", help="every finding as JSONL")] = None,
+    cache: Annotated[Path | None, typer.Option("--cache", help="semantic-result cache directory")] = None,
+    changed_since: Annotated[
+        Path | None, typer.Option("--changed-since", help="prior report; reuse cached results for unchanged inputs")
+    ] = None,
+    workers: Annotated[int, typer.Option("--workers", help="processes for release comparison")] = 1,
+    sample_limit: Annotated[int | None, typer.Option("--sample-limit", help="examples per rule in the report")] = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Deterministic, read-only data-integrity audit of a snapshot and its release (no network, no models)."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via.integrity import runner as R
+
+        opts = R.AuditOptions(
+            data_root=data_root, snapshot=snapshot, release_dir=release_dir, scope=scope, as_of=as_of,
+            evidence_dirs=tuple(evidence or ()), models_root=models_root, predictions_root=predictions_root,
+            workers=workers, sample_limit=sample_limit, findings_stream=findings_stream is not None,
+            cache_dir=cache, changed_since=changed_since,
+        )  # fmt: skip
+        inputs = [data_root, *(evidence or []), *(p for p in (release_dir, models_root, predictions_root) if p)]
+        try:
+            if report is not None:
+                outs = [report, execution or R.default_execution_path(report)]
+                outs += [findings_stream] if findings_stream else []
+                R.refuse_inside_inputs(outs, inputs)
+                if cache is not None:
+                    R.refuse_inside_inputs([cache], inputs)
+            elif findings_stream is not None:
+                raise R.UsageError("--findings-stream needs --report")
+            result = R.run_audit(opts)
+            written = (
+                R.write_outputs(result, report=report, execution=execution, stream=findings_stream, inputs=inputs)
+                if report is not None
+                else {}
+            )
+        except R.UsageError as exc:
+            raise CliFailure("invalid_input", str(exc)) from exc
+        except Exception as exc:
+            raise CliFailure("checker_failed", f"{type(exc).__name__}: {exc}",
+                             "fix the checker or its inputs; no report was written") from exc  # fmt: skip
+        r = result.report
+        exit_name = {0: "ok", 4: "validation_failed", 8: "verification_incomplete"}[result.exit_code]
+        return {
+            "ok": result.exit_code == 0, "outcome": r["outcome"], "complete": r["scope"]["complete"],
+            "report_sha256": r["report_sha256"], "snapshot_id": (r["inputs"]["snapshot"] or {}).get("snapshot_id"),
+            "release_id": (r["inputs"]["release"] or {}).get("release_id"),
+            "findings_open": r["counts"]["findings_open"],
+            "checks": r["counts"]["checks"], "written": written, "exit": exit_name,
+        }  # fmt: skip
 
     _run(json_out, body)
 

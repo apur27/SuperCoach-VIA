@@ -153,3 +153,22 @@ class TestDedup:
         keys = [(r[0], r[1]) for r in once]
         assert len(keys) == len(set(keys))
         assert {(r[0], r[1]) for r in rows} == set(keys)
+
+
+def test_row_rules_record_exact_hit_totals_beyond_the_listing_cap() -> None:
+    """Listing is capped per historical season; the total a consumer reports must stay exact."""
+    pol = reconcile.load_policy(REPO_CONFIG)
+    col = reconcile._Collector(pol, current=2026)
+    hits = [(1990, f"m{i}|p{i}", "x") for i in range(reconcile.ROW_ISSUE_CAP + 37)]
+    assert col.rows("player_stats", "disposals_arithmetic", Severity.WARNING, "player_games", hits, "d") == len(hits)
+    listed = [i for i in col.issues.values() if not str(i["row_key"]).endswith(":overflow")]
+    assert len(listed) == reconcile.ROW_ISSUE_CAP
+    assert col.hit_totals == {"disposals_arithmetic": reconcile.ROW_ISSUE_CAP + 37}
+
+
+def test_report_counts_carry_hit_totals(default_report: reconcile.ValidationReport) -> None:
+    for rule_id in _rules(default_report):
+        listed = sum(1 for i in default_report.issues if i["rule_id"] == rule_id and not str(i["row_key"]).endswith(":overflow"))
+        total = default_report.counts.get(f"hits:{rule_id}")
+        if total is not None:
+            assert total >= listed
