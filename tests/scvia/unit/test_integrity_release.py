@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import shutil
@@ -268,10 +269,9 @@ def test_validate_release_rules_are_mapped(rel: tuple[Path, Path]) -> None:
     data, release = rel
     path = _first(release, "articles/*.json", lambda d: "body_html" in d or "html" in d)
     fx.edit_json(path, lambda d: d.update({k: v + " /home/someone/secret" for k, v in d.items() if k in ("body_html", "html")}))
-    try:
+    # validate_release refuses it too (its record is not PASS); the checker must say so either way
+    with contextlib.suppress(AssertionError):
         fx.reseal(release)
-    except AssertionError:
-        pass  # validate_release refuses it too: that record is not PASS, and the checker must say so
     res = audit(data, release, checks=("release.validate", "release.artifact"))
     assert "release.private_content" in rules(res)
     assert res.outcome.value == "FAIL"

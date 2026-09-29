@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import re
 from collections import defaultdict
@@ -511,27 +512,28 @@ def check_public(ctx: AuditContext) -> list[str]:
     seasons = [int(s) for (s,) in ctx.rows("SELECT DISTINCT season FROM matches ORDER BY 1")]
     con = ctx.db()
     frag = ctx.snapshot.fragment_digest
-    units: list[tuple[str, Any, dict[str, Any], str, dict[str, tuple[str, int]]]] = []
+    units: list[tuple[str, Any, Any, str, dict[str, tuple[str, int]]]] = []
     pg_sel = ", ".join(f'"{c}"' for c in _PG_COLUMNS)
-    for season in seasons:
+    # keys come from content identities; the rows are fetched only for units the cache cannot answer
+    match_ids_by = {int(k): [str(x) for x in v] for k, v in ctx.rows(
+        "SELECT season, list(match_id ORDER BY match_id) FROM matches GROUP BY season")}  # fmt: skip
+    players_by = {int(k): [str(x) for x in v] for k, v in ctx.rows(
+        "SELECT season, list(DISTINCT player_id ORDER BY player_id) FROM player_games GROUP BY season")}  # fmt: skip
+
+    def season_payload(season: int, used: list[str]) -> dict[str, Any]:
         matches = con.execute("SELECT * FROM matches WHERE season = ? ORDER BY match_id", [season]).to_arrow_table()
         games = con.execute(
             f"SELECT {pg_sel} FROM player_games WHERE season = ? ORDER BY match_id, player_id, club_id",  # noqa: S608 - column names are PLAYER_STAT_COLUMNS constants
             [season],
         ).to_arrow_table()
-        # Arrow, not Python rows: all seasons' payloads exist at once before the units run
-        match_ids = [str(x) for x in matches.column("match_id").to_pylist()]
-        used = sorted({str(x) for x in games.column("player_id").to_pylist()})
-        payload = {
-            "season": season,
-            "matches": matches,
-            "player_games": games,
-            "club_names": club_names,
-            "player_names": {p: names.get(p, "") for p in used},
-        }
+        return {"season": season, "matches": matches, "player_games": games, "club_names": club_names,
+                "player_names": {p: names.get(p, "") for p in used}}  # fmt: skip
+
+    for season in seasons:
+        used = players_by.get(season, [])
         paths = [
             f"matches/{season}/index.json",
-            *(f"matches/detail/{pc.public_key(m)}.json" for m in match_ids),
+            *(f"matches/detail/{pc.public_key(m)}.json" for m in match_ids_by.get(season, [])),
             *(f"player-games/{pc.public_key(p)}/{season}.json" for p in used),
         ]
         deps = hashlib.sha256(
@@ -544,7 +546,8 @@ def check_public(ctx: AuditContext) -> list[str]:
                 }
             )
         ).hexdigest()
-        units.append((f"season:{season}", pc.season_unit, payload, deps, _subset(inventory, paths)))
+        build = functools.partial(season_payload, season, used)
+        units.append((f"season:{season}", pc.season_unit, build, deps, _subset(inventory, paths)))
     # players: aggregates recomputed from the facts
     cov = _coverage(ctx).coverage
     agg_sql = ", ".join(
@@ -573,6 +576,8 @@ def check_public(ctx: AuditContext) -> list[str]:
         "WHERE identity_status = 'canonical' ORDER BY player_id"
     )
     last_by_player = dict(ctx.rows("SELECT player_id, last_season FROM agg_career"))
+    seasons_of = {str(p): list(v) for p, v in ctx.rows(
+        "SELECT player_id, list(DISTINCT season) FROM player_games GROUP BY player_id")}  # fmt: skip
     groups: dict[Any, list[dict[str, Any]]] = defaultdict(list)
     for p in people:
         groups[last_by_player.get(p["player_id"])].append(p)
@@ -580,13 +585,19 @@ def check_public(ctx: AuditContext) -> list[str]:
         for start in range(0, len(members), _DETAIL_GROUP):
             chunk = members[start : start + _DETAIL_GROUP]
             ids = [p["player_id"] for p in chunk]
-            players = _detail_payload(ctx, chunk, ids)
             unit_id = f"players:{last}:{start // _DETAIL_GROUP}"
-            deps = hashlib.sha256(canonical_bytes(_jsonable(players))).hexdigest()
+            # every fact behind these pages: the player rows and each season partition they appear in
+            touched = {str(x) for pid in ids for x in seasons_of.get(pid, [])}
+            deps = hashlib.sha256(canonical_bytes(
+                {"players": _jsonable(chunk), "player_games": frag("player_games", touched)})).hexdigest()  # fmt: skip
             paths = [f"players/{pc.public_key(pid)}.json" for pid in ids]
-            units.append(
-                (unit_id, pc.detail_unit, {"players": players, "unit_id": unit_id}, deps, _subset(inventory, paths))
-            )
+
+            def detail(
+                chunk: list[dict[str, Any]] = chunk, ids: list[str] = ids, unit_id: str = unit_id
+            ) -> dict[str, Any]:
+                return {"players": _detail_payload(ctx, chunk, ids), "unit_id": unit_id}
+
+            units.append((unit_id, pc.detail_unit, detail, deps, _subset(inventory, paths)))
     # player index
     latest = ctx.rows("SELECT max(season) FROM player_games")[0][0]
     idx_rows = ctx.records(
@@ -716,7 +727,7 @@ def _run(ctx: AuditContext, units: list[Any], rules: dict[str, Any], release_dir
                 results[unit_id] = hit
                 continue
         full = {
-            **payload,
+            **(payload() if callable(payload) else payload),
             "rules": rules,
             "current_season": ctx.current_season,
             "release_dir": release_dir,

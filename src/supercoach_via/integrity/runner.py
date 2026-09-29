@@ -229,9 +229,11 @@ def run_audit(options: AuditOptions) -> AuditResult:
 
         ctx.cache = SemanticCache(options.cache_dir, salt)
     results = []
+    seconds: dict[str, float] = {"capture": round(time.perf_counter() - t0, 3)}
     try:
         for spec in _requested(options, registry()):
             ctx.check_id = spec.check_id
+            t_check = time.perf_counter()
             unknown: list[str] = []
             missing = [n for n in spec.needs if not _supplied(ctx, n)]
             if missing:
@@ -246,6 +248,7 @@ def run_audit(options: AuditOptions) -> AuditResult:
                     if collector.check_status(spec.check_id, unknown=[]) is Status.FAIL:
                         status = Status.FAIL
             results.append((spec, status, reason))
+            seconds[spec.check_id] = round(time.perf_counter() - t_check, 3)
         collector.finish_exceptions()
     except CheckSkipped as exc:  # pragma: no cover - raised outside a check body
         raise CheckerError(str(exc)) from exc
@@ -255,7 +258,9 @@ def run_audit(options: AuditOptions) -> AuditResult:
         raise CheckerError(f"check {ctx.check_id} crashed: {type(exc).__name__}: {exc}") from exc
     finally:
         ctx.close()
+    t_drift = time.perf_counter()
     drift = snapshot.drift() + (release.drift() if release is not None else [])
+    seconds["inputs.stable"] = round(time.perf_counter() - t_drift, 3)
     stability = CheckSpec("inputs.stable", "storage", "inputs unchanged on disk for the whole audit", lambda _c: None)
     results.append(
         (
@@ -306,6 +311,7 @@ def run_audit(options: AuditOptions) -> AuditResult:
         "input_drift": drift,
         "cache": ctx.cache.stats() if ctx.cache is not None else None,
         "changed": changed,
+        "seconds": seconds,
     }
     if drift:
         # the verdict above is about the pinned bytes; those bytes are no longer on disk
