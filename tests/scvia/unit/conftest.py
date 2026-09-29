@@ -22,8 +22,14 @@ def integrity_demo(tmp_path_factory: pytest.TempPathFactory) -> IntegrityDemo:
     from tests.scvia.unit import integrity_fixtures as fx
     from tests.scvia.unit.demo_release_env import demo_env, full_release
 
-    base = tmp_path_factory.mktemp("integrity-demo")
-    env = demo_env(base)
-    cand = full_release(base)
-    fx.add_site(cand.release_dir)
-    return IntegrityDemo(env=env, data_root=env.data_root, release_dir=cand.release_dir)
+    import shutil
+
+    # the same per-worker DEMO build the builder tests use (built once), copied so the site
+    # added here never changes the release those tests read
+    shared = tmp_path_factory.getbasetemp()
+    env = demo_env(shared)
+    cand = full_release(shared)
+    release_dir = tmp_path_factory.mktemp("integrity-demo") / cand.release_dir.name
+    shutil.copytree(cand.release_dir, release_dir)
+    fx.add_site(release_dir)
+    return IntegrityDemo(env=env, data_root=env.data_root, release_dir=release_dir)

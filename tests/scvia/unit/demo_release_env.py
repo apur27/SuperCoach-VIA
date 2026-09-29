@@ -227,6 +227,15 @@ def demo_env(base: Path) -> DemoEnv:
 def full_release(base: Path) -> ReleaseCandidate:
     """The complete demo release (every optional input), built once per test session."""
     if base not in _BUILT:
+        from supercoach_via.publish import builder
+
         env = demo_env(base)
-        _BUILT[base] = build_release(env.snapshot, full_inputs(env), context_for(env, base / "dist-full"))
+        # the sequential season path: spawning season workers costs more than it saves on the
+        # DEMO corpus, and test_parallel_season_build_is_byte_identical_to_sequential proves the
+        # parallel path writes the same bytes
+        workers, builder.SEASON_WORKERS = builder.SEASON_WORKERS, 1
+        try:
+            _BUILT[base] = build_release(env.snapshot, full_inputs(env), context_for(env, base / "dist-full"))
+        finally:
+            builder.SEASON_WORKERS = workers
     return _BUILT[base]
