@@ -388,7 +388,9 @@ Other findings on the same snapshot are reported but do not block. The 25 `relat
 | `football.arithmetic` | `football.brownlow_range` | error (blocking in current season) | anomaly | Brownlow votes outside 0-3 in one game | re-import the row |
 | `football.arithmetic` | `football.player_behinds_exceed_team` | error (blocking in current season) | anomaly | players' behinds sum to more than the team's behinds (rushed behinds only add to the team) | re-check the match's player rows against the source |
 | `football.values` | `football.unusual_value` | warning | anomaly | a value above the policy's plausible maximum (valid but unusual) | confirm against the source; raise plausible_max only with evidence |
-| `football.coverage` | `football.blank_as_null` | warning | anomaly | inside its recorded era the stat is never zero but often null: source blanks (zero) look stored as missing | decide whether in-era blanks mean zero; observed-denominator means are inflated if they do |
+| `football.coverage` | `football.blank_as_null` | warning (blocking in current season) | anomaly | a statistic is null for a player who took the field although the match reports that statistic (AFL Tables prints 0 as a blank) | import with domain.blanks or run scvia apply-corrections; observed-denominator means are inflated |
+| `football.coverage` | `football.brownlow_not_applicable` | error (blocking in current season) | anomaly | a finals row has a Brownlow value; votes are awarded only in home-and-away matches | re-import the row with Brownlow votes null for finals |
+| `football.coverage` | `football.unevidenced_zero` | warning | anomaly | a statistic is 0 for every player with a value in a match, so nothing shows the match reported it | confirm against the source; an unreported column must stay null, not become 0 |
 | `football.coverage` | `football.zero_before_recorded` | error | anomaly | zeros stored before the stat's recorded_from season: a missing value was probably zero-filled | re-import with null for unrecorded eras, or document the isolated fragment |
 
 ### `freshness`

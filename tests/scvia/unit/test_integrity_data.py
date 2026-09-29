@@ -224,20 +224,67 @@ def test_old_season_nulls_are_not_held_to_modern_coverage(tmp_path: Path) -> Non
     assert not [f for f in res.findings if f.season == 1970]
 
 
-def test_blank_as_null_in_recorded_era_is_explained(tmp_path: Path) -> None:
-    """A stat that is never zero but often null inside its era looks like blanks read as missing."""
+def test_blank_left_null_in_a_reported_column_is_reported(tmp_path: Path) -> None:
+    """AFL Tables prints 0 as a blank; a null where the match reported the column contradicts that."""
 
     def mutate(r: Rows) -> None:
         for x in r["player_games"]:
-            if x["season"] == 2026 and x["player_id"] in ("legacy:p1", "legacy:p3"):
-                x["hitouts"] = None
+            if x["season"] == 1970 and x["player_id"] in ("legacy:p1", "legacy:p3"):
+                x["hitouts"] = None  # p2/p4 have hitouts in the same matches
 
     root = tmp_path / "var"
     fx.rehash(root, mutate)
-    res = audit(root, checks=('football.coverage',))
+    res = audit(root, checks=("football.coverage",))
     [f] = found(res, "football.blank_as_null")
-    assert (f.entity, f.severity.value) == ("stat:hitouts", "warning")
-    assert res.outcome.value == "PASS"
+    assert (f.entity, f.severity.value, f.actual["cells"]) == ("stat:hitouts", "warning", 4)
+    assert res.outcome.value == "PASS"  # historical: reported, not blocking
+
+
+def test_blank_left_null_in_the_current_season_blocks(tmp_path: Path) -> None:
+    def mutate(r: Rows) -> None:
+        g(r, M26, "legacy:p1")["tackles"] = None
+
+    root = tmp_path / "var"
+    fx.rehash(root, mutate)
+    res = audit(root, checks=("football.coverage",))
+    assert [f.severity.value for f in found(res, "football.blank_as_null")] == ["blocking"]
+
+
+def test_unreported_column_and_unknown_rows_are_not_blanks_to_fill(tmp_path: Path) -> None:
+    def mutate(r: Rows) -> None:
+        for x in r["player_games"]:
+            if x["match_id"] == M26:
+                x["bounces"] = None  # nobody: not reported for the match
+        row = g(r, M26, "legacy:p2")
+        for s in [*fx.MODERN_STATS]:
+            row[s] = None  # a row with nothing at all, not even time on ground: unknown
+
+    root = tmp_path / "var"
+    fx.rehash(root, mutate)
+    res = audit(root, checks=("football.coverage",))
+    assert not found(res, "football.blank_as_null")
+
+
+def test_brownlow_in_a_final_is_not_applicable(tmp_path: Path) -> None:
+    def mutate(r: Rows) -> None:
+        next(m for m in r["matches"] if m["match_id"] == M70).update(stage_type="final")
+
+    root = tmp_path / "var"
+    fx.rehash(root, lambda r: (mutate(r), [x.update(brownlow_votes=0) for x in r["player_games"] if x["match_id"] == M70]))
+    res = audit(root, checks=("football.coverage",))
+    assert f"match:{M70}" in entities(res, "football.brownlow_not_applicable")
+
+
+def test_zero_with_no_evidence_in_its_match(tmp_path: Path) -> None:
+    def mutate(r: Rows) -> None:
+        for x in r["player_games"]:
+            if x["match_id"] == M26:
+                x["bounces"] = 0  # every player 0: nothing shows the column was reported
+
+    root = tmp_path / "var"
+    fx.rehash(root, mutate)
+    res = audit(root, checks=("football.coverage",))
+    assert "stat:bounces" in entities(res, "football.unevidenced_zero")
 
 
 def _config_with(tmp_path: Path, exceptions: str) -> Path:

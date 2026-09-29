@@ -284,3 +284,48 @@ def test_unreachable_source_refresh_is_partial_and_never_moves_the_pointer(tmp_p
     assert (tmp_path / "var" / "current.json").read_bytes() == before
     assert res.outputs["summary"]["outcome"] in ("UNKNOWN", "FAIL")
     assert first.snapshot_id == read_current(tmp_path / "var").snapshot_id  # type: ignore[union-attr]
+
+
+def test_refresh_resolves_source_blanks_with_the_shared_rule(
+    tmp_path: Path, corpus: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A source-fetched match merges with the same blank semantics as the legacy import."""
+    from datetime import timedelta
+
+    from supercoach_via.domain.schemas import DatasetStatus
+    from supercoach_via.ingest import refresh as rf
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+
+    ctx = _ctx(tmp_path, corpus)
+    pipeline.ingest(ctx, source_root=corpus)
+    root = tmp_path / "var"
+    with SnapshotQuery(root, load_snapshot(root), tables={"matches", "player_games"}) as q:
+        sample = q.arrow(
+            "SELECT * FROM matches WHERE season = 2026 AND status = 'complete' ORDER BY match_date DESC LIMIT 1"
+        ).to_pylist()[0]
+        games = q.arrow("SELECT * FROM player_games WHERE match_id = ? ORDER BY player_id", [sample["match_id"]]).to_pylist()
+    added = {**sample, "match_id": f"{sample['match_id']}:added", "match_date": sample["match_date"] + timedelta(days=7)}
+    added_games = [{**g, "match_id": added["match_id"], "match_date": added["match_date"]} for g in games]
+    added_games[0]["tackles"] = 3
+    added_games[1]["tackles"] = None  # blank on the source page: the column is reported, so this is 0
+    for g in added_games:
+        g["bounces"] = None  # nobody has a value: not reported for this match, stays null
+
+    def fake_refresh(base: object, plan: rf.RefreshPlan, context: object, **_kwargs: object) -> rf.RefreshResult:
+        return rf.RefreshResult(
+            plan=plan, outcome=CheckOutcome.PASS, dataset_status=DatasetStatus.VERIFIED, exit_code=0,
+            source_checked_at=datetime(2026, 9, 28, tzinfo=UTC), counts={},
+            upserts={"matches": [added], "player_games": added_games}, revisions={}, corrections=[], superseded=[],
+            interior_gaps=[], stale_fixtures=[], work_log=[], issues=[], latest_completed_match_date=None,
+            request_counts={}, bytes_received=0,
+        )  # fmt: skip
+
+    monkeypatch.setattr(rf, "refresh_sources", fake_refresh)
+    res = pipeline.refresh(ctx, season=2026)
+    assert res.exit_code == 0 and res.promoted, res.message
+    with SnapshotQuery(root, load_snapshot(root), tables={"player_games"}) as q:
+        got = {pid: (tackles, bounces) for pid, tackles, bounces in q.rows(
+            "SELECT player_id, tackles, bounces FROM player_games WHERE match_id = ?", [added["match_id"]])}  # fmt: skip
+    assert got[added_games[1]["player_id"]] == (0, None)
+    assert got[added_games[0]["player_id"]] == (3, None)

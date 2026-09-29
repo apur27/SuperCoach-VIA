@@ -29,7 +29,8 @@ from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from supercoach_via.domain import ids, season
+from supercoach_via.domain import blanks, ids, season
+from supercoach_via.domain.metrics import CoverageEras
 from supercoach_via.domain.schemas import (
     LEGACY_PLAYER_COLUMN_MAP,
     PLAYER_STAT_COLUMNS,
@@ -47,7 +48,7 @@ from supercoach_via.domain.schemas import (
 from supercoach_via.settings import RunContext, default_config_dir
 from supercoach_via.storage.snapshots import SnapshotBuilder, SnapshotCandidate
 
-IMPORTER_VERSION = "legacy-import-v1"
+IMPORTER_VERSION = "legacy-import-v2"  # v2: source blanks resolved by domain.blanks
 REPO_CONFIG_DIR = default_config_dir()
 EVIDENCE_REL = "docs/rewrite/evidence/refresh-sources.json"
 ROOT_BIOS = "all_time_top_100.csv"
@@ -1956,6 +1957,10 @@ def import_legacy(
     )
     tick("players")
     pg_table = _import_player_games(state, by_family["player_performance"])
+    stage_types = {m["match_id"]: m["stage_type"] for m in match_rows}
+    recorded = CoverageEras.load(cfg / "coverage.yaml").recorded
+    pg_table, zeros = blanks.resolve_blanks(pg_table, stage_types, recorded)
+    state.accounting["blank_cells_resolved_to_zero"] = {k: v for k, v in sorted(zeros.items()) if v}
     for r in (*by_family["player_performance"], *by_family.get("player_personal", [])):
         r.data = b""  # release ~170 MB of raw bytes once parsed
     tick("player_games")

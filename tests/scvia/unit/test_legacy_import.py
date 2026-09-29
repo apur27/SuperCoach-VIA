@@ -119,6 +119,18 @@ class TestDtypesAndNulls:
         assert row["handballs"] == 0
         assert row["goals"] is None and row["tackles"] is None
 
+    def test_d02b_blank_in_a_reported_column_is_zero(self, imported: legacy.DatasetCandidate) -> None:
+        """AFL Tables prints 0 as a blank: once the match reports a column, a played row's blank is 0."""
+        rows = {r["player_id"]: r for r in _rows(
+            imported,
+            "SELECT player_id, behinds, hitouts, brownlow_votes FROM player_games g JOIN matches m USING (match_id) "
+            "WHERE m.season = 2025 AND m.stage_id = 'sf'",
+        )}  # fmt: skip
+        assert rows["legacy:pie_pete_05051997"]["behinds"] == 1
+        assert rows["legacy:eagle_ed_04041998"]["behinds"] == 0  # reported for the match, blank for Ed
+        assert all(r["hitouts"] is None for r in rows.values())  # never reported for this match
+        assert all(r["brownlow_votes"] is None for r in rows.values())  # finals: not applicable
+
     def test_d03_historic_rows_keep_unrecorded_stats_null(self, imported: legacy.DatasetCandidate) -> None:
         rows = _rows(imported, "SELECT tackles, clearances, goals FROM player_games WHERE season=1977")
         assert rows and all(r["tackles"] is None and r["clearances"] is None for r in rows)

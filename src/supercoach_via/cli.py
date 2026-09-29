@@ -607,6 +607,29 @@ def demo(
     _run(json_out, body)
 
 
+@app.command("apply-corrections")
+def apply_corrections_cmd(
+    season: Annotated[list[int], typer.Option("--season", help="season whose pinned page to apply (repeatable)")],
+    config: ConfigOpt = None,
+    data_root: DataRootOpt = None,
+    run_id: Annotated[str | None, typer.Option("--run-id")] = None,
+    json_out: JsonOpt = False,
+) -> None:
+    """Offline, bounded corrections from pinned source captures; promotes a validated child snapshot."""
+
+    def body() -> dict[str, Any]:
+        from supercoach_via import pipeline
+        from supercoach_via.settings import RunContext
+
+        settings = _settings(config, data_root=data_root)
+        if not (settings.data_root / "current.json").is_file():
+            raise CliFailure("invalid_input", f"no accepted snapshot under {settings.data_root}", "run import-legacy")
+        res = pipeline.apply_corrections(RunContext(settings=settings), seasons=season, run_id=run_id)
+        return _stage_payload(res)
+
+    _run(json_out, body)
+
+
 @app.command("check-integrity")
 def check_integrity_cmd(
     data_root: Annotated[Path, typer.Option("--data-root", help="data root: current.json, snapshots, fragments")],

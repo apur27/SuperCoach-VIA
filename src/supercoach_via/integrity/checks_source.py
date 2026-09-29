@@ -718,6 +718,40 @@ def _same(want: Any, have: Any) -> bool:
     return float(want) == float(have)
 
 
+#: counts every player who takes the field records when the page reports them
+_UNIVERSAL_CELLS = ("kicks", "marks", "handballs", "disposals", "time_on_ground_pct")
+
+
+def expected_cells(page: sp.SourceMatch) -> dict[tuple[str, str], dict[str, Any]]:
+    """What each cell on a captured match page says, as canonical values.
+
+    AFL Tables prints 0 as a blank. A blank is 0 when the page reports that column (some
+    player has a value), the player took the field (some value other than Brownlow votes,
+    or the page has none of the statistics every player on the field records), the column is
+    not time on ground, and it is not Brownlow votes on a finals page. Otherwise it is null.
+    Unparseable text is kept as text so the comparison reports it.
+    """
+    final = (page.stage_text or "") in sp.FINAL_NAMES
+    reported = {s for p in page.players for s, text in p.cells.items() if text.strip()}
+    universal = bool(reported & set(_UNIVERSAL_CELLS))
+    out: dict[tuple[str, str], dict[str, Any]] = {}
+    for p in page.players:
+        took_field = not universal or any(t.strip() for s, t in p.cells.items() if s != "brownlow_votes")
+        row: dict[str, Any] = {}
+        for stat, text in p.cells.items():
+            value = sp.cell_value(stat, text)
+            blank_is_zero = (
+                value is None
+                and stat in reported
+                and took_field
+                and stat != "time_on_ground_pct"
+                and not (final and stat == "brownlow_votes")
+            )
+            row[stat] = 0 if blank_is_zero else value
+        out[(p.team, p.name)] = row
+    return out
+
+
 def _compare_players(
     ctx: AuditContext,
     m: dict[str, Any],
@@ -731,6 +765,7 @@ def _compare_players(
 ) -> list[tuple[str, str, str]]:
     season = int(m["season"])
     ev = {"source_sha256": sha, "url": url}
+    meaning = expected_cells(page)
     team_club = {t.name: m[f"{side}_club_id"] for side, t in zip(("home", "away"), page.teams, strict=False)}
     rows = ctx.records("SELECT * FROM player_games WHERE match_id = ? ORDER BY club_id, player_id", [m["match_id"]])
     by_club: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -800,7 +835,7 @@ def _compare_players(
                 cov["cells_compared"] += 1
                 have = target[stat]
                 if stat in p.cells:
-                    want = sp.cell_value(stat, p.cells[stat])
+                    want = meaning[(p.team, p.name)][stat]
                     if not _same(want, have):
                         ctx.add(
                             "source.stat_cell_mismatch",

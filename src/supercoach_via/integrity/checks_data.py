@@ -187,9 +187,28 @@ RULES = [
         "football.blank_as_null",
         "football.coverage",
         W,
-        "inside its recorded era the stat is never zero but often null: source blanks (zero) look stored as missing",
-        "decide whether in-era blanks mean zero; observed-denominator means are inflated if they do",
+        "a statistic is null for a player who took the field although the match reports that statistic "
+        "(AFL Tables prints 0 as a blank)",
+        "import with domain.blanks or run scvia apply-corrections; observed-denominator means are inflated",
         kind=Kind.ANOMALY,
+        current_blocks=True,
+    ),
+    rule(
+        "football.unevidenced_zero",
+        "football.coverage",
+        W,
+        "a statistic is 0 for every player with a value in a match, so nothing shows the match reported it",
+        "confirm against the source; an unreported column must stay null, not become 0",
+        kind=Kind.ANOMALY,
+    ),
+    rule(
+        "football.brownlow_not_applicable",
+        "football.coverage",
+        E,
+        "a finals row has a Brownlow value; votes are awarded only in home-and-away matches",
+        "re-import the row with Brownlow votes null for finals",
+        kind=Kind.ANOMALY,
+        current_blocks=True,
     ),
 ]
 
@@ -480,8 +499,63 @@ def check_values(ctx: AuditContext) -> list[str]:
     return []
 
 
+#: counts every player who takes the field records whenever a match reports them
+_UNIVERSAL_EVIDENCE = ("kicks", "marks", "handballs", "disposals", "time_on_ground_pct")
+
+
+def _blank_semantics(ctx: AuditContext, cov: Any) -> None:
+    """The checker's own reading of source blanks (written independently of ``domain.blanks``).
+
+    AFL Tables prints 0 as a blank. Where a match reports a statistic (some row has a value)
+    and a row took the field, a null for that statistic contradicts the source. A row took
+    the field if it has any value other than Brownlow votes, or if its match reports none of
+    the statistics every player on the field records (goals-only eras). Time on ground is never
+    zero; Brownlow votes are not awarded in finals.
+    """
+    played_any = " OR ".join(f'g."{s}" IS NOT NULL' for s in PLAYER_STAT_COLUMNS if s != "brownlow_votes")
+    universal = " OR ".join(f'"{s}" IS NOT NULL' for s in _UNIVERSAL_EVIDENCE)
+    base = f"""
+        WITH mf AS (SELECT match_id, bool_or({universal}) AS universal FROM player_games GROUP BY match_id),
+             rows AS (SELECT g.*, m.stage_type, mf.universal, ({played_any}) OR NOT mf.universal AS played
+                      FROM player_games g JOIN matches m USING (match_id) JOIN mf USING (match_id))"""  # noqa: S608 - schema column names only
+    for stat in PLAYER_STAT_COLUMNS:
+        start = cov.recorded_from.get(stat)
+        if stat in NO_ZERO_EXPECTED or start is None:
+            continue
+        final_rule = "AND stage_type <> 'final'" if stat == "brownlow_votes" else ""
+        for is_current, cells, matches, lo, hi in ctx.rows(
+            base + f""", rep AS (SELECT match_id, count("{stat}") AS n FROM player_games GROUP BY match_id)
+            SELECT season = ? AS cur, count(*), count(DISTINCT match_id), min(season), max(season)
+            FROM rows JOIN rep USING (match_id)
+            WHERE "{stat}" IS NULL AND rep.n > 0 AND played AND season >= {int(start)} {final_rule}
+            GROUP BY 1 ORDER BY 1""",  # noqa: S608 - stat names are schema constants
+            [ctx.current_season or -1],
+        ):
+            ctx.count("cells", int(cells))
+            entity = f"stat:{stat}:{ctx.current_season}" if is_current else f"stat:{stat}"
+            ctx.add("football.blank_as_null", entity, table="player_games", field=stat,
+                    season=ctx.current_season if is_current else None, expected=0,
+                    actual={"cells": int(cells), "matches": int(matches)},
+                    evidence={"seasons": [lo, hi], "recorded_from": start})  # fmt: skip
+        for cells, matches in ctx.rows(
+            f"""SELECT sum(n0), count(*) FROM (SELECT match_id, count(*) FILTER (WHERE "{stat}" = 0) AS n0,
+                       count(*) FILTER (WHERE "{stat}" <> 0) AS nz FROM player_games GROUP BY match_id)
+                WHERE n0 > 0 AND nz = 0"""  # noqa: S608 - stat names are schema constants
+        ):
+            if matches:
+                ctx.add("football.unevidenced_zero", f"stat:{stat}", table="player_games", field=stat,
+                        expected="a non-zero value somewhere in the match",
+                        actual={"zero_cells": int(cells), "matches": int(matches)})  # fmt: skip
+    for entity, season, n in ctx.rows(
+        "SELECT 'match:' || g.match_id, min(g.season), count(*) FROM player_games g JOIN matches m USING (match_id) "
+        "WHERE m.stage_type = 'final' AND g.brownlow_votes IS NOT NULL GROUP BY 1 ORDER BY 1"
+    ):
+        ctx.add("football.brownlow_not_applicable", entity, table="player_games", field="brownlow_votes",
+                season=season, expected=None, actual=int(n))  # fmt: skip
+
+
 def check_coverage(ctx: AuditContext) -> list[str]:
-    ctx.need("player_games")
+    ctx.need("player_games", "matches")
     cov = _coverage(ctx).coverage
     for stat in PLAYER_STAT_COLUMNS:
         start = cov.recorded_from.get(stat)
@@ -504,23 +578,7 @@ def check_coverage(ctx: AuditContext) -> list[str]:
                 actual=int(zeros),
                 evidence={"recorded_from": start},
             )
-        if stat in NO_ZERO_EXPECTED:
-            continue
-        rows, nulls, zeros, lo, hi = ctx.rows(
-            f'SELECT count(*), count(*) FILTER (WHERE "{stat}" IS NULL), count(*) FILTER (WHERE "{stat}" = 0), '  # noqa: S608
-            f"min(season), max(season) FROM player_games WHERE season >= {int(start)}"
-        )[0]
-        ctx.count("rows", rows)
-        if rows and nulls and not zeros:
-            ctx.add(
-                "football.blank_as_null",
-                f"stat:{stat}",
-                table="player_games",
-                field=stat,
-                expected="some zero counts in the recorded era",
-                actual={"zeros": 0, "nulls": int(nulls)},
-                evidence={"rows_in_era": int(rows), "seasons": [lo, hi], "recorded_from": start},
-            )
+    _blank_semantics(ctx, cov)
     return []
 
 

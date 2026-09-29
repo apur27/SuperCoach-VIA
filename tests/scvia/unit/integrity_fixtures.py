@@ -24,8 +24,8 @@ CLOCK = datetime(2026, 9, 28, 1, 0, tzinfo=UTC)
 AS_OF = "2026-09-28T12:00:00Z"
 SEASON_URL = "https://afltables.com/afl/seas/2026.html"
 
-# zero is stored as 0 in this corpus (the correct semantics); pre-era cells are null
-MODERN_STATS = {s: 1 for s in PLAYER_STAT_COLUMNS} | {"time_on_ground_pct": 80.0, "brownlow_votes": 0}
+# every reported count is 1; Brownlow votes are not yet reported (null), pre-era cells are null
+MODERN_STATS = {s: 1 for s in PLAYER_STAT_COLUMNS} | {"time_on_ground_pct": 80.0, "brownlow_votes": None}
 # 1970: only the stats config/coverage.yaml records from 1965/1966 exist (no tackles, %P...)
 RECORDED_BY_1970 = ("kicks", "marks", "handballs", "goals", "behinds", "hitouts", "frees_for", "frees_against")
 OLD_STATS = {s: None for s in PLAYER_STAT_COLUMNS} | dict.fromkeys(RECORDED_BY_1970, 1) | {"disposals": 2}
@@ -296,8 +296,8 @@ def _when(local_start: str) -> str:
     return f"Sat, {day}-{MONTHS[int(m) - 1]}-{y} {hh % 12 or 12}:{mm:02d} {ampm}"
 
 
-def _cell(v: Any) -> str:
-    if v is None:
+def _cell(v: Any, blank_zero: bool = False) -> str:
+    if v is None or (blank_zero and v == 0):
         return "<td>&nbsp;</td>"
     return f"<td align=center>{int(v) if float(v).is_integer() else v}</td>"
 
@@ -307,7 +307,10 @@ def player_url(player_id: str) -> str:
     return f"https://afltables.com/afl/stats/players/{slug[0].upper()}/{slug}.html"
 
 
-def render_match_page(rows: dict[str, list[dict[str, Any]]], match_id: str, *, stats: list[str] | None = None) -> bytes:
+def render_match_page(
+    rows: dict[str, list[dict[str, Any]]], match_id: str, *, stats: list[str] | None = None, blank_zeros: bool = False
+) -> bytes:
+    """AFL Tables layout. ``blank_zeros`` prints 0 as a blank cell, as the real site does."""
     stats = list(PLAYER_STAT_COLUMNS if stats is None else stats)
     m = next(x for x in rows["matches"] if x["match_id"] == match_id)
     names = {p["player_id"]: p["display_name"] for p in rows["players"]}
@@ -344,7 +347,7 @@ def render_match_page(rows: dict[str, list[dict[str, Any]]], match_id: str, *, s
             slug = g["player_id"].split(":", 1)[1]
             body.append(
                 f'<tr><td align=center>{g["jersey_number"]}</td><td><a href="../../players/{slug[0].upper()}/'
-                f'{slug}.html">{last}, {first}</a></td>' + "".join(_cell(g[s]) for s in stats) + "</tr>"
+                f'{slug}.html">{last}, {first}</a></td>' + "".join(_cell(g[s], blank_zeros and s != "time_on_ground_pct") for s in stats) + "</tr>"
             )
         body.append("</tbody><tfoot>")
         team_bh = m[f"{side}_final_behinds"]
@@ -428,6 +431,7 @@ def with_sources(
     observations: list[dict[str, Any]] | None = None,
     schedule: dict[str, Any] | None = None,
     columns: list[str] | None = None,
+    blank_zeros: bool = False,
 ) -> dict[str, str]:
     """Clean corpus + archived season page and one source-fetched match page, all pinned.
 
@@ -439,7 +443,10 @@ def with_sources(
         if m["season"] == 2026:
             m["game_id"] = "000120260305" if m["stage_label"] == "1" else "000120260312"
     src_rows = copy.deepcopy(page_rows or rows)
-    match_page = render_match_page(src_rows, "m:2026:r01:alpha:beta:0", stats=columns)
+    for m in src_rows["matches"]:
+        if m["season"] == 2026 and "game_id" not in m:
+            m["game_id"] = "000120260305" if m["stage_label"] == "1" else "000120260312"
+    match_page = render_match_page(src_rows, "m:2026:r01:alpha:beta:0", stats=columns, blank_zeros=blank_zeros)
     season_page = render_season_page(src_rows, 2026, season_extra)
     gf_sha = archive(root, match_page)
     season_sha = archive(root, season_page)

@@ -92,12 +92,45 @@ def test_changed_number_with_all_hashes_recalculated(tmp_path: Path) -> None:
 
 
 def test_null_converted_to_zero_is_a_source_contradiction(tmp_path: Path) -> None:
+    """A column nobody on the page has a value for was not reported: a canonical 0 there is invented."""
     src = copy.deepcopy(fx.tables())
-    pg(src, "legacy:p1")["bounces"] = None
-    fx.with_sources(tmp_path, page_rows=src, mutate=lambda r: pg(r, "legacy:p1").update(bounces=0))
+    for row in src["player_games"]:
+        if row["match_id"] == M26:
+            row["bounces"] = None
+    fx.with_sources(tmp_path, page_rows=src, mutate=lambda r: [
+        x.update(bounces=None if x["player_id"] != "legacy:p1" else 0) for x in r["player_games"] if x["match_id"] == M26])  # fmt: skip
     res = audit(tmp_path)
     [f] = [f for f in found(res, "source.stat_cell_mismatch") if f.field == "bounces"]
     assert (f.expected, f.actual) == (None, 0)
+
+
+def test_blank_in_a_reported_column_means_zero(tmp_path: Path) -> None:
+    """The page prints 0 as a blank: canonical 0 agrees, canonical null contradicts it."""
+    src = copy.deepcopy(fx.tables())
+    pg(src, "legacy:p1")["tackles"] = 0  # blank_zeros renders it as a blank cell, like the real site
+    fx.with_sources(tmp_path, page_rows=src, blank_zeros=True, mutate=lambda r: pg(r, "legacy:p1").update(tackles=0))
+    assert audit(tmp_path).outcome.value == "PASS"
+    other = tmp_path / "b"
+    fx.with_sources(other, page_rows=src, blank_zeros=True, mutate=lambda r: pg(r, "legacy:p1").update(tackles=None))
+    res = audit(other)
+    [f] = [f for f in found(res, "source.stat_cell_mismatch") if f.field == "tackles"]
+    assert (f.expected, f.actual) == (0, None)
+
+
+def test_checker_reading_of_the_annotated_page() -> None:
+    """The checker's own interpretation, against the hand annotations (independent of domain.blanks)."""
+    import gzip
+    import json
+
+    from supercoach_via.integrity import checks_source, sourcepages
+
+    repo = Path(__file__).resolve().parents[3]
+    ann = json.loads((repo / "tests/scvia/fixtures/zero_semantics/annotations.json").read_text())
+    for case in ann["page_cases"]:
+        raw = gzip.decompress((repo / f"docs/rewrite/evidence/b1/raw/{case['page']}.html.gz").read_bytes())
+        page = sourcepages.read_match_page(raw)
+        want = checks_source.expected_cells(page)
+        assert want[(case["team"], case["player"])][case["stat"]] == case["meaning"], case
 
 
 def test_player_missing_and_extra(tmp_path: Path) -> None:

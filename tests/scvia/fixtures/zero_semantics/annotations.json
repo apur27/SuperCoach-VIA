@@ -1,0 +1,347 @@
+{
+ "about": "Hand-annotated meanings of blank statistic cells, established from captured AFL Tables pages and the retained corpus, independently of both the production parsers and the integrity checker. Each case names its evidence.",
+ "evidence": {
+  "blank_is_zero_in_reported_columns": "docs/rewrite/evidence/b1/raw/08a2bf59...html.gz (2026 R4 Port Adelaide v West Coast): 15 Port Adelaide players have a blank GL cell, the printed GL cells sum to 13, the Totals row says 13 and the header score is 13.12 (90). A blank therefore contributed 0 to the official total. The same holds for every column with a Totals value on both captured match pages (BH adds the Rushed row).",
+  "brownlow_home_and_away": "Every home-and-away match from 1984 in snapshot sha256:aa836549... has Brownlow votes summing to exactly 6 (7,620 of 7,620 matches) [data]; on the R4 page the votes are 3/2/1 and every other BR cell is blank. A blank BR cell in a home-and-away match whose votes are reported is 0.",
+  "brownlow_finals": "No finals row in any season carries a Brownlow value (0 of all finals rows) [data]; the 2026 Grand Final page's BR column is blank for all 46 players and its Totals cell is blank. Votes are not awarded in finals: a finals BR blank is not applicable (null).",
+  "time_on_ground": "A player who took the field always has a positive %P; a blank %P is unknown, never 0.",
+  "unknown_rows": "A row is a game in the player's AFL Tables log. Where the match reports a statistic every player who takes the field records (kicks, marks, handballs, disposals or %P), a row with none of them and no other value is not evidence of a zero game (e.g. 272 such rows in 1975, 213 in 2021 [data]) and stays null. Rows with every count blank but a %P value (11 in 2021 [data]) took the field and recorded nothing: their blanks are 0. In goals-only eras (before 1965) a non-scorer's row is entirely blank by construction; the match reports goals, so the blank is 0 goals.",
+  "unreported_columns": "A statistic with no value for any player of a match was not reported for that match (6 matches from 1965 have no kicks at all [data]); its blanks stay null. Before a stat's recorded_from season its blanks stay null even if an isolated value exists."
+ },
+ "page_cases": [
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Aliir, Aliir",
+   "stat": "goals",
+   "cell": "",
+   "meaning": 0
+  },
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Aliir, Aliir",
+   "stat": "bounces",
+   "cell": "",
+   "meaning": 0
+  },
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Aliir, Aliir",
+   "stat": "brownlow_votes",
+   "cell": "",
+   "meaning": 0
+  },
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Berry, Joe",
+   "stat": "tackles",
+   "cell": "",
+   "meaning": 0
+  },
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Berry, Joe",
+   "stat": "behinds",
+   "cell": "1",
+   "meaning": 1
+  },
+  {
+   "page": "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8",
+   "team": "Port Adelaide",
+   "player": "Brodie, Will",
+   "stat": "time_on_ground_pct",
+   "cell": "42",
+   "meaning": 42
+  }
+ ],
+ "row_cases": [
+  {
+   "name": "modern sparse count is zero",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "goals": 1,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "kicks": 7,
+     "goals": null,
+     "tog": 90
+    }
+   ],
+   "expect": {
+    "b": {
+     "goals": 0
+    }
+   }
+  },
+  {
+   "name": "finals Brownlow is not applicable",
+   "season": 2021,
+   "stage_type": "final",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "brownlow_votes": null,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "kicks": 7,
+     "brownlow_votes": null,
+     "tog": 90
+    }
+   ],
+   "expect": {
+    "a": {
+     "brownlow_votes": null
+    },
+    "b": {
+     "brownlow_votes": null
+    }
+   }
+  },
+  {
+   "name": "home-and-away Brownlow blank is zero when votes are reported",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "brownlow_votes": 3,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "kicks": 7,
+     "brownlow_votes": null,
+     "tog": 90
+    }
+   ],
+   "expect": {
+    "b": {
+     "brownlow_votes": 0
+    }
+   }
+  },
+  {
+   "name": "unreported Brownlow stays unknown",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "brownlow_votes": null,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "kicks": 7,
+     "brownlow_votes": null,
+     "tog": 90
+    }
+   ],
+   "expect": {
+    "a": {
+     "brownlow_votes": null
+    },
+    "b": {
+     "brownlow_votes": null
+    }
+   }
+  },
+  {
+   "name": "pre-era gap stays null",
+   "season": 1950,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "goals": 2,
+     "kicks": null
+    },
+    {
+     "id": "b",
+     "goals": null,
+     "kicks": null
+    }
+   ],
+   "expect": {
+    "a": {
+     "kicks": null
+    },
+    "b": {
+     "goals": 0,
+     "kicks": null
+    }
+   }
+  },
+  {
+   "name": "column not reported for the whole match stays null",
+   "season": 1970,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "goals": 2,
+     "kicks": null,
+     "marks": 3
+    },
+    {
+     "id": "b",
+     "goals": 1,
+     "kicks": null,
+     "marks": 4
+    }
+   ],
+   "expect": {
+    "a": {
+     "kicks": null
+    },
+    "b": {
+     "kicks": null
+    }
+   }
+  },
+  {
+   "name": "row with no data and no time on ground stays unknown",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "goals": 1,
+     "tog": 80
+    },
+    {
+     "id": "b"
+    }
+   ],
+   "expect": {
+    "b": {
+     "kicks": null,
+     "goals": null
+    }
+   }
+  },
+  {
+   "name": "row that took the field and recorded nothing is zero",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "goals": 1,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "tog": 4
+    }
+   ],
+   "expect": {
+    "b": {
+     "kicks": 0,
+     "goals": 0,
+     "tog": 4
+    }
+   }
+  },
+  {
+   "name": "blank time on ground stays unknown",
+   "season": 2021,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "tog": 80
+    },
+    {
+     "id": "b",
+     "kicks": 3
+    }
+   ],
+   "expect": {
+    "b": {
+     "tog": null
+    }
+   }
+  },
+  {
+   "name": "isolated pre-era fragment does not zero-fill",
+   "season": 1932,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "goals": 1,
+     "brownlow_votes": 3
+    },
+    {
+     "id": "b",
+     "goals": 2,
+     "brownlow_votes": null
+    }
+   ],
+   "expect": {
+    "b": {
+     "brownlow_votes": null
+    }
+   }
+  },
+  {
+   "name": "recorded values are never changed",
+   "season": 2021,
+   "stage_type": "final",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 5,
+     "brownlow_votes": 2,
+     "tog": 80
+    }
+   ],
+   "expect": {
+    "a": {
+     "brownlow_votes": 2,
+     "kicks": 5
+    }
+   }
+  },
+  {
+   "name": "all-blank row in a match that reports disposals stays unknown",
+   "season": 1970,
+   "stage_type": "regular",
+   "match": [
+    {
+     "id": "a",
+     "kicks": 9,
+     "goals": 1
+    },
+    {
+     "id": "b"
+    }
+   ],
+   "expect": {
+    "b": {
+     "kicks": null,
+     "goals": null
+    }
+   }
+  }
+ ]
+}

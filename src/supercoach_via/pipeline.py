@@ -163,6 +163,44 @@ def _with_season_aggregates(
     )  # fmt: skip
 
 
+def _with_resolved_blanks(
+    data_root: Path, merged: Any, seasons: set[int], *, clock: Any, status: Any, run_id: str | None = None
+) -> Any:
+    """Apply ``domain.blanks`` to the merged player rows of ``seasons`` (source and legacy rows alike).
+
+    Only rows whose cells change are upserted, so a no-op leaves the candidate unchanged.
+    """
+    if not seasons:
+        return merged
+    from supercoach_via.domain import blanks
+    from supercoach_via.domain.metrics import CoverageEras
+    from supercoach_via.domain.schemas import TABLES
+    from supercoach_via.settings import default_config_dir
+    from supercoach_via.storage import snapshots
+    from supercoach_via.storage.queries import SnapshotQuery
+
+    parts = {str(s) for s in seasons}
+    manifest = merged.manifest
+    with SnapshotQuery(
+        data_root, manifest, tables={"matches", "player_games"}, partitions={"matches": parts, "player_games": parts}
+    ) as q:
+        marks = ",".join("?" * len(seasons))
+        games = q.arrow(f"SELECT * FROM player_games WHERE season IN ({marks})", sorted(seasons))  # noqa: S608
+        stages = dict(q.rows(f"SELECT match_id, stage_type FROM matches WHERE season IN ({marks})", sorted(seasons)))  # noqa: S608
+    recorded = CoverageEras.load(default_config_dir() / "coverage.yaml").recorded
+    resolved, counts = blanks.resolve_blanks(games, stages, recorded)
+    if not sum(counts.values()):
+        return merged
+    before, after = games.to_pylist(), resolved.to_pylist()
+    changed = [b for a, b in zip(before, after, strict=True) if a != b]
+    names = TABLES["player_games"].column_names
+    return snapshots.apply_upserts(
+        data_root, manifest, {"player_games": [{c: r.get(c) for c in names} for r in changed]}, clock=clock,
+        code_version=CODE_VERSION, status=status, run_id=run_id,
+        notes=[f"{blanks.RULE_VERSION}: {sum(counts.values())} source blanks resolved to 0 in {sorted(seasons)}"],
+    )  # fmt: skip
+
+
 def apply_repair_evidence(ctx: RunContext, candidate: Any, evidence_dir: Path, *, season: int) -> Any:
     """Merge one archived, re-verified repair into ``candidate`` and re-link lineup tokens."""
     from supercoach_via.domain.ids import ClubRegistry
@@ -189,6 +227,10 @@ def apply_repair_evidence(ctx: RunContext, candidate: Any, evidence_dir: Path, *
     note = f"repair evidence {evidence_dir.name}: " + ", ".join(f"{k}={len(v)}" for k, v in sorted(ups.items()))
     merged = snapshots.apply_upserts(root, manifest, ups, clock=ctx.clock, code_version=CODE_VERSION,
                                      status=manifest.status, run_id=manifest.run_id, notes=[note])  # fmt: skip
+    merged = _with_resolved_blanks(
+        root, merged, {int(r["season"]) for r in ups.get("player_games") or []}, clock=ctx.clock,
+        status=manifest.status, run_id=manifest.run_id,
+    )  # fmt: skip
     merged = _with_season_aggregates(
         root, merged, ups.get("matches") or [], clock=ctx.clock, status=manifest.status, checked_at=None,
         checked_seasons=set(), run_id=manifest.run_id,
@@ -204,6 +246,84 @@ def apply_repair_evidence(ctx: RunContext, candidate: Any, evidence_dir: Path, *
               {"evidence": str(evidence_dir), "upserts": {k: len(v) for k, v in ups.items()},
                "relinked_lineups": len(relink["lineups"]), "snapshot_id": merged.manifest.snapshot_id}]}  # fmt: skip
     return DatasetCandidate(candidate=merged, report=report, data_root=root)
+
+
+def _with_fixture_corrections(
+    data_root: Path, merged: Any, seasons: set[int], *, clock: Any, status: Any, run_id: str | None = None
+) -> tuple[Any, dict[str, int]]:
+    """Correct fixture fields from each season's pinned page (``ingest.corrections``)."""
+    from supercoach_via.ingest import corrections
+    from supercoach_via.settings import default_config_dir
+    from supercoach_via.storage import snapshots
+
+    club_resolver, venue_resolver = corrections.default_resolvers(default_config_dir())
+    ups: dict[str, list[dict[str, Any]]] = {"matches": [], "quality_issues": []}
+    for season in sorted(seasons):
+        found = corrections.fixture_corrections(data_root, merged.manifest, season, club_resolver=club_resolver,
+                                                venue_resolver=venue_resolver)  # fmt: skip
+        for k, v in found.items():
+            ups[k].extend(v)
+    counts = {k: len(v) for k, v in ups.items()}
+    if not any(ups.values()):
+        return merged, counts
+    keys = sorted({r["row_key"] for r in ups["quality_issues"]})
+    merged = snapshots.apply_upserts(
+        data_root, merged.manifest, {k: v for k, v in ups.items() if v}, clock=clock, code_version=CODE_VERSION,
+        status=status, run_id=run_id,
+        notes=[f"fixture corrections from pinned captures: {counts['matches']} matches ({', '.join(keys[:5])})"],
+    )  # fmt: skip
+    return merged, counts
+
+
+def apply_corrections(ctx: RunContext, *, seasons: Sequence[int], run_id: str | None = None) -> StageResult:
+    """Offline, bounded corrections of the accepted snapshot; promotes a child snapshot on PASS.
+
+    1. ``ingest.corrections.fixture_corrections`` for each season with a pinned season page;
+    2. ``domain.blanks`` over every season (the importer's rule, for snapshots imported before it).
+
+    Nothing is fetched. A run that changes nothing promotes nothing.
+    """
+
+    def body(store: runs.RunStore, result: StageResult) -> None:
+        from supercoach_via.ingest import corrections, reconcile
+        from supercoach_via.ingest.legacy import DatasetCandidate
+        from supercoach_via.storage import snapshots
+        from supercoach_via.storage.queries import SnapshotQuery
+
+        store.transition(RunState.PLANNED)
+        root = ctx.data_root
+        base = snapshots.load_snapshot(root, verify=True)
+        store.transition(RunState.PARSED)
+        manifest_path = root / "snapshots" / f"{snapshots.snapshot_hex(base.snapshot_id)}.json"
+        merged = snapshots.SnapshotCandidate(base, manifest_path)
+        try:
+            merged, counts = _with_fixture_corrections(
+                root, merged, set(seasons), clock=ctx.clock, status=base.status, run_id=store.run_id
+            )
+        except corrections.CorrectionError as exc:
+            hint = "copy the pinned capture into raw/objects or pass the season it belongs to"
+            raise _Failure(EXIT_SOURCE, "evidence_unavailable", str(exc), hint) from exc
+        with SnapshotQuery(root, merged.manifest, tables={"matches"}) as q:
+            all_seasons = {int(s) for (s,) in q.rows("SELECT DISTINCT season FROM matches")}
+        merged = _with_resolved_blanks(root, merged, all_seasons, clock=ctx.clock, status=base.status,
+                                       run_id=store.run_id)  # fmt: skip
+        result.snapshot_id = merged.manifest.snapshot_id
+        result.outputs["corrections"] = counts
+        if merged.manifest.snapshot_id == base.snapshot_id:
+            store.transition(RunState.VALIDATED)
+            return  # nothing to correct
+        cand = DatasetCandidate(candidate=merged, report={"corrections": result.outputs["corrections"]}, data_root=root)
+        report = reconcile.validate_dataset(cand, reconcile.load_policy())
+        _write_json(store.directory / "validation-report.json", _report_json(report))
+        if not report.ok:
+            raise _Failure(EXIT_VALIDATION, "validation_failed", "corrected candidate failed validation",
+                           f"read {store.directory}/validation-report.json")  # fmt: skip
+        store.transition(RunState.VALIDATED)
+        snapshots.promote(root, merged, report, promoted_at=ctx.clock())
+        store.transition(RunState.DATASET_PROMOTED)
+        result.promoted = True
+
+    return _locked(ctx, "apply-corrections", run_id, body)
 
 
 def ingest(
@@ -305,6 +425,20 @@ def refresh(
         merged = snapshots.apply_upserts(ctx.data_root, base_manifest, ups, clock=ctx.clock, code_version=CODE_VERSION,
                                          status=base_manifest.status, source_revisions=res.revisions,
                                          notes=[f"refresh {plan.current_season}"])  # fmt: skip
+        merged = _with_resolved_blanks(
+            ctx.data_root, merged, {int(r["season"]) for r in ups.get("player_games") or []}, clock=ctx.clock,
+            status=base_manifest.status, run_id=merged.manifest.run_id,
+        )  # fmt: skip
+        pinned = {int(k.rsplit(":", 1)[1]) for k in res.revisions if k.startswith("afltables:season:")}
+        from supercoach_via.ingest.corrections import CorrectionError
+
+        try:
+            merged, _fixes = _with_fixture_corrections(
+                ctx.data_root, merged, pinned, clock=ctx.clock, status=base_manifest.status,
+                run_id=merged.manifest.run_id,
+            )  # fmt: skip
+        except CorrectionError as exc:
+            raise _Failure(EXIT_SOURCE, "evidence_unavailable", str(exc), "re-run the refresh") from exc
         merged = _with_season_aggregates(
             ctx.data_root, merged, ups.get("matches") or [], clock=ctx.clock, status=base_manifest.status,
             checked_at=res.source_checked_at, checked_seasons=set(plan.seasons), run_id=merged.manifest.run_id,
