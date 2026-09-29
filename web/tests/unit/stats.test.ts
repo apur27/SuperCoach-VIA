@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyMatchFacts, boxRows, expandStats, gameRows } from '../../src/lib/stats';
+import { applyMatchFacts, boxRows, compactRowProblem, expandStats, gameRows } from '../../src/lib/stats';
 
 describe('compact player resources', () => {
   it('derives mean and coverage exactly; unknown stays null and zero stays zero', () => {
@@ -38,5 +38,18 @@ describe('compact player resources', () => {
   it('restores box-score rows from columns', () => {
     expect(boxRows({ player_id: ['p1', 'p2'], name: ['A', 'B'], stats: [[1, null], [0, 3]] })).toEqual([
       { player_id: 'p1', name: 'A', stats: [1, null] }, { player_id: 'p2', name: 'B', stats: [0, 3] }]);
+  });
+});
+
+describe('compact row contract (O55-04)', () => {
+  it('accepts rows as wide as their stat_columns', () => {
+    expect(compactRowProblem(['kicks', 'goals'], [[1, 2], [null, 0]])).toBeNull();
+  });
+  it('refuses a short or long row, which would shift values onto the wrong statistic', () => {
+    expect(compactRowProblem(['kicks', 'goals'], [[1]])).toMatch(/row 0 has 1 values for 2/);
+    expect(compactRowProblem(['kicks', 'goals'], [[1, 2, 3]])).toMatch(/row 0 has 3/);
+  });
+  it('refuses duplicate stat columns', () => {
+    expect(compactRowProblem(['kicks', 'kicks'], [[1, 2]])).toMatch(/duplicate/);
   });
 });

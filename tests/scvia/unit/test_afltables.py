@@ -347,3 +347,28 @@ def test_captured_2026_match_pages_parse_and_agree_with_the_season_fixture(game_
     assert got == (m.home_name, m.away_name, m.home_score, m.away_score)
     assert len(d.players) >= 44 and all(p.player_url for p in d.players)
     assert names <= {p.source_name for p in d.players}
+
+
+def test_malformed_stat_cell_fails_the_parse_instead_of_becoming_null() -> None:
+    """O55-03: '8a' is not a blank; publishing it as 'not recorded' hides parser drift."""
+    import gzip
+    import re
+    from pathlib import Path
+
+    from supercoach_via.ingest import afltables as at
+
+    raw = gzip.decompress((Path(__file__).resolve().parents[3] / "docs/rewrite/evidence/b1/raw/"
+                           "08a2bf5968e7ebce40e1cc4f5d2440d41498e1aba2e965a10ac703866e1b83a8.html.gz").read_bytes()).decode("latin-1")  # fmt: skip
+    good = at.parse_match_detail(raw.encode("latin-1"), season=2026, game_id="131820260329")
+    assert good.outcome.value == "PASS"
+    tb = raw.find("<tbody>")
+    end = raw.find("</tr>", tb)
+    row = raw[tb:end]
+    cell = list(re.finditer(r"<td align=center>(\d+)</td>", row))[1]
+    bad = raw[:tb] + row[: cell.start()] + "<td align=center>8a</td>" + row[cell.end() :] + raw[end:]
+    detail = at.parse_match_detail(bad.encode("latin-1"), season=2026, game_id="131820260329")
+    assert detail.outcome.value == "FAIL"
+    assert any("8a" in i for i in detail.issues)
+    # a blank cell is still a legitimate blank
+    blank = raw[:tb] + row[: cell.start()] + "<td>&nbsp;</td>" + row[cell.end() :] + raw[end:]
+    assert at.parse_match_detail(blank.encode("latin-1"), season=2026, game_id="131820260329").outcome.value == "PASS"

@@ -527,8 +527,12 @@ def add_site(release_dir: Path) -> None:
     assert report.ok, report.issues[:3]
 
 
-def reseal(release_dir: Path) -> None:
-    """Recompute every structural hash after editing public/ (checksums, refs, embedded copy, seal, validation)."""
+def reseal(release_dir: Path, *, expect_valid: bool = True) -> None:
+    """Recompute every structural hash after editing public/ (checksums, refs, embedded copy, seal, validation).
+
+    ``expect_valid=False`` builds a release that validate_release itself refuses (its record is
+    then FAIL); the checker must still report the defect by its own rules.
+    """
     import shutil
 
     from supercoach_via.publish.release import validate_release, write_seal
@@ -552,7 +556,7 @@ def reseal(release_dir: Path) -> None:
         shutil.copytree(public, site_data)
         write_seal(release_dir, build_inputs={"command": "test"})
     report = validate_release(release_dir)
-    assert report.ok, report.issues[:3]
+    assert report.ok == expect_valid, report.issues[:3]
 
 
 def edit_json(path: Path, edit: Callable[[Any], None]) -> None:

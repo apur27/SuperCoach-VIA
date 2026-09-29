@@ -95,9 +95,11 @@ def test_truncated_compact_row_with_hashes_recalculated(rel: tuple[Path, Path]) 
     data, release = rel
     path = _detail_with_players(release)
     fx.edit_json(path, lambda d: d["home_players"]["stats"][0].pop())
-    fx.reseal(release)  # validate_release still says PASS: the models do not check row width
-    res = audit(data, release, checks=('release.public',))
+    fx.reseal(release, expect_valid=False)  # O55-04: validate_release now refuses the short row too
+    res = audit(data, release, checks=("release.public", "release.validate", "release.artifact"))
     assert found(res, "release.compact_row_width")
+    assert found(res, "release.schema_invalid")  # the producer's own rule, mapped
+    assert found(res, "release.validation_outcome")
 
 
 def test_null_converted_to_zero_in_public_data(rel: tuple[Path, Path]) -> None:
@@ -259,9 +261,10 @@ def test_boolean_and_number_are_not_interchangeable(rel: tuple[Path, Path]) -> N
         p["active"] = 1
 
     fx.edit_json(idx, edit)
-    fx.reseal(release)  # the view model coerces 1 -> True, so validate_release still passes
-    res = audit(data, release, checks=('release.public',))
+    fx.reseal(release, expect_valid=False)  # O55-05: validate_release no longer coerces 1 -> true either
+    res = audit(data, release, checks=("release.public", "release.validate"))
     assert any(f.field == "active" for f in found(res, "release.player_index_value"))
+    assert found(res, "release.schema_invalid")
 
 
 def test_validate_release_rules_are_mapped(rel: tuple[Path, Path]) -> None:

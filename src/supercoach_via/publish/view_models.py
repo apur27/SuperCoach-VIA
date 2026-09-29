@@ -21,11 +21,27 @@ from collections.abc import Mapping
 from datetime import date, datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
 
-from supercoach_via.domain.schemas import SHA256_RE, is_safe_id
+from supercoach_via.domain.schemas import PLAYER_STAT_COLUMNS, SHA256_RE, is_safe_id
 
 PUBLIC_SCHEMA_VERSION = 1
+
+
+_STAT_ORDER = {s: i for i, s in enumerate(PLAYER_STAT_COLUMNS)}
+
+
+def check_compact(columns: list[str], rows: list[list[float | None]], what: str) -> None:
+    """Compact stats rows: canonical statistic names, canonical order, no duplicates, exact width."""
+    unknown = [c for c in columns if c not in _STAT_ORDER]
+    if unknown:
+        raise ValueError(f"{what}: unknown statistics {unknown[:3]}")
+    order = [_STAT_ORDER[c] for c in columns]
+    if len(set(columns)) != len(columns) or order != sorted(order):
+        raise ValueError(f"{what}: stat_columns must be unique and in canonical order")
+    for i, row in enumerate(rows):
+        if len(row) != len(columns):
+            raise ValueError(f"{what}: row {i} has {len(row)} values for {len(columns)} stat_columns")
 
 
 class PublicModel(BaseModel):
@@ -68,8 +84,8 @@ class Freshness(PublicModel):
     published_at: datetime | None
     validation_state: Literal["PASS", "FAIL", "UNKNOWN"]
     dataset_status: Literal["legacy_unverified", "verified", "partial", "demo"]
-    season_active: bool | None = Field(description="null when the source does not declare it")
-    stale: bool
+    season_active: StrictBool | None = Field(description="null when the source does not declare it")
+    stale: StrictBool
     stale_reason: str | None = None
 
 
@@ -177,7 +193,7 @@ class ReleaseManifest(PublicModel):
     snapshot_id: str
     generated_at: datetime
     season: int
-    demo: bool
+    demo: StrictBool
     base_label: str = Field(description="'DEMO' for demo releases, else ''")
     coverage: CoverageInfo
     forecast: ForecastInfo
@@ -279,6 +295,12 @@ class MatchDetail(PublicModel):
     live_snapshots: list[str] = Field(default_factory=list, description="live resource keys")
     sources: list[Source]
 
+    @model_validator(mode="after")
+    def _compact(self) -> MatchDetail:
+        for side in (self.home_players, self.away_players):
+            check_compact(self.stat_columns, side.stats, "match detail")
+        return self
+
 
 # ---------------------------------------------------------------------------
 # Predictions
@@ -330,15 +352,15 @@ class ModelInfo(PublicModel):
     name: str
     description: str
     trained_cutoff: datetime | None
-    promoted: bool
+    promoted: StrictBool
     promotion_note: str
 
 
 class IntervalInfo(PublicModel):
-    available: bool
+    available: StrictBool
     level: float | None
     method: str | None
-    calibrated: bool
+    calibrated: StrictBool
     reason: str | None
 
 
@@ -391,7 +413,7 @@ class PlayerIndexEntry(PublicModel):
         description="seasons with a player-game; empty on indexes written before membership was exported",
     )
     games: int
-    active: bool
+    active: StrictBool
     search: str = Field(description="lower-case diacritic-stripped search terms")
 
 
@@ -565,6 +587,11 @@ class PlayerSeasonGames(PublicModel):
         description="season match index that holds date, stage and opponent when those game-log arrays are empty",
     )
 
+    @model_validator(mode="after")
+    def _compact(self) -> PlayerSeasonGames:
+        check_compact(self.stat_columns, self.games.stats, "player season games")
+        return self
+
 
 # ---------------------------------------------------------------------------
 # Teams
@@ -591,7 +618,7 @@ class TeamIndexEntry(PublicModel):
     lineage_id: str
     first_season: int | None
     last_season: int | None
-    active: bool
+    active: StrictBool
     seasons: list[int]
 
 
@@ -699,7 +726,7 @@ class CohortMetric(PublicModel):
     cohort: str
     model: MetricBlock
     baseline: MetricBlock | None
-    sufficient: bool
+    sufficient: StrictBool
 
 
 class Populations(PublicModel):
@@ -842,7 +869,7 @@ class LiveSnapshot(PublicModel):
     timeline: list[dict[str, str | int | None]]
     reads: list[str]
     anomalies: list[str]
-    final: bool
+    final: StrictBool
 
 
 class LiveIndexEntry(PublicModel):
@@ -850,7 +877,7 @@ class LiveIndexEntry(PublicModel):
     match_id: str | None
     label: str
     last_fetched_at: datetime | None
-    final: bool
+    final: StrictBool
     resource: str
 
 
@@ -909,7 +936,7 @@ class Overview(PublicModel):
     release_id: str
     snapshot_id: str
     season: int
-    demo: bool
+    demo: StrictBool
     freshness: Freshness
     next_fixture_status: Literal["available", "unavailable", "expired"]
     next_fixture_reason: str | None

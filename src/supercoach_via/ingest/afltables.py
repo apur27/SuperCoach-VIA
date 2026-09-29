@@ -520,6 +520,12 @@ def _stat_value(column: str, text: str) -> int | float | None:
         return None
 
 
+def _malformed(text: str) -> bool:
+    """Non-blank text that is not a number (parser drift or a changed source format)."""
+    t = text.replace("\xa0", "").strip()
+    return bool(t) and _stat_value("time_on_ground_pct", t) is None
+
+
 def _check_disposals(stats: dict[str, int | float | None]) -> bool:
     k, h, d = stats.get("kicks"), stats.get("handballs"), stats.get("disposals")
     return k is None or h is None or d is None or k + h == d
@@ -599,7 +605,10 @@ def parse_match_detail(content: bytes | str, *, season: int, game_id: str) -> Ma
                 out.issues.append(f"{team}: player without an on-grammar source link ({_text(cells[1])!r})")
             stats: dict[str, int | float | None] = {c: None for c in PLAYER_STAT_COLUMNS}
             for code, cell in zip(cols[2:], cells[2:], strict=True):
-                stats[STAT_CODE_MAP[code]] = _stat_value(STAT_CODE_MAP[code], _text(cell))
+                text = _text(cell)
+                if _malformed(text):
+                    out.issues.append(f"{team}: {code} cell {text!r} for {_text(cells[1])!r} is not a number")
+                stats[STAT_CODE_MAP[code]] = _stat_value(STAT_CODE_MAP[code], text)
             if not _check_disposals(stats):
                 out.issues.append(f"{team}: disposals != kicks + handballs for {_text(cells[1])!r}")
             out.players.append(
@@ -689,6 +698,8 @@ def parse_player_page(content: bytes | str, *, page_url: str) -> PlayerPage:
             digits = re.sub(r"[^0-9]", "", token)
             stats: dict[str, int | float | None] = {c: None for c in PLAYER_STAT_COLUMNS}
             for code, text in zip(cols[5:], cells[5:], strict=True):
+                if _malformed(text):
+                    out.issues.append(f"{team} {year}: {code} cell {text!r} is not a number")
                 stats[STAT_CODE_MAP[code]] = _stat_value(STAT_CODE_MAP[code], text)
             out.games.append(
                 PlayerPageGame(

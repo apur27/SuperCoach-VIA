@@ -711,3 +711,31 @@ def test_parallel_validation_reports_exactly_what_sequential_does(
     assert reports[1].outcome is CheckOutcome.FAIL
     assert {i["check"] for i in reports[1].issues} >= {"schema", "hashes", "private_content"}
     assert reports[1] == reports[2]
+
+
+def test_duplicate_json_keys_are_refused_at_every_release_boundary(tmp_path: Path) -> None:
+    """O55-05: json.loads keeps the last duplicate silently; release metadata must not be ambiguous."""
+    with pytest.raises(ValueError, match="duplicate"):
+        rel._strict_json(b'{"outcome": "FAIL", "outcome": "PASS"}')
+    rdir = _write_minimal(tmp_path)
+    target = rdir / "public" / "release.json"
+    raw = target.read_bytes()
+    target.write_bytes(raw[:1] + b'"demo_extra": 1, "demo_extra": 2, ' + raw[1:])
+    report = rel.validate_release(rdir, write=False)
+    assert not report.ok
+    assert any(i["check"] == "json" and "duplicate" in i["why"] for i in report.issues)
+
+
+def test_public_booleans_are_not_coerced_from_numbers() -> None:
+    """O55-05: pydantic's lax mode would turn 1 into true; the published contract says boolean."""
+    from pydantic import ValidationError
+
+    from supercoach_via.publish.view_models import PlayerIndexEntry
+
+    ok = {"id": "legacy:x", "key": "k.x", "name": "X", "clubs": [], "first_season": None, "last_season": None,
+          "seasons": [], "games": 0, "active": True, "search": "x"}  # fmt: skip
+    PlayerIndexEntry.model_validate(ok)
+    with pytest.raises(ValidationError):
+        PlayerIndexEntry.model_validate({**ok, "active": 1})
+    with pytest.raises(ValidationError):
+        PlayerIndexEntry.model_validate({**ok, "active": "true"})

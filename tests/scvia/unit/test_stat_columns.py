@@ -122,3 +122,44 @@ def test_box_score_columns_round_trip_and_alignment() -> None:
     assert box_rows(cols) == rows and box_rows(to_box_columns([])) == []
     with pytest.raises(ValueError, match="length"):
         BoxScoreColumns(player_id=["p:1"], name=[], stats=[[1.0]])
+
+
+def _detail(stat_columns: list[str], home_stats: list[list[float | None]]) -> dict[str, object]:
+    team = {"club_id": "a", "name": "A", "goals": 1, "behinds": 1, "score": 7}
+    summary = {"match_id": "m", "season": 2026, "stage_id": "r01", "stage_label": "1", "stage_type": "regular",
+               "round_number": 1, "stage_order": 1, "replay_occurrence": 0, "local_start": None, "match_date": None,
+               "date_precision": "unknown", "status": "complete", "venue": None, "home": team,
+               "away": {**team, "club_id": "b"}, "winner_club_id": None}  # fmt: skip
+    return {"summary": summary, "quarters": [], "attendance": None, "stat_columns": stat_columns, "sources": [],
+            "home_players": {"player_id": ["p"] * len(home_stats), "name": ["P"] * len(home_stats), "stats": home_stats},
+            "away_players": {"player_id": [], "name": [], "stats": []}}  # fmt: skip
+
+
+@pytest.mark.parametrize(
+    ("columns", "stats", "ok"),
+    [
+        (["kicks", "goals"], [[1, 2]], True),
+        (["kicks", "goals"], [[1]], False),  # short row: a value would shift onto the wrong stat
+        (["kicks", "goals"], [[1, 2, 3]], False),
+        (["goals", "kicks"], [[1, 2]], False),  # not canonical order
+        (["kicks", "kicks"], [[1, 2]], False),  # duplicate
+        (["kicks", "speed"], [[1, 2]], False),  # not a statistic
+    ],
+)
+def test_compact_rows_must_match_their_declared_columns(columns: list[str], stats: list[list[float]], ok: bool) -> None:
+    """O55-04: widths, vocabulary and order are part of the contract, not only array lengths."""
+    from pydantic import ValidationError
+
+    from supercoach_via.publish.view_models import MatchDetail, PlayerSeasonGames
+
+    detail = _detail(columns, stats)
+    log = {"player_id": "p", "season": 2026, "stat_columns": columns,
+           "games": {"match_id": ["m"] * len(stats), "match_date": [], "date_quality": ["unknown"] * len(stats),
+                     "stage_label": [], "club_id": ["a"] * len(stats), "opponent_club_id": [], "opponent_name": [],
+                     "result": [None] * len(stats), "career_game_counter": [None] * len(stats), "stats": stats}}  # fmt: skip
+    for model, doc in ((MatchDetail, detail), (PlayerSeasonGames, log)):
+        if ok:
+            model.model_validate(doc)
+        else:
+            with pytest.raises(ValidationError):
+                model.model_validate(doc)

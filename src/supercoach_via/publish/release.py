@@ -111,10 +111,20 @@ def model_for_path(relpath: str) -> str | None:
 
 
 def _strict_json(data: bytes) -> Any:
+    """JSON with NaN/Infinity and duplicate object keys refused (json.loads keeps the last duplicate)."""
+
     def bad_constant(name: str) -> Any:
         raise ValueError(f"non-finite JSON constant {name}")
 
-    return json.loads(data.decode("utf-8"), parse_constant=bad_constant)
+    def unique(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        out: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in out:
+                raise ValueError(f"duplicate JSON key {key!r}")
+            out[key] = value
+        return out
+
+    return json.loads(data.decode("utf-8"), parse_constant=bad_constant, object_pairs_hook=unique)
 
 
 class ReleaseWriter:

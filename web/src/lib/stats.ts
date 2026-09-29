@@ -73,3 +73,17 @@ export interface BoxRow { player_id: string; name: string; stats: (number | null
 export function boxRows(b: BoxScoreColumns): BoxRow[] {
   return b.player_id.map((player_id, i) => ({ player_id, name: b.name[i] ?? player_id, stats: b.stats[i] ?? [] }));
 }
+
+/**
+ * Compact-row contract: each stats row has exactly one value per declared stat column and no
+ * column repeats. A short row would move every later value onto the wrong statistic.
+ * (Vocabulary and canonical order are enforced by the Python view models and the checker.)
+ */
+export function compactRowProblem(columns: readonly string[], rows: readonly (readonly (number | null)[])[]): string | null {
+  if (new Set(columns).size !== columns.length) return 'duplicate stat_columns';
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]!;
+    if (row.length !== columns.length) return `row ${i} has ${row.length} values for ${columns.length} stat_columns`;
+  }
+  return null;
+}
