@@ -172,3 +172,64 @@ def test_report_schema_file_is_generated_from_the_contract() -> None:
 
     path = Path(__file__).resolve().parents[3] / "schemas" / "integrity" / "integrity-report.schema.json"
     assert path.read_text() == schema_json()
+
+
+# -- output destinations must be distinct (follow-up finding: execution metadata overwrote the report) --
+
+
+def _collision_cases(out: Path) -> list[list[str]]:
+    link = out.parent / "link-to-out"
+    if not link.exists():
+        link.symlink_to(out, target_is_directory=True)
+    rel = os.path.relpath(out / "report.json")
+    return [
+        ["--report", str(out / "report.json"), "--execution", str(out / "report.json")],
+        ["--report", str(out / "report.json"), "--execution", rel],
+        ["--report", str(out / "report.json"), "--execution", str(link / "report.json")],
+        ["--report", str(out / "report.json"), "--findings-stream", str(out / "report.json")],
+        ["--report", str(out / "r.json"), "--execution", str(out / "x.json"), "--findings-stream", str(link / "x.json")],
+        ["--report", str(out / "report.json"), "--findings-stream", str(out / "report.execution.json")],
+    ]
+
+
+@pytest.mark.parametrize("case", range(6))
+def test_output_destinations_that_alias_each_other_are_refused(clean: Path, tmp_path: Path, case: int) -> None:
+    out = tmp_path / "out"
+    out.mkdir()
+    for name in ("report.json", "r.json", "x.json", "report.execution.json"):
+        (out / name).write_bytes(b"previous " + name.encode())
+    before = {p.name: p.read_bytes() for p in out.iterdir() if p.is_file()}
+    args = _collision_cases(out)[case]
+    res = invoke("--data-root", str(clean), "--scope", "data", "--as-of", fx.AS_OF, "--json", *args)
+    assert res.exit_code == 2, res.output
+    assert "same file" in res.output
+    assert {p.name: p.read_bytes() for p in out.iterdir() if p.is_file()} == before
+
+
+def test_distinct_destinations_are_all_written(clean: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    res = invoke("--data-root", str(clean), "--scope", "data", "--as-of", fx.AS_OF, "--json",
+                 "--report", str(out / "a.json"), "--execution", str(out / "b.json"),
+                 "--findings-stream", str(out / "c.jsonl"))  # fmt: skip
+    assert res.exit_code == 0, res.output
+    assert json.loads((out / "a.json").read_text())["schema"] == R.REPORT_SCHEMA
+    assert json.loads((out / "b.json").read_text())["schema"] == "scvia.integrity-execution/1"
+    assert (out / "c.jsonl").exists()
+
+
+def test_failure_between_outputs_reports_what_was_written(clean: Path, tmp_path: Path, monkeypatch: Any) -> None:
+    out = tmp_path / "out"
+    real_replace = os.replace
+
+    def failing(src: Any, dst: Any) -> None:
+        if str(dst).endswith("report.execution.json"):
+            raise OSError("disk full")
+        real_replace(src, dst)
+
+    monkeypatch.setattr(os, "replace", failing)
+    res = invoke(*base_args(clean, out, "--findings-stream", str(out / "all.jsonl")))
+    assert res.exit_code == 9, res.output
+    assert "no report was written" not in res.output
+    assert "written before the failure" in res.output
+    assert str(out / "report.json") in res.output and str(out / "all.jsonl") in res.output
+    assert "report.execution.json" in res.output.split("not written")[1]

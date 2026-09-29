@@ -644,13 +644,11 @@ def check_integrity_cmd(
         inputs = [data_root, *(evidence or []), *(p for p in (release_dir, models_root, predictions_root) if p)]
         try:
             if report is not None:
-                outs = [report, execution or R.default_execution_path(report)]
-                outs += [findings_stream] if findings_stream else []
-                R.refuse_inside_inputs(outs, inputs)
+                R.plan_outputs(report=report, execution=execution, stream=findings_stream, inputs=inputs)
                 if cache is not None:
                     R.refuse_inside_inputs([cache], inputs)
-            elif findings_stream is not None:
-                raise R.UsageError("--findings-stream needs --report")
+            elif findings_stream is not None or execution is not None:
+                raise R.UsageError("--findings-stream and --execution need --report")
             result = R.run_audit(opts)
             written = (
                 R.write_outputs(result, report=report, execution=execution, stream=findings_stream, inputs=inputs)
@@ -659,9 +657,15 @@ def check_integrity_cmd(
             )
         except R.UsageError as exc:
             raise CliFailure("invalid_input", str(exc)) from exc
+        except R.OutputWriteError as exc:
+            raise CliFailure(
+                "checker_failed",
+                f"{exc}. Outputs written before the failure: {exc.written or 'none'}; not written: {exc.not_written}",
+                "the audit ran; free space or fix permissions and re-run to write a consistent output set",
+            ) from exc
         except Exception as exc:
-            raise CliFailure("checker_failed", f"{type(exc).__name__}: {exc}",
-                             "fix the checker or its inputs; no report was written") from exc  # fmt: skip
+            recovery = "fix the checker or its inputs; the audit did not finish, so nothing was written"
+            raise CliFailure("checker_failed", f"{type(exc).__name__}: {exc}", recovery) from exc
         r = result.report
         exit_name = {0: "ok", 4: "validation_failed", 8: "verification_incomplete"}[result.exit_code]
         return {

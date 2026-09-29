@@ -381,6 +381,41 @@ def _baseline(
     return out
 
 
+class OutputWriteError(CheckerError):
+    """Writing the output set failed part-way; ``written`` lists the files that were replaced."""
+
+    def __init__(self, message: str, written: list[str], not_written: list[str]):
+        super().__init__(message)
+        self.written = written
+        self.not_written = not_written
+
+
+def plan_outputs(
+    *, report: Path, execution: Path | None = None, stream: Path | None = None, inputs: list[Path]
+) -> dict[str, Path]:
+    """Validate the output set before any audit or write.
+
+    Each destination must be a different file (after resolving relative paths and symlinked
+    parents, and by inode when it already exists) and must lie outside every input.
+    """
+    outputs = {"report": report, "execution": execution or default_execution_path(report)}
+    if stream is not None:
+        outputs["stream"] = stream
+    resolved = {k: v.resolve() for k, v in outputs.items()}
+    names = sorted(resolved)
+    for i, a in enumerate(names):
+        for b in names[i + 1 :]:
+            same = resolved[a] == resolved[b]
+            if not same and resolved[a].exists() and resolved[b].exists():
+                same = resolved[a].samefile(resolved[b])
+            if same:
+                raise UsageError(
+                    f"--{a} and --{b} name the same file ({resolved[a]}); every output needs its own path"
+                )
+    refuse_inside_inputs(list(outputs.values()), inputs)
+    return outputs
+
+
 def write_outputs(
     result: AuditResult,
     *,
@@ -389,19 +424,30 @@ def write_outputs(
     stream: Path | None = None,
     inputs: list[Path],
 ) -> dict[str, str]:
-    """Write the report, execution metadata and optional stream atomically, outside every input."""
+    """Write each output atomically (one file at a time, not as one transaction).
+
+    On failure the error lists which outputs were already replaced and which were not.
+    """
     from supercoach_via.storage.snapshots import atomic_write_bytes
 
-    outputs = {"report": report, "execution": execution or default_execution_path(report)}
-    if stream is not None:
-        outputs["stream"] = stream
-    refuse_inside_inputs(list(outputs.values()), inputs)
-    if stream is not None:
-        if result.stream_bytes is None:
-            raise CheckerError("a findings stream was requested but not produced")
-        atomic_write_bytes(stream, result.stream_bytes)
-    atomic_write_bytes(report, canonical_bytes(result.report))
-    atomic_write_bytes(outputs["execution"], canonical_bytes(result.execution))
+    outputs = plan_outputs(report=report, execution=execution, stream=stream, inputs=inputs)
+    if stream is not None and result.stream_bytes is None:
+        raise CheckerError("a findings stream was requested but not produced")
+    order = [("stream", result.stream_bytes), ("report", canonical_bytes(result.report)),
+             ("execution", canonical_bytes(result.execution))]  # fmt: skip
+    written: list[str] = []
+    for key, data in order:
+        if key not in outputs:
+            continue
+        try:
+            assert data is not None
+            atomic_write_bytes(outputs[key], data)
+        except OSError as exc:
+            pending = [str(outputs[k]) for k, _ in order if k in outputs and str(outputs[k]) not in written]
+            raise OutputWriteError(
+                f"writing {outputs[key]} failed: {exc}", written=written, not_written=pending
+            ) from exc
+        written.append(str(outputs[key]))
     return {k: str(v) for k, v in outputs.items()}
 
 
