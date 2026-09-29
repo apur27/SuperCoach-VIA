@@ -70,6 +70,16 @@ you have produced one; the recorded holdout results are described in the model c
 `scvia preview` serves the site at `/`. For a release built with a subpath such as
 `/SuperCoach-VIA/`, use the base-aware Node server shown above.
 
+## Integrity audit (optional, read-only)
+
+```bash
+uv run scvia check-integrity --data-root "$(realpath var)" --release-dir "$(realpath dist/releases/<release_id>)" \
+  --scope full --as-of 2026-09-28T12:00:00Z --report /path/outside/inputs/integrity.json --json
+```
+
+Offline and deterministic; exit 0 PASS, 4 blocking violations, 8 incomplete verification, 2 usage, 9 checker
+failure. It is not part of any gate. Rules, outputs and operator responses: [data-integrity.md](data-integrity.md).
+
 ## Refresh from sources
 
 ```bash

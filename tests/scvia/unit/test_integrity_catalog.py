@@ -38,3 +38,13 @@ def test_every_check_owns_rules_and_a_family() -> None:
 def test_every_rule_names_an_operator_action() -> None:
     for rule in rule_catalog().values():
         assert rule.action and rule.summary, rule.rule_id
+
+
+def test_operator_doc_lists_every_rule() -> None:
+    from pathlib import Path
+
+    doc = (Path(__file__).resolve().parents[3] / "docs" / "data-integrity.md").read_text(encoding="utf-8")
+    missing = sorted(r for r in rule_catalog() if f"`{r}`" not in doc)
+    assert not missing, f"docs/data-integrity.md lacks rules: {missing}"
+    for rule in ("policy.exception_rejected_current_season", "policy.exception_stale"):
+        assert f"`{rule}`" in doc

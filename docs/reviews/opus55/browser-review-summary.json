@@ -1,0 +1,267 @@
+{
+ "axe_violations": {
+  "compare-dark": [],
+  "compare-light": [],
+  "data-status-dark": [],
+  "data-status-light": [],
+  "match-gf-dark": [],
+  "match-gf-light": [],
+  "overview-dark": [],
+  "overview-light": [],
+  "player-dark": [],
+  "player-light": [],
+  "players-dark": [],
+  "players-light": []
+ },
+ "base": "http://127.0.0.1:4433/ (var/final-site, root base)",
+ "flows": {
+  "downloads": {
+   "count": 14,
+   "non_200": []
+  },
+  "grand_final": {
+   "attendance_line": null,
+   "back_url": "/match/?id=k.bToyMDI2OmdmOmJyaXNiYW5lX2xpb25zOmZyZW1hbnRsZTow",
+   "box_rows": 50,
+   "mentions_source": true,
+   "player_link": 1,
+   "player_log_links_back_to_gf": 1
+  },
+  "pendlebury_career_table_head": [
+   "Career statistics",
+   "Statistic\tTotal\tPer game\tGames with data\tCoverage",
+   "behinds\t134\t1.2\t116 of 442\t26.2%",
+   "bounces\t206\t1.7\t121 of 442\t27.4%",
+   "brownlow_votes\t230\t2.1\t107 of 442\t24.2%",
+   "clangers\t1,063\t2.7\t391 of 442\t88.5%",
+   "clearances\t1,910\t4.5\t429 of 442\t97.1%",
+   "contested_marks\t95\t1.2\t79 of 442\t17.9%",
+   "contested_possessions\t4,456\t10.2\t439 of 442\t99.3%",
+   "disposals\t11,169\t25.4\t440 of 442\t99.5%",
+   "frees_against\t232\t1.2\t187 of 442\t42.3%",
+   "frees_for\t533\t1.8\t293 of 442\t66.3%"
+  ],
+  "r17_attendance": null,
+  "search_pendlebury": "no searchbox role",
+  "season_table_headers": [
+   "Season",
+   "Clubs",
+   "Games",
+   "behinds per game",
+   "bounces per game",
+   "brownlow_votes per game",
+   "clangers per game",
+   "clearances per game"
+  ],
+  "watchlist_persists": true
+ },
+ "keyboard": {
+  "home": [
+   {
+    "outline": true,
+    "tag": "A",
+    "text": "Skip to main content"
+   },
+   {
+    "outline": true,
+    "tag": "A",
+    "text": "SuperCoach VIA"
+   },
+   {
+    "outline": true,
+    "tag": "SELECT",
+    "text": "SystemLightDark"
+   },
+   {
+    "outline": true,
+    "tag": "SELECT",
+    "text": "MelbourneMy time zoneUTC"
+   },
+   {
+    "outline": true,
+    "tag": "A",
+    "text": "Overview"
+   },
+   {
+    "outline": true,
+    "tag": "A",
+    "text": "Predictions"
+   }
+  ]
+ },
+ "loads_with_console_errors": [
+  [
+   "not-found",
+   320,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   320,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   375,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   375,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   768,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   768,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   1440,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ],
+  [
+   "not-found",
+   1440,
+   null,
+   [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ]
+  ]
+ ],
+ "loads_with_failed_requests": [
+  [
+   "not-found",
+   320,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   320,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   375,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   375,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   768,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   768,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   1440,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ],
+  [
+   "not-found",
+   1440,
+   null,
+   [
+    "404 /no-such-page/"
+   ]
+  ]
+ ],
+ "loads_with_horizontal_overflow": [],
+ "loads_without_h1": [],
+ "no_javascript": {
+  "match-gf": "Skip to main content SuperCoach VIA Theme System Light Dark Times Melbourne My time zone UTC Overview Predictions Players Teams Matches History Accuracy Articles More Season 2026 Coverage through 2026 Grand Final Source checked 28 Sept 2026, 8:42 pm AEST Generated 28 Sept 2026, 9:10 pm AEST Publishe",
+  "overview": "Skip to main content SuperCoach VIA Theme System Light Dark Times Melbourne My time zone UTC Overview Predictions Players Teams Matches History Accuracy Articles More Season 2026 Coverage through 2026 Grand Final Source checked 28 Sept 2026, 8:42 pm AEST Generated 28 Sept 2026, 9:10 pm AEST Publishe",
+  "player": "Skip to main content SuperCoach VIA Theme System Light Dark Times Melbourne My time zone UTC Overview Predictions Players Teams Matches History Accuracy Articles More Season 2026 Coverage through 2026 Grand Final Source checked 28 Sept 2026, 8:42 pm AEST Generated 28 Sept 2026, 9:10 pm AEST Publishe"
+ },
+ "page_loads": 184,
+ "routes": [
+  "accuracy",
+  "articles",
+  "bad-id",
+  "compare",
+  "data-status",
+  "downloads",
+  "history",
+  "history-brownlow",
+  "history-eras",
+  "legacy-key",
+  "lists",
+  "live",
+  "match-gf",
+  "match-r17",
+  "matches",
+  "methodology",
+  "not-found",
+  "overview",
+  "player",
+  "players",
+  "predictions",
+  "teams",
+  "watchlist"
+ ],
+ "themes": [
+  "light",
+  "dark"
+ ],
+ "widths": [
+  320,
+  375,
+  768,
+  1440
+ ]
+}
