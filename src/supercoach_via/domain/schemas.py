@@ -410,7 +410,7 @@ TABLES: dict[str, TableSpec] = {
             _c("stage_id", "string", False),
             _c("club_source_name", "string", False),
             _c("opponent_source_name", "string", True),
-            _c("link_method", "string", False, "key | date_tiebreak | row_order"),
+            _c("link_method", "string", False, "key | date_tiebreak | row_order | source_url | score_reconciled"),
             _c("match_date", "date32", True, "row date as sourced; see date_quality"),
             _c("date_quality", "string", False, "DateQuality enum"),
             _c("career_game_counter", "int32", True),

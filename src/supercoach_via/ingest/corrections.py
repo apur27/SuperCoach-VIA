@@ -157,3 +157,114 @@ def fixture_corrections(
     names = TABLES["matches"].column_names
     out["matches"] = [{c: patched[mid].get(c) for c in names} for mid in sorted(patched)]
     return out
+
+
+# ---------------------------------------------------------------------------
+# Player rows of a replayed drawn final (O55-06)
+# ---------------------------------------------------------------------------
+
+
+def replay_link_corrections(data_root: Path, manifest: SnapshotManifest) -> dict[str, list[dict[str, Any]]]:
+    """Resolve rows linked to a drawn match whose own result is W/L (they cannot belong to a draw).
+
+    Legacy player files name a stage and opponent, not the occurrence, so a player who only
+    played the replay can be linked to the draw. The recorded W/L proves the draw link wrong
+    but not the replay link. A row is relinked only when the official team scores prove it:
+    moving the suspect rows makes the player goal sums of both the draw and the replay equal
+    their teams' goals (and keeps player behinds within team behinds), the result agrees with
+    the replay's outcome, and the player has no row on the replay yet. Anything else is
+    quarantined with its evidence and an actionable issue.
+    """
+    import json
+
+    from supercoach_via.storage.queries import SnapshotQuery
+
+    out: dict[str, list[dict[str, Any]]] = {"player_games": [], "deletes": [], "quarantine": [], "quality_issues": []}
+    with SnapshotQuery(data_root, manifest, tables={"matches", "player_games"}) as q:
+        pairs = q.arrow(
+            """SELECT d.match_id AS draw_id, r.match_id AS replay_id FROM matches d JOIN matches r
+                 ON r.season = d.season AND r.stage_id = d.stage_id AND r.replay_occurrence = d.replay_occurrence + 1
+                AND ((r.home_club_id = d.home_club_id AND r.away_club_id = d.away_club_id)
+                  OR (r.home_club_id = d.away_club_id AND r.away_club_id = d.home_club_id))
+               WHERE d.status = 'complete' AND r.status = 'complete' AND d.home_score = d.away_score
+               ORDER BY 1"""
+        ).to_pylist()
+        for pair in pairs:
+            draw, replay = (
+                q.arrow("SELECT * FROM matches WHERE match_id = ?", [mid]).to_pylist()[0]
+                for mid in (pair["draw_id"], pair["replay_id"])
+            )
+            rows = {
+                mid: q.arrow("SELECT * FROM player_games WHERE match_id = ? ORDER BY player_id", [mid]).to_pylist()
+                for mid in (draw["match_id"], replay["match_id"])
+            }
+            suspects = [g for g in rows[draw["match_id"]] if g["result"] in ("W", "L")]
+            for club in sorted({g["club_id"] for g in suspects}):
+                mine = [g for g in suspects if g["club_id"] == club]
+                ok, why = _replay_move_proven(draw, replay, rows, club, mine)
+                for g in mine:
+                    key = f"{draw['match_id']}|{g['player_id']}|{club}"
+                    out["deletes"].append(g)
+                    if ok:
+                        moved = dict(g)
+                        moved.update(match_id=replay["match_id"], link_method="score_reconciled")
+                        out["player_games"].append(moved)
+                        out["quality_issues"].append(_pg_issue(
+                            "replay_link_corrected", "info", "resolved", key, g["season"],
+                            f"result {g['result']} cannot belong to drawn {draw['match_id']}; moved to "
+                            f"{replay['match_id']}: {why}", None))  # fmt: skip
+                    else:
+                        digest = hashlib.sha256(f"replay\x1f{key}".encode()).hexdigest()[:24]
+                        raw = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in g.items()}
+                        out["quarantine"].append({
+                            "quarantine_id": f"q:{digest}", "table_name": "player_games",
+                            "reason": "replayed_draw_link_unresolved",
+                            "candidates": json.dumps([draw["match_id"], replay["match_id"]]),
+                            "raw": json.dumps(raw, sort_keys=True), "season": g["season"],
+                            "provenance": g["provenance"], "source_path": g["source_path"],
+                            "source_sha256": g["source_sha256"], "source_row": g["source_row"],
+                        })  # fmt: skip
+                        out["quality_issues"].append(_pg_issue(
+                            "replay_link_quarantined", "warning", "open", key, g["season"],
+                            f"result {g['result']} cannot belong to drawn {draw['match_id']}, and the team "
+                            f"scores do not prove {replay['match_id']}: {why}",
+                            "confirm the game on the player's AFL Tables page and re-import the row with the "
+                            "right match"))  # fmt: skip
+    return out
+
+
+def _replay_move_proven(
+    draw: dict[str, Any], replay: dict[str, Any], rows: dict[str, list[dict[str, Any]]], club: str,
+    suspects: list[dict[str, Any]],
+) -> tuple[bool, str]:  # fmt: skip
+    def side(m: dict[str, Any]) -> str:
+        return "home" if m["home_club_id"] == club else "away"
+
+    def total(stat: str, gs: list[dict[str, Any]]) -> int:
+        return sum(int(g[stat] or 0) for g in gs if g["club_id"] == club)
+
+    rd, rr = rows[draw["match_id"]], rows[replay["match_id"]]
+    if {g["player_id"] for g in suspects} & {g["player_id"] for g in rr if g["club_id"] == club}:
+        return False, "the player already has a row on the replay"
+    won = replay[f"{side(replay)}_score"] > replay[f"{'away' if side(replay) == 'home' else 'home'}_score"]
+    if any(g["result"] != ("W" if won else "L") for g in suspects):
+        return False, "the recorded result does not match the replay's outcome"
+    tg_d, tg_r = draw[f"{side(draw)}_final_goals"], replay[f"{side(replay)}_final_goals"]
+    s = total("goals", suspects)
+    before = (total("goals", rd), total("goals", rr))
+    after = (before[0] - s, before[1] + s)
+    if tg_d is None or tg_r is None or after != (tg_d, tg_r) or before == (tg_d, tg_r):
+        return False, f"player goals draw/replay {before} -> {after}, team goals ({tg_d}, {tg_r})"
+    bd, br = draw[f"{side(draw)}_final_behinds"], replay[f"{side(replay)}_final_behinds"]
+    sb = total("behinds", suspects)
+    if bd is not None and br is not None and (total("behinds", rd) - sb > bd or total("behinds", rr) + sb > br):
+        return False, "player behinds would exceed a team's behinds"
+    return True, f"player goals draw/replay {before} -> {after} = team goals ({tg_d}, {tg_r})"
+
+
+def _pg_issue(rule: str, severity: str, status: str, key: str, season: int, text: str,
+              remediation: str | None) -> dict[str, Any]:  # fmt: skip
+    digest = hashlib.sha256(f"{rule}\x1f{key}".encode()).hexdigest()[:24]
+    return {"issue_id": f"qc:{digest}", "severity": severity, "status": status, "table_name": "player_games",
+            "row_key": key, "source_path": None, "rule_id": rule, "explanation": text, "remediation": remediation,
+            "acceptance_basis": None, "season": season}  # fmt: skip

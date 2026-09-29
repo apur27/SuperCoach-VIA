@@ -180,7 +180,7 @@ ENUMS: dict[tuple[str, str], tuple[str, ...]] = {
     ("matches", "provenance"): tuple(s.value for s in Provenance),
     ("player_games", "date_quality"): tuple(s.value for s in DateQuality),
     ("player_games", "provenance"): tuple(s.value for s in Provenance),
-    ("player_games", "link_method"): ("key", "date_tiebreak", "row_order", "source_url"),
+    ("player_games", "link_method"): ("key", "date_tiebreak", "row_order", "source_url", "score_reconciled"),
     ("player_games", "result"): ("W", "L", "D"),
     ("players", "identity_status"): tuple(s.value for s in IdentityStatus),
     ("players", "birth_date_quality"): tuple(s.value for s in BirthDateQuality),

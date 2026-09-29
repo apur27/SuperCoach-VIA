@@ -303,6 +303,18 @@ def apply_corrections(ctx: RunContext, *, seasons: Sequence[int], run_id: str | 
         except corrections.CorrectionError as exc:
             hint = "copy the pinned capture into raw/objects or pass the season it belongs to"
             raise _Failure(EXIT_SOURCE, "evidence_unavailable", str(exc), hint) from exc
+        relinks = corrections.replay_link_corrections(root, merged.manifest)
+        if relinks["deletes"]:
+            merged = snapshots.apply_upserts(
+                root, merged.manifest,
+                {k: relinks[k] for k in ("player_games", "quarantine", "quality_issues") if relinks[k]},
+                deletes={"player_games": relinks["deletes"]}, allow_empty=True, clock=ctx.clock,
+                code_version=CODE_VERSION, status=base.status, run_id=store.run_id,
+                notes=[f"replayed drawn finals: {len(relinks['player_games'])} rows relinked by team scores, "
+                       f"{len(relinks['quarantine'])} quarantined"],
+            )  # fmt: skip
+            counts["replay_relinked"] = len(relinks["player_games"])
+            counts["replay_quarantined"] = len(relinks["quarantine"])
         with SnapshotQuery(root, merged.manifest, tables={"matches"}) as q:
             all_seasons = {int(s) for (s,) in q.rows("SELECT DISTINCT season FROM matches")}
         merged = _with_resolved_blanks(root, merged, all_seasons, clock=ctx.clock, status=base.status,

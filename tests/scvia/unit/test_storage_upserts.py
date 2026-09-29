@@ -108,3 +108,31 @@ def test_duplicate_keys_within_upserts_rejected(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="duplicate key"):
         snapshots.apply_upserts(tmp_path, base.manifest, {"player_games": dup}, clock=clock,
                                 code_version="test", status=DatasetStatus.PARTIAL)  # fmt: skip
+
+
+def test_upserts_can_delete_rows_by_key_in_the_same_candidate(tmp_path: Path) -> None:
+    """A relink changes a row's key: the old key must go in the same child snapshot."""
+    from tests.scvia.unit import integrity_fixtures as fx
+
+    root = tmp_path / "var"
+    base = fx.build(root)
+    from supercoach_via.storage.queries import SnapshotQuery
+
+    with SnapshotQuery(root, base, tables={"player_games"}) as q:
+        row = q.arrow("SELECT * FROM player_games WHERE season = 1970 ORDER BY match_id, player_id LIMIT 1").to_pylist()[0]
+    moved = {**row, "match_id": "m:1970:r09:alpha:beta:0"}  # a match this player has no row in
+    cand = snapshots.apply_upserts(root, base, {"player_games": []}, clock=lambda: base.created_at,
+                                   code_version="t", status=base.status,
+                                   deletes={"player_games": [row]}, allow_empty=True)  # fmt: skip
+    with SnapshotQuery(root, cand.manifest, tables={"player_games"}) as q:
+        n = q.scalar("SELECT count(*) FROM player_games WHERE match_id = ? AND player_id = ?",
+                     [row["match_id"], row["player_id"]])  # fmt: skip
+        total = q.scalar("SELECT count(*) FROM player_games")
+    assert n == 0 and total == base.tables["player_games"].row_count - 1
+    both = snapshots.apply_upserts(root, base, {"player_games": [moved]}, clock=lambda: base.created_at,
+                                   code_version="t", status=base.status, deletes={"player_games": [row]})  # fmt: skip
+    assert both.manifest.tables["player_games"].row_count == base.tables["player_games"].row_count
+    with pytest.raises(KeyError):
+        snapshots.apply_upserts(root, base, {"player_games": []}, clock=lambda: base.created_at, code_version="t",
+                                status=base.status, deletes={"player_games": [{**row, "player_id": "legacy:nobody"}]},
+                                allow_empty=True)  # fmt: skip

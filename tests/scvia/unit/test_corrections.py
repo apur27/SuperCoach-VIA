@@ -143,3 +143,81 @@ def test_cli_apply_corrections(tmp_path: Path, monkeypatch: Any) -> None:
     assert out["promoted"] is True and out["outputs"]["corrections"]["matches"] == 1
     missing = CliRunner().invoke(app, ["apply-corrections", "--data-root", str(tmp_path / "none"), "--season", "2026"])
     assert missing.exit_code != 0
+
+
+# -- O55-06: player rows of a replayed drawn final --------------------------------------------
+
+DRAW, REPLAY = "m:1970:sf:alpha:beta:0", "m:1970:sf:alpha:beta:1"
+
+
+def _replay_corpus(root: Path, suspect_goals: int, *, conflict: bool = False) -> None:
+    from datetime import date
+
+    def mutate(r: dict[str, list[dict[str, Any]]]) -> None:
+        draw = fx._match(DRAW, 1970, "Semi Final", 20, date(1970, 9, 5), "alpha", "beta", (2, 5), (2, 5))
+        replay = fx._match(REPLAY, 1970, "Semi Final", 20, date(1970, 9, 12), "alpha", "beta", (4, 4), (2, 2))
+        for m in (draw, replay):
+            m.update(stage_type="final", stage_id="sf", round_number=None)
+        replay["replay_occurrence"] = 1
+        r["matches"] += [draw, replay]
+        r["players"].append({**r["players"][0], "player_id": "legacy:p5", "display_name": "Player 5", "last_name": "5"})
+        rows = []
+        for m, who in ((draw, [("legacy:p1", "alpha", 1), ("legacy:p2", "alpha", 1), ("legacy:p3", "beta", 1),
+                                ("legacy:p4", "beta", 1)]),
+                       (replay, [("legacy:p1", "alpha", 2), ("legacy:p3", "beta", 1), ("legacy:p4", "beta", 1)])):  # fmt: skip
+            for pid, club, goals in who:
+                g = fx._game(m, pid, club, 50, dict(fx.OLD_STATS))
+                g["goals"] = goals
+                rows.append(g)
+        # p5 played the replay (alpha won it) but the legacy row-order link put the row on the draw
+        suspect = fx._game(draw, "legacy:p5", "alpha", 51, dict(fx.OLD_STATS))
+        suspect.update(goals=suspect_goals, result="W", link_method="row_order", date_quality="inferred")
+        rows.append(suspect)
+        if conflict:
+            other = fx._game(replay, "legacy:p5", "alpha", 52, dict(fx.OLD_STATS))
+            other.update(goals=0)
+            rows.append(other)
+        # replay alpha scored 4: p1's 2 plus the suspect's; with suspect_goals=0 the totals cannot place it
+        r["player_games"] += rows
+        r["seasons"][0].update(matches_complete=4, last_match_date=date(1970, 9, 12))
+
+    fx.rehash(root, mutate)
+
+
+def _pg(root: Path, player: str) -> list[dict[str, Any]]:
+    with SnapshotQuery(root, load_snapshot(root), tables={"player_games"}) as q:
+        return q.arrow("SELECT * FROM player_games WHERE player_id = ? ORDER BY match_id", [player]).to_pylist()
+
+
+def test_replay_row_is_relinked_when_official_totals_prove_it(tmp_path: Path, monkeypatch: Any) -> None:
+    root = tmp_path / "var"
+    _replay_corpus(root, suspect_goals=2)
+    ups = corrections.replay_link_corrections(root, load_snapshot(root))
+    assert [(d["match_id"], d["player_id"]) for d in ups["deletes"]] == [(DRAW, "legacy:p5")]
+    [moved] = ups["player_games"]
+    assert (moved["match_id"], moved["link_method"], moved["result"]) == (REPLAY, "score_reconciled", "W")
+    assert any(i["rule_id"] == "replay_link_corrected" and i["row_key"] == f"{DRAW}|legacy:p5|alpha"
+               for i in ups["quality_issues"])  # fmt: skip
+    monkeypatch.setattr(corrections, "default_resolvers", lambda _cfg: (_resolver, lambda n: "oval"))
+    ctx = RunContext(settings=Settings(data_root=root, output_root=tmp_path / "dist"), clock=lambda: NOW)
+    res = pipeline.apply_corrections(ctx, seasons=[])
+    assert res.exit_code == 0 and res.promoted, res.message
+    assert [r["match_id"] for r in _pg(root, "legacy:p5")] == [REPLAY]
+
+
+def test_row_the_totals_cannot_place_is_quarantined(tmp_path: Path) -> None:
+    root = tmp_path / "var"
+    _replay_corpus(root, suspect_goals=0)
+    ups = corrections.replay_link_corrections(root, load_snapshot(root))
+    assert ups["player_games"] == []
+    assert [(d["match_id"], d["player_id"]) for d in ups["deletes"]] == [(DRAW, "legacy:p5")]
+    [q] = ups["quarantine"]
+    assert q["reason"] == "replayed_draw_link_unresolved" and DRAW in q["candidates"] and REPLAY in q["candidates"]
+    assert any(i["rule_id"] == "replay_link_quarantined" and i["remediation"] for i in ups["quality_issues"])
+
+
+def test_player_already_on_the_replay_is_quarantined_not_merged(tmp_path: Path) -> None:
+    root = tmp_path / "var"
+    _replay_corpus(root, suspect_goals=2, conflict=True)
+    ups = corrections.replay_link_corrections(root, load_snapshot(root))
+    assert ups["player_games"] == [] and [q["reason"] for q in ups["quarantine"]] == ["replayed_draw_link_unresolved"]

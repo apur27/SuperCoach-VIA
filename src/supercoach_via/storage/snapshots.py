@@ -289,8 +289,14 @@ def apply_upserts(
     run_id: str | None = None,
     source_revisions: dict[str, str] | None = None,
     notes: Iterable[str] = (),
+    deletes: dict[str, list[dict[str, Any]]] | None = None,
+    allow_empty: bool = False,
 ) -> SnapshotCandidate:
     """New candidate = ``base`` with ``upserts`` replacing rows by table key.
+
+    ``deletes`` removes rows by key (each row names its key columns and partition column);
+    a delete whose key does not exist raises ``KeyError``. A relink is a delete plus an
+    upsert in the same call.
 
     Only partitions (``TableSpec.partition_by``) that receive rows are read and rewritten;
     all other fragments are reused by reference. The base snapshot is never modified.
@@ -303,10 +309,11 @@ def apply_upserts(
 
     from supercoach_via.domain.schemas import TABLES
 
-    if not any(upserts.values()):
+    deletes = {k: v for k, v in (deletes or {}).items() if v}
+    if not any(upserts.values()) and not (allow_empty and deletes):
         raise ValueError("no upserts to apply")
     builder = SnapshotBuilder(data_root, clock=clock, code_version=code_version, run_id=run_id)
-    touched = {name for name, rows in upserts.items() if rows}
+    touched = {name for name, rows in upserts.items() if rows} | set(deletes)
     for name in sorted(touched):
         spec = TABLES[name]
         extra = {c for r in upserts[name] for c in r} - set(spec.column_names)
@@ -319,11 +326,13 @@ def apply_upserts(
     for name in sorted(touched):
         spec = TABLES[name]
         schema = spec.arrow_schema()
-        rows = upserts[name]
+        rows = upserts.get(name) or []
         keys = [tuple(r.get(k) for k in spec.key) for r in rows]
         if len(set(keys)) != len(keys):
             raise ValueError(f"{name}: duplicate key within upserts")
         part_col = spec.partition_by
+        gone = {tuple(r[k] for k in spec.key) for r in deletes.get(name, [])}
+        gone_parts = {None if part_col is None else str(r[part_col]) for r in deletes.get(name, [])}
 
         def part_of(row: dict[str, Any], col: str | None = part_col) -> str | None:
             return None if col is None else str(row[col])
@@ -335,21 +344,32 @@ def apply_upserts(
         existing: dict[str | None, list[FragmentRef]] = {}
         for frag in base_entry.fragments if base_entry else ():
             existing.setdefault(frag.partition if part_col else None, []).append(frag)
+        for part in gone_parts:
+            groups.setdefault(part, [])
         for part, frags in sorted(existing.items(), key=lambda kv: kv[0] or ""):
             if part not in groups:
                 for frag in frags:
                     builder.reuse(name, frag)
+        removed = 0
         for part, new_rows in sorted(groups.items(), key=lambda kv: kv[0] or ""):
             new_keys = {tuple(r.get(k) for k in spec.key) for r in new_rows}
             kept: list[dict[str, Any]] = []
             for frag in existing.get(part, []):
                 table = pq.read_table(contained_path(data_root / "fragments", frag.path)).cast(schema)
-                kept += [r for r in table.to_pylist() if tuple(r[k] for k in spec.key) not in new_keys]
+                for r in table.to_pylist():
+                    key = tuple(r[k] for k in spec.key)
+                    if key in gone:
+                        removed += 1
+                    elif key not in new_keys:
+                        kept.append(r)
             merged = kept + [{c: r.get(c) for c in spec.column_names} for r in new_rows]
             table = pa.Table.from_pylist(merged, schema=schema).sort_by([(k, "ascending") for k in spec.key])
             if part_col is not None and pc.sum(pc.is_null(table[part_col])).as_py():
                 raise ValueError(f"{name}.{part_col} has null partition values")
-            builder.add(name, table, partition=part)
+            if table.num_rows or part_col is None:
+                builder.add(name, table, partition=part)
+        if removed != len(gone):
+            raise KeyError(f"{name}: {len(gone) - removed} deleted key(s) not found")
     revisions = dict(base.source_revisions)
     revisions.update(source_revisions or {})
     return builder.finish(
