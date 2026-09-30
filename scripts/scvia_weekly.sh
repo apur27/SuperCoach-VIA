@@ -5,7 +5,9 @@
 # SCVIA_SOURCE_MODE=production  refresh sources (--allow-network). Also requires
 #                               SCVIA_ALLOW_NETWORK=1 so a rehearsal cannot fetch.
 # SCVIA_SOURCE_MODE=rehearsal   default. Import SCVIA_CAPTURED_SOURCE only.
-#                               No network.
+#                               Requires SCVIA_CORRECTION_EVIDENCE_ROOT and an
+#                               immutable SCVIA_CORRECTION_EVIDENCE_SNAPSHOT.
+#                               No network. Corrections run before forecast/build.
 # SCVIA_SKIP_SITE=1             command-order tests only. The scratch smoke must
 #                               not set this: it builds, seals and budgets the site.
 set -euo pipefail
@@ -63,13 +65,14 @@ POINTER="$VAR/scvia-weekly-status.json"
 PHASE="init"
 CUTOFF=""
 SNAP=""
+SOURCE_SNAP=""
 
 write_status() {
   local phase="$1"
   local rc="${2:-}"
-  python3 - "$STATUS" "$POINTER" "$MODE" "$phase" "$rc" "$RUN_ID" "$STARTED" "$DATA" "$OUT" "$CUTOFF" "$SNAP" "$RUN_DIR" <<'PY'
+  python3 - "$STATUS" "$POINTER" "$MODE" "$phase" "$rc" "$RUN_ID" "$STARTED" "$DATA" "$OUT" "$CUTOFF" "$SNAP" "$SOURCE_SNAP" "$RUN_DIR" <<'PY'
 import json, sys
-status, pointer, mode, phase, rc, run_id, started, data_root, output_root, cutoff, snap, evidence = sys.argv[1:]
+status, pointer, mode, phase, rc, run_id, started, data_root, output_root, cutoff, snap, source_snap, evidence = sys.argv[1:]
 body = {
     "run_id": run_id,
     "started": started,
@@ -80,6 +83,7 @@ body = {
     "output_root": output_root,
     "forecast_cutoff": cutoff or None,
     "snapshot_id": snap or None,
+    "source_snapshot_id": source_snap or None,
     "evidence_dir": evidence,
 }
 text = json.dumps(body) + "\n"
@@ -146,6 +150,14 @@ elif [ "$MODE" = "rehearsal" ]; then
     echo "scvia_weekly: SCVIA_CAPTURED_SOURCE must be a tree whose data/ directory is the captured input" >&2
     exit 2
   fi
+  if [ -z "${SCVIA_CORRECTION_EVIDENCE_ROOT:-}" ] || [ -z "${SCVIA_CORRECTION_EVIDENCE_SNAPSHOT:-}" ]; then
+    echo "scvia_weekly: rehearsal requires SCVIA_CORRECTION_EVIDENCE_ROOT and SCVIA_CORRECTION_EVIDENCE_SNAPSHOT" >&2
+    exit 2
+  fi
+  if [[ ! "$SCVIA_CORRECTION_EVIDENCE_SNAPSHOT" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    echo "scvia_weekly: correction evidence snapshot must be an immutable sha256:<id>" >&2
+    exit 2
+  fi
   PHASE="import"
   write_status "$PHASE"
   run import-legacy --source "$SCVIA_CAPTURED_SOURCE" --data-root "$DATA" --repair "$REPAIR" --json \
@@ -155,18 +167,40 @@ else
   exit 2
 fi
 
-PHASE="forecast"
-write_status "$PHASE"
 if [ "$MODE" = "production" ]; then
   SOURCE_JSON="$RUN_DIR/refresh.json"
 else
   SOURCE_JSON="$RUN_DIR/import.json"
 fi
-SNAP="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print("" if d.get("ok") is False else (d.get("snapshot_id") or ""))' "$SOURCE_JSON")"
-if [ -z "$SNAP" ]; then
-  echo "scvia_weekly: the source step did not return a snapshot id" >&2
-  exit 1
+snapshot_field() {
+  python3 - "$1" <<'PY'
+import json, re, sys
+try:
+    body = json.load(open(sys.argv[1]))
+    snap = body.get("snapshot_id")
+    if (body.get("ok") is not True or body.get("exit_code", 0) != 0
+            or not isinstance(snap, str) or not re.fullmatch(r"sha256:[0-9a-f]{64}", snap)):
+        raise ValueError("unsuccessful result or missing snapshot id")
+except (OSError, ValueError, AttributeError) as exc:
+    raise SystemExit(f"scvia_weekly: step did not return a successful snapshot id: {exc}")
+print(snap)
+PY
+}
+SOURCE_SNAP="$(snapshot_field "$SOURCE_JSON")"
+SNAP="$SOURCE_SNAP"
+
+PHASE="corrections"
+write_status "$PHASE"
+correction=(apply-corrections --season "${CUTOFF:0:4}" --data-root "$DATA" --json)
+if [ "$MODE" = "rehearsal" ]; then
+  correction+=(--evidence-root "$SCVIA_CORRECTION_EVIDENCE_ROOT" --evidence-snapshot "$SCVIA_CORRECTION_EVIDENCE_SNAPSHOT")
 fi
+run "${correction[@]}" > "$RUN_DIR/corrections.json"
+CORRECTED_SNAP="$(snapshot_field "$RUN_DIR/corrections.json")"
+SNAP="$CORRECTED_SNAP"
+
+PHASE="forecast"
+write_status "$PHASE"
 run forecast --train-cutoff 2025-06-01 --calibration-end 2026-05-01 --cutoff "$CUTOFF" \
   --snapshot "$SNAP" --data-root "$DATA" --json > "$RUN_DIR/forecast.json"
 BUNDLE="$(field bundle_id < "$RUN_DIR/forecast.json")"
@@ -209,7 +243,9 @@ if [ -n "${SCVIA_LEGACY_ROOT:-}" ]; then
   PHASE="compare"
   write_status "$PHASE"
   "${PY[@]}" "$ROOT/docs/rewrite/evidence/rehearsal_compare.py" --regenerate \
-    "$SCVIA_CAPTURED_SOURCE" "$RUN_DIR/legacy-exports" --repair "$REPAIR" > "$RUN_DIR/legacy-regenerate.json"
+    "$SCVIA_CAPTURED_SOURCE" "$RUN_DIR/legacy-exports" --repair "$REPAIR" \
+    --correction-data-root "$DATA" --source-snapshot "$SOURCE_SNAP" --corrected-snapshot "$SNAP" \
+    > "$RUN_DIR/legacy-regenerate.json"
   "${PY[@]}" "$ROOT/docs/rewrite/evidence/rehearsal_compare.py" --promoted \
     "$RUN_DIR/legacy-exports" "$DATA" "$OUT/releases/$RID/public" "$RUN_DIR/compare.json" \
     --snapshot "$SNAP" > "$RUN_DIR/compare.stdout"

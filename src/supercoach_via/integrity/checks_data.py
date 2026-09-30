@@ -218,7 +218,9 @@ def _coverage(ctx: AuditContext) -> Any:
     from supercoach_via.ingest.reconcile import load_policy
 
     if "_coverage_policy" not in ctx.coverage:
-        ctx.coverage["_coverage_policy"] = load_policy(ctx.policy.config_dir)
+        ctx.coverage["_coverage_policy"] = load_policy(
+            ctx.policy.config_dir, captured_bytes=ctx.external.read(ctx.policy.config_dir / "coverage.yaml")
+        )
     return ctx.coverage["_coverage_policy"]
 
 

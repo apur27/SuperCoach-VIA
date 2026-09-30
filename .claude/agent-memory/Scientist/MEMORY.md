@@ -1,5 +1,8 @@
 # Memory Index
 
+- [afltables player profile URL + fetch gotchas](afltables_player_profile_url.md) - URL uses FIRST-name initial (not last name); needs requests+lxml not bare read_html; audit_player_career_totals() reconciles career totals
+- [AFL draft scraper Wikipedia schema drift](draft_scraper_wikipedia_schema.md) - scrapers/draft_scraper.py; select national-draft table by section heading not index; 4 era schema gotchas (rowspan Round, club-col 4 names, Rd./# headers, no-Round 1990s)
+
 - [Brownlow season-scale constant](brownlow_season_scale_constant.md) - scaled column + "(×N)" heading both read HOME_AND_AWAY_GAMES (=config, 22, wrong-by-one per BL-20); closing BL-20 rescales the column and moves the finals doc
 
 - [HOF full-table regen wiring](hof_full_table_regen.md) - whitelist inert without HOF-TABLE-START/END doc markers; table=bare names, prose=jnr/snr; disposals/goals are standard 7-col not multi-column

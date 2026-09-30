@@ -245,3 +245,122 @@ def test_one_missing_expected_season_and_empty_tables_fail(tmp_path: Path) -> No
         "biography_csv": {"rows_legacy": 0, "rows_new": 0, "content_matches": False},
     }
     assert module.comparison_verdict(empty)["ok"] is False
+
+
+def _corrected_replay(tmp_path: Path, suspect_goals: int = 0, *, missing_metadata: bool = False):
+    import hashlib
+    import shutil
+    from datetime import UTC, datetime
+
+    from supercoach_via import pipeline
+    from supercoach_via.settings import RunContext, Settings
+    from supercoach_via.storage.queries import SnapshotQuery
+    from supercoach_via.storage.snapshots import load_snapshot
+    from tests.scvia.unit import integrity_fixtures as fx
+    from tests.scvia.unit.test_corrections import DRAW, _replay_corpus
+
+    module = _compare()
+    source, dest, root = tmp_path / "source", tmp_path / "legacy", tmp_path / "data"
+    _replay_corpus(root, suspect_goals)
+    with SnapshotQuery(root, load_snapshot(root)) as q:
+        rows = {name: q.arrow(f'SELECT * FROM "{name}"').to_pylist() for name in load_snapshot(root).tables}
+    suspect = next(g for g in rows["player_games"] if g["match_id"] == DRAW and g["player_id"] == "legacy:p5")
+    if missing_metadata:
+        suspect.update(match_date=None, career_game_counter=None, career_game_counter_token=None)
+    rel = "data/player_data/p5_performance_details.csv"
+    file = source / rel
+    file.parent.mkdir(parents=True)
+    cells = ["" if suspect.get(field) is None else str(suspect[field]) for _, field in module._REPAIR_CSV]
+    line = ",".join(cells)
+    file.write_text(",".join(column for column, _ in module._REPAIR_CSV) + "\n" + line + "\n")
+    suspect.update(source_path=rel, source_row=1, source_sha256=hashlib.sha256(file.read_bytes()).hexdigest(),
+                   revision_id="rev:" + hashlib.sha256(line.encode()).hexdigest()[:32])
+    before = fx.build(root, rows)
+    result = pipeline.apply_corrections(
+        RunContext(settings=Settings(data_root=root), clock=lambda: datetime(2026, 9, 30, tzinfo=UTC)), seasons=[],
+    )
+    assert result.exit_code == 0 and result.promoted, result.message
+    shutil.copytree(source / "data", dest / "data")
+    return module, source, dest, root, before.snapshot_id, result.snapshot_id
+
+
+def test_legacy_copy_removes_only_a_verified_replay_quarantine(tmp_path: Path) -> None:
+    module, source, dest, root, before, after = _corrected_replay(tmp_path)
+    original = (source / "data/player_data/p5_performance_details.csv").read_bytes()
+    record = module.apply_verified_replay_corrections(source, dest, root, before, after)
+    assert record["source_snapshot_id"] == before and record["corrected_snapshot_id"] == after
+    assert record["rows_removed"] == 1 and record["rows_relinked"] == 0
+    assert record["removals"][0]["source_row"] == 1
+    assert (source / "data/player_data/p5_performance_details.csv").read_bytes() == original
+    assert len((dest / "data/player_data/p5_performance_details.csv").read_text().splitlines()) == 1
+
+
+def test_statistic_preserving_replay_relink_keeps_legacy_csv_bytes(tmp_path: Path) -> None:
+    module, source, dest, root, before, after = _corrected_replay(tmp_path, suspect_goals=2)
+    file = dest / "data/player_data/p5_performance_details.csv"
+    original = file.read_bytes()
+    record = module.apply_verified_replay_corrections(source, dest, root, before, after)
+    assert record["rows_removed"] == 0 and record["rows_relinked"] == 1
+    assert file.read_bytes() == original
+
+
+def test_replay_quarantine_can_preserve_missing_csv_date_and_career_counter(tmp_path: Path) -> None:
+    module, source, dest, root, before, after = _corrected_replay(tmp_path, missing_metadata=True)
+    record = module.apply_verified_replay_corrections(source, dest, root, before, after)
+    assert record["rows_removed"] == 1
+
+
+@pytest.mark.parametrize("defect", [
+    "extra_delete", "changed_stat", "source_edit", "scratch_edit", "quarantine_raw", "source_alias",
+    "quarantine_candidates", "quarantine_table", "quarantine_source", "unrelated_snapshot",
+])
+def test_legacy_correction_alignment_refuses_unverified_changes(tmp_path: Path, defect: str) -> None:
+    from datetime import UTC, datetime
+
+    from supercoach_via.storage import snapshots
+    from supercoach_via.storage.queries import SnapshotQuery
+
+    module, source, dest, root, before, after = _corrected_replay(tmp_path)
+    selected = snapshots.load_snapshot(root, after)
+    with SnapshotQuery(root, selected, tables={"player_games", "quarantine"}) as q:
+        game = q.arrow("SELECT * FROM player_games ORDER BY match_id, player_id LIMIT 1").to_pylist()[0]
+        quarantined = q.arrow("SELECT * FROM quarantine WHERE reason = 'replayed_draw_link_unresolved'").to_pylist()[0]
+    if defect == "unrelated_snapshot":
+        builder = snapshots.SnapshotBuilder(root, clock=lambda: datetime(2026, 9, 30, tzinfo=UTC), code_version="test")
+        for name, entry in selected.tables.items():
+            for fragment in entry.fragments:
+                builder.reuse(name, fragment)
+        after = builder.finish(status=selected.status).manifest.snapshot_id
+    elif defect in ("extra_delete", "changed_stat", "quarantine_raw", "quarantine_candidates",
+                    "quarantine_table", "quarantine_source"):
+        ups, deletes = {"player_games": []}, None
+        if defect == "extra_delete":
+            deletes = {"player_games": [game]}
+        elif defect == "changed_stat":
+            game["kicks"] += 1
+            ups["player_games"] = [game]
+        else:
+            field, value = {
+                "quarantine_raw": ("raw", "{}"),
+                "quarantine_candidates": ("candidates", '["not-a-replay"]'),
+                "quarantine_table": ("table_name", "matches"),
+                "quarantine_source": ("source_sha256", "0" * 64),
+            }[defect]
+            quarantined[field] = value
+            ups["quarantine"] = [quarantined]
+        selected = snapshots.apply_upserts(
+            root, selected, ups, deletes=deletes, allow_empty=True,
+            clock=lambda: datetime(2026, 9, 30, tzinfo=UTC), code_version="test", status=selected.status,
+        ).manifest
+        after = selected.snapshot_id
+    else:
+        file = (source if defect == "source_edit" else dest) / "data/player_data/p5_performance_details.csv"
+        if defect == "source_alias":
+            file.unlink()
+            file.hardlink_to(source / "data/player_data/p5_performance_details.csv")
+        else:
+            file.write_text(file.read_text() + "modified\n")
+    scratch_before = {str(p): p.read_bytes() for p in dest.rglob("*") if p.is_file()}
+    with pytest.raises(SystemExit, match="compare:"):
+        module.apply_verified_replay_corrections(source, dest, root, before, after)
+    assert scratch_before == {str(p): p.read_bytes() for p in dest.rglob("*") if p.is_file()}

@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from supercoach_via.integrity.capture import EvidenceStore, ReleaseCapture, SnapshotCapture
+from supercoach_via.integrity.capture import EvidenceStore, ExternalCapture, ReleaseCapture, SnapshotCapture
 from supercoach_via.integrity.policy import IntegrityPolicy
 from supercoach_via.integrity.report import Collector, RuleSpec, Status
 
@@ -59,6 +59,7 @@ class AuditContext:
     _con: duckdb.DuckDBPyConnection | None = None
     _registered: dict[str, bool] = field(default_factory=dict)
     cache: Any = None
+    external: ExternalCapture = field(default_factory=ExternalCapture)
 
     def add(self, rule_id: str, entity: str, **kw: Any) -> None:
         self.collector.add(rule_id, entity, **kw)

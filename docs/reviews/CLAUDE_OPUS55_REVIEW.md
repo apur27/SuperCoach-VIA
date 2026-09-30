@@ -116,9 +116,10 @@ no owner approval.
   `tests/integration` file or harness-invoked top-level Python entry point changed.
   `refresh`, `import-legacy` and `cli.py` change the data the opt-in numeric entry produces,
   so that path was treated as in scope and smoke-run (above). The default legacy harness
-  path is unchanged. A rehearsal import from the legacy CSVs still carries R17 attendance 0,
+  path is unchanged. At this follow-up's commit, a rehearsal import from the legacy CSVs still carries R17 attendance 0,
   because the capture-backed correction is applied by `apply-corrections` (or a refresh),
   never by editing `data/`. The numeric cycle must run it after an import.
+  The later GPT-6.1 Sol fixes in §0.7 add that step with explicit pinned evidence.
 
 ### 0.4a Tests on final code
 
@@ -132,7 +133,7 @@ no owner approval.
 | web: `gen:types:check`, `check`, `lint`, Vitest | up to date, 0 errors, clean, 174 passed / 2 skipped |
 | Playwright e2e at `/` and `/SuperCoach-VIA/` | 322 passed, 4 skipped (run-once checks) |
 
-**Oracle update.** `test_era_stats_match_legacy` compared the new era statistics with the
+**Original oracle update (superseded by §0.7).** `test_era_stats_match_legacy` compared the new era statistics with the
 legacy script, which reads every blank as missing, so O55-01 made it fail by design. It now
 states parity exactly. The number of observations may only grow. Because the added values
 are zeros, each metric's sum and sum of squares are unchanged, so the new mean and SD are
@@ -167,19 +168,120 @@ Alternatives, for the owner:
 1. Run the checker tests as their own parallel hermetic job (each half is about 30 s).
 2. Let `reseal` and the checker share one `validate_release` pass per test.
 3. Faster tree walks in `validate_release`: `pathlib.relative_to` is about half its time on
-   the DEMO. This is production code, so it was left alone here.
+   the DEMO. Implemented subsequently in §0.7; this alone does not meet the tier budget.
 4. A budget decision.
 
 This rewrite target (30 s) is separate from the legacy fast-tier budget in `CLAUDE.md`
 (about 20 s, `tests/unit`).
 
-### 0.7 Verdicts
+### 0.7 GPT-6.1 Sol coding follow-up (30 September–1 October 2026)
+
+At the owner's request, three GPT-6.1 Sol coding agents implemented fixes on this review
+branch, followed by cross-review and local verification. The earlier candidate and
+retained reference artifacts were left unchanged. This work does not approve the legacy
+zero-semantics policy, activate the numeric entry, or count as a real shadow cycle.
+
+**Audit inputs.** A new reproduction showed that editing a curated article after its
+comparison could leave `inputs.stable` PASS. Auxiliary inputs now use captured content
+for parsing and identity: articles, assets, policy, ranking method, predictions,
+evaluations, live captures, model hashes and the source evidence selected by the checks.
+Changes, deletions and newly selected inputs make stability UNKNOWN and coverage
+incomplete. Regression tests cover drift before/after comparison, relocation, missing
+inputs, duplicate evaluation basenames and source containment. Cross-review also caught
+omitted manifest defaults and an invalid live path; both now have passing regressions.
+
+**Numeric correction order.** The opt-in workflow now applies corrections after import
+or refresh and supplies the resulting immutable snapshot to forecast, comparison and
+release build. A fresh legacy import has no pinned season capture, so the rehearsal
+requires an explicit donor root and immutable donor snapshot. Only verified season
+captures and successful source observations are copied; donor match/player rows and
+legacy CSVs are untouched. Missing, corrupt or escaping evidence stops the workflow.
+Receipts distinguish the source snapshot from the corrected snapshot. See
+[`SWITCH_PLAN.md`](../rewrite/SWITCH_PLAN.md) for commands and failure recovery. An import
+can already have promoted its source snapshot when correction fails; no corrected child
+or public release is accepted on that failure.
+
+This procedure corrects existing match fields. It cannot add a grand final absent from
+the captured CSV input. The retained corrected candidate already contains the grand
+final and was checked separately; a rehearsal from the older CSVs has narrower coverage.
+
+The first full scratch run stopped at strict ranking parity: the new replay quarantines
+changed its inputs, while the legacy ranker still read the original CSVs. The comparison
+now verifies snapshot ancestry, source hashes, replay identities, quarantine evidence
+and row multiplicity before applying those bounded removals to scratch CSVs. Relinks
+must preserve statistics, and unexplained edits still fail. The comparison tolerances
+and score/order checks are unchanged. A focused real rerun matched every yearly list and
+all-time score exactly. A separate regression also fixed corrections containing only
+quarantines, which previously omitted a required empty upsert table.
+
+**Independent era expectations.** The previous parity test used the new output's own
+observation count to calculate expected means and skipped changed medians/per-100 values.
+The replacement reads original CSV cells and independently resolves eligibility. It
+asserts exact row membership and counts, then compares every mean, spread, median and
+per-100 result. Only provenance links and match stage come from the snapshot. Golden
+cases and deliberate denominator/zero mutations test the oracle itself.
+
+**Release validation cost.** The directory walk now carries relative names and makes one
+fresh `lstat` per entry. It retains byte hashing, seal checks and symlink refusal,
+including a file replaced by a symlink after enumeration. On the same 631-file sealed
+DEMO, five alternating runs reduced median validation time from 0.269 s to 0.115 s.
+This is a small-fixture measurement, not a claim about the full release or tier.
+
+**Consolidation and cleanup.** The owner requested delivery to main and fewer branches.
+Useful uncommitted parser notes and browser-contract checks were preserved; an obsolete
+budget-test edit was archived. The superseded phase2 scaffold, old performance/ML
+experiments and patch-equivalent agent branches have a verified recovery bundle under
+`var/recovery/branch-cleanup-20260930/`, with branch tips, patches and original file bytes
+in `manifest.json`. The bundle is incremental and requires the history retained in main.
+The obsolete daily/main-push phase2 sync workflow was removed. Production numeric
+activation remains subject to §0.8. Branch names are retired after the verified merge;
+linked worktrees and ignored verification artifacts are retained.
+
+Verification receipts are under the main checkout's
+`var/reviews/codex-opus55-20260930/validation/`; canonical audit runs are under
+`var/reviews/codex-opus55-20260930/sol-audits/`.
+
+| Check | Result |
+|---|---|
+| Final hermetic tier, four workers pinned to CPUs 0,2,4,6 | 1,025 passed in 54.56 s; the 30 s target remains open |
+| Numeric integration tier | 43 passed in 462.24 s; run before the final replay-comparison and quarantine-only fixes, which have focused regressions and the final scratch rehearsal |
+| Ruff / mypy | clean; mypy checked 76 source files |
+| Web generated contracts, type checks and lint | pass |
+| Vitest | 174 passed, 2 skipped; an additional real-release contract run passed all 12 tests |
+| Corrected candidate audit | all 26 checks PASS, complete and semantically complete; 26,599,913 cells compared, 5 warnings and 1 info, no blocking/error findings |
+| Audit determinism | reports byte-identical across cold 1/4 workers, warm cache and changed-since; 121.586 / 102.128 / 26.588 / 25.725 s respectively |
+| Auxiliary input mutation probe | a mid-audit article edit changes stability to UNKNOWN and semantic completeness to false; a fresh audit of the changed input fails |
+| Focused real ranking comparison | all 130 yearly lists identical in players, order and scores; all-time score delta 0 |
+| Final scratch rehearsal | PASS in 458.423 s; two sealed releases, strict ranking parity, failed-copy protection, local publish and rollback; 897 source files match |
+
+The canonical report digest is
+`061753ff8fe3c00288157b48279736d873af49970fc9c622e1cb7c0ec93dc6c3`.
+The final checker code fingerprint was checked against that report after the last
+source edit. The mutation probe is restricted to release/storage checks; it is a
+regression reproduction, not evidence of full-scope coverage. The audit's execution
+RSS fields describe process maxima, not a sampled process-tree peak.
+
+No tests were removed or reclassified to meet the time target. The earlier full browser
+E2E results remain historical; this follow-up changed a browser contract test, with no
+production browser-code edits. The legacy integration failures in §0.4a remain open.
+
+The final rehearsal is `/tmp/scvia-sol-smoke-20260930-final2`. Its source inventory is
+`a7d9a3ae41a468246bb93e3a825f8311d6925f46af263630a02ea610fa3ff1e0`.
+Both cycles selected the corrected snapshot `sha256:e70e66f6…21d300`; both public
+resources show R17 attendance 62,117 **[data]** from the pinned season capture.
+Sampled process-tree peaks were 1,920,768 / 1,909,444 KiB (about 1.83 / 1.82 GiB).
+The failed copy left the first release's bytes unchanged, and rollback returned the
+temporary host to `20260930T211937Z-0495e493fc14`. A compact receipt is committed at
+[`sol-followup-verification.json`](opus55/sol-followup-verification.json).
+This is a local rehearsal using older captured CSVs, not a real production shadow cycle.
+
+### 0.8 Verdicts
 
 | Question | Verdict |
 |---|---|
 | **Integrity checker** | **Ready for opt-in operator use.** It now compares every published resource type with its own input and reports incomplete coverage as UNKNOWN. It is deterministic across modes and worker counts, and the hermetic and real-data tiers pass. It is still not wired into any gate. |
 | **Candidate app** | **Usable locally as a candidate.** Sealed, validated, audited PASS with full semantic coverage, and browser-checked. It embeds a zero-semantics policy that the owner should confirm (0.3). The candidate release, data and bundle live only in the run directory. |
-| **Production activation** | **Not ready.** It still needs two genuine shadow cycles, the `SWITCH_PLAN.md` decisions, the owner's confirmation of the zero-semantics rule for uncaptured legacy rows, `apply-corrections` in the numeric cycle after an import, and a decision on O55-07. |
+| **Production activation** | **Not ready.** It still needs two genuine shadow cycles, the `SWITCH_PLAN.md` decisions, the owner's confirmation of the zero-semantics rule for uncaptured legacy rows, and a decision or further work on O55-07. The correction step is implemented in §0.7; the default entry is unchanged. |
 
 ## 1. Identity, scope and limits
 

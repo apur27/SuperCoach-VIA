@@ -10,6 +10,7 @@ from pathlib import Path
 import yaml
 
 from supercoach_via.domain.schemas import PLAYER_STAT_COLUMNS
+from supercoach_via.integrity.capture import ExternalCapture
 from supercoach_via.integrity.report import AcceptedException
 from supercoach_via.settings import default_config_dir
 
@@ -34,16 +35,19 @@ class IntegrityPolicy:
     config_dir: Path
 
 
-def load_policy(config_dir: Path | None = None) -> IntegrityPolicy:
+def load_policy(config_dir: Path | None = None, *, capture: ExternalCapture | None = None) -> IntegrityPolicy:
     cfg = config_dir or default_config_dir()
     files: dict[str, str] = {}
+    pinned = capture or ExternalCapture()
     for name in POLICY_INPUTS:
         path = cfg / name
-        if not path.is_file():
+        pinned.pin(path, "policy", name)
+        data = pinned.get(path)
+        if data is None:
             raise PolicyError(f"policy input missing: {path}")
-        files[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        files[name] = hashlib.sha256(data).hexdigest()
     try:
-        raw = yaml.safe_load((cfg / POLICY_FILE).read_text(encoding="utf-8")) or {}
+        raw = yaml.safe_load(pinned.read(cfg / POLICY_FILE)) or {}
     except yaml.YAMLError as exc:
         raise PolicyError(f"{POLICY_FILE}: {exc}") from exc
     if raw.get("schema_version") != 1:

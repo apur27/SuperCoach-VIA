@@ -10,20 +10,27 @@ import subprocess
 import time
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[3]
 SCRIPT = ROOT / "scripts" / "scvia_weekly.sh"
+SOURCE_ID = "sha256:" + "b" * 64
+CORRECTED_ID = "sha256:" + "c" * 64
 
 
 def _fake(tmp_path: Path) -> tuple[Path, Path]:
     log = tmp_path / "calls.log"
     fake = tmp_path / "scvia"
+    source = json.dumps({"ok": True, "outputs": {}, "snapshot_id": SOURCE_ID})
+    corrected = json.dumps({"ok": True, "outputs": {}, "snapshot_id": CORRECTED_ID})
     fake.write_text(
         "#!/bin/sh\n"
         'printf "%s\\n" "$*" >> "$CALL_LOG"\n'
         'case "$1" in\n'
+        f"  apply-corrections) echo '{corrected}' ;;\n"
         "  forecast) echo '{\"outputs\":{\"bundle_id\":\"bundle-test\",\"prediction_dir\":\"/tmp/pred\"}}' ;;\n"
         "  build-release) echo '{\"outputs\":{\"release_id\":\"r-test\"}}' ;;\n"
-        "  *) echo '{\"outputs\":{},\"snapshot_id\":\"sha256:pinned\"}' ;;\n"
+        f"  *) echo '{source}' ;;\n"
         "esac\n"
     )
     fake.chmod(0o755)
@@ -41,6 +48,8 @@ def _env(tmp_path: Path, fake: Path, log: Path, **extra: str) -> dict[str, str]:
             "SCVIA_SKIP_SITE": "1",
             "CALL_LOG": str(log),
             "SCVIA_SOURCE_MODE": "rehearsal",
+            "SCVIA_CORRECTION_EVIDENCE_ROOT": str(tmp_path / "evidence"),
+            "SCVIA_CORRECTION_EVIDENCE_SNAPSHOT": "sha256:" + "a" * 64,
         }
     )
     marker = tmp_path / "cycle.json"
@@ -68,7 +77,12 @@ def test_rehearsal_imports_the_captured_source_and_does_not_refresh(tmp_path: Pa
     assert result.returncode == 0, result.stderr
     calls = log.read_text()
     assert calls.splitlines()[0].startswith("import-legacy ")
-    assert "--snapshot sha256:pinned" in calls
+    assert calls.splitlines()[1].startswith("apply-corrections ")
+    assert f"--evidence-root {tmp_path / 'evidence'}" in calls.splitlines()[1]
+    assert "--evidence-snapshot sha256:" + "a" * 64 in calls.splitlines()[1]
+    assert "--season 2026" in calls.splitlines()[1]
+    assert f"--snapshot {CORRECTED_ID}" in calls
+    assert f"--snapshot {SOURCE_ID}" not in calls
     assert "--snapshot current" not in calls
     assert "--allow-network" not in calls
     assert "refresh " not in calls
@@ -76,6 +90,75 @@ def test_rehearsal_imports_the_captured_source_and_does_not_refresh(tmp_path: Pa
     status = json.loads((tmp_path / "var" / "scvia-weekly-status.json").read_text())
     assert status["mode"] == "rehearsal" and status["phase"] == "complete" and status["exit_code"] == 0
     assert status["forecast_cutoff"] == "2026-09-25T00:00:00Z" and status["run_id"] and status["started"]
+    assert status["snapshot_id"] == CORRECTED_ID
+    assert status["source_snapshot_id"] == SOURCE_ID
+    assert (Path(status["evidence_dir"]) / "corrections.json").is_file()
+
+
+def test_rehearsal_without_pinned_correction_evidence_stops_before_import(tmp_path: Path) -> None:
+    fake, log = _fake(tmp_path)
+    captured = tmp_path / "captured"
+    (captured / "data").mkdir(parents=True)
+    env = _env(tmp_path, fake, log, SCVIA_CAPTURED_SOURCE=str(captured))
+    env.pop("SCVIA_CORRECTION_EVIDENCE_ROOT")
+    env.pop("SCVIA_CORRECTION_EVIDENCE_SNAPSHOT")
+    result = _run(env)
+    assert result.returncode == 2
+    assert "SCVIA_CORRECTION_EVIDENCE" in result.stderr
+    assert not log.exists()
+
+
+def test_comparison_alignment_uses_source_and_corrected_snapshot_ids(tmp_path: Path) -> None:
+    fake, log = _fake(tmp_path)
+    python = tmp_path / "python"
+    python.write_text('#!/bin/sh\nprintf "python %s\\n" "$*" >> "$CALL_LOG"\necho "{}"\n')
+    python.chmod(0o755)
+    captured = tmp_path / "captured"
+    (captured / "data").mkdir(parents=True)
+    result = _run(_env(tmp_path, fake, log, SCVIA_CAPTURED_SOURCE=str(captured), SCVIA_LEGACY_ROOT="1"))
+    assert result.returncode == 0, result.stderr
+    calls = log.read_text().splitlines()
+    [regenerate] = [call for call in calls if " --regenerate " in call]
+    [compare] = [call for call in calls if " --promoted " in call]
+    assert f"--correction-data-root {tmp_path / 'data'}" in regenerate
+    assert f"--source-snapshot {SOURCE_ID}" in regenerate
+    assert f"--corrected-snapshot {CORRECTED_ID}" in regenerate
+    assert f"--snapshot {CORRECTED_ID}" in compare
+
+
+@pytest.mark.parametrize("failed_output, command_exit", [
+    ('{"ok":false,"exit_code":3,"snapshot_id":"sha256:wrong"}', 3),
+    ('{"ok":false,"exit_code":3,"snapshot_id":"sha256:wrong"}', 0),
+    ('{"ok":true,"snapshot_id":null}', 0),
+    ('{"ok":true,"snapshot_id":"current"}', 0),
+    ('{"ok":true,"snapshot_id":"sha256:wrong"}', 0),
+    (json.dumps({"ok": True, "snapshot_id": "sha256:" + "z" * 64}), 0),
+    ('not json', 0),
+])
+def test_failed_corrections_stop_before_forecast_with_truthful_status(
+    tmp_path: Path, failed_output: str, command_exit: int,
+) -> None:
+    fake, log = _fake(tmp_path)
+    source = json.dumps({"ok": True, "snapshot_id": SOURCE_ID})
+    fake.write_text(
+        "#!/bin/sh\n"
+        'printf "%s\\n" "$*" >> "$CALL_LOG"\n'
+        'if [ "$1" = "apply-corrections" ]; then\n'
+        f"  printf '%s\\n' '{failed_output}'\n"
+        f"  exit {command_exit}\n"
+        "fi\n"
+        f"echo '{source}'\n"
+    )
+    captured = tmp_path / "captured"
+    (captured / "data").mkdir(parents=True)
+    result = _run(_env(tmp_path, fake, log, SCVIA_CAPTURED_SOURCE=str(captured)))
+    assert result.returncode != 0
+    calls = log.read_text().splitlines()
+    assert [c.split()[0] for c in calls] == ["import-legacy", "apply-corrections"]
+    status = json.loads((tmp_path / "var" / "scvia-weekly-status.json").read_text())
+    assert status["phase"] == "corrections" and status["exit_code"] == result.returncode
+    assert status["snapshot_id"] == SOURCE_ID and status["source_snapshot_id"] == SOURCE_ID
+    assert (Path(status["evidence_dir"]) / "corrections.json").read_text().strip() == failed_output
 
 
 def test_rehearsal_without_a_captured_source_does_not_fetch(tmp_path: Path) -> None:
@@ -263,6 +346,8 @@ def test_production_refresh_is_the_only_source_step(tmp_path: Path) -> None:
     calls = log.read_text().splitlines()
     assert calls[0].startswith("refresh ") and "--allow-network" in calls[0] and "--data-only" in calls[0]
     assert f"--data-root {tmp_path / 'data'}" in calls[0]
+    assert calls[1].startswith("apply-corrections ") and "--season 2026" in calls[1]
+    assert "--evidence-root" not in calls[1] and "--allow-network" not in calls[1]
     assert all(not line.startswith("import-legacy") for line in calls)
     status = json.loads((tmp_path / "var" / "scvia-weekly-status.json").read_text())
     assert status["mode"] == "production" and status["exit_code"] == 0

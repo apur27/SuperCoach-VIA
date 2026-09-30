@@ -739,3 +739,85 @@ def test_public_booleans_are_not_coerced_from_numbers() -> None:
         PlayerIndexEntry.model_validate({**ok, "active": 1})
     with pytest.raises(ValidationError):
         PlayerIndexEntry.model_validate({**ok, "active": "true"})
+
+
+def test_tree_inventory_classifies_each_entry_once(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Use one fresh no-follow type check, instead of several stat calls per path."""
+    import os
+
+    root = tmp_path / "tree"
+    for branch in range(4):
+        folder = root / str(branch)
+        folder.mkdir(parents=True)
+        for i in range(32):
+            (folder / f"{i}.txt").write_bytes(b"release bytes")
+    calls = 0
+    real_stat, real_lstat = os.stat, os.lstat
+
+    def count_stat(*args: object, **kwargs: object):  # type: ignore[no-untyped-def]
+        nonlocal calls
+        calls += 1
+        return real_stat(*args, **kwargs)
+
+    def count_lstat(*args: object, **kwargs: object):  # type: ignore[no-untyped-def]
+        nonlocal calls
+        calls += 1
+        return real_lstat(*args, **kwargs)
+
+    monkeypatch.setattr(os, "stat", count_stat)
+    monkeypatch.setattr(os, "lstat", count_lstat)
+    inventory, problems = rel._walk_tree(root)
+    assert problems == [] and len(inventory) == 128
+    assert all(info == {"sha256": rel.sha256_bytes(b"release bytes"), "bytes": 13} for info in inventory.values())
+    # One check for each of the 128files, 4directories and the root; allow one extra.
+    assert calls <= 134, f"tree inventory made {calls} redundant path stats"
+
+
+def test_tree_inventory_refuses_links_and_special_files(tmp_path: Path) -> None:
+    import os
+
+    root = tmp_path / "tree"
+    root.mkdir()
+    external = tmp_path / "outside"
+    external.mkdir()
+    (external / "private.txt").write_text("private")
+    (root / "linked-directory").symlink_to(external, target_is_directory=True)
+    (root / "linked-file").symlink_to(external / "private.txt")
+    (root / "broken-link").symlink_to(tmp_path / "missing")
+    os.mkfifo(root / "pipe")
+    (root / "regular.txt").write_text("public")
+    inventory, problems = rel._walk_tree(root)
+    assert set(inventory) == {"regular.txt"}
+    assert problems == ["symlink refused: broken-link", "symlink refused: linked-directory",
+                        "symlink refused: linked-file", "non-regular file refused: pipe"]
+    assert set(rel._iter_files(root)) == {"regular.txt", "SYMLINK:broken-link",
+                                          "SYMLINK:linked-directory", "SYMLINK:linked-file"}
+    assert rel._site_content_problems(root) == problems
+
+
+@pytest.mark.parametrize("mutation", ["symlink", "missing"])
+def test_tree_inventory_refuses_entry_changed_during_scan(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mutation: str,
+) -> None:
+    root = tmp_path / "tree"
+    root.mkdir()
+    first, second = root / "a.txt", root / "b.txt"
+    first.write_bytes(b"first")
+    second.write_bytes(b"second")
+    external = tmp_path / "private.txt"
+    external.write_bytes(b"private")
+    read_bytes = Path.read_bytes
+
+    def replace_next(path: Path) -> bytes:
+        data = read_bytes(path)
+        if path == first:
+            second.unlink()
+            if mutation == "symlink":
+                second.symlink_to(external)
+        return data
+
+    monkeypatch.setattr(Path, "read_bytes", replace_next)
+    inventory, problems = rel._walk_tree(root)
+    assert set(inventory) == {"a.txt"}
+    label = "symlink" if mutation == "symlink" else "non-regular file"
+    assert problems == [f"{label} refused: b.txt"]

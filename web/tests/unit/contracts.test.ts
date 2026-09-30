@@ -36,7 +36,8 @@ describe('generated contracts', () => {
 });
 
 function validateTree(root: string) {
-  const files = walk(root).filter((f) => f.endsWith('.json'));
+  // downloads/ holds download payloads (checksummed by downloads.json), not typed browser resources
+  const files = walk(root).filter((f) => f.endsWith('.json') && !relative(root, f).split('\\').join('/').startsWith('downloads/'));
   expect(files.length).toBeGreaterThan(10);
   for (const f of files) {
     const rel = relative(root, f).split('\\').join('/');
@@ -86,7 +87,7 @@ describe('fixture releases validate against the schemas', () => {
     expect(rel.demo).toBe(true);
     expect(rel.base_label).toBe('DEMO');
   });
-  const pyDemo = resolve(WEB, '../dist/demo/public');
+  const pyDemo = process.env.SCVIA_PY_RELEASE_DIR ?? resolve(WEB, '../dist/demo/public');
   it.runIf(existsSync(join(pyDemo, 'release.json')))('python demo release (dist/demo/public)', () => validateTree(pyDemo));
 });
 

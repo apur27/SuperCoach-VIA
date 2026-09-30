@@ -23,6 +23,7 @@ import json
 import os
 import re
 import shutil
+import stat
 from collections.abc import Callable, Iterable
 from datetime import datetime
 from pathlib import Path
@@ -247,12 +248,39 @@ def list_releases(output_root: Path) -> list[str]:
     return sorted(p.name for p in base.iterdir() if p.is_dir() and not p.name.startswith("."))
 
 
+def _tree_entries(root: Path) -> Iterable[tuple[Path, str, str]]:
+    """Sorted depth-first entries with one fresh no-follow type check per path.
+
+    Keep pending directory entries instead of materializing the whole tree, and carry
+    relative names during traversal. Fresh lstat preserves symlink checks when entries
+    change after enumeration; no file bytes or validation evidence are cached.
+    """
+    with os.scandir(root) as scan:
+        pending = [(entry, entry.name) for entry in sorted(scan, key=lambda entry: entry.name, reverse=True)]
+    while pending:
+        entry, relative = pending.pop()
+        path = Path(entry.path)
+        try:
+            mode = os.lstat(entry.path).st_mode
+        except (FileNotFoundError, NotADirectoryError):
+            yield path, relative, "other"
+            continue
+        if stat.S_ISLNK(mode):
+            yield path, relative, "symlink"
+        elif stat.S_ISDIR(mode):
+            with os.scandir(entry.path) as scan:
+                pending.extend((child, f"{relative}/{child.name}")
+                               for child in sorted(scan, key=lambda child: child.name, reverse=True))
+        else:
+            yield path, relative, "file" if stat.S_ISREG(mode) else "other"
+
+
 def _iter_files(root: Path) -> Iterable[str]:
-    for p in sorted(root.rglob("*")):
-        if p.is_symlink():
-            yield f"SYMLINK:{p.relative_to(root).as_posix()}"
-        elif p.is_file():
-            yield p.relative_to(root).as_posix()
+    for _path, relative, kind in _tree_entries(root):
+        if kind == "symlink":
+            yield f"SYMLINK:{relative}"
+        elif kind == "file":
+            yield relative
 
 
 def _walk_tree(root: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
@@ -261,18 +289,13 @@ def _walk_tree(root: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
     problems: list[str] = []
     if not root.is_dir():
         return files, ["site directory is missing"]
-    for path in sorted(root.rglob("*")):
-        rel = path.relative_to(root).as_posix()
-        if path.is_symlink():
-            problems.append(f"symlink refused: {rel}")
-            continue
-        if path.is_dir():
-            continue
-        if not path.is_file():
-            problems.append(f"non-regular file refused: {rel}")
+    for path, relative, kind in _tree_entries(root):
+        if kind != "file":
+            label = "symlink" if kind == "symlink" else "non-regular file"
+            problems.append(f"{label} refused: {relative}")
             continue
         data = path.read_bytes()
-        files[rel] = {"sha256": sha256_bytes(data), "bytes": len(data)}
+        files[relative] = {"sha256": sha256_bytes(data), "bytes": len(data)}
     return files, problems
 
 
@@ -333,15 +356,10 @@ def _site_content_problems(site: Path) -> list[str]:
     problems: list[str] = []
     if not site.is_dir():
         return ["sealed site is missing"]
-    for path in sorted(site.rglob("*")):
-        rel = path.relative_to(site).as_posix()
-        if path.is_symlink():
-            problems.append(f"symlink refused: {rel}")
-            continue
-        if path.is_dir():
-            continue
-        if not path.is_file():
-            problems.append(f"non-regular file refused: {rel}")
+    for path, rel, kind in _tree_entries(site):
+        if kind != "file":
+            label = "symlink" if kind == "symlink" else "non-regular file"
+            problems.append(f"{label} refused: {rel}")
             continue
         if FORBIDDEN_NAMES.search(rel) or any(part.startswith(".") for part in rel.split("/")):
             problems.append(f"forbidden site path {rel}")

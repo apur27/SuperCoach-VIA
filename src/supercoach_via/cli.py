@@ -610,6 +610,12 @@ def demo(
 @app.command("apply-corrections")
 def apply_corrections_cmd(
     season: Annotated[list[int], typer.Option("--season", help="season whose pinned page to apply (repeatable)")],
+    evidence_root: Annotated[
+        Path | None, typer.Option("--evidence-root", help="offline snapshot root supplying season captures")
+    ] = None,
+    evidence_snapshot: Annotated[
+        str | None, typer.Option("--evidence-snapshot", help="immutable sha256:<id> evidence snapshot")
+    ] = None,
     config: ConfigOpt = None,
     data_root: DataRootOpt = None,
     run_id: Annotated[str | None, typer.Option("--run-id")] = None,
@@ -624,7 +630,10 @@ def apply_corrections_cmd(
         settings = _settings(config, data_root=data_root)
         if not (settings.data_root / "current.json").is_file():
             raise CliFailure("invalid_input", f"no accepted snapshot under {settings.data_root}", "run import-legacy")
-        res = pipeline.apply_corrections(RunContext(settings=settings), seasons=season, run_id=run_id)
+        res = pipeline.apply_corrections(
+            RunContext(settings=settings), seasons=season, run_id=run_id,
+            evidence_root=evidence_root, evidence_snapshot=evidence_snapshot,
+        )
         return _stage_payload(res)
 
     _run(json_out, body)

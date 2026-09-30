@@ -91,6 +91,17 @@ def test_clean_available_forecast_passes(env: dict[str, Path]) -> None:
     assert res.report["inputs"]["models"]["predictions"][0]["status"] == "available"
 
 
+def test_valid_manifests_can_omit_default_payload_filenames(env: dict[str, Path]) -> None:
+    from supercoach_via.ml.predict import PredictionManifest
+
+    for root, model in ((env["models"], BundleManifest), (env["predictions"], PredictionManifest)):
+        for path in root.glob("*/manifest.json"):
+            manifest = model.model_validate_json(path.read_bytes())
+            path.write_text(manifest.model_dump_json(exclude_defaults=True))
+    result = audit(env)
+    assert result.outcome.value == "PASS", [f.as_dict() for f in result.findings]
+
+
 def test_wrong_feature_order(env: dict[str, Path]) -> None:
     def edit(d: dict[str, Any]) -> None:
         d["feature_names"][0], d["feature_names"][1] = d["feature_names"][1], d["feature_names"][0]

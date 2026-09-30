@@ -17,7 +17,6 @@ import os
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
 
 import pandas as pd
 import pytest
@@ -181,32 +180,36 @@ class TestErasParity:
         root, manifest = snap
         with SnapshotQuery(root, manifest) as q:
             got = eras.era_stats(q, eras=eras_cfg)
-        got = got.set_index(["era", "legacy_metric"]).loc[list(zip(want.era, want.metric, strict=True))]
-        got = got.reset_index(drop=True)
-        assert (got["n_player_games"] == want["n_player_games"]).all()
-        # O55-01: the import now records a source blank as 0 where the source proves it (the
-        # legacy script reads every blank as missing). Resolution only ADDS observations, and
-        # every added value is 0, so each metric's sum and sum of squares are unchanged: the
-        # new mean and sample SD follow exactly from the legacy ones. Where nothing was
-        # resolved, every column must match exactly, median and per-100% included.
-        n_new, n_old = got["n_with_metric"].astype(float), want["n_with_metric"].astype(float)
-        assert (n_new >= n_old).all()
-        m_old = want["mean_per_game"].astype(float).fillna(0.0)
-        total = m_old * n_old
-        sumsq = want["std_per_game"].astype(float).fillna(0.0) ** 2 * (n_old - 1).clip(lower=0) + n_old * m_old**2
-        mean_new = (total / n_new).where(n_new > 0)
-        sd_new = (((sumsq - n_new * mean_new**2) / (n_new - 1)).clip(lower=0) ** 0.5).where(n_new > 1)
+        from supercoach_via.ingest.reconcile import load_policy
+        from tests.scvia.era_source_oracle import (
+            assert_source_summary,
+            read_source_games,
+            resolve_source_blanks,
+            source_era_stats,
+        )
 
-        def close(a: Any, b: Any) -> Any:
-            a, b = a.astype(float), b.astype(float)
-            return ((a - b).abs() <= 1e-9 * b.abs().clip(lower=1)) | (a.isna() & b.isna())
-
-        assert close(got["mean_per_game"], mean_new).all()
-        assert (close(got["std_per_game"], sd_new) | (n_new <= 1)).all()
-        same = n_new == n_old
-        assert same.sum() > 0 and (n_new > n_old).sum() > 0
-        for col in ("mean_per_game", "std_per_game", "median_per_game", "mean_per_100pct_played"):
-            assert close(got[col], want[col])[same].all(), col
+        # Only row provenance and match identity come from the snapshot; every expected
+        # observation and denominator comes from the original CSV cells. The outer join
+        # refuses any missing, extra or duplicate mapping instead of silently losing rows.
+        with SnapshotQuery(root, manifest) as q:
+            links = q.df(
+                """SELECT g.source_path, g.source_row, g.season, g.match_id, m.stage_type
+                   FROM player_games g LEFT JOIN matches m USING (match_id)"""
+            )
+        paths = [Path(p).relative_to(REPO).as_posix() for p in _dedup_sorted_glob(
+            str(REPO / "data/player_data/*_performance_details.csv")
+        )]
+        source = read_source_games(REPO, paths, links)
+        # First establish that the independent raw-cell statistics retain legacy parity.
+        raw_expected = source_era_stats(source)
+        assert_source_summary(want.rename(columns={"metric": "legacy_metric"}), raw_expected)
+        resolved = resolve_source_blanks(source, load_policy(REPO / "config").coverage.recorded_from)
+        expected = source_era_stats(resolved)
+        assert_source_summary(got, expected)
+        # This corpus exercises both changed and unchanged rows; medians and per100 are
+        # checked above for all rows, including every row whose zero denominator changed.
+        changed = expected["n_with_metric"].ne(raw_expected["n_with_metric"])
+        assert changed.any() and (~changed).any()
 
 
 class TestPerformance:

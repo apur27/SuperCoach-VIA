@@ -389,8 +389,206 @@ def apply_documented_repair(dest: Path, evidence_dir: Path, season: int) -> dict
     }
 
 
+def apply_verified_replay_corrections(
+    source: Path, dest: Path, data_root: Path, source_snapshot: str, corrected_snapshot: str,
+) -> dict[str, Any]:
+    """Align scratch ranking inputs using independently checked replay deltas, never exports.
+
+    Only changed player-game partitions are compared. Relinks must preserve every
+    statistic and reconcile official goals; removals require a W/L row on a draw,
+    matching preserved quarantine evidence, and exact original CSV provenance.
+    Verify the entire plan before changing any scratch file.
+    """
+    import hashlib
+    import re
+    from contextlib import suppress
+    from datetime import date
+
+    from supercoach_via.storage import snapshots
+
+    def refuse(message: str) -> None:
+        raise SystemExit(f"compare: {message}")
+
+    if source.resolve() == dest.resolve():
+        refuse("correction destination aliases captured source")
+    for selected in (source_snapshot, corrected_snapshot):
+        if not re.fullmatch(r"sha256:[0-9a-f]{64}", selected):
+            refuse("correction comparison requires immutable snapshot IDs")
+    before = snapshots.load_snapshot(data_root, source_snapshot, verify=True)
+    after = snapshots.load_snapshot(data_root, corrected_snapshot, verify=True)
+    ancestor, seen = after, set()
+    while ancestor.snapshot_id != source_snapshot:
+        if ancestor.parent is None or ancestor.snapshot_id in seen:
+            refuse("corrected snapshot does not descend from the selected source snapshot")
+        seen.add(ancestor.snapshot_id)
+        ancestor = snapshots.load_snapshot(data_root, ancestor.parent)
+    aggregate = before.source_revisions.get("legacy_input_aggregate_sha256")
+    if aggregate is not None and after.source_revisions.get("legacy_input_aggregate_sha256") != aggregate:
+        refuse("corrected snapshot changed its legacy input inventory binding")
+    parts = {f.partition for f in before.tables["player_games"].fragments}
+    parts |= {f.partition for f in after.tables["player_games"].fragments}
+    changed = {p for p in parts if
+               {f.path for f in before.tables["player_games"].fragments if f.partition == p} !=
+               {f.path for f in after.tables["player_games"].fragments if f.partition == p}}
+    selection = {"player_games": changed}
+    with SnapshotQuery(data_root, before, tables={"player_games", "matches"}, partitions=selection) as left:
+        with SnapshotQuery(data_root, after, tables={"player_games", "quarantine"}, partitions=selection) as right:
+            for query in (left, right):
+                if query.scalar("SELECT COUNT(*) - COUNT(DISTINCT (match_id, player_id, club_id)) FROM player_games"):
+                    refuse("duplicate player-game keys in a changed partition")
+            left.con.register("corrected_games", right.arrow("SELECT * FROM player_games"))
+            removed = left.arrow("SELECT * FROM player_games EXCEPT ALL SELECT * FROM corrected_games").to_pylist()
+            added = left.arrow("SELECT * FROM corrected_games EXCEPT ALL SELECT * FROM player_games").to_pylist()
+            quarantines = right.arrow(
+                "SELECT * FROM quarantine WHERE reason = 'replayed_draw_link_unresolved'"
+            ).to_pylist() if "quarantine" in after.tables else []
+        ids = sorted({g["match_id"] for g in removed + added})
+        matches = {m["match_id"]: m for m in left.arrow(
+            "SELECT DISTINCT m.* FROM matches m JOIN matches d USING (season, stage_id) "
+            "WHERE list_contains(?, d.match_id)", [ids]
+        ).to_pylist()}
+        games = left.arrow("SELECT * FROM player_games WHERE list_contains(?, match_id)", [list(matches)]).to_pylist()
+
+    def replay_for(row: dict[str, Any]) -> dict[str, Any]:
+        draw = matches[row["match_id"]]
+        if row["club_id"] not in (draw["home_club_id"], draw["away_club_id"]):
+            refuse("removed row club does not belong to the drawn match")
+        found = [m for m in matches.values() if m["status"] == "complete" and m["season"] == draw["season"]
+                 and m["stage_id"] == draw["stage_id"] and m["replay_occurrence"] == draw["replay_occurrence"] + 1
+                 and {m["home_club_id"], m["away_club_id"]} == {draw["home_club_id"], draw["away_club_id"]}]
+        if len(found) != 1:
+            refuse("removed draw row has no unambiguous official next replay")
+        return found[0]
+
+    def movement_proven(row: dict[str, Any], replay: dict[str, Any]) -> bool:
+        club, draw = row["club_id"], matches[row["match_id"]]
+        suspects = [g for g in games if g["match_id"] == draw["match_id"] and g["club_id"] == club
+                    and g["result"] in ("W", "L")]
+        replay_rows = [g for g in games if g["match_id"] == replay["match_id"] and g["club_id"] == club]
+        if {g["player_id"] for g in suspects} & {g["player_id"] for g in replay_rows}:
+            return False
+        rs = "home" if replay["home_club_id"] == club else "away"
+        other = "away" if rs == "home" else "home"
+        result = "W" if replay[f"{rs}_score"] > replay[f"{other}_score"] else "L"
+        if any(g["result"] != result for g in suspects):
+            return False
+        before_totals, after_totals, official = [], [], []
+        for match, direction in ((draw, -1), (replay, 1)):
+            side = "home" if match["home_club_id"] == club else "away"
+            for stat in ("goals", "behinds"):
+                total = sum(g[stat] or 0 for g in games if g["match_id"] == match["match_id"] and g["club_id"] == club)
+                adjusted = total + direction * sum(g[stat] or 0 for g in suspects)
+                target = match[f"{side}_final_{stat}"]
+                if stat == "goals":
+                    before_totals.append(total)
+                    after_totals.append(adjusted)
+                    official.append(target)
+                elif target is not None and adjusted > target:
+                    return False
+        return after_totals == official and before_totals != official
+    new_rows = {(g["player_id"], g["club_id"], g["season"]): g for g in added}
+    if len(new_rows) != len(added):
+        refuse("ambiguous added replay rows")
+    quarantined = {json.loads(q["raw"])["match_id"] + "|" + json.loads(q["raw"])["player_id"]:
+                   q for q in quarantines if "match_id" in json.loads(q["raw"]) and "player_id" in json.loads(q["raw"])}
+    removals: list[dict[str, Any]] = []
+    relinks: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    plans: dict[Path, tuple[list[bytes], set[int]]] = {}
+    for row in removed:
+        draw = matches[row["match_id"]]
+        if draw["status"] != "complete" or draw["home_score"] != draw["away_score"] or row["result"] not in ("W", "L"):
+            refuse("unexpected player-game mutation or deletion")
+        replay = replay_for(row)
+        moved = new_rows.pop((row["player_id"], row["club_id"], row["season"]), None)
+        if moved is not None:
+            if {k: v for k, v in row.items() if k not in ("match_id", "link_method")} != {
+                k: v for k, v in moved.items() if k not in ("match_id", "link_method")
+            } or moved["link_method"] != "score_reconciled":
+                refuse("a replay relink changed ranking inputs")
+            if moved["match_id"] != replay["match_id"] or not movement_proven(row, replay):
+                refuse("relink does not name the next replay of the drawn final")
+            side = "home" if replay["home_club_id"] == row["club_id"] else "away"
+            other = "away" if side == "home" else "home"
+            if row["result"] != ("W" if replay[f"{side}_score"] > replay[f"{other}_score"] else "L"):
+                refuse("relinked result disagrees with official replay score")
+            relinks.append((row, moved))
+            continue
+        key = row["match_id"] + "|" + row["player_id"]
+        evidence = quarantined.get(key)
+        canonical = json.loads(json.dumps(row, default=lambda value: value.isoformat()))
+        if evidence is None or json.loads(evidence["raw"]) != canonical:
+            refuse("removed row has no matching preserved quarantine evidence")
+        if (evidence["table_name"] != "player_games"
+                or json.loads(evidence["candidates"]) != [draw["match_id"], replay["match_id"]]
+                or any(evidence[k] != row[k] for k in
+                       ("provenance", "source_path", "source_sha256", "source_row", "season"))
+                or movement_proven(row, replay)):
+            refuse("quarantine does not describe an independently unresolved replay link")
+        if row["provenance"] != "legacy_import" or row["source_row"] is None:
+            refuse("quarantined row has no unambiguous legacy CSV provenance")
+        original = snapshots.contained_path(source, row["source_path"])
+        copied = snapshots.contained_path(dest, row["source_path"])
+        if original.samefile(copied):
+            refuse("scratch correction file aliases captured source")
+        content = original.read_bytes()
+        if hashlib.sha256(content).hexdigest() != row["source_sha256"] or copied.read_bytes() != content:
+            refuse("captured or scratch CSV differs from the quarantined row's source hash")
+        lines = content.splitlines(keepends=True)
+        indexed = [(i, line.decode("utf-8-sig").rstrip("\r\n")) for i, line in enumerate(lines[1:], start=1)
+                   if line.rstrip(b"\r\n")]
+        number = int(row["source_row"])
+        if not 1 <= number <= len(indexed):
+            refuse("quarantined source row is outside its CSV")
+        index, text = indexed[number - 1]
+        if "rev:" + hashlib.sha256(text.encode()).hexdigest()[:32] != row["revision_id"]:
+            refuse("quarantined source row does not match its recorded revision")
+        header = next(csv.reader([lines[0].decode("utf-8-sig")]))
+        cells = dict(zip(header, next(csv.reader([text])), strict=True))
+        source_date = None
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", cells.get("date", "")):
+            with suppress(ValueError):
+                source_date = date.fromisoformat(cells["date"])
+        counter_token = cells.get("games_played") or None
+        counter = None if counter_token is None else int(counter_token.rstrip("↑↓"))
+        if (row["player_id"] != "legacy:" + original.name.removesuffix("_performance_details.csv")
+                or cells.get("year") != str(row["season"]) or cells.get("result") != row["result"]
+                or cells.get("team") != row["club_source_name"] or cells.get("round") != row["stage_label"]
+                or cells.get("opponent") != row["opponent_source_name"]
+                or source_date != row["match_date"] or counter != row["career_game_counter"]
+                or counter_token != row["career_game_counter_token"]):
+            refuse("quarantined source row identity disagrees with its CSV")
+        for column, field in _REPAIR_CSV[6:-1]:
+            cell = cells[column]
+            if (cell.strip() and float(cell) != row[field]) or (not cell.strip() and row[field] not in (None, 0)):
+                refuse("quarantined statistics disagree with the original CSV")
+        plans.setdefault(copied, (lines, set()))[1].add(index)
+        removals.append({"match_id": row["match_id"], "player_id": row["player_id"],
+                         "source_path": row["source_path"], "source_row": number,
+                         "source_sha256": row["source_sha256"], "revision_id": row["revision_id"],
+                         "reason": evidence["reason"]})
+    if new_rows:
+        refuse("unexpected added player games")
+    for row, moved in relinks:
+        club, draw_id, replay_id = row["club_id"], row["match_id"], moved["match_id"]
+        group = [g for g, m in relinks if g["match_id"] == draw_id
+                 and m["match_id"] == replay_id and g["club_id"] == club]
+        moving = sum(g["goals"] or 0 for g in group)
+        for mid, adjustment in ((draw_id, -moving), (replay_id, moving)):
+            match = matches[mid]
+            side = "home" if match["home_club_id"] == club else "away"
+            total = sum(g["goals"] or 0 for g in games if g["match_id"] == mid and g["club_id"] == club)
+            if total + adjustment != match[f"{side}_final_goals"]:
+                refuse("relink does not reconcile official draw/replay goal totals")
+    for path, (lines, indexes) in plans.items():
+        path.write_bytes(b"".join(line for index, line in enumerate(lines) if index not in indexes))
+    return {"source_snapshot_id": source_snapshot, "corrected_snapshot_id": corrected_snapshot,
+            "rows_removed": len(removals), "rows_relinked": len(relinks), "removals": removals,
+            "policy": "verified replay quarantines removed from scratch CSVs; statistic-preserving relinks checked"}
+
+
 def regenerate_legacy_exports(
-    source: Path, dest: Path, *, repair: tuple[Path, int] | None = None
+    source: Path, dest: Path, *, repair: tuple[Path, int] | None = None,
+    correction: tuple[Path, str, str] | None = None,
 ) -> dict[str, Any]:
     """Copy the captured tree and rewrite its ranking CSVs with the legacy script."""
     import shutil
@@ -408,6 +606,8 @@ def regenerate_legacy_exports(
     corrections: list[dict[str, Any]] = list(SCAN_EXCLUSIONS)
     if repair is not None:
         corrections.append(apply_documented_repair(dest, repair[0], repair[1]))
+    if correction is not None:
+        corrections.append(apply_verified_replay_corrections(source, dest, *correction))
     _run_legacy_ranker(dest)
     if not (dest / "data" / "top100" / "all_time_top_100.csv").is_file():
         raise SystemExit("compare: legacy regeneration did not write rankings")
@@ -420,6 +620,18 @@ def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "--regenerate":
         args = sys.argv[2:]
         repair_spec: tuple[Path, int] | None = None
+        correction_flags = ("--correction-data-root", "--source-snapshot", "--corrected-snapshot")
+        correction_values: list[str] = []
+        for flag in correction_flags:
+            if flag in args:
+                at = args.index(flag)
+                correction_values.append(args[at + 1])
+                del args[at : at + 2]
+        if correction_values and len(correction_values) != 3:
+            raise SystemExit("compare: correction data root and both immutable snapshot IDs are required together")
+        correction_spec = None if not correction_values else (
+            Path(correction_values[0]), correction_values[1], correction_values[2]
+        )
         if "--repair" in args:
             at = args.index("--repair")
             evidence, _sep, season = args[at + 1].rpartition(":")
@@ -429,7 +641,9 @@ def main() -> None:
             del args[at : at + 2]
         if len(args) != 2:
             raise SystemExit("usage: rehearsal_compare.py --regenerate SOURCE DEST [--repair EVIDENCE_DIR:SEASON]")
-        text = json.dumps(regenerate_legacy_exports(Path(args[0]), Path(args[1]), repair=repair_spec), indent=1)
+        text = json.dumps(regenerate_legacy_exports(
+            Path(args[0]), Path(args[1]), repair=repair_spec, correction=correction_spec,
+        ), indent=1)
         print(text)
         return
     if len(sys.argv) > 1 and sys.argv[1] == "--promoted":

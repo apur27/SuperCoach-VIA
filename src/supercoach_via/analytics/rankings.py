@@ -93,8 +93,9 @@ class RankingConfig:
     imputation: str = ""
 
     @classmethod
-    def load(cls, path: Path = DEFAULT_CONFIG_PATH) -> RankingConfig:
-        raw = tomllib.loads(path.read_text(encoding="utf-8"))
+    def load(cls, path: Path = DEFAULT_CONFIG_PATH, *, captured_bytes: bytes | None = None) -> RankingConfig:
+        text = captured_bytes.decode("utf-8") if captured_bytes is not None else path.read_text(encoding="utf-8")
+        raw = tomllib.loads(text)
         c = raw["constants"]
         return cls(
             formula_version=str(raw["formula_version"]),

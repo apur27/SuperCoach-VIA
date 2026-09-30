@@ -541,12 +541,14 @@ def _single_season(con: duckdb.DuckDBPyConnection, stat: str, recorded_from: Map
 # ---------------------------------------------------------------------------
 
 
-def ranking_config(config_dir: Path | None) -> RankingConfig:
+def ranking_config(config_dir: Path | None, *, captured_bytes: bytes | None = None) -> RankingConfig:
     """The pinned method file (loaded, hashed; the formula below is the checker's own)."""
     from supercoach_via.analytics.rankings import RankingConfig
     from supercoach_via.settings import default_config_dir
 
-    return RankingConfig.load((config_dir or default_config_dir()) / "ranking_legacy_v1.toml")
+    return RankingConfig.load(
+        (config_dir or default_config_dir()) / "ranking_legacy_v1.toml", captured_bytes=captured_bytes
+    )
 
 
 def _era_of(cfg: RankingConfig, season: int) -> Any:

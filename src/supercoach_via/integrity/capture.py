@@ -77,6 +77,115 @@ def strict_json(data: bytes) -> Any:
     return json.loads(data.decode("utf-8"), parse_constant=bad_constant, object_pairs_hook=pairs)
 
 
+class CapturedInputError(OSError):
+    """A selected input was unavailable at capture time (logical name only)."""
+
+
+class ExternalCapture:
+    """Selected auxiliary files, with parsing and identity bound to the same bytes.
+
+    Opaque model payloads and content-addressed evidence need only a streamed hash;
+    JSON, TOML, YAML and Parquet inputs retain their bytes for semantic checks.
+    """
+
+    def __init__(self) -> None:
+        self.files: dict[Path, tuple[bytes | None, str | None, str | None]] = {}
+        self.groups: dict[str, dict[str, Path]] = {}
+        self.selections: dict[tuple[Path, str, bool], tuple[Path, ...]] = {}
+        self.boundaries: dict[Path, Path] = {}
+
+    @staticmethod
+    def _hash(path: Path) -> tuple[str | None, str | None]:
+        try:
+            if path.is_symlink() or not path.is_file():
+                return None, "missing or non-regular file"
+            h = hashlib.sha256()
+            with path.open("rb") as fh:
+                for chunk in iter(lambda: fh.read(1 << 20), b""):
+                    h.update(chunk)
+            return h.hexdigest(), None
+        except OSError as exc:
+            return None, f"unreadable: {exc.strerror}"
+
+    def _contained(self, path: Path) -> bool:
+        root = self.boundaries.get(path)
+        if root is None:
+            return True
+        try:
+            contained_path(root, path.relative_to(root).as_posix())
+        except (ContainmentError, ValueError):
+            return False
+        return True
+
+    def pin(self, path: Path, group: str, name: str, *, retain: bool = True, root: Path | None = None) -> None:
+        self.groups.setdefault(group, {})[name] = path
+        if root is not None:
+            self.boundaries[path] = root
+        if path not in self.files:
+            if not self._contained(path):
+                self.files[path] = (None, None, "path escapes input root")
+            elif retain:
+                raw, why = _read_regular(path)
+                self.files[path] = (raw, sha256_hex(raw) if raw is not None else None, why)
+            else:
+                digest, why = self._hash(path)
+                self.files[path] = (None, digest, why)
+
+    def read(self, path: Path) -> bytes:
+        raw, _digest, why = self.files[path]
+        if raw is None:
+            label = next(
+                f"{group}/{name}" for group, paths in sorted(self.groups.items())
+                for name, selected in sorted(paths.items()) if selected == path
+            )
+            raise CapturedInputError(f"captured input {label}: {why or 'bytes not retained'}")
+        return raw
+
+    def get(self, path: Path) -> bytes | None:
+        return self.files[path][0]
+
+    def digest(self, path: Path) -> str | None:
+        return self.files[path][1]
+
+    @staticmethod
+    def _select(root: Path, pattern: str, directories: bool) -> tuple[Path, ...]:
+        if not root.is_dir() or root.is_symlink():
+            return ()
+        paths = root.glob(pattern)
+        if directories:
+            paths = (p for p in paths if p.is_dir() and not p.is_symlink() and not p.name.startswith("."))
+        return tuple(sorted(paths))
+
+    def select(self, root: Path, pattern: str, *, directories: bool = False) -> tuple[Path, ...]:
+        key = (root, pattern, directories)
+        if key not in self.selections:
+            self.selections[key] = self._select(*key)
+        return self.selections[key]
+
+    def identity(self) -> dict[str, str]:
+        # Logical names only: relocating identical inputs preserves report identity.
+        return {
+            group: sha256_hex(json.dumps(
+                {name: self.files[path][1:] for name, path in sorted(paths.items())},
+                sort_keys=True, separators=(",", ":"),
+            ).encode())
+            for group, paths in sorted(self.groups.items())
+        }
+
+    def drift(self) -> list[str]:
+        out = []
+        for (root, pattern, directories), before in self.selections.items():
+            if self._select(root, pattern, directories) != before:
+                out.append(f"selected inputs in {root} ({pattern}) changed during the audit")
+        for path, (_raw, digest, _why) in self.files.items():
+            if not self._contained(path):
+                if digest is not None:
+                    out.append(f"input {path} escaped its root during the audit")
+            elif self._hash(path)[0] != digest:
+                out.append(f"input {path} changed during the audit")
+        return sorted(out)
+
+
 # ---------------------------------------------------------------------------
 # Snapshot
 # ---------------------------------------------------------------------------
@@ -109,6 +218,7 @@ class SnapshotCapture:
     pointer_raw: bytes | None = None
     pointer: CurrentPointer | None = None
     manifest_raw: bytes | None = None
+    manifest_path: Path | None = None
     manifest: SnapshotManifest | None = None
     snapshot_id: str | None = None
     #: (rule_id, entity, message) problems found while pinning the pointer and manifest
@@ -137,6 +247,7 @@ class SnapshotCapture:
             cap.problems.append(("storage.pointer", "pointer:current", f"malformed snapshot id: {exc}"[:300]))
             return cap
         rel = f"snapshots/{hexid}.json"
+        cap.manifest_path = data_root / rel
         if cap.pointer is not None and cap.pointer.manifest_path != rel:
             cap.problems.append(
                 (
@@ -277,15 +388,20 @@ class SnapshotCapture:
             raw, _ = _read_regular(self.data_root / "current.json")
             if raw != self.pointer_raw:
                 out.append("current.json changed during the audit")
-        if self.manifest is not None:
-            raw, _ = _read_regular(self.data_root / "snapshots" / f"{snapshot_hex(self.manifest.snapshot_id)}.json")
+        if self.manifest_path is not None:
+            raw, _ = _read_regular(self.manifest_path)
             if raw != self.manifest_raw:
                 out.append("snapshot manifest changed during the audit")
         for f in self.fragments:
-            if f.data is None:
+            base = self.data_root / "fragments"
+            try:
+                contained_path(base, f.ref.path)
+            except ContainmentError:
+                if f.data is not None:
+                    out.append(f"fragment {f.ref.path} escaped its root during the audit")
                 continue
-            raw, _ = _read_regular(self.data_root / "fragments" / f.ref.path)
-            if raw is None or sha256_hex(raw) != sha256_hex(f.data):
+            raw, _ = _read_regular(base / f.ref.path)
+            if raw != f.data:
                 out.append(f"fragment {f.ref.path} changed during the audit")
         return out
 
@@ -305,6 +421,13 @@ class EvidenceStore:
     def __init__(self, roots: list[Path]):
         self.roots = roots
         self.requested: dict[str, bool] = {}
+        self.capture = ExternalCapture()
+
+    def pin(self, digests: set[str]) -> None:
+        for digest in sorted(digests):
+            if _HEX64.match(digest or ""):
+                for i, path in enumerate(self._candidates(digest)):
+                    self.capture.pin(path, "evidence", f"{digest}:{i}", retain=False, root=self.roots[i // 5])
 
     def _candidates(self, digest: str) -> Iterator[Path]:
         for root in self.roots:
@@ -315,9 +438,12 @@ class EvidenceStore:
     def get(self, digest: str) -> bytes | None:
         if not _HEX64.match(digest or ""):
             return None
+        self.pin({digest})
         for path in self._candidates(digest):
+            if not self.capture._contained(path):
+                continue
             raw, _ = _read_regular(path)
-            if raw is None:
+            if raw is None or sha256_hex(raw) != self.capture.digest(path):
                 continue
             if path.suffix == ".gz":
                 try:
@@ -330,12 +456,16 @@ class EvidenceStore:
         self.requested[digest] = False
         return None
 
+    def drift(self) -> list[str]:
+        return self.capture.drift()
+
     def identity(self) -> dict[str, Any]:
         found = sorted(d for d, ok in self.requested.items() if ok)
         missing = sorted(d for d, ok in self.requested.items() if not ok)
         return {
             "found": len(found),
             "missing": len(missing),
+            "captured": self.capture.identity(),
             "digest": sha256_hex(
                 ("\n".join(f"+{d}" for d in found) + "\n" + "\n".join(f"-{d}" for d in missing)).encode()
             ),
@@ -467,11 +597,18 @@ class ReleaseCapture:
             now, _ = _read_regular(self.release_dir / name)
             if now != raw:
                 out.append(f"{name} changed during the audit")
+        after = ReleaseCapture(self.release_dir, self.release_id)
+        if os.path.lexists(self.release_dir / "site") != self.has_site:
+            out.append("site directory changed during the audit")
         for tree, files in (("public", self.public), ("site", self.site)):
-            for rel, info in files.items():
-                data, _ = _read_regular(self.release_dir / tree / rel)
-                if data is None or sha256_hex(data) != info.sha256:
+            if tree == "site" and not self.has_site:
+                continue
+            tree_now = after._walk(tree)
+            for rel in sorted(set(files) | set(tree_now)):
+                if files.get(rel) != tree_now.get(rel):
                     out.append(f"{tree}/{rel} changed during the audit")
                     if len(out) > 50:
                         return out
+        if after.tree_problems != self.tree_problems:
+            out.append("release tree file types changed during the audit")
         return out

@@ -95,9 +95,10 @@ def load_policy(
     *,
     current_season: int | None = None,
     coverage_path: Path | None = None,
+    captured_bytes: bytes | None = None,
 ) -> ValidationPolicy:
     path = coverage_path or (config_dir or REPO_CONFIG_DIR) / "coverage.yaml"
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    data = yaml.safe_load(captured_bytes if captured_bytes is not None else path.read_text(encoding="utf-8"))
     stats = data["stats"]
     unknown = set(stats) - set(PLAYER_STAT_COLUMNS)
     if unknown:

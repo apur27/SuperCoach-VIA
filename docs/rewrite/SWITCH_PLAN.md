@@ -93,6 +93,95 @@ The default body of `scripts/weekly_refresh.sh` still calls `/home/abhi/sourceCo
 
 `scripts/scvia_weekly.sh` is the candidate. `SCVIA_SOURCE_MODE=production` refreshes `--data-root` the same root later stages use, and requires `SCVIA_ALLOW_NETWORK=1`. Its forecast cutoff is the run's UTC time unless `SCVIA_FORECAST_CUTOFF` is set. The default mode is `rehearsal`: it imports `SCVIA_CAPTURED_SOURCE`, requires an explicit `SCVIA_FORECAST_CUTOFF`, and does not pass `--allow-network`. It then forecasts, builds with editorial off, runs the Astro site, checks the budget, seals, and validates. When `SCVIA_LEGACY_ROOT` is set, the comparison ranks that promoted snapshot, not a second import. Every exit, including a refused start, writes `var/scvia-weekly-status.json` (or `SCVIA_VAR_DIR`) with `run_id`, `started`, and `exit_code`. The script refuses to start when the cycle marker has no `exit_code` or a `weekly_refresh.sh` / `refresh_and_rank.sh` process is running. It does not publish. `SCVIA_SKIP_SITE=1` exists only for the command-order unit test.
 
+**Correction persistence (30 September 2026).** The candidate now runs offline
+`apply-corrections` after import plus archived repairs, or after production refresh,
+and before forecast/build. It applies the season named by the forecast cutoff's year;
+the correction command also checks historical replay links and blank semantics.
+Forecast, release build and optional comparison all use the immutable snapshot ID
+returned by the successful correction stage. Rehearsals require both
+`SCVIA_CORRECTION_EVIDENCE_ROOT` and `SCVIA_CORRECTION_EVIDENCE_SNAPSHOT` (an explicit
+`sha256:<id>`). The CLI verifies that evidence snapshot, copies only the requested
+season's pinned page and successful source observations, and binds field corrections
+to the captured bytes. It copies no donor match or player rows and sets no season
+completeness flag. A grand final absent from the captured CSV source remains absent
+even when the evidence snapshot contains it; the full integrity audit must report
+that source scope. Legacy CSVs and the evidence donor remain unchanged.
+
+The full §6.2 smoke inherits those exported evidence variables. After P1 is checked
+and the final source is frozen, a local invocation using the retained pinned evidence is:
+
+```bash
+env SCVIA_BIN="$PWD/.venv/bin/scvia" \
+  SCVIA_CAPTURED_SOURCE="$PWD" \
+  SCVIA_CORRECTION_EVIDENCE_ROOT=/home/abhi/git/SuperCoach-VIA/var/finalized/data \
+  SCVIA_CORRECTION_EVIDENCE_SNAPSHOT=sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f \
+  SCVIA_FORECAST_CUTOFF=2026-09-25T00:00:00Z \
+  SCVIA_SMOKE_ROOT=/tmp/scvia-correction-smoke-UNIQUE \
+  bash scripts/smoke_scvia_candidate.sh
+```
+
+This is a procedure, not a new smoke result. The chosen captured source determines
+which matches can appear. Inspect `corrections.json` and the promoted snapshot to
+confirm the expected fixture value and source digest, then confirm forecast/build
+use that corrected snapshot. The default legacy entry remains unchanged.
+
+**Verified correction rehearsal (1 October 2026, Melbourne).** The command above ran
+on the final source at `/tmp/scvia-sol-smoke-20260930-final2`, exit 0 in 458.423 s.
+All 897 selected source files matched the scratch copy (inventory `a7d9a3ae…3ff1e0`).
+Both cycles imported `sha256:b02706a1…b1bfac`, then forecast and built from the corrected
+child `sha256:e70e66f6…21d300`. The public R17 attendance is 62,117 **[data]**;
+the correction receipts bind it to season capture `87c99c1a…bc83a`. Strict comparison
+matched all 130 yearly lists exactly and the all-time score delta was zero.
+The temporary host accepted two sealed releases, retained its bytes after an injected
+copy failure, and rolled back to `20260930T211937Z-0495e493fc14`.
+Receipts: `docs/reviews/opus55/sol-followup-verification.json` and
+`var/reviews/codex-opus55-20260930/validation/scratch-smoke-final.{json,log}`.
+The source CSVs predate the grand final; this rehearsal does not verify a current-season
+production refresh or count toward the two real shadow cycles.
+
+If corrections fail, the cycle stops before forecast/build. The wrapper's status
+records `phase=corrections`, the failing exit code, the imported/refreshed
+`source_snapshot_id`, and the last successfully selected `snapshot_id`; the stage's
+full receipt is `evidence_dir/corrections.json`. Missing/unpinned/corrupt evidence
+is exit 3; correction validation failure is exit 4. The source stage may already
+have promoted its import or refresh, but no corrected child is promoted on these
+failures and the live release is untouched. Read the receipt and the named CLI run's
+validation report, supply the correct immutable capture or repair the input, then
+rerun. Do not bypass the correction stage. For an existing accepted dataset, the
+same bounded command is available directly:
+
+```bash
+scvia apply-corrections --data-root TARGET --season 2026 \
+  --evidence-root EVIDENCE_ROOT --evidence-snapshot sha256:IMMUTABLE_ID --json
+```
+
+An already pinned accepted snapshot can omit the two evidence options. A requested
+season without a pinned page fails instead of reporting a successful no-op; a
+second application of the same valid evidence is idempotent.
+
+**Rehearsal parity after corrections.** Legacy regeneration now copies the captured
+inputs, applies the archived B1 repair, and aligns verified replay deltas before
+running `top_players_comprehensive.py`. The comparator receives both the import's
+snapshot ID and the correction's snapshot ID, verifies ancestry and the retained
+input binding, and compares only changed player-game partitions with Arrow/DuckDB.
+It independently checks the official draw/replay pair and score reconciliation.
+Statistic-preserving relinks leave the legacy ranking inputs intact. An unresolved
+replay row is removed from the scratch CSV only when the candidate preserves matching
+quarantine evidence and the original CSV hash, row revision, identity and statistics
+verify. All proposed removals are checked before any scratch file is changed;
+unexpected additions, deletions or statistic mutations stop the comparison.
+Original CSVs, donor evidence and immutable snapshots are preserved. The receipt
+records each removal's source hash and row, both snapshot IDs and relink/removal counts.
+Fixture attendance does not enter the legacy ranking formula. Score tolerances,
+player membership checks and yearly coverage checks are unchanged.
+
+If this comparison fails, read `legacy-regenerate.json` and `compare.json` in the
+cycle's evidence directory. Resolve the named source or correction discrepancy and
+rerun; do not broaden score tolerances or skip a season. A failed comparison prevents
+the scratch smoke from reaching publish/rollback, even if the earlier site and seal
+steps passed. A correction that only quarantines rows is supported without requiring
+a relink in the same run.
+
 Pack a sealed release, then give the job those two digests. The job does not trust a digest found inside the download:
 
 ```bash

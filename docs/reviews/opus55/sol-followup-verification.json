@@ -1,0 +1,203 @@
+{
+  "date": "2026-10-01",
+  "scope": "GPT-6.1 Sol follow-up; local verification, no production activation",
+  "hermetic": {
+    "passed": 1025,
+    "seconds": 54.56,
+    "target_seconds": 30,
+    "target_met": false
+  },
+  "numeric_integration": {
+    "passed": 43,
+    "seconds": 462.24,
+    "limit": "Run before final replay-comparison and quarantine-only fixes; those have focused tests and this scratch smoke."
+  },
+  "web": {
+    "unit_passed": 174,
+    "unit_skipped": 2,
+    "real_release_contract_passed": 12,
+    "typecheck_lint_contract_generation": "PASS",
+    "e2e": "Prior full run, not repeated in this follow-up"
+  },
+  "audit": {
+    "checker": {
+      "code_sha256": "01f90b3ca071cefc1825bdb64d93df991120796cfe177eeccce50052ccc59176",
+      "rules": 171,
+      "rules_sha256": "558fc846d3b24041513a2f26a89050da00bf97b278b1af763e280f242629bbd3",
+      "version": "scvia-integrity/1"
+    },
+    "counts": {
+      "cells_compared": 26599913,
+      "checks": {
+        "FAIL": 0,
+        "NOT_APPLICABLE": 0,
+        "PASS": 26,
+        "UNKNOWN": 0
+      },
+      "checks_performed": 26,
+      "checks_requested": 26,
+      "examined": {
+        "articles": 84,
+        "bundles": 2,
+        "bytes": 38079609,
+        "cells": 26599913,
+        "download_items": 14,
+        "fields_unaudited": 394,
+        "fragments": 408,
+        "json_cells": 1017,
+        "manifests": 1,
+        "match_details": 17056,
+        "player_details": 13366,
+        "player_index_entries": 13366,
+        "player_logs": 58850,
+        "predictions": 2,
+        "resources": 363712,
+        "resources_compared": 1854,
+        "rows": 6618767,
+        "timestamps": 5
+      },
+      "findings_open": {
+        "blocking": 0,
+        "error": 0,
+        "info": 1,
+        "warning": 5
+      },
+      "findings_total": {
+        "blocking": 0,
+        "error": 0,
+        "info": 1,
+        "warning": 5
+      },
+      "resources_examined": 363712,
+      "rows_examined": 6618767
+    },
+    "scope": {
+      "as_of": "2026-09-30T00:00:00Z",
+      "complete": true,
+      "current_season": 2026,
+      "families": [
+        "aggregates",
+        "contract",
+        "dataset",
+        "football",
+        "freshness",
+        "models",
+        "relations",
+        "release",
+        "source",
+        "storage"
+      ],
+      "name": "full",
+      "restricted": false,
+      "semantic_complete": true
+    },
+    "canonical_report_file_sha256": "762283a8d20dcf455b62b150d2fb7f17bcbe9a58c70ca0a36128382adc09bfb1",
+    "modes_byte_identical": true,
+    "limits": [
+      "article prose (curated or generated) is not re-verified; provenance only",
+      "chart images and Markdown report prose are not parsed; their values are compared in charts.json and the source resources"
+    ]
+  },
+  "smoke": {
+    "host_live": "releases/20260930T211937Z-0495e493fc14",
+    "first": "20260930T211937Z-0495e493fc14",
+    "second": "20260930T212341Z-462074ef78b2",
+    "seal_first": "82cb61e60690269c860735d54d7b631a1beacc92462971ce32e4c61af42310ab",
+    "seal_second": "b6d3ac9405e383675b0bb14cd6a61409fa7972d8702f33f64f7f36a3fdb700a9",
+    "injected_copy_failure": {
+      "live": "20260930T211937Z-0495e493fc14",
+      "injected": "20260930T212341Z-462074ef78b2",
+      "bytes_unchanged": true
+    },
+    "source_inventory_sha256": "a7d9a3ae41a468246bb93e3a825f8311d6925f46af263630a02ea610fa3ff1e0",
+    "source_inventory_files": 897,
+    "source_inventory_bytes": 18925093,
+    "scratch_matches_source": true,
+    "captured_input_sha256": "995b138997fad3efdbc310ca95910490e0357fa5b3e2fe6d23491dd2fd7e9b5e",
+    "captured_input_files": 27350,
+    "rss_peak_kib": {
+      "first": 1920768,
+      "second": 1909444
+    },
+    "wall_seconds": 458.423,
+    "stages": {
+      "a": {
+        "source_snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+        "corrected_snapshot_id": "sha256:e70e66f63159d2b93237ee7d3a209baf283d26fe8e9b1ba286ec8a870921d300",
+        "corrections": {
+          "matches": 1,
+          "quality_issues": 1,
+          "replay_quarantined": 13,
+          "replay_relinked": 12
+        },
+        "evidence": {
+          "season_captures": {
+            "2026": "87c99c1a2eb84c4957759e5ec82e02aec97d7daf5264e1ba6db800cdd59bc83a"
+          },
+          "snapshot_id": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f"
+        },
+        "r17_attendance": 62117,
+        "forecast_status": "unavailable",
+        "build_seconds": 35.15
+      },
+      "b": {
+        "source_snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+        "corrected_snapshot_id": "sha256:e70e66f63159d2b93237ee7d3a209baf283d26fe8e9b1ba286ec8a870921d300",
+        "corrections": {
+          "matches": 1,
+          "quality_issues": 1,
+          "replay_quarantined": 13,
+          "replay_relinked": 12
+        },
+        "evidence": {
+          "season_captures": {
+            "2026": "87c99c1a2eb84c4957759e5ec82e02aec97d7daf5264e1ba6db800cdd59bc83a"
+          },
+          "snapshot_id": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f"
+        },
+        "r17_attendance": 62117,
+        "forecast_status": "unavailable",
+        "build_seconds": 35.057
+      }
+    },
+    "yearly": {
+      "seasons": 130,
+      "same_players_and_scores": 130,
+      "exact_order": 130,
+      "order_differs_only_within_exact_ties": 0,
+      "missing_expected": [],
+      "disagreeing": {}
+    },
+    "all_time_numeric": {
+      "n_legacy": 100,
+      "n_new": 100,
+      "same_players": true,
+      "same_order": true,
+      "order_differs_only_within_exact_ties": false,
+      "max_abs_score_delta": 0.0,
+      "only_legacy": [],
+      "only_new": [],
+      "only_legacy_count": 0,
+      "only_new_count": 0,
+      "only_legacy_scores": [],
+      "only_new_scores": [],
+      "cutoff_legacy": 1.6645595319336985,
+      "cutoff_new": 1.6645595319336985,
+      "common_order_ok": true
+    },
+    "biography_csv": {
+      "rows_legacy": 100,
+      "rows_new": 100,
+      "identical_rows": 100,
+      "content_matches": true,
+      "first_difference": null
+    }
+  },
+  "still_open": [
+    "30-second hermetic target",
+    "zero semantics approval for uncaptured legacy rows",
+    "two real shadow cycles",
+    "SWITCH_PLAN section 6 owner decisions",
+    "legacy integration failures documented in the review"
+  ]
+}

@@ -8,6 +8,7 @@ discrepancy: byte and seal verification alone never catch these.
 from __future__ import annotations
 
 import csv
+import dataclasses
 import io
 import json
 import shutil
@@ -19,6 +20,169 @@ import pytest
 from supercoach_via.integrity.runner import AuditOptions, AuditResult, run_audit
 from supercoach_via.publish.web_data import canonical_json_bytes, sha256_bytes
 from tests.scvia.unit import integrity_fixtures as fx
+
+
+@pytest.mark.parametrize("source", ["docs/news/2026-05-01-demo-article.md", "assets/demo-chart.png", "public_content.toml"])
+@pytest.mark.parametrize("when", ["before", "after"])
+def test_content_inputs_are_pinned_and_drift_is_incomplete(
+    env: dict[str, Path], monkeypatch: pytest.MonkeyPatch, source: str, when: str
+) -> None:
+    from supercoach_via.integrity import checks_derived
+
+    path = env["content"] / source
+    original = checks_derived.check_content
+
+    def mutate(ctx: Any) -> list[str]:
+        if when == "before":
+            path.write_bytes(path.read_bytes() + b"\n# concurrent edit\n")
+        result = original(ctx)
+        if when == "after":
+            path.unlink()
+        return result
+
+    monkeypatch.setattr(checks_derived, "CHECKS", [
+        dataclasses.replace(s, fn=mutate) if s.check_id == "release.content" else s
+        for s in checks_derived.CHECKS
+    ])
+    result = audit(env, checks=("release.content",))
+    assert status(result, "release.content") == "PASS"  # compared with captured bytes
+    assert status(result, "inputs.stable") == "UNKNOWN"
+    assert result.outcome.value == "UNKNOWN"
+    assert result.execution["input_drift"]
+    assert result.report["scope"]["semantic_complete"] is False
+
+
+def test_article_source_bytes_bind_the_report_input_identity(env: dict[str, Path]) -> None:
+    first = audit(env, checks=("release.content",))
+    source = env["content"] / "docs/news/2026-05-01-demo-article.md"
+    source.write_text(source.read_text() + "\nchanged article\n")
+    second = audit(env, checks=("release.content",))
+    assert first.report["inputs"]["digest"] != second.report["inputs"]["digest"]
+    assert first.report["inputs"]["comparators"] != second.report["inputs"]["comparators"]
+
+
+@pytest.mark.parametrize("source", ["evaluation", "prediction", "live", "live_snapshot", "model", "model_manifest"])
+@pytest.mark.parametrize("when", ["before", "after"])
+def test_forecast_external_inputs_use_captured_bytes_and_detect_drift(
+    env: dict[str, Path], monkeypatch: pytest.MonkeyPatch, source: str, when: str
+) -> None:
+    from supercoach_via.integrity import checks_derived
+
+    paths = {
+        "evaluation": env["evaluation"] / "scored_rows.parquet",
+        "prediction": next(env["predictions"].glob("*/rows.parquet")),
+        "live": next(env["live"].glob("*/state.json")),
+        "live_snapshot": next(env["live"].glob("*/snapshots/*.json")),
+        "model_manifest": next(env["models"].glob("*/manifest.json")),
+    }
+    manifest = json.loads(paths["model_manifest"].read_bytes())
+    paths["model"] = paths["model_manifest"].parent / manifest["payload_file"]
+    original = checks_derived.check_forecast
+
+    def mutate(ctx: Any) -> list[str]:
+        if when == "before":
+            paths[source].unlink()
+        result = original(ctx)
+        if when == "after":
+            paths[source].write_bytes(b"concurrent replacement")
+        return result
+
+    monkeypatch.setattr(checks_derived, "CHECKS", [
+        dataclasses.replace(s, fn=mutate) if s.check_id == "release.forecast" else s
+        for s in checks_derived.CHECKS
+    ])
+    result = audit(env, checks=("release.forecast",))
+    assert status(result, "release.forecast") == "PASS"
+    assert status(result, "inputs.stable") == "UNKNOWN"
+    assert result.outcome.value == "UNKNOWN"
+
+
+@pytest.mark.parametrize("tree", ["models", "predictions", "live"])
+def test_additional_selected_forecast_inputs_invalidate_audit(
+    env: dict[str, Path], monkeypatch: pytest.MonkeyPatch, tree: str
+) -> None:
+    from supercoach_via.integrity import checks_derived
+
+    original = checks_derived.check_forecast
+
+    def mutate(ctx: Any) -> list[str]:
+        result = original(ctx)
+        added = env[tree] / "added-during-audit"
+        added.mkdir()
+        (added / ("state.json" if tree == "live" else "manifest.json")).write_text("{}")
+        return result
+
+    monkeypatch.setattr(checks_derived, "CHECKS", [
+        dataclasses.replace(s, fn=mutate) if s.check_id == "release.forecast" else s
+        for s in checks_derived.CHECKS
+    ])
+    result = audit(env, checks=("release.forecast",))
+    assert status(result, "inputs.stable") == "UNKNOWN"
+    assert result.outcome.value == "UNKNOWN"
+
+
+def test_evaluations_with_same_basename_both_bind_input_identity(env: dict[str, Path], tmp_path: Path) -> None:
+    other = tmp_path / "other" / env["evaluation"].name
+    shutil.copytree(env["evaluation"], other)
+    dirs = (env["evaluation"], other)
+    first = audit(env, checks=("release.forecast",), evaluation_dirs=dirs)
+    path = env["evaluation"] / "evaluation.json"
+    path.write_bytes(path.read_bytes() + b"\n")
+    second = audit(env, checks=("release.forecast",), evaluation_dirs=dirs)
+    assert first.report["inputs"]["digest"] != second.report["inputs"]["digest"]
+
+
+@pytest.mark.parametrize("name", ["integrity_policy.yaml", "coverage.yaml", "ranking_legacy_v1.toml"])
+def test_derived_configuration_is_pinned_and_checked_for_drift(
+    env: dict[str, Path], tmp_path: Path, monkeypatch: pytest.MonkeyPatch, name: str
+) -> None:
+    from supercoach_via.integrity import checks_derived
+    from supercoach_via.settings import default_config_dir
+
+    config = tmp_path / "config"
+    shutil.copytree(default_config_dir(), config)
+    original = checks_derived.check_derived
+
+    def mutate(ctx: Any) -> list[str]:
+        (config / name).unlink()
+        return original(ctx)
+
+    monkeypatch.setattr(checks_derived, "CHECKS", [
+        dataclasses.replace(s, fn=mutate) if s.check_id == "release.derived" else s
+        for s in checks_derived.CHECKS
+    ])
+    result = audit(env, config_dir=config, checks=("release.derived",))
+    assert status(result, "release.derived") == "PASS"
+    assert status(result, "inputs.stable") == "UNKNOWN"
+    assert result.outcome.value == "UNKNOWN"
+
+
+def test_missing_content_input_report_is_relocation_stable(env: dict[str, Path], tmp_path: Path) -> None:
+    from supercoach_via.integrity.report import canonical_bytes
+
+    (env["content"] / "public_content.toml").unlink()
+    first = audit(env, checks=("release.content",))
+    moved = {}
+    for key, path in env.items():
+        destination = tmp_path / "moved" / key / path.name
+        shutil.copytree(path, destination)
+        moved[key] = destination
+    second = audit(moved, checks=("release.content",))
+    assert first.outcome.value == "UNKNOWN"
+    assert canonical_bytes(first.report) == canonical_bytes(second.report)
+
+
+@pytest.mark.parametrize("capture_id", ["/outside/accepted", "../../../../outside"])
+def test_live_capture_path_escape_is_unknown(env: dict[str, Path], capture_id: str) -> None:
+    path = next(env["live"].glob("*/state.json"))
+    state = json.loads(path.read_bytes())
+    state["accepted"] = [capture_id]
+    path.write_text(json.dumps(state))
+    result = audit(env, checks=("release.forecast",))
+    check = next(c for c in result.report["checks"] if c["check_id"] == "release.forecast")
+    assert check["status"] == "UNKNOWN"
+    assert "path escapes input root" in check["reason"]
+    assert result.outcome.value == "UNKNOWN"
 
 AS_OF = "2026-05-03T00:00:00Z"
 DERIVED = ("release.derived", "release.forecast", "release.content", "release.coverage")

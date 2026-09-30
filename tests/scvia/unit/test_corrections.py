@@ -145,6 +145,198 @@ def test_cli_apply_corrections(tmp_path: Path, monkeypatch: Any) -> None:
     assert missing.exit_code != 0
 
 
+def test_requested_unpinned_season_fails_instead_of_claiming_no_changes(tmp_path: Path) -> None:
+    root = tmp_path / "target"
+    fx.build(root)
+    parent = read_current(root).snapshot_id
+    ctx = RunContext(settings=Settings(data_root=root), clock=lambda: NOW)
+    res = pipeline.apply_corrections(ctx, seasons=[2026])
+    assert res.exit_code == 3 and not res.promoted
+    assert res.error_code == "evidence_unavailable"
+    assert read_current(root).snapshot_id == parent
+
+
+def test_fresh_csv_import_corrects_r17_from_explicit_capture_and_preserves_inputs(
+    tmp_path: Path, monkeypatch: Any,
+) -> None:
+    """Synthetic R17 fixture: exercise the actual importer, not an already pinned snapshot."""
+    import csv
+    from datetime import date
+
+    from supercoach_via import demo
+    from supercoach_via.demo import MATCH_COLS
+
+    source, donor, root = tmp_path / "source", tmp_path / "evidence", tmp_path / "target"
+    monkeypatch.setattr(demo, "ROUNDS", 1)
+    monkeypatch.setattr(demo, "SQUAD", 2)
+    demo.write_demo_corpus(source)
+    mid = "m:2026:r17:collingwood:richmond:0"
+    expected = fx._match(mid, 2026, "17", 17, date(2026, 7, 12), "collingwood", "richmond", (4, 4), (4, 0))
+    expected.update(attendance=62117, venue_source_name="M.C.G.", venue_id="mcg")
+    csv_row = {
+        "round_num": "17", "venue": "M.C.G.", "date": expected["local_start"], "year": 2026, "attendance": 0,
+    }
+    for index, side in ((1, "home"), (2, "away")):
+        csv_row[f"team_{index}_team_name"] = expected[f"{side}_source_name"]
+        for q in ("q1", "q2", "q3", "final"):
+            for score in ("goals", "behinds"):
+                csv_row[f"team_{index}_{q}_{score}"] = expected[f"{side}_{q}_{score}"]
+    with (source / "data" / "matches" / "matches_2026.csv").open("a", newline="") as out:
+        csv.DictWriter(out, fieldnames=MATCH_COLS).writerow(csv_row)
+    player_files = sorted((source / "data" / "player_data").glob("*_performance_details.csv"))[:2]
+    for index, file in enumerate(player_files):
+        with file.open(newline="") as inp:
+            player_row = list(csv.DictReader(inp))[-1]
+        player_row.update(team="Collingwood" if index == 0 else "Richmond", year="2026", round="17",
+                          opponent="Richmond" if index == 0 else "Collingwood", result="W4" if index == 0 else "L4",
+                          games_played=str(int(player_row["games_played"]) + 1), date="2026-07-12", goals="4",
+                          behinds="4" if index == 0 else "0", kicks="0", handballs="0", disposals="0")
+        with file.open("a", newline="") as out:
+            csv.DictWriter(out, fieldnames=demo.PLAYER_COLS).writerow(player_row)
+    before = {str(p.relative_to(source)): p.read_bytes() for p in source.rglob("*") if p.is_file()}
+    page_rows = copy.deepcopy(fx.tables())
+    page_rows["matches"].append(expected)
+    shas = fx.with_sources(donor, page_rows=page_rows)
+    evidence_snapshot = read_current(donor).snapshot_id
+    ctx = RunContext(settings=Settings(data_root=root), clock=lambda: NOW)
+    club_resolver, venue_resolver = corrections.default_resolvers(Path(__file__).resolve().parents[3] / "config")
+    monkeypatch.setattr(corrections, "default_resolvers", lambda _cfg: (
+        lambda name, season: club_resolver(name, season) or _resolver(name, season), venue_resolver,
+    ))
+    imported = pipeline.ingest(ctx, source_root=source)
+    assert imported.exit_code == 0 and imported.promoted, imported.message
+    assert _match(root, mid)["attendance"] == 0
+    assert "afltables:season:2026" not in load_snapshot(root).source_revisions
+    corrected = pipeline.apply_corrections(ctx, seasons=[2026], evidence_root=donor, evidence_snapshot=evidence_snapshot)
+    assert corrected.exit_code == 0 and corrected.promoted, corrected.message
+    assert corrected.snapshot_id != imported.snapshot_id
+    assert _match(root, mid)["attendance"] == 62117
+    assert load_snapshot(root).source_revisions["afltables:season:2026"] == shas["season"]
+    with SnapshotQuery(root, load_snapshot(root), tables={"quality_issues"}) as q:
+        issue = q.rows("SELECT source_path, acceptance_basis FROM quality_issues "
+                       "WHERE row_key = ? AND rule_id = 'fixture_field_corrected'", [mid])
+    assert issue == [(fx.SEASON_URL, f"pinned source {shas['season']}")]
+    again = pipeline.apply_corrections(ctx, seasons=[2026], evidence_root=donor, evidence_snapshot=evidence_snapshot)
+    assert again.exit_code == 0 and not again.promoted and again.snapshot_id == corrected.snapshot_id
+    assert before == {str(p.relative_to(source)): p.read_bytes() for p in source.rglob("*") if p.is_file()}
+
+
+def test_explicit_capture_corrects_an_unpinned_snapshot_without_copying_donor_rows(
+    tmp_path: Path, monkeypatch: Any,
+) -> None:
+    donor, root = tmp_path / "evidence", tmp_path / "target"
+    page_rows = copy.deepcopy(fx.tables())
+    next(m for m in page_rows["matches"] if m["match_id"] == R02)["attendance"] = 62117
+    shas = fx.with_sources(donor, page_rows=page_rows)
+    evidence_snapshot = read_current(donor).snapshot_id
+    before = {str(p.relative_to(donor)): p.read_bytes() for p in donor.rglob("*") if p.is_file()}
+    rows = copy.deepcopy(fx.tables())
+    next(m for m in rows["matches"] if m["match_id"] == R02)["attendance"] = 0
+    fx.build(root, rows)
+    parent = read_current(root).snapshot_id
+    monkeypatch.setattr(corrections, "default_resolvers", lambda _cfg: (_resolver, lambda _n: "oval"))
+    ctx = RunContext(settings=Settings(data_root=root), clock=lambda: NOW)
+    res = pipeline.apply_corrections(ctx, seasons=[2026], evidence_root=donor, evidence_snapshot=evidence_snapshot)
+    assert res.exit_code == 0 and res.promoted, res.message
+    corrected = load_snapshot(root)
+    assert res.snapshot_id == corrected.snapshot_id != parent
+    assert _match(root, R02)["attendance"] == 62117
+    assert corrected.source_revisions["afltables:season:2026"] == shas["season"]
+    assert "afltables:game:000120260305" not in corrected.source_revisions
+    assert res.outputs["evidence"] == {"snapshot_id": evidence_snapshot, "season_captures": {"2026": shas["season"]}}
+    with SnapshotQuery(root, corrected, tables={"source_observations", "quality_issues"}) as q:
+        observed = {sha for (sha,) in q.rows("SELECT content_sha256 FROM source_observations")}
+        assert shas["season"] in observed and shas["match"] not in observed
+        assert q.rows("SELECT acceptance_basis FROM quality_issues WHERE rule_id = 'fixture_field_corrected'") == [
+            (f"pinned source {shas['season']}",)
+        ]
+    again = pipeline.apply_corrections(ctx, seasons=[2026], evidence_root=donor, evidence_snapshot=evidence_snapshot)
+    assert again.exit_code == 0 and not again.promoted
+    assert again.snapshot_id == corrected.snapshot_id
+    assert before == {str(p.relative_to(donor)): p.read_bytes() for p in donor.rglob("*") if p.is_file()}
+
+
+@pytest.mark.parametrize("defect", ["missing", "corrupt", "no_observation", "unpinned"])
+def test_bad_explicit_capture_keeps_the_accepted_snapshot(
+    tmp_path: Path, monkeypatch: Any, defect: str,
+) -> None:
+    donor, root = tmp_path / "evidence", tmp_path / "target"
+    shas = fx.with_sources(donor, observations=[] if defect == "no_observation" else None)
+    if defect == "unpinned":
+        fx.build(donor)
+    evidence_snapshot = read_current(donor).snapshot_id
+    raw = donor / "raw" / "objects" / shas["season"][:2] / shas["season"]
+    if defect == "missing":
+        raw.unlink()
+    elif defect == "corrupt":
+        raw.write_bytes(b"damaged capture")
+    fx.build(root)
+    parent = read_current(root).snapshot_id
+    monkeypatch.setattr(corrections, "default_resolvers", lambda _cfg: (_resolver, lambda _n: "oval"))
+    ctx = RunContext(settings=Settings(data_root=root), clock=lambda: NOW)
+    res = pipeline.apply_corrections(ctx, seasons=[2026], evidence_root=donor, evidence_snapshot=evidence_snapshot)
+    assert res.exit_code == 3 and not res.promoted
+    assert res.error_code == "evidence_unavailable"
+    assert read_current(root).snapshot_id == parent
+
+
+@pytest.mark.parametrize("options", [
+    ["--evidence-root", "missing"],
+    ["--evidence-snapshot", "sha256:" + "a" * 64],
+    ["--evidence-root", "missing", "--evidence-snapshot", "current"],
+])
+def test_cli_refuses_unpaired_or_mutable_evidence(tmp_path: Path, options: list[str]) -> None:
+    from typer.testing import CliRunner
+
+    from supercoach_via.cli import app
+
+    root = tmp_path / "target"
+    fx.build(root)
+    parent = read_current(root).snapshot_id
+    result = CliRunner().invoke(app, ["apply-corrections", "--data-root", str(root), "--season", "2026",
+                                    "--json", *options])
+    assert result.exit_code in (2, 3), result.output
+    assert read_current(root).snapshot_id == parent
+
+
+@pytest.mark.parametrize("location", ["leaf", "prefix", "objects", "raw"])
+def test_explicit_capture_refuses_symlink_escapes_before_reading_payload(
+    tmp_path: Path, monkeypatch: Any, location: str,
+) -> None:
+    from supercoach_via.ingest.http import RawArchive
+
+    donor = tmp_path / "evidence"
+    shas = fx.with_sources(donor)
+    snapshot_id = read_current(donor).snapshot_id
+    leaf = donor / "raw" / "objects" / shas["season"][:2] / shas["season"]
+    escaping = {"leaf": leaf, "prefix": leaf.parent, "objects": leaf.parent.parent,
+                "raw": donor / "raw"}[location]
+    external = tmp_path / "external"
+    external.mkdir()
+    moved = external / escaping.name
+    escaping.rename(moved)
+    escaping.symlink_to(moved, target_is_directory=moved.is_dir())
+
+    def bytes_and_links(root: Path) -> dict[str, bytes | str]:
+        return {str(p.relative_to(root)): str(p.readlink()) if p.is_symlink() else p.read_bytes()
+                for p in root.rglob("*") if p.is_symlink() or p.is_file()}
+
+    donor_before, external_before = bytes_and_links(donor), bytes_and_links(external)
+    reads: list[str] = []
+    original_get = RawArchive.get
+
+    def tracked_get(archive: RawArchive, sha: str) -> bytes | None:
+        reads.append(sha)
+        return original_get(archive, sha)
+
+    monkeypatch.setattr(RawArchive, "get", tracked_get)
+    with pytest.raises(corrections.CorrectionError, match="path escapes root"):
+        corrections.pinned_season_evidence(donor, snapshot_id, {2026})
+    assert not reads
+    assert bytes_and_links(donor) == donor_before
+    assert bytes_and_links(external) == external_before
+
+
 # -- O55-06: player rows of a replayed drawn final --------------------------------------------
 
 DRAW, REPLAY = "m:1970:sf:alpha:beta:0", "m:1970:sf:alpha:beta:1"

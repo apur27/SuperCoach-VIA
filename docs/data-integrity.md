@@ -90,10 +90,20 @@ Byte, checksum and seal verification alone never count as a semantic comparison.
 
 ## What it checks
 
-Every input file is read **once**, hashed, and parsed from those same bytes. After the
-checks, every input is re-read. Any byte that changed during the audit is recorded in
-execution metadata and makes the `inputs.stable` check UNKNOWN, so the audit is not
-complete. The existing gates are reused rather than reimplemented:
+The checker pins the files selected by its requested checks. JSON, configuration,
+article and table inputs are hashed and parsed from retained bytes. Model payloads are
+hashed without loading them; source captures are checked against their pinned physical
+and content hashes before parsing. Selection includes auxiliary content, predictions,
+evaluations, live captures, policies and ranking configuration, as well as the snapshot
+and release.
+
+After the checks, selected inputs and directory membership are checked again. A changed,
+deleted or newly selected input makes `inputs.stable` UNKNOWN and semantic coverage
+incomplete; existing blocking findings remain FAIL. Paths and drift details belong in
+execution metadata; canonical identities use logical names and content hashes so that
+relocating identical inputs preserves the report. A change restored byte for byte before
+the final check cannot be observed; semantic checks still use the captured content.
+The existing gates are reused rather than reimplemented:
 
 - `validate_dataset`, the promotion gate, is re-run on the pinned snapshot. Its issues
   are mapped as `dataset.*` with their own severity and acceptance. Rows it checked but
@@ -253,7 +263,7 @@ generator's directory scan. Top-level fields:
 |---|---|
 | `checker` | version, SHA-256 over the code that decides verdicts, rules digest, rule count |
 | `policy` | version and SHA-256 over `integrity_policy.yaml`, `coverage.yaml`, `stat_coverage_eras.yaml` |
-| `inputs` | snapshot identity (selector, id, manifest and pointer digests, per-partition fragment hashes), release identity (checksums, seal, validation and full-inventory digests), evidence found/missing digest, model/prediction manifest digests, the comparator inputs (evaluation directories, live root, content manifest), and one `digest` over all of them |
+| `inputs` | snapshot identity (selector, id, manifest and pointer digests, per-partition fragment hashes), release identity (checksums, seal, validation and full-inventory digests), evidence found/missing digest, selected model/prediction file digests, comparator inputs (evaluation files, live state and capture, content manifest and source bytes), and one `digest` over all of them |
 | `scope` | name, `as_of`, families, `restricted`, `complete`, `semantic_complete`, current season |
 | `outcome`, `counts` | overall outcome; checks requested/performed/by status; open and total findings by severity; rows, resources and cells examined |
 | `checks` | per check: family, `required`, status, reason, examined counts, findings by severity |

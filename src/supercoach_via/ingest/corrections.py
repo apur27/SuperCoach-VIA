@@ -14,6 +14,7 @@ needs a bounded repair of the whole match.
 from __future__ import annotations
 
 import hashlib
+import re
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,56 @@ FIELDS = ("attendance", "venue_source_name")
 
 class CorrectionError(RuntimeError):
     """A pinned capture needed for a correction is missing or does not parse."""
+
+
+def pinned_season_evidence(
+    root: Path, snapshot_id: str, seasons: set[int],
+) -> tuple[dict[str, str], list[dict[str, Any]], dict[str, bytes]]:
+    """Read only requested season captures and their observations from an immutable snapshot.
+
+    This supplies evidence for an unpinned legacy import, never donor match/player rows
+    or a claim that the imported season is complete. Every required capture must exist,
+    hash to its pin and have a successful observation for the season page.
+    """
+    from supercoach_via.ingest import afltables
+    from supercoach_via.ingest.http import RawArchive
+    from supercoach_via.storage import snapshots
+    from supercoach_via.storage.queries import SnapshotQuery
+
+    try:
+        if not re.fullmatch(r"sha256:[0-9a-f]{64}", snapshot_id):
+            raise CorrectionError("correction evidence requires an immutable sha256:<id> snapshot")
+        manifest = snapshots.load_snapshot(root, snapshot_id, verify=True)
+        if "source_observations" not in manifest.tables:
+            raise CorrectionError(f"evidence snapshot {snapshot_id} has no source observations")
+        with SnapshotQuery(root, manifest, tables={"source_observations"}) as q:
+            observed = q.arrow("SELECT * FROM source_observations").to_pylist()
+        revisions: dict[str, str] = {}
+        observations: list[dict[str, Any]] = []
+        payloads: dict[str, bytes] = {}
+        for season in sorted(seasons):
+            key = f"afltables:season:{season}"
+            sha = manifest.source_revisions.get(key)
+            if not sha:
+                raise CorrectionError(f"evidence snapshot {snapshot_id} has no pinned season page for {season}")
+            snapshots.contained_path(root, f"raw/objects/{sha[:2]}/{sha}")
+            body = RawArchive(root / "raw").get(sha)
+            if body is None:
+                raise CorrectionError(
+                    f"pinned season page {sha} for {season} is missing or corrupt under {root / 'raw'}"
+                )
+            matching = [r for r in observed if r["content_sha256"] == sha
+                        and r["url"] == afltables.season_url(season)
+                        and r["adapter"] == "afltables.season_fixture"
+                        and r["http_status"] == 200 and r["outcome"] == "PASS"]
+            if not matching:
+                raise CorrectionError(f"pinned season page {sha} has no successful season observation for {season}")
+            revisions[key] = sha
+            observations.extend(matching)
+            payloads[sha] = body
+        return revisions, observations, payloads
+    except (OSError, ValueError, snapshots.IntegrityError) as exc:
+        raise CorrectionError(f"cannot read pinned correction evidence: {exc}") from exc
 
 
 def default_resolvers(config_dir: Path) -> tuple[ClubResolver, VenueResolver]:

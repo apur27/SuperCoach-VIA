@@ -10,14 +10,13 @@ scheduled future fixture is not.
 
 from __future__ import annotations
 
-import hashlib
 import math
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from supercoach_via.domain.schemas import Origin, Severity
-from supercoach_via.integrity.capture import _read_regular, sha256_hex, strict_json
+from supercoach_via.integrity.capture import sha256_hex, strict_json
 from supercoach_via.integrity.context import AuditContext, CheckSkipped, CheckSpec, rule
 from supercoach_via.integrity.report import Kind, Status
 
@@ -190,12 +189,6 @@ RULES = [
 ]
 
 
-def _dirs(root: Path | None) -> list[Path]:
-    if root is None or not root.is_dir():
-        return []
-    return sorted(p for p in root.iterdir() if p.is_dir() and not p.name.startswith(".") and not p.is_symlink())
-
-
 def _utc(v: Any) -> datetime | None:
     if v is None:
         return None
@@ -203,23 +196,12 @@ def _utc(v: Any) -> datetime | None:
     return (dt if dt.tzinfo else dt.replace(tzinfo=UTC)).astimezone(UTC)
 
 
-def _stream_sha(path: Path) -> str | None:
-    try:
-        h = hashlib.sha256()
-        with path.open("rb") as fh:
-            for chunk in iter(lambda: fh.read(1 << 20), b""):
-                h.update(chunk)
-        return h.hexdigest()
-    except OSError:
-        return None
-
-
 def _load_bundles(ctx: AuditContext) -> dict[str, dict[str, Any]]:
     from supercoach_via.ml.bundles import BundleManifest
 
     out: dict[str, dict[str, Any]] = {}
-    for d in _dirs(ctx.models_root):
-        raw, _why = _read_regular(d / "manifest.json")
+    for d in ctx.external.select(ctx.models_root, "*", directories=True) if ctx.models_root is not None else ():
+        raw = ctx.external.get(d / "manifest.json")
         if raw is None:
             continue
         entry: dict[str, Any] = {"dir": d, "raw": raw, "manifest": None}
@@ -235,8 +217,9 @@ def _load_predictions(ctx: AuditContext) -> dict[str, dict[str, Any]]:
     from supercoach_via.ml.predict import PredictionManifest
 
     out: dict[str, dict[str, Any]] = {}
-    for d in _dirs(ctx.predictions_root):
-        raw, _why = _read_regular(d / "manifest.json")
+    dirs = ctx.external.select(ctx.predictions_root, "*", directories=True) if ctx.predictions_root is not None else ()
+    for d in dirs:
+        raw = ctx.external.get(d / "manifest.json")
         if raw is None:
             continue
         entry: dict[str, Any] = {"dir": d, "raw": raw, "manifest": None}
@@ -294,10 +277,10 @@ def check_bundles(ctx: AuditContext) -> list[str]:
         if m.bundle_id != bid or m.manifest_sha256 != m.self_hash():
             ctx.add("models.bundle_hash", entity, expected=m.self_hash(), actual=m.manifest_sha256)
         payload = entry["dir"] / m.payload_file
-        if not payload.is_file() or payload.is_symlink():
+        got = ctx.external.digest(payload)
+        if got is None:
             ctx.add("models.payload_missing", entity, field="payload_file", actual=m.payload_file)
         else:
-            got = _stream_sha(payload)
             if got != m.payload_sha256:
                 ctx.add("models.payload_hash", entity, expected=m.payload_sha256, actual=got)
         config = (m.cache_inputs or {}).get("config") or {}
@@ -374,8 +357,8 @@ def check_predictions(ctx: AuditContext) -> list[str]:
                 expected=f"<= {ctx.as_of.isoformat()}",
                 actual={"cutoff": _iso(cutoff), "generated_at": _iso(generated)},
             )
-        rows_raw, _ = _read_regular(d / m.rows_file)
-        omit_raw, _ = _read_regular(d / m.omissions_file)
+        rows_raw = ctx.external.get(d / m.rows_file)
+        omit_raw = ctx.external.get(d / m.omissions_file)
         for name, raw, want in (
             (m.rows_file, rows_raw, m.rows_sha256),
             (m.omissions_file, omit_raw, m.omissions_sha256),

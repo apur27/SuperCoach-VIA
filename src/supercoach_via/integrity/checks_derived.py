@@ -21,7 +21,6 @@ from and the check that compares it.
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 import tomllib
 from collections import defaultdict
@@ -260,7 +259,9 @@ def check_derived(ctx: AuditContext) -> list[str]:
     manifest = ctx.snapshot.manifest
     snapshot_id = str(ctx.snapshot.snapshot_id)
     recorded_from = {str(k): int(v) for k, v in _coverage(ctx).coverage.recorded_from.items()}
-    cfg = dx.ranking_config(ctx.policy.config_dir)
+    cfg = dx.ranking_config(
+        ctx.policy.config_dir, captured_bytes=ctx.external.read(ctx.policy.config_dir / "ranking_legacy_v1.toml")
+    )
     method = {"ranking_config": cfg.config_hash(), "recorded_from": recorded_from}
     names = {str(c): str(n) for c, n in ctx.rows("SELECT club_id, name FROM clubs ORDER BY 1")}
     base = {t: frag(t) for t in ("clubs", "players")}
@@ -706,7 +707,9 @@ def _forecast_predictions(ctx: AuditContext, inv: dict[str, Any], unknown: list[
             unknown.append(f"{rel}: prediction artifact {', '.join(map(str, runs)) or '?'} not supplied")
             continue
         m = entry["manifest"]
-        table = pq.read_table(entry["dir"] / m.rows_file).to_pylist()
+        import pyarrow as pa
+
+        table = pq.read_table(pa.BufferReader(ctx.external.read(entry["dir"] / m.rows_file))).to_pylist()
         targets = [match.get(mid) for mid in m.target_matches]
         state = classify_prediction_targets(
             [
@@ -856,8 +859,10 @@ def _forecast_accuracy(ctx: AuditContext, inv: dict[str, Any], unknown: list[str
     evaluations = {}
     for d in ctx.evaluation_dirs:
         try:
-            summary = strict_json((d / "evaluation.json").read_bytes())
-            rows = pq.read_table(d / "scored_rows.parquet").to_pylist()
+            import pyarrow as pa
+
+            summary = strict_json(ctx.external.read(d / "evaluation.json"))
+            rows = pq.read_table(pa.BufferReader(ctx.external.read(d / "scored_rows.parquet"))).to_pylist()
         except (OSError, ValueError) as exc:
             unknown.append(f"evaluation {d.name} unreadable: {exc}"[:200])
             continue
@@ -1082,12 +1087,15 @@ def _forecast_live(ctx: AuditContext, inv: dict[str, Any], unknown: list[str]) -
         unknown.append("live/index.json: no live capture root supplied (--live-root)")
         return set()
     entries, compared = [], {"live/index.json"}
-    for state_path in sorted(ctx.live_root.glob("*/state.json")):
-        state = json.loads(state_path.read_text(encoding="utf-8"))
+    for state_path in ctx.external.select(ctx.live_root, "*/state.json"):
+        try:
+            state = strict_json(ctx.external.read(state_path))
+        except ValueError as exc:
+            raise CheckSkipped(Status.UNKNOWN, f"live state unavailable: {exc}") from exc
         if not state.get("accepted"):
             continue
         rel = f"live/{state['source_game_id']}/latest.json"
-        raw = (state_path.parent / "snapshots" / f"{state['accepted'][-1]}.json").read_bytes()
+        raw = ctx.external.read(state_path.parent / "snapshots" / f"{state['accepted'][-1]}.json")
         snap = LiveSnapshot.model_validate_json(raw).model_dump(mode="json")
         stamps = state.get("accepted_at") or []
         entries.append(
@@ -1157,7 +1165,10 @@ def check_content(ctx: AuditContext) -> list[str]:
         ctx.add("release.content_resource", "resource:articles/index.json", field="articles.order")
     manifest: dict[str, dict[str, Any]] | None = None
     if ctx.content_root is not None and ctx.content_manifest is not None:
-        raw = tomllib.loads(ctx.content_manifest.read_text(encoding="utf-8"))
+        try:
+            raw = tomllib.loads(ctx.external.read(ctx.content_manifest).decode("utf-8"))
+        except ValueError as exc:
+            raise CheckSkipped(Status.UNKNOWN, f"content manifest unavailable: {exc}") from exc
         manifest = {str(a["path"]): a for a in raw.get("article", [])}
     referenced: set[str] = set()
     curated = 0
@@ -1198,7 +1209,7 @@ def check_content(ctx: AuditContext) -> list[str]:
             continue
         entry = manifest.get(str(path))
         source = ctx.content_root / str(path) if ctx.content_root is not None else None
-        digest = hashlib.sha256(source.read_bytes()).hexdigest() if source is not None and source.is_file() else None
+        digest = ctx.external.digest(source) if source is not None else None
         want = {
             "listed": True,
             "sha256": m.group(2),
@@ -1222,7 +1233,7 @@ def check_content(ctx: AuditContext) -> list[str]:
             ctx.add("release.content_resource", f"resource:{rel}", message="asset referenced by no article")
         elif ctx.content_root is not None:
             src = ctx.content_root / rel
-            if not src.is_file() or hashlib.sha256(src.read_bytes()).hexdigest() != inv[rel][0]:
+            if ctx.external.digest(src) != inv[rel][0]:
                 ctx.add(
                     "release.content_provenance",
                     f"resource:{rel}",

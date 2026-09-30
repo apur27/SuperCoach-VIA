@@ -13,13 +13,22 @@ import platform
 import resource
 import sys
 import time
+import tomllib
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from supercoach_via.integrity import checks_storage
-from supercoach_via.integrity.capture import EvidenceStore, ReleaseCapture, SnapshotCapture
+from supercoach_via.integrity.capture import (
+    CapturedInputError,
+    DriftError,
+    EvidenceStore,
+    ExternalCapture,
+    ReleaseCapture,
+    SnapshotCapture,
+    strict_json,
+)
 from supercoach_via.integrity.context import AuditContext, CheckSkipped, CheckSpec
 from supercoach_via.integrity.policy import IntegrityPolicy, load_policy
 from supercoach_via.integrity.report import (
@@ -203,8 +212,9 @@ def run_audit(options: AuditOptions) -> AuditResult:
     if options.workers < 1:
         raise UsageError("--workers must be at least 1")
     as_of = parse_as_of(options.as_of)
+    external = ExternalCapture()
     try:
-        policy = load_policy(options.config_dir)
+        policy = load_policy(options.config_dir, capture=external)
     except ValueError as exc:
         raise UsageError(str(exc)) from exc
     rules = rule_catalog()
@@ -237,7 +247,10 @@ def run_audit(options: AuditOptions) -> AuditResult:
         live_root=options.live_root,
         content_root=options.content_root,
         content_manifest=options.content_manifest,
+        external=external,
     )
+    requested = _requested(options, registry())
+    _capture_auxiliary(ctx, {s.check_id for s in requested})
     salt = _cache_salt(policy, rules, options, as_of)
     changed = _baseline(options, snapshot, release, salt) if options.changed_since is not None else None
     if options.cache_dir is not None and (changed is None or changed["compatible"]):
@@ -247,7 +260,7 @@ def run_audit(options: AuditOptions) -> AuditResult:
     results = []
     seconds: dict[str, float] = {"capture": round(time.perf_counter() - t0, 3)}
     try:
-        for spec in _requested(options, registry()):
+        for spec in requested:
             ctx.check_id = spec.check_id
             t_check = time.perf_counter()
             unknown: list[str] = []
@@ -263,6 +276,10 @@ def run_audit(options: AuditOptions) -> AuditResult:
                     status, reason = skip.status, skip.reason
                     if collector.check_status(spec.check_id, unknown=[]) is Status.FAIL:
                         status = Status.FAIL
+                except CapturedInputError as exc:
+                    status, reason = Status.UNKNOWN, f"input unavailable: {exc}"[:500]
+                    if collector.check_status(spec.check_id, unknown=[]) is Status.FAIL:
+                        status = Status.FAIL
             results.append((spec, status, reason))
             ctx.coverage.setdefault("_executed", []).append((spec.check_id, status.value))
             seconds[spec.check_id] = round(time.perf_counter() - t_check, 3)
@@ -276,7 +293,7 @@ def run_audit(options: AuditOptions) -> AuditResult:
     finally:
         ctx.close()
     t_drift = time.perf_counter()
-    drift = snapshot.drift() + (release.drift() if release is not None else [])
+    drift = snapshot.drift() + (release.drift() if release is not None else []) + external.drift() + evidence.drift()
     seconds["inputs.stable"] = round(time.perf_counter() - t_drift, 3)
     stability = CheckSpec("inputs.stable", "storage", "inputs unchanged on disk for the whole audit", lambda _c: None)
     results.append(
@@ -398,25 +415,118 @@ def _baseline(
     return out
 
 
-def _tree_digest(root: Path, pattern: str) -> str | None:
-    if not root.is_dir():
-        return None
-    h = hashlib.sha256()
-    for p in sorted(root.glob(pattern)):
-        if p.is_file() and not p.is_symlink():
-            h.update(p.relative_to(root).as_posix().encode() + b"\0" + hashlib.sha256(p.read_bytes()).digest())
-    return h.hexdigest()
+def _capture_auxiliary(ctx: AuditContext, checks: set[str]) -> None:
+    """Select and pin only the external inputs consumed by requested checks."""
+    cap = ctx.external
+    source_checks = {"source.match_pages", "source.player_pages", "freshness.fixture_inventory"}
+    if checks & source_checks and ctx.snapshot is not None:
+        import pyarrow.compute as pc
 
+        prefixes = []
+        if "freshness.fixture_inventory" in checks:
+            prefixes.append("afltables:season:")
+        if "source.match_pages" in checks:
+            prefixes.append("afltables:game:")
+        digests = {
+            v for k, v in ctx.snapshot.manifest.source_revisions.items() if k.startswith(tuple(prefixes))
+        } if ctx.snapshot.manifest else set()
+        observations = ctx.snapshot.table(
+            "source_observations", ["adapter", "content_sha256", "outcome", "url", "fetched_at", "source_ref"]
+        )
+        if observations is not None:
+            latest_observed = {}
+            for row in sorted(observations.to_pylist(), key=lambda r: (
+                str(r["url"]), r["fetched_at"].isoformat() if r["fetched_at"] else "", r["source_ref"],
+            )):
+                if row["outcome"] == "PASS" and row["content_sha256"] is not None:
+                    latest_observed[(row["adapter"], row["url"])] = row["content_sha256"]
+            for (adapter, _url), digest in latest_observed.items():
+                if (adapter == "afltables.match_detail" and "source.match_pages" in checks) or (
+                    adapter == "afltables.player_page" and "source.player_pages" in checks
+                ):
+                    digests.add(digest)
+        tables = ("matches", "player_games") if "source.match_pages" in checks else (
+            ("player_games",) if "source.player_pages" in checks else ()
+        )
+        for table in tables:
+            rows = ctx.snapshot.table(table, ["source_sha256", "provenance"])
+            if rows is not None:
+                fetched = rows.filter(pc.equal(rows["provenance"], "source_fetch"))["source_sha256"]
+                digests.update(value for value in fetched.to_pylist() if value is not None)
+        ctx.evidence.pin(digests)
+    if "release.derived" in checks:
+        cap.pin(ctx.policy.config_dir / "ranking_legacy_v1.toml", "ranking_method", "ranking_legacy_v1.toml")
+    if any(c.startswith("models.") for c in checks) or "release.forecast" in checks:
+        from supercoach_via.ml.bundles import BundleManifest
+        from supercoach_via.ml.predict import PredictionManifest
 
-def _comparator_inputs(options: AuditOptions) -> dict[str, Any]:
-    """Identity of the non-snapshot inputs release.forecast and release.content compared with."""
-    return {
-        "evaluations": {d.name: _tree_digest(d, "*") for d in sorted(options.evaluation_dirs)},
-        "live_root": _tree_digest(options.live_root, "**/*.json") if options.live_root else None,
-        "content_manifest": hashlib.sha256(options.content_manifest.read_bytes()).hexdigest()
-        if options.content_manifest is not None and options.content_manifest.is_file()
-        else None,
-    }
+        for group, root, fields, model in (
+            ("models", ctx.models_root, ("payload_file",), BundleManifest),
+            ("predictions", ctx.predictions_root, ("rows_file", "omissions_file"), PredictionManifest),
+        ):
+            if root is None:
+                continue
+            cap.groups.setdefault(group, {})
+            for directory in cap.select(root, "*", directories=True):
+                path = directory / "manifest.json"
+                cap.pin(path, group, f"{directory.name}/manifest.json")
+                try:
+                    parsed = model.model_validate(strict_json(cap.read(path)))
+                except (OSError, ValueError):
+                    continue  # the family reports invalid/missing manifests
+                for field in fields:
+                    name = getattr(parsed, field)
+                    if isinstance(name, str):
+                        cap.pin(
+                            directory / name, group, f"{directory.name}/{name}",
+                            retain=group != "models", root=directory,
+                        )
+    if "release.forecast" in checks:
+        # Preserve duplicate basenames: each explicitly supplied evaluation is an input.
+        for i, directory in enumerate(ctx.evaluation_dirs):
+            group = f"evaluation:{i}:{directory.name}"
+            cap.groups.setdefault(group, {})
+            for name in ("evaluation.json", "scored_rows.parquet"):
+                cap.pin(directory / name, group, name)
+        if ctx.live_root is not None:
+            cap.groups.setdefault("live", {})
+            for path in cap.select(ctx.live_root, "*/state.json"):
+                cap.pin(path, "live", path.relative_to(ctx.live_root).as_posix(), root=ctx.live_root)
+                try:
+                    state = strict_json(cap.read(path))
+                    accepted = state.get("accepted") or []
+                    if accepted:
+                        latest_capture = path.parent / "snapshots" / f"{accepted[-1]}.json"
+                        cap.pin(
+                            latest_capture, "live", f"{path.parent.name}/accepted_snapshot",
+                            root=path.parent,
+                        )
+                except (OSError, ValueError, AttributeError):
+                    continue  # the semantic read reports this input as unavailable
+    if "release.content" in checks and ctx.content_root is not None:
+        paths: set[str] = set()
+        if ctx.content_manifest is not None:
+            cap.pin(ctx.content_manifest, "content_manifest", "manifest")
+            try:
+                manifest = tomllib.loads(cap.read(ctx.content_manifest).decode("utf-8"))
+                paths.update(str(a["path"]) for a in manifest.get("article", []))
+            except (OSError, ValueError, KeyError, TypeError):
+                pass  # the semantic read reports this input as unavailable
+        if ctx.release is not None:
+            for rel in ctx.release.public:
+                if rel.startswith("assets/"):
+                    paths.add(rel)
+                elif rel.startswith("articles/") and rel != "articles/index.json":
+                    try:
+                        doc = strict_json(ctx.release.read_public(rel))
+                        source_path = (doc.get("summary") or {}).get("original_path")
+                        if source_path:
+                            paths.add(str(source_path))
+                    except (ValueError, KeyError, DriftError):
+                        pass
+        cap.groups.setdefault("content_sources", {})
+        for name in sorted(paths):
+            cap.pin(ctx.content_root / name, "content_sources", name, root=ctx.content_root)
 
 
 class OutputWriteError(CheckerError):
@@ -564,7 +674,7 @@ def _build_report(
             "release": ctx.release.identity() if ctx.release else None,
             "evidence": ctx.evidence.identity(),
             "models": ctx.coverage.get("model_inputs"),
-            "comparators": _comparator_inputs(options) if ctx.release is not None else None,
+            "comparators": ctx.external.identity(),
         },
         "scope": {
             "name": options.scope,
@@ -574,7 +684,8 @@ def _build_report(
             "complete": complete,
             "semantic_complete": None
             if ctx.release is None
-            else any(c["check_id"] == "release.coverage" and c["status"] == Status.PASS.value for c in checks),
+            else any(c["check_id"] == "release.coverage" and c["status"] == Status.PASS.value for c in checks)
+            and not any(c["check_id"] == "inputs.stable" and c["status"] == Status.UNKNOWN.value for c in checks),
             "current_season": ctx.current_season,
         },
         "outcome": outcome.value,

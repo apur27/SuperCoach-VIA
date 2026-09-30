@@ -275,7 +275,10 @@ def _with_fixture_corrections(
     return merged, counts
 
 
-def apply_corrections(ctx: RunContext, *, seasons: Sequence[int], run_id: str | None = None) -> StageResult:
+def apply_corrections(
+    ctx: RunContext, *, seasons: Sequence[int], run_id: str | None = None,
+    evidence_root: Path | None = None, evidence_snapshot: str | None = None,
+) -> StageResult:
     """Offline, bounded corrections of the accepted snapshot; promotes a child snapshot on PASS.
 
     1. ``ingest.corrections.fixture_corrections`` for each season with a pinned season page;
@@ -291,23 +294,59 @@ def apply_corrections(ctx: RunContext, *, seasons: Sequence[int], run_id: str | 
         from supercoach_via.storage.queries import SnapshotQuery
 
         store.transition(RunState.PLANNED)
+        if (evidence_root is None) != (evidence_snapshot is None):
+            raise _Failure(
+                EXIT_INVALID, "invalid_input", "evidence root and immutable snapshot must be supplied together"
+            )
         root = ctx.data_root
         base = snapshots.load_snapshot(root, verify=True)
         store.transition(RunState.PARSED)
         manifest_path = root / "snapshots" / f"{snapshots.snapshot_hex(base.snapshot_id)}.json"
         merged = snapshots.SnapshotCandidate(base, manifest_path)
         try:
+            if evidence_root is not None and evidence_snapshot is not None:
+                from supercoach_via.ingest.http import RawArchive
+
+                revisions, observations, payloads = corrections.pinned_season_evidence(
+                    evidence_root, evidence_snapshot, set(seasons)
+                )
+                existing: dict[str, dict[str, Any]] = {}
+                if "source_observations" in base.tables:
+                    with SnapshotQuery(root, base, tables={"source_observations"}) as q:
+                        existing = {
+                            r["source_ref"]: r for r in q.arrow("SELECT * FROM source_observations").to_pylist()
+                        }
+                changed = [r for r in observations if existing.get(r["source_ref"]) != r]
+                for sha, payload in payloads.items():
+                    snapshots.contained_path(root, f"raw/objects/{sha[:2]}/{sha}")
+                    RawArchive(root / "raw").put(payload)
+                if changed or any(base.source_revisions.get(k) != v for k, v in revisions.items()):
+                    merged = snapshots.apply_upserts(
+                        root, base, {"source_observations": changed or observations},
+                        source_revisions=revisions, clock=ctx.clock, code_version=CODE_VERSION,
+                        status=base.status, run_id=store.run_id,
+                        notes=[f"correction season evidence from {evidence_snapshot}"],
+                    )
+                result.outputs["evidence"] = {
+                    "snapshot_id": evidence_snapshot,
+                    "season_captures": {str(s): revisions[f"afltables:season:{s}"] for s in sorted(set(seasons))},
+                }
+            for season in sorted(set(seasons)):
+                if not merged.manifest.source_revisions.get(f"afltables:season:{season}"):
+                    raise corrections.CorrectionError(
+                        f"accepted snapshot has no pinned season page for requested {season}"
+                    )
             merged, counts = _with_fixture_corrections(
                 root, merged, set(seasons), clock=ctx.clock, status=base.status, run_id=store.run_id
             )
         except corrections.CorrectionError as exc:
-            hint = "copy the pinned capture into raw/objects or pass the season it belongs to"
+            hint = "supply --evidence-root and --evidence-snapshot with the requested season's verified pinned capture"
             raise _Failure(EXIT_SOURCE, "evidence_unavailable", str(exc), hint) from exc
         relinks = corrections.replay_link_corrections(root, merged.manifest)
         if relinks["deletes"]:
             merged = snapshots.apply_upserts(
                 root, merged.manifest,
-                {k: relinks[k] for k in ("player_games", "quarantine", "quality_issues") if relinks[k]},
+                {k: relinks[k] for k in ("player_games", "quarantine", "quality_issues")},
                 deletes={"player_games": relinks["deletes"]}, allow_empty=True, clock=ctx.clock,
                 code_version=CODE_VERSION, status=base.status, run_id=store.run_id,
                 notes=[f"replayed drawn finals: {len(relinks['player_games'])} rows relinked by team scores, "
