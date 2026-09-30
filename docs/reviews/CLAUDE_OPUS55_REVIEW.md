@@ -4,6 +4,183 @@
 the retained snapshot or its CSV inputs; **[historical record]** means a public source page.
 Timings, byte counts and test counts are engineering measurements.*
 
+## 0. Follow-up (30 September 2026)
+
+This section records the follow-up payload (`docs/rewrite/CLAUDE_CODE_OPUS_55_FOLLOWUP_PAYLOAD.md`).
+It supersedes the verdicts in §5, and qualifies two claims made below. §5 said "every
+published cell matches the snapshot", but that held only for the match and player
+resources then compared. §6 called the team and history comparisons optional; they were
+required, and they are now implemented.
+
+### 0.1 Identities
+
+| Item | Value |
+|---|---|
+| Branch | `review/opus55-integrity`, not merged, main untouched; follow-up commits `3eb885410`..`7101482f3` plus the documentation commit |
+| Retained inputs (unchanged) | snapshot `sha256:aa836549…2bb98f`, release `20260928T111014Z-ca96603163ad`, under the main checkout's `var/finalized/`; pointer digest recorded before and after in the run directory |
+| Candidate snapshot | `sha256:3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0` (parent `aa836549…`, made by `scvia apply-corrections` on a copy) |
+| Candidate model | `bundle-2103e39a9c78444b0de6` (`hgb`), manifest sha256 `f8f86a79…`, retrained on the candidate snapshot |
+| Candidate release | `20260929T213900Z-c8938f4ddb83`, checksums `c8df185d…`, seal `6154fbf3162cbd6071527d85de52a1605c30fbc942afdbb565c39c0d250c6395`, validation PASS |
+| Run directory | `var/reviews/opus55/20260929T203757Z-followup/` (candidate data and release, logs, audits, smoke, browser) |
+| Committed samples | `docs/reviews/opus55/integrity-report-candidate-full.json` (and its findings stream), `integrity-report-retained-followup.json` (the reference), `browser-facts-candidate.json`, `smoke-old-new-compare.json` |
+
+### 0.2 Two further checker findings (both fixed)
+
+**C55-01 · Medium: output destinations could alias.** `--execution` defaulted to a path
+that could equal `--report`, and aliasing through relative, absolute or symlinked-parent
+forms was not detected. One output silently overwrote another, and a failed write left
+a receipt claiming files that were never written. Fix: `plan_outputs` resolves every
+destination, refuses any two that name the same file (by path or inode) before the audit
+runs, and leaves existing bytes untouched on refusal. A failed write now reports exactly
+which outputs were written and which were not. Tests: `test_integrity_cli.py`, six
+aliasing forms and a partial-write receipt.
+
+**C55-02 · High: semantic coverage was incomplete, but the report said complete.**
+`scope.complete` was true while team pages, history tables, lists, downloads, the overview,
+the quality page, accuracy, live resources and articles had no semantic comparison. A team
+total changed with every hash recalculated passed every check. Fix:
+
+- `release.derived`, `release.forecast`, `release.content` and `release.coverage` (see `docs/data-integrity.md`);
+- the B1 player-page comparator `source.player_pages`;
+- `scope.semantic_complete`, true only when every public file was compared or is provenance-only by type.
+
+A missing comparator input, or a comparison that did not run, is now UNKNOWN. The
+adversarial tests change team totals, history ranks and values, download row membership
+and stale summaries, in cold, warm-cache and changed-since modes.
+
+### 0.3 Status of the O55 findings
+
+| Finding | Status | Evidence |
+|---|---|---|
+| O55-01 zeros stored as "not recorded" | **fixed in the candidate** | `domain/blanks.py`, one rule for both importers and refresh. Annotated captured cells: `tests/scvia/fixtures/zero_semantics/annotations.json`. Independent checker reading: `football.blank_as_null` / `unevidenced_zero` / `brownlow_not_applicable` and `checks_source.expected_cells`. 2,903,202 cells **[data]** became recorded zeros. Pendlebury's goals are 209 over 442 games, 0.5 per game on the site (was 1.29) **[data]**. |
+| O55-02 R17 attendance | **fixed in the candidate** | `apply-corrections` from pinned capture `87c99c1a…`, with a resolved `fixture_field_corrected` issue. Snapshot, public resource and embedded site show 62,117 **[historical record]**. The grand-final `venue_id` gap was fixed the same way. |
+| O55-03 malformed stat text becomes null | fixed | the match and player parsers fail on non-numeric text |
+| O55-04 compact rows unchecked | fixed | producer validators and a browser contract; checker tests still build invalid releases (`reseal(expect_valid=False)`) |
+| O55-05 duplicate keys, lax booleans | fixed | strict JSON loading and `StrictBool` |
+| O55-06 replay rows linked to drawn finals | **fixed in the candidate** | 12 rows relinked where official team scores reconcile; 13 quarantined with an actionable issue **[data]** |
+| O55-07 hermetic tier over 30 s | **still open** | see 0.6 |
+| O55-08 mobile clutter, "17 2026" titles | fixed | "Collingwood v Richmond, Round 17 2026"; the strip at 320 px is 133 px on the real candidate (was about 270) |
+| O55-09 little independent source evidence | unchanged, now measured more fully | 138 rows on 3 captured match pages and 92 rows on the 3 B1 player pages (1,235 exact cells, 881 blanks confirmed non-positive) **[data]**; every other row stays `legacy_unverified` |
+
+**Zero semantics: what is and is not decided.** A blank becomes 0 only when all of these
+hold: the match reports the statistic, the row took the field, and the season is inside the
+statistic's recorded era. Time on ground is never zero-filled, and finals Brownlow votes are
+not applicable. Decision 3 (observed denominators) and the `N of M` disclosure are
+unchanged. Remaining gaps stay visible, for example Brownlow votes at 409 of 442 games for
+Pendlebury **[data]**, the 33 finals being not applicable. The evidence is the source's own
+convention, verified on the captured pages and consistent across the corpus: every
+home-and-away match since 1984 sums to 6 Brownlow votes (7,620 of 7,620) **[data]**. Applying
+that convention to legacy rows that have no capture of their own is a policy choice. The
+candidate makes it; **the owner should confirm it before activation**. The candidate records
+no owner approval.
+
+### 0.4 Candidate validation
+
+- **Audit** (`--as-of 2026-09-30T00:00:00Z`, B1 evidence, curated content): PASS, complete,
+  `semantic_complete`; 26 of 26 checks PASS; open findings are 4 historical goal-mismatch
+  warnings (18 before), 1 `models.prediction_snapshot` warning (the retained run's old
+  prediction artifact sits in the copied predictions directory) and 1 info **[data]**.
+  26.6 million cells compared, 1,854 derived resources, 0 uncompared. Wall time and RSS are
+  in `docs/data-integrity.md`. Cold at 1 and 4 workers, warm, and changed-since reports are
+  byte-identical. A one-value edit on a copy was detected and invalidated exactly 2 cached
+  results.
+- **Reference** (the retained inputs): FAIL, kept as the reference. 1 blocking R17
+  attendance; 1,167 blocking source-cell contradictions (captured blanks are zeros the
+  retained snapshot holds as nulls); 25 replay-link errors; 44 blank-as-null warnings **[data]**.
+- **Grand final end to end:** Brisbane Lions 14.12 (96) d Fremantle 12.17 (89) at the M.C.G.,
+  26 September 2026, attendance 100,023 **[data]**. All 46 player rows are compared cell
+  by cell with the pinned match capture `78749199…`. The snapshot, public match detail and
+  embedded site copy agree byte for byte, and the page renders "Fremantle v Brisbane Lions,
+  Grand Final 2026". Its presence in the data is separate from source coverage and from the
+  zero semantics.
+- **Retraining:** new bundle; champion `hgb`; matched holdout MAE 3.760 against the prior-5
+  baseline's 3.909 (3.81%, gate passed); 80% interval holdout coverage 81.2%. These are
+  model-evaluation metrics computed on the candidate, not reused. The forecast remains
+  `unavailable` (`no_valid_future_fixture`). The engineering model card
+  (`docs/model-card.md`) still describes an earlier bundle; the release's own model card is
+  generated from the new manifest.
+- **Site:** 263,922,347 bytes against a 314,572,800-byte budget, 48.3 MiB of headroom. The
+  2026 season-scoped files are 3.31 MiB; at about 4.3 MiB per modern season in total that is
+  about 11 seasons. Browser sweep: 23 routes × 4 widths × 2 themes, no console or page
+  errors except the intended 404, 0 axe violations, grand-final and watchlist flows pass,
+  and all 14 downloads return 200.
+- **Rehearsal and smoke:** `SCVIA_NUMERIC_ENTRY=1 scripts/weekly_refresh.sh` ran on a scratch
+  copy (source inventory `cbb62505…`, 895 files, 0 differences) in rehearsal mode, with no
+  network and no commit or push. It exited 0 in 278 s at 1.92 GiB peak tree RSS; the
+  import, forecast, build, site, budget, seal and validate phases all passed. Old/new
+  comparison: all-time top 100 identical (max delta 0), 130 of 130 yearly lists exact,
+  biography rows 100 of 100 identical. A first attempt was refused by the harness guard
+  because the RSS sampler's own command line named `weekly_refresh.sh`; the guard was
+  right, and the sampler was changed.
+- **§6 scope determination.** No harness `.sh`, hook, gate script, legacy-tier
+  `tests/integration` file or harness-invoked top-level Python entry point changed.
+  `refresh`, `import-legacy` and `cli.py` change the data the opt-in numeric entry produces,
+  so that path was treated as in scope and smoke-run (above). The default legacy harness
+  path is unchanged. A rehearsal import from the legacy CSVs still carries R17 attendance 0,
+  because the capture-backed correction is applied by `apply-corrections` (or a refresh),
+  never by editing `data/`. The numeric cycle must run it after an import.
+
+### 0.4a Tests on final code
+
+| Tier | Result |
+|---|---|
+| `pytest tests -m "not integration"`, 4 workers on CPUs 0,2,4,6 | 1,479 passed, 45 skipped (pre-existing skips), 82.0 s |
+| `pytest tests/scvia -m "not integration"` (the hermetic tier) | 924 passed, 51.7 s (target 30 s, see 0.6) |
+| `pytest tests/scvia -m integration`, real corpus, integrity test on the candidate | 43 of 43 pass after one oracle update (below); 320 s, 3.34 GiB max process |
+| `pytest tests/integration -m integration` (legacy Phase 3d gate) | 17 passed, 3 failed, 1 skipped. The failures are pre-existing and outside this branch: the two backtest reconciliations (9,099 against 9,007 per-team rows, REHEARSAL.md Finding 1) and chart reproducibility under this worktree's rendering environment. The branch changes nothing under `data/`, `assets/` or the harness. |
+| ruff, mypy | clean |
+| web: `gen:types:check`, `check`, `lint`, Vitest | up to date, 0 errors, clean, 174 passed / 2 skipped |
+| Playwright e2e at `/` and `/SuperCoach-VIA/` | 322 passed, 4 skipped (run-once checks) |
+
+**Oracle update.** `test_era_stats_match_legacy` compared the new era statistics with the
+legacy script, which reads every blank as missing, so O55-01 made it fail by design. It now
+states parity exactly. The number of observations may only grow. Because the added values
+are zeros, each metric's sum and sum of squares are unchanged, so the new mean and SD are
+checked to 1e-9 against values derived from the legacy output. Every column, median and
+per-100% included, must still match exactly wherever no blank was resolved. The real-data
+integrity test now supplies the curated content and asserts semantic coverage and the B1
+player pages; it passes on the candidate (18 of 18).
+
+### 0.5 Nothing here authorised
+
+There was no merge, push, deployment, schedule change, default harness activation or
+budget increase. No rehearsal is counted as a shadow cycle, and no owner approval is
+recorded.
+
+### 0.6 Test performance (O55-07), still open
+
+Measured on the documented set-up (4 workers pinned to CPUs 0,2,4,6, no competing job):
+
+| Run | Tests | Time |
+|---|---|---|
+| hermetic tier before this follow-up's test-setup change | 924 | 54.1–54.5 s |
+| after (one shared DEMO build per worker, sequential season path for it) | 924 | 50.9–52.0 s |
+| without the checker's tests | 735 | 29.3 s |
+| checker tests alone | 189 | 30.6 s |
+| all 924, 8 unpinned workers (not the documented set-up) | 924 | 42.6 s |
+
+The dominant costs are the checker's DEMO-release tests. Each one copies, reseals
+(`validate_release` 0.22 s) and audits (0.5–1 s). Per-worker DEMO construction takes 4–6 s.
+No test was deleted, skipped, moved or reclassified, and the budget was not raised.
+Alternatives, for the owner:
+
+1. Run the checker tests as their own parallel hermetic job (each half is about 30 s).
+2. Let `reseal` and the checker share one `validate_release` pass per test.
+3. Faster tree walks in `validate_release`: `pathlib.relative_to` is about half its time on
+   the DEMO. This is production code, so it was left alone here.
+4. A budget decision.
+
+This rewrite target (30 s) is separate from the legacy fast-tier budget in `CLAUDE.md`
+(about 20 s, `tests/unit`).
+
+### 0.7 Verdicts
+
+| Question | Verdict |
+|---|---|
+| **Integrity checker** | **Ready for opt-in operator use.** It now compares every published resource type with its own input and reports incomplete coverage as UNKNOWN. It is deterministic across modes and worker counts, and the hermetic and real-data tiers pass. It is still not wired into any gate. |
+| **Candidate app** | **Usable locally as a candidate.** Sealed, validated, audited PASS with full semantic coverage, and browser-checked. It embeds a zero-semantics policy that the owner should confirm (0.3). The candidate release, data and bundle live only in the run directory. |
+| **Production activation** | **Not ready.** It still needs two genuine shadow cycles, the `SWITCH_PLAN.md` decisions, the owner's confirmation of the zero-semantics rule for uncaptured legacy rows, `apply-corrections` in the numeric cycle after an import, and a decision on O55-07. |
+
 ## 1. Identity, scope and limits
 
 | Item | Value |
@@ -160,7 +337,7 @@ Each was found by running the checker on real data or by a new test; the fix, wi
 | Code and tests | ruff and mypy clean; hermetic 842 pass; scvia integration 35 pass (286 s, 3.15 GiB peak during real import and training); web gen-types, check, lint, Vitest 163/2 skipped; Playwright 320 pass / 4 skipped at both bases | O55-07 |
 | Operations and CI | `.github/workflows/scvia-ci.yml` (locked uv/npm, pinned actions, both bases); `scvia-pages.yml` (manual dispatch, pinned seal/archive); `docs/operations.md`; legacy `tests.yml`/`weekly-fan-pack.yml` still present (switch step C) | no new defect |
 
-## 5. Verdicts
+## 5. Verdicts (first review; superseded by §0.7)
 
 | Question | Verdict |
 |---|---|
@@ -168,7 +345,7 @@ Each was found by running the checker on real data or by a new test; the fix, wi
 | **Integrity checker readiness** | **Ready for opt-in operator use.** It is deterministic, read-only and offline. 144 hermetic tests pass, including negative controls, determinism, cache, changed-mode equivalence and read-only checks, and the real-data runs are recorded. It is not wired into any gate; doing that is a §6.2 change needing its own smoke run. |
 | **Production activation** | **Not ready.** It still needs two genuine shadow cycles, the owner decisions in `SWITCH_PLAN.md` §6, O55-01 decided and rebuilt, O55-02 repaired, and a decision on O55-07. |
 
-## 6. Remediation, in order
+## 6. Remediation, in order (first review; see §0.3 for status)
 
 | # | Task | Acceptance | Depends on | Scope |
 |---|---|---|---|---|

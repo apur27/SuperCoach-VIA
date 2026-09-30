@@ -19,10 +19,10 @@ class IntegrityDemo:
 
 @pytest.fixture(scope="session")
 def integrity_demo(tmp_path_factory: pytest.TempPathFactory) -> IntegrityDemo:
+    import shutil
+
     from tests.scvia.unit import integrity_fixtures as fx
     from tests.scvia.unit.demo_release_env import demo_env, full_release
-
-    import shutil
 
     # the same per-worker DEMO build the builder tests use (built once), copied so the site
     # added here never changes the release those tests read

@@ -17,6 +17,7 @@ import os
 import time
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 
 import pandas as pd
 import pytest
@@ -183,10 +184,29 @@ class TestErasParity:
         got = got.set_index(["era", "legacy_metric"]).loc[list(zip(want.era, want.metric, strict=True))]
         got = got.reset_index(drop=True)
         assert (got["n_player_games"] == want["n_player_games"]).all()
-        assert (got["n_with_metric"] == want["n_with_metric"]).all()
+        # O55-01: the import now records a source blank as 0 where the source proves it (the
+        # legacy script reads every blank as missing). Resolution only ADDS observations, and
+        # every added value is 0, so each metric's sum and sum of squares are unchanged: the
+        # new mean and sample SD follow exactly from the legacy ones. Where nothing was
+        # resolved, every column must match exactly, median and per-100% included.
+        n_new, n_old = got["n_with_metric"].astype(float), want["n_with_metric"].astype(float)
+        assert (n_new >= n_old).all()
+        m_old = want["mean_per_game"].astype(float).fillna(0.0)
+        total = m_old * n_old
+        sumsq = want["std_per_game"].astype(float).fillna(0.0) ** 2 * (n_old - 1).clip(lower=0) + n_old * m_old**2
+        mean_new = (total / n_new).where(n_new > 0)
+        sd_new = (((sumsq - n_new * mean_new**2) / (n_new - 1)).clip(lower=0) ** 0.5).where(n_new > 1)
+
+        def close(a: Any, b: Any) -> Any:
+            a, b = a.astype(float), b.astype(float)
+            return ((a - b).abs() <= 1e-9 * b.abs().clip(lower=1)) | (a.isna() & b.isna())
+
+        assert close(got["mean_per_game"], mean_new).all()
+        assert (close(got["std_per_game"], sd_new) | (n_new <= 1)).all()
+        same = n_new == n_old
+        assert same.sum() > 0 and (n_new > n_old).sum() > 0
         for col in ("mean_per_game", "std_per_game", "median_per_game", "mean_per_100pct_played"):
-            a, b = got[col].astype(float), want[col].astype(float)
-            assert (((a - b).abs() <= 1e-9 * b.abs().clip(lower=1)) | (a.isna() & b.isna())).all(), col
+            assert close(got[col], want[col])[same].all(), col
 
 
 class TestPerformance:

@@ -1,0 +1,45 @@
+{
+ "all_time_numeric": {
+  "common_order_ok": true,
+  "cutoff_legacy": 1.6645595319336985,
+  "cutoff_new": 1.6645595319336985,
+  "max_abs_score_delta": 0.0,
+  "n_legacy": 100,
+  "n_new": 100,
+  "only_legacy": [],
+  "only_legacy_count": 0,
+  "only_legacy_scores": [],
+  "only_new": [],
+  "only_new_count": 0,
+  "only_new_scores": [],
+  "order_differs_only_within_exact_ties": false,
+  "same_order": true,
+  "same_players": true
+ },
+ "biography_csv": {
+  "content_matches": true,
+  "first_difference": null,
+  "identical_rows": 100,
+  "rows_legacy": 100,
+  "rows_new": 100
+ },
+ "current_matches_selected": true,
+ "current_snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+ "data_root": "<run-dir>/smoke/var2/corpus",
+ "legacy_worktree": "<run-dir>/smoke/var2/runs/20260930T085328Z-263638/legacy-exports",
+ "release_snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+ "selected_snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+ "snapshot_id": "sha256:b02706a12b08b297dd224d81a3e1d54bf8c9b0c6e0bf4e7501034d2e34b1bfac",
+ "verdict": {
+  "ok": true,
+  "reasons": []
+ },
+ "yearly": {
+  "disagreeing": {},
+  "exact_order": 130,
+  "missing_expected": [],
+  "order_differs_only_within_exact_ties": 0,
+  "same_players_and_scores": 130,
+  "seasons": 130
+ }
+}

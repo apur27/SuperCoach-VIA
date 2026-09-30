@@ -24,6 +24,7 @@ scvia check-integrity \
   --scope full \
   --as-of 2026-09-28T12:00:00Z \
   --evidence /abs/checkout/docs/rewrite/evidence/b1/raw \
+  --content-root /abs/checkout --content-manifest /abs/checkout/config/public_content.toml \
   --report /abs/var/reviews/opus55/<run>/integrity-full.json \
   --findings-stream /abs/var/reviews/opus55/<run>/integrity-findings.jsonl \
   --cache /abs/var/reviews/opus55/cache \
@@ -39,7 +40,10 @@ scvia check-integrity \
 | `--scope` | `full` (snapshot + release + models) or `data` (no release checks are requested). |
 | `--as-of` | An explicit UTC instant for time-dependent rules. Without it those rules are NOT_APPLICABLE; the current clock is never used in a verdict. |
 | `--evidence` | Extra content-addressed source payload directories (repeatable). Files are found by SHA-256 as `<sha>`, `<sha>.html`, `<sha>.html.gz` or `objects/<sha[:2]>/<sha>`, and count only when their (decompressed) bytes hash to that digest. |
-| `--models-root`, `--predictions-root` | Override `<data-root>/models`, `<data-root>/predictions`. |
+| `--models-root`, `--predictions-root` | Override `<data-root>/models`, `<data-root>/predictions`. The prediction artifacts are also the input a published prediction set is compared with. |
+| `--evaluation` | An evaluation directory behind a published accuracy report (repeatable). Without it such a report cannot be compared and the audit is UNKNOWN. |
+| `--live-root` | The live monitor's state root behind published live snapshots. Required only when the release publishes a live snapshot. |
+| `--content-root`, `--content-manifest` | The curated article sources and `public_content.toml` the release's articles and assets were built from. Required when the release publishes curated articles or assets. |
 | `--report` | Canonical report path. Refused (exit 2) if it resolves inside any input. Execution metadata goes to `<report>.execution.json` unless `--execution` is given. |
 | `--findings-stream` | Every finding as canonical JSONL (the report's examples are capped; totals are always exact). |
 | `--cache` | Semantic-result cache directory (outside every input). |
@@ -76,6 +80,14 @@ current-season defects do.
 UNKNOWN. A `data`-scope report never claims release integrity, because release checks are
 not requested at all.
 
+Checks that executed are not the same as semantic coverage achieved.
+`scope.semantic_complete` is true only when `release.coverage` PASSes: every public file
+was examined by an executed semantic comparison against its own authoritative input, or
+belongs to a type that is provenance-only by design (article prose, rendered chart images
+and Markdown reports). A comparison that did not run, or whose input was not supplied, leaves
+its resources uncompared, which makes `release.coverage` and therefore the audit UNKNOWN.
+Byte, checksum and seal verification alone never count as a semantic comparison.
+
 ## What it checks
 
 Every input file is read **once**, hashed, and parsed from those same bytes. After the
@@ -106,8 +118,12 @@ Everything else recomputes an invariant from the facts, independently of the pro
 - **Football rules and era coverage:** player behinds never exceed the team's behinds
   (rushed behinds only add); Brownlow votes are 0–3; values above `plausible_max` raise
   a warning, never an error; zeros stored before a stat's `recorded_from` are reported
-  (null converted to zero); and a stat that is never zero but often null inside its
-  recorded era is reported (source blanks read as missing).
+  (null converted to zero). Blank semantics are read independently of
+  `domain/blanks.py`: AFL Tables prints 0 as a blank, so a null inside a match that
+  reports the statistic, for a row that took the field, inside the recorded era, is
+  reported as `football.blank_as_null`; a zero with no such evidence is
+  `football.unevidenced_zero`; a finals Brownlow value is `football.brownlow_not_applicable`.
+  Time on ground is never zero-filled.
 - **Freshness:** `fixture_checked_at` must be backed by a PASS season-fixture observation
   and must not trail a later one. A partial fetch must not be marked fresh. The pinned
   season revision must be the content of the latest PASS observation. `schedule_complete`
@@ -124,6 +140,15 @@ Everything else recomputes an invariant from the facts, independently of the pro
   URL, else by unique name within the club), jumper numbers, and every statistic cell
   (blank means null). The page's own Totals/Rushed rows are checked against its player
   rows. Captures are counted under `coverage.source_capture`.
+- **Captured player pages (B1 evidence):** `source.player_pages` reads each captured AFL
+  Tables player page (adapter `afltables.player_page`) with the same independent reader and
+  compares it with **every** canonical row of that player's career. A page lists a whole
+  career, so it establishes row membership both ways; per row it establishes the link
+  (season, club, opponent, round), the career game counter, result, jumper number and every
+  non-blank statistic cell exactly. A blank cell establishes only that the count was not
+  positive; whether it is a recorded zero is the match-level rule's decision. A page whose
+  payload is missing is UNKNOWN when source-fetched rows depend on it. This covers the three
+  B1 players only; it does not give other historical rows independent source evidence.
 - **Release → canonical:** artifact binding checks that `release.json`, `checksums.json`,
   `seal.json` and `validation.json` name this release, this snapshot and these exact
   bytes. The public comparison then recomputes, from canonical rows, every season's
@@ -133,6 +158,38 @@ Everything else recomputes an invariant from the facts, independently of the pro
   membership, order, compact-array width, canonical stat-column order, omitted all-null
   columns, shared match facts and unexpected or missing resources. JSON `true` is never
   equal to `1`.
+- **Every other published resource (`release.derived`):** recomputed from the verified
+  snapshot without calling the release builder or the analytics that produce it. Team
+  pages: the regular-season ladder (4 points a win, 2 a draw, percentage, ordering), the
+  club's position, form (last five completed matches), fixtures, per-team-game means with
+  observed denominators, stat leaders, the five-year ladder view, and the numeric facts
+  inside the finals-race heuristic (position and points; the clinched/eliminated status
+  text is a labelled heuristic and is not audited). Team index membership and seasons.
+  History: career, games and single-season leader tables for every era (membership, rank,
+  value, denominators, coverage, warnings), the `legacy_v1` all-time and yearly rankings
+  re-derived from the pinned `config/ranking_legacy_v1.toml` with the checker's own
+  implementation of the documented formula, and the era summary. List seasons against the
+  snapshot's draft, contract and school rows. `overview.json` (freshness, upcoming and recent
+  matches, leaders, form highlights, forecast status, warnings) and `quality.json` (table
+  counts, quarantine, issues, limitations). `downloads.json` against the files (bytes,
+  SHA-256, CSV row count, kind, `as_of`, membership). Numeric downloads: `players.csv`,
+  the ranking CSVs, `era-summary.csv`, the Brownlow proxy CSV (the published index formula,
+  labelled as a proxy, never as votes), forecast CSVs against the published current set,
+  `charts.json` plotted values, and every fan-pack member byte for byte.
+- **Forecast, accuracy and live resources (`release.forecast`):** each published prediction
+  set against its own prediction artifact (every row, target match, status and omission)
+  and the index's status and reason against the fixture; each accuracy report's headline
+  recomputed from the evaluation artifact's scored rows (populations and cohorts compared
+  with the artifact); the legacy archive report re-joined from the snapshot's
+  `legacy_predictions` by its documented rules; live snapshots against the monitor's last
+  accepted capture. A resource whose input is not supplied is UNKNOWN.
+- **Articles and assets (`release.content`), provenance only:** the index against the
+  article files; a curated article's stated source path and SHA-256 against
+  `public_content.toml` and the source file; a generated note's checked snapshot against the
+  audited snapshot; asset bytes against their sources. Prose is not audited.
+- **Coverage (`release.coverage`):** maps every public file to its resource type and
+  authoritative input (`coverage.semantic.authority`), counts compared and provenance-only
+  files per type, and reports a file of unknown type as `release.unclassified_resource`.
 - **Models and predictions:** bundle manifest self-hash, streamed payload SHA-256 (the
   payload is never deserialized), the persisted feature spec rebuilt and fingerprinted by
   `ml.features`, feature order, the recorded code fingerprint, and a knowledge cutoff no
@@ -144,16 +201,46 @@ Everything else recomputes an invariant from the facts, independently of the pro
 
 ### Numeric comparisons
 
-Integer statistics compare exactly. The only tolerance is on
-`time_on_ground_pct` **totals** (float64 sums), whose last bits depend on summation
-order: `|a - b| <= 1e-9 * max(1, |a|)`. Nothing else is approximate.
+Integer statistics compare exactly. In the match and player comparison the only tolerance
+is on `time_on_ground_pct` **totals** (float64 sums), whose last bits depend on summation
+order: `|a - b| <= 1e-9 * max(1, |a|)`. In the derived comparison a value that is a float
+on either side (means, percentages, ranking scores, proxy index values) compares with
+`|a - b| <= 1e-9 * max(1, |a|, |b|)`; integers, strings and booleans compare exactly, and a
+timestamp compares as a UTC instant (the same instant written in another offset is equal).
 
-### Not yet compared
+### Semantic coverage and what is not audited
 
-These are reported under `coverage.public_compare.not_compared_by_model`: team-season
-pages, history tables, lists, articles, accuracy reports, the overview, the quality page
-and download files. AFL Tables player pages (the B1 repair evidence) have no comparator;
-their rows are covered only where they also appear on a captured match page.
+`coverage.semantic` lists, per resource type, the files, how many an executed comparison
+examined and how many are provenance-only, and the authoritative input of each type:
+
+| Resource type | Authoritative input | Compared by |
+|---|---|---|
+| match index, match detail, player season log, player index, player detail | snapshot matches, player games, players | `release.public` |
+| team index, team season | snapshot clubs, matches, player games | `release.derived` |
+| history index and tables | snapshot player games; `ranking_legacy_v1.toml` for rankings | `release.derived` |
+| list index and seasons | snapshot draft, contract and school rows (pinned list imports) | `release.derived` |
+| overview, quality | snapshot facts and manifest; the release's own verified forecast and article index | `release.derived` |
+| `downloads.json`, numeric downloads, `charts.json`, fan pack | the files themselves; snapshot facts; the ranking method file | `release.derived` |
+| prediction index and sets | prediction artifacts (evaluated model output) and the fixture | `release.forecast` |
+| accuracy index and reports, `accuracy-rows.csv` | evaluation artifacts; snapshot `legacy_predictions` for the archive | `release.forecast` |
+| live index and snapshots | live monitor accepted captures (not the snapshot) | `release.forecast` |
+| article index, assets | article files; curated sources | `release.content` |
+| articles | curated sources, provenance only | provenance |
+| chart PNGs, Markdown reports, download README | rendered from compared values | provenance |
+| `release.json` | the build record | `release.artifact` |
+
+Deliberately not audited, and said so in `coverage.semantic.unaudited`: article prose
+(curated articles are frozen at their own as-of scope; generated notes carry their own
+claim check), rendered chart images and report prose (their numbers are compared in
+`charts.json` and the source resources), and presentation labels such as table titles,
+method descriptions and model-card prose (counted as `fields_unaudited`). Comparisons never
+mix vintages: a live snapshot is compared with the capture it was published from, not with
+the snapshot, and a proxy index is never read as an observed statistic.
+
+Source coverage is separate from semantic coverage. Only rows on a captured match or player
+page have independent source evidence (`coverage.source_capture`, `coverage.player_pages`);
+everything else is `legacy_unverified`, as labelled. An absent optional historical capture is
+a stated limitation, not a failure.
 
 ## Result contract
 
@@ -166,14 +253,14 @@ generator's directory scan. Top-level fields:
 |---|---|
 | `checker` | version, SHA-256 over the code that decides verdicts, rules digest, rule count |
 | `policy` | version and SHA-256 over `integrity_policy.yaml`, `coverage.yaml`, `stat_coverage_eras.yaml` |
-| `inputs` | snapshot identity (selector, id, manifest and pointer digests, per-partition fragment hashes), release identity (checksums, seal, validation and full-inventory digests), evidence found/missing digest, model/prediction manifest digests, and one `digest` over all of them |
-| `scope` | name, `as_of`, families, `restricted`, `complete`, current season |
+| `inputs` | snapshot identity (selector, id, manifest and pointer digests, per-partition fragment hashes), release identity (checksums, seal, validation and full-inventory digests), evidence found/missing digest, model/prediction manifest digests, the comparator inputs (evaluation directories, live root, content manifest), and one `digest` over all of them |
+| `scope` | name, `as_of`, families, `restricted`, `complete`, `semantic_complete`, current season |
 | `outcome`, `counts` | overall outcome; checks requested/performed/by status; open and total findings by severity; rows, resources and cells examined |
 | `checks` | per check: family, `required`, status, reason, examined counts, findings by severity |
 | `rules` | per rule: kind, severity, exact `total`/`open`/`accepted`, `sampled`, `truncated`, `unlisted_by_producer` |
 | `findings` | deterministic samples: the smallest keys per rule, with stable `issue_id` (`ic:` + hash of rule, entity, table, field), kind (`contradiction`, `anomaly`, `missing_evidence`, `policy`), severity, status, entity, table, field, season, expected, actual, evidence, message and operator action |
 | `exceptions` | accepted, rejected (current season) and stale policy exceptions |
-| `coverage` | source-capture accounting, public-comparison accounting, the reused `validate_dataset` verdict |
+| `coverage` | source-capture and player-page accounting, public and derived comparison accounting, the typed `semantic` coverage summary, the reused `validate_dataset` verdict |
 | `findings_stream` | when requested: count, SHA-256 and completeness of the JSONL stream |
 | `report_sha256` | SHA-256 of the canonical report with this field empty |
 
@@ -200,7 +287,9 @@ change to these files changes the report's policy digest and invalidates the cac
 
 `--cache DIR` stores the result of each comparison unit and of the `validate_release`
 run. The comparison units are one per season (match index, details, logs), groups of up
-to 600 players keyed by last season (detail pages), and the player index. A unit's key is
+to 600 players keyed by last season (detail pages), the player index, one per season of
+team pages, the team index, the history tables, the list seasons, the summaries and the
+downloads. A unit's key is
 SHA-256 over all of the following:
 
 - a salt: checker code identity, rules digest, policy digest, scope and `--as-of`;
@@ -238,7 +327,30 @@ the same final inputs.
   sorted, compact and UTF-8, and NaN and Infinity are refused. Integral floats are written
   as integers only inside findings; the public-data comparison compares numerically.
 
-## Measured on the retained artifacts
+## Measured on the follow-up candidate (30 September 2026)
+
+Candidate release `20260929T213900Z-c8938f4ddb83` and snapshot
+`sha256:3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0`, same machine,
+otherwise idle, `--as-of 2026-09-30T00:00:00Z`, B1 evidence and this checkout's curated
+content. All checks, including the new derived, forecast, content, coverage and player-page
+checks. Logs: `var/reviews/opus55/20260929T203757Z-followup/audit-final/`.
+
+| Run | Wall | Peak process-tree RSS | Outcome |
+|---|---|---|---|
+| full, cold, 1 worker, filling a cache | 96.7 s | 1.61 GiB | PASS, complete, `semantic_complete` |
+| full, cold, 4 workers, filling another cache | 88.5 s | 1.86 GiB | PASS |
+| full, warm, 4 workers | 18.7 s | 1.25 GiB | PASS |
+| full, `--changed-since` the cold report, 2 workers | 18.9 s | 1.25 GiB | PASS |
+| full, cold, 4 workers, with findings stream | 86.9 s | 1.85 GiB | PASS |
+| reference: the first retained inputs, 4 workers | 85.0 s | 1.84 GiB | FAIL (kept as reference) |
+
+The four canonical candidate reports without a findings stream are byte-identical
+(`sha256 5d038738…`). A copy of the candidate release with one team total edited and every
+hash recalculated, audited `--changed-since` against the warm cache, recomputed exactly 2
+cached results, reused 396, and FAILed `release.derived` with `release.team_value` on
+`teams/collingwood/2026.json` (49 s).
+
+## Measured on the retained artifacts (first review)
 
 Release `20260928T111014Z-ca96603163ad` and snapshot
 `sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f`, measured on an
@@ -282,7 +394,12 @@ snapshot holds 0 **[data]**, from the legacy CSV, and the site shows "attendance
 operator response:
 
 1. Confirm that the evidence payload is the pinned revision; the digest is in the finding.
-2. Repair the value from the source. `scvia refresh --season 2026 --repair-season 2026 --allow-network` is bounded and fails closed.
+2. Repair the value from the pinned capture, offline: `scvia apply-corrections --season 2026 --data-root <root>`
+   patches a fixture field only when the capture's match identity, scores, quarters and start
+   time agree with the snapshot, records a resolved `fixture_field_corrected` quality issue
+   naming the page URL and SHA-256, validates, and promotes a child snapshot. Rebuild the
+   release from it. (A bounded network refresh also works, but a normal refresh does not
+   re-read an unchanged match; that is why the 0 survived.)
 3. Re-run the audit.
 
 Do not add an exception: current-season defects cannot be suppressed.
@@ -291,8 +408,8 @@ Other findings on the same snapshot are reported but do not block. The 25 `relat
 
 ## Tests
 
-- Hermetic unit tier: `tests/scvia/unit/test_integrity_*.py`, 143 tests. Every negative case has a clean control.
-- Real-data tier: `tests/scvia/integration/test_integrity_real.py`. It needs `SCVIA_INTEGRITY_DATA_ROOT` and `SCVIA_INTEGRITY_RELEASE_DIR`, and is skipped (never passed) without them.
+- Hermetic unit tier: `tests/scvia/unit/test_integrity_*.py`. Every negative case has a clean control. `test_integrity_derived.py` changes team totals, history ranks and values, download row membership and stale summaries with every structural hash recalculated, in cold, warm-cache and changed-since modes, and requires the responsible semantic rule; it also checks that missing comparator inputs, or a comparison that did not run, leave the audit UNKNOWN. `test_integrity_source.py` covers the B1 player-page reader on the real archived page and the comparator's membership, value and blank rules.
+- Real-data tier: `tests/scvia/integration/test_integrity_real.py`. It needs `SCVIA_INTEGRITY_DATA_ROOT` and `SCVIA_INTEGRITY_RELEASE_DIR` (and `SCVIA_INTEGRITY_AS_OF` for artifacts newer than the default), uses this checkout's curated content, and is skipped (never passed) without them. Point it at a correct artifact: the first retained artifacts fail `source.match_pages`.
 - `tests/scvia/unit/test_integrity_catalog.py` keeps this rule catalog and the code in step.
 
 ## Rule catalog
