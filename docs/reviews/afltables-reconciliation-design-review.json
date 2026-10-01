@@ -1,0 +1,1017 @@
+{
+  "agent_default_models": {
+    "DataSentinel": "sonnet",
+    "Gaffer": "opus",
+    "QA": "sonnet",
+    "Scientist": "opus",
+    "Surveyor": "fable"
+  },
+  "agent_definition_sha256": {
+    "DataSentinel": "87a7b0df3a473b92753338d1f87b72dfc18668512c5566ec78eb8cc784c0b6a5",
+    "Gaffer": "e86766506f4ed4338ff3539bcfd6165ad578a5317aee3caf153c3a844ea641ce",
+    "QA": "f76d24c61bb40782a1890c329643cecf18678d89e6745f7631c79b075d4897df",
+    "Scientist": "d387ada030d0d74e8e3d30ed69ea060d26f8add3d65296b5e48731f2042ebedc",
+    "Surveyor": "7cfbf4df8b6a09a57fff70cd37d5acd34c80fd651f06533b29fd5cfee73a0cab"
+  },
+  "approval_scope": "Model review of an engineering design; not owner consent to modify statistics or activate production.",
+  "binding_clarifications": [
+    {
+      "id": "C-1",
+      "resolves": "R3-01",
+      "text": "NOT_RECORDED club-seasons contribute nothing to a composed aggregate; source-unavailable only if every contribution is NOT_RECORDED, else compared over recorded contributions with recorded/unrecorded season counts reported; local-missing-summary takes precedence over mismatch (counted once, both facts in the finding); a SOURCE_SUMMARY_ONLY season value is a reference, not a derived figure"
+    },
+    {
+      "id": "C-2",
+      "resolves": "R3-02",
+      "text": "Until a versioned rule covers it, a cell printed on one source page and blank on the other for the same appearance is SOURCE_CONFLICT (UNKNOWN, blocks PASS); a Phase E pilot decision becomes a versioned rule ID with evidence locator, hashed into plan and cache keys"
+    }
+  ],
+  "binding_clarifications_note": "Recorded in the review rather than DESIGN.md so approval stays bound to the exact design text Surveyor run 3 approved; part of the approved design.",
+  "blocking_findings": [],
+  "claude_code_version": "2.1.286",
+  "code_path_sha256": {
+    ".githooks/pre-commit": "677d8b7869e4446e8cfb33a92cbb28868919367e4093d6a2742e280382fe57fc",
+    "CLAUDE.md": "56eff3294c5ab200fc8b86ea639402c7fe30bf5d86d531b82e39293a3484bae2",
+    "config/source_policies.toml": "4f390dab331ff6595cd6d6fbfcfdaf31fce62623ed7e562886bf28f5c9300b45",
+    "docs/data-integrity.md": "bad837d611427b095fce4f0e07ffbf154f048bdf95d3894633e4135c328318b6",
+    "docs/reviews/CLAUDE_OPUS55_REVIEW.md": "5cf79f41454495b1c47b97097867ad9dff707fd4ef186a9a22715605e67514f8",
+    "pyproject.toml": "5a0d96b2595371181d83aa2a725466e03a8197801d66bdb3d9512abf8fade452",
+    "scrapers/game_scraper.py": "0b7f2d8294ba9e0e42b438d0a435798e1532357c4cbd00871791473317d56c29",
+    "scripts/git_commit_safe.sh": "99f808dcc16d951ef95e058b6c0e3b3a741708c0e42ca6c1c52bfe590261dfe6",
+    "src/supercoach_via/cli.py": "cce0a25b9121be0f33c473fc3d58753e135a0b5e51d865857cb99ac2db3b52aa",
+    "src/supercoach_via/config/source_policies.toml": "4f390dab331ff6595cd6d6fbfcfdaf31fce62623ed7e562886bf28f5c9300b45",
+    "src/supercoach_via/domain/blanks.py": "828a74a26b10f282265c8715ee14c215f965e7cea899991f9a1824ed2a9c7c01",
+    "src/supercoach_via/domain/schemas.py": "c93a69e1ac4dc2ff0816a9e614ea1657adcad41c900faed50916297a23b36e6a",
+    "src/supercoach_via/ingest/http.py": "58141a151c50d9481d9e3968a68376268a3033668ff70191318274f818936cb2",
+    "src/supercoach_via/integrity/cache.py": "4ad5d89e74b010e02af4658a8359d87ca3ba2529a0385e2d78ced8954bda3eea",
+    "src/supercoach_via/integrity/capture.py": "40285a7ade7bb5842dc94a43c4db21175475da35df586a7ca2b0a397d106a349",
+    "src/supercoach_via/integrity/checks_source.py": "f3ed829c2a4eb9c6eddcafa8431bdf7eb24b86e903bc8e73733b9ecc91ca8adc",
+    "src/supercoach_via/integrity/report.py": "a4a3d038b5cab5186932355af3daf0ea0f844150631912caa8def89fc99de8f1",
+    "src/supercoach_via/integrity/runner.py": "259599c3b1f6be994ed0c3947455813b7b94b37998a2472796a16452ea5a2e67",
+    "src/supercoach_via/integrity/sourcepages.py": "ac603c242ccb27a7c21109630924cebe048185ee53552dc1a3bdba9038ef35e6",
+    "src/supercoach_via/storage/queries.py": "60a99f6f6348866486c5360816a27dce7ba18edf5e3192d4bb23aa74ed08a3c7",
+    "src/supercoach_via/storage/snapshots.py": "cc5ce33a76e0de32d0b3698ddd4b70d0656993471a9bf4044a3080d2b3878782",
+    "tests/scvia/fixtures/zero_semantics/annotations.json": "1a307bd7ae8049d18df494b20db1a2b81bc8fbee6316e37dce0efd33b0addeae",
+    "tests/scvia/unit/test_http.py": "68b3c038a5aed54ebecf8b78bf1ae84dcc898ee3e0f2b3c12e02b0498c39214e",
+    "tests/scvia/unit/test_integrity_source.py": "3d77e49a6205167e728d7d10d5b877d613c9047f5f11f23fa6c179cce1b88799",
+    "tests/scvia/unit/test_integrity_sourcepages.py": "5d055dde0919c57e0b49ea2963e5975e3cb15fc98390384c2f3bbbfe77b6bab9",
+    "uv.lock": "d28243bbfc643befbf60a05c9c8a44431f73303ee3802a41e0d16a634555f873"
+  },
+  "decision": "APPROVED",
+  "decisions": {
+    "blank_evidence": "six source states + NOT_APPLICABLE_DNTF; blank team Totals = not recorded; non-blank Totals + blank cell = zero; all-zero column unresolved until proven; pre-1965 from match structure; %P never zero-filled; repo 'modern blank = zero' convention not adopted",
+    "cli_contracts": "scvia reconcile-afltables plan|capture|compare per DESIGN §11 as a Typer sub-app; exits 0/2/4/5/8/9 reuse cli.EXIT; plan/compare network-denied; capture --resume with unchanged plan",
+    "completeness_accounting": "census closure identity; exhaustive exclusive appearance/cell/aggregate partitions (aggregate incl. source-unavailable and not-applicable); recorded-zero and malformed sub-counts; DNTF not-applicable; duplicates/conflicts orthogonal; failed census = unknown denominator; five separate completeness fields",
+    "harness_scope": "opt-in audit, not wired to schedule/hook/gate; additive http.py field only shared-code change; byte-identical default proven by test means CLAUDE.md §6.2 test 2 not triggered; Scientist records the determination; any behaviour change requires scratch smoke run",
+    "identity_fallback": "verified source URL > evidenced override > unique name+full DOB+membership > unique full DOB + identical season-club set (3b) > globally unique exact appearance-set equality when DOB missing/low precision (4) > UNKNOWN; no fuzzy authorisation; no name-built URLs; global uniqueness",
+    "performance_targets": "offline full compare <=10 min and <=2 GiB peak process-tree RSS at 4 workers; warm <=2 min; fast tier +<=10 s; acquisition measured separately (estimate >=17 h); missed targets stay open; smaller cache permitted if targets met",
+    "scope": "Men's senior VFL/AFL premiership 1897 through --through-date 2026-09-30 incl. finals, drawn finals, replays; all supported statistics incl. pre-1984 season-only Brownlow (SOURCE_SUMMARY_ONLY); exclusion is an owner choice to be named in attestation; _gm.html not required",
+    "source_conflicts": "same-appearance disagreement (cell, membership, counter vs games-to-date, result, jumper) = SOURCE_CONFLICT, blocks PASS; printed multi-appearance figure vs composed reference = SOURCE_DERIVED_INCONSISTENCY (non-blocking) only when contributing cells are double-sourced, else aggregate unresolved"
+  },
+  "design": {
+    "final_sha256": "da64c4cf5974d9ae4e5a638ef218de247a7dc42508262145778b2e802150797f",
+    "intermediate_sha256": [
+      "2e69b86d6d1abb43fc599a5adc7ef8edbddb66539c6b12390b04065d27d59ff0",
+      "da64c4cf5974d9ae4e5a638ef218de247a7dc42508262145778b2e802150797f"
+    ],
+    "path": "docs/rewrite/afltables-reconciliation/DESIGN.md",
+    "reviewed_sha256": "d368d9d32d3da4ad045f9f4267946fc0191fa1621ff6dab094bd445d6aa2c2af"
+  },
+  "findings": [
+    {
+      "disposition": "SOURCE_SUMMARY_ONLY state; kept in scope; LOCAL_MISSING_SUMMARY_VALUE makes the layer FAIL; exclusion reserved to owner",
+      "id": "S-01",
+      "location": "DESIGN §8 state table/aggregates; §9",
+      "owner": "Gaffer+Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Pre-1984 Brownlow is season-summary-only; would be misread as SOURCE_CONFLICT",
+      "required_tests": [
+        "test_reconciliation_aggregate.py::test_summary_only_brownlow_is_not_source_conflict",
+        "test_reconciliation_aggregate.py::test_summary_only_statistic_counted_separately",
+        "test_reconciliation_aggregate.py::test_local_missing_summary_value_fails_layer"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "CREDITED_DID_NOT_TAKE_FIELD with four conditions; NOT_APPLICABLE_DNTF; null/zero agree, positive mismatch",
+      "id": "S-02",
+      "location": "DESIGN §8 states; §7; T11",
+      "owner": "Scientist+Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "Credited unused substitutes have all-blank rows; no state existed",
+      "required_tests": [
+        "test_reconciliation_cells.py::test_credited_unused_sub_row_is_appearance_not_zero_stats",
+        "test_reconciliation_cells.py::test_used_sub_arrow_tokens_preserved_raw"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Explicit measured source-average model; misses recorded with candidates; derived-figure class",
+      "id": "S-03",
+      "location": "DESIGN §8 step 5",
+      "owner": "Gaffer+Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Source does not print average denominators; 'verify denominator exactly' was infeasible",
+      "required_tests": [
+        "test_reconciliation_aggregate.py::test_display_rounding_half_up_proven_by_ties",
+        "test_reconciliation_aggregate.py::test_brownlow_average_uses_home_and_away_denominator",
+        "test_reconciliation_aggregate.py::test_career_average_excludes_unrecorded_era_games",
+        "test_reconciliation_aggregate.py::test_average_model_miss_is_source_consistency_not_local_fail"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Policy 0.5 rps, concurrency 1, client max_attempts=1; coordinator owns retries with persisted wall-clock deadline; additive Retry-After field; default behaviour byte-identical; §6.2 scope recorded by Scientist",
+      "id": "S-04",
+      "location": "DESIGN §6; ingest/http.py:501-503,632-703",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "HttpClient caps Retry-After at 60 s, retries internally, hides the header, in-memory spacing, defaults 2 rps/concurrency 2",
+      "required_tests": [
+        "test_reconciliation_capture.py::test_429_long_retry_after_persists_deadline_no_early_retry",
+        "test_reconciliation_capture.py::test_spacing_two_seconds_includes_retries_redirects_robots",
+        "test_reconciliation_capture.py::test_spacing_persists_across_resume",
+        "test_http.py::test_retry_after_field_is_additive"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Rule 3b (unique DOB + identical season-club set); rule 4 (globally unique exact appearance-set equality); Jan-1 DOB low precision; no similarity scores",
+      "id": "S-05",
+      "location": "DESIGN §7 rules 3-4",
+      "owner": "Scientist+Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "Exact-name rule fails on split surnames; DOB missing on some profiles; 782/13,368 local players carry source URLs",
+      "required_tests": [
+        "test_reconciliation_identity.py::test_multiword_surname_resolved_by_dob_and_membership",
+        "test_reconciliation_identity.py::test_missing_dob_resolved_only_by_exact_unique_appearance_set",
+        "test_reconciliation_identity.py::test_partial_overlap_stays_unknown",
+        "test_reconciliation_identity.py::test_same_season_homonyms_resolved_by_club"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Lineup-linked profile missing from directory blocks capture_complete; optional per-season list census",
+      "id": "S-06",
+      "location": "DESIGN §6 discovery",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Census closure identity implied, not stated",
+      "required_tests": [
+        "test_reconciliation_inventory.py::test_lineup_profile_not_in_directory_breaks_census_completeness"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "SOURCE_CONFLICT (same-appearance) blocks; SOURCE_DERIVED_INCONSISTENCY does not",
+      "id": "S-07",
+      "location": "DESIGN §8 vs §9 PASS row",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "Which source inconsistencies block PASS was ambiguous",
+      "required_tests": [
+        "test_reconciliation_report.py::test_profile_match_cell_conflict_blocks_pass",
+        "test_reconciliation_report.py::test_derived_figure_inconsistency_reported_not_blocking"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Versioned notes map, label map, unordered pairs, unmapped row = schema gap",
+      "id": "S-08",
+      "location": "DESIGN §8",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Notes use lineage club names, unordered pairs, I5/OP labels",
+      "required_tests": [
+        "test_reconciliation_source.py::test_notes_exception_lineage_name_maps_to_season_club",
+        "test_reconciliation_source.py::test_notes_label_variants_I5_OP",
+        "test_reconciliation_source.py::test_unmapped_notes_row_is_schema_gap"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "conditional=False; no validators; revalidation by full GET; unsolicited 304 fails",
+      "id": "S-09",
+      "location": "DESIGN §6; T17",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Conditional requests add mutable validator state for no benefit",
+      "required_tests": [
+        "test_reconciliation_capture.py::test_capture_sends_no_conditional_headers_and_writes_no_validators",
+        "test_reconciliation_capture.py::test_unsolicited_304_is_failure"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Duplicate labels and data-table rowspans are MALFORMED",
+      "id": "S-10",
+      "location": "src/supercoach_via/integrity/sourcepages.py stat-cell dict",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Duplicate header label silently overwrites",
+      "required_tests": [
+        "test_reconciliation_source.py::test_duplicate_header_label_is_malformed",
+        "test_reconciliation_source.py::test_rowspan_in_game_table_is_schema_gap"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Derived replay ordinal keyed by match URL",
+      "id": "S-11",
+      "location": "DESIGN §7",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "No Replay token in source",
+      "required_tests": [
+        "test_reconciliation_identity.py::test_drawn_gf_and_replay_distinguished_by_match_url",
+        "test_reconciliation_identity.py::test_replay_without_links_is_unknown"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Paths enumerated; join to final URL, strip fragment, validate",
+      "id": "S-12",
+      "location": "DESIGN §6 URL policy",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Policy omitted robots/index/notes; link resolution order unstated",
+      "required_tests": [
+        "test_reconciliation_capture.py::test_policy_paths_exact_and_fragment_stripped_after_join"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Excluded from required corpus",
+      "id": "S-13",
+      "location": "DESIGN §6",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "_gm.html pages redundant (~13k requests)",
+      "required_tests": [],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Permitted simplification if targets met and T20/T21 unchanged",
+      "id": "S-14",
+      "location": "DESIGN §10",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "Comparison-result cache may be unnecessary",
+      "required_tests": [
+        "T20",
+        "T21"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Phase H exports COUNCIL_PYTHON; never --no-verify",
+      "id": "S-15",
+      "location": ".githooks/pre-commit:29",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 1",
+      "reason": "Default commit interpreter path does not exist",
+      "required_tests": [
+        "test_reconciliation_cli.py::test_no_machine_specific_paths"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "T23 extended to hardlinks to inputs outside roots",
+      "id": "S-16",
+      "location": "src/supercoach_via/integrity/runner.py:541-613",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 1",
+      "reason": "Output-alias check does not inode-compare against inputs",
+      "required_tests": [
+        "test_reconciliation_report.py::test_hardlinked_output_never_mutates_input_inode"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Evidence corrected in DESIGN §8; confirmed by Surveyor run 2; no design change",
+      "id": "G-01",
+      "location": "Surveyor run-1 §3 S-01 evidence",
+      "owner": "Gaffer",
+      "raised_by": "Gaffer",
+      "reason": "Run-1 said Reynolds career Totals BR blank; it prints a value (colspan=3 footer mis-parse)",
+      "required_tests": [],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "T14 limited to same-appearance and single-sourced disagreements",
+      "id": "N-01",
+      "location": "DESIGN §13 T14",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "T14 contradicted amended §8/T32",
+      "required_tests": [
+        "test_reconciliation_compare.py::test_profile_vs_match_cell_conflict_is_source_conflict"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Buckets added; all-NOT_RECORDED aggregate is source-unavailable; UNKNOWN = no FAIL condition",
+      "id": "N-02",
+      "location": "DESIGN §9 aggregate partition; UNKNOWN row",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "Aggregate partition lacked source-unavailable/not-applicable",
+      "required_tests": [
+        "test_reconciliation_report.py::test_aggregate_partition_exhaustive_with_source_unavailable"
+      ],
+      "severity": "HIGH",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "BR career denominator = H&A games in award-conducted seasons, from a captured versioned evidence file",
+      "id": "N-03",
+      "location": "DESIGN §8 step 5",
+      "owner": "Gaffer+Scientist",
+      "raised_by": "Surveyor run 2",
+      "reason": "Career BR average model wrong (5/5 vs <=2/5 reproduced)",
+      "required_tests": [
+        "test_reconciliation_aggregate.py::test_brownlow_career_average_excludes_no_award_seasons_only"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Composed reference = sum of per-club-season references; all/every wording",
+      "id": "N-04",
+      "location": "DESIGN §8 summary-only rule",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "Composed career reference undefined; rule lacked all/every",
+      "required_tests": [
+        "test_reconciliation_aggregate.py::test_career_reference_composes_pergame_and_summary_only_seasons"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Any two source facts indexing one appearance; single-sourced total disagreement unresolved",
+      "id": "N-05",
+      "location": "DESIGN §8 What blocks PASS",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "SOURCE_CONFLICT class not exhaustive",
+      "required_tests": [
+        "test_reconciliation_compare.py::test_counter_vs_match_games_to_date_conflict_blocks_pass",
+        "test_reconciliation_compare.py::test_result_or_jumper_conflict_blocks_pass",
+        "test_reconciliation_compare.py::test_single_sourced_cells_with_disagreeing_total_unresolved"
+      ],
+      "severity": "MEDIUM",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Text aligned with S-04/S-09",
+      "id": "N-06",
+      "location": "DESIGN §3 http.py row; §6 spacing bullet",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "Stale retry/conditional wording",
+      "required_tests": [],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Not-applicable bucket, never verified; condition-scoped with pilot-review count",
+      "id": "N-07",
+      "location": "DESIGN §8 DNTF",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 2",
+      "reason": "DNTF bucket and era scope stated two ways",
+      "required_tests": [
+        "test_reconciliation_cells.py::test_dntf_cells_never_counted_as_verified",
+        "test_reconciliation_cells.py::test_dntf_outside_2021_22_reported_for_pilot_review"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Pilot captures 1935-83 vote-getter match, 1933/34 Essendon match, no-award evidence, 2011-15 substitute",
+      "id": "N-08",
+      "location": "DESIGN §12 Phase E",
+      "owner": "Scientist",
+      "raised_by": "Surveyor run 2",
+      "reason": "Samples cannot fixture T33 fully or settle 1931-34 BR",
+      "required_tests": [
+        "test_reconciliation_real.py::test_pilot_values_traceable_to_cells"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Binding clarification C-1",
+      "id": "R3-01",
+      "location": "DESIGN §9 aggregate partition; §8 summary-only vs derived wording",
+      "owner": "Gaffer",
+      "raised_by": "Surveyor run 3",
+      "reason": "Mixed-aggregate bucket placement and precedence unstated",
+      "required_tests": [
+        "test_reconciliation_report.py::test_mixed_recorded_unrecorded_aggregate_bucket",
+        "test_reconciliation_report.py::test_local_missing_summary_precedes_mismatch",
+        "test_reconciliation_aggregate.py::test_summary_only_season_value_is_reference_not_derived"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    },
+    {
+      "disposition": "Binding clarification C-2",
+      "id": "R3-02",
+      "location": "DESIGN §8 What blocks PASS (one-page-printed cells)",
+      "owner": "Gaffer+Scientist",
+      "raised_by": "Surveyor run 3",
+      "reason": "No default before the pilot decides",
+      "required_tests": [
+        "test_reconciliation_compare.py::test_one_page_printed_other_blank_defaults_to_source_conflict",
+        "test_reconciliation_compare.py::test_pilot_rule_id_hashed_into_plan"
+      ],
+      "severity": "LOW",
+      "status": "RESOLVED"
+    }
+  ],
+  "gaffer_independent_checks": [
+    "S-10 duplicate-label overwrite confirmed in sourcepages.py",
+    "S-15 default pre-commit interpreter absent; .venv/bin/python present",
+    "S-02 candidate fully-blank rows 2021:202 2022:183 2023-25:5 each (DuckDB)",
+    "S-01 Reynolds 1935 season BR with blank per-game cells; career Totals BR printed (G-01)",
+    "S-05 Kelly Robinson profile lacks Born line",
+    "Transport: retry_after_max_s=60, min(retry_after,cap), validators/ sidecars, 3 path grammars, 2 rps / concurrency 2",
+    "All 27 sample hashes re-verified against LOG.tsv"
+  ],
+  "kind": "afltables-reconciliation-design-review",
+  "launch_guide_sha256": {
+    "README.md": "12feee656c1a8bff93e4c8548a615ff215b6eaedfc5788285042a22064afb991"
+  },
+  "memories_consulted": {
+    ".claude/agent-memory/Gaffer/MEMORY.md": "c8357fe363d02d952f5347372e119d59cc268e8b06dd5d2eff3730df44bfe242",
+    ".claude/agent-memory/Gaffer/feedback_consult_surveyor.md": "bb769c21c74243779f8cb498409dcbfa2069bcba7f29ab562f86d38f830d010f",
+    ".claude/agent-memory/Gaffer/feedback_harness_change_discipline.md": "0706675ee32ae18e56613215ee647b2de7cf1dd67439e13b75fb3950a818bb08",
+    ".claude/agent-memory/Gaffer/project_no_agent_dispatch_tool.md": "5f67fe2a1cb21f24ed2e5393af182585450b17ed8a543c76e7d444ad4b11e7ed",
+    ".claude/agent-memory/Scientist/afltables_player_profile_url.md": "ecfea3256ca1f214770273b396cdad446804d51b5567b6532a7071362df8ab84",
+    ".claude/agent-memory/Scientist/blank_counting_stat_means.md": "49a958a8bde5fb85985bfb67ef900ded0c08ea41d57e55ef0783e44e0d12991d",
+    ".claude/agent-memory/Scientist/hof_games_counter_gotcha.md": "47456378fa148348618a5c355ff88053ac9828a3463237e34c6a9ca1a3069b4b",
+    ".claude/agent-memory/Scientist/reconciliation_source_afltables_player.md": "32dab361ca7c129d31ece46263b0fb4527e4f10d260c084a522091aaec3bbd8a"
+  },
+  "mode": "design_review",
+  "models": {
+    "DataSentinel": {
+      "invoked": false
+    },
+    "Gaffer": {
+      "requested": "claude-opus-5-5",
+      "resolution_source": "session metadata",
+      "resolved": "claude-opus-5-5"
+    },
+    "QA": {
+      "invoked": false
+    },
+    "Scientist": {
+      "invoked": false,
+      "note": "implementation role; not consulted in design review",
+      "requested": "claude-sonnet-5-5",
+      "resolved": null
+    },
+    "Surveyor_run1": {
+      "dispatch_override": "opus",
+      "requested": "claude-opus-5-5",
+      "resolution_source": "subagent self-report from its session metadata; dispatch tool does not return a resolved ID",
+      "resolved": "claude-opus-5-5"
+    },
+    "Surveyor_run2": {
+      "dispatch_override": "opus",
+      "requested": "claude-opus-5-5",
+      "resolution_source": "subagent self-report",
+      "resolved": "claude-opus-5-5"
+    },
+    "Surveyor_run3": {
+      "dispatch_override": "opus",
+      "requested": "claude-opus-5-5",
+      "resolution_source": "subagent self-report",
+      "resolved": "claude-opus-5-5"
+    }
+  },
+  "next": {
+    "command": "cd /home/abhi/git/SuperCoach-VIA && claude --agent Scientist --model claude-sonnet-5-5 --effort high \"Follow docs/rewrite/afltables-reconciliation/ENGINEER_PROMPT.md. Verify Opus approval, implement the approved design with tests, and execute the full all-player reconciliation. Produce reproducible reports and an honest PASS, FAIL or UNKNOWN verdict.\"",
+    "launched": false,
+    "model": "claude-sonnet-5-5",
+    "role": "Scientist"
+  },
+  "not_executed": [
+    "Scientist consultation",
+    "QA",
+    "DataSentinel",
+    "implementation",
+    "bulk capture",
+    "any data/release/hook/harness/schedule change"
+  ],
+  "pipeline_state": {
+    "active_cycle": false,
+    "last_refresh_status": {
+      "exit_code": 0,
+      "phase": "4",
+      "round": "25",
+      "ts": "2026-08-29T13:49:38+1000"
+    }
+  },
+  "review_date": "2026-10-01",
+  "reviewed_head": "fec9cd3d87cc7c8c823176a75f33dfe90246eeeb",
+  "role_payloads_sha256": {
+    "ARCHITECT_PROMPT.md": "2135e6c30e72c92ac713e7866290695a4e99669ff1ceb434e56adccfb234f030",
+    "ENGINEER_PROMPT.md": "c013915cc8ddcde0893542cbd8273b022bc8857325f06a087ed4167600bc7d41"
+  },
+  "schema_version": 1,
+  "source_samples": {
+    "blocked_or_challenged": 0,
+    "in_git": false,
+    "items": [
+      {
+        "bytes": 651,
+        "fetched_utc": "2026-10-01T10:07:57Z",
+        "n": 1,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/robots.txt",
+        "sha256": "2628a3f2ff134bd7ccc26a2cf4fdfca4388fb8abbe27b9e5bce6de91475f27e5",
+        "status": 404,
+        "url": "https://afltables.com/robots.txt"
+      },
+      {
+        "bytes": 9142,
+        "fetched_utc": "2026-10-01T10:08:04Z",
+        "n": 2,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/stats_idx.html",
+        "sha256": "84ffcc6df8ca760499884988be94884cd2b282aab98307ad7dd7c8820ed298ff",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/stats_idx.html"
+      },
+      {
+        "bytes": 44113,
+        "fetched_utc": "2026-10-01T10:08:06Z",
+        "n": 3,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/playersA_idx.html",
+        "sha256": "16c16f958655ba890840fe2ca61e66ea410051aa357ed53f51fe7551c57edc9e",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/playersA_idx.html"
+      },
+      {
+        "bytes": 34684,
+        "fetched_utc": "2026-10-01T10:08:09Z",
+        "n": 4,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/notes.html",
+        "sha256": "b5e546e73baca0d51fdea76ac8e816ccc7696e03428c24e1e5caac409ac858ac",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/notes.html"
+      },
+      {
+        "bytes": 399923,
+        "fetched_utc": "2026-10-01T10:09:14Z",
+        "n": 5,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Scott_Pendlebury.html",
+        "sha256": "e0bc5998d25e3659d75121f3d230cf0e38b7309f16415440eeb9d0b5e8c4eb39",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/S/Scott_Pendlebury.html"
+      },
+      {
+        "bytes": 240102,
+        "fetched_utc": "2026-10-01T10:09:17Z",
+        "n": 6,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Dick_Reynolds.html",
+        "sha256": "422f66aba68963290275f80795de26e496fe3d213b47e5f82e59922ccc7c5d3f",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/D/Dick_Reynolds.html"
+      },
+      {
+        "bytes": 223661,
+        "fetched_utc": "2026-10-01T10:09:19Z",
+        "n": 7,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Gary_Ablett0.html",
+        "sha256": "00baafd9718dfd9d537bcdda309dba216d7e33a1fec15c47610b934705c3b165",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/G/Gary_Ablett0.html"
+      },
+      {
+        "bytes": 87781,
+        "fetched_utc": "2026-10-01T10:09:22Z",
+        "n": 8,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Ian_McMullin.html",
+        "sha256": "369ed248dadc0b10fe897d6427aaf5c4af835c7d7c3e2330dbda8562c141f6cb",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/I/Ian_McMullin.html"
+      },
+      {
+        "bytes": 210841,
+        "fetched_utc": "2026-10-01T10:09:24Z",
+        "n": 9,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Alex_Sexton.html",
+        "sha256": "24d02e8109aeb976f6a2c58c78716c16428e2b07e504e5b5bf8791a5714020b1",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/A/Alex_Sexton.html"
+      },
+      {
+        "bytes": 26227,
+        "fetched_utc": "2026-10-01T10:09:27Z",
+        "n": 10,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Bill_Ahern0.html",
+        "sha256": "fad24ff18c6301aa9fe3160816f136225598f1b6f0cdd9c537d7e433f01e54af",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/B/Bill_Ahern0.html"
+      },
+      {
+        "bytes": 55516,
+        "fetched_utc": "2026-10-01T10:10:54Z",
+        "n": 11,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_2021_162020210424.html",
+        "sha256": "55322c686011dca0b24cd5f6edd9cebf2209d6791de2ff68b4b5f560c487fc15",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/2021/162020210424.html"
+      },
+      {
+        "bytes": 54356,
+        "fetched_utc": "2026-10-01T10:10:57Z",
+        "n": 12,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_2010_041520100925.html",
+        "sha256": "589ecb77931c474aa979c4b3447e57b8930ae7ec61c5d488029354f7e6b486f2",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/2010/041520100925.html"
+      },
+      {
+        "bytes": 54913,
+        "fetched_utc": "2026-10-01T10:10:59Z",
+        "n": 13,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_2010_041520101002.html",
+        "sha256": "bed9d42692257dc2179d81483de9db0f49678e331a9ad92f27fa7ee5895a3345",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/2010/041520101002.html"
+      },
+      {
+        "bytes": 195948,
+        "fetched_utc": "2026-10-01T10:11:02Z",
+        "n": 14,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/seas_2010.html",
+        "sha256": "fc027577c797e25dccea45dc54966a5d6ef9aa52bac6d9d86b05916277f5252c",
+        "status": 200,
+        "url": "https://afltables.com/afl/seas/2010.html"
+      },
+      {
+        "bytes": 37724,
+        "fetched_utc": "2026-10-01T10:11:04Z",
+        "n": 15,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_1897_041518970508.html",
+        "sha256": "4bfa8dfac27ebbcc83be3483e0876e04e595d83a0c00f8cf98631ebca6a25b75",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/1897/041518970508.html"
+      },
+      {
+        "bytes": 59886,
+        "fetched_utc": "2026-10-01T10:13:09Z",
+        "n": 16,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Kelly_Robinson.html",
+        "sha256": "bafa678e8f2388e2d83377fd584fcc58c92d8a1a827140f282c0381145a50e4b",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/K/Kelly_Robinson.html"
+      },
+      {
+        "bytes": 83049,
+        "fetched_utc": "2026-10-01T10:13:12Z",
+        "n": 17,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Allan_Sidebottom.html",
+        "sha256": "8a43aafda7cdd1e808d12fa19b14bb2de27a91a0b3759899016a298d02831325",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/A/Allan_Sidebottom.html"
+      },
+      {
+        "bytes": 189546,
+        "fetched_utc": "2026-10-01T10:13:14Z",
+        "n": 18,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/gm_Scott_Pendlebury.html",
+        "sha256": "0887ab6cd9b38e3f77306bdac8b6d7d7794a7dbbb3c3cfe344b133b2ec59905c",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/players/S/Scott_Pendlebury_gm.html"
+      },
+      {
+        "bytes": 651,
+        "fetched_utc": "2026-10-01T10:13:17Z",
+        "n": 19,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/p_Gary_Ablett_unsuffixed.html",
+        "sha256": "2628a3f2ff134bd7ccc26a2cf4fdfca4388fb8abbe27b9e5bce6de91475f27e5",
+        "status": 404,
+        "url": "https://afltables.com/afl/stats/players/G/Gary_Ablett.html"
+      },
+      {
+        "bytes": 455794,
+        "fetched_utc": "2026-10-01T10:13:51Z",
+        "n": 20,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/stats_1992.html",
+        "sha256": "57af8eba25e830e7ae834876c1887fb4cf0c464f1f1b1cbaf6ae1d2f8f260aa0",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/1992.html"
+      },
+      {
+        "bytes": 159680,
+        "fetched_utc": "2026-10-01T10:14:20Z",
+        "n": 21,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/playersM_idx.html",
+        "sha256": "b4e2d2a48d74eff870883b8a89cc0473c8617f9830e5a34ea94ff3eb69452f79",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/playersM_idx.html"
+      },
+      {
+        "bytes": 240511,
+        "fetched_utc": "2026-10-01T10:15:08Z",
+        "n": 22,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/seas_2026.html",
+        "sha256": "87c99c1a2eb84c4957759e5ec82e02aec97d7daf5264e1ba6db800cdd59bc83a",
+        "status": 200,
+        "url": "https://afltables.com/afl/seas/2026.html"
+      },
+      {
+        "bytes": 129135,
+        "fetched_utc": "2026-10-01T10:15:10Z",
+        "n": 23,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/seas_1948.html",
+        "sha256": "6789b6972c2db43d07e38b9f965791ccf910503cbf160302d4e93631634b2ad3",
+        "status": 200,
+        "url": "https://afltables.com/afl/seas/1948.html"
+      },
+      {
+        "bytes": 148121,
+        "fetched_utc": "2026-10-01T10:15:13Z",
+        "n": 24,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/seas_1975.html",
+        "sha256": "d65e460f038d5461dcda192b6dc9e4ca4621644858bec076cba4913791360eab",
+        "status": 200,
+        "url": "https://afltables.com/afl/seas/1975.html"
+      },
+      {
+        "bytes": 38439,
+        "fetched_utc": "2026-10-01T10:15:29Z",
+        "n": 25,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_1975_030719750616.html",
+        "sha256": "7cc6c42e458fc8838c9cd3b8c99109e3459ce7522d474a1aef56a23064355290",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/1975/030719750616.html"
+      },
+      {
+        "bytes": 38183,
+        "fetched_utc": "2026-10-01T10:15:31Z",
+        "n": 26,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/g_1948_051119481009.html",
+        "sha256": "449e5123e79108435b15036e50880b4d9b10cabbe649e076e183a62ed5f17682",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/games/1948/051119481009.html"
+      },
+      {
+        "bytes": 351305,
+        "fetched_utc": "2026-10-01T10:18:51Z",
+        "n": 27,
+        "retained_as": "var/reconciliations/afltables/design-review-samples-20261001/stats_1934.html",
+        "sha256": "e86ceeb53a512f3261b12f0cea7ca88ce3468e046646fd00eeff3b0432a064d2",
+        "status": 200,
+        "url": "https://afltables.com/afl/stats/1934.html"
+      }
+    ],
+    "min_spacing_s": 2.5,
+    "requests": 27,
+    "retained_at": "var/reconciliations/afltables/design-review-samples-20261001",
+    "user_agent": "SuperCoach-VIA design-review (careful, low-rate)"
+  },
+  "surveyor_also_read_scientist_memories": [
+    "data_stat_coverage_eras.md",
+    "rewrite_legacy_import_facts.md",
+    "afl_data_source_urls.md",
+    "dob_source_equivalence.md",
+    "same_team_false_duplicate.md"
+  ],
+  "surveyor_reports": [
+    {
+      "live_matches_preserved": true,
+      "path": ".claude/surveys/2026-10-01-afltables-reconciliation-design-survey.md",
+      "preserved_copy": "docs/reviews/afltables-reconciliation/surveyor-design-review-2026-10-01-run1.md",
+      "run": 1,
+      "sha256": "0e19d9673e371295d15bfc8ba2205f08a650b65757d1fa43c60744ff4ba76311"
+    },
+    {
+      "live_matches_preserved": true,
+      "path": ".claude/surveys/2026-10-01-afltables-reconciliation-design-survey-run2.md",
+      "preserved_copy": "docs/reviews/afltables-reconciliation/surveyor-design-review-2026-10-01-run2.md",
+      "run": 2,
+      "sha256": "a0262a3172b82710399b371d365f4bd5816da4c95aa0c31bdcecf07559f7e9d9"
+    },
+    {
+      "live_matches_preserved": true,
+      "path": ".claude/surveys/2026-10-01-afltables-reconciliation-design-survey-run3.md",
+      "preserved_copy": "docs/reviews/afltables-reconciliation/surveyor-design-review-2026-10-01-run3.md",
+      "run": 3,
+      "sha256": "2d57408d9f4d65bdf98f5b0c4bde6651e9941e4b986ef28d135bc34d0852934f"
+    }
+  ],
+  "test_matrix": {
+    "Pilot": [
+      "test_reconciliation_real.py::test_pilot_values_traceable_to_cells"
+    ],
+    "T01": [
+      "test_reconciliation_inventory.py::test_source_only_player_is_missing_locally_and_fails"
+    ],
+    "T02": [
+      "test_reconciliation_inventory.py::test_failed_letter_makes_denominator_unknown",
+      "::test_lineup_profile_not_in_directory_breaks_census_completeness"
+    ],
+    "T03": [
+      "test_reconciliation_identity.py::test_same_season_homonyms_resolved_by_club",
+      "::test_multiword_surname_resolved_by_dob_and_membership",
+      "::test_conflicting_dob_is_identity_conflict",
+      "::test_no_url_constructed_from_name"
+    ],
+    "T04": [
+      "test_reconciliation_identity.py::test_two_local_ids_one_profile_is_conflict",
+      "::test_alias_cycle_rejected"
+    ],
+    "T05": [
+      "test_reconciliation_compare.py::test_missing_appearance_detected_despite_final_counter"
+    ],
+    "T06": [
+      "test_reconciliation_compare.py::test_offsetting_cell_swaps_detected_per_game"
+    ],
+    "T07": [
+      "test_reconciliation_compare.py::test_duplicate_local_appearance_detected_before_aggregation"
+    ],
+    "T08": [
+      "test_reconciliation_identity.py::test_drawn_gf_and_replay_distinguished_by_match_url",
+      "::test_replay_without_links_is_unknown"
+    ],
+    "T09": [
+      "test_reconciliation_aggregate.py::test_two_club_season_counted_once_in_career",
+      "::test_career_gm_average_uses_distinct_seasons"
+    ],
+    "T10": [
+      "test_reconciliation_cells.py::test_blank_with_team_total_is_recorded_zero",
+      "::test_blank_team_total_is_not_recorded",
+      "::test_pre1965_goals_only_from_match_structure",
+      "::test_all_zero_team_column_unresolved_without_fixture",
+      "test_reconciliation_source.py::test_notes_exception_lineage_name_maps_to_season_club"
+    ],
+    "T11": [
+      "test_reconciliation_cells.py::test_finals_brownlow_not_applicable",
+      "::test_credited_unused_sub_row_is_appearance_not_zero_stats",
+      "::test_arrow_tokens_preserved_raw",
+      "::test_blank_tog_never_zero"
+    ],
+    "T12": [
+      "test_reconciliation_source.py::test_duplicate_header_label_is_malformed",
+      "::test_rowspan_in_game_table_is_schema_gap",
+      "::test_permuted_headers_map_by_label",
+      "::test_alternate_year_table_without_pct_column"
+    ],
+    "T13": [
+      "test_reconciliation_cells.py::test_strict_parse_rejects_nan_inf_bool_comma",
+      "test_reconciliation_aggregate.py::test_display_rounding_half_up_proven_by_ties"
+    ],
+    "T14": [
+      "test_reconciliation_compare.py::test_profile_vs_match_cell_conflict_is_source_conflict",
+      "::test_counter_vs_match_games_to_date_conflict_blocks_pass",
+      "::test_result_or_jumper_conflict_blocks_pass",
+      "::test_single_sourced_cells_with_disagreeing_total_unresolved",
+      "::test_one_page_printed_other_blank_defaults_to_source_conflict",
+      "::test_pilot_rule_id_hashed_into_plan"
+    ],
+    "T15": [
+      "test_reconciliation_inventory.py::test_games_after_through_date_excluded_by_match_date",
+      "::test_truncated_career_printed_total_marked_out_of_scope"
+    ],
+    "T16": [
+      "test_reconciliation_capture.py::test_429_long_retry_after_persists_deadline_no_early_retry",
+      "::test_403_stops_host",
+      "::test_200_challenge_page_unusable",
+      "::test_404_profile_is_gap_not_empty_career",
+      "::test_timeout_and_oversized_are_gaps"
+    ],
+    "T17": [
+      "test_reconciliation_capture.py::test_capture_sends_no_conditional_headers_and_writes_no_validators",
+      "::test_unsolicited_304_is_failure",
+      "::test_corrupt_reused_object_refused_and_refetched"
+    ],
+    "T18": [
+      "test_reconciliation_capture.py::test_resume_after_sigterm_exact_queue",
+      "::test_second_writer_exits_5",
+      "::test_corrupt_checkpoint_refused",
+      "::test_changed_plan_refused"
+    ],
+    "T19": [
+      "test_reconciliation_cli.py::test_compare_offline_socket_denied_relocated_archive_identical"
+    ],
+    "T20": [
+      "test_reconciliation_report.py::test_outputs_identical_across_workers_shuffles_cold_warm_changed"
+    ],
+    "T21": [
+      "test_reconciliation_cache.py::test_invalidation_source_cell",
+      "::test_invalidation_notes_map",
+      "::test_invalidation_identity_override",
+      "::test_invalidation_code_hash",
+      "::test_invalidation_local_row"
+    ],
+    "T22": [
+      "test_reconciliation_local.py::test_input_drift_marks_incomplete_and_retains_fail"
+    ],
+    "T23": [
+      "test_reconciliation_report.py::test_output_alias_refused_relative_symlink_hardlink",
+      "::test_hardlinked_output_never_mutates_input_inode"
+    ],
+    "T24": [
+      "test_reconciliation_report.py::test_partial_write_leaves_no_completion_marker_and_exact_receipt"
+    ],
+    "T25": [
+      "test_reconciliation_compare.py::test_historical_mismatch_fails_full_audit"
+    ],
+    "T26": [
+      "test_reconciliation_local.py::test_quarantined_row_matching_source_is_coverage_gap",
+      "::test_real_quarantine_rows_visible"
+    ],
+    "T27": [
+      "test_reconciliation_source.py::test_unknown_numeric_column_blocks_schema_completeness",
+      "::test_known_non_statistic_columns_classified"
+    ],
+    "T28": [
+      "test_reconciliation_inventory.py::test_latest_final_discovered_without_local_seed",
+      "seas/2026"
+    ],
+    "T29": [
+      "test_reconciliation_cli.py::test_installed_cli_uses_packaged_configs",
+      "::test_no_machine_specific_paths"
+    ],
+    "T30": [
+      "test_reconciliation_report.py::test_per_layer_verdicts_retained_combined_fail"
+    ],
+    "T31": [
+      "test_reconciliation_inventory.py::test_lineup_profile_not_in_directory_breaks_census_completeness"
+    ],
+    "T32": [
+      "test_reconciliation_aggregate.py::test_brownlow_average_uses_home_and_away_denominator",
+      "::test_career_average_excludes_unrecorded_era_games",
+      "::test_brownlow_career_average_excludes_no_award_seasons_only",
+      "::test_average_model_miss_is_source_consistency_not_local_fail",
+      "test_reconciliation_report.py::test_derived_figure_inconsistency_reported_not_blocking"
+    ],
+    "T33": [
+      "test_reconciliation_aggregate.py::test_summary_only_brownlow_is_not_source_conflict",
+      "::test_summary_only_statistic_counted_separately",
+      "::test_local_missing_summary_value_fails_layer",
+      "::test_career_reference_composes_pergame_and_summary_only_seasons",
+      "test_reconciliation_report.py::test_aggregate_partition_exhaustive_with_source_unavailable",
+      "::test_mixed_recorded_unrecorded_aggregate_bucket",
+      "::test_local_missing_summary_precedes_mismatch",
+      "test_reconciliation_aggregate.py::test_summary_only_season_value_is_reference_not_derived"
+    ],
+    "T34": [
+      "test_reconciliation_cells.py::test_credited_unused_sub_row_is_appearance_not_zero_stats",
+      "::test_dntf_local_positive_is_mismatch",
+      "::test_dntf_cells_never_counted_as_verified",
+      "::test_dntf_outside_2021_22_reported_for_pilot_review"
+    ],
+    "T35": [
+      "test_reconciliation_capture.py::test_spacing_persists_across_resume",
+      "::test_spacing_two_seconds_includes_retries_redirects_robots",
+      "test_http.py::test_retry_after_field_is_additive"
+    ]
+  },
+  "unverified": [
+    "2011-15 substitute convention",
+    "all-zero team column encoding",
+    "no-award Brownlow seasons (inferred 1942-45)",
+    "1931-34 match-page BR",
+    "candidate expected (not established) to FAIL on pre-1984 season-only Brownlow"
+  ],
+  "verified_inputs": {
+    "candidate": {
+      "data_root": "var/reviews/opus55/20260929T203757Z-followup/candidate-data",
+      "snapshot": "sha256:3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0",
+      "verified_by": "Surveyor load_snapshot(verify=True); Gaffer load_snapshot"
+    },
+    "control": {
+      "data_root": "var/finalized/data",
+      "snapshot": "sha256:aa836549e10e96a9039cc4642bbe563b94247e0bfaf95e745a0971cc0bb2b98f",
+      "verified_by": "Surveyor load_snapshot(verify=True)"
+    },
+    "release": {
+      "exists": true,
+      "path": "var/reviews/opus55/20260929T203757Z-followup/releases/releases/20260929T213900Z-c8938f4ddb83"
+    }
+  }
+}

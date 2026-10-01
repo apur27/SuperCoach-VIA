@@ -238,3 +238,26 @@ NEW LOW/watch (route via Gaffer when convenient, none blocking):
 ## Prior retirements
 See .claude/surveys/ files and git history of this memory for the full retirement trail
 (2026-07-09 … 2026-07-26).
+
+## OPEN 2026-10-01 — AFL Tables reconciliation DESIGN review (DEEP, Opus 5.5)
+Survey: `.claude/surveys/2026-10-01-afltables-reconciliation-design-survey.md`; DESIGN.md reviewed at sha256 d368d9d3…
+Verdict APPROVE_WITH_CHANGES, 0 BLOCKING. At the next survey (final acceptance), verify by content that the amended DESIGN plus code handle:
+- S-01 summary-only BR state (no SOURCE_CONFLICT);
+- S-02 credited-did-not-take-field state;
+- S-03 printed-average model as a source-consistency dimension;
+- S-04 coordinator-owned retries, Retry-After exposed, 0.5 rps / concurrency 1, spacing persisted across resume;
+- S-05 deterministic DOB+membership / exact-appearance-set identity rules.
+MEDIUM: S-06 census closure, S-07 conflict-blocking sentence, S-08 notes lineage map, S-09 no conditional requests, S-10 duplicate-label reader defect (sourcepages.py:518).
+Approval must bind to the AMENDED design hash. See [[afltables-source-conventions]].
+
+## RUN 2 2026-10-01 — amended DESIGN 2e69b86d… (survey `…-design-survey-run2.md`)
+APPROVE_WITH_CHANGES, 0 BLOCKING. RESOLVED (by text): S-01,02,04,05,06,08–16. PARTIAL: S-03 (BR career denominator wrong), S-07 (per-appearance list not exhaustive).
+Open, re-check at next pass:
+- N-01 HIGH T14 (l.745) still says summary disagreement → SOURCE_CONFLICT; contradicts §8 l.503-508/T32.
+- N-02 HIGH aggregate partition (l.541-542) lacks source-unavailable/not-applicable buckets; UNKNOWN row should say "no FAIL condition".
+- N-03 MED BR career denominator = H&A excl. no-award seasons (5/5) vs DESIGN notes/Totals rule (≤2/5).
+- N-04 MED career reference composition over mixed per-game + SOURCE_SUMMARY_ONLY seasons.
+- N-05 MED SOURCE_CONFLICT list must include counter vs games-to-date, result, jumper; single-sourced cells.
+- N-06 LOW stale l.153/l.285; N-07 LOW DNTF partition + era/condition scope; N-08 LOW (Scientist) pilot must capture a 1935–83 H&A and a 1931–34 match page.
+D16 unreachable for current candidate by construction (0/232,137 1935–83 BR local) — owner-reserved scope choice, already named in DESIGN.
+- 2026-10-01 run 3 (DESIGN da64c4cf…): N-01..N-08 all RESOLVED in text; no contradictions introduced. New LOW only: R3-01 aggregate bucket for mixed recorded/NOT_RECORDED + mismatch-vs-local-missing-summary precedence (Gaffer); R3-02 one-page-printed cell needs SOURCE_CONFLICT default + hashed rule ID for pilot decision (Gaffer/Scientist). Recommendation APPROVE bound to da64c4cf.

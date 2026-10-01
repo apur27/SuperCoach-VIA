@@ -14,7 +14,9 @@ criteria distinguish a finished audit from a claim that the data is correct. Fin
 real mismatch is a successful detection, not permission to alter the data until it passes.
 
 The starting code is `main` at `5d163c68c267bce751e49acbd66d261e8685f850`.
-Inspect current HEAD at execution time and preserve later work. Runtime stays a static
+The architecture review ran at `fec9cd3d87cc7c8c823176a75f33dfe90246eeeb`; its record is
+`docs/reviews/AFLTABLES_RECONCILIATION_DESIGN_REVIEW.md` (findings S-01 to S-16 are
+referenced below by ID). Inspect current HEAD at execution time and preserve later work. Runtime stays a static
 website plus local Python. This task adds an operator audit, without wiring it into a
 schedule, publication gate or automatic correction path.
 
@@ -125,16 +127,30 @@ can contain errors. The result therefore establishes agreement with captured AFL
 evidence, not independent proof of historical truth.
 [Source notes](https://afltables.com/afl/stats/notes.html).
 
-These pages were read during design, not captured as an audit corpus. The browser tool
-could not retrieve `robots.txt`; no inference about its contents is permitted. The
-collector must retrieve it itself and implement the access behavior below.
+These pages were read during design, not captured as an audit corpus. During architecture
+review Surveyor made 27 bounded live requests (no 403/429/challenge). The bodies, headers,
+request log and `SHA256SUMS` are retained locally, outside Git, at
+`var/reconciliations/afltables/design-review-samples-20261001/`. Phase B builds trimmed,
+annotated fixtures from them; they are not an audit corpus either. On 2026-10-01
+`robots.txt` returned a genuine HTTP 404 (a 651-byte custom HTML page, byte-identical to a
+missing profile). The collector must still retrieve it itself at capture time and apply the
+access behavior below; page identity comes from status plus H1/title, never body heuristics.
+
+Measured source facts the implementation relies on (review §1, verify in the pilot):
+every sampled profile game row (1,370 rows, 1897–2026) carries exactly one explicit match
+link in its `Rd` cell; profile and season tables have no rowspans (match pages use them
+only in navigation cells); profile rows carry no match date; some profiles have no `Born:`
+line; a drawn final and its replay have distinct match URLs but no "Replay" text; per-letter
+directories carry no DOB and regenerate independently. The existing reader silently keeps
+the last value when a header label is duplicated (`sourcepages.py`, dict built from
+`zip(labels, cells)`): the reconciliation reader must not inherit that (S-10).
 
 | Existing code | Reuse or limitation |
 |---|---|
 | `scrapers/game_scraper.py::audit_player_career_totals` | Historical reference and fixtures. It derives URLs from names, compares a small set of totals, uses the maximum career counter, and returns an empty issue list when a page is unavailable. Do not use that as the new verdict engine or modify its live refresh behavior. |
 | `src/supercoach_via/integrity/sourcepages.py` | Reuse the independent raw HTML reader; extend it with tested census, biography, summary and link extraction. It currently assumes a particular per-season header/colspan and lacks all required aggregate/link information. |
 | `integrity/checks_source.py::check_player_pages` | Reuse test cases and comparison concepts. It selects pages from snapshot observations, can report NOT_APPLICABLE with no pages, and checks only available captures. Simply passing more `--evidence` files does not discover all profiles. |
-| `ingest/http.py` | Reuse allowlisted HTTPS, redirect checks, bounded responses, rate limiter, retry handling and `RawArchive`. Supply a reconciliation-specific policy and isolated archive. |
+| `ingest/http.py` | Reuse allowlisted HTTPS, redirect checks, bounded responses, the rate limiter (as a floor only) and `RawArchive` objects. Retries move to the capture coordinator and validators are unused (§6, S-04/S-09). Supply a reconciliation-specific policy and isolated archive. |
 | `storage/snapshots.py`, `storage/queries.py` | Reuse verified immutable snapshots, containment, Arrow/DuckDB queries and partition access. |
 | `integrity/capture.py`, `runner.py`, `report.py` | Reuse pinned-input, canonical serialization and output-alias protection concepts. Audit their APIs before extending or extracting small shared helpers. |
 | `domain/schemas.py`, existing coverage/config files | Read local schema and declared policies; independently derive expected source semantics. Policy disagreement is visible evidence, not a reason to copy local expectations. |
@@ -243,22 +259,47 @@ limitation that a change restored byte-for-byte before a final recheck is not ob
 5. Reconcile profile appearances against match lineups and season fixtures. A profile
    whose match references cannot be established remains incomplete. Do not substitute
    local games as the source discovery universe.
+6. **Census closure identity (S-06).** Every profile URL linked from any in-scope match
+   page must be a member of the directory census. A lineup-linked profile absent from the
+   directory is a census gap that keeps `capture_complete=false` (it is still fetched and
+   compared). The per-season player lists (`/afl/stats/YYYY.html`, `YYYYs.html`) are an
+   optional second census; if captured, their extra columns are classified, not ignored.
+7. The per-player `_gm.html` "Games Played" pages are **not** part of the required corpus
+   (S-13): they duplicate profile match links and would add roughly 13,000 requests.
 
 Use exact URL allowlists for the observed census, notes, player, season and match paths.
 The current production policy permits only the last three categories, so add a separate
 policy with the extra paths rather than a broad `/afl/.*` rule. Reject credentials,
 non-HTTPS schemes, arbitrary hosts, encoded traversal and redirects outside that policy.
-Retain rejected in-scope links as coverage gaps. URL fragments identify sections, not
-separate downloads. Preserve case-sensitive player paths and numeric suffixes. Never
+Retain rejected in-scope links as coverage gaps. The reconciliation policy enumerates, at
+minimum, `^/robots\.txt$`, `^/afl/stats/stats_idx\.html$`, `^/afl/stats/players[A-Z]_idx\.html$`,
+`^/afl/stats/notes\.html$`, the three existing season/match/player grammars, and the
+per-season list pattern only if that optional census is adopted (S-12). Resolve each
+relative `href` against the page's *final* URL, then strip the fragment, then validate.
+URL fragments identify sections, not separate downloads. Preserve case-sensitive player paths and numeric suffixes. Never
 invent profile URLs, proxy around a block or scrape search-engine results as substitutes.
 
 ### Network defaults and recovery
 
 - One coordinator, one in-flight request per host, minimum two seconds between request
-  starts, including retries, robots checks, redirects and conditional requests. CPU
+  starts, including retries, robots checks, redirects and revalidation fetches. CPU
   comparison workers must not multiply the request rate. Reuse cached raw objects by hash.
-- Reuse the HTTP client's timeouts, three-attempt bound, response byte cap and HTTPS
-  validation. A larger-than-cap response is a visible gap, not a truncated success.
+- Reuse the HTTP client's timeouts, response byte cap and HTTPS validation. A
+  larger-than-cap response is a visible gap, not a truncated success.
+- **Retry ownership (S-04).** Today's `HttpClient` sleeps `min(Retry-After, 60 s)` and
+  retries internally, does not expose `Retry-After` on its result, keeps rate-limit state in
+  memory only, and defaults to 0.5 s spacing with two concurrent requests. Therefore the
+  reconciliation policy pins `requests_per_second = 0.5`, `max_concurrent_per_host = 1` and
+  client-level `max_attempts = 1`; the capture coordinator owns every retry (at most three
+  attempts per resource) and persists a per-host next-eligible timestamp in the checkpoint
+  so spacing and server deadlines survive resume. Add an **additive**, default-neutral field
+  to the fetch result carrying the parsed `Retry-After`. Default production behavior must
+  stay byte-identical, proven by a regression in `tests/scvia/unit/test_http.py`; Scientist
+  records the CLAUDE.md §6.2 scope determination for that `http.py` change in writing.
+- **No conditional requests (S-09).** Capture calls the client with `conditional=False`,
+  sends no `If-None-Match`/`If-Modified-Since`, and writes no `validators/` under the run.
+  End-of-acquisition revalidation is a full GET plus body-hash comparison. An unsolicited
+  304 is a failed fetch.
 - Use a descriptive User-Agent. Honor applicable robots restrictions. A successful empty
   robots file or an actual 404/410 permits the normal policy; authentication errors,
   access denial, rate limits or a failed robots fetch pause acquisition with an explicit
@@ -271,7 +312,8 @@ invent profile URLs, proxy around a block or scrape search-engine results as sub
 - Recognize HTML challenge/login/error pages even with HTTP 200. Require expected page
   identity and table structure before declaring a fetch usable.
 - Capture writes only to its own archive. Copy/hardlink only verified immutable payloads
-  from prior archives; keep mutable validators and observations separate. Never mutate
+  (`objects/`) from prior archives, re-hashing each; never read or copy another archive's
+  `validators/` or observations. Never mutate
   the candidate's `raw/`, source observations, snapshot or legacy files.
 - Use a filesystem lock per capture root. Queue transitions are transactional. Retry or
   resume rechecks plan/code/policy identities and completed-object hashes. Changes requiring
@@ -282,6 +324,9 @@ invent profile URLs, proxy around a block or scrape search-engine results as sub
 Before a full run, report discovered request counts, cached/revalidation counts, expected
 disk use and estimated minimum network time. At two seconds per request, 30,000 requests
 alone take about 16.7 hours; this is capacity arithmetic, not a measured site count.
+The review's estimate (labelled as such) is about 13,370 profiles, 17,056 match pages,
+130 season pages, 29 index/notes/robots pages and about 156 revalidations: roughly
+30,600–30,900 requests, at least 17 hours, and about 1.8 GB of raw HTML.
 Persist progress every completed request and print a compact heartbeat at least once per
 minute. Do not run competing forecast training or heavyweight integration jobs.
 
@@ -310,9 +355,16 @@ canonical IDs with cycle and duplicate-target checks before matching. Use this o
    or clearly incompatible career is an identity conflict, not a license to compare anyway.
 2. A versioned override supported by a captured page and a stated reason.
 3. A unique normalized-name plus full-DOB match, corroborated by club/season membership.
-4. When DOB is genuinely unavailable, a unique name plus independently established
-   club-season and debut/career evidence match under an explicit tested rule. Otherwise
-   require a reviewed override and leave UNKNOWN meanwhile.
+   **3b (S-05).** Where names diverge (surname splitting such as source "Ah Chee" vs local
+   "Chee", "De Abel" vs "Abel", "El Achkar" vs "Achkar"): a globally unique full-DOB match
+   plus an *identical* set of (season, club) memberships. Record the name difference as an
+   identity-variance finding.
+4. When DOB is absent on the profile, or is low precision: global uniqueness of an
+   *exact* equality between the source profile's appearance set `{(match URL, club)}` and
+   the local player's appearance set. Any partial overlap stays UNKNOWN pending a reviewed
+   override. A 1 January DOB is treated as low precision: it may corroborate but is never a
+   sole key. Rules 3b and 4 use set equality only; no similarity score participates.
+   Because rule 4 requires equal appearance sets, it cannot conceal an appearance mismatch.
 
 Normalize Unicode and whitespace without collapsing distinct names. Account for multiword
 surnames, apostrophes, hyphens, nicknames, suffixes, name changes, identical names and club
@@ -330,6 +382,9 @@ An appearance key is `(source_player_url, source_match_url, source_club)`; the l
 is `(canonical_player_id, match_id, club_id)`. Retain multiplicity before any deduplication.
 Source match URLs and season fixture facts provide date, opponents, stage and replay.
 Do not equate two grand finals by round label alone or use row position as proof.
+The source prints no "Replay" token (S-11): both 2010 grand finals show `Rd` = "GF".
+Derive a replay ordinal from (season, stage, unordered club pair, date order, prior drawn
+result) and key the appearance by match URL; never parse it from text.
 
 Prefer explicit game links from the profile. If absent, join against the independently
 captured season fixtures using clubs, round/stage, source date where present, and replay
@@ -357,7 +412,48 @@ source field resolves to one of:
 | `NOT_RECORDED` | Source notes and match structure establish unavailable measurement; local numeric data is unsupported, not corroborated |
 | `NOT_APPLICABLE` | Rule establishes no applicable measurement, for example finals Brownlow votes |
 | `UNRESOLVED_BLANK` | Evidence cannot distinguish zero from unavailable; UNKNOWN |
-| `MALFORMED` | Unexpected numeric text, duplicated labels or malformed shape; parse error and UNKNOWN |
+| `MALFORMED` | Unexpected numeric text, duplicated header labels, a rowspan inside a data table, or malformed shape; parse error and UNKNOWN (S-10) |
+| `NOT_APPLICABLE_DNTF` | Cell of a credited appearance whose player did not take the field (below). A local null or zero is counted in the not-applicable bucket (never equal, never in `verified_numeric_fraction`); a positive local value is counted as a mismatch |
+
+Two source conventions found in review need their own handling.
+
+**Credited, did not take the field (S-02).** The rule is scoped by its conditions, not by
+year. It was observed for 2021–22 unused medical substitutes; there, an unused substitute is a
+credited game: the profile row advances the counter and shows a result with all 23 cells
+blank, `%P` included, and the source counts the game in its averages. Assign participation
+state `CREDITED_DID_NOT_TAKE_FIELD` only when all of these hold: every statistic cell of the
+player's row is blank on the match page and the profile; the same team's `%P` is recorded
+for other players in that match; the player is listed in that match; and the profile credits
+the game. The appearance counts for membership and counters; its cells take
+`NOT_APPLICABLE_DNTF`; when reproducing the source's printed averages they count as zero
+in the denominator. A local null vs a local zero for such a cell is reported in a
+`representation` category, not as a numeric contradiction. Rows outside 2021–22 that meet all
+four conditions (local data has a handful in 2003–04) are classified by the rule and also
+reported in a separate pilot-review count until the Phase E pilot confirms the convention
+outside 2021–22, including for 2011–2015 substitutes.
+
+**Season-summary-only statistics (S-01).** Before 1984 the source prints season Brownlow
+votes on profiles while the per-game `BR` cells are blank (sample: Dick Reynolds 1935,
+season BR printed with no per-game value; the career Totals row also prints a BR total).
+Assign availability `SOURCE_SUMMARY_ONLY` to a (player, club-season, statistic) only by an
+evidence-backed rule: the season row value is present; **all** of the player's per-game
+cells for that statistic in that club-season are blank on the profile; and the team Totals
+for that statistic are blank on **every** one of those matches' pages for the player's team.
+Per-game cells in that case are `NOT_RECORDED`. The season value is the reference for that
+club-season. It is never a `SOURCE_CONFLICT`.
+
+**Composed references (N-04).** The source reference for a season, stint or career
+aggregate of a statistic is the sum of per-club-season references. Each club-season's
+reference is its per-game cell sum, or its season value when `SOURCE_SUMMARY_ONLY`. (In
+the review sample, Reynolds' per-game BR seasons plus his summary-only seasons sum exactly
+to his printed career total.) The printed career Total is compared with that composite
+only as a derived figure. **Scope decision:
+keep these statistics in the default scope.** If the local layer cannot reproduce a source
+summary value (for example, its per-game cells are null and it stores no season aggregate),
+emit a `LOCAL_MISSING_SUMMARY_VALUE` data finding. That finding makes the layer's verdict
+FAIL: the local data lacks a value the source publishes. Narrowing the claim to exclude
+summary-only statistics is an owner decision, not an engineering one; it must then be named
+in the attestation.
 
 Availability uses captured source notes, their match-specific exceptions, and match-table
 structure independently of the local importer's era rules. A blank is not zero merely
@@ -365,6 +461,17 @@ because another player has a positive value. A whole column may legitimately be 
 Header presence alone is also insufficient when the source documents a missing category
 or an unused participant. Maintain evidence-backed rules for these cases. Preserve finals
 and substitution distinctions. Time-on-ground blanks are never blanket zero-filled.
+A blank team Totals cell means the category was not recorded for that team-match; a
+non-blank Totals with a blank player cell is zero (except under `CREDITED_DID_NOT_TAKE_FIELD`).
+No sample showed how an all-zero team column is encoded; it stays `UNRESOLVED_BLANK` until a
+fixture proves its encoding. Before 1965 the notes are silent; derive availability from
+match Totals structure only.
+
+Source notes need source-specific handling (S-08). Keep a versioned notes-exception map from
+lineage club names (for example "1975 … Sydney", meaning South Melbourne) to the season-valid
+club. Match team pairs regardless of order. Map notes labels (`I5`, `OP`) to table labels
+(`IF`, `1%`). An exception row that cannot be mapped is a schema gap, never a silent drop.
+The notes map, the label map and the rule IDs are hashed into the plan and cache keys.
 
 Raw CSV empty cells stay raw and compare using their declared legacy representation;
 report unresolved/missing-value representation separately from numeric contradictions.
@@ -389,16 +496,48 @@ For every player, season and club stint:
    for every statistic or sum percentages into a supposed career counting statistic.
 4. Compare source game sums with the source's printed season and career summary rows;
    handle multiple clubs in a season and overall Totals without counting both twice.
-5. For rounded displayed averages compare the exact rational mean with the rounding
-   interval implied by displayed precision. Prove the source rounding convention with
-   fixtures; if tie handling cannot be established, report ambiguity instead of choosing
-   whichever convention passes. Also verify the underlying total and denominator exactly.
+   The season Totals footer combines GM and W-D-L in one cell, e.g. "26 (20-2-4)"; parse
+   both strictly.
+5. **Printed averages (S-03).** The source never prints average denominators, so a
+   denominator cannot be "verified exactly". Model the source convention explicitly, as
+   measured in review (all 1,028 sampled season averages reproduced):
+   - rounding is ROUND_HALF_UP, proven by exact ties (28.125 → "28.13", 0.625 → "0.63");
+   - season denominator is GM; Brownlow (`BR`) uses home-and-away games only;
+   - career denominator, statistics other than BR: excludes games from eras or matches
+     where the statistic is not recorded, per notes and match Totals; credited
+     did-not-take-field games are included;
+   - career denominator, BR (N-03): all home-and-away games in seasons in which the award
+     was conducted, including pre-1984 seasons and zero-vote seasons. Profile bytes cannot
+     distinguish "zero votes" from "not awarded" (both print blank), so the set of
+     no-award seasons comes from a captured, versioned evidence file with a source locator,
+     hashed into the plan; it is never inferred from blanks or recalled from memory. In
+     review this rule reproduced 5 of 5 sampled career BR averages, when the excluded
+     seasons were inferred as 1942–45 (unverified until Scientist captures the evidence);
+   - the career GM average divides by distinct seasons; the W-D-L "average" is a win
+     percentage.
+   Compare the exact rational under this model against the displayed rounding interval.
+   Verify the underlying printed totals exactly. A model miss is recorded with every
+   candidate denominator considered; never choose whichever convention passes.
 
-When profile, match and printed summary disagree, record `SOURCE_CONFLICT`, retain all
-values and mark the affected comparison UNKNOWN. Do not choose a page because it agrees
-with the repository. A separate unambiguous discrepancy can still make the overall result
-FAIL. AFL Tables agreement is the reference claim; source-internal consistency is a
-separate measured dimension. Historical discrepancies are not automatically warnings
+Only figures computed over multiple appearances are **derived source figures**: printed
+averages and printed season/stint/career totals. A disagreement between one of them and the
+composed reference is a source-consistency result: record `SOURCE_DERIVED_INCONSISTENCY`,
+set `source_consistent=false` and retain all values. It does **not** change a local layer's
+verdict, provided every contributing per-game cell is corroborated by both profile and match
+page. Local per-game cells and local aggregates are always judged against the source
+per-game cells and the composed references (step 2 and N-04). If a contributing per-game cell
+is printed on only one source page, a disagreeing printed total instead marks that aggregate
+unresolved (UNKNOWN).
+
+**What blocks PASS (S-07, N-05).** Any disagreement between two source facts that index the
+same appearance is a `SOURCE_CONFLICT`. This includes a profile cell vs the same match-page
+cell; profile game membership vs match lineup; the profile game counter vs the match page's
+career-games-to-date; the profile row result vs the match result; and the jumper number. It
+marks the affected cells or appearances UNKNOWN and therefore blocks PASS. Where a cell is
+printed on one page and blank on the other, the Phase E pilot (for example 1931–34 BR,
+which profiles print per game) decides the state from captured evidence before Phase F. Record all values; do not choose a page because it agrees with the repository. A
+separate unambiguous discrepancy can still make the overall result FAIL. AFL Tables
+agreement is the reference claim. Historical discrepancies are not automatically warnings
 that permit PASS, unlike the existing promotion policy.
 
 ## 9 Coverage, verdicts and report contract
@@ -416,11 +555,20 @@ For each layer publish exact counts by player, season and statistic, plus overal
 - expected source appearances, local appearances, matched, source-only, local-only,
   duplicated, quarantined and unresolved;
 - statistic cells expected, exact matches, mismatches, recorded zeros, source-unavailable,
-  not-applicable, malformed and unresolved; aggregate comparisons with their own counts.
+  not-applicable (rule-based and did-not-take-field counted separately), malformed and
+  unresolved; credited did-not-take-field appearances;
+- aggregate comparisons with their own counts: equal, mismatch, local-missing-summary,
+  source-unavailable, not-applicable and unresolved, plus source-derived inconsistencies
+  and source conflicts as separate counts.
 
 Accounting identities must hold. For example, every expected source appearance belongs
 to exactly one of matched/missing/unresolved; every requested cell belongs to exactly one
-of equal/mismatch/source-unavailable/not-applicable/unresolved. Duplicate findings are
+of equal/mismatch/source-unavailable/not-applicable/unresolved (recorded-zero is a source-
+state sub-count spanning equal and mismatch; malformed is a sub-count of unresolved); every
+requested aggregate belongs to exactly one of equal/mismatch/local-missing-summary/
+source-unavailable/not-applicable/unresolved (N-02). An aggregate whose contributing source
+values are all `NOT_RECORDED`, for example most pre-1965 statistics, is source-unavailable,
+neither equal nor unresolved. Duplicate findings are
 orthogonal flags and must not inflate these partitions. Do not divide only by fetched
 pages. A failed census makes the denominator unknown; a percentage then displays null
 with a reason, never 100%.
@@ -433,9 +581,9 @@ historical data cannot masquerade as fully verified measurements.
 
 | Result | Condition | Exit |
 |---|---|---|
-| PASS | Full requested census and comparisons complete; no unresolved required evidence, source conflict, unsupported local numeric claim or confirmed mismatch | 0 |
-| FAIL | At least one confirmed mismatch, missing/extra appearance or duplicate corrupts a requested layer, even if other evidence is incomplete | 4 |
-| UNKNOWN | No confirmed mismatch, but required evidence, identity, schema, drift or availability cannot be resolved | 8 |
+| PASS | Full requested census and comparisons complete; no unresolved required evidence, `SOURCE_CONFLICT`, unsupported local numeric claim or confirmed mismatch (a `SOURCE_DERIVED_INCONSISTENCY` is reported but does not block) | 0 |
+| FAIL | At least one confirmed mismatch, missing/extra appearance, duplicate or `LOCAL_MISSING_SUMMARY_VALUE` corrupts a requested layer, even if other evidence is incomplete | 4 |
+| UNKNOWN | No FAIL condition, but required evidence, identity, schema, drift or availability cannot be resolved | 8 |
 | Invalid invocation | Bad options, incompatible resume, unsafe paths or malformed policy | 2 |
 | Busy | Capture/checkpoint root already locked | 5 |
 | Software failure | Unhandled internal error; no successful completed report | 9 |
@@ -496,6 +644,10 @@ results. Keys include source bodies and manifest selection, parser/schema/rule h
 identity and club maps, source availability notes, local input fragments/CSV hashes and
 scope. Content-only keys without policy/identity dependencies are invalid. Cache success
 and failure results equally; a cache hit is reused evidence, not a fresh source fetch.
+**Permitted simplification (S-14):** if measured within the performance targets, the
+comparison-result cache may be omitted. A parsed-facts cache keyed by (body SHA-256,
+parser/schema/rule hashes) plus full recomputation then implements changed-since, provided
+the report still accounts for unchanged units as reused evidence and T20/T21 pass unchanged.
 
 `--previous`/changed-since is an optimization over a full accounting result. Reuse only
 units whose complete dependencies match; newly discovered/removed players and matches
@@ -584,10 +736,10 @@ does not establish that a remote website or `var/final-site` serves that candida
 | B Contracts and red tests | Scientist on Sonnet defines strict schemas, outcome rules, output safety and small annotated fixtures | Failing tests demonstrate the intended defects before fixes |
 | C Offline comparison | Implement local adapters, identity, independent readers, appearance/cell/aggregate comparisons | Synthetic and captured edge cases pass; no network |
 | D Acquisition | Census, bounded fetcher, checkpoint/resume and source manifests | Mock-network adversarial suite and bounded live pilot |
-| E Pilot review | Profiles across early/modern eras, a club transfer, homonyms, substitute, historical missing statistic, drawn/replayed final | Every pilot value manually traceable; parser/census gaps resolved before bulk capture |
+| E Pilot review | Profiles across early/modern eras, a club transfer, homonyms, substitute, historical missing statistic, drawn/replayed final. Also capture (N-08): a 1935–83 home-and-away match page for a sampled Brownlow vote-getter (e.g. Reynolds 1935); a 1933 or 1934 Essendon match page; evidence for the no-award Brownlow seasons (N-03); a 2011–15 substitute | Every pilot value manually traceable; parser/census gaps resolved before bulk capture; 1931–34 BR state, DNTF scope and the no-award evidence file decided from captured evidence |
 | F Full execution | Complete census/profile/match acquisition, full comparison, four deterministic runs and mutation copies | Exact populations, coverage, verdicts, hashes and resource measurements |
 | G Independent acceptance | Surveyor on Opus reviews final diff and evidence; QA independently checks tests/contracts; Gaffer packages acceptance | ACCEPTED, CHANGES_REQUIRED or EXECUTION_INCOMPLETE with actual review evidence |
-| H Delivery | Gaffer preserves input bytes, commits tested code/docs via the safe wrapper and consolidates approved work into main | Clean delivery state, recovery paths, commands and outstanding data findings |
+| H Delivery | Gaffer preserves input bytes, commits tested code/docs via the safe wrapper and consolidates approved work into main. `.githooks/pre-commit` defaults to a Python path that no longer exists, so export `COUNCIL_PYTHON` to the repo's locked `.venv/bin/python` (or its equivalent) for the commit; never use `--no-verify` (S-15) | Clean delivery state, recovery paths, commands and outstanding data findings |
 
 One implementation worktree/branch at most. No per-agent branches. Gaffer sequences
 review, Scientist's implementation and acceptance; no simultaneous code or Git writers.
@@ -619,16 +771,16 @@ needs at least one meaningful regression and a named test in the architect's mat
 | T11 | Finals Brownlow, unused substitute, substitution arrows, missing %P | Availability/participation and raw tokens preserved |
 | T12 | Reordered/missing/new/duplicate headers, rowspan/colspan, alternate table variant | Correct extraction or explicit schema gap; no positional shift |
 | T13 | Malformed number, NaN/Infinity, boolean, comma/percent decimal, rounded average | Strict parse; exact or explicitly bounded display comparison |
-| T14 | Source profile disagrees with match or summary | SOURCE_CONFLICT; no convenient source selection |
+| T14 | Two source facts indexing the same appearance disagree (profile vs match cell, membership vs lineup, counter vs games-to-date, result, jumper); a printed total disagrees with single-sourced cells | SOURCE_CONFLICT blocks PASS; the single-sourced aggregate is unresolved; no convenient source selection. Printed totals/averages vs double-sourced cells belong to T32, not here (N-01) |
 | T15 | Source contains later games than event boundary | Correct scoped rows; later whole-career totals not misused |
 | T16 | 403, 404, 429 with long Retry-After, challenge HTML, timeout, oversized body | Bounded behavior and truthful missing evidence, never clean-empty |
-| T17 | 304 with absent/corrupt cached object | Refuse reuse, recover explicitly, no stale PASS |
+| T17 | Capture sends no conditional headers; an unsolicited 304; a reused prior-archive object that is absent or corrupt | No validators written; 304 is a failed fetch; a corrupt object is refused and refetched explicitly; no stale PASS (S-09) |
 | T18 | Interrupt capture, resume, second writer, corrupt checkpoint, changed plan | Exact queue recovery or explicit refusal; no duplicate accepted tasks |
 | T19 | Offline rerun with all sockets blocked and archives relocated | Byte-identical canonical outputs |
 | T20 | Cold/warm/changed-since, shuffled traversal and worker completion | Byte-identical full reports and streams |
 | T21 | Change local row/source cell/notes/identity override/code | Correct dependency invalidation and changed finding |
 | T22 | Evidence deleted/changed during audit or new local input appears | Drift visible, completeness false; existing FAIL retained |
-| T23 | Output equals input/another output through relative path, symlink or hardlink | Refuse before writing; original files untouched |
+| T23 | Output equals input/another output through relative path, symlink or hardlink, including a hardlink to an input file outside the input roots | Refuse before writing; original files and input inode bytes untouched (S-16) |
 | T24 | File write fails halfway | No completion marker; exact written/unwritten receipt |
 | T25 | Historical mismatch and newer correct data | Historical mismatch still affects requested full-audit verdict |
 | T26 | Quarantined row corresponds to a real source appearance | Coverage gap/missing accepted row visible, not excluded as resolved |
@@ -636,6 +788,11 @@ needs at least one meaningful regression and a named test in the architect's mat
 | T28 | Missing latest completed final in local data | Source fixture/census discovery catches it without a local seed |
 | T29 | Root/subdirectory installation and supported Python/Node paths | No machine-specific executable paths; installed CLI/configs work |
 | T30 | One requested input layer FAILs while another PASSes | Per-layer verdicts retained, combined FAIL |
+| T31 | A profile linked from a match lineup is absent from its directory letter | Census gap, `capture_complete=false`, profile still fetched and compared (S-06) |
+| T32 | Printed averages: half-up ties, BR over home-and-away games, career exclusion of unrecorded eras (non-BR) and of evidenced no-award seasons only (BR), a model miss | Exact model reproduction; a miss is `SOURCE_DERIVED_INCONSISTENCY` with candidates listed, never a local-layer verdict (S-03/S-07) |
+| T33 | Pre-1984 season Brownlow printed with blank per-game cells; local layer lacks it; a career mixing per-game and summary-only seasons; a pre-1965 statistic with no source value | `SOURCE_SUMMARY_ONLY`, never `SOURCE_CONFLICT`; `LOCAL_MISSING_SUMMARY_VALUE` makes the layer FAIL; the career reference is the composed sum; the all-unrecorded aggregate is source-unavailable (S-01, N-02, N-04) |
+| T34 | Credited unused substitute with an all-blank row; local null vs zero vs positive | Appearance matched; `NOT_APPLICABLE_DNTF` cells; null/zero agree with a representation note; positive is a mismatch; source average reproduction counts it (S-02) |
+| T35 | 429 with Retry-After longer than 60 s; process restarted before the deadline | No request before the persisted deadline; at least 2 s spacing across retries, redirects, robots and resume; client default behavior unchanged (S-04) |
 
 ## 14 Definition of done
 
@@ -646,14 +803,14 @@ needs at least one meaningful regression and a named test in the architect's mat
   agent-definition hashes, inspected files, resolved questions and exact design hash.
 - [ ] D02 No blocking architecture question remains concerning census, identity, blanks,
   replay joins, source vintage, coverage, outcome semantics, independence or output safety.
-- [ ] D03 Each T01–T30 case has an implementation/test owner and concrete acceptance evidence.
+- [ ] D03 Each T01–T35 case has an implementation/test owner and concrete acceptance evidence.
 
 ### Implementation complete
 
 - [ ] D04 Proposed commands, strict schemas, operator docs and installed configuration work.
 - [ ] D05 All deterministic logic is executable Python; no model decision, fuzzy auto-join,
   broad exception-to-success or ignored source failure participates in a verdict.
-- [ ] D06 T01–T30 and existing relevant regressions pass. Ruff/mypy and the complete fast
+- [ ] D06 T01–T35 and existing relevant regressions pass. Ruff/mypy and the complete fast
   tier pass; affected real integration tests run. Existing unrelated CI failures are explicit.
 - [ ] D07 Resume, lock, cancellation, output containment, stream completeness and cache
   invalidation are demonstrated, including deliberate corruptions.
