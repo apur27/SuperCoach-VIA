@@ -1,8 +1,39 @@
 # Provisional GitHub Pages preview
 
-The static site is prepared for `https://apur27.github.io/SuperCoach-VIA/`.
+The [provisional site](https://apur27.github.io/SuperCoach-VIA/) was published on
+3 October 2026. The address is case-sensitive; `/supercoach-via/` returns 404.
 Publication uses the existing, manually dispatched `scvia-pages.yml` workflow.
 The Python pipeline runs locally; publishing a site does not activate a refresh schedule.
+
+## Publication record
+
+- Source commit: `a5b2b804acdbf06952851d36c4dc9b2ec6bfaae0`.
+- Release: `20261003T105359Z-67fb4988599a`.
+- [Successful Pages workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37118887973).
+- [Public prerelease archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-2026-10-03).
+- Site seal: `56fb11cb70e0fa4b30647743467843e964babe53b288cdf970f3410276965de1`.
+- Archive SHA-256: `c3bf3235a4fed6060bdb80c8825555cf9cb624634f53b85101a195134d9d6ae0`.
+- Site size: 264,045,507 bytes, within the 300 MiB budget.
+
+Local validation passed: 179 web unit tests (2 existing skips), 322 browser tests
+(4 existing skips), type checks, lint, the payload budget, seal validation and the full
+input-consistency audit (`semantic_complete=true`). The real-site review covered 184
+page states with no unexpected request errors, horizontal overflow or accessibility
+violations. Search, watchlist persistence, Grand Final/player navigation and all 14
+downloads were checked. A live-browser recheck covered 20 page states, accessibility,
+downloads and navigation; a separate search check waited for remote results before
+opening the player. Six deployed pages, manifests and assets matched the sealed bytes.
+
+Repository-wide CI is **not green**. The [source commit's CI run](https://github.com/apur27/SuperCoach-VIA/actions/runs/37118404379)
+fails because a Python browser-contract test assumes `/usr/bin/node` exists on the
+runner, and the provenance strip measures 194px at 320px width against its 170px limit
+in the runner's browser. The [preceding commit also failed CI](https://github.com/apur27/SuperCoach-VIA/actions/runs/37107281828).
+The existing Pages workflow separately verified and published the tested, sealed artifact.
+Those repository CI issues remain open; no test or publication gate was weakened.
+
+Local logs, reports and screenshots are in `var/pages-preview/20261003/` (outside Git).
+Hash checks confirmed that 90 paused Claude-worktree files, 604 retained candidate files
+and the three pre-existing main-checkout memory files were unchanged.
 
 ## Data status
 
