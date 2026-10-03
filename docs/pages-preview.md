@@ -8,30 +8,36 @@ The Python pipeline runs locally; publishing a site does not activate a refresh 
 
 ## Publication record
 
-The usability update was published on 3 October 2026.
+The final homepage update preserves “Why this repo exists” verbatim from the
+GitHub README. It was published on 3 October 2026, following the navigation and
+mobile-table improvements. Other homepage copy and layout remain improved.
 
-- UI source commit: `7e4098bd2386dd9032349243c7581316c58e3a6c`.
-- Deployment checkout: `3d403ae683743a13425cac1345b71905ab05badc` (adds redirect source/tests).
-- Release: `20261003T113058Z-7662fe99ba96`.
-- [Successful Pages workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122424667).
-- [Public prerelease archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-ui-2026-10-03).
-- Site seal: `65bbef200a2326c697240f0b0813f06d3c47c28ec700a049d918348ba24d9201`.
-- Archive SHA-256: `7e9264de620619ebe7e67fc9e5f40f1a1ebcdab754970f6d47d93a7f72cc1e50`.
-- Site size: 264,070,775 bytes, within the 300 MiB budget.
+- UI source commit: `852049df1f695115f997e51fc7109c7729904c8d`.
+- Deployment checkout: `852049df1f695115f997e51fc7109c7729904c8d`.
+- Release: `20261003T124334Z-08e8e0eb65d4`.
+- [Successful Pages workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37124172045).
+- [Public prerelease archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-verbatim-2026-10-03).
+- Site seal: `569bb2dc78f92c1f32b9885bf5b38a3bbbcd4edaf68fba74b3dfaf8325efb2bc`.
+- Archive SHA-256: `a475bc341e264fcfad52fac3aaadda11b548ae7521f871d017eec9e26fb86f14`.
+- Site size: 264,074,405 bytes, within the 300 MiB budget.
 
 [Astra's plan](reviews/ASTRA_SOL_USABILITY_PLAN.md) and
-[final review](reviews/ASTRA_SOL_USABILITY_REVIEW.md) record the changes.
+[final review](reviews/ASTRA_SOL_USABILITY_REVIEW.md) record the first changes.
+The [purpose plan](reviews/ASTRA_PURPOSE_PLAN.md) and
+[follow-up review](reviews/ASTRA_PURPOSE_REVIEW.md) cover the README story.
 Local checks passed: 181 unit tests (two existing skips), 354 browser tests
 (four existing skips), plus two exact-case regression tests. The alias passed
-23 mapping and nine browser checks. Type checks, lint, budgets, seal validation
-and the full input-consistency audit passed (`semantic_complete=true`).
-The real-site review passed 184 states and all 14 downloads. Live checks passed
-24 states, search, accessibility and no-JavaScript navigation. Six deployed
+23 mapping and nine browser checks. The final verbatim update passed 28 focused
+homepage/mobile/no-JavaScript checks, including exact text comparison with the
+README, and Astra’s eight-state content and visual review.
+Type checks, lint, budgets, seal validation and the full input-consistency audit passed (`semantic_complete=true`).
+Before the purpose-only addition, the real-site review passed 184 states and all
+14 downloads. Final live checks passed 24 states, search, accessibility and no-JavaScript navigation. Six deployed
 pages, manifests and assets matched the sealed bytes.
 
-The [web CI job passed](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122256985).
-Repository-wide CI remains **not green**: that run's Python browser-contract test
-assumes `/usr/bin/node` exists on the runner (1,030 other tests passed). The
+The [preceding purpose source’s web CI job passed](https://github.com/apur27/SuperCoach-VIA/actions/runs/37123467071).
+Repository-wide CI remains **not green**. The [recorded Python failure](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122256985)
+comes from a browser-contract test assuming `/usr/bin/node` exists on the runner. The
 [legacy Unit Tests workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122141315)
 also fails collection because its environment lacks dependencies including
 `pydantic` and the installed `supercoach_via` package. No CI gate was weakened.
@@ -57,7 +63,20 @@ Unrelated paths and canonical addresses do not redirect. The live redirect modul
 have JavaScript MIME types and match their reviewed bytes. This does not make
 GitHub Pages routing itself case-insensitive.
 
-### Previous preview retained for rollback
+### Previous previews retained for rollback
+
+The [earlier purpose archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-purpose-2026-10-03)
+contains release `20261003T123306Z-fe8a6ca23166` from source `1510eb967`.
+It contains the earlier adapted story, before the owner requested verbatim text.
+Seal: `d0bbee6ccc192e373a9a58c6424a0b452243f2cdf359ab51980d689d8a0b7deb`;
+archive SHA-256: `f838b5ee63deee4b7bfb5999ce58d06489acc2f67c0e29e9914c254e7f43a7f6`.
+Its [deployment](https://github.com/apur27/SuperCoach-VIA/actions/runs/37123557820) is retained.
+
+The [usability archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-ui-2026-10-03)
+contains release `20261003T113058Z-7662fe99ba96`, from UI source `7e4098bd2`.
+Seal: `65bbef200a2326c697240f0b0813f06d3c47c28ec700a049d918348ba24d9201`;
+archive SHA-256: `7e9264de620619ebe7e67fc9e5f40f1a1ebcdab754970f6d47d93a7f72cc1e50`.
+Its [deployment](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122424667) is retained.
 
 The [first archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-2026-10-03)
 contains release `20261003T105359Z-67fb4988599a`, from UI source `a5b2b804a`.
