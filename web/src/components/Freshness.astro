@@ -19,7 +19,7 @@ const base = import.meta.env.BASE_URL;
       <summary>Release details</summary>
       <dl>
         <div><dt>Generated</dt><dd><Instant iso={f.generated_at} /></dd></div>
-        <div><dt>Published</dt><dd>{f.published_at ? <Instant iso={f.published_at} /> : <span class="missing">not published (local build)</span>}</dd></div>
+        <div><dt>Published</dt><dd>{f.published_at ? <Instant iso={f.published_at} /> : <span class="missing">not recorded in release</span>}</dd></div>
         <div><dt>Release</dt><dd><code>{releaseId}</code></dd></div>
       </dl>
     </details>

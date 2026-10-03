@@ -1,0 +1,6 @@
+---
+import { provisionalAudit } from '../lib/provisional';
+interface Props { snapshotId: string; demo: boolean }
+const { snapshotId, demo } = Astro.props;
+---
+{provisionalAudit(snapshotId, demo) && <meta name="robots" content="noindex" />}

@@ -1,5 +1,7 @@
 ---
 import AppLayout from '../../layouts/AppLayout.astro';
+import ProvisionalAudit from '../../components/ProvisionalAudit.astro';
+import { provisionalAudit } from '../../lib/provisional';
 import Instant from '../../components/Instant.astro';
 import DateOnly from '../../components/DateOnly.astro';
 import { manifest, overview, readResource } from '../../lib/release-server';
@@ -8,13 +10,15 @@ const rel = manifest();
 const ov = overview();
 const q = readResource('quality', 'quality.json');
 const f = ov.freshness;
+const provisional = provisionalAudit(rel.snapshot_id, rel.demo);
 const SEV = { info: 'Information', warning: 'Warning', error: 'Error', blocking: 'Blocking' } as const;
 const DS = { legacy_unverified: 'Imported legacy data, not yet independently verified', verified: 'Verified', partial: 'Partial coverage', demo: 'DEMO (synthetic)' } as const;
 ---
 <AppLayout title="Data status" description="Source freshness, coverage, forecast status, quality issues and known limitations for this release." current="data-status">
   <h1>Data status</h1>
   <p class="lede">What this release contains, how current it is, and what is known to be missing.</p>
-  {f.stale ? <p class="banner banner-stale"><strong>Stale:</strong> {f.stale_reason ?? 'the source has not been confirmed recently.'}</p> : <p class="banner banner-ok">Data is current as of the last source check.</p>}
+  <ProvisionalAudit snapshotId={rel.snapshot_id} demo={rel.demo} />
+  {!provisional && (f.stale ? <p class="banner banner-stale"><strong>Stale:</strong> {f.stale_reason ?? 'the source has not been confirmed recently.'}</p> : <p class="banner banner-ok">Data is current as of the last source check.</p>)}
   <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Freshness">
     <table>
       <caption>Freshness and release identity</caption>
@@ -26,7 +30,7 @@ const DS = { legacy_unverified: 'Imported legacy data, not yet independently ver
         <tr><th scope="row">Latest completed match</th><td>{f.latest_completed_match_at ? <Instant iso={f.latest_completed_match_at} /> : <DateOnly date={f.latest_completed_match_date} />}</td></tr>
         <tr><th scope="row">Coverage through</th><td>{f.coverage_through ?? 'not recorded'} ({DS[rel.coverage.status]})</td></tr>
         <tr><th scope="row">Generated</th><td><Instant iso={f.generated_at} /></td></tr>
-        <tr><th scope="row">Published</th><td>{f.published_at ? <Instant iso={f.published_at} /> : 'not published (local build)'}</td></tr>
+        <tr><th scope="row">Published</th><td>{f.published_at ? <Instant iso={f.published_at} /> : 'not recorded in release'}</td></tr>
         <tr><th scope="row">Validation</th><td>{f.validation_state}</td></tr>
         <tr><th scope="row">Dataset status</th><td>{DS[q.dataset_status]}</td></tr>
         <tr><th scope="row">Forecast</th><td>{rel.forecast.status}{rel.forecast.status !== 'available' && <> — {reasonText(rel.forecast.reason)}</>}{rel.forecast.model_id && <> (model <code>{rel.forecast.model_id}</code>)</>}</td></tr>
@@ -42,7 +46,7 @@ const DS = { legacy_unverified: 'Imported legacy data, not yet independently ver
     </table>
   </div>
   <h2>Quality issues</h2>
-  {q.issues.length === 0 ? <p>No open quality issues.</p> : (
+  {q.issues.length === 0 ? <p>{provisional ? 'No issues are listed in the release quality resource; the source audit failures above remain open.' : 'No open quality issues.'}</p> : (
     <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Quality issues">
       <table>
         <caption>Open quality issues</caption>

@@ -1,0 +1,18 @@
+---
+import { provisionalAudit } from '../lib/provisional';
+interface Props { snapshotId: string; demo: boolean }
+const { snapshotId, demo } = Astro.props;
+const audit = provisionalAudit(snapshotId, demo);
+---
+{audit && <section aria-labelledby="provisional-audit-title">
+  <h2 id="provisional-audit-title">Known source audit failures</h2>
+  <p>Snapshot <code class="snapshot-id">{audit.snapshotId}</code> is provisional. The recorded audit against captured AFL Tables pages failed.</p>
+  <ul>
+    <li><strong>AFL Tables source audit: FAIL.</strong> Findings include missing appearances, zero/null differences, missing historical Brownlow values and unresolved evidence. Totals and rankings can be affected.</li>
+    <li><strong>Release consistency: PASS.</strong> The sealed candidate's files agree with their declared inputs. This check does not establish agreement with AFL Tables.</li>
+    <li><strong>Current forecast: unavailable.</strong> The candidate reports <code>no_valid_future_fixture</code>. Archived predictions are not current forecasts.</li>
+  </ul>
+  <p>Recorded source audit report SHA-256: <code class="snapshot-id">{audit.reportSha256}</code>.</p>
+  <p><a href={audit.readmeUrl}>Committed README data status</a> · <a href={audit.reportsUrl}>Provisional Hall of Fame reports</a></p>
+</section>}
+<style>.snapshot-id { overflow-wrap: anywhere; }</style>

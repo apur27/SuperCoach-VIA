@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import Freshness from '../components/Freshness.astro';
+import ProvisionalStatus from '../components/ProvisionalStatus.astro';
+import ProvisionalRobots from '../components/ProvisionalRobots.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { MORE_NAV, PRIMARY_NAV } from '../lib/nav';
 import { withBase } from '../lib/ids';
@@ -27,6 +29,7 @@ const fullTitle = `${demoPrefix}${title} · SuperCoach VIA`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <ProvisionalRobots snapshotId={rel.snapshot_id} demo={rel.demo} />
     <meta name="scvia-release" content={rel.release_id} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="color-scheme" content="light dark" />
@@ -71,6 +74,7 @@ const fullTitle = `${demoPrefix}${title} · SuperCoach VIA`;
         </ul>
       </nav>
     </header>
+    <ProvisionalStatus snapshotId={rel.snapshot_id} demo={rel.demo} generatedAt={rel.generated_at} base={base} />
     <Freshness freshness={ov.freshness} season={rel.season} demo={rel.demo} releaseId={rel.release_id} />
     {breadcrumbs && <div class="wrap"><Breadcrumbs items={breadcrumbs} /></div>}
     <main id="main" class="wrap" tabindex="-1">

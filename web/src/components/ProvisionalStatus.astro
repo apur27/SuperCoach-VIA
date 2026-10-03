@@ -1,0 +1,8 @@
+---
+import { provisionalAudit } from '../lib/provisional';
+import { withBase } from '../lib/ids';
+interface Props { snapshotId: string; demo: boolean; generatedAt: string; base: string }
+const { snapshotId, demo, generatedAt, base } = Astro.props;
+const audit = provisionalAudit(snapshotId, demo);
+---
+{audit && <div class="wrap"><aside class="banner banner-stale" aria-label="Provisional data status" data-testid="provisional-banner"><p><strong>Provisional data — known audit failures</strong> · Snapshot created <time datetime={audit.snapshotCreatedAt}>{audit.snapshotCreatedAt.slice(0, 10)}</time> · Build generated <time datetime={generatedAt}>{generatedAt.slice(0, 10)}</time> · <a href={withBase(base, 'data-status/')}>Audit details</a></p></aside></div>}

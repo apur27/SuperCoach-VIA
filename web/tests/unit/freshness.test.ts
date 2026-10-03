@@ -21,7 +21,7 @@ describe('Freshness', () => {
     const html = await render(base);
     expect(html).toContain('Current');
     expect(html).not.toContain('data-testid="stale-banner"');
-    expect(html).toContain('not published (local build)');
+    expect(html).toContain('not recorded in release');
   });
   it('labels a stale release with its reason in server-rendered HTML', async () => {
     const html = await render({ ...base, stale: true, stale_reason: 'Source not checked for 9 days.' });
