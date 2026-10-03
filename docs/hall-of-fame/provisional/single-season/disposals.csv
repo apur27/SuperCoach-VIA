@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Jack Macrae,legacy:macrae_jack_03081994,2021,26,880.0,26,26,33.84615384615385,1.0
+2,Tom Mitchell,legacy:mitchell_tom_31051993,2018,24,848.0,24,24,35.333333333333336,1.0
+3,Matt Crouch,legacy:crouch_matt_21041995,2017,25,825.0,25,25,33.0,1.0
+4,Dane Swan,legacy:swan_dane_25021984,2010,26,820.0,26,26,31.53846153846154,1.0
+5,Dan Hannebery,legacy:hannebery_dan_24021991,2016,26,802.0,26,26,30.846153846153847,1.0
+6,Nick Daicos,legacy:daicos_nick_03012003,2026,23,797.0,23,23,34.65217391304348,1.0
+7,Clayton Oliver,legacy:oliver_clayton_22071997,2021,25,789.0,25,25,31.56,1.0
+7,Adam Treloar,legacy:treloar_adam_09031993,2019,24,789.0,24,24,32.875,1.0
+9,Josh Kennedy,legacy:kennedy_josh_20061988,2016,25,787.0,25,25,31.48,1.0
+9,Tom Mitchell,legacy:mitchell_tom_31051993,2017,22,787.0,22,22,35.77272727272727,1.0

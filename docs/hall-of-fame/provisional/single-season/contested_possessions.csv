@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Clayton Oliver,legacy:oliver_clayton_22071997,2021,25,434.0,25,25,17.36,1.0
+2,Patrick Dangerfield,legacy:dangerfield_patrick_05041990,2017,24,429.0,24,24,17.875,1.0
+3,Josh Kennedy,legacy:kennedy_josh_20061988,2016,25,425.0,25,25,17.0,1.0
+4,Josh Kennedy,legacy:kennedy_josh_20061988,2012,25,423.0,25,25,16.92,1.0
+5,Josh Kennedy,legacy:kennedy_josh_20061988,2013,25,410.0,25,25,16.4,1.0
+6,Clayton Oliver,legacy:oliver_clayton_22071997,2022,23,409.0,23,23,17.782608695652176,1.0
+7,Clayton Oliver,legacy:oliver_clayton_22071997,2018,25,405.0,25,25,16.2,1.0
+8,Patrick Dangerfield,legacy:dangerfield_patrick_05041990,2012,25,403.0,25,25,16.12,1.0
+9,Lachie Neale,legacy:neale_lachie_24051993,2022,25,400.0,25,25,16.0,1.0
+10,Josh Kennedy,legacy:kennedy_josh_20061988,2015,24,393.0,24,24,16.375,1.0

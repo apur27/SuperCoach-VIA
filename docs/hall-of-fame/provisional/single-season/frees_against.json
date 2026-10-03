@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 5.208333333333333,
+    "name": "Don Scott",
+    "observed_games": 24,
+    "player_id": "legacy:scott_don_20121947",
+    "rank": 1,
+    "season": 1978,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 5.083333333333333,
+    "name": "Don Scott",
+    "observed_games": 24,
+    "player_id": "legacy:scott_don_20121947",
+    "rank": 2,
+    "season": 1974,
+    "total": 122.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 27,
+    "games": 27,
+    "mean": 4.444444444444445,
+    "name": "John Cassin",
+    "observed_games": 27,
+    "player_id": "legacy:cassin_john_02071951",
+    "rank": 3,
+    "season": 1977,
+    "total": 120.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.833333333333333,
+    "name": "Don Scott",
+    "observed_games": 24,
+    "player_id": "legacy:scott_don_20121947",
+    "rank": 4,
+    "season": 1971,
+    "total": 116.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.44,
+    "name": "Mark Williams",
+    "observed_games": 25,
+    "player_id": "legacy:williams_mark_21081958",
+    "rank": 5,
+    "season": 1981,
+    "total": 111.0
+  },
+  {
+    "coverage": 0.9130434782608695,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 5.238095238095238,
+    "name": "Don Scott",
+    "observed_games": 21,
+    "player_id": "legacy:scott_don_20121947",
+    "rank": 6,
+    "season": 1977,
+    "total": 110.0
+  },
+  {
+    "coverage": 0.96,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.375,
+    "name": "Len Thompson",
+    "observed_games": 24,
+    "player_id": "legacy:thompson_len_27081947",
+    "rank": 7,
+    "season": 1978,
+    "total": 105.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.291666666666667,
+    "name": "Alan Martello",
+    "observed_games": 24,
+    "player_id": "legacy:martello_alan_14091952",
+    "rank": 8,
+    "season": 1971,
+    "total": 103.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.636363636363637,
+    "name": "Mark Lee",
+    "observed_games": 22,
+    "player_id": "legacy:lee_mark_29031959",
+    "rank": 9,
+    "season": 1984,
+    "total": 102.0
+  },
+  {
+    "coverage": 0.92,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.434782608695652,
+    "name": "Len Thompson",
+    "observed_games": 23,
+    "player_id": "legacy:thompson_len_27081947",
+    "rank": 9,
+    "season": 1977,
+    "total": 102.0
+  }
+]

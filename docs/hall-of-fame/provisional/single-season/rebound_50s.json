@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 20,
+    "games": 20,
+    "mean": 10.3,
+    "name": "Dustin Fletcher",
+    "observed_games": 20,
+    "player_id": "legacy:fletcher_dustin_07051975",
+    "rank": 1,
+    "season": 2004,
+    "total": 206.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 8.04,
+    "name": "Tom Stewart",
+    "observed_games": 25,
+    "player_id": "legacy:stewart_tom_15031993",
+    "rank": 2,
+    "season": 2019,
+    "total": 201.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 17,
+    "games": 17,
+    "mean": 11.705882352941176,
+    "name": "Dustin Fletcher",
+    "observed_games": 17,
+    "player_id": "legacy:fletcher_dustin_07051975",
+    "rank": 3,
+    "season": 2005,
+    "total": 199.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 7.958333333333333,
+    "name": "Daniel Rich",
+    "observed_games": 24,
+    "player_id": "legacy:rich_daniel_07061990",
+    "rank": 4,
+    "season": 2021,
+    "total": 191.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 9.047619047619047,
+    "name": "Joel Bowden",
+    "observed_games": 21,
+    "player_id": "legacy:bowden_joel_21061978",
+    "rank": 5,
+    "season": 2006,
+    "total": 190.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 7.6,
+    "name": "Nick Malceski",
+    "observed_games": 25,
+    "player_id": "legacy:malceski_nick_15081984",
+    "rank": 5,
+    "season": 2013,
+    "total": 190.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 7.833333333333333,
+    "name": "Heath Shaw",
+    "observed_games": 24,
+    "player_id": "legacy:shaw_heath_27111985",
+    "rank": 7,
+    "season": 2016,
+    "total": 188.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 8.136363636363637,
+    "name": "James Clement",
+    "observed_games": 22,
+    "player_id": "legacy:clement_james_04091976",
+    "rank": 8,
+    "season": 2005,
+    "total": 179.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 8.136363636363637,
+    "name": "James Sicily",
+    "observed_games": 22,
+    "player_id": "legacy:sicily_james_06011995",
+    "rank": 8,
+    "season": 2022,
+    "total": 179.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 8.0,
+    "name": "Steven May",
+    "observed_games": 22,
+    "player_id": "legacy:may_steven_10011992",
+    "rank": 10,
+    "season": 2022,
+    "total": 176.0
+  }
+]

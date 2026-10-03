@@ -6,6 +6,8 @@ Pre-match tactical briefs built end-to-end from the SuperCoach-VIA dataset. Ever
 
 This is what happens when you point an AI agent and a footy-literate analyst at 130 years of structured match data and ask: **how do we beat them on Saturday?**
 
+These briefs and live reads are archived analyses from their listed fixtures. Their statistics reflect the sources available when they were written. See the [current data status](../../README.md#data-status) before treating them as current-season guidance.
+
 ## What this is
 
 A coaching brief, not a preview. The audience is the head coach walking into Tuesday's review or the senior assistant building the Friday team meeting. The questions answered are the ones a high-performance department actually asks:
@@ -24,7 +26,7 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 - Not a substitute for video. The dataset is box-score and result-level - no GPS, no spatial, no pressure tags. Where the answer requires those, we say so.
 - Not a list system review. Player ratings here are 2026-form-based and matchup-relevant, not legacy or potential.
 
-## Available briefs
+## Archived briefs
 
 | Match | Round | Venue | Date (scheduled) | Executive summary | Full brief | Supporting docs | Live reads |
 |-------|-------|-------|------------------|-------------------|------------|-----------------|------------|
@@ -46,7 +48,7 @@ Tactical recommendations cite a specific stat. Verified numbers are tagged `**[d
 | Richmond vs St Kilda | Round 11 | Marvel Stadium | 17 May 2026, 3:15pm | [Summary](richmond-vs-stkilda-round-11-2026-executive-summary.md) | [Tactical brief](richmond-vs-stkilda-round-11-2026.md) | [Player matchups](richmond-vs-stkilda-round-11-2026-player-matchups.md) · [H2H history](richmond-vs-stkilda-round-11-2026-head-to-head-history.md) | [Q1](richmond-vs-stkilda-round-11-2026-q1-live.md) · [Q2](richmond-vs-stkilda-round-11-2026-q2-live.md) · [Half-time](richmond-vs-stkilda-round-11-2026-half-time-live.md) · [Q3](richmond-vs-stkilda-round-11-2026-q3-live.md) · [Q4](richmond-vs-stkilda-round-11-2026-q4-live.md) · [Full-time verdict](richmond-vs-stkilda-round-11-2026-full-time-verdict.md) · [Post-mortem](richmond-vs-stkilda-round-11-2026-postmortem.md) |
 | Richmond vs Adelaide | Round 9 | M.C.G. | 10 May 2026, 3:15pm | [Summary](richmond-vs-adelaide-round-9-2026-executive-summary.md) | [Tactical brief](richmond-vs-adelaide-round-9-2026.md) | [Player matchups](richmond-vs-adelaide-round-9-2026-player-matchups.md) · [H2H history](richmond-vs-adelaide-round-9-2026-head-to-head-history.md) | [Half-time](richmond-vs-adelaide-round-9-2026-half-time-live.md) · [Q3](richmond-vs-adelaide-round-9-2026-q3-live.md) · [Q4 + full-time](richmond-vs-adelaide-round-9-2026-q4-live.md) · [Verdict](richmond-vs-adelaide-round-9-2026-full-time-verdict.md) · [Post-mortem (data)](richmond-vs-adelaide-round-9-2026-postmortem.md) · [Post-mortem (tactical)](richmond-vs-adelaide-round-9-2026-postmortem-footystrategy.md) |
 
-### Live reads
+### Archived live reads
 
 From Round 9, briefs are now supplemented with **in-game live reads** pulled directly from the FanFooty live feed (`fanfooty.com.au/live/<gameid>.txt`) using `scripts/fetch_live_match.py`. A live read compares pre-game predictions against in-game reality - who was right, who was wrong, and what the second half should look like. Snapshots are saved to `data/live_snapshots/` for reproducibility. Live reads can be generated at any point during a game: half-time, end of Q3, or whenever a tactical shift warrants a fresh look.
 
@@ -60,14 +62,14 @@ For a data-grounded view of each club's draft and trade strategy — efficiency 
 
 ## How to run a live match analysis
 
-End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pipeline. All commands assume the repo root as the working directory and use the project venv: `/home/abhi/sourceCode/python/coding/.venv/bin/python`.
+End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pipeline. All commands assume the repo root as the working directory and use the project venv: `.venv/bin/python`.
 
 1. **Find the FanFooty game ID.** Open the live page on fanfooty.com.au; the URL is shaped `fanfooty.com.au/live/2026/<gameid>-<team-slug>.html`. The numeric `<gameid>` (e.g. `9781`) is the only argument the fetch script needs.
 
 2. **Fetch a snapshot.** One-liner:
 
    ```bash
-   /home/abhi/sourceCode/python/coding/.venv/bin/python scripts/fetch_live_match.py <gameid>
+   .venv/bin/python scripts/fetch_live_match.py <gameid>
    ```
 
    The script pulls `https://www.fanfooty.com.au/live/<gameid>.txt`, parses the 65-column player rows, and writes two artifacts to `data/live_snapshots/`:
@@ -93,19 +95,13 @@ End-to-end recipe for reproducing the Round 9 2026 Richmond vs Adelaide live pip
    - **Automated polling**: `scripts/live_match_monitor.py` wraps the fetch on a 90-second interval and stops automatically when status flips to `Full Time`:
 
      ```bash
-     /home/abhi/sourceCode/python/coding/.venv/bin/python scripts/live_match_monitor.py \
+     .venv/bin/python scripts/live_match_monitor.py \
        <gameid> docs/coaches-strategy-corner/<match-slug>-q4-live.md
      ```
 
 7. **Quarter milestones.** Write a fresh doc at half-time, end of Q3, and end of Q4. Keep each doc focused on what changed in that period vs the pre-match brief - not a running log. After full-time, write the **full-time verdict** as a separate file and link it from the bottom of the Q4 doc.
 
-8. **Commit and push.** GitHub-rendered docs are the live read; push after every meaningful update so readers see the latest version:
-
-   ```bash
-   git add docs/coaches-strategy-corner/<match-slug>-*-live.md docs/coaches-strategy-corner/README.md data/live_snapshots/
-   git commit -m "Live read: <match-slug> <milestone>"
-   git push origin main
-   ```
+8. **Review and publish through the existing workflow.** Route statistical document changes through the owning council agent and obtain a DataSentinel PASS for gated documents. The harness serializes commits and pushes of pipeline outputs to main; follow [CLAUDE.md](../../CLAUDE.md) rather than committing generated data or statistical pages directly. Keep each captured snapshot and its timestamp with the analysis so the archived read remains reproducible.
 
 ### How this section works
 

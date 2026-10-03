@@ -1,5 +1,9 @@
 # Final local verification — 28 September 2026
 
+> This is the record of the September 28 verification. Later source reconciliation found
+> corpus discrepancies; see [current data status](../../../README.md#data-status).
+> The results and artifact identities below remain specific to this earlier run.
+
 This directory records checks on the recovered Claude/Grok implementation. The tested source inventory is `318c37e8b2a80d6f518f89cde1427923dc4d7a1a389224d58f81400442c8ea5a` (854 files). The scratch copy matched every selected source file. The independent Grok 4.7 review returned PASS for local merge; see `independent-review.txt` and `review-metadata.json`. The parent finalization document records the subsequent merge.
 
 ## Updated grand final

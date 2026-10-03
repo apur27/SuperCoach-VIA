@@ -2,7 +2,7 @@
 
 > [← Back to main README](../../README.md) | [← Back to AFL insights](../afl-insights.md)
 
-This is the news desk for SuperCoach-VIA. Each entry takes a current AFL story - a coach change, a club crisis, a list decision, a finals run, a controversy - and grounds it in the actual data this repo carries. No vibes. No quoted-without-source numbers. Every claim that is verifiable against the dataset is tagged `**[data]**` and reproducible from the CSV files in `data/`.
+This archive collects commentary written from the repo data available when each article was published. Publication dates and source windows remain part of the evidence. The recorded editorial status below describes the original workflow; it does not certify the latest dataset. See the [current data status](../../README.md#data-status) for outstanding reconciliation findings.
 
 The format is a two-layer collaboration:
 
@@ -13,19 +13,19 @@ The two layers are visible in every entry. The data tables and `**[data]**` tags
 
 ## Why a news section in a data repo
 
-Most AFL commentary moves fast and cites little. The numbers in the columns of a Monday-morning think piece are typically remembered, not looked up. This repo has 130 years of structured match data and a per-game player table going back decades - so for any current story where the question is "is that true?" or "how does this compare to the last time it happened?", the answer is sitting in a CSV file two directory levels away.
+The repo combines historical match results and player records with statistical analysis. Articles explain what those records suggested at publication time, with their source files and caveats available for readers to check.
 
 The news section is the place to turn that into reading. Slower than a tweet. Smaller than a podcast. Built so the numbers survive a click.
 
-## Entries — page 1 (most recent)
+## Archived entries — page 1 (most recent)
 
 | Date | Headline | Topic | Status |
 |---|---|---|---|
-| 2026-06-21 | [Dustin Martin — The Storm](2026-06-21-dustin-martin-the-storm.md) | Career retrospective on Dustin Martin: 302 games, 338 goals, 7,320 disposals, three Richmond premierships (2017, 2019, 2020). The data story of a power midfielder at the peak of an era and the absence he leaves behind. | Complete (BriefBuilder + FootyStrategy + DataSentinel + Skeptic; council chain) |
-| 2026-06-19 | [AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](2026-06-19-afl-2026-5yr-grand-final-strategy.md) | All 18 clubs' five-year path to a Grand Final, read from each club's partial-2026 snapshot (ladder through ~Round 15) rather than its reputation: competitive tiers, structural gaps, off-contract exposure, and the one acquisition each club most needs. Dedicated read on Restricted free agent Zak Butters (152 games). Salary-cap reads are figure-free inference. | Complete (Scientist + FootyStrategy + DataSentinel + Skeptic layers; team_1=home convention on Collingwood sub-figures authorised by repo owner) |
-| 2026-06-19 | [AFL 2026 — Free Agency and the Trade Window: What Every Club Needs and Who They Should Chase](2026-06-19-afl-2026-free-agency-trade-window.md) | All 18 clubs' trade-window needs + specific targets, built on scraped 2026 contract/free-agency data (AFL.com.au official FA list + ZeroHanger off-contract pool, 124 players) cross-referenced with repo career stats. Dedicated read on marquee restricted free agent Zak Butters. Figure-free, inference-only salary-cap reads. | Complete (Scientist + FootyStrategy + DataSentinel + Skeptic layers; genuine council chain) |
-| 2026-06-17 | [AFL 2026 — List Quality and Draft Pipeline: Where Every Club Stands](2026-06-17-afl-2026-list-quality-draft-pipeline.md) | All 18 clubs: 2026 list identity + full selected-22 squad annotated with draft pick/grade/games + 22-year draft efficiency per club (1,529 picks, 2004–2025). Combines team list analysis with National Draft data pipeline. | Complete (Scientist + FootyStrategy layers) |
-| 2026-06-16 | [The AFL National Draft: Error, Structure, and the Shape of Talent](../articles/afl-draft-analysis-2025.md) | 7-part comprehensive analysis: error taxonomy; school pipeline; brand-currency thesis; data decision framework (pick cliff at 16, club efficiency 3-to-1); Richmond case study (0/32 post-dynasty void); Geelong model (average drafting + late-extraction + trade = 4 premierships); 7-rule data playbook. 1,538 National picks, 2004–2025 | Complete (Scientist + FootyStrategy layers) |
+| 2026-06-21 | [Dustin Martin — The Storm](2026-06-21-dustin-martin-the-storm.md) | Career retrospective on Dustin Martin, his role in Richmond’s premiership era and the absence he leaves behind. | Complete (BriefBuilder + FootyStrategy + DataSentinel + Skeptic; council chain) |
+| 2026-06-19 | [AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](2026-06-19-afl-2026-5yr-grand-final-strategy.md) | Club paths to a Grand Final, competitive tiers, structural gaps and recruitment needs, based on a partial-season snapshot. | Complete (Scientist + FootyStrategy + DataSentinel + Skeptic layers; team_1=home convention on Collingwood sub-figures authorised by repo owner) |
+| 2026-06-19 | [AFL 2026 — Free Agency and the Trade Window: What Every Club Needs and Who They Should Chase](2026-06-19-afl-2026-free-agency-trade-window.md) | Club recruitment needs and named targets, using publication-time contract and free-agency sources alongside career data. | Complete (Scientist + FootyStrategy + DataSentinel + Skeptic layers; genuine council chain) |
+| 2026-06-17 | [AFL 2026 — List Quality and Draft Pipeline: Where Every Club Stands](2026-06-17-afl-2026-list-quality-draft-pipeline.md) | Club list profiles, draft pedigree and draft efficiency, using the publication-time squad and draft data. | Complete (Scientist + FootyStrategy layers) |
+| 2026-06-16 | [The AFL National Draft: Error, Structure, and the Shape of Talent](../articles/afl-draft-analysis-2025.md) | Draft error taxonomy, school pathways, draft depth, club case studies and a data-informed drafting playbook. | Complete (Scientist + FootyStrategy layers) |
 
 ---
 

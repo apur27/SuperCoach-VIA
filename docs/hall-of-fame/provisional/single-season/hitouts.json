@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 44.76,
+    "name": "Max Gawn",
+    "observed_games": 25,
+    "player_id": "legacy:gawn_max_30121991",
+    "rank": 1,
+    "season": 2018,
+    "total": 1119.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 44.083333333333336,
+    "name": "Todd Goldstein",
+    "observed_games": 24,
+    "player_id": "legacy:goldstein_todd_01071988",
+    "rank": 2,
+    "season": 2015,
+    "total": 1058.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 43.333333333333336,
+    "name": "Jarrod Witts",
+    "observed_games": 24,
+    "player_id": "legacy:witts_jarrod_13091992",
+    "rank": 3,
+    "season": 2025,
+    "total": 1040.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 39.96153846153846,
+    "name": "Brodie Grundy",
+    "observed_games": 26,
+    "player_id": "legacy:grundy_brodie_15041994",
+    "rank": 4,
+    "season": 2018,
+    "total": 1039.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 42.583333333333336,
+    "name": "Brodie Grundy",
+    "observed_games": 24,
+    "player_id": "legacy:grundy_brodie_15041994",
+    "rank": 5,
+    "season": 2019,
+    "total": 1022.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 45.77272727272727,
+    "name": "Jarrod Witts",
+    "observed_games": 22,
+    "player_id": "legacy:witts_jarrod_13091992",
+    "rank": 6,
+    "season": 2019,
+    "total": 1007.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 43.391304347826086,
+    "name": "Aaron Sandilands",
+    "observed_games": 23,
+    "player_id": "legacy:sandilands_aaron_06121982",
+    "rank": 7,
+    "season": 2015,
+    "total": 998.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 39.84,
+    "name": "Sam Jacobs",
+    "observed_games": 25,
+    "player_id": "legacy:jacobs_sam_10041988",
+    "rank": 8,
+    "season": 2017,
+    "total": 996.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 38.88,
+    "name": "Reilly OBrien",
+    "observed_games": 25,
+    "player_id": "legacy:obrien_reilly_20081995",
+    "rank": 9,
+    "season": 2025,
+    "total": 972.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 39.666666666666664,
+    "name": "Gary Dempsey",
+    "observed_games": 24,
+    "player_id": "legacy:dempsey_gary_22111948",
+    "rank": 10,
+    "season": 1982,
+    "total": 952.0
+  }
+]

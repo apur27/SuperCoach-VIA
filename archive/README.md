@@ -1,5 +1,8 @@
 # Archive — historical scripts kept for reference, not part of the active pipeline
 
+For the current static app, setup and known data issues, start with the
+[main README](../README.md#data-status). The scripts below retain their historical scope.
+
 Nothing here is imported by the pipeline or exercised by the test suite. These files
 record how earlier versions worked; they are not maintained. Treat them as read-only
 history — if you need this behaviour, port it into `scripts/` with tests rather than

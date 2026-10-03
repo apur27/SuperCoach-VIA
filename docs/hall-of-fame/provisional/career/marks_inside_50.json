@@ -1,0 +1,222 @@
+[
+  {
+    "career_games": 359,
+    "coverage": 1.0,
+    "eligible_games": 359,
+    "mean": 3.0389972144846795,
+    "name": "Tom Hawkins",
+    "observed_games": 359,
+    "player_id": "legacy:hawkins_tom_21071988",
+    "rank": 1,
+    "total": 1091.0
+  },
+  {
+    "career_games": 354,
+    "coverage": 1.0,
+    "eligible_games": 354,
+    "mean": 2.946327683615819,
+    "name": "Lance Franklin",
+    "observed_games": 354,
+    "player_id": "legacy:franklin_lance_30011987",
+    "rank": 2,
+    "total": 1043.0
+  },
+  {
+    "career_games": 347,
+    "coverage": 1.0,
+    "eligible_games": 347,
+    "mean": 2.9913544668587897,
+    "name": "Jack Riewoldt",
+    "observed_games": 347,
+    "player_id": "legacy:riewoldt_jack_31101988",
+    "rank": 3,
+    "total": 1038.0
+  },
+  {
+    "career_games": 336,
+    "coverage": 1.0,
+    "eligible_games": 336,
+    "mean": 3.0267857142857144,
+    "name": "Nick Riewoldt",
+    "observed_games": 336,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 4,
+    "total": 1017.0
+  },
+  {
+    "career_games": 289,
+    "coverage": 0.889273356401384,
+    "eligible_games": 257,
+    "mean": 3.642023346303502,
+    "name": "Barry Hall",
+    "observed_games": 257,
+    "player_id": "legacy:hall_barry_08021977",
+    "rank": 5,
+    "total": 936.0
+  },
+  {
+    "career_games": 293,
+    "coverage": 1.0,
+    "eligible_games": 293,
+    "mean": 2.6996587030716723,
+    "name": "Josh Kennedy",
+    "observed_games": 293,
+    "player_id": "legacy:kennedy_josh_25081987",
+    "rank": 6,
+    "total": 791.0
+  },
+  {
+    "career_games": 270,
+    "coverage": 0.7814814814814814,
+    "eligible_games": 211,
+    "mean": 3.6161137440758293,
+    "name": "Matthew Lloyd",
+    "observed_games": 211,
+    "player_id": "legacy:lloyd_matthew_16041978",
+    "rank": 7,
+    "total": 763.0
+  },
+  {
+    "career_games": 256,
+    "coverage": 1.0,
+    "eligible_games": 256,
+    "mean": 2.9765625,
+    "name": "Jonathan Brown",
+    "observed_games": 256,
+    "player_id": "legacy:brown_jonathan_29101981",
+    "rank": 8,
+    "total": 762.0
+  },
+  {
+    "career_games": 299,
+    "coverage": 1.0,
+    "eligible_games": 299,
+    "mean": 2.511705685618729,
+    "name": "Jeremy Cameron",
+    "observed_games": 299,
+    "player_id": "legacy:cameron_jeremy_01041993",
+    "rank": 9,
+    "total": 751.0
+  },
+  {
+    "career_games": 319,
+    "coverage": 1.0,
+    "eligible_games": 319,
+    "mean": 2.272727272727273,
+    "name": "Taylor Walker",
+    "observed_games": 319,
+    "player_id": "legacy:walker_taylor_25041990",
+    "rank": 10,
+    "total": 725.0
+  },
+  {
+    "career_games": 204,
+    "coverage": 1.0,
+    "eligible_games": 204,
+    "mean": 3.4705882352941178,
+    "name": "Brendan Fevola",
+    "observed_games": 204,
+    "player_id": "legacy:fevola_brendan_20011981",
+    "rank": 11,
+    "total": 708.0
+  },
+  {
+    "career_games": 282,
+    "coverage": 0.648936170212766,
+    "eligible_games": 183,
+    "mean": 3.841530054644809,
+    "name": "Matthew Richardson",
+    "observed_games": 183,
+    "player_id": "legacy:richardson_matthew_19031975",
+    "rank": 12,
+    "total": 703.0
+  },
+  {
+    "career_games": 353,
+    "coverage": 1.0,
+    "eligible_games": 353,
+    "mean": 1.8696883852691217,
+    "name": "Matthew Pavlich",
+    "observed_games": 353,
+    "player_id": "legacy:pavlich_matthew_31121981",
+    "rank": 13,
+    "total": 660.0
+  },
+  {
+    "career_games": 255,
+    "coverage": 0.9294117647058824,
+    "eligible_games": 237,
+    "mean": 2.7679324894514767,
+    "name": "Warren Tredrea",
+    "observed_games": 237,
+    "player_id": "legacy:tredrea_warren_24121978",
+    "rank": 14,
+    "total": 656.0
+  },
+  {
+    "career_games": 256,
+    "coverage": 1.0,
+    "eligible_games": 256,
+    "mean": 2.5,
+    "name": "Travis Cloke",
+    "observed_games": 256,
+    "player_id": "legacy:cloke_travis_05031987",
+    "rank": 15,
+    "total": 640.0
+  },
+  {
+    "career_games": 302,
+    "coverage": 1.0,
+    "eligible_games": 302,
+    "mean": 2.115894039735099,
+    "name": "Jack Gunston",
+    "observed_games": 302,
+    "player_id": "legacy:gunston_jack_16101991",
+    "rank": 16,
+    "total": 639.0
+  },
+  {
+    "career_games": 283,
+    "coverage": 1.0,
+    "eligible_games": 283,
+    "mean": 2.2367491166077738,
+    "name": "Jarryd Roughead",
+    "observed_games": 283,
+    "player_id": "legacy:roughead_jarryd_23011987",
+    "rank": 17,
+    "total": 633.0
+  },
+  {
+    "career_games": 251,
+    "coverage": 1.0,
+    "eligible_games": 251,
+    "mean": 2.50199203187251,
+    "name": "Tom Lynch",
+    "observed_games": 251,
+    "player_id": "legacy:lynch_tom_31101992",
+    "rank": 18,
+    "total": 628.0
+  },
+  {
+    "career_games": 342,
+    "coverage": 1.0,
+    "eligible_games": 342,
+    "mean": 1.8304093567251463,
+    "name": "Jack Darling",
+    "observed_games": 342,
+    "player_id": "legacy:darling_jack_13061992",
+    "rank": 19,
+    "total": 626.0
+  },
+  {
+    "career_games": 303,
+    "coverage": 0.7260726072607261,
+    "eligible_games": 220,
+    "mean": 2.7,
+    "name": "Michael OLoughlin",
+    "observed_games": 220,
+    "player_id": "legacy:oloughlin_michael_20021977",
+    "rank": 20,
+    "total": 594.0
+  }
+]

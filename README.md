@@ -1,32 +1,51 @@
 # AFL SuperCoach VIA
 
-![SuperCoach VIA](docs/banner.svg)
-
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/apur27/SuperCoach-VIA">
   <img src="https://img.shields.io/github/contributors/apur27/SuperCoach-VIA">
   <img src="https://img.shields.io/github/stars/apur27/SuperCoach-VIA?style=flat-square">
   <img src="https://img.shields.io/github/forks/apur27/SuperCoach-VIA?style=flat-square">
-  <img src="https://img.shields.io/badge/python-3.10%2B-blue">
-  <img src="https://img.shields.io/badge/data-2026%20season%20round%2025-green">
+  <img src="https://img.shields.io/badge/python-3.12-blue">
+  <img src="https://img.shields.io/badge/data-audit%20findings%20open-orange">
   <img src="https://img.shields.io/badge/license-MIT-lightgrey">
 </div>
 
 ---
 
-The most complete public AFL dataset (1897–present), paired with a machine-learning prediction engine and a ten-agent AI council that writes data-grounded match analysis. Built for SuperCoach players who want the edge — and for ML engineers who want a production architecture small enough to read end to end.
+SuperCoach VIA is a static AFL statistics website with a local Python data pipeline. It provides player and match history, comparisons, rankings, downloads and forecast evaluation. The repository also retains its earlier CSV pipeline and dated football analysis.
 
-**For the footy fan:** 130 years of AFL data plus a set of AI agents that reason like a coaching staff — weekly player predictions, team trends, all-time rankings, and debate-ready insight, no coding required.
+**For readers:** browse the site or the linked reports. Check the snapshot date and data status before using a total, ranking or prediction.
 
-**For the ML engineer:** a production-architecture reference in one legible repo — a feature pipeline with strict temporal cutoffs, a three-model ensemble, multi-agent LLM reasoning, deterministic RAG over structured data, a walk-forward eval harness, and an MCP tool gateway. Small enough to read end to end, complete enough to map onto a real deployment.
+**For contributors:** the `scvia` package imports and validates snapshots, builds static releases, and runs deterministic integrity checks. The Astro frontend reads release files. Claude agent definitions and project memories are in [`.claude/agents/`](.claude/agents/).
 
-The whole pipeline runs from a single shell script: scrape new match and player data, retrain the disposal model, run a leak-proof walk-forward backtest, regenerate the all-time top-100, and update the documentation. The football is the domain; the architecture is the point.
+The legacy weekly harness and the new local pipeline coexist. Production switch-over and independent acceptance of the all-player reconciler remain pending; a locally built release is not evidence of a deployed update.
 
 ⭐ **If this project is useful to you, please star the repo.**
 
 ---
 
-## The numbers
+## Data status
+
+**Checked 3 October 2026: the data has known integrity failures.** Completing an audit does not mean its inputs passed.
+
+| Input or check | Recorded result | Meaning |
+|---|---|---|
+| September 29 candidate snapshot `3de6597513b5…` | **FAIL** against captured AFL Tables pages, with unresolved evidence | Includes the Grand Final, but has missing appearances, zero/null differences and other discrepancies |
+| Legacy CSVs in `data/` | **FAIL** against the same source capture | An older data layer; the audited CSVs lack the Grand Final |
+| Sealed candidate release `20260929T213900Z-c8938f4ddb83` | **PASS** from `scvia check-integrity` | Release files agree with their declared inputs; this does not establish full AFL Tables agreement |
+| Independent acceptance of the new reconciler | **Pending** | Implementation is still in `work/afltables-reconciliation`; it has not been merged into `main` |
+
+The source audit used pages captured on 1–2 October, with matches scoped through 30 September. Its canonical report SHA-256 is `58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`. The local evidence lives under `var/reconciliations/afltables/2026-10-01-full/`; it is not included in a fresh clone.
+
+**Hall of Fame:** [provisional candidate tables](docs/hall-of-fame/provisional/README.md) are regenerated from the September 29 snapshot at the owner's request. They report snapshot values, not a clean source-audit verdict or official AFL Hall of Fame selections. Missing games, historical statistic coverage and unresolved discrepancies can affect totals and ranks. The older narrative pages retain their original data vintage. Regenerate the provisional tables after the data is corrected.
+
+**Forecasts:** the September 29 candidate reports `unavailable / no_valid_future_fixture`. Archived prediction pages are not current forecasts.
+
+Read the [integrity checker guide](docs/data-integrity.md) and [reconciliation status and handoff](docs/rewrite/afltables-reconciliation/README.md). The latter records the pending review and the preserved Claude worktree.
+
+## Recorded legacy evaluation
+
+The figures below belong to the legacy R1–R25 evaluation and retained CSV inventory. They were not recomputed for the September 29 candidate or the October source audit.
 
 | Metric | Value | Source |
 |---|--:|---|
@@ -45,38 +64,46 @@ The whole pipeline runs from a single shell script: scrape new match and player 
 
 ## How to run it — quick start
 
+Use Python from [`.python-version`](.python-version) and Node from [`.node-version`](.node-version). Install `uv`, then run:
+
 ```bash
 git clone https://github.com/apur27/SuperCoach-VIA
 cd SuperCoach-VIA
-# Install venv
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-# Full weekly refresh (data + predictions + backtest + docs + commit)
-bash scripts/weekly_refresh.sh
-# Or: data + predictions only — a deliberate PARTIAL run that skips the council
-# gates, QA and the completion sentinel. The --allow-direct flag is required;
-# without it the script refuses, because it is a phase of the cycle above, not
-# an entry point.
-bash refresh_and_rank.sh --allow-direct
+uv sync --locked --group dev --group legacy --extra ml
+(cd web && npm ci)
+uv run scvia doctor
+# Start the browser with the bundled DEMO fixture.
+(cd web && npm run dev)
 ```
 
-Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/installation.md](docs/installation.md).
+Astro prints the local URL. The bundled demo contains synthetic data. For a real browser build, set `SCVIA_RELEASE_DIR` to the **absolute path to a release's `public/` directory**, and use the same `SCVIA_PUBLIC_BASE` as that release. An unset release directory selects the demo fixture.
+
+To view an already built site without regenerating its sealed files:
+
+```bash
+node web/scripts/serve.mjs --dir /absolute/path/to/release/site --base / --port 4321
+```
+
+Use the release's actual base path if it is not `/`. The [operations guide](docs/operations.md) covers import, forecast, build, validation, sealing and preview. The [legacy installation guide](docs/installation.md) describes the older pipeline.
+
+The legacy `scripts/weekly_refresh.sh` performs network refreshes and can commit/push generated outputs. It is an operator workflow, not the browser quick start; its existing gates and [harness rules](CLAUDE.md#6-harness-change-discipline--non-negotiable) still apply.
 
 ### Start here — I want to...
 
 | I want to... | Go to | Setup needed |
 |---|---|---|
-| **See this week's predicted disposal leaders** | [docs/afl-predictions-2026.md](docs/afl-predictions-2026.md) | None - browser only |
+| **Read the archived prediction report** | [docs/afl-predictions-2026.md](docs/afl-predictions-2026.md) | None - browser only; check its date |
 | **Browse the no-code fan landing page** | [docs/start-here-no-code.md](docs/start-here-no-code.md) | None - browser only |
 | **Understand what this is good for in SuperCoach** | [docs/how-to-use-this-for-supercoach.md](docs/how-to-use-this-for-supercoach.md) | None - browser only |
 | **Get the prediction CSV into Google Sheets** | [templates/google-sheets-template.md](templates/google-sheets-template.md) | A free Google account |
-| **Read the auto-updated 2026 season hub** | [docs/afl-season-2026.md](docs/afl-season-2026.md) | None - browser only |
-| **See the all-time top 100 and Hall of Fame** | [docs/hall-of-fame.md](docs/hall-of-fame.md) | None - browser only |
+| **Read the retained 2026 season hub** | [docs/afl-season-2026.md](docs/afl-season-2026.md) | None - browser only; check its date |
+| **See the provisional candidate top 100 and statistical leaders** | [Candidate Hall of Fame tables](docs/hall-of-fame/provisional/README.md) | None - browser only; audit failures remain open |
+| **Browse historical Hall of Fame narratives** | [Hall of Fame archive](docs/hall-of-fame.md) | None - browser only; original source dates apply |
 | **Look up a footy or data term** | [docs/glossary.md](docs/glossary.md) | None - browser only |
 | **See how accurate the model has been (backtest + pre-registered report card)** | [docs/afl-backtest-2026.md](docs/afl-backtest-2026.md) | None - browser only |
 | **Run predictions or retrain the model myself** | [docs/installation.md](docs/installation.md) (For Contributors section) | Python, Git, terminal |
 | **Get tactical analysis on an AFL team's list and draft picks** | [docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md](docs/news/2026-06-17-afl-2026-list-quality-draft-pipeline.md) | None - browser only |
-| **Read the AFL news desk - data-grounded long-form on current stories** | [docs/news/README.md](docs/news/README.md) | None - browser only |
+| **Browse archived AFL news and analysis** | [docs/news/README.md](docs/news/README.md) | None - browser only; publication dates apply |
 | **AI design patterns — how this maps to a production deployment (RAG, MCP, eval harness, AI Ethics, sovereign deployment)** | [docs/ai-architecture.md](docs/ai-architecture.md) | None - browser only |
 | **AI security — risks, controls, prompt injection, data poisoning, governance and secure design** | [docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo](docs/ai-architecture.md#ai-security--risks-controls-and-secure-design-in-this-repo) | None - browser only |
 | **Operator's manual — how this specific repo works end-to-end (data inventory, scripts, match lifecycle, live pipeline, runbooks)** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | None - browser only |
@@ -84,7 +111,9 @@ Full setup (GPU notes, data layout, first-time troubleshooting) is in [docs/inst
 
 ---
 
-## The ten-agent council
+## The existing agent workflow
+
+The roles below describe the legacy analysis workflow. Agent definitions in `.claude/agents/` are authoritative for current defaults. Per-task model choices and actual review records determine which model ran; browsing the static app does not launch these agents.
 
 This is the differentiator. Nine agents live in `.claude/agents/`; the tenth (Codex) is an external model queried for outside-the-frame commentary. Each has a bounded role, and together they form a methodology layer that makes every published claim falsifiable against a CSV in this repo.
 
@@ -99,9 +128,9 @@ This is the differentiator. Nine agents live in `.claude/agents/`; the tenth (Co
 | 7 | **QA** | Sonnet | Quality-assurance gate | Runs the full test suite, validates pipeline output schemas, checks for data regressions, and verifies every mandatory artifact exists and is well-formed. Emits a structured report; a QA FAIL blocks the ship with the same authority as a DataSentinel FAIL. |
 | 8 | **Chronicler** | Opus | End-of-run documentation | Invoked after Gaffer ships. Produces the run report for each cycle — what shipped, what the data is saying, pipeline health — and ranks concrete forward-looking expansion recommendations grounded in what already exists. |
 | 9 | **Surveyor** | Fable | Strategic advisor & repo diagnostician | Read-only consultant external to the commit chain. Inspects pipeline health, ranks bottlenecks by impact-per-engineering-day, routes every fix to its owning agent. Never ships code or authors a `**[data]**` number. Invoked judiciously — before structural changes, after each sprint, or when the refresh feels slow or fragile. |
-| 10 | **Codex (GPT-5.4)** | External | Outside-the-frame commentary | Queried for views from outside this repo's data frame. All Codex outputs are attributed explicitly as external commentary and cross-checked against repo data where possible. |
+| 10 | **Codex** | Selected per task | Engineering and independent review | Supports coding and review tasks. Record the actual model and executed checks for each task; an agent's opinion is not a data-integrity verdict. |
 
-**The chain:** BriefBuilder → Scientist → FootyStrategy → DataSentinel → (optionally Skeptic). Full architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §2 and §6.
+**The publication chain:** BriefBuilder → DataSentinel (pass 1) → FootyStrategy → DataSentinel (pass 2) → Skeptic → QA → Gaffer → Chronicler. Scientist owns the data/code work feeding the chain. See [Gaffer's current definition](.claude/agents/Gaffer.md) for the applicable workflow and gates.
 
 **The data verification contract:** every specific number in any published doc must be tagged `**[data]**` and verified against the actual CSV before commit. CLAUDE.md is the policy; DataSentinel is the gate. Verification reports land in [`docs/sentinel-reports/`](docs/sentinel-reports/).
 
@@ -148,25 +177,27 @@ Full spec — build order, sample Planner output, the `FootyFinding` Pydantic en
 
 ## The data
 
-130 years of AFL history, structured. Every match since 1897, and **[data]** 13,367 individual player files — one CSV per player, a row for every game they ever played. A scraper refreshes it weekly so the numbers stay current.
+The legacy corpus contains **[data]** 13,367 individual player files and season match CSVs beginning in 1897. The newer pipeline stores immutable, content-addressed snapshot fragments and release metadata. These layers have different vintages; source reconciliation found gaps in both.
 
-Think of the club's archivist who has kept a card for every player in every game since 1897 — every kick, mark, and goal, filed and cross-referenced. Each week after the round finishes, a runner collects the latest match sheets and adds them to the cabinet before the analysts come in Monday morning. The whole system is useless if the cabinet is out of date or has gaps, so keeping it complete and current is the unglamorous job everything else depends on.
+Historical statistics have different recording periods. A missing value is not automatically a zero, and a career counter can disagree with the appearances actually stored. The provisional reports expose recorded-game denominators and preserve these limitations instead of asserting complete careers.
 
 ### The prediction model
 
-Three different prediction models look at a player's recent form, who they're playing, where, and under what conditions — then they vote on how many disposals that player will get next round. Across the 2026 season so far it has been within 5 disposals **[data]** 74.3% of the time and within 10 **[data]** 95.7% of the time. Averaging three models is steadier than trusting any one: when all three lean the same way you can be confident; when they split, that disagreement is itself a useful signal that the match is genuinely hard to call.
+The legacy ensemble's recorded evaluation was within 5 disposals **[data]** 74.3% of the time and within 10 **[data]** 95.7% of the time. Those figures belong to the legacy evaluation window below. The candidate's model and fixture eligibility are separate: inspect its release metadata and [model card](docs/model-card.md). The currently reviewed candidate has no valid future fixture and publishes no forecast.
 
 ### The weekly fan pack
 
-A weekly cheat sheet and prediction bundle, packaged every Sunday night — the kind of thing you'd actually open before locking in a SuperCoach lineup. It's the form guide you'd grab on the way into the track: it tells you where to start your thinking before the gates open. It'll be a length or two off on most runners (the typical four-disposal error is just the going on the day), and it can't see a late scratching or a jockey change — a tag job or a role switch will catch it flat-footed. Read it the night before, then check for late mail before you put your money down.
+The repo retains weekly cheat sheets and prediction bundles from earlier runs. Check each bundle's generation time and fixture coverage. This documentation refresh does not run, enable or verify a publication schedule.
 
 ### The news section
 
-Data-grounded footy journalism, where the numbers are not decoration — they are the argument. Every number in every article is reproducible from the CSVs in this repo: no remembered stats, no quoted-without-source figures. This is the Monday press conference, done properly — the Scientist brings what the numbers honestly say about the weekend's footy, FootyStrategy translates that into what it means for how teams should play.
+The [news archive](docs/news/README.md) keeps each article's publication date, methodology and original review status. Its statistical and tactical claims should be read in that historical context.
 
 ---
 
-## Under the hood — for the engineer
+## Legacy architecture reference
+
+This section describes the earlier CSV and council implementation. For the static app and `scvia` package, use the [current operations guide](docs/operations.md) and [rewrite architecture](docs/architecture.md).
 
 Each layer below is small on purpose. The interest is that all of them are present at once.
 
@@ -184,7 +215,9 @@ Each layer below is small on purpose. The interest is that all of them are prese
 
 ---
 
-## Eval results — current
+## Eval results — recorded legacy run
+
+These retained results describe the legacy evaluation window below. They are not a fresh evaluation of the candidate snapshot, and their date has not been advanced by the documentation update.
 
 Walk-forward backtest, 2026 season, Rounds 1–25. For each round the model is retrained using only data from before that round, predicts every player who played, and is scored against actuals.
 
@@ -204,12 +237,12 @@ Full per-round table (all 25 rounds), team-level breakdown for every club, bigge
 
 ## AFL News & Analysis
 
-Long-form footy journalism where the numbers are not decoration — they are the argument. Every piece is co-authored by the agents in this repo: **Scientist** pulls verified stats from 130 years of match data (every claim reproducible from the CSVs), **FootyStrategy** turns them into coach-grade tactical reads, **BriefBuilder** drafts the data skeleton, **DataSentinel** verifies every stat at the door, and **Skeptic** stress-tests finished drafts before they go out. No hot takes, no recycled commentary.
+The articles below are archived analysis. Their publication dates, source windows and original review records apply; the current source audit does not retrospectively certify every claim.
 
 <!-- NEWS-LATEST-START -->
-**Latest:** [Dustin Martin — The Storm](docs/news/2026-06-21-dustin-martin-the-storm.md) - Career retrospective on Dustin Martin: 302 games, 338 goals, 7,320 disposals, three Richmond premierships (2017, 2019, 2020). The data story of a power midfielder at the peak of an era and the absence he leaves behind. *(2026-06-21)*
+**Latest archived article:** [Dustin Martin — The Storm](docs/news/2026-06-21-dustin-martin-the-storm.md) — Career retrospective and tactical interpretation. *(2026-06-21)*
 
-[AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md) - All 18 clubs' five-year path to a Grand Final, read from each club's partial-2026 snapshot (ladder through ~Round 15) rather than its reputation: competitive tiers, structural gaps, off-contract exposure, and the one acquisition each club most needs. Dedicated read on Restricted free agent Zak Butters (152 games). Salary-cap reads are figure-free inference. *(2026-06-19)*
+[AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md) — Club planning based on the article's partial-season snapshot. *(2026-06-19)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
@@ -231,26 +264,30 @@ Long-form footy journalism where the numbers are not decoration — they are the
 ## Hall of Fame & all docs
 
 ### Hall of Fame
-- [AFL Hall of Fame](docs/hall-of-fame.md) — all-time top 100, statistical leaders, captains, coaches, dynasties
-- [100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) — underappreciated players across 8 categories, data-verified from the player CSVs
+
+- [Provisional candidate tables](docs/hall-of-fame/provisional/README.md) — refreshed top 100, career leaders and single-season leaders from the named snapshot, with known audit failures
+- [AFL Hall of Fame archive](docs/hall-of-fame.md) — retained narratives, captains, coaches and dynasties
+- [100 Forgotten Heroes](docs/hall-of-fame-forgotten-heroes.md) — retained player profiles; see [current data status](#data-status) before using their statistics
 
 ### For fans (no code)
 - [Start here - no code](docs/start-here-no-code.md)
 - [How to use this for SuperCoach](docs/how-to-use-this-for-supercoach.md)
 - [Glossary](docs/glossary.md)
 - [Google Sheets template](templates/google-sheets-template.md)
-- [Weekly cheat sheet (current round)](docs/weekly/round-current-2026.md)
+- [Retained weekly cheat sheet](docs/weekly/round-current-2026.md) — check its recorded round and date
 
-### AFL insights & live data
+### Retained season reports and captured live data
+
+These pages retain their own generation dates. A documentation refresh does not run the data pipeline or make a captured match snapshot live.
 - [AFL insights hub](docs/afl-insights.md)
   - [2026 season hub](docs/afl-season-2026.md)
-    - [Team analysis](docs/afl-team-analysis-2026.md) *(auto-updates)*
-    - [Finals pathway](docs/afl-finals-2026.md) *(auto-updates)*
-    - [Brownlow predictor](docs/afl-brownlow-2026.md) *(auto-updates)*
-    - [Player stat leaders](docs/afl-stat-leaders-2026.md) *(auto-updates)*
-    - [Next round predictions](docs/afl-predictions-2026.md) *(auto-updates)*
-    - [Backtest results](docs/afl-backtest-2026.md) *(auto-updates)*
-  - [5-year team profiles](docs/afl-team-profiles.md) *(auto-updates)*
+    - [Team analysis](docs/afl-team-analysis-2026.md)
+    - [Finals pathway](docs/afl-finals-2026.md)
+    - [Brownlow predictor](docs/afl-brownlow-2026.md)
+    - [Player stat leaders](docs/afl-stat-leaders-2026.md)
+    - [Archived predictions](docs/afl-predictions-2026.md)
+    - [Recorded backtest results](docs/afl-backtest-2026.md)
+  - [Retained 5-year team profiles](docs/afl-team-profiles.md)
   - [Coaches strategy corner](docs/coaches-strategy-corner/README.md) - match-by-match tactical briefs built from the data
   - [AFL history - 130 years](docs/afl-history.md)
   - [For the footy expert](docs/footy-expert-guide.md)

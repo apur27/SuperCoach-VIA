@@ -1,5 +1,11 @@
 # Data integrity checker (`scvia check-integrity`)
 
+> **Current data status:** the September 29 candidate release passes this checker's
+> input-consistency checks, while the later full AFL Tables reconciliation reports FAIL
+> for its snapshot and for the legacy CSVs. A release PASS is not proof that all source
+> statistics agree. See the [dated status](../README.md#data-status) and
+> [provisional Hall of Fame tables](hall-of-fame/provisional/README.md).
+
 *Operator and engineering document for the rewrite package. Numbers about the corpus carry
 **[data]** tags; timings and byte counts are engineering measurements, not player statistics.*
 

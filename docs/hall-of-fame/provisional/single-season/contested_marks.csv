@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Travis Cloke,legacy:cloke_travis_05031987,2011,25,95.0,25,25,3.8,1.0
+2,Corey McKernan,legacy:mckernan_corey_19121973,1999,24,86.0,24,24,3.5833333333333335,1.0
+3,Matthew Richardson,legacy:richardson_matthew_19031975,2001,22,76.0,22,22,3.4545454545454546,1.0
+4,Matthew Richardson,legacy:richardson_matthew_19031975,1999,20,75.0,20,20,3.75,1.0
+5,Travis Cloke,legacy:cloke_travis_05031987,2012,25,73.0,25,25,2.92,1.0
+6,Chris Grant,legacy:grant_chris_13121972,1999,24,72.0,24,24,3.0,1.0
+6,Matthew Lloyd,legacy:lloyd_matthew_16041978,1999,22,72.0,22,22,3.272727272727273,1.0
+8,Stewart Loewe,legacy:loewe_stewart_23051968,2000,18,71.0,18,18,3.9444444444444446,1.0
+9,Nick Riewoldt,legacy:riewoldt_nick_17101982,2008,24,69.0,24,24,2.875,1.0
+10,Charlie Curnow,legacy:curnow_charlie_03021997,2023,26,67.0,26,26,2.576923076923077,1.0

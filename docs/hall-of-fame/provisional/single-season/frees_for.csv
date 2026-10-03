@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Norm Goss,legacy:goss_norm_03031951,1973,22,115.0,22,22,5.2272727272727275,1.0
+2,John Murphy,legacy:murphy_john_20111949,1970,22,112.0,22,22,5.090909090909091,1.0
+2,David Thorpe,legacy:thorpe_david_30051948,1971,21,112.0,21,21,5.333333333333333,1.0
+4,Andrew Purser,legacy:purser_andrew_31101958,1983,22,109.0,22,22,4.954545454545454,1.0
+5,John Murphy,legacy:murphy_john_20111949,1971,21,107.0,21,21,5.095238095238095,1.0
+6,Norm Goss,legacy:goss_norm_03031951,1975,22,105.0,21,22,5.0,0.9545454545454546
+6,Matthew Rendell,legacy:rendell_matthew_18041959,1983,23,105.0,23,23,4.565217391304348,1.0
+8,Francis Bourke,legacy:bourke_francis_02041947,1970,22,104.0,22,22,4.7272727272727275,1.0
+8,John Murphy,legacy:murphy_john_20111949,1973,22,104.0,22,22,4.7272727272727275,1.0
+8,Jeff Sarau,legacy:sarau_jeff_25011954,1979,22,104.0,22,22,4.7272727272727275,1.0

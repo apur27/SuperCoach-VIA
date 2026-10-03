@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Lance Franklin,legacy:franklin_lance_30011987,2008,25,125.0,25,25,5.0,1.0
+2,Scott Cummings,legacy:cummings_scott_18011974,1999,24,116.0,24,24,4.833333333333333,1.0
+3,Jonathan Brown,legacy:brown_jonathan_29101981,2009,24,114.0,24,24,4.75,1.0
+4,Matthew Lloyd,legacy:lloyd_matthew_16041978,2001,21,113.0,21,21,5.380952380952381,1.0
+5,Matthew Lloyd,legacy:lloyd_matthew_16041978,2000,25,110.0,25,25,4.4,1.0
+5,Nick Riewoldt,legacy:riewoldt_nick_17101982,2006,23,110.0,23,23,4.782608695652174,1.0
+7,Fraser Gehrig,legacy:gehrig_fraser_03031976,2004,23,109.0,23,23,4.739130434782608,1.0
+8,Jonathan Brown,legacy:brown_jonathan_29101981,2007,22,108.0,22,22,4.909090909090909,1.0
+8,David Neitz,legacy:neitz_david_22011975,2002,24,108.0,24,24,4.5,1.0
+8,Lance Whitnall,legacy:whitnall_lance_23081979,2000,25,108.0,25,25,4.32,1.0

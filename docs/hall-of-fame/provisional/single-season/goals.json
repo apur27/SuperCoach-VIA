@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 6.25,
+    "name": "Peter Hudson",
+    "observed_games": 24,
+    "player_id": "legacy:hudson_peter_19021946",
+    "rank": 1,
+    "season": 1971,
+    "total": 150.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 7.142857142857143,
+    "name": "Bob Pratt",
+    "observed_games": 21,
+    "player_id": "legacy:pratt_bob_31081912",
+    "rank": 1,
+    "season": 1934,
+    "total": 150.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 6.636363636363637,
+    "name": "Peter Hudson",
+    "observed_games": 22,
+    "player_id": "legacy:hudson_peter_19021946",
+    "rank": 3,
+    "season": 1970,
+    "total": 146.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 6.304347826086956,
+    "name": "Jason Dunstall",
+    "observed_games": 23,
+    "player_id": "legacy:dunstall_jason_14081964",
+    "rank": 4,
+    "season": 1992,
+    "total": 145.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 6.5,
+    "name": "Peter McKenna",
+    "observed_games": 22,
+    "player_id": "legacy:mckenna_peter_27081946",
+    "rank": 5,
+    "season": 1970,
+    "total": 143.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 5.75,
+    "name": "Jason Dunstall",
+    "observed_games": 24,
+    "player_id": "legacy:dunstall_jason_14081964",
+    "rank": 6,
+    "season": 1989,
+    "total": 138.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 6.090909090909091,
+    "name": "Peter McKenna",
+    "observed_games": 22,
+    "player_id": "legacy:mckenna_peter_27081946",
+    "rank": 7,
+    "season": 1971,
+    "total": 134.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 5.739130434782608,
+    "name": "Jason Dunstall",
+    "observed_games": 23,
+    "player_id": "legacy:dunstall_jason_14081964",
+    "rank": 8,
+    "season": 1988,
+    "total": 132.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 6.0,
+    "name": "Tony Lockett",
+    "observed_games": 22,
+    "player_id": "legacy:lockett_tony_09031966",
+    "rank": 8,
+    "season": 1992,
+    "total": 132.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 20,
+    "games": 20,
+    "mean": 6.5,
+    "name": "Peter McKenna",
+    "observed_games": 20,
+    "player_id": "legacy:mckenna_peter_27081946",
+    "rank": 10,
+    "season": 1972,
+    "total": 130.0
+  }
+]

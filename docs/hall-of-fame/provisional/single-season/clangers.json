@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 6.739130434782608,
+    "name": "Harley Reid",
+    "observed_games": 23,
+    "player_id": "legacy:reid_harley_17042005",
+    "rank": 1,
+    "season": 2026,
+    "total": 155.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 5.5,
+    "name": "Brodie Grundy",
+    "observed_games": 26,
+    "player_id": "legacy:grundy_brodie_15041994",
+    "rank": 2,
+    "season": 2024,
+    "total": 143.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.16,
+    "name": "Clayton Oliver",
+    "observed_games": 25,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 3,
+    "season": 2021,
+    "total": 129.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.08,
+    "name": "Matt Rowell",
+    "observed_games": 25,
+    "player_id": "legacy:rowell_matt_01072001",
+    "rank": 4,
+    "season": 2025,
+    "total": 127.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.04,
+    "name": "Tom Green",
+    "observed_games": 25,
+    "player_id": "legacy:green_tom_23012001",
+    "rank": 5,
+    "season": 2024,
+    "total": 126.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.0,
+    "name": "Patrick Cripps",
+    "observed_games": 25,
+    "player_id": "legacy:cripps_patrick_18031995",
+    "rank": 6,
+    "season": 2026,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.0,
+    "name": "Lance Franklin",
+    "observed_games": 25,
+    "player_id": "legacy:franklin_lance_30011987",
+    "rank": 6,
+    "season": 2008,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.0,
+    "name": "Christian Petracca",
+    "observed_games": 25,
+    "player_id": "legacy:petracca_christian_04011996",
+    "rank": 6,
+    "season": 2021,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 4.8076923076923075,
+    "name": "Tim Taranto",
+    "observed_games": 26,
+    "player_id": "legacy:taranto_tim_28011998",
+    "rank": 6,
+    "season": 2019,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.96,
+    "name": "Dustin Martin",
+    "observed_games": 25,
+    "player_id": "legacy:martin_dustin_26061991",
+    "rank": 10,
+    "season": 2017,
+    "total": 124.0
+  }
+]

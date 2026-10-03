@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Harris Andrews,legacy:andrews_harris_11121996,2023,26,275.0,26,26,10.576923076923077,1.0
+2,Josh Gibson,legacy:gibson_josh_13031984,2011,25,259.0,25,25,10.36,1.0
+3,Harris Andrews,legacy:andrews_harris_11121996,2022,24,246.0,24,24,10.25,1.0
+4,Alex Rance,legacy:rance_alex_09101989,2017,25,242.0,25,25,9.68,1.0
+5,Daniel Talia,legacy:talia_daniel_02101991,2017,24,231.0,24,24,9.625,1.0
+6,Dougal Howard,legacy:howard_dougal_25031996,2018,20,230.0,20,20,11.5,1.0
+7,Harris Andrews,legacy:andrews_harris_11121996,2025,27,229.0,27,27,8.481481481481481,1.0
+8,Jack Buckley,legacy:buckley_jack_17121997,2023,26,228.0,26,26,8.76923076923077,1.0
+9,Harris Andrews,legacy:andrews_harris_11121996,2019,21,225.0,21,21,10.714285714285714,1.0
+10,Harris Andrews,legacy:andrews_harris_11121996,2021,23,220.0,23,23,9.565217391304348,1.0

@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Tom Atkins,legacy:atkins_tom_18091995,2025,26,232.0,26,26,8.923076923076923,1.0
+2,Josh Dunkley,legacy:dunkley_josh_09011997,2025,27,218.0,27,27,8.074074074074074,1.0
+3,Matt Rowell,legacy:rowell_matt_01072001,2025,25,214.0,25,25,8.56,1.0
+4,Scott Selwood,legacy:selwood_scott_27031990,2011,25,202.0,25,25,8.08,1.0
+5,Matt Priddis,legacy:priddis_matt_21031985,2011,25,193.0,25,25,7.72,1.0
+6,Matt Rowell,legacy:rowell_matt_01072001,2023,23,190.0,23,23,8.26086956521739,1.0
+7,Josh Dunkley,legacy:dunkley_josh_09011997,2026,27,189.0,27,27,7.0,1.0
+8,Matt Priddis,legacy:priddis_matt_21031985,2016,22,188.0,22,22,8.545454545454545,1.0
+9,James Kelly,legacy:kelly_james_29121983,2011,24,186.0,24,24,7.75,1.0
+9,James Rowbottom,legacy:rowbottom_james_19092000,2024,24,186.0,24,24,7.75,1.0

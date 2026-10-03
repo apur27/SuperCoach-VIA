@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 10.192307692307692,
+    "name": "Brett Ratten",
+    "observed_games": 26,
+    "player_id": "legacy:ratten_brett_11071971",
+    "rank": 1,
+    "season": 1999,
+    "total": 265.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 7.884615384615385,
+    "name": "Lachie Neale",
+    "observed_games": 26,
+    "player_id": "legacy:neale_lachie_24051993",
+    "rank": 2,
+    "season": 2023,
+    "total": 205.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 8.2,
+    "name": "Matt Rowell",
+    "observed_games": 25,
+    "player_id": "legacy:rowell_matt_01072001",
+    "rank": 2,
+    "season": 2025,
+    "total": 205.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 7.769230769230769,
+    "name": "Lachie Neale",
+    "observed_games": 26,
+    "player_id": "legacy:neale_lachie_24051993",
+    "rank": 4,
+    "season": 2024,
+    "total": 202.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 8.652173913043478,
+    "name": "Clayton Oliver",
+    "observed_games": 23,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 5,
+    "season": 2022,
+    "total": 199.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 8.208333333333334,
+    "name": "Caleb Serong",
+    "observed_games": 24,
+    "player_id": "legacy:serong_caleb_09022001",
+    "rank": 6,
+    "season": 2025,
+    "total": 197.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 8.478260869565217,
+    "name": "Tom Green",
+    "observed_games": 23,
+    "player_id": "legacy:green_tom_23012001",
+    "rank": 7,
+    "season": 2025,
+    "total": 195.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 8.041666666666666,
+    "name": "Patrick Cripps",
+    "observed_games": 24,
+    "player_id": "legacy:cripps_patrick_18031995",
+    "rank": 8,
+    "season": 2024,
+    "total": 193.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 8.0,
+    "name": "Tom Mitchell",
+    "observed_games": 24,
+    "player_id": "legacy:mitchell_tom_31051993",
+    "rank": 9,
+    "season": 2018,
+    "total": 192.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 7.64,
+    "name": "Josh Kennedy",
+    "observed_games": 25,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 10,
+    "season": 2016,
+    "total": 191.0
+  }
+]

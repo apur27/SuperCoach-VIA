@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Max Gawn,legacy:gawn_max_30121991,2018,25,1119.0,25,25,44.76,1.0
+2,Todd Goldstein,legacy:goldstein_todd_01071988,2015,24,1058.0,24,24,44.083333333333336,1.0
+3,Jarrod Witts,legacy:witts_jarrod_13091992,2025,24,1040.0,24,24,43.333333333333336,1.0
+4,Brodie Grundy,legacy:grundy_brodie_15041994,2018,26,1039.0,26,26,39.96153846153846,1.0
+5,Brodie Grundy,legacy:grundy_brodie_15041994,2019,24,1022.0,24,24,42.583333333333336,1.0
+6,Jarrod Witts,legacy:witts_jarrod_13091992,2019,22,1007.0,22,22,45.77272727272727,1.0
+7,Aaron Sandilands,legacy:sandilands_aaron_06121982,2015,23,998.0,23,23,43.391304347826086,1.0
+8,Sam Jacobs,legacy:jacobs_sam_10041988,2017,25,996.0,25,25,39.84,1.0
+9,Reilly OBrien,legacy:obrien_reilly_20081995,2025,25,972.0,25,25,38.88,1.0
+10,Gary Dempsey,legacy:dempsey_gary_22111948,1982,24,952.0,24,24,39.666666666666664,1.0

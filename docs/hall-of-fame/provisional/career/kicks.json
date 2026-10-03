@@ -1,0 +1,222 @@
+[
+  {
+    "career_games": 403,
+    "coverage": 0.9975186104218362,
+    "eligible_games": 403,
+    "mean": 20.629353233830845,
+    "name": "Kevin Bartlett",
+    "observed_games": 402,
+    "player_id": "legacy:bartlett_kevin_06031947",
+    "rank": 1,
+    "total": 8293.0
+  },
+  {
+    "career_games": 426,
+    "coverage": 0.9976525821596244,
+    "eligible_games": 426,
+    "mean": 14.948235294117646,
+    "name": "Michael Tuck",
+    "observed_games": 425,
+    "player_id": "legacy:tuck_michael_24061953",
+    "rank": 2,
+    "total": 6353.0
+  },
+  {
+    "career_games": 332,
+    "coverage": 0.9969879518072289,
+    "eligible_games": 332,
+    "mean": 18.178247734138974,
+    "name": "Leigh Matthews",
+    "observed_games": 331,
+    "player_id": "legacy:matthews_leigh_01031952",
+    "rank": 3,
+    "total": 6017.0
+  },
+  {
+    "career_games": 375,
+    "coverage": 1.0,
+    "eligible_games": 375,
+    "mean": 15.669333333333332,
+    "name": "Craig Bradley",
+    "observed_games": 375,
+    "player_id": "legacy:bradley_craig_23101963",
+    "rank": 4,
+    "total": 5876.0
+  },
+  {
+    "career_games": 277,
+    "coverage": 0.9927797833935018,
+    "eligible_games": 277,
+    "mean": 21.196363636363635,
+    "name": "Wayne Richardson",
+    "observed_games": 275,
+    "player_id": "legacy:richardson_wayne_08121946",
+    "rank": 5,
+    "total": 5829.0
+  },
+  {
+    "career_games": 432,
+    "coverage": 1.0,
+    "eligible_games": 432,
+    "mean": 13.164351851851851,
+    "name": "Brent Harvey",
+    "observed_games": 432,
+    "player_id": "legacy:harvey_brent_14051978",
+    "rank": 6,
+    "total": 5687.0
+  },
+  {
+    "career_games": 383,
+    "coverage": 1.0,
+    "eligible_games": 383,
+    "mean": 14.7467362924282,
+    "name": "Robert Harvey",
+    "observed_games": 383,
+    "player_id": "legacy:harvey_robert_21081971",
+    "rank": 7,
+    "total": 5648.0
+  },
+  {
+    "career_games": 442,
+    "coverage": 1.0,
+    "eligible_games": 442,
+    "mean": 12.563348416289593,
+    "name": "Scott Pendlebury",
+    "observed_games": 442,
+    "player_id": "legacy:pendlebury_scott_07011988",
+    "rank": 8,
+    "total": 5553.0
+  },
+  {
+    "career_games": 325,
+    "coverage": 0.9938461538461538,
+    "eligible_games": 325,
+    "mean": 17.151702786377708,
+    "name": "Ian Nankervis",
+    "observed_games": 323,
+    "player_id": "legacy:nankervis_ian_03011948",
+    "rank": 9,
+    "total": 5540.0
+  },
+  {
+    "career_games": 246,
+    "coverage": 1.0,
+    "eligible_games": 246,
+    "mean": 21.447154471544714,
+    "name": "John Murphy",
+    "observed_games": 246,
+    "player_id": "legacy:murphy_john_20111949",
+    "rank": 10,
+    "total": 5276.0
+  },
+  {
+    "career_games": 364,
+    "coverage": 1.0,
+    "eligible_games": 364,
+    "mean": 14.06868131868132,
+    "name": "Brad Johnson",
+    "observed_games": 364,
+    "player_id": "legacy:johnson_brad_18071976",
+    "rank": 11,
+    "total": 5121.0
+  },
+  {
+    "career_games": 280,
+    "coverage": 1.0,
+    "eligible_games": 280,
+    "mean": 18.125,
+    "name": "Nathan Buckley",
+    "observed_games": 280,
+    "player_id": "legacy:buckley_nathan_26071972",
+    "rank": 12,
+    "total": 5075.0
+  },
+  {
+    "career_games": 325,
+    "coverage": 1.0,
+    "eligible_games": 325,
+    "mean": 15.575384615384616,
+    "name": "Heath Shaw",
+    "observed_games": 325,
+    "player_id": "legacy:shaw_heath_27111985",
+    "rank": 13,
+    "total": 5062.0
+  },
+  {
+    "career_games": 321,
+    "coverage": 1.0,
+    "eligible_games": 321,
+    "mean": 15.28348909657321,
+    "name": "Dayne Zorko",
+    "observed_games": 321,
+    "player_id": "legacy:zorko_dayne_09021989",
+    "rank": 14,
+    "total": 4906.0
+  },
+  {
+    "career_games": 375,
+    "coverage": 1.0,
+    "eligible_games": 375,
+    "mean": 13.045333333333334,
+    "name": "Steele Sidebottom",
+    "observed_games": 375,
+    "player_id": "legacy:sidebottom_steele_02011991",
+    "rank": 15,
+    "total": 4892.0
+  },
+  {
+    "career_games": 267,
+    "coverage": 0.9925093632958801,
+    "eligible_games": 267,
+    "mean": 18.452830188679247,
+    "name": "Greg Wells",
+    "observed_games": 265,
+    "player_id": "legacy:wells_greg_06061950",
+    "rank": 16,
+    "total": 4890.0
+  },
+  {
+    "career_games": 366,
+    "coverage": 0.9972677595628415,
+    "eligible_games": 366,
+    "mean": 13.284931506849315,
+    "name": "Bernie Quinlan",
+    "observed_games": 365,
+    "player_id": "legacy:quinlan_bernie_21071951",
+    "rank": 17,
+    "total": 4849.0
+  },
+  {
+    "career_games": 346,
+    "coverage": 1.0,
+    "eligible_games": 346,
+    "mean": 13.971098265895954,
+    "name": "Luke Hodge",
+    "observed_games": 346,
+    "player_id": "legacy:hodge_luke_15061984",
+    "rank": 18,
+    "total": 4834.0
+  },
+  {
+    "career_games": 342,
+    "coverage": 1.0,
+    "eligible_games": 342,
+    "mean": 13.935672514619883,
+    "name": "Kade Simpson",
+    "observed_games": 342,
+    "player_id": "legacy:simpson_kade_05051984",
+    "rank": 19,
+    "total": 4766.0
+  },
+  {
+    "career_games": 357,
+    "coverage": 1.0,
+    "eligible_games": 357,
+    "mean": 13.15406162464986,
+    "name": "Gary Ablett",
+    "observed_games": 357,
+    "player_id": "legacy:ablett_gary_14051984",
+    "rank": 20,
+    "total": 4696.0
+  }
+]

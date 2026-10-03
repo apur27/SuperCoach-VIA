@@ -1,5 +1,11 @@
 # AFL Hall of Fame - the greatest of all time
 
+> **3 October 2026: [refreshed provisional tables](hall-of-fame/provisional/README.md).**
+> The candidate top 100, career leaders and single-season tables use the September 29
+> snapshot. That snapshot fails the full AFL Tables reconciliation; these are provisional
+> data-derived rankings. The narrative pages below retain their original source dates.
+> See [current data status](../README.md#data-status) and rerun the tables after corrections.
+
 > [← Back to main README](../README.md)
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->

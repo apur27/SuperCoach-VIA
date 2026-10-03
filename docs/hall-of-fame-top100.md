@@ -1,5 +1,10 @@
 # Top 100 AFL players of all time - ranked by the data
 
+> **Archived table and profiles.** For the latest candidate's data-derived ranking, use
+> the [provisional Hall of Fame tables](hall-of-fame/provisional/README.md). That snapshot
+> has known audit failures. The narrative profiles and statistics below keep their
+> original data vintage; this page has not been regenerated from the candidate.
+
 > [← Back to main README](../README.md) · [← Hall of Fame hub](hall-of-fame.md)
 
 <!-- This file is part of the SuperCoach-VIA documentation. See README.md for the project overview. -->

@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 3.8,
+    "name": "Travis Cloke",
+    "observed_games": 25,
+    "player_id": "legacy:cloke_travis_05031987",
+    "rank": 1,
+    "season": 2011,
+    "total": 95.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 3.5833333333333335,
+    "name": "Corey McKernan",
+    "observed_games": 24,
+    "player_id": "legacy:mckernan_corey_19121973",
+    "rank": 2,
+    "season": 1999,
+    "total": 86.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 3.4545454545454546,
+    "name": "Matthew Richardson",
+    "observed_games": 22,
+    "player_id": "legacy:richardson_matthew_19031975",
+    "rank": 3,
+    "season": 2001,
+    "total": 76.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 20,
+    "games": 20,
+    "mean": 3.75,
+    "name": "Matthew Richardson",
+    "observed_games": 20,
+    "player_id": "legacy:richardson_matthew_19031975",
+    "rank": 4,
+    "season": 1999,
+    "total": 75.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 2.92,
+    "name": "Travis Cloke",
+    "observed_games": 25,
+    "player_id": "legacy:cloke_travis_05031987",
+    "rank": 5,
+    "season": 2012,
+    "total": 73.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 3.0,
+    "name": "Chris Grant",
+    "observed_games": 24,
+    "player_id": "legacy:grant_chris_13121972",
+    "rank": 6,
+    "season": 1999,
+    "total": 72.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 3.272727272727273,
+    "name": "Matthew Lloyd",
+    "observed_games": 22,
+    "player_id": "legacy:lloyd_matthew_16041978",
+    "rank": 6,
+    "season": 1999,
+    "total": 72.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 18,
+    "games": 18,
+    "mean": 3.9444444444444446,
+    "name": "Stewart Loewe",
+    "observed_games": 18,
+    "player_id": "legacy:loewe_stewart_23051968",
+    "rank": 8,
+    "season": 2000,
+    "total": 71.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 2.875,
+    "name": "Nick Riewoldt",
+    "observed_games": 24,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 9,
+    "season": 2008,
+    "total": 69.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 2.576923076923077,
+    "name": "Charlie Curnow",
+    "observed_games": 26,
+    "player_id": "legacy:curnow_charlie_03021997",
+    "rank": 10,
+    "season": 2023,
+    "total": 67.0
+  }
+]

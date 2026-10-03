@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Nick Riewoldt,legacy:riewoldt_nick_17101982,2004,25,256.0,25,25,10.24,1.0
+2,Gary Dempsey,legacy:dempsey_gary_22111948,1979,25,245.0,25,25,9.8,1.0
+3,Brian Lake,legacy:lake_brian_27021982,2010,25,240.0,25,25,9.6,1.0
+3,Nick Riewoldt,legacy:riewoldt_nick_17101982,2008,24,240.0,24,24,10.0,1.0
+5,Greg Parke,legacy:parke_greg_18041948,1970,22,238.0,22,22,10.818181818181818,1.0
+6,Gary Dempsey,legacy:dempsey_gary_22111948,1980,23,232.0,23,23,10.08695652173913,1.0
+7,Nick Riewoldt,legacy:riewoldt_nick_17101982,2009,24,231.0,24,24,9.625,1.0
+8,Gary Dempsey,legacy:dempsey_gary_22111948,1973,20,230.0,20,20,11.5,1.0
+9,Sam Fisher,legacy:fisher_sam_10071982,2008,25,228.0,25,25,9.12,1.0
+10,Stewart Loewe,legacy:loewe_stewart_23051968,1990,22,225.0,22,22,10.227272727272727,1.0

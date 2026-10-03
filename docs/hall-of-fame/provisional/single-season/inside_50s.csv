@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Patrick Dangerfield,legacy:dangerfield_patrick_05041990,2016,24,194.0,24,24,8.083333333333334,1.0
+2,Bailey Smith,legacy:smith_bailey_07122000,2026,24,177.0,24,24,7.375,1.0
+3,Jason Akermanis,legacy:akermanis_jason_24021977,2004,25,172.0,25,25,6.88,1.0
+3,Marcus Bontempelli,legacy:bontempelli_marcus_24111995,2021,26,172.0,26,26,6.615384615384615,1.0
+5,Errol Gulden,legacy:gulden_errol_18072002,2024,26,171.0,26,26,6.576923076923077,1.0
+5,Christian Petracca,legacy:petracca_christian_04011996,2021,25,171.0,25,25,6.84,1.0
+7,Ed Richards,legacy:richards_ed_03071999,2026,24,164.0,24,24,6.833333333333333,1.0
+8,Dayne Zorko,legacy:zorko_dayne_09021989,2019,24,162.0,24,24,6.75,1.0
+9,Nathan Buckley,legacy:buckley_nathan_26071972,2003,24,159.0,24,24,6.625,1.0
+9,Nick Daffy,legacy:daffy_nick_11051973,1998,22,159.0,22,22,7.2272727272727275,1.0

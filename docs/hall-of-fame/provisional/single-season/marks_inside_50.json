@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 5.0,
+    "name": "Lance Franklin",
+    "observed_games": 25,
+    "player_id": "legacy:franklin_lance_30011987",
+    "rank": 1,
+    "season": 2008,
+    "total": 125.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.833333333333333,
+    "name": "Scott Cummings",
+    "observed_games": 24,
+    "player_id": "legacy:cummings_scott_18011974",
+    "rank": 2,
+    "season": 1999,
+    "total": 116.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.75,
+    "name": "Jonathan Brown",
+    "observed_games": 24,
+    "player_id": "legacy:brown_jonathan_29101981",
+    "rank": 3,
+    "season": 2009,
+    "total": 114.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 5.380952380952381,
+    "name": "Matthew Lloyd",
+    "observed_games": 21,
+    "player_id": "legacy:lloyd_matthew_16041978",
+    "rank": 4,
+    "season": 2001,
+    "total": 113.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.4,
+    "name": "Matthew Lloyd",
+    "observed_games": 25,
+    "player_id": "legacy:lloyd_matthew_16041978",
+    "rank": 5,
+    "season": 2000,
+    "total": 110.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 4.782608695652174,
+    "name": "Nick Riewoldt",
+    "observed_games": 23,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 5,
+    "season": 2006,
+    "total": 110.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 4.739130434782608,
+    "name": "Fraser Gehrig",
+    "observed_games": 23,
+    "player_id": "legacy:gehrig_fraser_03031976",
+    "rank": 7,
+    "season": 2004,
+    "total": 109.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.909090909090909,
+    "name": "Jonathan Brown",
+    "observed_games": 22,
+    "player_id": "legacy:brown_jonathan_29101981",
+    "rank": 8,
+    "season": 2007,
+    "total": 108.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.5,
+    "name": "David Neitz",
+    "observed_games": 24,
+    "player_id": "legacy:neitz_david_22011975",
+    "rank": 8,
+    "season": 2002,
+    "total": 108.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 4.32,
+    "name": "Lance Whitnall",
+    "observed_games": 25,
+    "player_id": "legacy:whitnall_lance_23081979",
+    "rank": 8,
+    "season": 2000,
+    "total": 108.0
+  }
+]

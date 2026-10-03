@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Andrew Gaff,legacy:gaff_andrew_16061992,2017,24,554.0,24,24,23.083333333333332,1.0
+2,Jack Macrae,legacy:macrae_jack_03081994,2021,26,546.0,26,26,21.0,1.0
+3,Andrew Gaff,legacy:gaff_andrew_16061992,2015,25,537.0,25,25,21.48,1.0
+4,Rory Laird,legacy:laird_rory_29121993,2017,25,518.0,25,25,20.72,1.0
+5,Zach Merrett,legacy:merrett_zach_03101995,2021,23,516.0,23,23,22.434782608695652,1.0
+6,Lachie Hunter,legacy:hunter_lachie_13121994,2016,26,514.0,26,26,19.76923076923077,1.0
+7,Steele Sidebottom,legacy:sidebottom_steele_02011991,2018,26,511.0,26,26,19.653846153846153,1.0
+8,Kane Cornes,legacy:cornes_kane_05011983,2007,25,504.0,25,25,20.16,1.0
+8,Tom Mitchell,legacy:mitchell_tom_31051993,2021,22,504.0,22,22,22.90909090909091,1.0
+10,Bradley Hill,legacy:hill_bradley_09071993,2026,23,502.0,23,23,21.82608695652174,1.0

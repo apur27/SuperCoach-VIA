@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 7.9523809523809526,
+    "name": "Heath Shaw",
+    "observed_games": 21,
+    "player_id": "legacy:shaw_heath_27111985",
+    "rank": 1,
+    "season": 2009,
+    "total": 167.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 7.2727272727272725,
+    "name": "Rhyce Shaw",
+    "observed_games": 22,
+    "player_id": "legacy:shaw_rhyce_16101981",
+    "rank": 2,
+    "season": 2009,
+    "total": 160.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 20,
+    "games": 20,
+    "mean": 6.15,
+    "name": "Brett Peake",
+    "observed_games": 20,
+    "player_id": "legacy:peake_brett_05071983",
+    "rank": 3,
+    "season": 2006,
+    "total": 123.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 5.304347826086956,
+    "name": "Chris Yarran",
+    "observed_games": 23,
+    "player_id": "legacy:yarran_chris_19121990",
+    "rank": 4,
+    "season": 2011,
+    "total": 122.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 5.086956521739131,
+    "name": "Jason Gram",
+    "observed_games": 23,
+    "player_id": "legacy:gram_jason_27041984",
+    "rank": 5,
+    "season": 2006,
+    "total": 117.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.181818181818182,
+    "name": "David Rodan",
+    "observed_games": 22,
+    "player_id": "legacy:rodan_david_08101983",
+    "rank": 6,
+    "season": 2008,
+    "total": 114.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 5.380952380952381,
+    "name": "Adam Saad",
+    "observed_games": 21,
+    "player_id": "legacy:saad_adam_23071994",
+    "rank": 7,
+    "season": 2022,
+    "total": 113.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.136363636363637,
+    "name": "Kade Simpson",
+    "observed_games": 22,
+    "player_id": "legacy:simpson_kade_05051984",
+    "rank": 7,
+    "season": 2006,
+    "total": 113.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.045454545454546,
+    "name": "Leigh Montagna",
+    "observed_games": 22,
+    "player_id": "legacy:montagna_leigh_02111983",
+    "rank": 9,
+    "season": 2006,
+    "total": 111.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 4.416666666666667,
+    "name": "Peter Burgoyne",
+    "observed_games": 24,
+    "player_id": "legacy:burgoyne_peter_29011978",
+    "rank": 10,
+    "season": 2007,
+    "total": 106.0
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 8.923076923076923,
+    "name": "Tom Atkins",
+    "observed_games": 26,
+    "player_id": "legacy:atkins_tom_18091995",
+    "rank": 1,
+    "season": 2025,
+    "total": 232.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 27,
+    "games": 27,
+    "mean": 8.074074074074074,
+    "name": "Josh Dunkley",
+    "observed_games": 27,
+    "player_id": "legacy:dunkley_josh_09011997",
+    "rank": 2,
+    "season": 2025,
+    "total": 218.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 8.56,
+    "name": "Matt Rowell",
+    "observed_games": 25,
+    "player_id": "legacy:rowell_matt_01072001",
+    "rank": 3,
+    "season": 2025,
+    "total": 214.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 8.08,
+    "name": "Scott Selwood",
+    "observed_games": 25,
+    "player_id": "legacy:selwood_scott_27031990",
+    "rank": 4,
+    "season": 2011,
+    "total": 202.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 7.72,
+    "name": "Matt Priddis",
+    "observed_games": 25,
+    "player_id": "legacy:priddis_matt_21031985",
+    "rank": 5,
+    "season": 2011,
+    "total": 193.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 8.26086956521739,
+    "name": "Matt Rowell",
+    "observed_games": 23,
+    "player_id": "legacy:rowell_matt_01072001",
+    "rank": 6,
+    "season": 2023,
+    "total": 190.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 27,
+    "games": 27,
+    "mean": 7.0,
+    "name": "Josh Dunkley",
+    "observed_games": 27,
+    "player_id": "legacy:dunkley_josh_09011997",
+    "rank": 7,
+    "season": 2026,
+    "total": 189.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 8.545454545454545,
+    "name": "Matt Priddis",
+    "observed_games": 22,
+    "player_id": "legacy:priddis_matt_21031985",
+    "rank": 8,
+    "season": 2016,
+    "total": 188.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 7.75,
+    "name": "James Kelly",
+    "observed_games": 24,
+    "player_id": "legacy:kelly_james_29121983",
+    "rank": 9,
+    "season": 2011,
+    "total": 186.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 7.75,
+    "name": "James Rowbottom",
+    "observed_games": 24,
+    "player_id": "legacy:rowbottom_james_19092000",
+    "rank": 9,
+    "season": 2024,
+    "total": 186.0
+  }
+]

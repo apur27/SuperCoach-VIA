@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Dustin Fletcher,legacy:fletcher_dustin_07051975,2004,20,206.0,20,20,10.3,1.0
+2,Tom Stewart,legacy:stewart_tom_15031993,2019,25,201.0,25,25,8.04,1.0
+3,Dustin Fletcher,legacy:fletcher_dustin_07051975,2005,17,199.0,17,17,11.705882352941176,1.0
+4,Daniel Rich,legacy:rich_daniel_07061990,2021,24,191.0,24,24,7.958333333333333,1.0
+5,Joel Bowden,legacy:bowden_joel_21061978,2006,21,190.0,21,21,9.047619047619047,1.0
+5,Nick Malceski,legacy:malceski_nick_15081984,2013,25,190.0,25,25,7.6,1.0
+7,Heath Shaw,legacy:shaw_heath_27111985,2016,24,188.0,24,24,7.833333333333333,1.0
+8,James Clement,legacy:clement_james_04091976,2005,22,179.0,22,22,8.136363636363637,1.0
+8,James Sicily,legacy:sicily_james_06011995,2022,22,179.0,22,22,8.136363636363637,1.0
+10,Steven May,legacy:may_steven_10011992,2022,22,176.0,22,22,8.0,1.0

@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 3.56,
+    "name": "Peter Sumich",
+    "observed_games": 25,
+    "player_id": "legacy:sumich_peter_11011968",
+    "rank": 1,
+    "season": 1991,
+    "total": 89.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 3.52,
+    "name": "Lance Franklin",
+    "observed_games": 25,
+    "player_id": "legacy:franklin_lance_30011987",
+    "rank": 2,
+    "season": 2008,
+    "total": 88.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 3.8636363636363638,
+    "name": "Gary Ablett",
+    "observed_games": 22,
+    "player_id": "legacy:ablett_gary_01101961",
+    "rank": 3,
+    "season": 1995,
+    "total": 85.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 3.652173913043478,
+    "name": "Jason Dunstall",
+    "observed_games": 23,
+    "player_id": "legacy:dunstall_jason_14081964",
+    "rank": 4,
+    "season": 1992,
+    "total": 84.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 3.857142857142857,
+    "name": "Alan Noonan",
+    "observed_games": 21,
+    "player_id": "legacy:noonan_alan_13101947",
+    "rank": 5,
+    "season": 1974,
+    "total": 81.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 3.6363636363636362,
+    "name": "Peter McKenna",
+    "observed_games": 22,
+    "player_id": "legacy:mckenna_peter_27081946",
+    "rank": 6,
+    "season": 1970,
+    "total": 80.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 3.16,
+    "name": "Gary Ablett",
+    "observed_games": 25,
+    "player_id": "legacy:ablett_gary_01101961",
+    "rank": 7,
+    "season": 1994,
+    "total": 79.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 3.590909090909091,
+    "name": "Peter McKenna",
+    "observed_games": 22,
+    "player_id": "legacy:mckenna_peter_27081946",
+    "rank": 7,
+    "season": 1971,
+    "total": 79.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 3.1666666666666665,
+    "name": "Jason Dunstall",
+    "observed_games": 24,
+    "player_id": "legacy:dunstall_jason_14081964",
+    "rank": 9,
+    "season": 1989,
+    "total": 76.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 3.5714285714285716,
+    "name": "Doug Wade",
+    "observed_games": 21,
+    "player_id": "legacy:wade_doug_16101941",
+    "rank": 10,
+    "season": 1969,
+    "total": 75.0
+  }
+]

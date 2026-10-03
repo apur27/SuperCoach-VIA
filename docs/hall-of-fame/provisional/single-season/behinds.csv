@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Peter Sumich,legacy:sumich_peter_11011968,1991,25,89.0,25,25,3.56,1.0
+2,Lance Franklin,legacy:franklin_lance_30011987,2008,25,88.0,25,25,3.52,1.0
+3,Gary Ablett,legacy:ablett_gary_01101961,1995,22,85.0,22,22,3.8636363636363638,1.0
+4,Jason Dunstall,legacy:dunstall_jason_14081964,1992,23,84.0,23,23,3.652173913043478,1.0
+5,Alan Noonan,legacy:noonan_alan_13101947,1974,21,81.0,21,21,3.857142857142857,1.0
+6,Peter McKenna,legacy:mckenna_peter_27081946,1970,22,80.0,22,22,3.6363636363636362,1.0
+7,Gary Ablett,legacy:ablett_gary_01101961,1994,25,79.0,25,25,3.16,1.0
+7,Peter McKenna,legacy:mckenna_peter_27081946,1971,22,79.0,22,22,3.590909090909091,1.0
+9,Jason Dunstall,legacy:dunstall_jason_14081964,1989,24,76.0,24,24,3.1666666666666665,1.0
+10,Doug Wade,legacy:wade_doug_16101941,1969,21,75.0,21,21,3.5714285714285716,1.0

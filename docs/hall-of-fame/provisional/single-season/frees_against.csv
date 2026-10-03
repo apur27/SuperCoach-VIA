@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Don Scott,legacy:scott_don_20121947,1978,24,125.0,24,24,5.208333333333333,1.0
+2,Don Scott,legacy:scott_don_20121947,1974,24,122.0,24,24,5.083333333333333,1.0
+3,John Cassin,legacy:cassin_john_02071951,1977,27,120.0,27,27,4.444444444444445,1.0
+4,Don Scott,legacy:scott_don_20121947,1971,24,116.0,24,24,4.833333333333333,1.0
+5,Mark Williams,legacy:williams_mark_21081958,1981,25,111.0,25,25,4.44,1.0
+6,Don Scott,legacy:scott_don_20121947,1977,23,110.0,21,23,5.238095238095238,0.9130434782608695
+7,Len Thompson,legacy:thompson_len_27081947,1978,25,105.0,24,25,4.375,0.96
+8,Alan Martello,legacy:martello_alan_14091952,1971,24,103.0,24,24,4.291666666666667,1.0
+9,Mark Lee,legacy:lee_mark_29031959,1984,22,102.0,22,22,4.636363636363637,1.0
+9,Len Thompson,legacy:thompson_len_27081947,1977,25,102.0,23,25,4.434782608695652,0.92

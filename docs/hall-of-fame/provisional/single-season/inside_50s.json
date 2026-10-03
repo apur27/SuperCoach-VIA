@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 8.083333333333334,
+    "name": "Patrick Dangerfield",
+    "observed_games": 24,
+    "player_id": "legacy:dangerfield_patrick_05041990",
+    "rank": 1,
+    "season": 2016,
+    "total": 194.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 7.375,
+    "name": "Bailey Smith",
+    "observed_games": 24,
+    "player_id": "legacy:smith_bailey_07122000",
+    "rank": 2,
+    "season": 2026,
+    "total": 177.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 6.88,
+    "name": "Jason Akermanis",
+    "observed_games": 25,
+    "player_id": "legacy:akermanis_jason_24021977",
+    "rank": 3,
+    "season": 2004,
+    "total": 172.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 6.615384615384615,
+    "name": "Marcus Bontempelli",
+    "observed_games": 26,
+    "player_id": "legacy:bontempelli_marcus_24111995",
+    "rank": 3,
+    "season": 2021,
+    "total": 172.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 6.576923076923077,
+    "name": "Errol Gulden",
+    "observed_games": 26,
+    "player_id": "legacy:gulden_errol_18072002",
+    "rank": 5,
+    "season": 2024,
+    "total": 171.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 6.84,
+    "name": "Christian Petracca",
+    "observed_games": 25,
+    "player_id": "legacy:petracca_christian_04011996",
+    "rank": 5,
+    "season": 2021,
+    "total": 171.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 6.833333333333333,
+    "name": "Ed Richards",
+    "observed_games": 24,
+    "player_id": "legacy:richards_ed_03071999",
+    "rank": 7,
+    "season": 2026,
+    "total": 164.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 6.75,
+    "name": "Dayne Zorko",
+    "observed_games": 24,
+    "player_id": "legacy:zorko_dayne_09021989",
+    "rank": 8,
+    "season": 2019,
+    "total": 162.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 6.625,
+    "name": "Nathan Buckley",
+    "observed_games": 24,
+    "player_id": "legacy:buckley_nathan_26071972",
+    "rank": 9,
+    "season": 2003,
+    "total": 159.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 7.2272727272727275,
+    "name": "Nick Daffy",
+    "observed_games": 22,
+    "player_id": "legacy:daffy_nick_11051973",
+    "rank": 9,
+    "season": 1998,
+    "total": 159.0
+  }
+]

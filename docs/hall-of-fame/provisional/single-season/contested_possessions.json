@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 17.36,
+    "name": "Clayton Oliver",
+    "observed_games": 25,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 1,
+    "season": 2021,
+    "total": 434.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 17.875,
+    "name": "Patrick Dangerfield",
+    "observed_games": 24,
+    "player_id": "legacy:dangerfield_patrick_05041990",
+    "rank": 2,
+    "season": 2017,
+    "total": 429.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 17.0,
+    "name": "Josh Kennedy",
+    "observed_games": 25,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 3,
+    "season": 2016,
+    "total": 425.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 16.92,
+    "name": "Josh Kennedy",
+    "observed_games": 25,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 4,
+    "season": 2012,
+    "total": 423.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 16.4,
+    "name": "Josh Kennedy",
+    "observed_games": 25,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 5,
+    "season": 2013,
+    "total": 410.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 17.782608695652176,
+    "name": "Clayton Oliver",
+    "observed_games": 23,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 6,
+    "season": 2022,
+    "total": 409.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 16.2,
+    "name": "Clayton Oliver",
+    "observed_games": 25,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 7,
+    "season": 2018,
+    "total": 405.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 16.12,
+    "name": "Patrick Dangerfield",
+    "observed_games": 25,
+    "player_id": "legacy:dangerfield_patrick_05041990",
+    "rank": 8,
+    "season": 2012,
+    "total": 403.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 16.0,
+    "name": "Lachie Neale",
+    "observed_games": 25,
+    "player_id": "legacy:neale_lachie_24051993",
+    "rank": 9,
+    "season": 2022,
+    "total": 400.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 16.375,
+    "name": "Josh Kennedy",
+    "observed_games": 24,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 10,
+    "season": 2015,
+    "total": 393.0
+  }
+]

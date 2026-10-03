@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 21.90909090909091,
+    "name": "Clayton Oliver",
+    "observed_games": 22,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 1,
+    "season": 2017,
+    "total": 482.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 19.2,
+    "name": "Matt Crouch",
+    "observed_games": 25,
+    "player_id": "legacy:crouch_matt_21041995",
+    "rank": 2,
+    "season": 2017,
+    "total": 480.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 21.818181818181817,
+    "name": "Tom Mitchell",
+    "observed_games": 22,
+    "player_id": "legacy:mitchell_tom_31051993",
+    "rank": 2,
+    "season": 2017,
+    "total": 480.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 18.88,
+    "name": "Josh Kennedy",
+    "observed_games": 25,
+    "player_id": "legacy:kennedy_josh_20061988",
+    "rank": 4,
+    "season": 2016,
+    "total": 472.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 18.88,
+    "name": "Clayton Oliver",
+    "observed_games": 25,
+    "player_id": "legacy:oliver_clayton_22071997",
+    "rank": 4,
+    "season": 2018,
+    "total": 472.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 19.666666666666668,
+    "name": "Matt Priddis",
+    "observed_games": 24,
+    "player_id": "legacy:priddis_matt_21031985",
+    "rank": 4,
+    "season": 2015,
+    "total": 472.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 19.125,
+    "name": "Tom Mitchell",
+    "observed_games": 24,
+    "player_id": "legacy:mitchell_tom_31051993",
+    "rank": 7,
+    "season": 2018,
+    "total": 459.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 18.916666666666668,
+    "name": "Adam Treloar",
+    "observed_games": 24,
+    "player_id": "legacy:treloar_adam_09031993",
+    "rank": 8,
+    "season": 2019,
+    "total": 454.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 20.363636363636363,
+    "name": "Lachie Neale",
+    "observed_games": 22,
+    "player_id": "legacy:neale_lachie_24051993",
+    "rank": 9,
+    "season": 2016,
+    "total": 448.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 20.227272727272727,
+    "name": "Gary Ablett",
+    "observed_games": 22,
+    "player_id": "legacy:ablett_gary_14051984",
+    "rank": 10,
+    "season": 2009,
+    "total": 445.0
+  }
+]

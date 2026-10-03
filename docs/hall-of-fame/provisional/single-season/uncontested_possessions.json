@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 23.083333333333332,
+    "name": "Andrew Gaff",
+    "observed_games": 24,
+    "player_id": "legacy:gaff_andrew_16061992",
+    "rank": 1,
+    "season": 2017,
+    "total": 554.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 21.0,
+    "name": "Jack Macrae",
+    "observed_games": 26,
+    "player_id": "legacy:macrae_jack_03081994",
+    "rank": 2,
+    "season": 2021,
+    "total": 546.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 21.48,
+    "name": "Andrew Gaff",
+    "observed_games": 25,
+    "player_id": "legacy:gaff_andrew_16061992",
+    "rank": 3,
+    "season": 2015,
+    "total": 537.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 20.72,
+    "name": "Rory Laird",
+    "observed_games": 25,
+    "player_id": "legacy:laird_rory_29121993",
+    "rank": 4,
+    "season": 2017,
+    "total": 518.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 22.434782608695652,
+    "name": "Zach Merrett",
+    "observed_games": 23,
+    "player_id": "legacy:merrett_zach_03101995",
+    "rank": 5,
+    "season": 2021,
+    "total": 516.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 19.76923076923077,
+    "name": "Lachie Hunter",
+    "observed_games": 26,
+    "player_id": "legacy:hunter_lachie_13121994",
+    "rank": 6,
+    "season": 2016,
+    "total": 514.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 26,
+    "games": 26,
+    "mean": 19.653846153846153,
+    "name": "Steele Sidebottom",
+    "observed_games": 26,
+    "player_id": "legacy:sidebottom_steele_02011991",
+    "rank": 7,
+    "season": 2018,
+    "total": 511.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 20.16,
+    "name": "Kane Cornes",
+    "observed_games": 25,
+    "player_id": "legacy:cornes_kane_05011983",
+    "rank": 8,
+    "season": 2007,
+    "total": 504.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 22.90909090909091,
+    "name": "Tom Mitchell",
+    "observed_games": 22,
+    "player_id": "legacy:mitchell_tom_31051993",
+    "rank": 8,
+    "season": 2021,
+    "total": 504.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 21.82608695652174,
+    "name": "Bradley Hill",
+    "observed_games": 23,
+    "player_id": "legacy:hill_bradley_09071993",
+    "rank": 10,
+    "season": 2026,
+    "total": 502.0
+  }
+]

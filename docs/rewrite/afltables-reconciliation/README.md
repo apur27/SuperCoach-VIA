@@ -3,7 +3,35 @@
 This package uses the existing agents in `.claude/agents/`. **Opus 5.5** handles
 architecture and acceptance; **Sonnet 5.5** handles implementation and the full
 reconciliation run. It builds on the existing integrity checker and agent memories.
-No Claude agent or full source capture was launched while preparing it.
+The launch package was prepared before implementation. Its current execution state is
+recorded below; the original launch instructions follow for reference.
+
+## Status — 3 October 2026
+
+The design was approved and Scientist completed an initial full capture and deterministic
+comparison. The candidate snapshot and raw legacy CSV layer both report **FAIL**, with
+unresolved evidence as well. The separate release checker reports **PASS** for consistency
+with its inputs. These results do not confirm that all source data is correct or current.
+
+Independent acceptance is pending. Claude is paused at its weekly usage limit; preserve
+the dirty `work/afltables-reconciliation` worktree and resume acceptance when available.
+The new command is not yet in `main`. Do not restart the completed source capture merely
+to continue review.
+
+Local evidence, outside Git, is under the main checkout's
+`var/reconciliations/afltables/2026-10-01-full/`: `completion.json`,
+`implementation-validation.json`, `reports/cold-4/report.json` and the full findings stream.
+Use absolute paths when reviewing from the task worktree. The canonical report hash is
+`58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`.
+
+Before acceptance, resolve the test run labelled PASS despite a failure, required missing
+Brownlow evidence, recorded design deviations and outstanding performance targets. The
+worktree needs its web dependencies installed; use its actual `.venv/bin/python` for
+`COUNCIL_PYTHON`, not the retired machine-specific path in the original handoff.
+
+The owner separately authorized [provisional Hall of Fame tables](../../hall-of-fame/provisional/README.md)
+from the candidate while this review is paused. That documentation refresh does not correct
+the inputs, complete acceptance or activate the pipeline. See [data status](../../../README.md#data-status).
 
 Read [the design](DESIGN.md), especially section 14's definition of done.
 The [architect payload](ARCHITECT_PROMPT.md) and [engineer payload](ENGINEER_PROMPT.md)

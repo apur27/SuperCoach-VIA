@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Peter Hudson,legacy:hudson_peter_19021946,1971,24,150.0,24,24,6.25,1.0
+1,Bob Pratt,legacy:pratt_bob_31081912,1934,21,150.0,21,21,7.142857142857143,1.0
+3,Peter Hudson,legacy:hudson_peter_19021946,1970,22,146.0,22,22,6.636363636363637,1.0
+4,Jason Dunstall,legacy:dunstall_jason_14081964,1992,23,145.0,23,23,6.304347826086956,1.0
+5,Peter McKenna,legacy:mckenna_peter_27081946,1970,22,143.0,22,22,6.5,1.0
+6,Jason Dunstall,legacy:dunstall_jason_14081964,1989,24,138.0,24,24,5.75,1.0
+7,Peter McKenna,legacy:mckenna_peter_27081946,1971,22,134.0,22,22,6.090909090909091,1.0
+8,Jason Dunstall,legacy:dunstall_jason_14081964,1988,23,132.0,23,23,5.739130434782608,1.0
+8,Tony Lockett,legacy:lockett_tony_09031966,1992,22,132.0,22,22,6.0,1.0
+10,Peter McKenna,legacy:mckenna_peter_27081946,1972,20,130.0,20,20,6.5,1.0

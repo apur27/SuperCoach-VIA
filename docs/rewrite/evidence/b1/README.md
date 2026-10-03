@@ -1,5 +1,9 @@
 # B1 bounded repair fetch (2026-09-25)
 
+> Historical repair evidence. The later full-source audit and current data status are
+> summarized in the [main README](../../../../README.md#data-status). The original results
+> below concern this bounded repair only; they do not certify the entire corpus.
+
 Owner decision on blocker B1: at most 10 AFLTables requests through the rate-limited
 `HttpClient`, to fill the missing 2026 rows of Flynn Perez, Will Brodie and Jack Dalton
 (the 2026 player, not the 1876 namesake). No number was typed by hand; every row below was

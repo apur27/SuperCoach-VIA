@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Brett Ratten,legacy:ratten_brett_11071971,1999,26,265.0,26,26,10.192307692307692,1.0
+2,Lachie Neale,legacy:neale_lachie_24051993,2023,26,205.0,26,26,7.884615384615385,1.0
+2,Matt Rowell,legacy:rowell_matt_01072001,2025,25,205.0,25,25,8.2,1.0
+4,Lachie Neale,legacy:neale_lachie_24051993,2024,26,202.0,26,26,7.769230769230769,1.0
+5,Clayton Oliver,legacy:oliver_clayton_22071997,2022,23,199.0,23,23,8.652173913043478,1.0
+6,Caleb Serong,legacy:serong_caleb_09022001,2025,24,197.0,24,24,8.208333333333334,1.0
+7,Tom Green,legacy:green_tom_23012001,2025,23,195.0,23,23,8.478260869565217,1.0
+8,Patrick Cripps,legacy:cripps_patrick_18031995,2024,24,193.0,24,24,8.041666666666666,1.0
+9,Tom Mitchell,legacy:mitchell_tom_31051993,2018,24,192.0,24,24,8.0,1.0
+10,Josh Kennedy,legacy:kennedy_josh_20061988,2016,25,191.0,25,25,7.64,1.0

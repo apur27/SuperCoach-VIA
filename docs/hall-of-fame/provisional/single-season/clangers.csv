@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Harley Reid,legacy:reid_harley_17042005,2026,23,155.0,23,23,6.739130434782608,1.0
+2,Brodie Grundy,legacy:grundy_brodie_15041994,2024,26,143.0,26,26,5.5,1.0
+3,Clayton Oliver,legacy:oliver_clayton_22071997,2021,25,129.0,25,25,5.16,1.0
+4,Matt Rowell,legacy:rowell_matt_01072001,2025,25,127.0,25,25,5.08,1.0
+5,Tom Green,legacy:green_tom_23012001,2024,25,126.0,25,25,5.04,1.0
+6,Patrick Cripps,legacy:cripps_patrick_18031995,2026,25,125.0,25,25,5.0,1.0
+6,Lance Franklin,legacy:franklin_lance_30011987,2008,25,125.0,25,25,5.0,1.0
+6,Christian Petracca,legacy:petracca_christian_04011996,2021,25,125.0,25,25,5.0,1.0
+6,Tim Taranto,legacy:taranto_tim_28011998,2019,26,125.0,26,26,4.8076923076923075,1.0
+10,Dustin Martin,legacy:martin_dustin_26061991,2017,25,124.0,25,25,4.96,1.0

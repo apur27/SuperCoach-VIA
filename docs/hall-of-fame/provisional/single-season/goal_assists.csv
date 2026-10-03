@@ -1,0 +1,11 @@
+rank,name,player_id,season,games,total,observed_games,eligible_games,mean,coverage
+1,Jason Akermanis,legacy:akermanis_jason_24021977,2004,25,44.0,25,25,1.76,1.0
+2,Gryan Miers,legacy:miers_gryan_30031999,2023,23,41.0,23,23,1.7826086956521738,1.0
+3,Brent Daniels,legacy:daniels_brent_09031999,2024,24,37.0,23,24,1.608695652173913,0.9583333333333334
+4,Cameron Mooney,legacy:mooney_cameron_26091979,2008,24,36.0,24,24,1.5,1.0
+5,Ed Richards,legacy:richards_ed_03071999,2025,23,35.0,23,23,1.5217391304347827,1.0
+6,Robbie Gray,legacy:gray_robbie_30031988,2014,25,33.0,25,25,1.32,1.0
+6,Chris Judd,legacy:judd_chris_08091983,2011,24,33.0,24,24,1.375,1.0
+6,Jake Melksham,legacy:melksham_jake_29081991,2018,23,33.0,23,23,1.434782608695652,1.0
+6,Dylan Moore,legacy:moore_dylan_04081999,2024,25,33.0,25,25,1.32,1.0
+6,Warren Tredrea,legacy:tredrea_warren_24121978,2003,23,33.0,23,23,1.434782608695652,1.0

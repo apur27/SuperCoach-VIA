@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 10.24,
+    "name": "Nick Riewoldt",
+    "observed_games": 25,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 1,
+    "season": 2004,
+    "total": 256.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 9.8,
+    "name": "Gary Dempsey",
+    "observed_games": 25,
+    "player_id": "legacy:dempsey_gary_22111948",
+    "rank": 2,
+    "season": 1979,
+    "total": 245.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 9.6,
+    "name": "Brian Lake",
+    "observed_games": 25,
+    "player_id": "legacy:lake_brian_27021982",
+    "rank": 3,
+    "season": 2010,
+    "total": 240.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 10.0,
+    "name": "Nick Riewoldt",
+    "observed_games": 24,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 3,
+    "season": 2008,
+    "total": 240.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 10.818181818181818,
+    "name": "Greg Parke",
+    "observed_games": 22,
+    "player_id": "legacy:parke_greg_18041948",
+    "rank": 5,
+    "season": 1970,
+    "total": 238.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 10.08695652173913,
+    "name": "Gary Dempsey",
+    "observed_games": 23,
+    "player_id": "legacy:dempsey_gary_22111948",
+    "rank": 6,
+    "season": 1980,
+    "total": 232.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 24,
+    "games": 24,
+    "mean": 9.625,
+    "name": "Nick Riewoldt",
+    "observed_games": 24,
+    "player_id": "legacy:riewoldt_nick_17101982",
+    "rank": 7,
+    "season": 2009,
+    "total": 231.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 20,
+    "games": 20,
+    "mean": 11.5,
+    "name": "Gary Dempsey",
+    "observed_games": 20,
+    "player_id": "legacy:dempsey_gary_22111948",
+    "rank": 8,
+    "season": 1973,
+    "total": 230.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 25,
+    "games": 25,
+    "mean": 9.12,
+    "name": "Sam Fisher",
+    "observed_games": 25,
+    "player_id": "legacy:fisher_sam_10071982",
+    "rank": 9,
+    "season": 2008,
+    "total": 228.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 10.227272727272727,
+    "name": "Stewart Loewe",
+    "observed_games": 22,
+    "player_id": "legacy:loewe_stewart_23051968",
+    "rank": 10,
+    "season": 1990,
+    "total": 225.0
+  }
+]

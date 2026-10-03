@@ -1,0 +1,122 @@
+[
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.2272727272727275,
+    "name": "Norm Goss",
+    "observed_games": 22,
+    "player_id": "legacy:goss_norm_03031951",
+    "rank": 1,
+    "season": 1973,
+    "total": 115.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.090909090909091,
+    "name": "John Murphy",
+    "observed_games": 22,
+    "player_id": "legacy:murphy_john_20111949",
+    "rank": 2,
+    "season": 1970,
+    "total": 112.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 5.333333333333333,
+    "name": "David Thorpe",
+    "observed_games": 21,
+    "player_id": "legacy:thorpe_david_30051948",
+    "rank": 2,
+    "season": 1971,
+    "total": 112.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.954545454545454,
+    "name": "Andrew Purser",
+    "observed_games": 22,
+    "player_id": "legacy:purser_andrew_31101958",
+    "rank": 4,
+    "season": 1983,
+    "total": 109.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 21,
+    "games": 21,
+    "mean": 5.095238095238095,
+    "name": "John Murphy",
+    "observed_games": 21,
+    "player_id": "legacy:murphy_john_20111949",
+    "rank": 5,
+    "season": 1971,
+    "total": 107.0
+  },
+  {
+    "coverage": 0.9545454545454546,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 5.0,
+    "name": "Norm Goss",
+    "observed_games": 21,
+    "player_id": "legacy:goss_norm_03031951",
+    "rank": 6,
+    "season": 1975,
+    "total": 105.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 23,
+    "games": 23,
+    "mean": 4.565217391304348,
+    "name": "Matthew Rendell",
+    "observed_games": 23,
+    "player_id": "legacy:rendell_matthew_18041959",
+    "rank": 6,
+    "season": 1983,
+    "total": 105.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.7272727272727275,
+    "name": "Francis Bourke",
+    "observed_games": 22,
+    "player_id": "legacy:bourke_francis_02041947",
+    "rank": 8,
+    "season": 1970,
+    "total": 104.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.7272727272727275,
+    "name": "John Murphy",
+    "observed_games": 22,
+    "player_id": "legacy:murphy_john_20111949",
+    "rank": 8,
+    "season": 1973,
+    "total": 104.0
+  },
+  {
+    "coverage": 1.0,
+    "eligible_games": 22,
+    "games": 22,
+    "mean": 4.7272727272727275,
+    "name": "Jeff Sarau",
+    "observed_games": 22,
+    "player_id": "legacy:sarau_jeff_25011954",
+    "rank": 8,
+    "season": 1979,
+    "total": 104.0
+  }
+]
