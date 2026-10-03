@@ -18,7 +18,7 @@ SuperCoach VIA is a static AFL statistics website with a local Python data pipel
 
 **For contributors:** the `scvia` package imports and validates snapshots, builds static releases, and runs deterministic integrity checks. The Astro frontend reads release files. Claude agent definitions and project memories are in [`.claude/agents/`](.claude/agents/).
 
-**[Open the provisional website](https://apur27.github.io/SuperCoach-VIA/)** · [Data status](https://apur27.github.io/SuperCoach-VIA/data-status/) · [Publication and rollback](docs/pages-preview.md).
+**[Open the provisional website](https://apur27.github.io/supercoach-via/)** · [Data status](https://apur27.github.io/SuperCoach-VIA/data-status/) · [Publication and rollback](docs/pages-preview.md).
 
 The legacy weekly harness and the new local pipeline coexist. The static preview is published manually. Numeric pipeline switch-over and independent acceptance of the all-player reconciler remain pending.
 
@@ -34,7 +34,7 @@ The legacy weekly harness and the new local pipeline coexist. The static preview
 |---|---|---|
 | September 29 candidate snapshot `3de6597513b5…` | **FAIL** against captured AFL Tables pages, with unresolved evidence | Includes the Grand Final, but has missing appearances, zero/null differences and other discrepancies |
 | Legacy CSVs in `data/` | **FAIL** against the same source capture | An older data layer; the audited CSVs lack the Grand Final |
-| Hosted preview release `20261003T105359Z-67fb4988599a` | **PASS** from `scvia check-integrity` | Rebuilt from the same candidate; release files agree with their declared inputs. This does not establish full AFL Tables agreement |
+| Hosted preview release `20261003T113058Z-7662fe99ba96` | **PASS** from `scvia check-integrity` | Rebuilt from the same candidate; release files agree with their declared inputs. This does not establish full AFL Tables agreement |
 | Independent acceptance of the new reconciler | **Pending** | Implementation is still in `work/afltables-reconciliation`; it has not been merged into `main` |
 
 The source audit used pages captured on 1–2 October, with matches scoped through 30 September. Its canonical report SHA-256 is `58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`. The local evidence lives under `var/reconciliations/afltables/2026-10-01-full/`; it is not included in a fresh clone.
@@ -43,7 +43,7 @@ The source audit used pages captured on 1–2 October, with matches scoped throu
 
 **Forecasts:** the September 29 candidate reports `unavailable / no_valid_future_fixture`. Archived prediction pages are not current forecasts.
 
-The Pages address is case-sensitive: use `/SuperCoach-VIA/`. The lowercase `/supercoach-via/` returns 404. Every hosted page displays the provisional notice and requests `noindex` while this snapshot's audit failures remain open.
+The lowercase `/supercoach-via/` address now opens the canonical `/SuperCoach-VIA/` site through a small redirect. The repository name is unchanged. With JavaScript disabled, the entry page provides a link. Every hosted page displays the provisional notice and requests `noindex` while this snapshot's audit failures remain open.
 
 Read the [integrity checker guide](docs/data-integrity.md) and [reconciliation status and handoff](docs/rewrite/afltables-reconciliation/README.md). The latter records the pending review and the preserved Claude worktree.
 

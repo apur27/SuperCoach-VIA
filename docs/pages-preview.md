@@ -1,39 +1,70 @@
 # Provisional GitHub Pages preview
 
 The [provisional site](https://apur27.github.io/SuperCoach-VIA/) was published on
-3 October 2026. The address is case-sensitive; `/supercoach-via/` returns 404.
+3 October 2026. The lowercase `/supercoach-via/` entry redirects to the canonical
+`/SuperCoach-VIA/` address; the repository has not been renamed.
 Publication uses the existing, manually dispatched `scvia-pages.yml` workflow.
 The Python pipeline runs locally; publishing a site does not activate a refresh schedule.
 
 ## Publication record
 
-- Source commit: `a5b2b804acdbf06952851d36c4dc9b2ec6bfaae0`.
-- Release: `20261003T105359Z-67fb4988599a`.
-- [Successful Pages workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37118887973).
-- [Public prerelease archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-2026-10-03).
-- Site seal: `56fb11cb70e0fa4b30647743467843e964babe53b288cdf970f3410276965de1`.
-- Archive SHA-256: `c3bf3235a4fed6060bdb80c8825555cf9cb624634f53b85101a195134d9d6ae0`.
-- Site size: 264,045,507 bytes, within the 300 MiB budget.
+The usability update was published on 3 October 2026.
 
-Local validation passed: 179 web unit tests (2 existing skips), 322 browser tests
-(4 existing skips), type checks, lint, the payload budget, seal validation and the full
-input-consistency audit (`semantic_complete=true`). The real-site review covered 184
-page states with no unexpected request errors, horizontal overflow or accessibility
-violations. Search, watchlist persistence, Grand Final/player navigation and all 14
-downloads were checked. A live-browser recheck covered 20 page states, accessibility,
-downloads and navigation; a separate search check waited for remote results before
-opening the player. Six deployed pages, manifests and assets matched the sealed bytes.
+- UI source commit: `7e4098bd2386dd9032349243c7581316c58e3a6c`.
+- Deployment checkout: `3d403ae683743a13425cac1345b71905ab05badc` (adds redirect source/tests).
+- Release: `20261003T113058Z-7662fe99ba96`.
+- [Successful Pages workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122424667).
+- [Public prerelease archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-ui-2026-10-03).
+- Site seal: `65bbef200a2326c697240f0b0813f06d3c47c28ec700a049d918348ba24d9201`.
+- Archive SHA-256: `7e9264de620619ebe7e67fc9e5f40f1a1ebcdab754970f6d47d93a7f72cc1e50`.
+- Site size: 264,070,775 bytes, within the 300 MiB budget.
 
-Repository-wide CI is **not green**. The [source commit's CI run](https://github.com/apur27/SuperCoach-VIA/actions/runs/37118404379)
-fails because a Python browser-contract test assumes `/usr/bin/node` exists on the
-runner, and the provenance strip measures 194px at 320px width against its 170px limit
-in the runner's browser. The [preceding commit also failed CI](https://github.com/apur27/SuperCoach-VIA/actions/runs/37107281828).
-The existing Pages workflow separately verified and published the tested, sealed artifact.
-Those repository CI issues remain open; no test or publication gate was weakened.
+[Astra's plan](reviews/ASTRA_SOL_USABILITY_PLAN.md) and
+[final review](reviews/ASTRA_SOL_USABILITY_REVIEW.md) record the changes.
+Local checks passed: 181 unit tests (two existing skips), 354 browser tests
+(four existing skips), plus two exact-case regression tests. The alias passed
+23 mapping and nine browser checks. Type checks, lint, budgets, seal validation
+and the full input-consistency audit passed (`semantic_complete=true`).
+The real-site review passed 184 states and all 14 downloads. Live checks passed
+24 states, search, accessibility and no-JavaScript navigation. Six deployed
+pages, manifests and assets matched the sealed bytes.
 
-Local logs, reports and screenshots are in `var/pages-preview/20261003/` (outside Git).
-Hash checks confirmed that 90 paused Claude-worktree files, 604 retained candidate files
-and the three pre-existing main-checkout memory files were unchanged.
+The [web CI job passed](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122256985).
+Repository-wide CI remains **not green**: that run's Python browser-contract test
+assumes `/usr/bin/node` exists on the runner (1,030 other tests passed). The
+[legacy Unit Tests workflow](https://github.com/apur27/SuperCoach-VIA/actions/runs/37122141315)
+also fails collection because its environment lacks dependencies including
+`pydantic` and the installed `supercoach_via` package. No CI gate was weakened.
+The Pages workflow separately verified and published the sealed artifact.
+
+Evidence is under `var/ui-review/20261003/` (outside Git). Hash checks confirmed
+that 90 paused Claude-worktree files, 604 retained candidate files and three
+pre-existing memory files were unchanged.
+
+### Lowercase and mixed-case entry points
+
+The project repository remains `apur27/SuperCoach-VIA`; its canonical base is
+`/SuperCoach-VIA/`. A separate [owner Pages repository](https://github.com/apur27/apur27.github.io)
+publishes the seven files listed in [ops/pages-alias](../ops/pages-alias/README.md).
+Its [Pages deployment passed](https://github.com/apur27/apur27.github.io/actions/runs/37122421896)
+at commit `4d391ea16e35d390a88d4b1ca3fc54897a57dff9`.
+
+Live browser checks confirmed lowercase entries with and without a trailing
+slash return 200 and open the project. Deep and mixed-case entries preserve
+paths, queries and fragments, but initially return the owner's custom 404 before
+JavaScript redirects. Without JavaScript, a plain project-home link is available.
+Unrelated paths and canonical addresses do not redirect. The live redirect modules
+have JavaScript MIME types and match their reviewed bytes. This does not make
+GitHub Pages routing itself case-insensitive.
+
+### Previous preview retained for rollback
+
+The [first archive](https://github.com/apur27/SuperCoach-VIA/releases/tag/preview-2026-10-03)
+contains release `20261003T105359Z-67fb4988599a`, from UI source `a5b2b804a`.
+Its seal is `56fb11cb70e0fa4b30647743467843e964babe53b288cdf970f3410276965de1`;
+archive SHA-256 is `c3bf3235a4fed6060bdb80c8825555cf9cb624634f53b85101a195134d9d6ae0`.
+Its [deployment](https://github.com/apur27/SuperCoach-VIA/actions/runs/37118887973)
+and evidence under `var/pages-preview/20261003/` are retained.
 
 ## Data status
 
