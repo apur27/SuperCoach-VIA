@@ -14,8 +14,8 @@ const base = import.meta.env.BASE_URL;
 <AppLayout title="Explore AFL" description="Explore AFL player and match history, comparisons, rankings and downloads." current="overview">
   <div class="home-intro">
     <h1>Explore AFL players, matches and history</h1>
-    <p class="lede">A noncommercial AFL project, inspired by years of SuperCoach with friends and gratitude for the people who make the game welcoming.</p>
-    <p><a href="#why-this-project">Why this project exists</a></p>
+    <p class="lede">SuperCoach VIA brings together player and match history, comparisons, rankings and downloads.</p>
+    <p><a href="#why-this-project">Why this repo exists</a></p>
     <p>Check the snapshot date and <a href={withBase(base, 'data-status/')}>data status</a> before using a total, ranking or prediction.</p>
     <form class="controls" method="get" action={withBase(base, 'players/')} role="search" aria-label="Quick player search">
       <div class="field"><label for="quick-q">Find a player</label><input id="quick-q" type="search" name="q" maxlength="60" autocomplete="off" /></div>
@@ -32,15 +32,15 @@ const base = import.meta.env.BASE_URL;
     )}
   </div>
   <section id="why-this-project" class="home-section" aria-labelledby="purpose-h">
-    <h2 id="purpose-h">Why this project exists</h2>
+    <h2 id="purpose-h">Why this repo exists</h2>
     <div class="prose">
-      <p class="muted">From the project creator</p>
-      <p>This project is about the game, its history and the people it brings together. It is noncommercial, has no affiliation with gambling services and is not intended to encourage betting.</p>
-      <p>I have played SuperCoach with the same group for over a decade. Arguments about who the better player really was, and Sunday-night lineup tweaks, grew into a project for exploring the game through data.</p>
-      <p>It is also a thank you to the friends and colleagues who introduced me to AFL and SuperCoach, explained clearances and ruck craft, and helped me understand a scoreline.</p>
-      <p>A special thank you goes to the families, coaches and community of Cranbourne Junior Football Club, who welcomed my son and taught him the game in the right spirit. The volunteers giving their time on cold mornings and the families standing on the boundary are part of what makes the game matter.</p>
-      <p>For me, that welcome is also part of AFL’s contribution to a multicultural Australia. A new Australian joining a junior football club and being welcomed onto a team is a meaningful form of belonging.</p>
-      <p>This work honours the players of the past, present and future, and the generations of fans they have brought together. Their careers are the reason for keeping the record.</p>
+      <blockquote><p>What this repo is for, in the end, is none of the engineering above — it is this.</p></blockquote>
+      <p>This is not a commercial project. It is not affiliated with any gambling service, and nothing here is intended to encourage betting of any kind. The motivation is the game itself - the patterns inside it, the history it carries, and the people it brings together.</p>
+      <p>It started, honestly, as competitive edge. I have been playing SuperCoach with the same group for over a decade, and this repo exists in no small part because of the arguments about who the better player really was. Somewhere along the line a Sunday-night lineup tweak turned into feature engineering, then into a backtest framework, then into this.</p>
+      <p>But this repo is also a return gift. To the friends and colleagues who got me up to speed on this game - who explained what a clearance was, why ruck craft matters, how to read a scoreline - and who introduced me to SuperCoach in the first place. You did not have to, and you did. This is, in part, a thank you back.</p>
+      <p>A specific and heartfelt thank you goes to the families, coaches and community of Cranbourne Junior Football Club, who welcomed my son and trained him in the right spirit of the game. The coaches who give their time freely on cold mornings, the families who stand on the boundary in the rain - these are the people who actually make the game what it is. AFL doesn't exist without them, and a polished dataset of senior careers means very little without remembering where every one of those players came from.</p>
+      <p>It is also why I think AFL is one of the things that can make Australia genuinely multicultural. Sport breaks boundaries in a way that policy never quite manages to. A new Australian turning up at a junior football club and being welcomed onto a team is not a small thing - it is one of the more honest forms of belonging this country has to offer.</p>
+      <p>And finally, this work is an homage to the giants of the game - past, present and future. To the players whose careers are quietly recorded in the rows of this dataset, who gave everything on the field, and who made generations of fans care deeply about something together. The numbers in here are theirs. The rest of us are just keeping the ledger.</p>
     </div>
   </section>
   <p class="muted">Season {ov.season}</p>

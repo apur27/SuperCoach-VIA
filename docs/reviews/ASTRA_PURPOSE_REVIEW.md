@@ -1,37 +1,32 @@
-# Astra purpose review — PASS
+# Astra verbatim section review — PASS
 
-Reviewed the actual rebuilt homepage served locally under `/SuperCoach-VIA/`, release `20261003T123306Z-fe8a6ca23166`, against the full README “Why this repo exists” section and [the purpose plan](ASTRA_PURPOSE_PLAN.md).
+Reviewed release `20261003T124334Z-08e8e0eb65d4` at `/SuperCoach-VIA/` against the authoritative GitHub capture `../why-verbatim.md`.
 
-**PASS. No required content or presentation fixes remain for this follow-up.**
+**PASS. The “Why this repo exists” section is verbatim.**
 
-## Confirmed
+- Compared the rendered section as eight ordered blocks: exact H2, semantic opening blockquote and six body paragraphs. Every word and punctuation mark matches the captured source; only HTML layout whitespace was normalised.
+- Also compared the entire section text to the joined source blocks, detecting any additional attribution or prose. No added or rewritten text remains inside the section.
+- Verified exact content at 320/390/768/1440px in both themes and with JavaScript disabled.
+- The existing `#why-this-project` anchor works by keyboard and without JavaScript. The section retains its prominent placement before the statistics.
+- Actual screenshots show readable prose and blockquote layout. No document horizontal overflow or browser page errors in the eight sampled states.
+- The product introduction, improved navigation/layout and search remain outside the copied section. They are not subject to the verbatim comparison.
+- Provisional audit-failure notice, snapshot notes, unavailable forecast and noindex remain present.
 
-- The introduction now states the project’s noncommercial, friendship and community motivation. A clear “Why this project exists” link appears before search.
-- The complete story is always visible before season results, with explicit “From the project creator” attribution. It covers SuperCoach with the same friends for over a decade; the thanks to friends and colleagues; Cranbourne Junior Football Club welcoming the creator’s son; volunteer coaches and families; multicultural belonging; honouring players across generations; and the noncommercial/no gambling purpose.
-- The story follows the approved grounded copy. No invented biography, official affiliation or claims that the dataset is fully verified were introduced.
-- Search remains above the story and in the first 900px viewport: its top is approximately 766px at 320px width and 667px at 390px width.
-- Keyboard activation of the intro link reaches `#why-this-project` at all four widths and in both themes. The same link and complete story work with JavaScript disabled.
-- Captured eight viewport/theme states: 320, 390, 768 and 1440px, light/dark. Inspected actual intro, full-page and story screenshots. Prose has a readable measure, clear paragraph spacing and one-column mobile reading order. No document horizontal overflow or browser page errors in the eight states.
-- The provisional audit-failure warning, snapshot notes, unavailable forecast and noindex remain present. The story does not obscure or replace them.
+No required corrections remain for this change. Broader release/publication verification is owned by the parent.
 
-## Evidence
+Evidence:
 
-Local evidence is under `var/ui-review/20261003/purpose/` (outside Git).
+- `review.mjs` and `review.json`: exact comparisons, rendered states and checks.
+- `home-{320,390,768,1440}-{light,dark}.png`: complete homepage captures.
+- `intro-*`: opening viewport; `story-*`: section reached through its anchor.
+- `story-nojs-390.png`: original section and native anchor without JavaScript.
 
-- `review.json`: measured positions, anchor destinations, rendered story/warning/forecast text and page errors.
-- `review.mjs`: repeatable read-only browser capture.
-- `home-{320,390,768,1440}-{light,dark}.png`: complete pages.
-- `intro-{320,390,768,1440}-{light,dark}.png`: opening viewport.
-- `story-{320,390,768,1440}-{light,dark}.png`: story reached via keyboard.
-- `story-nojs-390.png`: native anchor with JavaScript disabled.
+Suggested user-facing evidence: `intro-390-light.png`, `story-1440-dark.png`, `home-390-light.png`.
 
-Recommended user-facing screenshots: `intro-390-light.png`, `story-1440-dark.png`, `home-390-light.png`.
-
-This signoff covers the requested purpose/content follow-up. Parent/Sol owns release consistency, full regression and publication verification. Reviewer made no source edits and did not stop the preview server.
+This review supersedes the adapted-purpose-copy signoff in `../purpose/ASTRA_PURPOSE_REVIEW.md`. No source edits or preview-server termination by the reviewer.
 
 ## Implementation checks
 
-Type checks and lint passed. All 28 focused browser checks passed across both
-base paths, including the story, native anchor, no-JavaScript access, existing
-search, mobile navigation and homepage destinations. The final site is
-264,073,470 bytes, below the unchanged 300 MiB budget.
+All 28 focused browser checks passed at the root and project base paths. Type
+checks and lint passed. No CSS, data, harness or schedule changes were made in
+this correction. The sealed site is 264,074,405 bytes, within the 300 MiB budget.
