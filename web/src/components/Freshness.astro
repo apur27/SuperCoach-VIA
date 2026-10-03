@@ -11,13 +11,15 @@ const base = import.meta.env.BASE_URL;
     <dl>
       <div><dt>Season</dt><dd>{season}{demo && <span class="badge badge-demo">DEMO</span>}</dd></div>
       <div><dt>Coverage through</dt><dd>{f.coverage_through ?? <span class="missing">not recorded</span>}</dd></div>
-      <div><dt>Source checked</dt><dd><Instant iso={f.source_checked_at} /></dd></div>
-      <div><dt>Status</dt><dd>{f.stale ? <span class="badge badge-stale">Stale</span> : <span class="badge badge-ok">Current</span>} <span class="muted">validation {f.validation_state}</span></dd></div>
-      <div><dt>Source &amp; method</dt><dd><a href={withBase(base, 'data-status/')}>Data status</a> · <a href={withBase(base, 'methodology/')}>Methodology</a></dd></div>
+      <div><dt>Freshness at build</dt><dd>{f.stale ? <span class="badge badge-stale">Stale</span> : <span class="badge badge-ok">Current</span>}</dd></div>
+      <div><dt class="visually-hidden">Source &amp; method</dt><dd><a href={withBase(base, 'data-status/')}>Data status</a> · <a href={withBase(base, 'methodology/')}>Methodology</a></dd></div>
     </dl>
     <details class="context-more">
       <summary>Release details</summary>
+      <p>Snapshot selection records whether this build used the locally selected dataset. See Data status for source audit findings.</p>
       <dl>
+        <div><dt>Snapshot selection</dt><dd>{f.validation_state}</dd></div>
+        <div><dt>Source checked</dt><dd><Instant iso={f.source_checked_at} /></dd></div>
         <div><dt>Generated</dt><dd><Instant iso={f.generated_at} /></dd></div>
         <div><dt>Published</dt><dd>{f.published_at ? <Instant iso={f.published_at} /> : <span class="missing">not recorded in release</span>}</dd></div>
         <div><dt>Release</dt><dd><code>{releaseId}</code></dd></div>

@@ -6,16 +6,18 @@ import DateOnly from './DateOnly.astro';
 interface Props { matches: MatchSummary[]; caption: string; testid?: string }
 const { matches, caption, testid } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const hintId = `scroll-${caption.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
-{matches.length === 0 ? <p class="muted">None in this release.</p> : (
-<div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`} data-testid={testid}>
+{matches.length === 0 ? <p class="muted">None in this release.</p> : (<>
+<p class="scroll-hint" id={hintId}>Scroll sideways for more columns</p>
+<div aria-describedby={hintId} class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`} data-testid={testid}>
   <table>
     <caption>{caption}</caption>
-    <thead><tr><th scope="col">Match</th><th scope="col">Date</th><th scope="col">Stage</th><th scope="col">Status</th><th scope="col" class="num">Home</th><th scope="col" class="num">Away</th><th scope="col">Result</th></tr></thead>
+    <thead><tr><th scope="col" class="row-identity">Match</th><th scope="col">Date</th><th scope="col">Stage</th><th scope="col">Status</th><th scope="col" class="num">Home</th><th scope="col" class="num">Away</th><th scope="col">Result</th></tr></thead>
     <tbody>
       {matches.map((m) => (
         <tr>
-          <th scope="row"><a href={withBase(base, `match/?id=${encodeURIComponent(encodeId(m.match_id))}`)}>{m.home.name} v {m.away.name}</a></th>
+          <th scope="row" class="row-identity"><a href={withBase(base, `match/?id=${encodeURIComponent(encodeId(m.match_id))}`)}>{m.home.name} v {m.away.name}</a></th>
           <td>{m.local_start ? <span>{m.local_start} <span class="muted">(local)</span></span> : <DateOnly date={m.match_date} />}</td>
           <td>{m.stage_label}{isReplay(m) && <span class="badge badge-muted">Replay</span>}</td>
           <td>{statusLabel(m.status)}</td>
@@ -26,4 +28,4 @@ const base = import.meta.env.BASE_URL;
       ))}
     </tbody>
   </table>
-</div>)}
+</div></>)}

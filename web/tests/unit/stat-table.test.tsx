@@ -6,7 +6,7 @@ import { StatTable } from '../../src/islands/common/StatTable';
 import { expandStats } from '../../src/lib/stats';
 
 function cells(html: string, stat: string): string[] {
-  const row = new RegExp(`<tr><th scope="row">${stat}</th>(.*?)</tr>`).exec(html);
+  const row = new RegExp(`<tr><th scope="row"[^>]*>${stat}</th>(.*?)</tr>`).exec(html);
   if (!row) throw new Error(`no row for ${stat}`);
   return [...row[1]!.matchAll(/<td class="num">(.*?)<\/td>/g)].map((m) => m[1]!.replace(/<[^>]+>/g, ''));
 }
@@ -28,16 +28,20 @@ describe('StatTable', () => {
   );
 
   it('divides a total by the games with data and shows that denominator', () => {
-    expect(cells(html, 'goals')).toEqual(['9', '0.5', '20 of 20', '100.0%']);
+    expect(cells(html, 'Goals')).toEqual(['9', '0.5', '20 of 20', '100.0%']);
   });
   it('keeps a genuine coverage gap visible as N of M', () => {
-    expect(cells(html, 'tackles')).toEqual(['34', '3.4', '10 of 12', '50.0%']);
+    expect(cells(html, 'Tackles')).toEqual(['34', '3.4', '10 of 12', '50.0%']);
   });
   it('labels an unrecorded statistic "not recorded", never zero', () => {
-    expect(cells(html, 'hitouts')).toEqual(['not recorded', 'not recorded', '0 of 0', '0.0%']);
+    expect(cells(html, 'Hitouts')).toEqual(['not recorded', 'not recorded', '0 of 0', '0.0%']);
   });
   it('shows a recorded zero as zero', () => {
-    expect(cells(html, 'bounces')).toEqual(['0', '0.0', '20 of 20', '100.0%']);
+    expect(cells(html, 'Bounces')).toEqual(['0', '0.0', '20 of 20', '100.0%']);
+  });
+  it('uses readable statistic names while keeping values and denominators', () => {
+    const labels = renderToStaticMarkup(<StatTable caption="Career" stats={expandStats(['goal_assists'], { total: [9], observed_games: [10], eligible_games: [10] }, 10)} />);
+    expect(cells(labels, 'Goal assists')).toEqual(['9', '0.9', '10 of 10', '100.0%']);
   });
   it('names the denominator column', () => {
     expect(html).toContain('<th scope="col" class="num">Games with data</th>');

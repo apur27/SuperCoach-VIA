@@ -5,7 +5,7 @@ export const RELEASE_ID = process.env.SCVIA_E2E_RELEASE_ID ?? '20260925T000000Z-
 export const DEMO = (process.env.SCVIA_E2E_DEMO ?? 'fixture') === 'fixture';
 
 export const ROUTES: { path: string; h1: RegExp }[] = [
-  { path: '', h1: /overview/i },
+  { path: '', h1: /Explore AFL players, matches and history/ },
   { path: 'predictions/', h1: /predictions/i },
   { path: 'players/', h1: /players/i },
   { path: 'player/?id=k.bGVnYWN5OmRlbW9fcGxheWVyX2Ex', h1: /player/i },

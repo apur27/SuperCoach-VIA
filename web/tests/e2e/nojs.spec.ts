@@ -5,7 +5,12 @@ test.use({ javaScriptEnabled: false });
 
 test('overview is readable without JavaScript', async ({ page }) => {
   await page.goto('');
-  await expect(page.locator('h1')).toContainText('overview');
+  await expect(page.locator('h1')).toHaveText('Explore AFL players, matches and history');
+  await expect(page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'Teams', exact: true })).toBeVisible();
+  const all = page.getByRole('table', { name: 'All season leaders', exact: true });
+  await expect(all).toBeHidden();
+  await page.getByText('View all season leaders in this snapshot', { exact: true }).click();
+  await expect(all).toBeVisible();
   await expect(page.getByTestId('forecast-status')).toBeVisible();
   await expect(page.getByTestId('recent')).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Players' })).toBeVisible();

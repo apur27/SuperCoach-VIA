@@ -60,7 +60,7 @@ test('keyboard: desktop More menu reachable and focus visible', async ({ page })
   expect(outline).not.toBe('none');
   await page.keyboard.press('Enter');
   await page.keyboard.press('Tab');
-  await expect(page.getByRole('link', { name: 'Lists' }).first()).toBeFocused();
+  await expect(page.getByRole('link', { name: 'Teams' }).first()).toBeFocused();
 });
 
 test('keyboard-only predictions flow', async ({ page }) => {

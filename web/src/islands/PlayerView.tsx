@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { PlayerDetail, PlayerSeasonGames, PredictionRow } from '../lib/contracts';
 import { encodeId, parsePlayerIdParam, withBase } from '../lib/ids';
 import { formatDateOnly, formatStat } from '../lib/format';
+import { statLabel } from '../lib/stat-label';
 import { stageText } from '../lib/matches';
 import { DataState } from './common/DataState';
 import { siteBase, useHeading, useResource, useUrlSearch } from './common/runtime';
@@ -72,9 +73,14 @@ function PlayerBody({ p }: { p: PlayerDetail }) {
   return (
     <div className="stack">
       <div className="cluster"><WatchButton id={p.id} name={p.name} /></div>
+      <nav className="cluster profile-sections" aria-label="Player sections">
+        <a className="button secondary" href="#career-h">Career statistics</a>
+        <a className="button secondary" href="#seasons-h">Seasons</a>
+        <a className="button secondary" href="#log-h">Game log</a>
+      </nav>
       <section aria-labelledby="bio-h">
         <h2 id="bio-h">Profile</h2>
-        <dl className="grid">
+        <dl className="grid profile-facts">
           <div><dt className="muted">Born</dt><dd>{formatDateOnly(p.birth_date)} <span className="muted">({QUALITY[p.birth_date_quality]})</span></dd></div>
           <div><dt className="muted">Debut</dt><dd>{formatDateOnly(p.debut_date)}</dd></div>
           <div><dt className="muted">Height</dt><dd>{p.height_cm === null ? <span className="missing">not recorded</span> : `${formatStat(p.height_cm)} cm`}</dd></div>
@@ -92,13 +98,14 @@ function PlayerBody({ p }: { p: PlayerDetail }) {
       </section>
       <section aria-labelledby="seasons-h">
         <h2 id="seasons-h">Seasons</h2>
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Scrollable table: Season summary">
+        <p className="scroll-hint" id="seasons-scroll-hint">Scroll sideways for more columns</p>
+        <div aria-describedby="seasons-scroll-hint" className="table-wrap player-data-table season-table" tabIndex={0} role="region" aria-label="Scrollable table: Season summary">
           <table>
             <caption>Season-by-season summary</caption>
-            <thead><tr><th scope="col">Season</th><th scope="col">Clubs</th><th scope="col" className="num">Games</th>{p.stat_names.map((n) => <th scope="col" className="num" key={n}>{n} per game</th>)}</tr></thead>
+            <thead><tr><th scope="col" className="row-identity">Season</th><th scope="col">Clubs</th><th scope="col" className="num">Games</th>{p.stat_names.map((n) => <th scope="col" className="num" key={n}>{statLabel(n)} per game</th>)}</tr></thead>
             <tbody>
               {seasons.map((s) => (
-                <tr key={s.season}><th scope="row">{s.season}</th><td>{s.clubs.join(', ')}</td><td className="num">{s.games}</td>{expandStats(p.stat_names, s.stats, s.games).map((st) => <td className="num" key={st.stat}><Stat value={st.mean} digits={1} /></td>)}</tr>
+                <tr key={s.season}><th scope="row" className="row-identity">{s.season}</th><td>{s.clubs.join(', ')}</td><td className="num">{s.games}</td>{expandStats(p.stat_names, s.stats, s.games).map((st) => <td className="num" key={st.stat}><Stat value={st.mean} digits={1} /></td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -147,14 +154,15 @@ function GameLogTable({ g, rows }: { g: PlayerSeasonGames; rows: ReturnType<type
           xLabel="Game" yLabel={main} series={[{ name: main, points: rows.map((x, i) => ({ x: `G${i + 1}`, y: x.stats[g.stat_columns.indexOf(main)] ?? null })) }]}
         />
       ) : null}
-      <div className="table-wrap" tabIndex={0} role="region" aria-label={`Scrollable table: ${`${g.season} game log`}`}>
+      <p className="scroll-hint" id="log-scroll-hint">Scroll sideways for more columns</p>
+      <div aria-describedby="log-scroll-hint" className="table-wrap player-data-table" tabIndex={0} role="region" aria-label={`Scrollable table: ${`${g.season} game log`}`}>
         <table>
           <caption>{g.season} game log</caption>
-          <thead><tr><th scope="col">Date</th><th scope="col">Stage</th><th scope="col">Opponent</th><th scope="col">Result</th>{g.stat_columns.map((c) => <th scope="col" className="num" key={c}>{c}</th>)}</tr></thead>
+          <thead><tr><th scope="col" className="row-identity">Date</th><th scope="col">Stage</th><th scope="col">Opponent</th><th scope="col">Result</th>{g.stat_columns.map((c) => <th scope="col" className="num" key={c}>{statLabel(c)}</th>)}</tr></thead>
           <tbody>
             {rows.map((x) => (
               <tr key={x.match_id}>
-                <th scope="row"><a href={withBase(base, `match/?id=${encodeId(x.match_id)}`)}>{formatDateOnly(x.match_date)}</a>{x.date_quality !== 'fixture_verified' && x.date_quality !== 'source' ? <span className="muted"> ({x.date_quality})</span> : null}</th>
+                <th scope="row" className="row-identity"><a href={withBase(base, `match/?id=${encodeId(x.match_id)}`)}>{formatDateOnly(x.match_date)}</a>{x.date_quality !== 'fixture_verified' && x.date_quality !== 'source' ? <span className="muted"> ({x.date_quality})</span> : null}</th>
                 <td>{x.stage_label}</td>
                 <td>{x.opponent_name ?? <span className="missing">not recorded</span>}</td>
                 <td>{x.result ?? <span className="missing">not recorded</span>}</td>

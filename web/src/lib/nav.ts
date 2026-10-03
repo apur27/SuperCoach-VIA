@@ -1,15 +1,15 @@
 export interface NavItem { key: string; label: string; href: string }
 export const PRIMARY_NAV: NavItem[] = [
-  { key: 'overview', label: 'Overview', href: '' },
-  { key: 'predictions', label: 'Predictions', href: 'predictions/' },
+  { key: 'overview', label: 'Home', href: '' },
   { key: 'players', label: 'Players', href: 'players/' },
-  { key: 'teams', label: 'Teams', href: 'teams/' },
   { key: 'matches', label: 'Matches', href: 'matches/' },
-  { key: 'history', label: 'History', href: 'history/' },
-  { key: 'accuracy', label: 'Accuracy', href: 'accuracy/' },
-  { key: 'articles', label: 'Articles', href: 'articles/' },
+  { key: 'history', label: 'Rankings', href: 'history/' },
+  { key: 'predictions', label: 'Predictions', href: 'predictions/' },
 ];
 export const MORE_NAV: NavItem[] = [
+  { key: 'teams', label: 'Teams', href: 'teams/' },
+  { key: 'accuracy', label: 'Accuracy', href: 'accuracy/' },
+  { key: 'articles', label: 'Articles', href: 'articles/' },
   { key: 'lists', label: 'Lists', href: 'lists/' },
   { key: 'watchlist', label: 'Watchlist', href: 'watchlist/' },
   { key: 'downloads', label: 'Downloads', href: 'downloads/' },

@@ -16,7 +16,7 @@ async function render(f: FreshnessData) {
   return c.renderToString(Freshness, { props: { freshness: f, season: 2026, demo: false, releaseId: 'r1' } });
 }
 
-describe('Freshness', () => {
+describe('Freshness at build', () => {
   it('labels a current release and shows no stale banner', async () => {
     const html = await render(base);
     expect(html).toContain('Current');
@@ -38,11 +38,17 @@ describe('Freshness', () => {
     const fold = html.indexOf('<details');
     expect(fold).toBeGreaterThan(-1);
     expect(html).toContain('Release details');
-    for (const label of ['Season', 'Coverage through', 'Source checked', 'Status', 'Source &amp; method']) {
+    for (const label of ['Season', 'Coverage through', 'Freshness at build', 'Source &amp; method']) {
       expect(html.indexOf(`>${label}</dt>`), label).toBeGreaterThan(-1);
       expect(html.indexOf(`>${label}</dt>`), label).toBeLessThan(fold);
     }
-    for (const label of ['Generated', 'Published', 'Release']) expect(html.indexOf(`>${label}</dt>`), label).toBeGreaterThan(fold);
+    for (const label of ['Source checked', 'Snapshot selection', 'Generated', 'Published', 'Release']) expect(html.indexOf(`>${label}</dt>`), label).toBeGreaterThan(fold);
+  });
+  it('explains snapshot selection without implying source audit success', async () => {
+    const html = await render(base);
+    expect(html).toContain('Snapshot selection records whether this build used the locally selected dataset.');
+    expect(html).toContain('See Data status for source audit findings.');
+    expect(html).not.toContain('validation PASS');
   });
   it('never hides a stale warning inside the disclosure', async () => {
     const html = await render({ ...base, stale: true, stale_reason: 'Source not checked for 9 days.' });

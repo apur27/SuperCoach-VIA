@@ -5,16 +5,18 @@ import { formatStat } from '../lib/format';
 interface Props { rows: LeaderRow[]; caption: string }
 const { rows, caption } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const hintId = `scroll-${caption.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
-{rows.length === 0 ? <p class="muted">None in this release.</p> : (
-<div class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`}>
+{rows.length === 0 ? <p class="muted">None in this release.</p> : (<>
+<p class="scroll-hint" id={hintId}>Scroll sideways for more columns</p>
+<div aria-describedby={hintId} class="table-wrap" tabindex="0" role="region" aria-label={`Scrollable table: ${caption}`}>
   <table>
     <caption>{caption}</caption>
-    <thead><tr><th scope="col">Player</th><th scope="col">Statistic</th><th scope="col" class="num">Value</th><th scope="col" class="num">Games observed</th></tr></thead>
+    <thead><tr><th scope="col" class="row-identity">Player</th><th scope="col">Statistic</th><th scope="col" class="num">Value</th><th scope="col" class="num">Games observed</th></tr></thead>
     <tbody>
       {rows.map((r) => (
         <tr>
-          <th scope="row"><a href={withBase(base, `player/?id=${encodeURIComponent(encodeId(r.player_id))}`)}>{r.name}</a></th>
+          <th scope="row" class="row-identity"><a href={withBase(base, `player/?id=${encodeURIComponent(encodeId(r.player_id))}`)}>{r.name}</a></th>
           <td>{r.stat}</td>
           <td class="num">{formatStat(r.value, 1)}</td>
           <td class="num">{r.observed_games}</td>
@@ -22,4 +24,4 @@ const base = import.meta.env.BASE_URL;
       ))}
     </tbody>
   </table>
-</div>)}
+</div></>)}

@@ -62,30 +62,31 @@ export default function HistoryExplorer({ index }: { index: HistoryIndex }) {
               {t.warning ? <div className="banner banner-stale" data-testid="history-warning"><p><strong>Historical methodology warning.</strong> {t.warning}</p></div> : null}
               <BarChart id="hist-chart" title={`${t.title}: top ${Math.min(10, t.rows.length)} (${t.era})`} description={`${t.rows[0]?.value_label ?? 'value'} by player`} categoryLabel="Player" valueLabel={t.rows[0]?.value_label ?? 'Value'}
                 data={t.rows.slice(0, 10).map((r) => ({ label: r.name, value: r.value }))} />
-              <div className="table-wrap" tabIndex={0} role="region" aria-label={`Scrollable table: ${t.title}`}>
+              <p className="scroll-hint" id="history-scroll-hint">Scroll sideways for more columns</p>
+              <div aria-describedby="history-scroll-hint" className="table-wrap" tabIndex={0} role="region" aria-label={`Scrollable table: ${t.title}`}>
                 <table>
                   <caption>{t.title} — {t.era}</caption>
                   <thead>
                     <tr>
                       <SortHeader label="Rank" column="rank" sort={state.sort} dir={dir} onSort={onSort} numeric />
-                      <SortHeader label="Player" column="name" sort={state.sort} dir={dir} onSort={onSort} />
-                      <th scope="col" className="col-optional">Clubs</th>
-                      <th scope="col" className="col-optional">Seasons</th>
+                      <SortHeader label="Player" column="name" sort={state.sort} dir={dir} onSort={onSort} className="row-identity" />
                       <SortHeader label={t.rows[0]?.value_label ?? 'Value'} column="value" sort={state.sort} dir={dir} onSort={onSort} numeric />
-                      <SortHeader label="Games with data" column="games" sort={state.sort} dir={dir} onSort={onSort} numeric className="col-optional" />
                       <SortHeader label="Coverage" column="coverage" sort={state.sort} dir={dir} onSort={onSort} numeric />
+                      <th scope="col">Clubs</th>
+                      <th scope="col">Seasons</th>
+                      <SortHeader label="Games with data" column="games" sort={state.sort} dir={dir} onSort={onSort} numeric />
                     </tr>
                   </thead>
                   <tbody>
                     {rows.map((r) => (
                       <tr key={`${r.rank}-${r.name}`}>
                         <td className="num">{r.rank}</td>
-                        <th scope="row">{r.player_id ? <a href={withBase(base, `player/?id=${encodeId(r.player_id)}`)}>{r.name}</a> : r.name}</th>
-                        <td className="col-optional">{r.clubs.join(', ')}</td>
-                        <td className="col-optional">{r.seasons ?? <span className="missing">not recorded</span>}</td>
+                        <th scope="row" className="row-identity">{r.player_id ? <a href={withBase(base, `player/?id=${encodeId(r.player_id)}`)}>{r.name}</a> : r.name}</th>
                         <td className="num">{formatStat(r.value, r.value % 1 ? 1 : 0)}</td>
-                        <td className="num col-optional">{r.observed_games === null ? <span className="missing">not recorded</span> : `${r.observed_games}${r.eligible_games !== null ? ` of ${r.eligible_games}` : ''}`}</td>
                         <td className="num">{formatPercent(r.coverage)}</td>
+                        <td>{r.clubs.join(', ')}</td>
+                        <td>{r.seasons ?? <span className="missing">not recorded</span>}</td>
+                        <td className="num">{r.observed_games === null ? <span className="missing">not recorded</span> : `${r.observed_games}${r.eligible_games !== null ? ` of ${r.eligible_games}` : ''}`}</td>
                       </tr>
                     ))}
                   </tbody>
