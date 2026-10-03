@@ -64,3 +64,19 @@ The final release is `20261003T113058Z-7662fe99ba96`, built under
 The independent AFL Tables source audit still FAILs. This presentation work does
 not correct that dataset or close acceptance of Claude's unfinished reconciler.
 No numeric pipeline, harness, hook, schedule or source dataset was changed.
+
+## URL case handling
+
+The repository name and project base remain `SuperCoach-VIA` and
+`/SuperCoach-VIA/`. A separate owner Pages site serves a lowercase entry and a
+case-aware fallback. Its source and publish allowlist are in
+[ops/pages-alias](../../ops/pages-alias/README.md).
+
+The redirect preserves the remaining path, query and fragment. Canonical and
+unrelated paths do not redirect. A plain project link is available without
+JavaScript. Deep/mixed-case aliases can initially return HTTP 404 before the
+browser redirects; this does not change the host's case-sensitive routing.
+
+The alias passed 23 deterministic path checks and nine browser checks. Two
+additional browser regressions verified exact-case assets and player/match
+links under the unchanged root and `/SuperCoach-VIA/` fixture bases.
