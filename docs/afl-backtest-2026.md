@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` / `scripts/update_eval_surface.sh` on every data refresh. Every figure on the page is generated from the backtest artifacts, with one deliberate exception: the Round-18 coverage-limitation record is a frozen, dated decision record and is explained as such where it appears.*
 
 <!-- 2026-BACKTEST-START -->
-*Last updated: 2026-08-29 · 25 rounds backtested · auto-generated*
+*Last updated: 2026-10-06 · 25 rounds backtested · auto-generated*
 
 ### What is a backtest?
 
@@ -212,7 +212,7 @@ The scope of that corpus is re-derived on every refresh — the season span by r
 | Training-row filter | `year < target_year` | `supercoach/prediction.py:598` |
 | Seasons available to train on | 2005–2025 | `year` column of the loaded player files, target year excluded |
 | File-loading filter | born after `target_year − 40` = 1986 | `supercoach/prediction.py:434` |
-| Player files loaded | **[data]** 1,818 of 13,367 | `data/player_data/*performance_details.csv` |
+| Player files loaded | **[data]** 1,817 of 13,364 | `data/player_data/*performance_details.csv` |
 
 That last row is a *loading* population, not the training set: it bounds which players' files are opened, not which rows are fitted. A file is admitted on the birth-year token in its filename, so the season span above is the span of the files the loader actually admits — not of the archive as a whole, which reaches much further back.
 <!-- TRAINCORPUS-END -->
@@ -236,7 +236,7 @@ Both paths are in use. Which round took which path is not a matter of record-kee
 | R17 | `20260629_222805` | retrain | `[cutoff y=2026 r=<N>] dropped <X> future rows` in that vintage's run log |
 | R18 | `20260710_214217` | archive (`--from-csv`) | `next_round_18_prediction_20260629_2253.csv` committed 2026-06-29T23:12, first bounce 2026-07-02 19:30 — **attested** |
 | R19 | `20260713_205008` | archive (`--from-csv`) | `next_round_19_prediction_20260707_1606.csv` committed 2026-07-09T15:31, first bounce 2026-07-09 18:10 — **attested** |
-| R20 | `20260725_173602` | archive (`--from-csv`) | `next_round_20_prediction_20260714_0730.csv` — never committed; ordering rests on the filename timestamp and mtime, **not attested** |
+| R20 | `20260725_173602` | archive (`--from-csv`) | `next_round_20_prediction_20260714_0730.csv` committed 2026-09-25T18:59, first bounce 2026-07-16 19:30 — **not attested** |
 | R21 | `20260728_004513` | archive (`--from-csv`) | `next_round_21_prediction_20260720_2007.csv` committed 2026-07-20T20:13, first bounce 2026-07-23 19:00 — **attested** |
 | R22 | `20260805_111331` | archive (`--from-csv`) | `next_round_22_prediction_20260728_0045.csv` committed 2026-07-28T08:12, first bounce 2026-07-30 19:30 — **attested** |
 | R23 | `20260811_102810` | archive (`--from-csv`) | `next_round_23_prediction_20260805_1113.csv` committed 2026-08-05T13:32, first bounce 2026-08-06 19:30 — **attested** |

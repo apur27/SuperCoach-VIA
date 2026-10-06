@@ -5,7 +5,7 @@
 *This file is auto-updated by `update_team_analysis.py` / `refresh_readme.py` on every data refresh.*
 
 <!-- 2026-STAT-LEADERS-START -->
-This section is a guide to the AFL performance statistics that fans, analysts and SuperCoach players track most closely — what each stat measures, who is leading it in 2026, what the league-wide distribution looks like, and which other stats most reliably predict it. All numbers are computed live from `data/player_data/` for 2026 (rounds 1-25, **616 eligible players** with >=3 games, **9425 player-games** included). Correlations are Pearson r on the per-game frame; with several thousand player-games, p-values are universally tiny — read the magnitude of r, not the significance star.
+This section is a guide to the AFL performance statistics that fans, analysts and SuperCoach players track most closely — what each stat measures, who is leading it in 2026, what the league-wide distribution looks like, and which other stats most reliably predict it. All numbers are computed live from `data/player_data/` for 2026 (rounds 1-25, **618 eligible players** with >=3 games, **9437 player-games** included). Correlations are Pearson r on the per-game frame; with several thousand player-games, p-values are universally tiny — read the magnitude of r, not the significance star.
 
 ![2026 AFL statistical leaders](../assets/charts/player_stat_leaders_2026.png)
 
@@ -20,10 +20,10 @@ This section is a guide to the AFL performance statistics that fans, analysts an
 | 1 | Nick Daicos | Collingwood | 34.9 |
 | 2 | Bailey Smith | Geelong | 32.6 |
 | 3 | Errol Gulden | Sydney | 31.5 |
-| 4 | Harry Sheezel | North Melbourne | 30.5 |
+| 4 | Harry Sheezel | North Melbourne | 30.4 |
 | 5 | Clayton Oliver | Greater Western Sydney | 30.2 |
 
-League distribution (eligible players, season-to-date): mean **14.91**, std 5.64, p10 8.30 / p50 14.03 / p90 23.21, max 34.86.
+League distribution (eligible players, season-to-date): mean **14.90**, std 5.64, p10 8.30 / p50 14.00 / p90 23.18, max 34.86.
 
 Top per-game correlates: `effective_disposals` (r = +0.97 *(mechanically related)*), `uncontested_possessions` (r = +0.87), `kicks` (r = +0.83).
 
@@ -39,7 +39,7 @@ Top per-game correlates: `effective_disposals` (r = +0.97 *(mechanically related
 | 4 | Dayne Zorko | Brisbane Lions | 19.5 |
 | 5 | Errol Gulden | Sydney | 19.5 |
 
-League distribution (eligible players, season-to-date): mean **8.58**, std 3.50, p10 4.50 / p50 8.06 / p90 13.18, max 21.47.
+League distribution (eligible players, season-to-date): mean **8.57**, std 3.50, p10 4.50 / p50 8.04 / p90 13.17, max 21.47.
 
 Top per-game correlates: `disposals` (r = +0.83), `effective_disposals` (r = +0.81), `uncontested_possessions` (r = +0.77).
 
@@ -52,10 +52,10 @@ Top per-game correlates: `disposals` (r = +0.83), `effective_disposals` (r = +0.
 | 1 | Clayton Oliver | Greater Western Sydney | 19.1 |
 | 2 | Lachie Neale | Brisbane Lions | 16.3 |
 | 3 | Patrick Cripps | Carlton | 16.3 |
-| 4 | Nick Daicos | Collingwood | 16.0 |
-| 5 | Sam Walsh | Carlton | 16.0 |
+| 4 | Sam Walsh | Carlton | 16.0 |
+| 5 | Nick Daicos | Collingwood | 16.0 |
 
-League distribution (eligible players, season-to-date): mean **6.33**, std 3.05, p10 3.02 / p50 5.75 / p90 10.51, max 19.09.
+League distribution (eligible players, season-to-date): mean **6.33**, std 3.04, p10 3.03 / p50 5.75 / p90 10.50, max 19.09.
 
 Top per-game correlates: `disposals` (r = +0.78), `effective_disposals` (r = +0.75), `contested_possessions` (r = +0.65).
 
@@ -71,7 +71,7 @@ Top per-game correlates: `disposals` (r = +0.78), `effective_disposals` (r = +0.
 | 4 | Harry Sheezel | North Melbourne | 27.3 |
 | 5 | Errol Gulden | Sydney | 26.7 |
 
-League distribution (eligible players, season-to-date): mean **12.58**, std 5.24, p10 6.35 / p50 11.83 / p90 20.12, max 29.91.
+League distribution (eligible players, season-to-date): mean **12.56**, std 5.23, p10 6.36 / p50 11.83 / p90 20.11, max 29.91.
 
 Top per-game correlates: `disposals` (r = +0.97 *(mechanically related)*), `uncontested_possessions` (r = +0.86), `kicks` (r = +0.81).
 
@@ -93,7 +93,7 @@ League distribution (eligible players, season-to-date): mean **0.52**, std 0.59,
 
 Top per-game correlates: `marks_inside_50` (r = +0.67), `behinds` (r = +0.32), `rebound_50s` (r = -0.30).
 
-**Goal conversion rate.** Defined as `goals / (goals + behinds)`, season-to-date, for players with >=2 goals total. League distribution (n=431): mean **58.5%**, std 16.0pp, p10 39% / p50 57% / p90 77%.
+**Goal conversion rate.** Defined as `goals / (goals + behinds)`, season-to-date, for players with >=2 goals total. League distribution (n=432): mean **58.4%**, std 16.0pp, p10 39% / p50 57% / p90 77%.
 
 | Rank | Player | Team | G | B | Conversion |
 |---|---|---|---|---|---|
@@ -128,7 +128,7 @@ Top per-game correlates: `marks_inside_50` (r = +0.55), `goals` (r = +0.32), `re
 | Rank | Player | Team | Per game |
 |---|---|---|---|
 | 1 | Clayton Oliver | Greater Western Sydney | 14.91 |
-| 2 | Patrick Cripps | Carlton | 14.57 |
+| 2 | Patrick Cripps | Carlton | 14.52 |
 | 3 | Tristan Xerri | North Melbourne | 14.26 |
 | 4 | Matt Rowell | Gold Coast | 14.17 |
 | 5 | Lachie Neale | Brisbane Lions | 13.48 |
@@ -149,7 +149,7 @@ Top per-game correlates: `clearances` (r = +0.75), `handballs` (r = +0.65), `dis
 | 4 | Clayton Oliver | Greater Western Sydney | 7.30 |
 | 5 | Lachie Neale | Brisbane Lions | 7.17 |
 
-League distribution (eligible players, season-to-date): mean **1.40**, std 1.62, p10 0.11 / p50 0.77 / p90 4.05, max 7.57.
+League distribution (eligible players, season-to-date): mean **1.39**, std 1.62, p10 0.11 / p50 0.76 / p90 4.05, max 7.57.
 
 Top per-game correlates: `contested_possessions` (r = +0.75), `handballs` (r = +0.56), `disposals` (r = +0.50).
 
@@ -165,7 +165,7 @@ Top per-game correlates: `contested_possessions` (r = +0.75), `handballs` (r = +
 | 4 | James Rowbottom | Sydney | 6.48 |
 | 5 | Ned Long | Collingwood | 6.29 |
 
-League distribution (eligible players, season-to-date): mean **2.38**, std 1.22, p10 1.10 / p50 2.11 / p90 4.09, max 7.27.
+League distribution (eligible players, season-to-date): mean **2.39**, std 1.22, p10 1.10 / p50 2.13 / p90 4.09, max 7.27.
 
 Top per-game correlates: `clearances` (r = +0.39), `contested_possessions` (r = +0.37), `handballs` (r = +0.31).
 
@@ -183,7 +183,7 @@ Top per-game correlates: `clearances` (r = +0.39), `contested_possessions` (r = 
 | 4 | Lachlan Mcandrew | Adelaide | 32.2 |
 | 5 | Jordon Sweet | Port Adelaide | 30.2 |
 
-League distribution (eligible players, season-to-date): mean **1.56**, std 5.38, p10 0.00 / p50 0.00 / p90 1.94, max 34.88.
+League distribution (eligible players, season-to-date): mean **1.55**, std 5.37, p10 0.00 / p50 0.00 / p90 1.87, max 34.88.
 
 Top per-game correlates: `clearances` (r = +0.27), `uncontested_possessions` (r = -0.24), `contested_possessions` (r = +0.20).
 
@@ -197,11 +197,11 @@ Top per-game correlates: `clearances` (r = +0.27), `uncontested_possessions` (r 
 |---|---|---|---|
 | 1 | Bailey Smith | Geelong | 7.27 |
 | 2 | Errol Gulden | Sydney | 7.00 |
-| 3 | Ed Richards | Western Bulldogs | 6.77 |
-| 4 | Chad Warner | Sydney | 6.77 |
+| 3 | Chad Warner | Sydney | 6.77 |
+| 4 | Ed Richards | Western Bulldogs | 6.77 |
 | 5 | Nick Daicos | Collingwood | 6.73 |
 
-League distribution (eligible players, season-to-date): mean **2.15**, std 1.20, p10 0.71 / p50 2.00 / p90 3.68, max 7.27.
+League distribution (eligible players, season-to-date): mean **2.14**, std 1.20, p10 0.71 / p50 2.00 / p90 3.68, max 7.27.
 
 Top per-game correlates: `disposals` (r = +0.52), `effective_disposals` (r = +0.49), `kicks` (r = +0.48).
 
@@ -217,7 +217,7 @@ Top per-game correlates: `disposals` (r = +0.52), `effective_disposals` (r = +0.
 | 4 | Harris Andrews | Brisbane Lions | 7.5 |
 | 5 | Jacob Weitering | Carlton | 7.2 |
 
-League distribution (eligible players, season-to-date): mean **3.78**, std 1.47, p10 1.95 / p50 3.69 / p90 5.68, max 9.61.
+League distribution (eligible players, season-to-date): mean **3.77**, std 1.47, p10 1.95 / p50 3.67 / p90 5.68, max 9.61.
 
 Top per-game correlates: `kicks` (r = +0.56), `uncontested_possessions` (r = +0.53), `effective_disposals` (r = +0.42).
 
@@ -265,7 +265,7 @@ Top per-game correlates: `free_kicks_against` (r = +0.61 *(mechanically related)
 | 2 | Harley Reid | West Coast | 2.52 |
 | 3 | Matt Rowell | Gold Coast | 2.39 |
 | 4 | Max Gawn | Melbourne | 2.35 |
-| 5 | Sam Darcy | Western Bulldogs | 2.33 |
+| 5 | Vigo Visentini | Essendon | 2.33 |
 
 League distribution (eligible players, season-to-date): mean **0.78**, std 0.42, p10 0.33 / p50 0.71 / p90 1.31, max 3.00.
 
@@ -280,8 +280,8 @@ Top per-game correlates: `contested_possessions` (r = +0.42), `clearances` (r = 
 | 1 | Harley Reid | West Coast | 3.00 |
 | 2 | Brodie Grundy | Sydney | 2.57 |
 | 3 | Patrick Cripps | Carlton | 2.04 |
-| 4 | Lachlan Blakiston | Essendon | 2.00 |
-| 5 | Matt Flynn | West Coast | 2.00 |
+| 4 | Liam Reidy | Carlton | 2.00 |
+| 5 | Clayton Oliver | Greater Western Sydney | 2.00 |
 
 League distribution (eligible players, season-to-date): mean **0.80**, std 0.41, p10 0.33 / p50 0.74 / p90 1.33, max 3.00.
 
@@ -295,37 +295,37 @@ Team-level stats use `data/matches/matches_2026.csv` rather than per-player aggr
 
 | Rank | Team | Avg score | Avg margin | Avg Q1 |
 |---|---|---|---|---|
-| 1 | Sydney | 110.6 | +29.3 | 28.5 |
-| 2 | Brisbane Lions | 108.7 | +19.3 | 24.6 |
-| 3 | Geelong | 102.4 | +18.7 | 25.3 |
-| 4 | Melbourne | 100.0 | +8.8 | 25.3 |
-| 5 | Fremantle | 99.4 | +27.0 | 24.7 |
+| 1 | Sydney | 110.2 | +28.6 | 29.1 |
+| 2 | Brisbane Lions | 109.6 | +17.1 | 25.1 |
+| 3 | Geelong | 102.7 | +18.0 | 24.2 |
+| 4 | Melbourne | 98.2 | +7.6 | 25.4 |
+| 5 | Hawthorn | 98.2 | +16.1 | 24.0 |
 
-League distribution of per-game team scores: mean **89.1**, std 25.3, p10 60 / p50 88 / p90 122, min 29 / max 170.
+League distribution of per-game team scores: mean **89.3**, std 25.3, p10 60 / p50 88 / p90 122, min 29 / max 170.
 
 #### Winning margin
 
 | Rank | Team | Avg margin | Avg score |
 |---|---|---|---|
-| 1 | Sydney | +29.3 | 110.6 |
-| 2 | Fremantle | +27.0 | 99.4 |
-| 3 | Brisbane Lions | +19.3 | 108.7 |
-| 4 | Geelong | +18.7 | 102.4 |
-| 5 | Hawthorn | +16.5 | 98.3 |
+| 1 | Sydney | +28.6 | 110.2 |
+| 2 | Fremantle | +22.5 | 97.0 |
+| 3 | Geelong | +18.0 | 102.7 |
+| 4 | Brisbane Lions | +17.1 | 109.6 |
+| 5 | Hawthorn | +16.1 | 98.2 |
 
-League distribution of margins (signed, per team-game): mean ~0 by construction, std 41.4, p10 -54 / p50 0 / p90 54.
+League distribution of margins (signed, per team-game): mean ~0 by construction, std 40.8, p10 -54 / p50 0 / p90 54.
 
 #### First-quarter score
 
 | Rank | Team | Avg Q1 score | Avg full-game score |
 |---|---|---|---|
-| 1 | Sydney | 28.5 | 110.6 |
-| 2 | Adelaide | 26.3 | 94.3 |
-| 3 | Melbourne | 25.3 | 100.0 |
-| 4 | Geelong | 25.3 | 102.4 |
-| 5 | Fremantle | 24.7 | 99.4 |
+| 1 | Sydney | 29.1 | 110.2 |
+| 2 | Adelaide | 25.6 | 94.0 |
+| 3 | Melbourne | 25.4 | 98.2 |
+| 4 | Brisbane Lions | 25.1 | 109.6 |
+| 5 | St Kilda | 24.4 | 88.3 |
 
-League distribution of Q1 scores: mean **22.4**, std 11.0, p10 9 / p50 21 / p90 38.
+League distribution of Q1 scores: mean **22.4**, std 10.9, p10 9 / p50 21 / p90 38.
 
 ### Going deeper with this repo's models
 
