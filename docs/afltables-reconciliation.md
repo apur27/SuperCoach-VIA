@@ -92,15 +92,30 @@ differ from `origin/main` (override with `RECON_GATE_BASE`) against the accepted
 
 | Decision | Exit | When |
 |---|---|---|
-| pass | 0 | the changed seasons agree with AFL Tables (corrections, if any, are committed) |
-| warn | 0 | capture outage, an AFL Tables record that is itself incomplete, or no data root: fails open, loudly |
+| pass | 0 | the audited seasons agree with AFL Tables (corrections, if any, are re-gated and committed) |
+| noop | 0 | no season changed and none is pending |
+| warn | 0 | capture outage, or an AFL Tables record that is itself incomplete: fails open, loudly |
+| skip | 0 | no accepted snapshot data root on this machine: fails open, loudly |
 | block | 1 | a confirmed discrepancy, or a duplicate/unresolved player file, remains after corrections |
+
+Every exit is written to `.claude/audit/reconciliation_gate_status.json` (decision, reason, seasons, run
+directory) and the harness logs that decision, so a skipped or warned gate never reads as a pass.
+Seasons a run could not verify (warn, skip, block) are kept in its `pending` list and audited again on
+every later run until one passes, so a correction a re-scrape reverted in a fail-open week is still
+caught. When `--fix` changed data, the phantom-row and match-completeness gates run again on the
+corrected tree before the corrections commit.
 
 A block stops the cycle with the Phase 1 commit unpushed. Read `gate.json` in the run directory under
 `var/reconciliations/afltables/gate/` (the log line names it); `reports/after-fix/findings.jsonl` lists
 what remains. A scraper defect: fix it and re-run the cycle. A change on AFL Tables itself: route to
 Scientist. A season's capture costs one polite request every two seconds (a full season is about
 1,000 pages, roughly 35 minutes).
+
+**Model-input vintage break (2026-10).** The October 2026 corrections replaced inferred row dates with
+the source fixture dates on about 175,631 **[data]** player-game rows dated 2005 or later. Those dates feed
+`days_since_last_game`, so backtests and predictions produced before the corrections (every 2026
+vintage under `data/prediction/backtest/`) used different inputs from anything produced after them.
+Do not pool 2026 and later backtest metrics as one series without stating this break.
 
 ## Scope
 

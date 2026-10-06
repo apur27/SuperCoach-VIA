@@ -41,3 +41,21 @@ def test_limitations_are_documented():
     src = SMOKE.read_text()
     assert "LIMITATIONS" in src.upper()
     assert "SMOKE_SKIP_SCRAPE" in src
+
+
+def test_the_tested_diff_is_identified_by_hash():
+    """Gaffer L2: a green smoke run must name exactly what it tested. The runner records the SHA-256 of the
+    working-tree diff it applied (and of the untracked files it copied), so a later reviewer can check the merged
+    change is the one that ran."""
+    src = SMOKE.read_text()
+    assert "sha256sum" in src and "diff sha256" in src, "the smoke run does not record what it tested"
+
+
+def test_the_smoke_worktree_gets_an_interpreter_and_tests_its_own_source():
+    """The harness resolves its interpreter from <repo>/.venv (scripts/harness_env.sh); a fresh smoke worktree has
+    none, so every plain smoke run died at once. The runner defaults SUPERCOACH_PYTHON to the main repo's
+    interpreter and puts the worktree's src/ first on PYTHONPATH, so the package under test is the worktree's
+    copy, not the main checkout's editable install."""
+    src = SMOKE.read_text()
+    assert 'SUPERCOACH_PYTHON="${SUPERCOACH_PYTHON:-$REPO_ROOT/.venv/bin/python}"' in src
+    assert 'PYTHONPATH="$WT/src' in src

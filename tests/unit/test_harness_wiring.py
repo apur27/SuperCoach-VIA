@@ -321,3 +321,27 @@ def test_reconciliation_corrections_commit_only_what_the_gate_changed(weekly_src
     assert before != -1, "no pre-gate snapshot of the data dirs"
     after = src[gate:src.find("push origin main")]
     assert '"$RECON_BEFORE"' in after, "the commit is not conditioned on the gate's own changes"
+
+
+def test_reconciliation_gate_log_reflects_its_recorded_decision(weekly_src):
+    """Gaffer H1: a skipped or warned gate must not log "passed". The harness reads the decision the gate
+    persisted and logs skip / warn / pass distinctly."""
+    src = _uncommented(weekly_src)
+    gate = src.find("scripts/reconciliation_gate.py")
+    block = src[gate:src.find("push origin main")]
+    assert "reconciliation_gate_status.json" in block
+    for word in ("SKIPPED", "WARN"):
+        assert word in block, f"no distinct log line for a {word.lower()} gate"
+
+
+def test_data_changed_by_fix_is_re_gated_before_it_is_committed(weekly_src):
+    """Gaffer M2: --fix can add, replace or delete rows after the phantom-row and match-completeness gates ran.
+    Both gates run again on the corrected tree before the corrections commit."""
+    src = _uncommented(weekly_src)
+    gate = src.find("scripts/reconciliation_gate.py")
+    block = src[gate:src.find("push origin main")]
+    commit = block.find("git_commit_safe.sh commit")
+    assert commit != -1
+    for check in ("phantom_row_validator.py", "match_completeness_gate.py"):
+        at = block.find(check)
+        assert at != -1 and at < commit, f"{check} is not re-run before the corrections commit"

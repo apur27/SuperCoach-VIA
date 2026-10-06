@@ -78,6 +78,7 @@ git -C "$REPO_ROOT" worktree add --detach "$WT" "$REF" >/dev/null 2>&1 || {
 if ! git -C "$REPO_ROOT" diff --quiet HEAD 2>/dev/null; then
   if git -C "$REPO_ROOT" diff HEAD | git -C "$WT" apply --whitespace=nowarn 2>/dev/null; then
     echo "[smoke] applied uncommitted working-tree changes"
+    echo "[smoke] diff sha256  : $(git -C "$REPO_ROOT" diff HEAD | sha256sum | cut -d' ' -f1)"
   else
     echo "[smoke] FATAL: could not apply working-tree changes; refusing to test the wrong code" >&2
     exit 1
@@ -93,6 +94,9 @@ while IFS= read -r f; do
   mkdir -p "$WT/$(dirname "$f")" 2>/dev/null || true
   cp -a "$REPO_ROOT/$f" "$WT/$f" 2>/dev/null || true
 done < <(git -C "$REPO_ROOT" ls-files --others --exclude-standard)
+# What was tested, by content (Gaffer L2): the base ref and the untracked source files copied above.
+echo "[smoke] ref commit   : $(git -C "$REPO_ROOT" rev-parse "$REF")"
+echo "[smoke] untracked sha256: $(git -C "$REPO_ROOT" ls-files --others --exclude-standard | grep -v '^data/\|^\.claude/audit/\|^assets/' | sort | xargs -r -d '\n' sha256sum -- 2>/dev/null | sha256sum | cut -d' ' -f1)"
 
 # Real data snapshot — the harness is meaningless against an empty tree. Uncommitted
 # working-tree data is deliberately included: that is the state the next cycle runs on.
@@ -128,6 +132,12 @@ STUBEOF
   echo "[smoke] scrape STUBBED — lower fidelity, not valid for scraper changes"
 fi
 
+# Interpreter: a fresh worktree has no .venv (scripts/harness_env.sh needs one). Use the main repo's, but import
+# the package from the WORKTREE's src/ (PYTHONPATH precedes the editable install), so the code under test is the
+# change being smoke-tested, not the main checkout's copy.
+export SUPERCOACH_PYTHON="${SUPERCOACH_PYTHON:-$REPO_ROOT/.venv/bin/python}"
+export PYTHONPATH="$WT/src${PYTHONPATH:+:$PYTHONPATH}"
+echo "[smoke] interpreter : $SUPERCOACH_PYTHON (package from $WT/src)"
 echo "[smoke] starting weekly_refresh.sh ..."
 ( cd "$WT" && PATH="$SHIM:$PATH" bash scripts/weekly_refresh.sh ) > "$LOG" 2>&1
 RC=$?

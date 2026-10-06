@@ -170,11 +170,31 @@ if ! "$PYTHON" "$REPO_ROOT/scripts/reconciliation_gate.py" --legacy-root "$REPO_
     exit 1
 fi
 if [ "$(git -C "$REPO_ROOT" status --porcelain -- data/player_data data/matches data/awards)" != "$RECON_BEFORE" ]; then
+    # --fix changed rows after the phantom-row and match-completeness gates ran (Gaffer M2): re-gate the
+    # corrected tree before it is committed.
+    if ! "$PYTHON" "$REPO_ROOT/scripts/phantom_row_validator.py" 2>&1 | tee -a "$LOG_FILE"; then
+        log "FATAL: phantom-row validator failed on the reconciliation-corrected tree — Phase 1 commit NOT pushed. Route to Scientist."
+        exit 1
+    fi
+    if ! "$PYTHON" "$REPO_ROOT/scripts/match_completeness_gate.py" 2>&1 | tee -a "$LOG_FILE"; then
+        log "FATAL: match-completeness gate failed on the reconciliation-corrected tree — Phase 1 commit NOT pushed. Route to Scientist."
+        exit 1
+    fi
     git -C "$REPO_ROOT" add -A -- data/player_data data/matches data/awards
     (cd "$REPO_ROOT" && scripts/git_commit_safe.sh commit -m "Apply source-backed AFL Tables corrections to the scraped seasons (${TODAY})") 2>&1 | tee -a "$LOG_FILE"
-    log "[1c/5] Reconciliation corrections committed."
+    log "[1c/5] Reconciliation corrections re-gated and committed."
 fi
-log "[1c/5] Reconciliation gate passed. Pushing Phase 1 commit..."
+# Log what the gate actually decided (Gaffer H1): a skipped or warned gate is not a pass.
+RECON_DECISION=$("$PYTHON" -c 'import json,sys; print(json.load(open(sys.argv[1]))["decision"])' \
+    "$REPO_ROOT/.claude/audit/reconciliation_gate_status.json" 2>/dev/null || echo "unrecorded")
+case "$RECON_DECISION" in
+    pass)  log "[1c/5] Reconciliation gate passed: the changed seasons agree with AFL Tables." ;;
+    noop)  log "[1c/5] Reconciliation gate: no season changed or pending; nothing audited." ;;
+    skip)  log "[1c/5] Reconciliation gate SKIPPED (no accepted snapshot data root); the seasons stay pending for the next run." ;;
+    warn)  log "[1c/5] Reconciliation gate WARN (capture outage or incomplete source record); the seasons stay pending — see .claude/audit/reconciliation_gate_status.json." ;;
+    *)     log "[1c/5] Reconciliation gate WARN: no decision recorded ($RECON_DECISION)." ;;
+esac
+log "[1c/5] Pushing Phase 1 commit..."
 PENDING=$(git -C "$REPO_ROOT" rev-list origin/main..HEAD --count 2>/dev/null || echo 0)
 if [ "$PENDING" -gt 0 ]; then
     git -C "$REPO_ROOT" push origin main 2>&1 | tee -a "$LOG_FILE"

@@ -163,6 +163,23 @@ def _write(run_dir: Path, out: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
+def _record(
+    path: Path, decision: str, reason: str, seasons: list[int], pending: list[int], run_dir: str | None
+) -> None:
+    """Persist every exit (Gaffer H1): the harness logs from this, and the next run reads ``pending``."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    doc = {"decision": decision, "reason": reason, "seasons": seasons, "pending": sorted(set(pending)),
+           "run_dir": run_dir, "at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")}  # fmt: skip
+    path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
+
+def _pending(path: Path) -> list[int]:
+    """Seasons an earlier run could not verify (skip, warn or block): audited again until one passes (M4)."""
+    if not path.is_file():
+        return []
+    return [int(x) for x in json.loads(path.read_text()).get("pending", [])]
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--legacy-root", type=Path, default=REPO)
@@ -172,18 +189,28 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--runs-root", type=Path, default=REPO / "var" / "reconciliations" / "afltables" / "gate")
     ap.add_argument("--through-date", default=date.today().isoformat())
     ap.add_argument("--fix", action="store_true", help="apply source-backed legacy corrections, then re-audit")
+    ap.add_argument(
+        "--status-file", type=Path, help="default: <legacy-root>/.claude/audit/reconciliation_gate_status.json"
+    )
     a = ap.parse_args(argv[1:])
+    status = a.status_file or a.legacy_root / ".claude" / "audit" / "reconciliation_gate_status.json"
+    pending = _pending(status)
+    changed = sorted(set(a.season or [])) or seasons_since(a.legacy_root, a.base)
+    seasons = sorted(set(changed) | set(pending))
     if not (a.data_root / "current.json").is_file():
-        print(f"reconciliation gate: WARN no accepted snapshot at {a.data_root}; gate skipped (fails open)")
+        reason = f"no accepted snapshot at {a.data_root}; gate skipped (fails open)"
+        _record(status, "skip", reason, seasons, seasons, None)
+        print(f"reconciliation gate: WARN {reason}; seasons {seasons} stay pending")
         return 0
-    seasons = sorted(set(a.season or [])) or seasons_since(a.legacy_root, a.base)
     if not seasons:
+        _record(status, "noop", "no legacy season changed and none pending", [], [], None)
         print("reconciliation gate: no legacy season changed; nothing to audit")
         return 0
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     run_dir = a.runs_root / f"{stamp}-{'-'.join(map(str, seasons))}"
     out = run_gate(seasons=seasons, run_dir=run_dir, data_root=a.data_root, legacy_root=a.legacy_root,
                    through_date=a.through_date, fix=a.fix)  # fmt: skip
+    _record(status, out["decision"], out["reason"], seasons, [] if out["decision"] == "pass" else seasons, str(run_dir))
     print(f"reconciliation gate: {out['decision'].upper()} for seasons {seasons}: {out['reason']} ({run_dir})")
     return 1 if out["decision"] == "block" else 0
 

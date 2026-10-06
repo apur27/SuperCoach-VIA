@@ -93,7 +93,8 @@ def test_a_missing_snapshot_data_root_skips_loudly_instead_of_breaking_the_cycle
     """A clone without the untracked var/ data root cannot pin a snapshot: warn and exit 0 (fail open, like a
     capture outage), never crash the weekly cycle on a machine-local precondition."""
     g = _load()
-    rc = g.main(["gate", "--data-root", str(tmp_path / "absent"), "--season", "2026", "--runs-root", str(tmp_path)])
+    rc = g.main(["gate", "--data-root", str(tmp_path / "absent"), "--season", "2026", "--runs-root", str(tmp_path),
+                 "--status-file", str(tmp_path.parent / f"{tmp_path.name}-status.json")])  # fmt: skip
     assert rc == 0
     assert "WARN" in capsys.readouterr().out
     assert list(tmp_path.iterdir()) == []  # no run directory was started
@@ -121,3 +122,51 @@ def test_seasons_are_read_from_the_working_tree_against_the_base_so_staged_but_u
     assert g.seasons_since(repo, "HEAD") == [1990]  # unstaged
     run("add", "-A")
     assert g.seasons_since(repo, "HEAD") == [1990]  # staged, commit suppressed
+
+
+def _status(root: Path) -> dict[str, Any]:
+    return json.loads((root / "status.json").read_text())
+
+
+def test_every_gate_exit_is_persisted_and_unverified_seasons_carry_to_the_next_run(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Gaffer H1/M4: a skipped or warned gate used to log "passed" and leave nothing behind, so a re-scrape that
+    reverted a correction in a fail-open week stayed reverted. Every exit now writes a status record, and seasons
+    that were not verified are audited again on the next run until one passes."""
+    g = _load()
+    data = tmp_path / "data"
+    status = ["--status-file", str(tmp_path / "status.json"), "--runs-root", str(tmp_path / "runs")]
+    changed: list[int] = [2026]
+    calls: list[list[int]] = []
+    outcome = {"decision": "warn", "reason": "capture outage"}
+    monkeypatch.setattr(g, "seasons_since", lambda root, base: list(changed))
+
+    def fake_gate(*, seasons: list[int], **kw: Any) -> dict[str, Any]:
+        calls.append(seasons)
+        return {**outcome, "seasons": seasons}
+
+    monkeypatch.setattr(g, "run_gate", fake_gate)
+    # no accepted snapshot: skipped, and 2026 is pending
+    assert g.main(["gate", "--data-root", str(data), *status]) == 0
+    assert _status(tmp_path)["decision"] == "skip" and _status(tmp_path)["pending"] == [2026]
+    data.mkdir()
+    (data / "current.json").write_text("{}")
+    # nothing changed this week, but the pending season is audited; the capture fails open: still pending
+    changed[:] = []
+    assert g.main(["gate", "--data-root", str(data), *status]) == 0
+    assert calls == [[2026]] and _status(tmp_path)["decision"] == "warn" and _status(tmp_path)["pending"] == [2026]
+    # a new season changes too: both are audited, and a pass clears the queue
+    changed[:] = [2025]
+    outcome.update(decision="pass", reason="agree")
+    assert g.main(["gate", "--data-root", str(data), *status]) == 0
+    assert calls[-1] == [2025, 2026] and _status(tmp_path)["pending"] == []
+    # nothing changed and nothing pending: recorded as such, no audit run
+    changed[:] = []
+    assert g.main(["gate", "--data-root", str(data), *status]) == 0
+    assert len(calls) == 2 and _status(tmp_path)["decision"] == "noop"
+    # a block exits 1 and keeps its seasons pending
+    changed[:] = [2026]
+    outcome.update(decision="block", reason="mismatch")
+    assert g.main(["gate", "--data-root", str(data), *status]) == 1
+    assert _status(tmp_path)["decision"] == "block" and _status(tmp_path)["pending"] == [2026]
