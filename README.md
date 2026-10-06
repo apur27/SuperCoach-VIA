@@ -54,7 +54,7 @@ The figures below belong to the legacy R1–R25 evaluation and retained CSV inve
 | Metric | Value | Source |
 |---|--:|---|
 | AFL history covered | **[data]** 1897–present | `data/matches/` |
-| Player performance files | **[data]** 13,367 | `data/player_data/` (one CSV per player, one row per game) |
+| Player performance files | **[data]** 13,364 | `data/player_data/` (one CSV per player, one row per game) |
 | Backtest window | **[data]** R1–R25, 2026 | `data/prediction/backtest/` |
 | Player-round predictions scored | **[data]** 9,007 | walk-forward backtest |
 | Mean absolute error (disposals) | **[data]** 3.961 | player-weighted across all rounds |
@@ -181,7 +181,7 @@ Full spec — build order, sample Planner output, the `FootyFinding` Pydantic en
 
 ## The data
 
-The legacy corpus contains **[data]** 13,367 individual player files and season match CSVs beginning in 1897. The newer pipeline stores immutable, content-addressed snapshot fragments and release metadata. These layers have different vintages; source reconciliation found gaps in both.
+The legacy corpus contains **[data]** 13,364 individual player files and season match CSVs beginning in 1897. The newer pipeline stores immutable, content-addressed snapshot fragments and release metadata. These layers have different vintages; source reconciliation found gaps in both.
 
 Historical statistics have different recording periods. A missing value is not automatically a zero, and a career counter can disagree with the appearances actually stored. The provisional reports expose recorded-game denominators and preserve these limitations instead of asserting complete careers.
 
@@ -207,7 +207,7 @@ Each layer below is small on purpose. The interest is that all of them are prese
 
 | Layer | What it is |
 |---|---|
-| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,367 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form) and a one-hot flag for which club the player is facing. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
+| **Data** | 130 years of AFL match and player CSVs — **[data]** 13,364 player performance files (one row per player per game, 1897–present) plus per-season match files. Weekly scrape via `refresh_data.py`. Feature engineering builds rolling-window features per player (3-game, 5-game, season-to-date form) and a one-hot flag for which club the player is facing. The `LeakProofPredictor` enforces a strict temporal cutoff: predicting round N sees only data strictly before round N. |
 | **ML inference** | A `VotingRegressor` ensemble of three diverse base learners: `HistGradientBoostingRegressor`, `LightGBM` (GPU-capable, CPU fallback), and `RandomForestRegressor`. Hyperparameters tuned via Optuna's TPE sampler over a 50-trial budget. Post-hoc out-of-fold linear calibration corrects top-end compression. Walk-forward backtest: **[data]** MAE 3.961 across 9,007 player-rounds (R1–R25, 2026). Cross-validation is `GroupKFold` keyed on player ID, so no player appears in both train and validation folds. |
 | **LLM reasoning — Scientist** | Claude Opus running a ReAct loop (Reason, Act, Observe, repeat) for 50+ turns on complex tasks. Tool surface: Bash, Read/Write/Edit, WebFetch, Agent subagents. `CLAUDE.md` is the versioned system prompt and policy doc — data-coverage caveats, ranking constants, behavioural constraints, all in source control and diffable. |
 | **LLM reasoning — FootyStrategy** | An 8-lens tactical council, each lens produced separately then reconciled. Output is tiered — Settled, Probationary, Contested, Insufficient Evidence — and every Settled or Probationary recommendation must carry a **tripwire**: an explicit observable that would overturn it. Caveats from the Scientist's upstream findings propagate through unchanged; the data tier caps the recommendation tier. |
