@@ -13,7 +13,7 @@ Part A is the corrections run (2026-10-03 to 2026-10-06, Scientist on `claude-op
 | Release `20261005T105910Z-94be51774067` (`scvia check-integrity --scope full --as-of 2026-10-05T12:00:00Z`) | PASS, 26 of 26, complete | `integrity-asof1005/integrity-full.json`: embedded `report_sha256` field `6b3b776e…a6ea607` (the checker's own content hash, also the value `completion.json` records for the release); file byte sha256 `6f6eb3e2…21c28c16` |
 | Independent spot-check of applied corrections (production ingest parser, no shared code) | 1,501 of 1,501 sampled values agree; 1 date unverifiable, 0 disagree | `spotcheck-round2.json`, seed 20261005, 200 per rule |
 | Weekly gate on changed seasons | Wired; live run caught a real AFL Tables revision (fixed); §6.2 smoke run PASS, with two environment overrides, and the gate's audit/fix/commit path not yet run inside a cycle (A6) | `scripts/reconciliation_gate.py`, `scripts/weekly_refresh.sh` |
-| Final acceptance (Opus Surveyor + QA + Gaffer) | **PENDING, not run** | command in A8 |
+| Final acceptance (Opus Surveyor + QA + Gaffer) | **ACCEPTED WITH CONDITIONS** (2026-10-06); data verdict unchanged, UNKNOWN | `docs/reviews/AFLTABLES_RECONCILIATION_ACCEPTANCE.md` |
 
 Overall data verdict: **UNKNOWN, not PASS**. Every remaining finding is a cell the source cannot settle:
 
