@@ -1,5 +1,5 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Geelong,2024,1,North Melbourne,6,W,14,3,3,8,11,,1.0,,1.0,1.0,1.0,,3.0,1.0,,,6,5,1.0,,5,,,87,2024-04-05
+Geelong,2024,1,North Melbourne,6,W,14,3,3,8,11,,1.0,,1.0,1.0,1.0,,3.0,1.0,,,6,5,1.0,,5,,,87,2024-04-14
 Geelong,2025,2,Fremantle,2,W,14,6,7,5,11,,,,1.0,1.0,,,3.0,,1.0,,3,7,1.0,,3,,,91,2025-03-15
 Geelong,2025,3,St Kilda,3,L,14,11,7,4,15,,,,3.0,1.0,4.0,,1.0,1.0,,,8,8,2.0,,8,,,93,2025-03-22
 Geelong,2025,4,Brisbane Lions,1,L,14,4,5,6,10,,,,2.0,3.0,,,,,,,6,7,1.0,,10,,,93,2025-03-29
@@ -34,7 +34,7 @@ Geelong,2026,32,Western Bulldogs,7,W,14,3,1,7,10,,,,,1.0,,,,,,,3,6,,,4,,,86,2026
 Geelong,2026,33,Port Adelaide,8,L,14,10,8,11,21,,,,2.0,4.0,,,2.0,2.0,1.0,,8,13,1.0,,5,,,92,2026-04-25
 Geelong,2026,34,North Melbourne,9,W,14,6,4,6,12,,,,1.0,5.0,1.0,,4.0,,2.0,,2,10,,,11,,,95,2026-05-02
 Geelong,2026,35,Collingwood,10,W,14,7,8,5,12,,,,3.0,4.0,,,1.0,1.0,,,4,8,1.0,,5,,,92,2026-05-09
-Geelong,2026,36,Brisbane Lions,11,W,14,7,2,8,15,,,,2.0,2.0,,,6.0,1.0,2.0,,9,5,,,3,,,96,2026-05-14
+Geelong,2026,36,Brisbane Lions,11,W,14,7,2,8,15,,,,2.0,2.0,,,6.0,1.0,2.0,,9,5,,,4,,,96,2026-05-14
 Geelong,2026,37,Sydney,12,W,14,12,8,4,16,1.0,,,2.0,3.0,2.0,,,2.0,,,6,8,1.0,,8,,,95,2026-05-23
 Geelong,2026,38,Carlton,13,L,14,13,12,5,18,,,,1.0,4.0,1.0,1.0,1.0,,1.0,,4,14,3.0,,8,,,95,2026-05-29
 Geelong,2026,39,Adelaide,14,L,14,17,7,7,24,,,,1.0,3.0,3.0,,4.0,3.0,3.0,,11,13,1.0,,8,,,87,2026-06-04

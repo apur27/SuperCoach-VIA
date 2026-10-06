@@ -1,16 +1,16 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Western Bulldogs,2024,1,Richmond,10,W,27,9,4,8,17,,,,2.0,2.0,1.0,,2.0,2.0,1.0,,5,12,,,3.0,,,78,2024-05-03
-Western Bulldogs,2024,2,Greater Western Sydney,11,W,27,10,4,2,12,,,,1.0,3.0,5.0,,,1.0,,,3,9,,,4.0,,,75,2024-05-10
-Western Bulldogs,2024,3,Sydney,12,L,27,10,6,4,14,,,,2.0,,4.0,1.0,2.0,,,,6,8,1.0,,2.0,,,77,2024-05-17
-Western Bulldogs,2024,4,Collingwood,13,W,27,12,7,4,16,,,,,4.0,2.0,,2.0,,,,3,13,,,2.0,,,84,2024-05-24
-Western Bulldogs,2024,5,Brisbane Lions,14,L,27,7,3,5,12,,,,,4.0,1.0,,,,,,2,11,,,4.0,1.0,,76,2024-05-31
-Western Bulldogs,2024,6,Fremantle,15,W,27,6,6,9,15,,,,1.0,,,,2.0,,1.0,,6,10,,,,1.0,,83,2024-06-07
-Western Bulldogs,2024,7,North Melbourne,17,W,27,8,6,11,19,,,,2.0,,2.0,1.0,3.0,1.0,1.0,,10,13,,,6.0,1.0,,83,2024-06-21
-Western Bulldogs,2024,8↑,Port Adelaide,18,L,27,5,2,2,7,1.0,,,2.0,2.0,1.0,,1.0,,,,1,5,,,,1.0,,45,2024-06-28
-Western Bulldogs,2024,9,Carlton,19,W,27,6,3,6,12,,,,1.0,2.0,2.0,,2.0,,,,7,6,1.0,,3.0,,,73,2024-07-05
-Western Bulldogs,2024,10,Geelong,20,W,27,10,7,8,18,,,,1.0,2.0,2.0,,,,,,5,12,,,2.0,,,82,2024-07-12
-Western Bulldogs,2024,11,North Melbourne,24,W,27,17,13,12,29,,,,1.0,4.0,2.0,,1.0,,1.0,,5,24,1.0,,6.0,,2.0,84,2024-08-09
-Western Bulldogs,2024,12,Greater Western Sydney,25,W,27,8,2,8,16,,1.0,,4.0,1.0,1.0,,7.0,1.0,2.0,,9,7,,,2.0,,,72,2024-08-16
+Western Bulldogs,2024,1,Richmond,10,W,27,9,4,8,17,,,,2.0,2.0,1.0,,2.0,2.0,1.0,,5,12,,,3.0,,,78,2024-05-11
+Western Bulldogs,2024,2,Greater Western Sydney,11,W,27,10,4,2,12,,,,1.0,3.0,5.0,,,1.0,,,3,9,,,4.0,,,75,2024-05-18
+Western Bulldogs,2024,3,Sydney,12,L,27,10,6,4,14,,,,2.0,,4.0,1.0,2.0,,,,6,8,1.0,,2.0,,,77,2024-05-23
+Western Bulldogs,2024,4,Collingwood,13,W,27,12,7,4,16,,,,,4.0,2.0,,2.0,,,,3,13,,,2.0,,,84,2024-05-31
+Western Bulldogs,2024,5,Brisbane Lions,14,L,27,7,3,5,12,,,,,4.0,1.0,,,,,,2,11,,,4.0,1.0,,76,2024-06-07
+Western Bulldogs,2024,6,Fremantle,15,W,27,6,6,9,15,,,,1.0,,,,2.0,,1.0,,6,10,,,,1.0,,83,2024-06-15
+Western Bulldogs,2024,7,North Melbourne,17,W,27,8,6,11,19,,,,2.0,,2.0,1.0,3.0,1.0,1.0,,10,13,,,6.0,1.0,,83,2024-06-29
+Western Bulldogs,2024,8↑,Port Adelaide,18,L,27,5,2,2,7,1.0,,,2.0,2.0,1.0,,1.0,,,,1,5,,,,1.0,,45,2024-07-06
+Western Bulldogs,2024,9,Carlton,19,W,27,6,3,6,12,,,,1.0,2.0,2.0,,2.0,,,,7,6,1.0,,3.0,,,73,2024-07-13
+Western Bulldogs,2024,10,Geelong,20,W,27,10,7,8,18,,,,1.0,2.0,2.0,,,,,,5,12,,,2.0,,,82,2024-07-20
+Western Bulldogs,2024,11,North Melbourne,24,W,27,17,13,12,29,,,,1.0,4.0,2.0,,1.0,,1.0,,5,24,1.0,,6.0,,2.0,84,2024-08-18
+Western Bulldogs,2024,12,Greater Western Sydney,25,W,27,8,2,8,16,,1.0,,4.0,1.0,1.0,,7.0,1.0,2.0,,9,7,,,2.0,,,72,2024-08-25
 Western Bulldogs,2024,13,Hawthorn,EF,L,27,14,7,5,19,,1.0,,,3.0,3.0,1.0,1.0,1.0,,,4,15,,,4.0,2.0,2.0,82,2024-09-06
 Western Bulldogs,2025,14,North Melbourne,2,W,27,14,6,14,28,1.0,,,3.0,3.0,3.0,2.0,3.0,,1.0,,8,19,,,1.0,3.0,1.0,88,2025-03-15
 Western Bulldogs,2025,15,Collingwood,3,L,27,9,1,14,23,1.0,1.0,,4.0,3.0,1.0,4.0,4.0,,2.0,,12,13,,,3.0,1.0,,80,2025-03-21

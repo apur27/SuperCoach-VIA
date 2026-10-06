@@ -1,11 +1,11 @@
 team,year,games_played,opponent,round,result,jersey_num,kicks,marks,handballs,disposals,goals,behinds,hit_outs,tackles,rebound_50s,inside_50s,clearances,clangers,free_kicks_for,free_kicks_against,brownlow_votes,contested_possessions,uncontested_possessions,contested_marks,marks_inside_50,one_percenters,bounces,goal_assist,percentage_of_game_played,date
-Western Bulldogs,2022,1,Collingwood,9,W,36,9.0,7.0,4.0,13.0,,,,2.0,,1.0,,1.0,,,,3.0,11.0,,,,,,81.0,2022-04-26
-Western Bulldogs,2022,2,Gold Coast,10,W,36,8.0,6.0,8.0,16.0,,,,1.0,3.0,1.0,,1.0,,,,6.0,12.0,1.0,,4.0,,,73.0,2022-05-03
-Western Bulldogs,2022,3,West Coast,11,W,36,,,,,,,,,,,,,,,,,,,,,,,,2022-05-10
-Western Bulldogs,2022,4,St Kilda,18,W,36,,,,,,,,,,,,,,,,,,,,,,,,2022-06-28
-Western Bulldogs,2023,5,Greater Western Sydney,20,L,36,5.0,2.0,3.0,8.0,,,,1.0,4.0,,1.0,,,,,2.0,7.0,,,6.0,,,76.0,2023-07-12
-Western Bulldogs,2024,6↑,Richmond,10,W,36,8.0,6.0,4.0,12.0,,,,,3.0,,1.0,1.0,,,,3.0,9.0,,,1.0,2.0,,48.0,2024-05-03
-Western Bulldogs,2024,7,Greater Western Sydney,11,W,36,6.0,3.0,4.0,10.0,,,,1.0,2.0,,,2.0,,1.0,,4.0,6.0,,,1.0,,,81.0,2024-05-10
+Western Bulldogs,2022,1,Collingwood,9,W,36,9.0,7.0,4.0,13.0,,,,2.0,,1.0,,1.0,,,,3.0,11.0,,,,,,81.0,2022-05-13
+Western Bulldogs,2022,2,Gold Coast,10,W,36,8.0,6.0,8.0,16.0,,,,1.0,3.0,1.0,,1.0,,,,6.0,12.0,1.0,,4.0,,,73.0,2022-05-21
+Western Bulldogs,2022,3,West Coast,11,W,36,,,,,,,,,,,,,,,,,,,,,,,,2022-05-28
+Western Bulldogs,2022,4,St Kilda,18,W,36,,,,,,,,,,,,,,,,,,,,,,,,2022-07-15
+Western Bulldogs,2023,5,Greater Western Sydney,20,L,36,5.0,2.0,3.0,8.0,,,,1.0,4.0,,1.0,,,,,2.0,7.0,,,6.0,,,76.0,2023-07-29
+Western Bulldogs,2024,6↑,Richmond,10,W,36,8.0,6.0,4.0,12.0,,,,,3.0,,1.0,1.0,,,,3.0,9.0,,,1.0,2.0,,48.0,2024-05-11
+Western Bulldogs,2024,7,Greater Western Sydney,11,W,36,6.0,3.0,4.0,10.0,,,,1.0,2.0,,,2.0,,1.0,,4.0,6.0,,,1.0,,,81.0,2024-05-18
 Western Bulldogs,2025,8,North Melbourne,2,W,36,4.0,5.0,4.0,8.0,,,,,4.0,1.0,,2.0,1.0,1.0,,1.0,9.0,,,,,,73.0,2025-03-15
 Western Bulldogs,2025,9,Brisbane Lions,6,L,36,7.0,3.0,5.0,12.0,,1.0,,2.0,2.0,1.0,,2.0,1.0,1.0,,4.0,9.0,,,7.0,,1.0,84.0,2025-04-12
 Western Bulldogs,2025,10,St Kilda,7,W,36,11.0,7.0,5.0,16.0,,1.0,,2.0,1.0,,,,2.0,,,4.0,12.0,,,,,,85.0,2025-04-20
