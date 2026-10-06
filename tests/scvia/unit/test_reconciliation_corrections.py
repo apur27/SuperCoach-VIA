@@ -262,7 +262,8 @@ def test_identity_proposals_become_player_changes_with_the_audited_old_values() 
         "07-03-1958",
         "08-03-1958",
     ) in got
-    assert ("data/player_data/ross_jonathan_03111973", "delete_files", "present", None) in got
+    # the removal names its canonical record, so applying it can repoint the duplicate's lineup tokens
+    assert ("data/player_data/ross_jonathan_03111973", "delete_files", "present", "ross_jonathon_03111973") in got
     assert not [c for c in leg if c.field == "source_urls"]  # the legacy layer has no source URL column
 
 
@@ -541,3 +542,50 @@ def test_a_local_number_the_source_revised_to_a_proven_zero_is_corrected_to_zero
     single = _f("CELL_MISMATCH", field="kicks", expected=0, actual=4, rule_id="R-PROFILE-ONLY")
     changes, unsupported = CO.changes_from_findings([nonzero, single])
     assert changes == [] and sum(unsupported.values()) == 2
+
+
+def test_removing_a_duplicate_repoints_its_lineup_tokens_to_the_canonical_name(tmp_path: Path) -> None:
+    """2026-10-06: three duplicate removals (William Green, Jonathan Ross, Henry Paternoster) left 23 lineup tokens
+    naming a player that no longer existed; the import quarantined them, and the 2026 one blocked the numeric
+    pipeline. The removal now rewrites the duplicate's exact name to the canonical's name, only in lineup rows of
+    the duplicate's own club-seasons, and leaves every other byte alone."""
+    root = _legacy(tmp_path)
+    d = root / "data" / "player_data"
+    pers = "first_name,last_name,born_date,debut_date,height,weight\n"
+    perf = "team,year,games_played,opponent,round,result,jersey_num,kicks,date\n"
+    (d / "ross_jonathan_03111973_personal_details.csv").write_text(pers + "Jonathan,Ross,03-11-1973,,,\n")
+    (d / "ross_jonathan_03111973_performance_details.csv").write_text(
+        perf + "Adelaide,1992,1,Geelong,5,W,9,3,1992-04-19\n"
+    )
+    (d / "ross_jonathon_03111973_personal_details.csv").write_text(pers + "Jonathon,Ross,03-11-1973,,,\n")
+    (d / "ross_jonathon_03111973_performance_details.csv").write_text(
+        perf + "Adelaide,1992,1,Geelong,5,W,9,3,1992-04-19\n"
+    )
+    lu = root / "data" / "lineups"
+    lu.mkdir(parents=True)
+    body = (
+        "year,date,round_num,team_name,players\n"
+        "1992,1992-04-19 13:40,5,Adelaide,Ann Able;Jonathan Ross;Bob Baker\n"
+        "1993,1993-04-19 13:40,5,Adelaide,Jonathan Ross;Bob Baker\n"  # not a season the duplicate played: untouched
+    )
+    (lu / "team_lineups_adelaide.csv").write_text(body)
+    (lu / "team_lineups_geelong.csv").write_text(
+        "year,date,round_num,team_name,players\n1992,x,5,Geelong,Jonathan Ross\n"
+    )
+    change = CO.Change("legacy_csv", "data/player_data/ross_jonathan_03111973", "delete_files", "present",
+                       "ross_jonathon_03111973", "R-ID-DUPLICATE", "", "u", None)  # fmt: skip
+    CO.apply_legacy(root, [change])
+    assert not (d / "ross_jonathan_03111973_performance_details.csv").exists()
+    assert (lu / "team_lineups_adelaide.csv").read_text() == body.replace(
+        "Ann Able;Jonathan Ross;Bob Baker", "Ann Able;Jonathon Ross;Bob Baker"
+    )
+    assert "Jonathan Ross" in (lu / "team_lineups_geelong.csv").read_text()  # another club's row: untouched
+    # an old change file (no canonical named) still only removes the files
+    (d / "ross_jonathan_03111973_personal_details.csv").write_text(pers + "Jonathan,Ross,03-11-1973,,,\n")
+    (d / "ross_jonathan_03111973_performance_details.csv").write_text(
+        perf + "Adelaide,1993,1,Geelong,5,W,9,3,1993-04-19\n"
+    )
+    before = (lu / "team_lineups_adelaide.csv").read_text()
+    CO.apply_legacy(root, [CO.Change("legacy_csv", "data/player_data/ross_jonathan_03111973", "delete_files",
+                                     "present", None, "R-ID-DUPLICATE", "", "u", None)])  # fmt: skip
+    assert (lu / "team_lineups_adelaide.csv").read_text() == before

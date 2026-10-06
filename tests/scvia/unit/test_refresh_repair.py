@@ -218,3 +218,20 @@ def test_evidence_tampering_is_detected(tmp_path: Path) -> None:
     raw.write_bytes(gzip.compress(b"<html>forged</html>"))
     with pytest.raises(rf.RepairEvidenceError, match="hash"):
         _replay(ev, base, tmp_path)
+
+
+def test_a_base_row_whose_resolved_zeros_fill_the_page_blanks_matches_the_repair(tmp_path: Path) -> None:
+    """2026-10-06: the AFL Tables reconciliation wrote the B1-repaired games into the legacy CSVs. Import resolves
+    their blank cells to proven zeros, while the archived page reads them as None, so every replay failed with
+    repair_conflicts_with_base although no value disagreed. A zero against a page blank is consistent; a value the
+    page does not print, or a missing value the page does print, still conflicts."""
+    site = _site()
+    ok = {"player_id": "legacy:perez_old_25082001", "club_id": "hawthorn",
+          "kicks": 6, "handballs": 3, "disposals": 9, "goals": 0, "tackles": 0}  # fmt: skip
+    res = _run(site, _base(site, old_row=ok), tmp_path / "ok")
+    ev = {e["display_name"]: e for e in res.evidence}["Old Perez"]
+    assert ev["rows_matching"] == 1 and ev["rows_conflicting"] == 0, ev
+    for bad in ({**ok, "goals": 1}, {**ok, "kicks": None}):
+        res = _run(site, _base(site, old_row=bad), tmp_path / str(len(str(bad))))
+        ev = {e["display_name"]: e for e in res.evidence}["Old Perez"]
+        assert ev["rows_conflicting"] == 1 and res.outcome is CheckOutcome.FAIL, bad

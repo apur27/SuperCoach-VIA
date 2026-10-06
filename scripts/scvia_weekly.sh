@@ -36,7 +36,13 @@ VAR="${SCVIA_VAR_DIR:-$ROOT/var}"
 MODE="${SCVIA_SOURCE_MODE:-rehearsal}"
 DATA="${SCVIA_DATA_ROOT:-$VAR/corpus}"
 OUT="${SCVIA_OUTPUT_ROOT:-$VAR/corpus-dist}"
-REPAIR="${SCVIA_REPAIR:-$ROOT/docs/rewrite/evidence/b1:2026}"
+# Archived repair evidence EVIDENCE_DIR:SEASON, passed only when named. The B1 repair (2026 games of Perez, Dalton,
+# Brodie) is contained in the legacy CSVs since the AFL Tables reconciliation corrections (commit 67217df40) and is no
+# longer the default: replaying it on the corrected source cannot reproduce its rows and would add Dalton twice.
+# A rehearsal of an older, pre-correction capture sets SCVIA_REPAIR=docs/rewrite/evidence/b1:2026.
+REPAIR="${SCVIA_REPAIR:-}"
+REPAIR_ARGS=()
+[ -n "$REPAIR" ] && REPAIR_ARGS=(--repair "$REPAIR")
 MARKER="${SCVIA_CYCLE_MARKER:-$ROOT/.claude/audit/last_refresh_status.json}"
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 STARTED="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -114,7 +120,10 @@ body = json.loads(path.read_text())
 if body.get("exit_code") is None:
     raise SystemExit("scvia_weekly: cycle marker has no exit_code; refusing to start")
 PY
-if pgrep -af 'scripts/weekly_refresh.sh|refresh_and_rank.sh' | grep -v 'pgrep -af' >/dev/null; then
+# A running cycle is bash EXECUTING a harness script, not any command line that mentions one: the old substring
+# match counted `git add scripts/weekly_refresh.sh && git commit` as a cycle and broke the pre-commit hook.
+HARNESS_PROC_RE='^([^ ]*/)?bash( +-[^ ]+)* +([^ ]*/)?(scripts/weekly_refresh|refresh_and_rank)\.sh( |$)'
+if pgrep -f "$HARNESS_PROC_RE" >/dev/null; then
   echo "scvia_weekly: a weekly_refresh or refresh_and_rank process is running" >&2
   exit 2
 fi
@@ -160,7 +169,7 @@ elif [ "$MODE" = "rehearsal" ]; then
   fi
   PHASE="import"
   write_status "$PHASE"
-  run import-legacy --source "$SCVIA_CAPTURED_SOURCE" --data-root "$DATA" --repair "$REPAIR" --json \
+  run import-legacy --source "$SCVIA_CAPTURED_SOURCE" --data-root "$DATA" "${REPAIR_ARGS[@]}" --json \
     > "$RUN_DIR/import.json"
 else
   echo "scvia_weekly: SCVIA_SOURCE_MODE must be production or rehearsal" >&2
@@ -243,7 +252,7 @@ if [ -n "${SCVIA_LEGACY_ROOT:-}" ]; then
   PHASE="compare"
   write_status "$PHASE"
   "${PY[@]}" "$ROOT/docs/rewrite/evidence/rehearsal_compare.py" --regenerate \
-    "$SCVIA_CAPTURED_SOURCE" "$RUN_DIR/legacy-exports" --repair "$REPAIR" \
+    "$SCVIA_CAPTURED_SOURCE" "$RUN_DIR/legacy-exports" "${REPAIR_ARGS[@]}" \
     --correction-data-root "$DATA" --source-snapshot "$SOURCE_SNAP" --corrected-snapshot "$SNAP" \
     > "$RUN_DIR/legacy-regenerate.json"
   "${PY[@]}" "$ROOT/docs/rewrite/evidence/rehearsal_compare.py" --promoted \

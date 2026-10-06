@@ -351,3 +351,25 @@ def test_production_refresh_is_the_only_source_step(tmp_path: Path) -> None:
     assert all(not line.startswith("import-legacy") for line in calls)
     status = json.loads((tmp_path / "var" / "scvia-weekly-status.json").read_text())
     assert status["mode"] == "production" and status["exit_code"] == 0
+
+
+def test_archived_b1_repair_is_retired_by_default_and_passed_only_when_named(tmp_path: Path) -> None:
+    """The B1 repair (2026 games of Perez, Dalton, Brodie) is fully contained in the legacy CSVs since the AFL Tables
+    reconciliation corrections (commit 67217df40); replaying it on the corrected source fails its exact-reproduction
+    check and would add Dalton under a second id. It is no longer the default; a rehearsal of an older,
+    pre-correction capture names it explicitly with SCVIA_REPAIR."""
+    fake, log = _fake(tmp_path)
+    captured = tmp_path / "captured"
+    (captured / "data").mkdir(parents=True)
+    env = _env(tmp_path, fake, log, SCVIA_CAPTURED_SOURCE=str(captured))
+    env.pop("SCVIA_REPAIR", None)
+    result = _run(env)
+    assert result.returncode == 0, result.stderr
+    first = log.read_text().splitlines()[0]
+    assert first.startswith("import-legacy ") and "--repair" not in first
+    log.unlink()
+    explicit = f"{ROOT}/docs/rewrite/evidence/b1:2026"
+    (tmp_path / "x").mkdir()
+    result = _run(_env(tmp_path / "x", fake, log, SCVIA_CAPTURED_SOURCE=str(captured), SCVIA_REPAIR=explicit))
+    assert result.returncode == 0, result.stderr
+    assert f"--repair {explicit}" in log.read_text().splitlines()[0]

@@ -401,6 +401,14 @@ def season_aggregate_rows(
 # ---------------------------------------------------------------------------
 
 
+def _consistent_with_page(base: Any, page: Any) -> bool:
+    """A base cell agrees with the page cell. A page blank (``None``) is consistent with a recorded zero the
+    import's blank rule resolved, as well as with a null; a printed page value must be stored exactly."""
+    if page is None:
+        return base is None or _same(base, 0)
+    return _same(base, page)
+
+
 def _same(a: Any, b: Any) -> bool:
     if a is None or b is None:
         return a is None and b is None
@@ -979,7 +987,11 @@ def repair_player_pages(
             loaded = base.load_player_rows(season, m.match_id) if base.load_player_rows else []
             prior = [x for x in loaded if x.get("player_id") == pid]
             if prior:
-                same = all(_same(prior[0].get(c), r.game.stats.get(c)) for c in PLAYER_STAT_COLUMNS if c in prior[0])
+                same = all(
+                    _consistent_with_page(prior[0].get(c), r.game.stats.get(c))
+                    for c in PLAYER_STAT_COLUMNS
+                    if c in prior[0]
+                )
                 ev["rows_matching" if same else "rows_conflicting"] += 1
                 if not same:
                     blocked = True

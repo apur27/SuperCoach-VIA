@@ -30,8 +30,10 @@ uv run scvia demo --output dist/demo                 # ~10 s; every output is la
 
 ```bash
 # 1. Import + validate + promote (about 60 s and 2 GiB peak on the reference box).
-#    The B1 repair evidence is replayed offline, re-hashed and re-parsed.
-uv run scvia import-legacy --source . --repair docs/rewrite/evidence/b1:2026 --json
+#    The legacy CSVs contain the B1 repair rows since the AFL Tables reconciliation corrections
+#    (commit 67217df40), so the current source needs no --repair. For a capture taken BEFORE those
+#    corrections, add `--repair docs/rewrite/evidence/b1:2026` (replayed offline, re-hashed, re-parsed).
+uv run scvia import-legacy --source . --json
 uv run scvia status --json
 
 # 2. Train (or reuse the cached bundle) and forecast the next REAL fixtures.

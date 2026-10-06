@@ -208,6 +208,7 @@ def apply_legacy(root: Path, changes: list[Change]) -> dict[str, int]:
     deletes: list[Path] = []
     creates: dict[Path, bytes] = {}
     awards: list[Change] = []
+    repoints: list[tuple[str, str]] = []  # (duplicate target, canonical slug): lineup tokens to repoint
     for c in changes:
         if c.layer != "legacy_csv":
             continue
@@ -235,6 +236,8 @@ def apply_legacy(root: Path, changes: list[Change]) -> dict[str, int]:
             if not all(p.is_file() for p in pair):
                 raise CorrectionConflict(f"{c.target}: both legacy files must exist to remove a duplicate player")
             deletes.extend(pair)
+            if c.new:
+                repoints.append((c.target, str(c.new)))
             continue
         rel, _, row = c.target.rpartition("#")
         base_dir = _PLAYER_DIR if rel.startswith(_PLAYER_DIR) else _MATCH_DIR if rel.startswith(_MATCH_DIR) else ""
@@ -283,6 +286,7 @@ def apply_legacy(root: Path, changes: list[Change]) -> dict[str, int]:
         if inserts:
             rows = [header, *_ordered(header, rows[1:], inserts)]
         staged[path] = _serialise(rows)
+    staged.update(_lineup_repoints(root, repoints, staged))
     if awards:
         staged[root / _AWARDS_FILE] = _awards_file(root / _AWARDS_FILE, awards)
         cells += len(awards)
@@ -303,6 +307,54 @@ def apply_legacy(root: Path, changes: list[Change]) -> dict[str, int]:
         out["files_created"] = len(creates)
     if deletes:
         out["files_removed"] = len(deletes)
+    return out
+
+
+_LINEUP_DIR = "data/lineups"
+
+
+def _name_of(personal: Path) -> str:
+    rows = list(csv.DictReader(io.StringIO(personal.read_text(encoding="utf-8"))))
+    if len(rows) != 1:
+        raise CorrectionConflict(f"{personal.name}: expected one personal-details row")
+    return f"{rows[0].get('first_name', '').strip()} {rows[0].get('last_name', '').strip()}".strip()
+
+
+def _lineup_repoints(root: Path, repoints: list[tuple[str, str]], staged: dict[Path, bytes]) -> dict[Path, bytes]:
+    """A removed duplicate's lineup tokens, renamed to its canonical record's name (they would otherwise name a
+    player that no longer exists). Only rows of the duplicate's own (club, season) appearances are touched; a row
+    that already names the canonical as well is a conflict. Lines are edited in place, every other byte kept."""
+    out: dict[Path, bytes] = {}
+    lineups = sorted((root / _LINEUP_DIR).glob("*.csv")) if (root / _LINEUP_DIR).is_dir() else []
+    for target, canonical in repoints:
+        dup_name = _name_of(root / f"{target}_personal_details.csv")
+        can_pers = root / f"{_PLAYER_DIR}{canonical}_personal_details.csv"
+        if not can_pers.is_file():
+            raise CorrectionConflict(f"{canonical}: the canonical record of {target} does not exist")
+        can_name = _name_of(can_pers)
+        if not dup_name or dup_name == can_name:
+            continue
+        perf = root / f"{target}_performance_details.csv"
+        played = {(r.get("team", ""), r.get("year", "")) for r in csv.DictReader(io.StringIO(perf.read_text()))}
+        for path in lineups:
+            text = (out.get(path) or staged.get(path) or path.read_bytes()).decode("utf-8")
+            lines = text.split("\n")
+            changed = False
+            for i, line in enumerate(lines[1:], start=1):
+                cells = line.split(",", 4)
+                if len(cells) != 5 or (cells[3], cells[0]) not in played:
+                    continue
+                tokens = cells[4].rstrip("\r").split(";")
+                if dup_name not in tokens:
+                    continue
+                if can_name in tokens:
+                    raise CorrectionConflict(f"{path.name}:{i + 1}: names both {dup_name!r} and {can_name!r}")
+                tail = cells[4][len(cells[4].rstrip("\r")) :]
+                cells[4] = ";".join(can_name if t == dup_name else t for t in tokens) + tail
+                lines[i] = ",".join(cells)
+                changed = True
+            if changed:
+                out[path] = "\n".join(lines).encode("utf-8")
     return out
 
 
@@ -665,7 +717,9 @@ def identity_changes(proposals: list[Any], *, layer: str, current: dict[str, dic
                 add(target, "source_urls", json.dumps([p.url]))
         else:
             if p.kind == "duplicate":
-                out.append(Change(layer, f"{_PLAYER_DIR}{key}", "delete_files", "present", None, rule, "", p.url, None))
+                canonical = str(p.fields["canonical"]).removeprefix("legacy:")
+                out.append(Change(layer, f"{_PLAYER_DIR}{key}", "delete_files", "present", canonical, rule, "", p.url,
+                                  None))  # fmt: skip
                 continue
             target = f"{_PLAYER_DIR}{key}_personal_details.csv#1"
             for f in ("first_name", "last_name"):

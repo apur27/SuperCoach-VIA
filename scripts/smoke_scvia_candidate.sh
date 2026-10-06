@@ -24,7 +24,9 @@ if body.get("exit_code") is None:
 print(f"cycle marker exit_code={body['exit_code']} phase={body.get('phase')}")
 PY
 
-if pgrep -af 'scripts/weekly_refresh.sh|refresh_and_rank.sh' | grep -v "pgrep -af" >/dev/null; then
+# bash EXECUTING a harness script, not any command line mentioning one (same pattern as scvia_weekly.sh)
+HARNESS_PROC_RE='^([^ ]*/)?bash( +-[^ ]+)* +([^ ]*/)?(scripts/weekly_refresh|refresh_and_rank)\.sh( |$)'
+if pgrep -f "$HARNESS_PROC_RE" >/dev/null; then
   echo "smoke: a weekly_refresh or refresh_and_rank process is running" >&2
   exit 1
 fi

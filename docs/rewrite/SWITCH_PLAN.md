@@ -120,6 +120,17 @@ env SCVIA_BIN="$PWD/.venv/bin/scvia" \
   bash scripts/smoke_scvia_candidate.sh
 ```
 
+Since the AFL Tables reconciliation corrections (commit 67217df40, 2026-10-06) the legacy CSVs contain the
+archived B1 repair rows, so `scvia_weekly.sh` passes no `--repair` unless `SCVIA_REPAIR` names one. For a
+captured source taken before those corrections, add `SCVIA_REPAIR=docs/rewrite/evidence/b1:2026` to the
+invocation above; on the corrected source, B1 cannot reproduce its rows and would add Dalton under a second id.
+
+The cached model bundle now has knowledge cutoff 2026-09-27, so `SCVIA_FORECAST_CUTOFF=2026-09-25T00:00:00Z`
+is refused by the leakage guard (correctly). Use a cutoff on or after the bundle's, e.g. `2026-09-28T10:00:00Z`
+(as in `docs/operations.md`); after the Grand Final the forecast is then `no_valid_future_fixture`, the
+correct outcome. Verified on 2026-10-06 (corrected source, no `SCVIA_REPAIR`): both sealed releases built,
+1,005 files with 0 scratch differences, rollback left the first release live, exit 0.
+
 This is a procedure, not a new smoke result. The chosen captured source determines
 which matches can appear. Inspect `corrections.json` and the promoted snapshot to
 confirm the expected fixture value and source digest, then confirm forecast/build
