@@ -94,11 +94,17 @@ if [ -n "$staged_py" ]; then
   # COUNCIL_GIT_LOCK: hand the suite a throwaway lock. Two tests drive
   # git_commit_safe.sh, which flocks a single global path — with the real path
   # they block forever on the lock held by the commit that invoked this hook.
+  # Parallel unit tier (Gaffer M5): ~66 s on 4 xdist workers vs ~173 s serial, same results. Serial if the
+  # plugin is missing, so its absence never blocks a commit. COUNCIL_PYTEST_WORKERS overrides the count.
+  xdist_args=()
+  if "$PYTHON" -c "import xdist" 2>/dev/null; then
+    xdist_args=(-n "${COUNCIL_PYTEST_WORKERS:-4}")
+  fi
   nested_lock="$(mktemp -u /tmp/supercoach-git-nested-XXXXXX.lock)"
   test_out="$(env -u GIT_INDEX_FILE -u GIT_DIR -u GIT_WORK_TREE -u GIT_PREFIX \
       -u GIT_AUTHOR_NAME -u GIT_AUTHOR_EMAIL -u GIT_AUTHOR_DATE \
       COUNCIL_GIT_LOCK="$nested_lock" \
-      timeout "$pytest_timeout" "$PYTHON" -m pytest "$REPO_ROOT/tests" -q -m "not integration" 2>&1)"
+      timeout "$pytest_timeout" "$PYTHON" -m pytest "$REPO_ROOT/tests" -q -m "not integration" "${xdist_args[@]}" 2>&1)"
   rc=$?
   rm -f "$nested_lock"
   if [ "$rc" -eq 124 ]; then

@@ -28,7 +28,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 HOOK = REPO / ".githooks" / "pre-commit"
-VENV_PYTHON = Path("/home/abhi/sourceCode/python/coding/.venv/bin/python")
+VENV_PYTHON = REPO / ".venv" / "bin" / "python"  # the locked repo environment (the old path is gone)
 
 pytestmark = pytest.mark.skipif(
     not VENV_PYTHON.exists(), reason="repo venv python not available"
