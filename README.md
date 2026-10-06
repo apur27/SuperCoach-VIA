@@ -244,9 +244,9 @@ Full per-round table (all 25 rounds), team-level breakdown for every club, bigge
 The articles below are archived analysis. Their publication dates, source windows and original review records apply; the current source audit does not retrospectively certify every claim.
 
 <!-- NEWS-LATEST-START -->
-**Latest archived article:** [Dustin Martin — The Storm](docs/news/2026-06-21-dustin-martin-the-storm.md) — Career retrospective and tactical interpretation. *(2026-06-21)*
+**Latest:** [Dustin Martin — The Storm](docs/news/2026-06-21-dustin-martin-the-storm.md) - Career retrospective on Dustin Martin, his role in Richmond’s premiership era and the absence he leaves behind. *(2026-06-21)*
 
-[AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md) — Club planning based on the article's partial-season snapshot. *(2026-06-19)*
+[AFL 2026–2030: Five-Year Grand Final Strategy — All 18 Clubs](docs/news/2026-06-19-afl-2026-5yr-grand-final-strategy.md) - Club paths to a Grand Final, competitive tiers, structural gaps and recruitment needs, based on a partial-season snapshot. *(2026-06-19)*
 <!-- NEWS-LATEST-END -->
 
 → [All news entries](docs/news/README.md)
