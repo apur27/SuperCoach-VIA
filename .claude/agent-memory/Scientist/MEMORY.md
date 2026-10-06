@@ -1,5 +1,8 @@
 # Memory Index
 
+- [AFL Tables reconciliation: first full run lessons](afltables_reconciliation_run_lessons.md) - digest-omission bug, A/B timing, RSS; corrections run: 3 applied rounds to 0 fail/63 source-UNKNOWN, independent spot-check recipe
+- [Harness interpreter + reconciliation gate](harness_interpreter_and_gate.md) - scripts/harness_env.sh repo .venv (old /home/abhi/sourceCode path dead); gitignored lib/ trap; gate diff-vs-worktree quirks
+- [AFL Tables reconciliation: page structure + capture design](afltables_reconciliation_structure.md) - verified census/season/profile/match layouts, ~30.5k-request capture, capture-identity pinning + immutable code snapshot
 - [afltables player profile URL + fetch gotchas](afltables_player_profile_url.md) - URL uses FIRST-name initial (not last name); needs requests+lxml not bare read_html; audit_player_career_totals() reconciles career totals
 - [AFL draft scraper Wikipedia schema drift](draft_scraper_wikipedia_schema.md) - scrapers/draft_scraper.py; select national-draft table by section heading not index; 4 era schema gotchas (rowspan Round, club-col 4 names, Rd./# headers, no-Round 1990s)
 
