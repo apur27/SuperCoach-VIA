@@ -30,7 +30,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "scripts" / "update_eval_surface.sh"
-VENV_PYTHON = Path("/home/abhi/sourceCode/python/coding/.venv/bin/python")
+VENV_PYTHON = REPO / ".venv" / "bin" / "python"  # the repository environment (uv sync --locked ...)
 
 pytestmark = pytest.mark.skipif(
     not VENV_PYTHON.exists(), reason="repo venv python not available"
@@ -97,6 +97,7 @@ def _make_repo(tmp_path):
     (repo / "data" / "prediction").mkdir(parents=True, exist_ok=True)
 
     shutil.copy(SCRIPT, repo / "scripts" / "update_eval_surface.sh")
+    shutil.copy(REPO / "scripts" / "harness_env.sh", repo / "scripts" / "harness_env.sh")  # the sourced resolver
     shutil.copy(REPO / "README.md", repo / "README.md")
     shutil.copy(REPO / "docs" / "banner.svg", repo / "docs" / "banner.svg")
     shutil.copy(REPO / "docs" / "afl-backtest-2026.md", repo / "docs" / "afl-backtest-2026.md")
@@ -155,6 +156,7 @@ def _make_repo(tmp_path):
 
 def _run(repo):
     return subprocess.run(["bash", str(repo / "scripts" / "update_eval_surface.sh")],
+        env={**os.environ, "SUPERCOACH_PYTHON": str(VENV_PYTHON)},
                           cwd=repo, capture_output=True, text=True)
 
 
@@ -430,3 +432,15 @@ def test_misses_table_uses_natural_name_order(tmp_path):
     block = _block(_doc(repo), "MISSES")
     assert "Callum Ah Chee" in block, f"multi-token surname mangled: {block}"
     assert "Ah Chee Callum" not in block, "raw CSV name order leaked into the doc"
+
+
+def test_finals_rows_in_the_matches_csv_do_not_crash_the_regeneration(tmp_path):
+    """matches_<year>.csv carries finals rows labelled by name ("Elimination Final"). The first-bounce map is
+    per home-and-away round; int() on a finals label killed every post-finals cycle in Phase 1 (smoke run,
+    2026-10-06)."""
+    repo = _make_repo(tmp_path)
+    with (repo / "data" / "matches" / "matches_2026.csv").open("a") as fh:
+        fh.write("Elimination Final,M.C.G.,2026-09-05 19:30,2026\nGrand Final,M.C.G.,2026-09-26 14:30,2026\n")
+    res = _run(repo)
+    assert res.returncode == 0, res.stderr
+    assert "| **20** |" in _block(_doc(repo), "CUMULATIVE")

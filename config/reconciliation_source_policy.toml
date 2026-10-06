@@ -1,0 +1,34 @@
+# Source policy for the opt-in AFL Tables reconciliation capture (DESIGN.md section 6).
+#
+# Stricter than config/source_policies.toml, never looser on the host: exactly one host,
+# exact observed path grammars for the census, notes, player, season and match pages, one
+# request in flight, and one attempt per client call. The capture coordinator owns every
+# retry (at most three per resource) and every wait, so a server `Retry-After` longer than
+# the client cap is honoured and persisted across restarts (S-04).
+#
+# Deliberately NOT allowed: per-letter `_gm.html` pages (S-13), per-season player lists
+# (S-12, optional census not adopted), any `/afl/.*` wildcard.
+
+[defaults]
+requests_per_second = 0.5
+max_concurrent_per_host = 1
+connect_timeout_s = 10.0
+read_timeout_s = 60.0
+max_attempts = 1
+backoff_base_s = 1.0
+backoff_max_s = 20.0
+retry_after_max_s = 60.0
+max_response_bytes = 10485760
+max_redirects = 3
+
+[sources.afltables_reconciliation]
+host = "afltables.com"
+path_patterns = [
+  '^/robots\.txt$',
+  '^/afl/stats/stats_idx\.html$',
+  '^/afl/stats/players[A-Z]_idx\.html$',
+  '^/afl/stats/notes\.html$',
+  '^/afl/seas/(18|19|20)\d{2}\.html$',
+  '^/afl/stats/games/(18|19|20)\d{2}/[0-9]{6,20}\.html$',
+  '^/afl/stats/players/[A-Z]/[A-Za-z0-9_\-]{1,80}\.html$',
+]

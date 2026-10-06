@@ -158,3 +158,14 @@ def test_person_name_and_stage_label() -> None:
     assert sp.stage_label_for("Round 12") == "12"
     assert sp.stage_label_for("12") == "12"
     assert sp.stage_label_for("Grand Final") == "Grand Final"
+
+
+def test_cell_records_rowspan_additively() -> None:
+    from supercoach_via.integrity.sourcepages import Cell, read_tables
+
+    # existing five-field construction still works; rowspan defaults to 1
+    assert Cell(tag="td", text="x", links=[], colspan=1, bold=False).rowspan == 1
+    html = b"<table><tr><td rowspan=3>a</td><td colspan=2>b</td><td rowspan=bad>c</td><td>d</td></tr></table>"
+    cells = read_tables(html)[0].rows[0]
+    assert [c.rowspan for c in cells] == [3, 1, 1, 1]
+    assert [c.colspan for c in cells] == [1, 2, 1, 1]

@@ -1,0 +1,26 @@
+# Evidence-only source policy for the AFL Tables reconciliation (DESIGN.md section 15, A9).
+#
+# The Brownlow Medal index is the captured evidence for the award seasons and the votes awarded
+# per game. It is acquired separately from the frozen audit corpus, under its own exact-path
+# policy, so that policy (and therefore the audit's capture identity) never changes: exactly one
+# page, plus robots.txt so that robots restrictions are honoured. One request in flight, one
+# attempt per client call, never a wildcard.
+
+[defaults]
+requests_per_second = 0.5
+max_concurrent_per_host = 1
+connect_timeout_s = 10.0
+read_timeout_s = 60.0
+max_attempts = 1
+backoff_base_s = 1.0
+backoff_max_s = 20.0
+retry_after_max_s = 60.0
+max_response_bytes = 5242880
+max_redirects = 1
+
+[sources.afltables_brownlow_evidence]
+host = "afltables.com"
+path_patterns = [
+  '^/robots\.txt$',
+  '^/afl/brownlow/brownlow_idx\.html$',
+]

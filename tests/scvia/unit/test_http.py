@@ -418,3 +418,48 @@ def test_manual_fixture_fallback_is_labelled_never_fresh() -> None:
     assert res.outcome is CheckOutcome.UNKNOWN and res.freshness == "unknown"
     assert res.source_date == date(2026, 6, 19)
     assert res.observation("contracts.zerohanger", "1")["source_mode"] == "manual_fixture"
+
+
+# ---------------------------------------------------------------------------
+# Reconciliation capture needs the server's full Retry-After (S-04): additive, default-neutral
+# ---------------------------------------------------------------------------
+
+
+def test_retry_after_field_is_additive(policies: PolicySet, tmp_path: Path) -> None:
+    from dataclasses import fields
+
+    # a bare FetchResult built the way every existing caller builds it still works
+    plain = FetchResult(
+        url=SEASON_URL,
+        final_url=SEASON_URL,
+        source="afltables",
+        outcome=CheckOutcome.PASS,
+        source_mode=SourceMode.LIVE,
+        freshness="fresh",
+        fetched_at=_now(),
+    )
+    assert plain.retry_after_s is None
+    assert fields(FetchResult)[-1].name == "retry_after_s"  # appended last: no positional shift
+    assert "retry_after_s" not in plain.observation("a", "1")  # observation rows are unchanged
+
+    # default production behaviour is unchanged: still capped to 60 s and retried
+    seq = iter([httpx.Response(429, headers={"Retry-After": "9999"}), httpx.Response(200, content=b"ok")])
+    client, clock = make_client(policies, lambda r: next(seq), tmp_path)
+    res = client.fetch(SEASON_URL)
+    assert res.ok and res.attempts == 2 and max(clock.sleeps) == 60.0 and res.retry_after_s is None
+
+    # a single-attempt policy exposes the UNCAPPED server deadline on the failed result
+    one = parse_policies(
+        '[defaults]\nmax_attempts = 1\n[sources.a]\nhost = "afltables.com"\npath_patterns = ["^/afl/seas/.*"]\n'
+    )
+    client2 = HttpClient(
+        one,
+        user_agent="t/1",
+        transport=httpx.MockTransport(lambda r: httpx.Response(429, headers={"Retry-After": "7200"})),
+        resolver=public_resolver,
+        monotonic=FakeClock(),
+        sleep=lambda s: None,
+        now=_now,
+    )
+    failed = client2.fetch(SEASON_URL)
+    assert not failed.ok and failed.http_status == 429 and failed.retry_after_s == 7200.0

@@ -1,6 +1,6 @@
 ---
 name: afltables-source-conventions
-description: Measured AFL Tables page semantics (2026-10-01 live samples) — averages HALF_UP + denominators, summary-only pre-1984 BR, credited unused subs, replay not a token, homonym suffixes, robots 404
+description: Measured AFL Tables page semantics (2026-10-01 live samples + 2026-10-03 frozen-corpus measurements: match-page games-to-date, Brownlow no-award page, 1931–34 BR incompleteness) — averages HALF_UP + denominators, summary-only pre-1984 BR, credited unused subs, replay not a token, homonym suffixes, robots 404
 metadata:
   type: reference
 ---
@@ -20,3 +20,9 @@ Measured on 27 live GETs (2026-10-01; bodies hashed in `.claude/surveys/2026-10-
 - robots.txt is an HTTP 404 (custom HTML "Broked!" page, the same body as a missing profile).
 
 **How to apply:** At final acceptance, check that the implementation models these as explicit rules with fixtures (findings S-01…S-05 of that survey), not as tolerances or convention-shopping. Related: [[survey-open-findings]].
+
+**Added 2026-10-03 (measured on the frozen 2026-10-01 capture + 2 live GETs):**
+- Every match page (686/686 sampled, all decades) has "<Team> Player Details" tables: Age, Career Games (W-D-L W%) to date INCLUDING this match (= profile Gm), Career Goals (Ave.), club games. Any claim "match pages print no games-to-date" is false.
+- Brownlow: https://afltables.com/afl/brownlow/brownlow_idx.html (linked from /afl/afl_index.html) footer: "No Medal awarded 1942-1945 due to WWII"; 1924–30 one vote/game; 1931–present 6 votes (3,2,1); 1976–77 12 votes. Body sha dc81249c… (2026-10-02T23:37Z, Last-Modified 21 Sep 2026). Path outside the recon source policy.
+- BR per-game printed on BOTH profile and match page 1931–34 (two-sided), but 24 H&A matches 1931–34 print votes summing ≠6 (12 none); profile season BR can exceed per-game sums (Bert Mills 1932: 5 vs 2). 1935–83 per-game BR blank both sides, team totals blank. 1984–2026: 7,620/7,620 H&A matches sum to 6 (3,858 one team blank); finals BR totals blank.
+- Notes exceptions can coexist with a NON-blank team total (1975 R11 all-but-goals, 1977–78 behinds: 11 team-matches); source season averages exclude those games. Notes "1975 R14 | Sydney" = South Melbourne.

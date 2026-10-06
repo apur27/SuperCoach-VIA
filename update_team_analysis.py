@@ -4231,16 +4231,25 @@ def _render_top30_table(top30: pd.DataFrame) -> str:
 def generate_backtest_section(year: int) -> str:
     """Render the markdown body for the backtest-results section.
 
-    Picks the most recent `backtest_summary_*.csv` by mtime, builds a
+    Merges every `backtest_summary_*.csv` (newest run timestamp per round), builds a
     chart + summary table + plain-English glossary + top-30 player
     deviation table, and returns the markdown body. Returns "" if no
     summary CSV is present.
     """
     bt_dir = os.path.join(REPO_ROOT, "data", "prediction", "backtest")
     pattern = os.path.join(bt_dir, "backtest_summary_*.csv")
+    # Oldest-first by the run timestamp in the FILENAME (the vintage), never by mtime:
+    # a fresh checkout or copy stamps every file alike, and mtime order then let a
+    # superseded vintage win the keep-last below (smoke run 2026-10-06, DataSentinel FAIL).
+    import re
+
+    def _vintage(p):
+        m = re.search(r"(\d{8}_\d{6})\.csv$", os.path.basename(p))
+        return m.group(1) if m else ""
+
     candidates = sorted(
         [p for p in glob.glob(pattern) if os.path.isfile(p)],
-        key=os.path.getmtime,
+        key=_vintage,
     )
     if not candidates:
         return ""

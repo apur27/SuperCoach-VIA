@@ -1,0 +1,132 @@
+[
+ {
+  "fixture": "stats_idx.html",
+  "source_url": "https://afltables.com/afl/stats/stats_idx.html",
+  "fetched_utc": "2026-10-01T10:08:04Z",
+  "original_sha256": "84ffcc6df8ca760499884988be94884cd2b282aab98307ad7dd7c8820ed298ff",
+  "original_bytes": 9142,
+  "fixture_sha256": "84ffcc6df8ca760499884988be94884cd2b282aab98307ad7dd7c8820ed298ff",
+  "fixture_bytes": 9142,
+  "trimmed": "none"
+ },
+ {
+  "fixture": "notes.html",
+  "source_url": "https://afltables.com/afl/stats/notes.html",
+  "fetched_utc": "2026-10-01T10:08:09Z",
+  "original_sha256": "b5e546e73baca0d51fdea76ac8e816ccc7696e03428c24e1e5caac409ac858ac",
+  "original_bytes": 34684,
+  "fixture_sha256": "b5e546e73baca0d51fdea76ac8e816ccc7696e03428c24e1e5caac409ac858ac",
+  "fixture_bytes": 34684,
+  "trimmed": "none"
+ },
+ {
+  "fixture": "census_A.html",
+  "source_url": "https://afltables.com/afl/stats/playersA_idx.html",
+  "fetched_utc": "2026-10-01T10:08:06Z",
+  "original_sha256": "16c16f958655ba890840fe2ca61e66ea410051aa357ed53f51fe7551c57edc9e",
+  "original_bytes": 44113,
+  "fixture_sha256": "f644170e7cb82fe54ca6d849a10339389fea5aedc9e5678699c8abaf554cad5e",
+  "fixture_bytes": 4923,
+  "trimmed": "player table cut to the first 3 rows of 82"
+ },
+ {
+  "fixture": "match_1975_r11.html",
+  "source_url": "https://afltables.com/afl/stats/games/1975/030719750616.html",
+  "fetched_utc": "2026-10-01T10:15:29Z",
+  "original_sha256": "7cc6c42e458fc8838c9cd3b8c99109e3459ce7522d474a1aef56a23064355290",
+  "original_bytes": 38439,
+  "fixture_sha256": "391ce8df51750489ba97dd04bbc813502b5aacebd61f705c052c5b6f06024118",
+  "fixture_bytes": 22886,
+  "trimmed": "each team table cut to first 3 player rows plus footer rows"
+ },
+ {
+  "fixture": "match_2021_r6.html",
+  "source_url": "https://afltables.com/afl/stats/games/2021/162020210424.html",
+  "fetched_utc": "2026-10-01T10:10:54Z",
+  "original_sha256": "55322c686011dca0b24cd5f6edd9cebf2209d6791de2ff68b4b5f560c487fc15",
+  "original_bytes": 55516,
+  "fixture_sha256": "4a38e9950bcb727a7b549281a6fabfaca1b577b6f2e5b1962ee49871cc7e487c",
+  "fixture_bytes": 32773,
+  "trimmed": "each team table cut to first 3 player rows plus footer rows"
+ },
+ {
+  "fixture": "match_2010_gf_drawn.html",
+  "source_url": "https://afltables.com/afl/stats/games/2010/041520100925.html",
+  "fetched_utc": "2026-10-01T10:10:57Z",
+  "original_sha256": "589ecb77931c474aa979c4b3447e57b8930ae7ec61c5d488029354f7e6b486f2",
+  "original_bytes": 54356,
+  "fixture_sha256": "221975fc0287bae39fc71680de932e4e9f2fc7ce93bd9fd79081b28c6ffc03ec",
+  "fixture_bytes": 32540,
+  "trimmed": "each team table cut to first 3 player rows plus footer rows"
+ },
+ {
+  "fixture": "match_2010_gf_replay.html",
+  "source_url": "https://afltables.com/afl/stats/games/2010/041520101002.html",
+  "fetched_utc": "2026-10-01T10:10:59Z",
+  "original_sha256": "bed9d42692257dc2179d81483de9db0f49678e331a9ad92f27fa7ee5895a3345",
+  "original_bytes": 54913,
+  "fixture_sha256": "efc2c0aeae57c8cb4444f13731809c45df3cb0da4e74a50394ab9a6b9e487991",
+  "fixture_bytes": 33108,
+  "trimmed": "each team table cut to first 3 player rows plus footer rows"
+ },
+ {
+  "fixture": "match_1897.html",
+  "source_url": "https://afltables.com/afl/stats/games/1897/041518970508.html",
+  "fetched_utc": "2026-10-01T10:11:04Z",
+  "original_sha256": "4bfa8dfac27ebbcc83be3483e0876e04e595d83a0c00f8cf98631ebca6a25b75",
+  "original_bytes": 37724,
+  "fixture_sha256": "9dd64d06a9ac5597fbef93b6ab227bd8ca798db85e7da5419998c89d901b96bb",
+  "fixture_bytes": 22142,
+  "trimmed": "each team table cut to first 3 player rows plus footer rows"
+ },
+ {
+  "fixture": "season_1948_head.html",
+  "source_url": "https://afltables.com/afl/seas/1948.html",
+  "fetched_utc": "2026-10-01T10:15:10Z",
+  "original_sha256": "6789b6972c2db43d07e38b9f965791ccf910503cbf160302d4e93631634b2ad3",
+  "original_bytes": 129135,
+  "fixture_sha256": "675da280e5e17f1d999d6a1024c82b37b557f68de6805a95a19941016f0cb8c7",
+  "fixture_bytes": 23794,
+  "trimmed": "cut after the first 30 tables (round 1-2 fixtures)"
+ },
+ {
+  "fixture": "profile_robinson.html",
+  "source_url": "https://afltables.com/afl/stats/players/K/Kelly_Robinson.html",
+  "fetched_utc": "2026-10-01T10:13:09Z",
+  "original_sha256": "bafa678e8f2388e2d83377fd584fcc58c92d8a1a827140f282c0381145a50e4b",
+  "original_bytes": 59886,
+  "fixture_sha256": "8f958c648e1f21e8b9353e44fb79a550f2c388d16b06352aa8483c3904c62f82",
+  "fixture_bytes": 24662,
+  "trimmed": "kept the summary tables and the first 2 club-season game tables; other tables removed"
+ },
+ {
+  "fixture": "profile_reynolds.html",
+  "source_url": "https://afltables.com/afl/stats/players/D/Dick_Reynolds.html",
+  "fetched_utc": "2026-10-01T10:09:17Z",
+  "original_sha256": "422f66aba68963290275f80795de26e496fe3d213b47e5f82e59922ccc7c5d3f",
+  "original_bytes": 240102,
+  "fixture_sha256": "91e4f93449fb3296bc734b6aa1f074f5e7f5d7bf778daf98df1f68fe0293dc2a",
+  "fixture_bytes": 59029,
+  "trimmed": "kept the summary tables and the first 3 club-season game tables; other tables removed"
+ },
+ {
+  "fixture": "profile_pendlebury.html",
+  "source_url": "https://afltables.com/afl/stats/players/S/Scott_Pendlebury.html",
+  "fetched_utc": "2026-10-01T10:09:14Z",
+  "original_sha256": "e0bc5998d25e3659d75121f3d230cf0e38b7309f16415440eeb9d0b5e8c4eb39",
+  "original_bytes": 399923,
+  "fixture_sha256": "dda8a8399fba953eb7b75bee37b27f4617122270fc702d16f41a7980008e3267",
+  "fixture_bytes": 66402,
+  "trimmed": "kept the summary tables and the first 2 club-season game tables; other tables removed"
+ },
+ {
+  "fixture": "brownlow_idx.html",
+  "source_url": "https://afltables.com/afl/brownlow/brownlow_idx.html",
+  "fetched_utc": "2026-10-03T00:07:26Z",
+  "original_sha256": "dc81249c48524329ec024f29283d0524742a66da799a886b91c26d8f2aa98725",
+  "original_bytes": 67575,
+  "fixture_sha256": "dc81249c48524329ec024f29283d0524742a66da799a886b91c26d8f2aa98725",
+  "fixture_bytes": 67575,
+  "trimmed": "none (captured by `scvia reconcile-afltables capture-evidence`; Last-Modified Mon, 21 Sep 2026 12:50:10 GMT)"
+ }
+]

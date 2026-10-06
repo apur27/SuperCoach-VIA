@@ -35,6 +35,13 @@ HOF_DOC = os.path.join(_REPO_ROOT, "docs", "hall-of-fame-top100.md")
 # ------------------------------------------------------------------ banner
 
 
+
+def _vintage(path):
+    """The run timestamp in the filename: the vintage the generators select by (never the file mtime,
+    which a fresh checkout or copy scrambles; smoke run 2026-10-06)."""
+    m = re.search(r"(\d{8}_\d{6})\.csv$", os.path.basename(path))
+    return m.group(1) if m else ""
+
 def _banner():
     with open(BANNER, encoding="utf-8") as f:
         return f.read()
@@ -105,7 +112,7 @@ def _merged_backtest(year=2026):
             "pct_within_5", "pct_within_10", "bias"}
     frames = []
     for p in sorted(glob.glob(os.path.join(bt, "backtest_summary_*.csv")),
-                    key=os.path.getmtime):
+                    key=_vintage):
         try:
             c = pd.read_csv(p)
         except Exception:
@@ -119,13 +126,13 @@ def _merged_backtest(year=2026):
 
     tframes = []
     for p in sorted(glob.glob(os.path.join(bt, "backtest_by_team_*.csv")),
-                    key=os.path.getmtime):
+                    key=_vintage):
         try:
             c = pd.read_csv(p)
         except Exception:
             continue
         if {"year", "round", "team", "n", "bias"}.issubset(c.columns):
-            c["_mtime"] = os.path.getmtime(p)
+            c["_mtime"] = _vintage(p)
             tframes.append(c)
     assert tframes, "no usable backtest by-team CSVs"
     t = pd.concat(tframes, ignore_index=True)
@@ -220,7 +227,7 @@ def _pooled_detail(year=2026):
     bt = os.path.join(_REPO_ROOT, "data", "prediction", "backtest")
     frames = []
     for p in sorted(glob.glob(os.path.join(bt, "prediction_vs_actual_round_*.csv")),
-                    key=os.path.getmtime):
+                    key=_vintage):
         m = re.search(r"round_(\d+)_(\d{4})_(\d{8}_\d{6})\.csv$", os.path.basename(p))
         if not m or int(m.group(2)) != year:
             continue
@@ -230,7 +237,7 @@ def _pooled_detail(year=2026):
             continue
         if not {"player", "predicted_disposals", "actual_disposals"}.issubset(c.columns):
             continue
-        c["_mtime"] = os.path.getmtime(p)
+        c["_mtime"] = _vintage(p)
         c["round"] = int(m.group(1))
         frames.append(c)
     assert frames, "no usable per-player backtest CSVs"
@@ -319,15 +326,34 @@ def _registry():
     return out
 
 
-def _readme_agent_table():
-    """{agent name: model} from the README council table, skipping externals."""
-    md = open(README, encoding="utf-8").read()
+#: agents the README lists that are deliberately NOT in `.claude/agents/` (an external model). Named, not inferred
+#: from the model column: a 2026-10 README edit changed Codex's column from "External" to "Selected per task",
+#: and keying on that word made the Phase 3d gate fail every cycle. Any other unregistered name still fails.
+EXTERNAL_AGENTS = {"Codex"}
+
+
+def _readme_agent_table(md=None):
+    """{agent name: model} from the README council table, skipping external agents."""
+    if md is None:
+        md = open(README, encoding="utf-8").read()
     rows = re.findall(r"^\|\s*\d+\s*\|\s*\*\*([^*]+)\*\*\s*\|\s*([^|]+)\|", md, re.MULTILINE)
-    return {
-        name.strip(): model.strip().lower()
-        for name, model in rows
-        if model.strip().lower() != "external"
-    }
+    out = {}
+    for name, model in rows:
+        base = name.split(" (")[0].strip()  # "Codex (GPT-5.4)" names the same agent as "Codex"
+        if base in EXTERNAL_AGENTS or model.strip().lower() == "external":
+            continue
+        out[name.strip()] = model.strip().lower()
+    return out
+
+
+def test_external_agents_are_named_and_do_not_hide_an_unregistered_one():
+    md = (
+        "| 1 | **Gaffer** | opus | x |\n"
+        "| 2 | **Codex** | Selected per task | x |\n"
+        "| 3 | **Codex (GPT-5.4)** | External | x |\n"
+        "| 4 | **Ghost** | Selected per task | x |\n"
+    )
+    assert set(_readme_agent_table(md)) == {"Gaffer", "Ghost"}
 
 
 def test_readme_agent_table_matches_the_registry():

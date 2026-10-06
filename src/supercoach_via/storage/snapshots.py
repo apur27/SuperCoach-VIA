@@ -316,7 +316,7 @@ def apply_upserts(
     touched = {name for name, rows in upserts.items() if rows} | set(deletes)
     for name in sorted(touched):
         spec = TABLES[name]
-        extra = {c for r in upserts[name] for c in r} - set(spec.column_names)
+        extra = {c for r in upserts.get(name) or [] for c in r} - set(spec.column_names)
         if extra:
             raise KeyError(f"{name}: unknown columns {sorted(extra)}")
     for name, entry in sorted(base.tables.items()):

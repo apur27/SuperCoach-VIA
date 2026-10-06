@@ -261,3 +261,21 @@ Open, re-check at next pass:
 - N-06 LOW stale l.153/l.285; N-07 LOW DNTF partition + era/condition scope; N-08 LOW (Scientist) pilot must capture a 1935–83 H&A and a 1931–34 match page.
 D16 unreachable for current candidate by construction (0/232,137 1935–83 BR local) — owner-reserved scope choice, already named in DESIGN.
 - 2026-10-01 run 3 (DESIGN da64c4cf…): N-01..N-08 all RESOLVED in text; no contradictions introduced. New LOW only: R3-01 aggregate bucket for mixed recorded/NOT_RECORDED + mismatch-vs-local-missing-summary precedence (Gaffer); R3-02 one-page-printed cell needs SOURCE_CONFLICT default + hashed rule ID for pilot decision (Gaffer/Scientist). Recommendation APPROVE bound to da64c4cf.
+
+## ACCEPTANCE RUN 1 2026-10-03 — implementation review (survey `2026-10-03-afltables-reconciliation-acceptance-survey-run1.md`, sha 584a3d4c…)
+Verdict CHANGES_REQUIRED (data FAIL genuine; report 58eff517…, stream c538a53d… re-derived; 6 traces clean). Re-check by content next pass:
+- B1 match-page "Player Details" career games-to-date (686/686 sampled) → counter SOURCE_CONFLICT + profile counter-sequence check; doc :105-106 false.
+- B2 R-TOTAL-NONBLANK over-asserts zero: 1931–34 BR (24 H&A matches sum≠6 → 319 snapshot BR nulls) and notes exception vs non-blank total (11 team-matches, 41 behinds nulls).
+- B3 S-08: 1975 "Sydney" alias absent; NOTES_CLUB_UNMAPPED info + PASS (test e2e:406-417 asserts code 0) — defective gate.
+- B4 --cache inside data root accepted (exit 0, writes 85 entries); refused --out leaves .work dir in capture root.
+- B5 ValidationStep PASS with "1 failed"; writer tools/make_completion.py out-of-tree, hand-typed statuses.
+- B6 build_manifest ignores reval rows (capture.py:820-823); land AFTER the re-run (capture.py ∈ CAPTURE_FILES → identity break).
+- F-H1 duplicate PLAYER_MISSING_LOCAL ids (5 ids/18 extra; 5 profiles not 16). F-H2 deviation 6 hides ~674k row-date mismatches (owner decision).
+- F-M1 R-BR-SIX-PER-MATCH verified 7,620/7,620, needs evidence test + sign-off. F-M2 unit salt omits aggregate.py/rules.py; phash omits facts.py. F-M3 fast-tier 4-worker budget unmeasured. F-M4 aggregate findings lack body sha/local refs.
+- 6c evidence page: https://afltables.com/afl/brownlow/brownlow_idx.html (not in recon policy; must be a separate evidence capture bound via rules, not capture_identity).
+
+## Final acceptance 2026-10-06 (recon corrections + gate + harness) — ACCEPT-WITH-CONDITIONS
+- Smoke 20261005T215424Z valid: no harness/code file mtime after smoke start (08:54:28 +1100); only the run doc changed after. Wrapper records no diff hash (mtime-only evidence).
+- Smoke gate path was a no-op ("no legacy season changed"): with defaults it would have seen 130 seasons vs origin/main and var/finalized/data is absent in scratch trees => RECON_DATA_ROOT and RECON_GATE_BASE were overridden but A6 lists only the audit-state deviation. Gate audit/fix/commit path never ran inside a harness cycle.
+- Open: gate skip/warn logs "Reconciliation gate passed" (no gate.json on skip); gate --fix can delete/insert player rows AFTER phantom-row gate, unre-validated; 175,631 2005+ legacy date cells changed => prediction features days_since_last_game/age change (model-input vintage break, undisclosed); scraper dedup keep='last' lets re-scrapes overwrite corrections when gate fails open; fast tier 147 s vs ~20 s CLAUDE.md budget; A2 says 6,972 award rows but round3 added 17 (=6,989); delete_files change lines carry no finding_id/body_sha256 despite A2 claim; A7 ruff-format scope excluded tests.
+- Merge condition: run a full weekly cycle right after merge (banner 13,367->13,364, backtest doc 1,818->1,817 of 13,364, top100 chart) — main fails integration tier until then.

@@ -24,7 +24,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "scripts" / "update_eval_surface.sh"
-VENV_PYTHON = Path("/home/abhi/sourceCode/python/coding/.venv/bin/python")
+VENV_PYTHON = REPO / ".venv" / "bin" / "python"  # the repository environment (uv sync --locked ...)
 
 # A deliberately stale aria-label; the script must overwrite every part of it.
 STALE_MAE = "9.999"
@@ -76,6 +76,7 @@ def _make_repo(tmp_path, aria_window):
     )
 
     shutil.copy(SCRIPT, repo / "scripts" / "update_eval_surface.sh")
+    shutil.copy(REPO / "scripts" / "harness_env.sh", repo / "scripts" / "harness_env.sh")  # the sourced resolver
     shutil.copy(REPO / "README.md", repo / "README.md")
 
     svg = (REPO / "docs" / "banner.svg").read_text(encoding="utf-8")
@@ -117,6 +118,7 @@ def _make_repo(tmp_path, aria_window):
 def _run(repo):
     return subprocess.run(
         ["bash", str(repo / "scripts" / "update_eval_surface.sh")],
+        env={**os.environ, "SUPERCOACH_PYTHON": str(VENV_PYTHON)},
         cwd=repo,
         capture_output=True,
         text=True,

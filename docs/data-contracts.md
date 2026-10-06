@@ -23,6 +23,7 @@ fragments under `<data_root>/fragments/`. They are referenced by a snapshot mani
 | `seasons` | season | - | 8 |
 | `matches` | match_id | season | 41 |
 | `player_games` | match_id, player_id, club_id | season | 45 |
+| `player_season_awards` | player_id, season, club_id, award | - | 10 |
 | `lineups` | match_id, club_id, player_id | season | 13 |
 | `draft_events` | draft_event_id | - | 16 |
 | `contract_observations` | observation_id | - | 16 |

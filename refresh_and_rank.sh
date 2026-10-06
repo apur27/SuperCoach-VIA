@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
 # Derive the repo root from this script's own location, never hardcode it.
 # A hardcoded absolute path meant that running this script from a git worktree
 # still operated on /home/abhi/git/SuperCoach-VIA — so worktree isolation was an
@@ -9,6 +8,9 @@ PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
 # repo's assets/ while believing it was sandboxed. Found on the smoke runner's
 # first real run, which is precisely the class of fault 6.2 exists to catch.
 REPO_ROOT="${SUPERCOACH_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+# shellcheck source=scripts/harness_env.sh
+. "$REPO_ROOT/scripts/harness_env.sh"
+PYTHON="$(harness_python)"
 
 cd "$REPO_ROOT"
 
@@ -202,7 +204,7 @@ echo "[6/6] Committing and pushing updated docs..."
 # re-verify -> commit hop; this page was gated without one.
 #
 # Fail-closed: no PASS recorded for the current content means we do not stage it.
-CLAUDE="${CLAUDE:-/home/abhi/.claude/local/claude}"
+CLAUDE="$(harness_claude)"
 if grep -q '<!-- council-pipeline:' docs/afl-backtest-2026.md 2>/dev/null; then
     # Stage the doc BEFORE gating it. check-council-stamp.sh verifies the STAGED
     # blob by design (F4: staging good bytes then editing bad ones must not pass),

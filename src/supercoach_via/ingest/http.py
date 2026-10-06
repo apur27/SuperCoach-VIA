@@ -357,6 +357,10 @@ class FetchResult:
     last_modified: str | None = None
     error: str | None = None
     source_date: date | None = None
+    #: server-declared ``Retry-After`` of the last failed attempt, in seconds and NOT capped by
+    #: ``retry_after_max_s``. Appended last and absent from observation rows, so existing
+    #: callers and archives are unaffected (reconciliation capture owns its own retries, S-04).
+    retry_after_s: float | None = None
 
     @property
     def ok(self) -> bool:
@@ -700,6 +704,7 @@ class HttpClient:
             http_status=last.status,
             attempts=attempts,
             error=error,
+            retry_after_s=self._parse_retry_after(last.headers.get("retry-after"), self._now()),
         )
 
 

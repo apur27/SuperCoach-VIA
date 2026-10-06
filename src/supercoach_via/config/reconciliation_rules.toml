@@ -1,0 +1,32 @@
+# Versioned comparison rules for the reconciliation audit (DESIGN sections 7-8, 15).
+#
+# This file is hashed into the plan and every cache key. A rule here may resolve an
+# ambiguity from captured evidence; it can never waive a statistic mismatch. Every
+# evidence-backed rule carries a source locator and a reason.
+
+version = 1
+
+# Notes-table column labels that differ from the match/profile table labels (S-08).
+[notes_labels]
+I5 = "IF"
+OP = "1%"
+
+# Versioned club-name lineage for the notes exception table (S-08, A10): the notes name a club by a
+# name it did not carry in that season. An exception naming a club that matches no team of its season,
+# and has no row here, is a schema gap that blocks PASS (never a silent drop and never an info note).
+[[notes_club_alias]]
+season = 1975
+name = "Sydney"
+club = "South Melbourne"
+evidence_locator = "notes page (capture sha256 b5e546e73baca0d51fdea76ac8e816ccc7696e03428c24e1e5caac409ac858ac), 'Missing hitouts' row '1975 R14 | Sydney, Hawthorn, Essendon'; 1975 season page (capture sha256 d65e460f038d5461dcda192b6dc9e4ca4621644858bec076cba4913791360eab) lists South Melbourne and no team named Sydney"
+reason = "AFL Tables names the club South Melbourne in the 1975 season pages; the notes table uses its later name, Sydney"
+
+# Brownlow Medal award facts (A8, A9). Nothing is typed in here: the seasons with no medal and the votes
+# awarded per game in each season are PARSED from the captured Brownlow index page whose URL and SHA-256 are
+# pinned below (bytes under <run>/evidence/objects, acquired by `scvia reconcile-afltables capture-evidence`
+# under its own exact-path policy). Editing the digest changes plan_id and every per-season unit digest.
+[brownlow]
+evidence_url = "https://afltables.com/afl/brownlow/brownlow_idx.html"
+evidence_sha256 = "dc81249c48524329ec024f29283d0524742a66da799a886b91c26d8f2aa98725"
+evidence_locator = "Brownlow Medal Winners page, winners-table footer row: 'No Medal awarded ...' and 'Voting systems: ...' (observed 2026-10-03T00:07:26Z, Last-Modified Mon, 21 Sep 2026 12:50:10 GMT)"
+reason = "a blank per-game Brownlow cell is a recorded zero only when the two team totals printed on the match page sum to the votes the source says were awarded per game that season; seasons with no medal have no applicable votes"

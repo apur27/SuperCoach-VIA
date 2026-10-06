@@ -446,13 +446,26 @@ def _career(
     con: duckdb.DuckDBPyConnection, stat: str, recorded_from: Mapping[str, int], seasons: tuple[int, int] | None
 ) -> dict[str, Any]:
     where = "" if seasons is None else f"WHERE season BETWEEN {int(seasons[0])} AND {int(seasons[1])}"
+    # season-level award values (pre-1984 Brownlow votes are printed only per season): added to the career total
+    awards = stat == "brownlow_votes" and _registered(con, "player_season_awards")
+    if awards:
+        rng = "" if seasons is None else f"AND season BETWEEN {int(seasons[0])} AND {int(seasons[1])}"
+        award_sql = (
+            f"(SELECT player_id, sum(value) AS aw FROM player_season_awards WHERE award = '{stat}' {rng} GROUP BY 1)"
+        )
+    else:
+        award_sql = "(SELECT NULL::VARCHAR AS player_id, 0 AS aw WHERE false)"
     raw = _rows(
         con,
-        f"""SELECT player_id, sum("{stat}") AS value, count("{stat}") AS o, {_eligible_sql(stat, recorded_from)} AS e,
-                   greatest(count(*), coalesce(max(career_game_counter), 0)) AS cg,
-                   min(season) AS lo, max(season) AS hi
-            FROM player_games {where} GROUP BY player_id HAVING count("{stat}") > 0
-            ORDER BY value DESC, player_id LIMIT {HISTORY_N}""",
+        f"""WITH g AS (
+                SELECT player_id, sum("{stat}") AS pg, count("{stat}") AS o, {_eligible_sql(stat, recorded_from)} AS e,
+                       greatest(count(*), coalesce(max(career_game_counter), 0)) AS cg,
+                       min(season) AS lo, max(season) AS hi
+                FROM player_games {where} GROUP BY player_id)
+            SELECT g.player_id, coalesce(g.pg, 0) + coalesce(w.aw, 0) AS value, o, e, cg, lo, hi
+            FROM g LEFT JOIN {award_sql} w USING (player_id)
+            WHERE o > 0 OR coalesce(w.aw, 0) > 0
+            ORDER BY value DESC, g.player_id LIMIT {HISTORY_N}""",
     )
     rows = [
         {
@@ -471,7 +484,8 @@ def _career(
         f"career_{stat}_total",
         "career",
         "all" if seasons is None else f"{seasons[0]}-{seasons[1]}",
-        "total over observed games",
+        "total over observed games"
+        + ("; plus season-level award votes the source prints only per season (pre-1984)" if awards else ""),
         f"{partial} of {len(out)} rows rest on less than 90% of career games" if partial else None,
         out,
     )

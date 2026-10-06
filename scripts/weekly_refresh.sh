@@ -35,8 +35,11 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [ "${SCVIA_NUMERIC_ENTRY:-0}" = "1" ]; then
   exec "$REPO_ROOT/scripts/scvia_weekly.sh"
 fi
-PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
-CLAUDE=/home/abhi/.claude/local/claude
+# shellcheck source=harness_env.sh
+. "$REPO_ROOT/scripts/harness_env.sh"
+PYTHON="$(harness_python)"
+CLAUDE="$(harness_claude)"
+export SUPERCOACH_PYTHON="$PYTHON" CLAUDE  # child phases and hooks resolve the same interpreter and CLI
 LOG_DIR="$REPO_ROOT/.claude/audit"
 TODAY=$(date '+%Y-%m-%d')
 LOG_FILE="$LOG_DIR/weekly_refresh_${TODAY}.log"
@@ -142,7 +145,36 @@ if ! $PYTHON "$REPO_ROOT/scripts/match_completeness_gate.py" 2>&1 | tee -a "$LOG
     log "FATAL: match-completeness gate found incomplete round(s) — Phase 1 commit NOT pushed. Backfill the missing matches (re-run the match scraper) before shipping."
     exit 1
 fi
-log "[1c/5] Match-completeness gate passed. Pushing Phase 1 commit..."
+log "[1c/5] Match-completeness gate passed."
+
+# ---------------------------------------------------------------------------
+# AFL Tables reconciliation gate — re-audits every season whose rows in
+# data/player_data or data/matches differ from origin/main against the AFL Tables
+# pages themselves (polite capture, then an offline cell-by-cell comparison).
+# --fix applies only source-backed corrections and re-audits; the cycle blocks if
+# a confirmed discrepancy or a duplicate/unresolved player file remains. Fails
+# OPEN (WARN, exit 0) on a capture outage, an incomplete source record, or a
+# machine without the accepted snapshot data root (RECON_DATA_ROOT).
+#
+# Operator, when this fires mid-cycle: the Phase 1 commit is local and unpushed.
+# Read gate.json in the run directory the log line names (reports/after-fix holds
+# the remaining findings). A scraper defect: fix the scraper, re-scrape, re-run the
+# cycle. A source-side change on AFL Tables: route to Scientist. Never push the
+# Phase 1 commit by hand past this gate.
+# ---------------------------------------------------------------------------
+log "[1c/5] Reconciliation gate: auditing the changed seasons against AFL Tables..."
+# Data-dir state before the gate: the corrections commit below runs only if the gate itself changed it.
+RECON_BEFORE="$(git -C "$REPO_ROOT" status --porcelain -- data/player_data data/matches data/awards)"
+if ! "$PYTHON" "$REPO_ROOT/scripts/reconciliation_gate.py" --legacy-root "$REPO_ROOT" --data-root "${RECON_DATA_ROOT:-$REPO_ROOT/var/finalized/data}" --base "${RECON_GATE_BASE:-origin/main}" --fix 2>&1 | tee -a "$LOG_FILE"; then
+    log "FATAL: reconciliation gate found discrepancies AFL Tables does not support — Phase 1 commit NOT pushed. See gate.json in the run directory above; route to Scientist."
+    exit 1
+fi
+if [ "$(git -C "$REPO_ROOT" status --porcelain -- data/player_data data/matches data/awards)" != "$RECON_BEFORE" ]; then
+    git -C "$REPO_ROOT" add -A -- data/player_data data/matches data/awards
+    (cd "$REPO_ROOT" && scripts/git_commit_safe.sh commit -m "Apply source-backed AFL Tables corrections to the scraped seasons (${TODAY})") 2>&1 | tee -a "$LOG_FILE"
+    log "[1c/5] Reconciliation corrections committed."
+fi
+log "[1c/5] Reconciliation gate passed. Pushing Phase 1 commit..."
 PENDING=$(git -C "$REPO_ROOT" rev-list origin/main..HEAD --count 2>/dev/null || echo 0)
 if [ "$PENDING" -gt 0 ]; then
     git -C "$REPO_ROOT" push origin main 2>&1 | tee -a "$LOG_FILE"
@@ -307,7 +339,7 @@ enforce_news_limit() {
     local tmp
     tmp=$(mktemp)
 
-    /home/abhi/sourceCode/python/coding/.venv/bin/python - "$readme" <<'PYEOF'
+    "$PYTHON" - "$readme" <<'PYEOF'
 import sys, re
 
 path = sys.argv[1]

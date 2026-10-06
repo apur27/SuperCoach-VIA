@@ -33,7 +33,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 SCRIPT = REPO / "scripts" / "update_eval_surface.sh"
-VENV_PYTHON = Path("/home/abhi/sourceCode/python/coding/.venv/bin/python")
+VENV_PYTHON = REPO / ".venv" / "bin" / "python"  # the repository environment (uv sync --locked ...)
 
 pytestmark = pytest.mark.skipif(
     not VENV_PYTHON.exists(), reason="repo venv python not available"
@@ -68,6 +68,7 @@ def _make_repo(tmp_path):
         "birth_year_threshold = self.target_year - 40\n"
     )
     shutil.copy(SCRIPT, repo / "scripts" / "update_eval_surface.sh")
+    shutil.copy(REPO / "scripts" / "harness_env.sh", repo / "scripts" / "harness_env.sh")  # the sourced resolver
     # Plant the U+2212 form rather than relying on the live README to carry it:
     # the fix rewrites that cell in ASCII, so the shipped file no longer reproduces
     # the bug and a fixture that copied it verbatim would silently stop testing it.
@@ -113,6 +114,7 @@ def _make_repo(tmp_path):
 def _run(repo):
     return subprocess.run(
         ["bash", str(repo / "scripts" / "update_eval_surface.sh")],
+        env={**os.environ, "SUPERCOACH_PYTHON": str(VENV_PYTHON)},
         cwd=repo, capture_output=True, text=True,
     )
 
@@ -202,3 +204,17 @@ def test_round_count_phrase_is_regenerated(tmp_path):
     md = _readme(repo)
     assert "all 13 rounds" not in md, "round count still frozen at 13"
     assert "all 2 rounds" in md, "round count not regenerated from the data"
+
+
+def test_vintages_follow_the_run_timestamp_in_the_filename_not_the_file_mtime(tmp_path):
+    """A fresh checkout gives every file one arbitrary mtime (or reverses them). The newest run is the one its
+    filename timestamp names; selecting by mtime made the September rehearsal cross vintages and fail closed."""
+    repo = _make_repo(tmp_path)
+    bt = repo / "data" / "prediction" / "backtest"
+    # invert the mtimes: the superseded 20260102 per-team file now looks newest on disk
+    os.utime(bt / "backtest_by_team_20260102_000000.csv", (9_000_000, 9_000_000))
+    os.utime(bt / "backtest_by_team_20260103_000000.csv", (1_000, 1_000))
+    res = _run(repo)
+    assert res.returncode == 0, res.stderr
+    sentence = _team_sentence(_readme(repo))
+    assert "Carlton" not in sentence and "Melbourne" not in sentence, sentence

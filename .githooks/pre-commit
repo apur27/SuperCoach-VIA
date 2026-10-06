@@ -26,7 +26,7 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
-PYTHON="${COUNCIL_PYTHON:-/home/abhi/sourceCode/python/coding/.venv/bin/python}"
+PYTHON="${COUNCIL_PYTHON:-${SUPERCOACH_PYTHON:-$REPO_ROOT/.venv/bin/python}}"
 
 # ---------------------------------------------------------------------------
 # Python gate (R1). Until now this hook returned 0 whenever no Markdown was

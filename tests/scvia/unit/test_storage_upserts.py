@@ -136,3 +136,17 @@ def test_upserts_can_delete_rows_by_key_in_the_same_candidate(tmp_path: Path) ->
         snapshots.apply_upserts(root, base, {"player_games": []}, clock=lambda: base.created_at, code_version="t",
                                 status=base.status, deletes={"player_games": [{**row, "player_id": "legacy:nobody"}]},
                                 allow_empty=True)  # fmt: skip
+
+
+def test_a_table_that_only_receives_deletes_beside_another_tables_upserts(tmp_path: Path) -> None:
+    """Deleting a duplicate player's games while updating the players table: the deleted table has no upserts."""
+    from tests.scvia.unit import integrity_fixtures as fx
+
+    root = tmp_path / "var"
+    base = fx.build(root)
+    with SnapshotQuery(root, base, tables={"player_games", "quality_issues"}) as q:
+        row = q.arrow("SELECT * FROM player_games WHERE season = 1970 ORDER BY match_id, player_id LIMIT 1").to_pylist()[0]
+    cand = snapshots.apply_upserts(root, base, {"quality_issues": [_issue("qc:x", "removed a duplicate's game")]},
+                                   clock=lambda: base.created_at, code_version="t", status=base.status,
+                                   deletes={"player_games": [row]})  # fmt: skip
+    assert cand.manifest.tables["player_games"].row_count == base.tables["player_games"].row_count - 1

@@ -132,3 +132,55 @@ class TestLeaders:
     def test_unknown_stat_rejected(self, snap) -> None:  # type: ignore[no-untyped-def]
         with _q(snap) as q, pytest.raises(ValueError):
             players.career_leaders(q, "goals; DROP TABLE x", eras=ERAS)
+
+
+def test_career_brownlow_leaders_add_the_season_awards_the_source_prints_only_per_season(tmp_path: Path) -> None:
+    games = [
+        syn.pg("m1", "legacy:a", "CAR", 1985, 1, disposals=20, goals=1, tackles=None, match_date=date(1985, 4, 1),
+               brownlow_votes=2),
+        syn.pg("m1", "legacy:b", "ESS", 1955, 1, disposals=None, goals=1, tackles=None, match_date=date(1955, 4, 1)),
+    ]  # fmt: skip
+    award = {"player_id": "legacy:b", "season": 1955, "club_id": "ESS", "club_source_name": "Essendon",
+             "award": "brownlow_votes", "value": 13, "provenance": "source_fetch",
+             "source_path": "https://afltables.com/afl/stats/players/B/Bob_Baker.html", "source_sha256": "ab" * 32,
+             "source_row": None}  # fmt: skip
+    tables = {
+        "players": [syn.player("legacy:a", "Alan Able"), syn.player("legacy:b", "Bob Baker")],
+        "clubs": [syn.club("CAR", "Carlton"), syn.club("ESS", "Essendon")],
+        "player_games": games,
+        "player_season_awards": [award],
+    }
+    manifest = syn.build(tmp_path, tables)
+    eras = CoverageEras({"brownlow_votes": 1897})
+    with SnapshotQuery(tmp_path, manifest) as q:
+        table = players.career_leaders(q, "brownlow_votes", eras=eras, n=10)
+        early = players.career_leaders(q, "brownlow_votes", eras=eras, n=10, seasons=(1980, 1990))
+    assert [(r.player_id, r.value) for r in table.rows] == [("legacy:b", 13.0), ("legacy:a", 2.0)]
+    assert "season" in table.method  # the method states that season-level award votes are included
+    assert [(r.player_id, r.value) for r in early.rows] == [("legacy:a", 2.0)]  # awards respect the season range
+
+
+def test_the_integrity_checkers_rederivation_of_career_brownlow_agrees_with_the_builder(tmp_path: Path) -> None:
+    from supercoach_via.integrity import derived_expect as dx
+
+    games = [
+        syn.pg("m1", "legacy:a", "CAR", 1985, 1, disposals=20, goals=1, tackles=None, match_date=date(1985, 4, 1),
+               brownlow_votes=2),
+        syn.pg("m1", "legacy:b", "ESS", 1955, 1, disposals=None, goals=1, tackles=None, match_date=date(1955, 4, 1)),
+    ]  # fmt: skip
+    award = {"player_id": "legacy:b", "season": 1955, "club_id": "ESS", "club_source_name": "Essendon",
+             "award": "brownlow_votes", "value": 13, "provenance": "source_fetch", "source_path": "u",
+             "source_sha256": "ab" * 32, "source_row": None}  # fmt: skip
+    tables = {
+        "players": [syn.player("legacy:a", "Alan Able"), syn.player("legacy:b", "Bob Baker")],
+        "clubs": [syn.club("CAR", "Carlton"), syn.club("ESS", "Essendon")],
+        "player_games": games,
+        "player_season_awards": [award],
+    }
+    manifest = syn.build(tmp_path, tables)
+    eras = CoverageEras({"brownlow_votes": 1897})
+    with SnapshotQuery(tmp_path, manifest) as q:
+        built = players.career_leaders(q, "brownlow_votes", eras=eras, n=10)
+        doc = dx._career(q.con, "brownlow_votes", {"brownlow_votes": 1897}, None)
+    assert [(r["player_id"], r["value"]) for r in doc["rows"]] == [(r.player_id, r.value) for r in built.rows]
+    assert doc["method"] == built.method

@@ -69,6 +69,9 @@ class Cell:
     links: list[str]
     colspan: int
     bold: bool
+    #: appended last with a default so every existing construction is unchanged; the
+    #: reconciliation reader treats a rowspan inside a data table as malformed (S-10)
+    rowspan: int = 1
 
 
 @dataclass
@@ -114,7 +117,11 @@ class _TableReader(HTMLParser):
                 span = max(1, int(a.get("colspan") or 1))
             except ValueError:
                 span = 1
-            self._cell = Cell(tag=tag, text="", links=[], colspan=span, bold=False)
+            try:
+                rspan = max(1, int(a.get("rowspan") or 1))
+            except ValueError:
+                rspan = 1
+            self._cell = Cell(tag=tag, text="", links=[], colspan=span, bold=False, rowspan=rspan)
             self._cell_parts = []
         elif tag == "a" and self._cell is not None and a.get("href"):
             self._cell.links.append(a["href"])

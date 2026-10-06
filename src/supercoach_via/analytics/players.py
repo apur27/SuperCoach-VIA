@@ -215,6 +215,14 @@ def _competition_ranks(values: Sequence[float]) -> list[int]:
     return ranks
 
 
+#: statistics a source prints only per season in some eras (``player_season_awards``)
+SEASON_AWARD_STATS = frozenset({"brownlow_votes"})
+
+
+def _has_table(q: SnapshotQuery, name: str) -> bool:
+    return name in q.manifest.tables and (q.tables is None or name in q.tables)
+
+
 def career_leaders(
     q: SnapshotQuery,
     stat: str,
@@ -235,16 +243,28 @@ def career_leaders(
     stat = _check_stat(stat)
     cols = sql_aggregate_columns([stat], eras)
     where = "" if seasons is None else f"WHERE season BETWEEN {int(seasons[0])} AND {int(seasons[1])}"
-    order_col = f'"{stat}_total"' if basis == "total" else f'"{stat}_total" / "{stat}_observed"'
+    awards = basis == "total" and stat in SEASON_AWARD_STATS and _has_table(q, "player_season_awards")
+    award_where = "" if seasons is None else f"AND season BETWEEN {int(seasons[0])} AND {int(seasons[1])}"
+    award_cte = (
+        f""", w AS (SELECT player_id, SUM(value) AS aw FROM player_season_awards
+                  WHERE award = '{stat}' {award_where} GROUP BY player_id)"""
+        if awards
+        else ", w AS (SELECT NULL::VARCHAR AS player_id, 0 AS aw WHERE FALSE)"
+    )
+    order_col = (
+        f'COALESCE("{stat}_total", 0) + COALESCE(w.aw, 0)'
+        if basis == "total"
+        else f'"{stat}_total" / "{stat}_observed"'
+    )
     rows = q.rows(
         f"""WITH a AS (
               SELECT player_id, {cols}, MIN(season) AS lo, MAX(season) AS hi FROM player_games {where}
               GROUP BY player_id),
             c AS (SELECT player_id, GREATEST(COUNT(*), COALESCE(MAX(career_game_counter), 0)) AS cg
-                  FROM player_games {where} GROUP BY player_id)
+                  FROM player_games {where} GROUP BY player_id){award_cte}
             SELECT a.player_id, {order_col} AS value, "{stat}_observed", "{stat}_eligible", c.cg, lo, hi
-            FROM a JOIN c USING (player_id)
-            WHERE "{stat}_observed" > 0 AND "{stat}_observed" >= ?
+            FROM a JOIN c USING (player_id) LEFT JOIN w USING (player_id)
+            WHERE ("{stat}_observed" > 0 OR COALESCE(w.aw, 0) > 0) AND "{stat}_observed" >= ?
             ORDER BY value DESC, a.player_id LIMIT ?""",
         [int(min_observed_games), int(n)],
     )
@@ -273,6 +293,7 @@ def career_leaders(
         era="all" if seasons is None else f"{seasons[0]}-{seasons[1]}",
         method=(
             f"{basis} over observed games"
+            + ("; plus season-level award votes the source prints only per season (pre-1984)" if awards else "")
             + (f"; qualification: at least {min_observed_games} observed games" if min_observed_games else "")
         ),
         method_version=METHOD_VERSION,

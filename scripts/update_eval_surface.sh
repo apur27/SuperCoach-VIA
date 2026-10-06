@@ -20,7 +20,9 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PYTHON=/home/abhi/sourceCode/python/coding/.venv/bin/python
+# shellcheck source=harness_env.sh
+. "$REPO_ROOT/scripts/harness_env.sh"
+PYTHON="$(harness_python)"
 cd "$REPO_ROOT"
 
 PLAYER_FILE_COUNT=$(ls data/player_data/*performance_details.csv 2>/dev/null | wc -l | tr -d ' ')
@@ -94,12 +96,19 @@ if train_lo is None:
     )
 train_hi = YEAR - 1
 
+# Vintage = the run timestamp in the FILENAME. File mtimes are not a vintage: a fresh
+# checkout or copy stamps every file alike (or in reverse), so mtime ordering silently
+# crossed vintages and made the September rehearsal fail closed.
+def _vintage(p):
+    m = re.search(r"(\d{8}_\d{6})\.csv$", os.path.basename(p))
+    return m.group(1) if m else ""
+
 # ---- merge all per-round summary CSVs (newest entry per round wins) ----
 need = {"round", "year", "n_players", "mae", "rmse",
         "pct_within_5", "pct_within_10", "bias"}
 frames = []
 for p in sorted(glob.glob(os.path.join(bt, "backtest_summary_*.csv")),
-                key=os.path.getmtime):
+                key=_vintage):
     try:
         c = pd.read_csv(p)
     except Exception:
@@ -167,13 +176,13 @@ table_md = "\n".join(table_lines)
 # ---- season team bias from merged per-round per-team CSVs ----
 tframes = []
 for p in sorted(glob.glob(os.path.join(bt, "backtest_by_team_*.csv")),
-                key=os.path.getmtime):
+                key=_vintage):
     try:
         c = pd.read_csv(p)
     except Exception:
         continue
     if {"year", "round", "team", "n", "bias"}.issubset(c.columns):
-        c["_mtime"] = os.path.getmtime(p)   # vintage, for supersede-by-file below
+        c["_mtime"] = _vintage(p)   # vintage, for supersede-by-file below
         tframes.append(c)
 if not tframes:
     sys.exit("update_eval_surface: no usable backtest_by_team CSVs found")
@@ -456,6 +465,10 @@ if os.path.exists(bt_doc):
         _mm = pd.read_csv(matches_csv)
         _mm["date"] = pd.to_datetime(_mm["date"], errors="coerce")
         _mm = _mm.dropna(subset=["date"])
+        # Home-and-away rounds only: finals rows carry a name ("Elimination Final"), not a number,
+        # and no backtest round is a final. int() on a finals label killed post-finals cycles.
+        _mm["round_num"] = pd.to_numeric(_mm["round_num"], errors="coerce")
+        _mm = _mm.dropna(subset=["round_num"])
         # Fixture times are stored as venue-local wall clock. Read them at UTC+8
         # (Perth — the earliest Australian offset) so the resulting instant is the
         # EARLIEST the match could possibly have started. A commit that beats that
@@ -563,7 +576,7 @@ if os.path.exists(bt_doc):
     # Same vintage discipline as everything else: newest FILE per (year, round).
     dets = []
     for p in sorted(glob.glob(os.path.join(bt, "prediction_vs_actual_round_*.csv")),
-                    key=os.path.getmtime):
+                    key=_vintage):
         m = re.search(r"round_(\d+)_(\d{4})_(\d{8}_\d{6})\.csv$", os.path.basename(p))
         if not m or int(m.group(2)) != YEAR:
             continue
@@ -573,7 +586,7 @@ if os.path.exists(bt_doc):
             continue
         if not {"player", "round", "predicted_disposals", "actual_disposals"}.issubset(c.columns):
             continue
-        c["_mtime"] = os.path.getmtime(p)
+        c["_mtime"] = _vintage(p)
         c["round"] = int(m.group(1))
         dets.append(c)
 

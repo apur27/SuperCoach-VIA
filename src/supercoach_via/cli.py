@@ -721,6 +721,15 @@ def check_integrity_cmd(
     _run(json_out, body)
 
 
+def _register_reconciliation() -> None:
+    from supercoach_via.reconciliation.cli import reconcile_app
+
+    app.add_typer(reconcile_app, name="reconcile-afltables")
+
+
+_register_reconciliation()
+
+
 def main() -> None:
     try:
         app()

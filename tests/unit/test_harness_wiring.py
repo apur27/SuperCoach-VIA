@@ -292,3 +292,32 @@ def test_harness_scripts_do_not_hardcode_the_repo_root(refresh_src, weekly_src):
                     f"{name} hardcodes REPO_ROOT ({line.strip()}); derive it from "
                     f"BASH_SOURCE so a worktree run cannot touch the real repo"
                 )
+
+
+# ------------------------------------------- AFL Tables reconciliation gate
+def test_reconciliation_gate_runs_on_the_scrape_before_the_phase1_push(weekly_src):
+    """The changed seasons are re-audited against AFL Tables after the scrape is
+    committed locally and BEFORE anything reaches origin, so a bad row never ships."""
+    src = _uncommented(weekly_src)
+    gate = src.find("scripts/reconciliation_gate.py")
+    assert gate != -1, "reconciliation_gate.py is never invoked by the weekly harness"
+    assert src.find("match_completeness_gate.py") < gate < src.find("push origin main")
+    call = src[gate:src.find("\n", gate)]
+    assert "--fix" in call and "--data-root" in call
+    # fail closed: a blocking verdict exits before the push
+    after = src[gate:src.find("push origin main")]
+    assert "exit 1" in after
+    # source-backed corrections are committed through the serialising wrapper
+    assert "git_commit_safe.sh commit" in after
+
+
+def test_reconciliation_corrections_commit_only_what_the_gate_changed(weekly_src):
+    """Smoke run 2026-10-06: the commit step fired on ANY dirty data file, so with nothing corrected it still
+    logged "corrections committed" and would have swept Phase 1 leftovers into that commit. The state is taken
+    before and after the gate, and the commit runs only when the gate itself changed files."""
+    src = _uncommented(weekly_src)
+    gate = src.find("scripts/reconciliation_gate.py")
+    before = src.rfind("RECON_BEFORE=", 0, gate)
+    assert before != -1, "no pre-gate snapshot of the data dirs"
+    after = src[gate:src.find("push origin main")]
+    assert '"$RECON_BEFORE"' in after, "the commit is not conditioned on the gate's own changes"

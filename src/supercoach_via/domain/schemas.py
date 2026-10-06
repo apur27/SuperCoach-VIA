@@ -423,6 +423,23 @@ TABLES: dict[str, TableSpec] = {
             *_SOURCE_COLS,
         ),
     ),
+    "player_season_awards": TableSpec(
+        "player_season_awards",
+        key=("player_id", "season", "club_id", "award"),
+        columns=(
+            _c("player_id", "string", False),
+            _c("season", "int32", False),
+            _c("club_id", "string", False),
+            _c("club_source_name", "string", False),
+            _c("award", "string", False, "brownlow_votes"),
+            _c("value", "int32", False, "the season value the source prints"),
+            _c("provenance", "string", False, "Provenance enum"),
+            _c("source_path", "string", False, "the source page the value was read from"),
+            _c("source_sha256", "string", False, "SHA-256 of that page's body"),
+            _c("source_row", "int64", True),
+        ),
+        doc="Season-level award values the source prints only per season (pre-1984 Brownlow votes).",
+    ),
     "lineups": TableSpec(
         "lineups",
         key=("match_id", "club_id", "player_id"),

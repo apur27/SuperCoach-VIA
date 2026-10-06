@@ -855,3 +855,31 @@ comparison or edit an input to declare completion.
 Corrections are a separate task: propose minimal, source-backed changes with exact affected
 rows and expected aggregate effects. Apply only to a new candidate under the existing
 correction workflow when authorized; retain the original failing audit and rerun fully.
+
+## 15 Post-approval amendments (final acceptance, 2026-10-03)
+
+Recorded by Gaffer during final acceptance, after Surveyor's acceptance review run 1
+(`docs/reviews/afltables-reconciliation/surveyor-acceptance-review-2026-10-03-run1.md`,
+sha256 `584a3d4c…ae48`). They resolve the eight deviations listed in the first run report
+(`docs/reviews/AFLTABLES_RECONCILIATION_RUN.md` §10) and the owner-named acceptance items.
+Each one either confirms an elaboration consistent with sections 1–14 or restores those
+sections' original rule. None narrows scope or loosens a comparison. The approved design
+text above is unchanged; where this section differs from it, this section governs.
+
+| ID | Subject | Decision |
+|---|---|---|
+| A1 | `plan_id` separated from `capture_identity` (deviation 1) | Accepted. `capture_identity` covers scope, source policy and the capture code that produced the frozen archive. Comparison rules, evidence files and identity overrides enter `plan_id` and the cache keys, not `capture_identity`. |
+| A2 | Manifest claims completeness after an interrupted revalidation (deviation 2) | Defect; fix it. A pending, failed or unstarted revalidation task makes `capture_complete=false`. Compare independently re-derives completeness from the checkpoint tally and receipt, and binds the receipt hash into the report. |
+| A3 | Counter versus match-page games-to-date (deviation 3) | The premise was false: match pages print a "Player Details" table with career games to date. Implement the check exactly as written in §8 (`SOURCE_CONFLICT` on disagreement) and §7 (counter sequence gaps and duplicates). |
+| A4 | Printed averages judged on a closed rounding interval, info only (deviation 4) | Accepted; restates §8's derived-figure rule. |
+| A5 | Cell buckets `cell_in_missing_appearance` and `cell_in_unresolved_appearance` (deviation 5) | Accepted as an exact refinement of §9's partitions. The report states every identity including them. |
+| A6 | Row dates the local layer declares inferred or synthetic (deviation 6) | **Rejected; §2/§7 restored.** A local layer that stores a match date different from the source match date holds a wrong value, whatever date-quality flag it carries. That is a confirmed mismatch and a layer FAIL. Findings may be grouped per (layer, player, season) to bound the stream, but counts per appearance are exact. The local declared quality is carried in each finding. A layer storing no date (null) for an appearance is counted as not compared, not as a mismatch. |
+| A7 | `capture.py` written before its tests (deviation 7) | Process record only. Its tests exist and run in the fast tier; no further action. |
+| A8 | Brownlow blank-cell evidence (deviation 8 plus the 1931–34 decision) | Generalised into one evidence rule. For home-and-away matches from 1931, a blank per-game `BR` cell is `RECORDED_ZERO` only when the two team `BR` totals printed on the match page sum to that season's award total: 6 votes per match, or 12 in 1976–77. Otherwise it is `UNRESOLVED_BLANK`, unless §8's `SOURCE_SUMMARY_ONLY` rule applies. Seasons with no award are `NOT_APPLICABLE` for `BR`. Award totals and no-award seasons are parsed from captured evidence (A9), never typed in or recalled. A notes-page exception takes precedence over a non-blank team Totals cell for the categories it names. |
+| A9 | Brownlow award evidence (N-03) | Captured separately from the frozen corpus. It gets its own exact-path evidence policy, `^/afl/brownlow/brownlow_idx\.html$` on `afltables.com`, and its own archive in the new run directory, at most a few bounded requests ≥2 s apart. Its URL and body SHA-256 are bound into the rules file and `plan_id` (not `capture_identity`) and into the per-season unit digests. |
+| A10 | Notes-club lineage (S-08) | Restore the design. Use a versioned alias map (for example 1975 "Sydney" → South Melbourne), each row with an evidence locator and reason. An unmappable notes exception is a schema gap that blocks PASS (UNKNOWN). It must not be an info finding. |
+| A11 | Reproducibility of the accepted code | The committed implementation must reproduce the accepted reports offline from the frozen capture, and those reports must be produced by that exact code. Capture-code changes must not orphan the frozen archive. Bind `capture_identity` to the hash-verified capture code that produced the archive, not to whatever capture code is current, and record both. Do not weaken the check that the scope and source policy of the archive and the plan agree. |
+| A12 | Re-run location | The frozen run `2026-10-01-full` and its reports stay byte-identical as the original evidence. Re-issued plans and new reports go to a new run directory that reads the frozen `capture/manifest.json` and objects in place. |
+
+Performance targets in §10 are unchanged. The re-run must meet them, or state each miss
+with its measurement; a miss is never closed by lowering coverage.

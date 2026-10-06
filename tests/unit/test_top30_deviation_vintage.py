@@ -331,3 +331,21 @@ def test_superseded_orphan_still_loses_to_a_marked_vintage(tmp_path):
 
     df = uta._load_top30_player_deviation(2026, str(tmp_path))
     assert df.iloc[0]["avg_actual"] == 20.0
+
+
+def test_backtest_section_keeps_the_newest_vintage_by_filename_not_by_mtime(tmp_path, monkeypatch):
+    """A fresh checkout or copy gives the summaries arbitrary mtimes; the per-round table then published the OLDEST
+    vintage for re-scored rounds (smoke run 2026-10-06: R1 5.19 instead of 4.83; DataSentinel FAIL). The run
+    timestamp in the filename is the vintage."""
+    bt = tmp_path / "data" / "prediction" / "backtest"
+    bt.mkdir(parents=True)
+    cols = ["round", "year", "n_players", "mae", "rmse", "median_abs_error", "bias", "pct_within_5", "pct_within_10"]
+    old = bt / "backtest_summary_20260430_142823.csv"
+    new = bt / "backtest_summary_20260511_191837.csv"
+    pd.DataFrame([[1, 2026, 230, 5.19, 6.84, 4.0, 0.1, 57.8, 85.2]], columns=cols).to_csv(old, index=False)
+    pd.DataFrame([[1, 2026, 230, 4.83, 6.10, 3.9, 0.1, 60.4, 92.6]], columns=cols).to_csv(new, index=False)
+    os.utime(old, (9_000_000, 9_000_000))  # the superseded vintage now LOOKS newest on disk
+    os.utime(new, (1_000, 1_000))
+    monkeypatch.setattr(uta, "REPO_ROOT", str(tmp_path))
+    md = uta.generate_backtest_section(2026)
+    assert "4.83" in md and "5.19" not in md, md[:800]

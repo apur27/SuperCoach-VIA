@@ -77,7 +77,10 @@ out="$audit_dir/sentinel-${hash}-${ts}.json"
 # carry quotes, newlines and unicode that shell interpolation would corrupt into
 # invalid JSON — and a corrupt audit record is worse than none, because the gate
 # reads it back.
-PYBIN="${COUNCIL_PYTHON:-/home/abhi/sourceCode/python/coding/.venv/bin/python}"
+# Default interpreter: the repo's own locked .venv, located from THIS script (the caller's cwd need not be a
+# git checkout; a failing `git rev-parse` here aborted the script under `set -e`).
+_script_repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYBIN="${COUNCIL_PYTHON:-${SUPERCOACH_PYTHON:-$_script_repo/.venv/bin/python}}"
 [ -x "$PYBIN" ] || PYBIN="$(command -v python3)"
 
 "$PYBIN" - "$out" "$doc" "$hash" "$verdict" "$ts" "$agent" "$findings_file" \

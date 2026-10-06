@@ -11,6 +11,7 @@ is a separate command (``publish.release.publish_release``).
 from __future__ import annotations
 
 import dataclasses
+import hashlib
 import json
 import time
 from collections.abc import Callable, Sequence
@@ -375,6 +376,62 @@ def apply_corrections(
         result.promoted = True
 
     return _locked(ctx, "apply-corrections", run_id, body)
+
+
+def apply_reconciliation_corrections(
+    ctx: RunContext, *, changes_file: Path, expected_snapshot: str, run_id: str | None = None
+) -> StageResult:
+    """Offline: apply source-backed reconciliation corrections (``reconciliation.corrections``) to the accepted
+    snapshot, validate, and promote a child snapshot. Refuses unless the accepted snapshot is the one the changes
+    were audited against, and refuses any change whose stored value is not the audited one."""
+
+    def body(store: runs.RunStore, result: StageResult) -> None:
+        from supercoach_via.ingest import reconcile
+        from supercoach_via.ingest.legacy import DatasetCandidate
+        from supercoach_via.reconciliation import corrections as CO
+        from supercoach_via.storage import snapshots
+
+        store.transition(RunState.PLANNED)
+        root = ctx.data_root
+        base = snapshots.load_snapshot(root, verify=True)
+        if base.snapshot_id != expected_snapshot:
+            raise _Failure(EXIT_INVALID, "snapshot_mismatch",
+                           f"accepted snapshot is {base.snapshot_id}, the changes were audited on {expected_snapshot}",
+                           "re-run the audit on the accepted snapshot and propose the changes again")  # fmt: skip
+        changes = [c for c in CO.read_changes(changes_file) if c.layer == "snapshot"]
+        try:
+            ups = CO.snapshot_upserts(root, base, changes)
+        except CO.CorrectionConflict as exc:
+            raise _Failure(EXIT_INVALID, "correction_conflict", str(exc),
+                           "re-run the audit; a change must match the value the audit saw") from exc  # fmt: skip
+        store.transition(RunState.PARSED)
+        digest = hashlib.sha256(changes_file.read_bytes()).hexdigest()
+        dels = ups.pop("_delete_player_games", [])
+        q_dels = ups.pop("_delete_quarantine", [])
+        deletes = {k: v for k, v in (("player_games", dels), ("quarantine", q_dels)) if v}
+        merged = snapshots.apply_upserts(
+            root, base, {k: v for k, v in ups.items() if v}, clock=ctx.clock, code_version=CODE_VERSION,
+            status=base.status, run_id=store.run_id, deletes=deletes or None,
+            notes=[f"reconciliation corrections {digest[:16]}: {len(changes)} changes, "
+                   f"{len(ups['player_games'])} player_games rows"],
+        )  # fmt: skip
+        result.snapshot_id = merged.manifest.snapshot_id
+        result.outputs["corrections"] = {"changes": len(changes), "player_games_rows": len(ups["player_games"]),
+                                         "players_rows": len(ups["players"]), "player_games_deleted": len(dels),
+                                         "changes_sha256": digest}  # fmt: skip
+        cand = DatasetCandidate(candidate=merged, report={"corrections": result.outputs["corrections"]}, data_root=root)
+        report = reconcile.validate_dataset(cand, reconcile.load_policy())
+        _write_json(store.directory / "validation-report.json", _report_json(report))
+        if not report.ok:
+            raise _Failure(EXIT_VALIDATION, "validation_failed", "corrected candidate failed validation",
+                           f"read {store.directory}/validation-report.json")  # fmt: skip
+        store.transition(RunState.VALIDATED)
+        snapshots.promote(root, merged, report, promoted_at=ctx.clock())
+        store.transition(RunState.DATASET_PROMOTED)
+        result.promoted = True
+
+    return _locked(ctx, "apply-reconciliation-corrections", run_id, body)
+
 
 
 def ingest(
