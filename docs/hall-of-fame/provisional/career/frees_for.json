@@ -1,22 +1,22 @@
 [
   {
     "career_games": 325,
-    "coverage": 0.9784615384615385,
+    "coverage": 0.9815384615384616,
     "eligible_games": 325,
-    "mean": 3.39937106918239,
+    "mean": 3.3887147335423196,
     "name": "Ian Nankervis",
-    "observed_games": 318,
+    "observed_games": 319,
     "player_id": "legacy:nankervis_ian_03011948",
     "rank": 1,
     "total": 1081.0
   },
   {
     "career_games": 301,
-    "coverage": 0.9900332225913622,
+    "coverage": 0.9867109634551495,
     "eligible_games": 301,
-    "mean": 3.315436241610738,
+    "mean": 3.3265993265993266,
     "name": "Len Thompson",
-    "observed_games": 298,
+    "observed_games": 297,
     "player_id": "legacy:thompson_len_27081947",
     "rank": 2,
     "total": 988.0
@@ -78,11 +78,11 @@
   },
   {
     "career_games": 302,
-    "coverage": 0.9834437086092715,
+    "coverage": 0.9867549668874173,
     "eligible_games": 302,
-    "mean": 3.006734006734007,
+    "mean": 2.9966442953020134,
     "name": "Don Scott",
-    "observed_games": 297,
+    "observed_games": 298,
     "player_id": "legacy:scott_don_20121947",
     "rank": 8,
     "total": 893.0
@@ -133,22 +133,22 @@
   },
   {
     "career_games": 277,
-    "coverage": 0.9819494584837545,
+    "coverage": 0.9783393501805054,
     "eligible_games": 277,
-    "mean": 2.988970588235294,
+    "mean": 3.0,
     "name": "Wayne Richardson",
-    "observed_games": 272,
+    "observed_games": 271,
     "player_id": "legacy:richardson_wayne_08121946",
     "rank": 13,
     "total": 813.0
   },
   {
     "career_games": 250,
-    "coverage": 0.976,
+    "coverage": 0.984,
     "eligible_games": 250,
-    "mean": 3.262295081967213,
+    "mean": 3.2357723577235773,
     "name": "Allan Davis",
-    "observed_games": 244,
+    "observed_games": 246,
     "player_id": "legacy:davis_allan_29091948",
     "rank": 14,
     "total": 796.0
@@ -177,11 +177,11 @@
   },
   {
     "career_games": 267,
-    "coverage": 0.9775280898876404,
+    "coverage": 0.9812734082397003,
     "eligible_games": 267,
-    "mean": 3.003831417624521,
+    "mean": 2.9923664122137406,
     "name": "Greg Wells",
-    "observed_games": 261,
+    "observed_games": 262,
     "player_id": "legacy:wells_greg_06061950",
     "rank": 17,
     "total": 784.0
@@ -210,11 +210,11 @@
   },
   {
     "career_games": 328,
-    "coverage": 0.9847560975609756,
+    "coverage": 0.9908536585365854,
     "eligible_games": 328,
-    "mean": 2.3126934984520124,
+    "mean": 2.2984615384615386,
     "name": "Barry Round",
-    "observed_games": 323,
+    "observed_games": 325,
     "player_id": "legacy:round_barry_26011950",
     "rank": 20,
     "total": 747.0

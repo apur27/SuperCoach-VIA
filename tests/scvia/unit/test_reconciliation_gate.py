@@ -80,11 +80,26 @@ def test_the_full_gate_flow_blocks_a_bad_row_and_fix_corrects_it_then_passes(
                   client=e2e.site.client(), clock=e2e.site.clock)  # fmt: skip
     blocked = g.run_gate(seasons=[2026], run_dir=tmp_path / "gate1", fix=False, **common)
     assert blocked["decision"] == "block" and blocked["layers"]["legacy_csv"] == "FAIL"
+    from supercoach_via.reconciliation import corrections as CO
+
+    apply = CO.apply_legacy
+
+    def apply_and_move_pointer(*args, **kwargs):
+        result = apply(*args, **kwargs)
+        (e2e.data_root / "current.json").write_text('{"snapshot_id": "sha256:wrong"}')
+        return result
+
+    monkeypatch.setattr(CO, "apply_legacy", apply_and_move_pointer)
     fixed = g.run_gate(seasons=[2026], run_dir=tmp_path / "gate2", fix=True, **common)
     assert fixed["decision"] == "pass" and fixed["fixed"]["cells_changed"] >= 1, fixed
     assert fixed["layers"]["legacy_csv"] == "PASS"
     summary = json.loads((tmp_path / "gate2" / "gate.json").read_text())
     assert summary["decision"] == "pass" and summary["seasons"] == [2026]
+    plan = json.loads((tmp_path / "gate2" / "plan.json").read_text())
+    assert summary["decision_scope"] == "legacy_csv_changed_seasons"
+    assert summary["reference_snapshot_id"] == plan["inputs"]["snapshot"]["snapshot_id"]
+    assert summary["audited_seasons"] == plan["scope"]["seasons"]
+    assert summary["snapshot_findings_role"] == "reference_only_no_promotion_verdict"
 
 
 def test_a_missing_snapshot_data_root_skips_loudly_instead_of_breaking_the_cycle(
@@ -96,6 +111,10 @@ def test_a_missing_snapshot_data_root_skips_loudly_instead_of_breaking_the_cycle
     rc = g.main(["gate", "--data-root", str(tmp_path / "absent"), "--season", "2026", "--runs-root", str(tmp_path),
                  "--status-file", str(tmp_path.parent / f"{tmp_path.name}-status.json")])  # fmt: skip
     assert rc == 0
+    status = json.loads((tmp_path.parent / f"{tmp_path.name}-status.json").read_text())
+    assert status["decision_scope"] == "legacy_csv_changed_seasons"
+    assert status["reference_snapshot_id"] is None and status["audited_seasons"] == []
+    assert status["seasons"] == [2026]
     assert "WARN" in capsys.readouterr().out
     assert list(tmp_path.iterdir()) == []  # no run directory was started
 
@@ -170,3 +189,45 @@ def test_every_gate_exit_is_persisted_and_unverified_seasons_carry_to_the_next_r
     outcome.update(decision="block", reason="mismatch")
     assert g.main(["gate", "--data-root", str(data), *status]) == 1
     assert _status(tmp_path)["decision"] == "block" and _status(tmp_path)["pending"] == [2026]
+
+
+def test_snapshot_fail_does_not_change_the_explicit_legacy_only_decision():
+    g = _load()
+    report = _report(legacy_csv=_layer("PASS"), snapshot=_layer("FAIL", CELL_MISMATCH=1))
+    assert g.decide(report)[0] == "pass"
+
+
+def test_capture_outage_keeps_the_original_plan_binding(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    from types import SimpleNamespace
+
+    from supercoach_via.reconciliation import inventory as inv
+    from supercoach_via.reconciliation.capture import Capture
+    from tests.scvia.unit import recon_e2e as E
+    from tests.scvia.unit.test_reconciliation_e2e import two_season_world
+
+    g = _load()
+    e2e = E.build(tmp_path, two_season_world(), monkeypatch=monkeypatch, capture=False)
+    assert e2e.legacy_root is not None
+    expected = inv.pin_snapshot(e2e.data_root, "current").snapshot_id
+
+    def outage(self):
+        # A concurrently changed pointer must not relabel the captured plan.
+        (e2e.data_root / "current.json").write_text('{"snapshot_id": "sha256:wrong"}')
+        return SimpleNamespace(state="failed")
+
+    monkeypatch.setattr(Capture, "run", outage)
+    out = g.run_gate(
+        seasons=[2026],
+        run_dir=tmp_path / "outage",
+        data_root=e2e.data_root,
+        legacy_root=e2e.legacy_root,
+        through_date="2026-09-30",
+        fix=False,
+        client=e2e.site.client(),
+        clock=e2e.site.clock,
+    )
+    assert out["decision"] == "warn"
+    assert out["reference_snapshot_id"] == expected
+    assert out["decision_scope"] == "legacy_csv_changed_seasons"
+    assert out["audited_seasons"] == [2026]
+    assert out["snapshot_findings_role"] == "reference_only_no_promotion_verdict"

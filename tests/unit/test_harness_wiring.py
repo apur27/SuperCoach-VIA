@@ -16,7 +16,11 @@ defect class this file exists to catch:
 A unit test that passes while the code is unreachable in production is worthless,
 so these check reachability, not behaviour.
 """
+import json
+import os
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -24,6 +28,23 @@ import pytest
 REPO = Path(__file__).resolve().parents[2]
 REFRESH = REPO / "refresh_and_rank.sh"
 WEEKLY = REPO / "scripts" / "weekly_refresh.sh"
+
+
+@pytest.mark.parametrize(
+    ("script", "count"),
+    [(REFRESH, 40), (REPO / "scripts" / "smoke_harness.sh", 15)],
+)
+def test_harness_log_tail_uses_portable_count_option(script, count):
+    """uutils tail rejects obsolete -40/-15 syntax used on failure paths."""
+    option = re.search(r"\btail\s+(-\S+)", _uncommented(script.read_text()))
+    assert option is not None
+    assert option[1] == f"-n{count}"
+    lines = [f"line {n}\n" for n in range(50)]
+    result = subprocess.run(
+        ["tail", option[1]], input="".join(lines), text=True,
+        capture_output=True, check=True,
+    )
+    assert result.stdout == "".join(lines[-count:])
 
 
 @pytest.fixture(scope="module")
@@ -345,3 +366,93 @@ def test_data_changed_by_fix_is_re_gated_before_it_is_committed(weekly_src):
     for check in ("phantom_row_validator.py", "match_completeness_gate.py"):
         at = block.find(check)
         assert at != -1 and at < commit, f"{check} is not re-run before the corrections commit"
+
+
+def test_python_ci_installs_node_and_browser_contract_dependencies():
+    """Python-produced releases must be parsed by the real TypeScript readers in CI."""
+    workflow = (REPO / ".github/workflows/scvia-ci.yml").read_text()
+    python_job = workflow.split("  python:", 1)[1].split("  web:", 1)[0]
+    assert "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" in python_job
+    assert 'node-version-file: ".node-version"' in python_job
+    assert "npm ci --prefix web" in python_job
+    assert python_job.index("npm ci --prefix web") < python_job.index("Hermetic pytest tier")
+    contract = (REPO / "tests/scvia/unit/test_builder.py").read_text()
+    assert 'shutil.which("node")' in contract
+    assert '"/usr/bin/node"' not in contract
+    assert "tests/unit/python-release.test.ts" in contract
+
+
+def test_recap_prompt_requires_evidence_for_a_mechanical_relationship(weekly_src):
+    assert "say that they overlap by definition" not in weekly_src
+    assert "clearances and contested possessions do" not in weekly_src
+    assert "cite a source that defines the overlap" in weekly_src
+
+
+@pytest.mark.parametrize("output_format", ["compact", "multiline", "malformed"])
+def test_recap_retry_delivers_complete_failure_details_as_data(weekly_src, tmp_path, output_format):
+    marker = tmp_path / "must-not-execute"
+    details = [{
+        "claim": "Daicos '23 [data] games' (rounds 1–25)",
+        "reason": f'Use "22", not 23.\nKeep $HOME, $(touch {marker}) and `touch {marker}` literal.',
+        "nested": {"rows": ["WF", "[data]"]},
+    }]
+    verdict = "CLI warning: retry context follows\n" + json.dumps(
+        {"verdict": "FAIL", "failed_tags": details}, ensure_ascii=False,
+        indent=2 if output_format == "multiline" else None,
+    )
+    if output_format == "malformed":
+        verdict = "Malformed output with [data], 'quotes', \"double quotes\"\n" + details[0]["reason"]
+    output = tmp_path / "sentinel.out"
+    output.write_text(verdict)
+    capture = tmp_path / "claude.json"
+    claude = tmp_path / "claude-stub"
+    claude.write_text(
+        f"#!{sys.executable}\nimport json, os, sys\n"
+        "with open(os.environ['CLAUDE_CAPTURE'], 'w') as file:\n"
+        "    json.dump({'argv': sys.argv[1:], 'stdin': sys.stdin.read()}, file)\n"
+    )
+    claude.chmod(0o755)
+    start = weekly_src.index('    log "[3b/5] DataSentinel FAIL on pass 1')
+    end = weekly_src.index('    log "[3b/5] Re-gating', start)
+    result = subprocess.run(
+        ["bash", "-euo", "pipefail", "-c", "log() { :; }\n" + weekly_src[start:end]],
+        env={**os.environ, "ROUND": "25", "DS_OUT": str(output), "CLAUDE": str(claude),
+             "PYTHON": sys.executable, "CLAUDE_CAPTURE": str(capture), "LOG_FILE": str(tmp_path / "log")},
+        stdin=subprocess.DEVNULL, capture_output=True, text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    received = json.loads(capture.read_text())
+    assert received["argv"][-4:] == ["--agent", "FootyStrategy", "--permission-mode", "bypassPermissions"]
+    if output_format != "malformed":
+        assert json.loads(received["stdin"])["failed_tags"] == details
+    else:
+        assert received["stdin"] == verdict
+    assert not marker.exists(), "verdict text was executed as shell code"
+
+
+def test_agent_contracts_match_the_harness_weekly_approval_chain():
+    qa = (REPO / ".claude/agents/QA.md").read_text()
+    gaffer = (REPO / ".claude/agents/Gaffer.md").read_text()
+    weekly = (REPO / ".claude/skills/weekly-cycle.md").read_text()
+    skeptic = (REPO / ".claude/agents/Skeptic.md").read_text()
+    for src in (qa, gaffer, weekly):
+        assert "Phase 3d" in src
+        assert "does not invoke the QA agent" in src
+    assert "Pre-existing test failures also block ship" in qa
+    assert "Pre-existing failures do not block ship" not in qa
+    assert "/home/abhi/sourceCode/python" not in qa
+    assert '"$PYTHON" -m pytest tests/ -q -m "not integration" -n 4' in qa
+    assert '"$PYTHON" -m pytest tests/integration -q -m integration' in qa
+    assert "weekly recap in `docs/afl-insights.md`" in skeptic
+    assert "Do not invent recommendations or require lens sections" in skeptic
+
+
+def test_legacy_ci_uses_the_locked_supported_environment():
+    workflow = (REPO / ".github/workflows/scvia-ci.yml").read_text()
+    legacy = workflow.split("  legacy:", 1)[1].split("  web:", 1)[0]
+    assert "uv sync --locked --group dev --group legacy --extra ml" in legacy
+    assert 'pytest tests/unit -m "not integration" -q -n 4' in legacy
+    for obsolete in ("tests.yml", "pylint.yml", "python-package-conda.yml"):
+        assert not (REPO / ".github/workflows" / obsolete).exists()
+    assert "uv run --locked ruff check" in workflow
+    assert "uv run --locked mypy" in workflow

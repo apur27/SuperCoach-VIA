@@ -147,3 +147,41 @@ CRON_TZ=Australia/Melbourne
 ```
 
 The job does not publish. A person reviews `scvia status` and then runs the build and publish steps.
+
+
+## Local audit state and owner permissions
+
+The weekly harness writes `.claude/audit/last_refresh_status.json`,
+`last_refresh_complete.json` and dated `insights_*.json` verdict output locally.
+Some historical instances are tracked, although Phase 4 does not stage them. A fresh
+clone therefore contains historical cycle markers; read their timestamp and inspect
+actual running harness processes before treating them as evidence of current activity.
+Do not commit or discard another checkout's dirty audit files during unrelated work.
+
+A dedicated migration is still required: preserve existing marker/verdict bytes and
+hashes outside Git, define how a fresh clone initializes fail-closed cycle state, test
+active/complete/absent-marker handling, then untrack only the agreed operational paths
+and add matching ignore rules. Do not delete retained evidence or infer that an old
+complete marker proves no live cycle exists. This review patch leaves markers intact.
+
+`.claude/settings.local.json` belongs to the operator. Its broad command grants and
+retired interpreter rule need an owner review; do not rewrite local/global permissions
+as part of code delivery. The durable interpreter contract is `scripts/harness_env.sh`:
+`SUPERCOACH_PYTHON` then `<repo>/.venv/bin/python`; the commit hook additionally accepts
+`COUNCIL_PYTHON` first. Replace stale grants only in a separate owner-approved settings
+change after preserving the current file. No such permission change is made here.
+
+The legacy Pylint, pip/old-Python and Conda workflows have been consolidated into the
+locked `scvia-ci` Python and legacy unit jobs. Ruff/mypy are the canonical lint/type
+checks; this retirement does not claim rule-for-rule Pylint equivalence. Real-data
+integration remains in the weekly harness's Phase 3d. The header's cron example does
+not establish an installed schedule; schedule activation remains an owner action.
+
+
+The changed-season reconciliation gate still reads the configured reference snapshot
+(`RECON_DATA_ROOT`, default `var/finalized/data`); its decision is explicitly scoped to
+legacy CSVs. `gate.json` and the persisted status record now name that scope, the
+snapshot resolved by the captured plan and the audited seasons. Snapshot findings are
+reference-only and cannot certify or promote a candidate. Comparing that reference
+still has a cost; eliminating stale reference work or following a future promotion
+needs a separate scope/binding design. No snapshot selection or decision policy changed.

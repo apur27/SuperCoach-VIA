@@ -45,11 +45,11 @@
   },
   {
     "career_games": 277,
-    "coverage": 0.9927797833935018,
+    "coverage": 0.9963898916967509,
     "eligible_games": 277,
-    "mean": 21.196363636363635,
+    "mean": 21.119565217391305,
     "name": "Wayne Richardson",
-    "observed_games": 275,
+    "observed_games": 276,
     "player_id": "legacy:richardson_wayne_08121946",
     "rank": 5,
     "total": 5829.0
@@ -89,11 +89,11 @@
   },
   {
     "career_games": 325,
-    "coverage": 0.9938461538461538,
+    "coverage": 0.9969230769230769,
     "eligible_games": 325,
-    "mean": 17.151702786377708,
+    "mean": 17.098765432098766,
     "name": "Ian Nankervis",
-    "observed_games": 323,
+    "observed_games": 324,
     "player_id": "legacy:nankervis_ian_03011948",
     "rank": 9,
     "total": 5540.0
@@ -166,11 +166,11 @@
   },
   {
     "career_games": 267,
-    "coverage": 0.9925093632958801,
+    "coverage": 0.9962546816479401,
     "eligible_games": 267,
-    "mean": 18.452830188679247,
+    "mean": 18.383458646616543,
     "name": "Greg Wells",
-    "observed_games": 265,
+    "observed_games": 266,
     "player_id": "legacy:wells_greg_06061950",
     "rank": 16,
     "total": 4890.0
@@ -179,12 +179,12 @@
     "career_games": 366,
     "coverage": 0.9972677595628415,
     "eligible_games": 366,
-    "mean": 13.284931506849315,
+    "mean": 13.30958904109589,
     "name": "Bernie Quinlan",
     "observed_games": 365,
     "player_id": "legacy:quinlan_bernie_21071951",
     "rank": 17,
-    "total": 4849.0
+    "total": 4858.0
   },
   {
     "career_games": 346,

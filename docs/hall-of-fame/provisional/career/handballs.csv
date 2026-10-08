@@ -7,7 +7,7 @@ rank,name,player_id,career_games,total,observed_games,eligible_games,mean,covera
 6,Gary Ablett,legacy:ablett_gary_14051984,357,4200.0,357,357,11.764705882352942,1.0
 7,Sam Mitchell,legacy:mitchell_sam_12101982,329,4155.0,329,329,12.629179331306991,1.0
 8,Jack Macrae,legacy:macrae_jack_03081994,282,4134.0,282,282,14.659574468085106,1.0
-9,Scott West,legacy:west_scott_14111974,324,4093.0,322,324,12.711180124223603,0.9938271604938271
+9,Scott West,legacy:west_scott_14111974,324,4093.0,324,324,12.632716049382717,1.0
 10,Ollie Wines,legacy:wines_ollie_07101994,292,4092.0,292,292,14.013698630136986,1.0
 11,Patrick Cripps,legacy:cripps_patrick_18031995,255,4051.0,255,255,15.886274509803922,1.0
 12,Robert Harvey,legacy:harvey_robert_21081971,383,4008.0,383,383,10.464751958224543,1.0

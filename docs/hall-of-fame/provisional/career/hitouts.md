@@ -1,10 +1,10 @@
 # PROVISIONAL — career hitouts — recorded totals
 
-**PROVISIONAL · as of 2026-10-03.** Snapshot `sha256:3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0`. Audit snapshot **FAIL**, legacy **FAIL**; SHA-256 `58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`. These are data-based ranks, not official AFL Hall of Fame selections.
+**PROVISIONAL · as of 2026-10-07.** Snapshot `sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4`. These are data-based ranks, not official AFL Hall of Fame selections.
 
-**Historical Brownlow totals are incomplete, especially before 1984.** Known audit failures include missing appearances, source-proved zero values left null locally, aggregate mismatches and unresolved identities. Totals sum recorded values; all-missing totals are absent. Means divide by stat observed_games, and are observed-game means. Recorded appearances count rows; career_games uses max(rows, source counter). legacy_v1 alone retains its pinned historical blank-as-zero scoring imputation and era adjustments.
+**Source agreement UNKNOWN: zero confirmed discrepancies; 63 unresolved source cells per layer.** Full parent audit: `sha256:f1abd8c2b7f8d6b3812e73f91a4403add1844f3ad9037139e7dc373a0ed91703`, report SHA-256 `81ac70ba8aa25110119a91779d2c2df91088b2f0f87408db3546de8109a4509c`, capture 2026-10-01T11:46:00Z to 2026-10-02T04:44:55Z. Candidate audit: `sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4`, seasons 2026 only, report SHA-256 `6fecac8e1c8eb804774eb70a5f9d03bd5448ee86d43d1253472ca0f1ea7d9c2a`, capture 2026-10-05T20:05:26Z to 2026-10-05T20:35:27Z. Verified unchanged historical partitions carry the parent's unresolved evidence forward. This composition is not a new full audit or fresh historical capture. Legacy counts describe the cited reports; the fragment continuity proof applies to the snapshot. Historical Brownlow, all-zero and percentage evidence remains unresolved. Totals sum recorded values; all-missing totals are absent. Means divide by stat observed_games. Recorded appearances count rows; career_games uses max(rows, source counter). legacy_v1 retains its pinned historical blank-as-zero scoring imputation and era adjustments.
 
-Source: queried immutable snapshot manifest at `var/reviews/opus55/20260929T203757Z-followup/candidate-data/snapshots/3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0.json`. [Verified provenance](../provenance.json). Raw snapshot and audit inputs are retained locally; rerun instructions are in [the report index](../README.md).
+Source: queried immutable snapshot manifest at `var/candidates/20261005-afltables-corrected/snapshots/b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4.json`. [Verified provenance](../provenance.json). Raw snapshot and audit inputs are retained locally; rerun instructions are in [the report index](../README.md).
 
 | Rank | Name | Player ID | Career games (max rows/counter) | Total | Observed games | Eligible Games | Mean over observed games | Coverage |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -20,11 +20,11 @@ Source: queried immutable snapshot manifest at `var/reviews/opus55/20260929T2037
 | 10 **[data]** | Justin Madden | legacy:madden_justin_31051961 | 332 **[data]** | 5746 **[data]** | 332 **[data]** | 332 **[data]** | 17.3072 **[data]** | 1 **[data]** |
 | 11 **[data]** | Paddy Ryder | legacy:ryder_paddy_14031988 | 281 **[data]** | 5614 **[data]** | 281 **[data]** | 281 **[data]** | 19.9786 **[data]** | 1 **[data]** |
 | 12 **[data]** | Nic Naitanui | legacy:naitanui_nic_04051990 | 213 **[data]** | 5549 **[data]** | 213 **[data]** | 213 **[data]** | 26.0516 **[data]** | 1 **[data]** |
-| 13 **[data]** | Ben McEvoy | legacy:mcevoy_ben_11071989 | 252 **[data]** | 5267 **[data]** | 251 **[data]** | 251 **[data]** | 20.9841 **[data]** | 0.996032 **[data]** |
+| 13 **[data]** | Ben McEvoy | legacy:mcevoy_ben_11071989 | 252 **[data]** | 5277 **[data]** | 252 **[data]** | 252 **[data]** | 20.9405 **[data]** | 1 **[data]** |
 | 14 **[data]** | Reilly OBrien | legacy:obrien_reilly_20081995 | 148 **[data]** | 5237 **[data]** | 148 **[data]** | 148 **[data]** | 35.3851 **[data]** | 1 **[data]** |
-| 15 **[data]** | Simon Madden | legacy:madden_simon_30121957 | 378 **[data]** | 5226 **[data]** | 359 **[data]** | 378 **[data]** | 14.5571 **[data]** | 0.949735 **[data]** |
+| 15 **[data]** | Simon Madden | legacy:madden_simon_30121957 | 378 **[data]** | 5226 **[data]** | 357 **[data]** | 378 **[data]** | 14.6387 **[data]** | 0.944444 **[data]** |
 | 16 **[data]** | Jeff White | legacy:white_jeff_19021977 | 268 **[data]** | 5000 **[data]** | 268 **[data]** | 268 **[data]** | 18.6567 **[data]** | 1 **[data]** |
 | 17 **[data]** | Darren Jolly | legacy:jolly_darren_06111981 | 237 **[data]** | 4968 **[data]** | 237 **[data]** | 237 **[data]** | 20.962 **[data]** | 1 **[data]** |
-| 18 **[data]** | Peter Everitt | legacy:everitt_peter_03051974 | 291 **[data]** | 4961 **[data]** | 290 **[data]** | 291 **[data]** | 17.1069 **[data]** | 0.996564 **[data]** |
+| 18 **[data]** | Peter Everitt | legacy:everitt_peter_03051974 | 291 **[data]** | 4961 **[data]** | 291 **[data]** | 291 **[data]** | 17.0481 **[data]** | 1 **[data]** |
 | 19 **[data]** | Toby Nankervis | legacy:nankervis_toby_12081994 | 191 **[data]** | 4954 **[data]** | 191 **[data]** | 191 **[data]** | 25.9372 **[data]** | 1 **[data]** |
 | 20 **[data]** | Stefan Martin | legacy:martin_stefan_17111986 | 203 **[data]** | 4661 **[data]** | 203 **[data]** | 203 **[data]** | 22.9606 **[data]** | 1 **[data]** |

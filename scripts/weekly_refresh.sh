@@ -154,7 +154,7 @@ log "[1c/5] Match-completeness gate passed."
 # --fix applies only source-backed corrections and re-audits; the cycle blocks if
 # a confirmed discrepancy or a duplicate/unresolved player file remains. Fails
 # OPEN (WARN, exit 0) on a capture outage, an incomplete source record, or a
-# machine without the accepted snapshot data root (RECON_DATA_ROOT).
+# machine without the reference snapshot data root (RECON_DATA_ROOT).
 #
 # Operator, when this fires mid-cycle: the Phase 1 commit is local and unpushed.
 # Read gate.json in the run directory the log line names (reports/after-fix holds
@@ -190,7 +190,7 @@ RECON_DECISION=$("$PYTHON" -c 'import json,sys; print(json.load(open(sys.argv[1]
 case "$RECON_DECISION" in
     pass)  log "[1c/5] Reconciliation gate passed: the changed seasons agree with AFL Tables." ;;
     noop)  log "[1c/5] Reconciliation gate: no season changed or pending; nothing audited." ;;
-    skip)  log "[1c/5] Reconciliation gate SKIPPED (no accepted snapshot data root); the seasons stay pending for the next run." ;;
+    skip)  log "[1c/5] Reconciliation gate SKIPPED (no reference snapshot data root); the seasons stay pending for the next run." ;;
     warn)  log "[1c/5] Reconciliation gate WARN (capture outage or incomplete source record); the seasons stay pending — see .claude/audit/reconciliation_gate_status.json." ;;
     *)     log "[1c/5] Reconciliation gate WARN: no decision recorded ($RECON_DECISION)." ;;
 esac
@@ -409,7 +409,7 @@ if [ "$FINALS_MODE" = "1" ]; then
     #     with no disclosure. The Round 24 recap disclosed it, Round 25 dropped it —
     #     the fix survived exactly one cycle, so it is restated here every run until
     #     the source table carries the column (Skeptic R25-01, BL-22).
-    RECAP_PROMPT="Round=$ROUND. Date=$TODAY. Round $ROUND has been PLAYED — it is a COMPLETED round, not an upcoming one. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table), reviewing what actually happened. Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md. There is NO forward prediction this cycle and no cheat sheet for an upcoming round — do not cite docs/afl-predictions-2026.md or docs/weekly/round-current-2026.md, and do not preview or project any future round. Do not describe any finals result and do not state or imply anything about the season's structure, how many rounds it has, or whether it has ended, unless you verify it against data/matches/matches_2026.csv and tag it. If you rank players by a per-game average, you MUST disclose games played whenever the samples differ materially — verify each from the player's own CSV in data/player_data/ and tag it; an 11-game average and a 23-game average are not comparable and presenting them as a flat ranking misleads. Carry over every qualifier the source states rather than dropping it: if the source defines an eligibility floor (e.g. 'at least 3 games'), say so wherever you quote a population count. If you cite a correlation between two stats that partly measure the same events (clearances and contested possessions do), say that they overlap by definition — otherwise a partly mechanical relationship reads as a discovered one. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file."
+    RECAP_PROMPT="Round=$ROUND. Date=$TODAY. Round $ROUND has been PLAYED — it is a COMPLETED round, not an upcoming one. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table), reviewing what actually happened. Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md. There is NO forward prediction this cycle and no cheat sheet for an upcoming round — do not cite docs/afl-predictions-2026.md or docs/weekly/round-current-2026.md, and do not preview or project any future round. Do not describe any finals result and do not state or imply anything about the season's structure, how many rounds it has, or whether it has ended, unless you verify it against data/matches/matches_2026.csv and tag it. If you rank players by a per-game average, you MUST disclose games played whenever the samples differ materially — verify each from the player's own CSV in data/player_data/ and tag it; an 11-game average and a 23-game average are not comparable and presenting them as a flat ranking misleads. Carry over every qualifier the source states rather than dropping it: if the source defines an eligibility floor (e.g. 'at least 3 games'), say so wherever you quote a population count. If you describe a correlation as partly mechanical, cite a source that defines the overlap; without that evidence, report only the association and avoid a definitional or causal claim. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file."
 else
     RECAP_PROMPT="Round=$ROUND. Date=$TODAY. Write '## Round $ROUND — Week in Review' in docs/afl-insights.md (immediately after the intro table). Sources: docs/afl-stat-leaders-2026.md, docs/afl-season-2026.md, docs/afl-predictions-2026.md, docs/weekly/round-current-2026.md. 150-200 words max. Do not touch the navigation table, intro text, links, or any other file."
 fi
@@ -449,12 +449,34 @@ else
     # let it re-write the section, then re-gate exactly once. A second FAIL
     # aborts — we never loop forever on a doc DataSentinel keeps rejecting.
     log "[3b/5] DataSentinel FAIL on pass 1 — extracting failed tags and re-invoking FootyStrategy (F2 retry)..."
-    FAILED_TAGS=$(grep -oE '"failed_tags"[[:space:]]*:[[:space:]]*\[[^]]*\]' "$DS_OUT" || true)
-    [ -n "$FAILED_TAGS" ] || FAILED_TAGS=$(tr -d '\000' < "$DS_OUT" | tail -c 1500)
-    $CLAUDE -p "Your Round $ROUND recap in docs/afl-insights.md FAILED DataSentinel. These tags/numbers failed: ${FAILED_TAGS}. Fix ONLY the '## Round $ROUND — Week in Review' section: add a bold **[data]** tag to every specific number, name the source CSV for each in the methodology sentence, and re-verify each figure against data/. Re-write the section and hand back. Touch no other section or file." \
+    # Decode the verdict structurally: a literal [data] inside a claim is not
+    # the end of failed_tags. Send context on stdin so it stays data, not shell.
+    "$PYTHON" - "$DS_OUT" <<'PYEOF' | $CLAUDE -p "Your Round $ROUND recap in docs/afl-insights.md FAILED DataSentinel. The failed_tags context is supplied on standard input (the complete output if JSON could not be decoded). Fix ONLY the '## Round $ROUND — Week in Review' section: address each reported reason, add a bold **[data]** tag to every specific number, name the source CSV for each in the methodology sentence, and re-verify each figure against data/. Re-write the section and hand back. Touch no other section or file." \
         --agent FootyStrategy \
         --permission-mode bypassPermissions \
         2>&1 | tee -a "$LOG_FILE"
+import json
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text()
+decoder = json.JSONDecoder()
+selected = None
+position = 0
+while (position := text.find("{", position)) != -1:
+    try:
+        payload, consumed = decoder.raw_decode(text[position:])
+    except ValueError:
+        position += 1
+        continue
+    position += consumed
+    if isinstance(payload, dict) and payload.get("verdict") == "FAIL" and isinstance(payload.get("failed_tags"), list):
+        selected = payload["failed_tags"]
+if selected is None:
+    sys.stdout.write(text)
+else:
+    print(json.dumps({"failed_tags": selected}, ensure_ascii=False, indent=2))
+PYEOF
 
     log "[3b/5] Re-gating afl-insights.md through DataSentinel (F05, pass 2)..."
     if gate_insights; then

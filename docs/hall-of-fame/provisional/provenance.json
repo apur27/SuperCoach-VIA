@@ -1,15 +1,3947 @@
 {
-  "as_of": "2026-10-03",
-  "audit_sha256": "58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28",
+  "as_of": "2026-10-07",
+  "audit_sha256": "54fdc52c35721abdad30adf15981f7f7c901f7cb073eb601949621e87d761689",
   "audit_verdicts": {
-    "legacy_csv": "FAIL",
-    "snapshot": "FAIL"
+    "legacy_csv": "UNKNOWN",
+    "snapshot": "UNKNOWN"
   },
-  "manifest_sha256": "4af7a390e5456340df4da9966c3c5606da4188954edfc142fc2274a929b91f21",
+  "evidence_kind": "coverage_argument_from_two_existing_audits",
+  "manifest_sha256": "df3887866d2bb79a6e2885e1939247a3178ac076163277ed10698451c8cd16b2",
   "ranking_config_sha256": "191aa99b83f618d3e90d8ce68b8e467dcc6562993e81706f5c3f44e12332d563",
-  "snapshot_id": "sha256:3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0",
-  "source_audit": "var/reconciliations/afltables/2026-10-01-full/reports/cold-4/report.json",
-  "source_manifest": "var/reviews/opus55/20260929T203757Z-followup/candidate-data/snapshots/3de6597513b5c6eaca1b102d304a2cf128d8c08f229ee1de384c1d40fe746db0.json",
+  "snapshot_id": "sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4",
+  "source_audit": "docs/reviews/evidence/afltables-candidate-source-coverage-20261007.json",
+  "source_coverage": {
+    "candidate_created_at": "2026-10-05T20:43:39.205629Z",
+    "confirmed_discrepancies": 0,
+    "evidence": [
+      {
+        "capture_identity": "9f2cbee4c9515a4bca4444adb930d924e0b66ac3d2fcc21d99c51fb68b0fbc28",
+        "capture_manifest_sha256": "83ff79f64d1354b0fb09ed100a116f54fee2d6eeeb1cbb436e959c1db11adbdd",
+        "code": {
+          "capture_files": {
+            "ingest/http.py": "cc1fb39b30279942965897f93652624c463d2fd15f24091c23310d3cbbbac416",
+            "integrity/sourcepages.py": "08d23e7ad664318737b04b24a5276d0707ea90b9dc61836c39989cdd701de453",
+            "reconciliation/__init__.py": "3c10139a838e477af56ca35769dc83f44f7df1bcd938d573e605f747574c3490",
+            "reconciliation/capture.py": "0b4dab0176875da668b3d02a1fdd3a73396ae5cb3f941a431200f7b10e1c697e",
+            "reconciliation/discover.py": "5d26d58ee96af5751392c55a9a2ecee10e53eccfb3a04d7f140b567415c350de",
+            "reconciliation/urls.py": "961ca7f6ea7b025de07209ea23dc89d828f506089b5128c3efb34530d6005c90"
+          },
+          "parser_identity": "8f8fb24abc82"
+        },
+        "findings_count": 1478,
+        "findings_sha256": "3166d1b6ca57b1ef69d87facf2132f184996a7dbef8774d3d670ba9580685cf8",
+        "layers": {
+          "legacy_csv": "UNKNOWN",
+          "snapshot": "UNKNOWN"
+        },
+        "overall": "UNKNOWN",
+        "policies": {
+          "identity_overrides_sha256": "f632ed0859dac51ad91e78d1a4068c596a461f34a4ff3b86d389f1a3b35294a5",
+          "label_map_sha256": "15ff3f36fb4e642ef8f32a2bc296804d67f4f8e0c5e0f5f2dcacc23b8f9df390",
+          "rules_sha256": "bc5dde616bfdc419f68aec7deea06c270bd0176f6a1ffe213e5c377380f62598",
+          "source_policy_sha256": "b56b4f7c58d4d649fe7adda932494b9c10caf55d2cb6030cda6ae0017aeb4f3b"
+        },
+        "report_sha256": "81ac70ba8aa25110119a91779d2c2df91088b2f0f87408db3546de8109a4509c",
+        "scope": {
+          "acquisition_window_utc": [
+            "2026-10-01T11:46:00Z",
+            "2026-10-02T04:44:55Z"
+          ],
+          "exclusions": [
+            "preseason and practice matches",
+            "reserves and second-tier competitions",
+            "representative football",
+            "AFLW and other women's competitions",
+            "coaches and umpires",
+            "mutable height/weight, fantasy scores, predictions and locally invented proxy measures"
+          ],
+          "first_season": 1897,
+          "full_population": true,
+          "league": "men's senior VFL/AFL premiership",
+          "matches_excluded_after_boundary": 0,
+          "matches_in_scope": 17056,
+          "population": "all",
+          "reference_mode": "observed_current",
+          "sample_profiles": [],
+          "seasons_with_source_pages": 130,
+          "through_date": "2026-09-30"
+        },
+        "snapshot_id": "sha256:f1abd8c2b7f8d6b3812e73f91a4403add1844f3ad9037139e7dc373a0ed91703"
+      },
+      {
+        "capture_identity": "d5284dfe6a196f90cf17b6da92511a07931eb614858f45a78e175a5d8b2ffee1",
+        "capture_manifest_sha256": "ba4a0f70af325de7f58079f34c05957df210a66a581eaa2f4c2035ace4b37d65",
+        "code": {
+          "capture_files": {
+            "ingest/http.py": "cc1fb39b30279942965897f93652624c463d2fd15f24091c23310d3cbbbac416",
+            "integrity/sourcepages.py": "08d23e7ad664318737b04b24a5276d0707ea90b9dc61836c39989cdd701de453",
+            "reconciliation/__init__.py": "3c10139a838e477af56ca35769dc83f44f7df1bcd938d573e605f747574c3490",
+            "reconciliation/capture.py": "d483794197d626e5d9c73b50ad1ce9ab8bf202c50b8f6d107b51a8c2ea16fb89",
+            "reconciliation/discover.py": "5d26d58ee96af5751392c55a9a2ecee10e53eccfb3a04d7f140b567415c350de",
+            "reconciliation/urls.py": "961ca7f6ea7b025de07209ea23dc89d828f506089b5128c3efb34530d6005c90"
+          },
+          "parser_identity": "c6cbe2266603"
+        },
+        "findings_count": 5,
+        "findings_sha256": "29086a495c63b4d7b5e863cc9e46442da902b482d57983b4c47454b0ee152178",
+        "layers": {
+          "legacy_csv": "PASS",
+          "snapshot": "PASS"
+        },
+        "overall": "PASS",
+        "policies": {
+          "identity_overrides_sha256": "f632ed0859dac51ad91e78d1a4068c596a461f34a4ff3b86d389f1a3b35294a5",
+          "label_map_sha256": "15ff3f36fb4e642ef8f32a2bc296804d67f4f8e0c5e0f5f2dcacc23b8f9df390",
+          "rules_sha256": "bc5dde616bfdc419f68aec7deea06c270bd0176f6a1ffe213e5c377380f62598",
+          "source_policy_sha256": "b56b4f7c58d4d649fe7adda932494b9c10caf55d2cb6030cda6ae0017aeb4f3b"
+        },
+        "report_sha256": "6fecac8e1c8eb804774eb70a5f9d03bd5448ee86d43d1253472ca0f1ea7d9c2a",
+        "scope": {
+          "acquisition_window_utc": [
+            "2026-10-05T20:05:26Z",
+            "2026-10-05T20:35:27Z"
+          ],
+          "exclusions": [
+            "preseason and practice matches",
+            "reserves and second-tier competitions",
+            "representative football",
+            "AFLW and other women's competitions",
+            "coaches and umpires",
+            "mutable height/weight, fantasy scores, predictions and locally invented proxy measures"
+          ],
+          "first_season": 1897,
+          "full_population": false,
+          "league": "men's senior VFL/AFL premiership",
+          "matches_excluded_after_boundary": 0,
+          "matches_in_scope": 218,
+          "population": "seasons",
+          "reference_mode": "observed_current",
+          "sample_profiles": [],
+          "seasons": [
+            2026
+          ],
+          "seasons_with_source_pages": 1,
+          "through_date": "2026-10-06"
+        },
+        "snapshot_id": "sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4"
+      }
+    ],
+    "kind": "coverage_argument_from_two_existing_audits",
+    "limitations": [
+      "Agreement is with captured unofficial AFL Tables records, not independent historical truth.",
+      "Historical source captures date to 1–2 October 2026; newer 2026 pages were captured on 5 October UTC / 6 October Melbourne.",
+      "The 63 unresolved cells per layer remain unresolved; no rule or value was changed by this composition.",
+      "Candidate release consistency, website build, seal and deployment require separate evidence.",
+      "The reports retain their original checker-code identities. Identical stored fragments establish continuity of historical inputs, not a rerun under the latest checker code."
+    ],
+    "parent_snapshot_id": "sha256:f1abd8c2b7f8d6b3812e73f91a4403add1844f3ad9037139e7dc373a0ed91703",
+    "schema": "scvia.source-coverage-composition/1",
+    "scope_note": "This receipt composes historical snapshot coverage from the parent audit with the candidate 2026 audit. It is not a new full capture or a new full compare. The legacy layer counts describe the cited audits; this fragment proof applies to snapshot storage.",
+    "snapshot_id": "sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4",
+    "source_verdict": "UNKNOWN",
+    "storage_verification": {
+      "changed_partitions": [
+        {
+          "candidate_sha256": [
+            "62aab8100628ad832f74a8e5b1c05ba895f26b9d7ffb8f859845f0b1b281f58a"
+          ],
+          "parent_sha256": [
+            "d5579ff29193e192907bcb5a3c662a8b97134adc919d755532031593fa31c6a9"
+          ],
+          "partition": "2026",
+          "table": "player_games"
+        },
+        {
+          "candidate_sha256": [
+            "2082ac0233406e02b32e2035f626bb9ee21e004dbcf23ae23b46c55fe9e7f64d"
+          ],
+          "parent_sha256": [
+            "232d1874e2f11a214f7c0cbe24a09683603f792b0cc58705cdd73545b1403c61"
+          ],
+          "partition": null,
+          "table": "quality_issues"
+        }
+      ],
+      "changed_player_game_cells": 107,
+      "changes_by_column": {
+        "behinds": 1,
+        "clangers": 2,
+        "clearances": 4,
+        "contested_possessions": 6,
+        "disposals": 14,
+        "frees_against": 2,
+        "frees_for": 2,
+        "goal_assists": 4,
+        "handballs": 3,
+        "inside_50s": 4,
+        "kicks": 11,
+        "marks": 1,
+        "one_percenters": 18,
+        "rebound_50s": 4,
+        "tackles": 16,
+        "time_on_ground_pct": 4,
+        "uncontested_possessions": 11
+      },
+      "hash_mismatches": 0,
+      "player_game_keys_unchanged": true,
+      "quality_metadata_added": {
+        "acceptance_basis": "reconciliation findings + frozen capture; every change lists its source URL and SHA-256",
+        "explanation": "107 statistic values corrected from the frozen AFL Tables capture: R-BOTH-PAGES=103, R-TOTAL-NONBLANK=4",
+        "issue_id": "qc:02d5593a419bfb170ca6de50",
+        "remediation": null,
+        "row_key": null,
+        "rule_id": "reconciliation.afltables_statistic_corrected",
+        "season": 2026,
+        "severity": "info",
+        "source_path": "https://afltables.com/afl/stats/",
+        "status": "resolved",
+        "table_name": "player_games"
+      },
+      "quality_metadata_removed": 0,
+      "unique_fragment_files_rehashed": 411
+    },
+    "unchanged_partitions": [
+      {
+        "partition": null,
+        "sha256": [
+          "865e6ca8223a8d349c88988957a0458694d21ac1d54fd8560de67e06649c8578"
+        ],
+        "table": "club_aliases"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "1b3e4fa3063048effc39fb51bd0f3dd1aa16b1f5e3697698640d4cb4069eb114"
+        ],
+        "table": "clubs"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "90511ad7f7c1170f50c88bcd4644c78baba83d2364705ac9e18b08ec7488e7e0"
+        ],
+        "table": "contract_observations"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "8eeb356afc29137da21c8730fe7f620547ad05326bcab4ade891236ac4fa2c35"
+        ],
+        "table": "draft_events"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "285fae942e63ea24df5e8df71609d3c637680e3c818c087247f5a67cb3177383"
+        ],
+        "table": "legacy_predictions"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "2bbe5bcd5b04956dc9351e85e0f1942b6927f81602225c1519612d17b7e129a6"
+        ],
+        "table": "legacy_rank_scores"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "f0b05c46e6086a06ef447f8181b2c5394bd2c7a1a6e6035c35a459446fad9ab3"
+        ],
+        "table": "legacy_rank_yearly"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "2124529733bc1dc3fbc71412f6779813e532abeb0042cb45fcbcba5ea9ae0298"
+        ],
+        "table": "legacy_top100_bios"
+      },
+      {
+        "partition": "1897",
+        "sha256": [
+          "962c11a303a7b31171ec3c226be4e4391be850f1ea7d8206674dded467846193"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1898",
+        "sha256": [
+          "5e07780a012939f5efb3d920d695662340d54e2d533cd098063304ad46ed5571"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1899",
+        "sha256": [
+          "f2dc815df7847e8789ad59fdaf13e20ea24d97eff25d260fb2a9dee77ffc23cd"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1900",
+        "sha256": [
+          "93bc4752ded5eb8984bd4fffa613ad25273be77980276984832bc07b08c126ce"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1901",
+        "sha256": [
+          "e25514c6143a4f388491f90cb40bddc4ba9598bdf88f3501a54418680287b2eb"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1902",
+        "sha256": [
+          "e18b76b526ee461a89df97f47198b89f163749dcac866fcd9398b243c99e5677"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1903",
+        "sha256": [
+          "f9d38676f0155990ce1e9168e89f07adfa08828e2c9e39897b7c5cfcdc88967f"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1904",
+        "sha256": [
+          "2fc2ba4ca5f8fff1f169a047083437a81befa9cd0bdde090ae6d01c32793326e"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1905",
+        "sha256": [
+          "f9acb740cabad2d84aebd7a382fdc8565e7eac23ab004083d5fd922ad5fc187c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1906",
+        "sha256": [
+          "41a6a9b4b5b69a7108e3d29500c662b4afcceef399fcb514a47b2597b177e21a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1907",
+        "sha256": [
+          "bd8a38a8a0acd423593e911334e91c870875a5ab04a0c71030a160688f3752d1"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1908",
+        "sha256": [
+          "a3836258922c1301f86351e801de39400f4fe6ddfae3324e19b40d8cefda93cd"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1909",
+        "sha256": [
+          "f3c9434d848b3661b96c30fbb8e4c88e29863f153365dcf8acb92132bd91811b"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1910",
+        "sha256": [
+          "854993281b162151835a61fe34039f6f1f307db5fc485f26345e58cfb16fc53f"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1911",
+        "sha256": [
+          "f04ae0db4eb37fdc8ea8b8744f8f96949f5413b1a93e911a90feb5bdda4ec550"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1912",
+        "sha256": [
+          "4c9c6263ce49a410ce5335150004847532942bc83dfbb518f05c91deaa0096a5"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1913",
+        "sha256": [
+          "8675f34819466382f5e1ead76b3db49ba7e3f80e44c4e6d6e36a5341c8b15091"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1914",
+        "sha256": [
+          "5e56bb1013fa75c167d6221d88bf1eb18ac87d7a905aea9aa460bd46b3ef5800"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1915",
+        "sha256": [
+          "b66c32f98aa5af8b3c6014fe20ff77813143e5b04ca9a86c33e4314fd6795892"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1916",
+        "sha256": [
+          "ba8a99268600a8b70634a7573a07599d5cb025069b71550c76b8e73e9940edea"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1917",
+        "sha256": [
+          "f6ad3866152a21d20622a690d3f3ef689590b3262e965914a7d20690522572b1"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1918",
+        "sha256": [
+          "80ac1b1a1bc2b1d2284e837f3a7dff6f845a5f2434919fad1d5926de1edf7190"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1919",
+        "sha256": [
+          "b55adf34e9cdefc305f24985860ed50a6c8e4211b7bee9bed29c5c3e01b75d39"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1920",
+        "sha256": [
+          "610363c2e0498817685c8c2d36f001516dca112338ef6dde66ac7ca62a9c6bde"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1921",
+        "sha256": [
+          "835b5d573d258b4550b1350fbb9a7807636862c64106547f5722f6d66cd913d6"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1922",
+        "sha256": [
+          "6ab32d722a0615970fd34c38ea01e563ca7e4a320bc4d42a1ee0732cb49aa750"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1923",
+        "sha256": [
+          "8a45a5795fb00e768296749fa6b861eb5904fded765ca5c6cf3e4b84702c86d2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1924",
+        "sha256": [
+          "5a30b3bf18c1ee8abe02770fcf076cca64852a316d991ef2a048fe0c6da8865b"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1925",
+        "sha256": [
+          "e70a5f6e60cb17729b48ed2d5e89aaaa5c85d1d1b0b593e9575977c9beaa5f9c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1926",
+        "sha256": [
+          "268ba5858218db631e96864ac02eb6f25c9ac94079ed468d02989883f68d92b1"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1927",
+        "sha256": [
+          "ecbcb14d2d1233eec20509fe439696024b026e4d0b677f008b55d0bfc2b98de6"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1928",
+        "sha256": [
+          "1bb2111254cf402243230c6e4832fa2d75caeeed5e59e643044a8e87e99c934c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1929",
+        "sha256": [
+          "4eb30fafc81693353a0c0523ea258dc9012af8cffda5f8e67accb3f113a595f1"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1930",
+        "sha256": [
+          "d3faebdd3b2847a66a03b0f8ef8a93fdedac614e5664b33302770f5cf3660f4a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1931",
+        "sha256": [
+          "ec655638557ea93562f7071b9e58ace991e11425df99cda55103d536e1a51949"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1932",
+        "sha256": [
+          "23b42a1093fbe13404f862db531ce641be3e1b384e3dc2d52ba03127bf6e43b3"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1933",
+        "sha256": [
+          "f991ee67bd5b1bd08560bce53ceef70f52464286d1a3eddd7849f2d025697581"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1934",
+        "sha256": [
+          "59d69fe184917b01c89630467451dbbeba36bec7e6a35df4ddcf49001bc23fdb"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1935",
+        "sha256": [
+          "d1e936d583d52ee96acb069ce3df4950b18698cf1d7f1760f937006dcd67fb8c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1936",
+        "sha256": [
+          "b64d16a42b3b62e0e9fe6d1e36e6be3c041489d9059adc7c35f7540fcc29367c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1937",
+        "sha256": [
+          "c3ee5f094854dcd024cd5c5ebef7d6d3eb0126b093b6bd6a58c5c0465800e405"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1938",
+        "sha256": [
+          "fc761dde0f466b523048f574a047fe7d97834df2e77dfca29f6db693da081256"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1939",
+        "sha256": [
+          "140923dcaf4edfe23d55e4f70a3047be2295cb1bb06bef4170f63692b0a9ce86"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1940",
+        "sha256": [
+          "e7b09f1395a78a8ade6643c6a728e1fc389affd3366a8e873c4b34f2743d3e24"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1941",
+        "sha256": [
+          "e7b54c7323ed6deebb864f165f32ee5d001b00fc21a077ceffa63a7de292054d"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1942",
+        "sha256": [
+          "c668d2ec082928ee7db9123140c8a8628b80aa3205094748465599150cd5e210"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1943",
+        "sha256": [
+          "99073e73f1693da1889e603155b490bc52645686abdc1a5867d52884942a4313"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1944",
+        "sha256": [
+          "cf0a2fa97f102f85cab285390a60174973fa65182125d04916411ecd0fb085ab"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1945",
+        "sha256": [
+          "959b1d28ebfeba19ee24251d6de2e32680d148be7758bf8fba00bea2bcc1be9c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1946",
+        "sha256": [
+          "40affc5fc2a8423200eb48aa694b9c2588c08db83abcb91921d1421907bb3437"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1947",
+        "sha256": [
+          "2564907304c22720452956343f149265667efb4c2b35eb41dad9c0805cd8e720"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1948",
+        "sha256": [
+          "1bbbce06d1754d0c9315a74875eebfe703190a01a9b4b6ef6151401276dff9a9"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1949",
+        "sha256": [
+          "ec6c7cf2be1067bf8662d2bd5fdef16b68a4251faa65ca870019b6d7eeacdae5"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1950",
+        "sha256": [
+          "05480346dd46c70ee2afeec55476f321a9f7c88952c6c2844b563396642d5d60"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1951",
+        "sha256": [
+          "1a7cb91594a891c0a7efcc01f141484700fe2295421e198b35d86364be985799"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1952",
+        "sha256": [
+          "0a4b5d31e7b1417eba7cd16e8bfa61eccb0369444d236144a12dd233d0b187d7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1953",
+        "sha256": [
+          "6be5f75f384023d028ee2b762776c146fab669ca572e138c4bd8130b1c118741"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1954",
+        "sha256": [
+          "14a25d559caa33ccc8723197e7ea385e57cb25dcfcbd365a6185bd0c268c3644"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1955",
+        "sha256": [
+          "c1f9f57bbc16f3abba826d31a40dac4e1225ca203a68e2c98e27c60550426d05"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1956",
+        "sha256": [
+          "4740a5f9f07c922049ebc8c6a4420beb6765a77581d857ed90d7fd72193fe3d7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1957",
+        "sha256": [
+          "7d9a938dfb2fff9a6f72d25093b3a71d5f10cc5b50448ee843364dfb33ca0d46"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1958",
+        "sha256": [
+          "0b593b41503b33d96d1ff9a5ffce132a3f8a208e48664f9059f7199f0ae4d4d1"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1959",
+        "sha256": [
+          "1c9afb4d044c51eb7a7f493b695220021db42f1b8221c4bc61ed9a1a08d0a864"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1960",
+        "sha256": [
+          "a9fae8749072954e8f4d6ae70a118451a0e851886db13dbd9c9c653ec2ddd6a3"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1961",
+        "sha256": [
+          "4c825fad0d909d7266cfca12c6015954d2aee54ba63b0fd8acf736e432940636"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1962",
+        "sha256": [
+          "1dbd07bc1299c88de0fbf7d3a52bd9232e19c8583ea3626d16e7a8233b77e666"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1963",
+        "sha256": [
+          "7ea8b626aadc2bcfabaf47d2fafc19ec297c0dc64762dba11ac6a8f7d51dabd3"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1964",
+        "sha256": [
+          "f52c6a3e6cc969fedef222296236a1a2dd5b40249b29d2555fe882541aef1720"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1965",
+        "sha256": [
+          "a0c74ccb004966fcd2d5acb74d383c25503c8f376c9c2fc2fdc892524eb4486d"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1966",
+        "sha256": [
+          "9fd0646712c53f67ec5dec615e7d97852990c97e1b029825aadba053cd3bdd06"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1967",
+        "sha256": [
+          "05d86fa7b32f243b9f08af3ccfa399cde598f295292c4ed8b2fd8673d4557df9"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1968",
+        "sha256": [
+          "cd9193407c55ec8cf6be744d00eb0c26eca36812fcc7aeb203596028b82104f3"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1969",
+        "sha256": [
+          "d18b6f6ad8d7a4cd0642235f99c358b1d5ec4ee48389dfe85d1013fab91f2f78"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1970",
+        "sha256": [
+          "b6c4a348af2c2a20c519388bcdd14b8b9402cc2b271fd4e3d6609028b970f8e2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1971",
+        "sha256": [
+          "ef79900064f882eabc3020e36badb3a1d9777a902eca66cf090d10ce462fa739"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1972",
+        "sha256": [
+          "536306a8c1da0c00bf74379c4b32ca459292cb2f4f7224c36407f189527d55cd"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1973",
+        "sha256": [
+          "87774c6e055765e1faf38aa20a249d22d0e5a34be426cc1e5e975bde3ae73e33"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1974",
+        "sha256": [
+          "d27ac8ed5db24f107582707addc8da4524770af0c3338b1bd45f4175b0768918"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1975",
+        "sha256": [
+          "1655814d421b5e3dae324d019608d1c9aa0c52e46b0cd0044fa6b7230661628e"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1976",
+        "sha256": [
+          "4bfeb93b5ff8936dc18c23a5ff9d7e025bfb9dc51d1f4c061f24e71339b2cba7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1977",
+        "sha256": [
+          "58cae6c1d45ec3e0e3b8781c4daca3e95ff1ab761d54137895f0873093a5fb6a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1978",
+        "sha256": [
+          "1d729c9c741ebb451e0d9895104df0be7b31e7457c98e46064fb7fb163f8cfd2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1979",
+        "sha256": [
+          "cbf283e86b01e98f1e6e1d54065b2b3a0f23b767e812e8dd6863c0e510353728"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1980",
+        "sha256": [
+          "d6dd26d87e41da6fbdd044b249f8a16d41392300b1664afc6116798753667198"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1981",
+        "sha256": [
+          "3c3e05e39ea15b34f8d46631fe4b25f1240cda19a0ee1a887b811d65e1ed8784"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1982",
+        "sha256": [
+          "b2b0bce4ad6f40a7ce9d3f4ea9dd8ebc4aa168da1e5d389c18862596208d5b6c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1983",
+        "sha256": [
+          "e8fa6422ad313f39ced05f0f43a7bdd4a38fbdd08f32f094b5ff6a52406c813a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1984",
+        "sha256": [
+          "95d4aba6b9cbf9400cb211e38c2531e5643aae642339b8e9ec16c3d8819cf25c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1985",
+        "sha256": [
+          "33971c7e959b662c8a2e9a8a230b9176a8a851665a08c65e6ef126f79f87c3e0"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1986",
+        "sha256": [
+          "bc80372e6ee780041f473553a8cbc3e2199f8bed4603934a7a0c6ef324b48f92"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1987",
+        "sha256": [
+          "378d128cc1a5fa4a0b5168ed2dd4bc0ac80b6ece51434e78aa19d4ec34efe829"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1988",
+        "sha256": [
+          "811335c6d394a8a72e14c56d0ef158ab209ee0bd35f61fa48736e2006230d94d"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1989",
+        "sha256": [
+          "7146ef1036ac0c05c99bf62032cc18dfe0b7e6707a9f7b2b06cb3513383054ce"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1990",
+        "sha256": [
+          "5ecb4c56ea44728c7490e9c217a2764ab90f91ed6028b6da589e2b2c399e2a08"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1991",
+        "sha256": [
+          "aba60e4659d22b5e7ae3263b623ca9773a9d927e60f1524f9fe9fb158f2ac9d0"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1992",
+        "sha256": [
+          "bb7f1d880dd05f1d0398e1259e6d1ec2ec09e033dc99f933a201133d48fa224f"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1993",
+        "sha256": [
+          "2b451abd197a2e6915413add0af71380b090810af31f287ec898ea97ddc59b16"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1994",
+        "sha256": [
+          "90ef35400af077e3aacbfae27e9e02e039c040fe201df8a07e7bfb6474f8074c"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1995",
+        "sha256": [
+          "d1d0c396bfcb86a53febe5a55cb18e4cf65b6b3237aae87b2f52525fd4887944"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1996",
+        "sha256": [
+          "d40e645c70ad7a0c8dbe6c2fddb010ef796d3be6e9c0b38bc72602feec6c91df"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1997",
+        "sha256": [
+          "58d288f52e5e41ebb078be2046ba97a88e7163a390c4941da977ef413b0596bf"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1998",
+        "sha256": [
+          "5a11e3dbe750fa04926a2e8a9788ddfe9fe57741f5ccefefad07052fe2ce7fd7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "1999",
+        "sha256": [
+          "dbbaad298e116e81acd09f08109637f58a841a3963f44af8ae61ae58974a1d29"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2000",
+        "sha256": [
+          "bf7707dba5540c0e73b99fd3f36b63b3d6845c894114605407769d4c6c9c2892"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2001",
+        "sha256": [
+          "47f082581db20daf1717baab4d7a50009acf478266e4a78cb2ded5a4a488e816"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2002",
+        "sha256": [
+          "619a14d9e8590d25869337ea55f3222d6406f083fb52aa40d8ccafd6d01511b9"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2003",
+        "sha256": [
+          "f25bd9bb6e8a81f68385c155fa2e57ad3b8eeb68c06a7a653f9bdb18e36842f5"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2004",
+        "sha256": [
+          "d24b51db781e2e8b21b696d56c053a181cb903a9044a400ce4a945139a009ce4"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2005",
+        "sha256": [
+          "b35c2986755220660c1c1ba975e6e8236bc0c4bc6494687161dfa71280622f01"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2006",
+        "sha256": [
+          "227e2ac2eed4683668c5f3e39be0fc366669f087d505aa294926effbc3894aa8"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2007",
+        "sha256": [
+          "bb6f9d3740a56bed0aaeafbcf876f5869df2b498eea88f9999ff2787191036b7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2008",
+        "sha256": [
+          "99951f31bba9e9d31094c76468793dba91ecfd27a646e5a1575812cd1f3844a2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2009",
+        "sha256": [
+          "02cbb74004e060b2774a4b32c5bf2842d174204ccbe226a57afd19199d5a8c17"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2010",
+        "sha256": [
+          "604aaa725cc1f5ebf1e58901c3bf9bc75d77d0a0f598fad3fabe673a45d0b270"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2011",
+        "sha256": [
+          "c3c5b0b169411bf3fb8d24d646862c373465e045217cafdbfea08ab135acd796"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2012",
+        "sha256": [
+          "589e98f830c538648286634597c165da547a00e26714bef1cfd8a0a04474d14a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2013",
+        "sha256": [
+          "bb382bf8b47e91e341d4a47ce0ce7a988440ee66e7f209e35ef72180b1cbf76f"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2014",
+        "sha256": [
+          "78a9538fdd439753ce2b2e92c945a994a147c798b4db623597c5d6718b42352b"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2015",
+        "sha256": [
+          "8204949c8bdb1d68929707a27fef80034237f8701f07256abb7cbf2f82d2b9b2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2016",
+        "sha256": [
+          "d16baada6a2527be8fabeff2a1f183958d2a6ac8ca6a95d4e729f9153cfee941"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2017",
+        "sha256": [
+          "118469ed593b7bd9280e2fa7d1ba5e90207b41f37609e63f10cfe44d65c4bb9a"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2018",
+        "sha256": [
+          "a8cc8a955e4dfd2172e1493afce076294a8a85a79210e8b2ce71e4693be569d4"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2019",
+        "sha256": [
+          "e4e2c0bc25f5efe2c3e79f3886fbb98f6eb60b38e83916424268cfa221fe4978"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2020",
+        "sha256": [
+          "f2394df99ac5fd0ff7d7de2f38ac1c29da46227899e4ff621e43c5ba2a8722f7"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2021",
+        "sha256": [
+          "60e93f78938a5b0e4bd1b2eba07bb76c0783e6195d7a19fb551d6b96bf2aab50"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2022",
+        "sha256": [
+          "cfa0a2843fa5211ae67557b98205ec508cef8ddd8ead950cbd5b5782b3290b40"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2023",
+        "sha256": [
+          "404e41fbd400b0fa9d4979a9b8d500da7fcfc6e8b3dc1a3ce596daa3b584ca2b"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2024",
+        "sha256": [
+          "5f8b2d4cf5d8c8c4d161b84d965fb238f9af5b42436f9e3178e76a75d14fe567"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2025",
+        "sha256": [
+          "f18bb271e54f7903cd7df4485cf9e7c889e1bb35a4ad072e7ec672a3f21b2cf2"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": "2026",
+        "sha256": [
+          "aa8192d5477bbe4442054c57ea577547f92f8db104d3fb971dfb54146e4df2f9"
+        ],
+        "table": "lineups"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "f0c4d42f9759843bb0614bec546817ffed704a924293c39bbb809ac1e9a7606b"
+        ],
+        "table": "live_snapshots"
+      },
+      {
+        "partition": "1897",
+        "sha256": [
+          "84d20b4feb731641eb10ec82272226cf69db626b359836ecfeee05ec5473d963"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1898",
+        "sha256": [
+          "cd93a9a0ecd66fae9fad26f9b00e911c1e192e998e8c41aa091fa1397a4d23c9"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1899",
+        "sha256": [
+          "832b38fd8d6cfa2842484ce6cda15d44fcb9a5ca6f1f9df20d3d47bb4b55d8eb"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1900",
+        "sha256": [
+          "5903b5621c9a2d7c9134158c53f2deb545cadce28b0e8f8f7289cebb589489af"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1901",
+        "sha256": [
+          "387d5179ad5ca94f98dd895f11e26d3079a5a8e91eecacf3d4feeb92b5964277"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1902",
+        "sha256": [
+          "a82e60275e051a8887780e2e7c48b929aa95ee2363c01abdf783268baa5e567d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1903",
+        "sha256": [
+          "0b32958e6dfd198c410791700c79ee6087f3ad79c37312400aafde796e487289"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1904",
+        "sha256": [
+          "e34cc4c0a794ffb3b8657b9796789f150320ce82869958f8bba618e38720c731"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1905",
+        "sha256": [
+          "e53e36e30a5d47677e523d809dda37e433f417a6086670eb51e2f1ce1186a471"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1906",
+        "sha256": [
+          "09f234657dbe1e35c6318f232eed7da450c3179a498e85e892b4d236c2fe96e8"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1907",
+        "sha256": [
+          "3f2ae669ee874cab324cf5b5c64b0bbf360bf06e1ecdc2eb79b09cccaa4e3e13"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1908",
+        "sha256": [
+          "f9a560f4c24527d12a6e2ce975fef814d083cd1f4984a83c4d20e2488f2fde4a"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1909",
+        "sha256": [
+          "f9ff394978f9613a99b188b20dfe1e9b2b090f1cb1a3dfde1cae05fa8e822e89"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1910",
+        "sha256": [
+          "5a07757133c5732d62f8498040a5cfee381536919dfda4579eeb6ea0b95d6c14"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1911",
+        "sha256": [
+          "524800df51a3be977eacee018f56d819d723b4ab1a33e2a3d7b12b88a22c070d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1912",
+        "sha256": [
+          "fb4f11f5778a3535751ffcc8253feb3d403bd0cfa5228b152aaea039f11e9290"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1913",
+        "sha256": [
+          "50fd0065d87b39a2dc1ef65734775ef1d01a0970b3d1b8b68caa417405dd280c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1914",
+        "sha256": [
+          "a9f3548d4b73111befbb58deb330651d19b0d7938ddf5b88c533793f64950c2c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1915",
+        "sha256": [
+          "27bff2a51b2b81b20fe1dff1e1a54ad4e09fb99b8c672e825c9d74b2a135e42e"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1916",
+        "sha256": [
+          "2dcfbb8e89adf218580c21910d09aa1ea8d1dd7dea19139fa8c429788b03c248"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1917",
+        "sha256": [
+          "def8a09dcd01047226a58fc55b60d2ea17722c4f0f1f2184f3c5df8774fec378"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1918",
+        "sha256": [
+          "a360b7b292616c4524645170a74ae9dd09d587a02fd97e316a9e05c2227451da"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1919",
+        "sha256": [
+          "c0d024226a6f11ad11e73531679d9280c6d93ff76e999e80ee7d3621f5404808"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1920",
+        "sha256": [
+          "9d52c77829d1ea1939247940976293decd604c3ff104a8af1536277ade90e1f5"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1921",
+        "sha256": [
+          "199b75fe146d9c9e7761d2ae753e71c5a13c5cec3f7cf9916df0854e65ac339d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1922",
+        "sha256": [
+          "11e1dd327dda91948f57e00b04b89920b210d6747782d60fd9c560d0e42b13ce"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1923",
+        "sha256": [
+          "c970e64008efde5c379890fbbd71ae6ff05c351eee88a5dad2c1fd923c881edd"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1924",
+        "sha256": [
+          "8426bc04f9775b35d5196436d6e374c09553ea62676e1e59de9ee1a411c18db3"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1925",
+        "sha256": [
+          "3274d2610f8faaffc388cbb09aa9c2c3e2a28009979fea87884cd586ccce9fa4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1926",
+        "sha256": [
+          "3c72bf13b1d9143a133ca54fee13ce10cb8cca43f9fc456422e7e44c1785e270"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1927",
+        "sha256": [
+          "061a5790521a273f89340eb07ec58c9782dd0004e8ec6026ceb22e59ac71a632"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1928",
+        "sha256": [
+          "20a8739a7f0ebaf8df343f005c1c8616030891ad3687f5ac857228070d2bdad8"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1929",
+        "sha256": [
+          "8a36eeb22713998ad95e37c2653f90f271ae8b1e557a368221f8ad9f1cecd849"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1930",
+        "sha256": [
+          "239c8509f443a3d31fdc2907a414f18f650a4e9433cef8bee6a05f397d6be499"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1931",
+        "sha256": [
+          "2b9db1a17e6dab87b67517e51a206ae05c27b30a8ad55f4675d819807f0fb797"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1932",
+        "sha256": [
+          "d6229da857c7bef8a90f9446b98b8d154c46424ced1c395f04923506185c3b76"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1933",
+        "sha256": [
+          "4a2cd339acbc778559f6276afe267f8d66c2bc41a21cd9c8aad9cdb068ce7c79"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1934",
+        "sha256": [
+          "dcc0a16f5ca1c13617091e318aa6d1b75c60f3162af3a095603a4eaeec2fbe7f"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1935",
+        "sha256": [
+          "aaed32a4900194b0c8ba655f785758790afe0595051216e82278535b28a6f038"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1936",
+        "sha256": [
+          "7275962e2ca509f06485e63a27ed418a4ce7e2c5455ea6a552f281900eb4f3fb"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1937",
+        "sha256": [
+          "a0893f05c4cdb530fb011cdf8b34ae17d445a8f3fc43edf24f2507beb6f7d684"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1938",
+        "sha256": [
+          "89a53839c3446e93311a6d1d83c92ffcbe07cf7d25054ce1faf2f99490a412fa"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1939",
+        "sha256": [
+          "aaee74e6c8b3b47c510fb3d469ee92aed291bcbef8cf749f0ae12281246ae460"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1940",
+        "sha256": [
+          "a1f263142d2ec561953e7d57b298280be6d48e1ac867a7e77ae9e46b2d7973d6"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1941",
+        "sha256": [
+          "092b0b07da4823ece02fd94bb717e21af84c98cbf4467c202367bafa9ab7959f"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1942",
+        "sha256": [
+          "0ff21e0b632156a66b56cf804d25586da38eb59aa950f722b783d964f44f7e4d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1943",
+        "sha256": [
+          "0f44e0d881df8f74fb929f908346e3d28bc3f0c340d08f67dffd151502d15deb"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1944",
+        "sha256": [
+          "ca8758f37b799c9f030213a84f47d199f591119b45896014bda2a96a2a25c6c9"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1945",
+        "sha256": [
+          "d59b8cea9d104c45906264ccda4e8a9a6824ba12a51c6dc9941650d1a6dcf787"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1946",
+        "sha256": [
+          "5ba5be65b7c8bc1ee6a1b10eb6dff73c6a2a76a275c743e1881769e31f72d6b0"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1947",
+        "sha256": [
+          "76d90966139b9d08e222e99aaa45ae0adadd7c3bf48136597bea78abdfa89347"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1948",
+        "sha256": [
+          "77dfee8306c08e5afaa3fd989a1f01fb56aaafc276796dced098238d4ebb4b85"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1949",
+        "sha256": [
+          "07be4e0c7a7ec3b924ab96b6b835ca6c64fbe287004f611dbffb1e90a629398c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1950",
+        "sha256": [
+          "46f818e46bf576960124b40193741f09f8cad3f73e6ef9f28d02fb4e4443291e"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1951",
+        "sha256": [
+          "4febf874cc5e255c503b6b3075d3b45d9699754aa0655ad79f8db3839b134c50"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1952",
+        "sha256": [
+          "ca5c1b02acfc813a933b717877874fdd67049cb43503fba0280b87291fed7791"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1953",
+        "sha256": [
+          "5e7ece893f0d0123e906cad27adaa11d74017fc8de2a3f9e757818ee929422f8"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1954",
+        "sha256": [
+          "9a9bb5f34b8552d96d3b63126b60219ba3d82c86adb0afc3188512f6e640b941"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1955",
+        "sha256": [
+          "ada83d2a590335d59df1761409e694ba92b4a720daa2cfce5986f718193aead5"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1956",
+        "sha256": [
+          "f8d79373499c40bb4dd165f7269873b1a2428bb8b2c3be980118624b24e4ec6b"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1957",
+        "sha256": [
+          "b0a6ee9aa901e82cc2230794a34ad9107317bb6a00c67c2977349dfeaea2d137"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1958",
+        "sha256": [
+          "9992946c7cd5ab02f97d47a8e15d3844ec35227e747404aeb8d36412b2fdd5a9"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1959",
+        "sha256": [
+          "cbff83fcb1e76f4e2643cdb71291535e45135a251f4ce59dbd826de2b5458785"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1960",
+        "sha256": [
+          "867dd2a624ee74e50e964e6ce28e5dfcb22e221735e31801f8494813fe635787"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1961",
+        "sha256": [
+          "5712b03fe7171fcb8e24be2c9434633f4b0b298f0abe5302e0f05e1219c1bc85"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1962",
+        "sha256": [
+          "3cb6ae1f6713b7fd576eb2872df26e89aba0bc01fb55a1cd3ba1a1a4dd266b9f"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1963",
+        "sha256": [
+          "c99e85b6b852d58017c13c1e27824e3c37cf216e0d7fc3d8c59f549b44d1a5f7"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1964",
+        "sha256": [
+          "23518c737ae70fe70c6f2adca896564ba12d39430242d4d9129ebb7430fecb4c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1965",
+        "sha256": [
+          "497d907419047e74d8ee9cada656cc2d9a95f5fd7a1a20c8b8b193faee0124bd"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1966",
+        "sha256": [
+          "283b1045a8b8d2c38c1b304cf0d0038e527911b62e5a2ae3e143463764e6d3d2"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1967",
+        "sha256": [
+          "14dbc468fa475c9d0f9377a25475904e9c27775ea115e7ff958e3a570b509403"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1968",
+        "sha256": [
+          "93542c14091052e7d7e5c82289c00cb3a4ac78a4fa3170e73cdf10ccff04671a"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1969",
+        "sha256": [
+          "7e700b3c16a5a837d442a215b1fa3e8fafdf37f095b270b42c5d4b64575d7e2a"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1970",
+        "sha256": [
+          "c958292c08367e35f3917390dad13098bb85e8ef7183e72435a51ee9eb1ebe18"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1971",
+        "sha256": [
+          "e618aee46f66c285b4996e42b64f7b2896a22ac214ae934256a0cc35087e7583"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1972",
+        "sha256": [
+          "77b17546891279244aa8d46086269446f155da426afd346bde84cdf4454e701b"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1973",
+        "sha256": [
+          "775cd944d3ee0156770e2eb185583ad8226c7a922e79102c607a33595b316604"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1974",
+        "sha256": [
+          "32d1e6c9bf7aaacb391892937d9b5af2586004172c7955a946c3f0eaf6cc0f4c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1975",
+        "sha256": [
+          "bd22e39777c7b04e98eaa83dea846c264aaae1d6deeb1336cde762d60bd661ff"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1976",
+        "sha256": [
+          "6a3ea3c242476cdb5b243ee6ac999451b3bdbe2f9aa1eb5714227c27dea7b867"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1977",
+        "sha256": [
+          "34ab6f92e894288ce91646aa3448d3ff0c76029879d9101a8d6e204fe58692ba"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1978",
+        "sha256": [
+          "d6906fd0b777f1fae476afc0e8298747d31d5e204cb68765cc200a1d2b0af3e1"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1979",
+        "sha256": [
+          "67ded86fd6010f8d77819388e9dc99981c12032d630ec7222e7fa58bcc3f4843"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1980",
+        "sha256": [
+          "712ff8951f3b505786cf81ba6c17468af154113340437de407c2d0c6efc4223f"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1981",
+        "sha256": [
+          "61799b61ebfc4761e4807f4d6259da62882d2dd12419a390f3bac5149f57b5f1"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1982",
+        "sha256": [
+          "fc52e87a001789aed5db1b84c44076b2a8fe4bbee7364dcc931e355b0d56bac5"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1983",
+        "sha256": [
+          "a30e245fce9546a1d3d2cff99e6b9fc910ead4b3a2d3e5bc301326bb9164254c"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1984",
+        "sha256": [
+          "994688ba06aab1f644f2f73f9276860a432178a8f3e90865207b2ef02885aa43"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1985",
+        "sha256": [
+          "e951a6b9244483a9289cde46afdf00569ee463183b4f0484351937ee6d4ba051"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1986",
+        "sha256": [
+          "3b8aa054ae0833d97f77b573e8c1e4a381d74f1d020b0c47291f4161f0aee0e4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1987",
+        "sha256": [
+          "061ecba246bedb161a2da74997c6b8b7d2a6dfeb6091bbc5c902f10ec12652b8"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1988",
+        "sha256": [
+          "8fbca7248fc043da5961dd6aa15baafddae62060ce3e0deabdb105266be1eb23"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1989",
+        "sha256": [
+          "439fe1e475c6daa8e3ad014c18d6eb9ffeef1d3992b4b329f6aacb8b8f27fd84"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1990",
+        "sha256": [
+          "78088bea8c3ce73ce01b44e453de054228bb38503f2b7900112fd4ea398d2d4e"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1991",
+        "sha256": [
+          "3c47871c51ce928481ee77b389888192c91a2a34b530049f6e21eda4320a5ccf"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1992",
+        "sha256": [
+          "abc0debfa491ede9329a75dc9723ebfbc804c3335c1f5c03892826177d638675"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1993",
+        "sha256": [
+          "e3bf071c9d16889b6f9d01d79d7fd65a560df3156c4c39fe94cb2d90c975bcc0"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1994",
+        "sha256": [
+          "d703482c8af8c31d379c9f46c1600c20ea7234f33aa3c792a70ba46fc6253840"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1995",
+        "sha256": [
+          "ce9aa21a1397f7a791c6cbc3685c5d928206c74de13962a8d72a20ae3cd8ea58"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1996",
+        "sha256": [
+          "b61e2561a0fc13129b871833605868f42de59fd6f435ae492fc03b2ed284a07d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1997",
+        "sha256": [
+          "78c42d1444bb15b71efd034e68e3c2173190a3ec92d5c8c4a1f0a0d0f86d25f6"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1998",
+        "sha256": [
+          "e06fbcdaff739339e6786973fda93bc7d945cf575a7c20056b0ae7b128320566"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "1999",
+        "sha256": [
+          "170cf29b4983e5d04ea9d94d37d1d3c011d6da8cd8bcf588d08819c2d1d96dfd"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2000",
+        "sha256": [
+          "057f91a026b9d7df441c9b154480dea9715d75ff41b0b2b2e38f97be4c0c9f6b"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2001",
+        "sha256": [
+          "487e9a51806060f2b2af6dcdc8425ac32811f575780c85068649136e34a7fd36"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2002",
+        "sha256": [
+          "14278406608dcc56e2e69c618a22c22b381fc055bd00416d3f5f49c6849cb6ea"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2003",
+        "sha256": [
+          "ed92564bf3c21fed20750dca8c20c8be34c66b266552071d66fe7877693a3611"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2004",
+        "sha256": [
+          "bf91753af0bd176d1e02eed3717345475f0b56344aca0885c30f6e184e801cc2"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2005",
+        "sha256": [
+          "36017a83d69e40d25f5f9e392391dfc914c73a7c37a978b8fe0e04c5eba60567"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2006",
+        "sha256": [
+          "c444a57d314fa28db1ba74d3e6f031473ecc575b154c5c655f94372acf6dc69d"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2007",
+        "sha256": [
+          "faa10e94a18922353bee9d60b428e577f4aa05e89dc543a5eef18811a2b9f1d4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2008",
+        "sha256": [
+          "93df8990dcb1e797c11b787f73d1c34fc8d4fb483e565c42aa7da29401f29f25"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2009",
+        "sha256": [
+          "36da9e4fe0d4fb53fca7b797ef3fd0159d12fa8d2c4a28803d883318ef92d3b4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2010",
+        "sha256": [
+          "3af796482263ddcaca845446d6241eae448b093f52504714c216b677a42ba9b4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2011",
+        "sha256": [
+          "c4bc8e6f4373fe87cc12a4bec1e48d987dff7fb12ee481eb405e73f8e76f0e23"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2012",
+        "sha256": [
+          "10cd60324481b3b2b40f47d7d3654d6d01f12847a677b93256e671c22d51a6b4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2013",
+        "sha256": [
+          "6741de9c8cfcbe8501b411c6a271b05f18393a99526ba155e69085e29f8df457"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2014",
+        "sha256": [
+          "20f81f1aa6e2934b837aed93caf3f002bf6edb018f1111be979480aebffeeb17"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2015",
+        "sha256": [
+          "c9b925c2aa90dfd8e9344879dc27cdefbacee8d128536680ab379903dc492d55"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2016",
+        "sha256": [
+          "60a0e1d331614cdb9d20bda37b6518dda747be4d4dd2be4ff947c4858d191f86"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2017",
+        "sha256": [
+          "f08540e41c203aa41aae47ab660ae62a2b58984f0cf35b733b32acfdfcb31c5b"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2018",
+        "sha256": [
+          "c392ff16c0b618512f4db9e3d18a90167be533c43ec6bc9d61bc87517194ab79"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2019",
+        "sha256": [
+          "ae0697a07ad3f9dddde67dc2b6aee485041334940fe6cd7757ccce05cc092b0a"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2020",
+        "sha256": [
+          "20b29af15337328fefc183c5a75d56d81e6227c2eae3a7fcef2ce5ac85a8ae13"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2021",
+        "sha256": [
+          "49267b77e8e7f9b1eed8e6507da3c1bc03ea5e40668cc318457263403edb7da4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2022",
+        "sha256": [
+          "56803021835d62bf1c095c0eb8639933e4b228547041702323a9eb14797f3c97"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2023",
+        "sha256": [
+          "fe901b6e6894f96c5369187e21c8e06b9ada6e2d9f69a5dfabf7d73fbc163418"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2024",
+        "sha256": [
+          "fd468f2046c4598d37f99f86f587974b396e1e14aa861ffc5ec3d70e9f608579"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2025",
+        "sha256": [
+          "ff03318200709c94eaef89a0ced2be22f434808095b65924a3daa2a49ca4f8a3"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": "2026",
+        "sha256": [
+          "490c25cb468989b91502cb5375dc94c8387eb11e484d1efa442606693b4445e4"
+        ],
+        "table": "matches"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "35e84748f4c222d151f76dde5567d956e1154a2c896f183afed486d1ec90ac26"
+        ],
+        "table": "player_aliases"
+      },
+      {
+        "partition": "1897",
+        "sha256": [
+          "fe4f03872798bfb6ff012050164dcf1d01f2110300bc92b0aba428078b8dcf5e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1898",
+        "sha256": [
+          "dec41e1d41cd1ab0be7b24c047b4755dd7b155078649e3c09eff50be8ccd034b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1899",
+        "sha256": [
+          "eee0c2dff91e5c31359ca71ce24545eac879b9d9d0d2d939f0b292f2e5cc74a9"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1900",
+        "sha256": [
+          "53d277ad9030550d79a749625ef1a7413d101ab198e5ecc69cf140c3f97b443a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1901",
+        "sha256": [
+          "3e4c24766738a73320f1cad60ac8071145d5262b1686657956e27ed50fd8d231"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1902",
+        "sha256": [
+          "033142696d50014c34b925673c097b04f5a161d03ec29ac828249f2ab6adc342"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1903",
+        "sha256": [
+          "9c13a4ec4b58e274f0c1bd248707398fa66cef11582b224b6fb354f7e7e23a39"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1904",
+        "sha256": [
+          "696ebdc36f26895ae209f8e4732d958bd7d5ffddc1d166be3a90854504496854"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1905",
+        "sha256": [
+          "29099e10fbf1baef5cdde98c7284d0d5fa21443b79de223042a5dab824ada2f3"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1906",
+        "sha256": [
+          "ef791d5400451ee48e871af7aaa30db0c753804c31592b39e7b0b76639895a15"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1907",
+        "sha256": [
+          "608ee35a54640978cf9aa0f8f3141c8d7a7bf203e7d0f7436844e3ef88e31dc7"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1908",
+        "sha256": [
+          "468ee638f4d2f3bfe93152961431b399ba3597297f5cadb4fa97505893af001f"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1909",
+        "sha256": [
+          "1dcc74e6bd268ff81e7284ce563c3aa3c92c2c47e1fcde7cb435fc8f757fc615"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1910",
+        "sha256": [
+          "b1922e231b85a694061af39d67999f7d247874a99a298c95233fdb338cfb62fc"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1911",
+        "sha256": [
+          "5662174ab3c669a8411dfc98c48c3695374f036898550c314be42baa312c4637"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1912",
+        "sha256": [
+          "2af56a92c4ebd7094d38fe6b037df51264889c0d19b0108d489fe9b6d7affaf6"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1913",
+        "sha256": [
+          "32917d6ad9f1734e45c8b09ae709495c472fb956901672746e069083875203e6"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1914",
+        "sha256": [
+          "d7f218d59e269c2736434aed30da33c49abf7703bb753d5b2d7f5c9c2324dbfc"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1915",
+        "sha256": [
+          "5d2e3cec56d1de1ed631ee9ebb01ebd44991515e1cf1c1ba5423f0cb0436efa1"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1916",
+        "sha256": [
+          "59d1d1ea1f9a8f666cbd3345f4d25ccd1ea9a87d65cf1a7dd744431c4b35c9f2"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1917",
+        "sha256": [
+          "da45cd793ec15f292ae67027cb018d3e9d8323fff6af25842b8d32b3fe21940c"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1918",
+        "sha256": [
+          "95549de6eaa22ed0026fb82dba22682d92096eb2e21f19b351f898b472d61d41"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1919",
+        "sha256": [
+          "774281eec35e3ced5b2a98788912715272c5da8d4e2b0bf3240371fe5ed5bc8a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1920",
+        "sha256": [
+          "b4121d4fedd56e14a40c662bf6c025ec95e1f633e0e0e08b91584043273f5a70"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1921",
+        "sha256": [
+          "dbb54c0e997e25d3355019bf8dc4b5f01493b2b7f28c10b90f7e5be0014da71e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1922",
+        "sha256": [
+          "cb509054d188542c6607a3382216479fd44b068986267f05eb1b051be03d82bf"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1923",
+        "sha256": [
+          "93d5132aa4ee4bbf9393eef51c3e468d283efc4d5ed8e6dc27503fd8dd4e4463"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1924",
+        "sha256": [
+          "a2dcd9aea8cd20c3a62a7227c213425ff2203a2a426332eb4610c4b7352b2056"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1925",
+        "sha256": [
+          "008207fddaaf8240c4476b09a7d5e587ac1772da1f797d0aaa8af57f912f6b2b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1926",
+        "sha256": [
+          "0e21d41840e44745dc31d43e3d18dbdd555dbfc87f033c0b29a82bcb4ca59302"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1927",
+        "sha256": [
+          "a727161f6e5675e90653e365d18b993bf0c032caf35e927b1c36bf00dbb7fb41"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1928",
+        "sha256": [
+          "e1d2c7f2e7a7f53def29cdc4c1060ff1b2bd5758f1ae7e5e8a9e783946f56f7d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1929",
+        "sha256": [
+          "692c6c52963606d28e5a90b11194fbaafd2a95863b627b107eb40b78bb492100"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1930",
+        "sha256": [
+          "258e96085ed6a68be4e3ea4c8e1b9ee9288375f47ad2f662f63f0e27e0597592"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1931",
+        "sha256": [
+          "919cfe33517cc50b6c391b5cb93a1372bb939c7e21e9b314f217ffb7c81cae7a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1932",
+        "sha256": [
+          "51e2ce8d8af2b69ce125d6df511092b382e378758a5d4ff365723f441f59f6d0"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1933",
+        "sha256": [
+          "c2693b04b25a440258afe07a9facb7cf34cdc867f3b0e918c0771db328a6e43a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1934",
+        "sha256": [
+          "b24ccbe086dda53e8d75dc844bc4e04fbc787a7eef8997795b4082672a751e27"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1935",
+        "sha256": [
+          "cebe809bf6f9ffb96122a1a16421d20950f3337674d1704f0156ff0556d6dbae"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1936",
+        "sha256": [
+          "5267d27d032c9df2ebd1f067e93b11e5b5d057186170caa68a81210d81ad72df"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1937",
+        "sha256": [
+          "3e2e7e3b953d515e672b58724cf41d6857284b54647324fa01be9548a21b419e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1938",
+        "sha256": [
+          "41ddd383aba8e1de9b85939284e3818ebb4fbeaac2c750e90af40a4ae475b735"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1939",
+        "sha256": [
+          "1f4a75176ccc3abab6a1a09de90ebce186e071cb829037c50f5e6f58b5cc8ce8"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1940",
+        "sha256": [
+          "66cca230fb4bf579e389c983fa2ec09fea8eab3b47cbee383fe73af4c341f248"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1941",
+        "sha256": [
+          "6ea2b7423aa49a730731962d5a1c9079da57666cb5f657216db39239bd6d20a1"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1942",
+        "sha256": [
+          "c5d6429bb91b349f0937c32eb2a6fc268d6c9dd17a29b440f177c6a92b9d31c4"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1943",
+        "sha256": [
+          "e8f42da1d58e0b3179d6784e1212af9afcbd385d26fa20b91a5aa2b86107acec"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1944",
+        "sha256": [
+          "c554053afc37dea71a99e60d91acfe82ee62fdaf062a9d8060f4914bc218c9d5"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1945",
+        "sha256": [
+          "4f9c574ae9f6d2a9b09f94acbbb4ce8a03ed525980d26a2e5bd3cd4f502dfdca"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1946",
+        "sha256": [
+          "4c468923c2af370e815b25c85e8234cb8649b778e6ee74f35abbce31cb090b76"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1947",
+        "sha256": [
+          "deb7feb9f0f0385f9c433849c1a996ec07e390eab48883b748b82d2532c65aad"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1948",
+        "sha256": [
+          "a74330c16da034b0839c05f9c330c42dc0bb2d21182292ae1f9d2adb14c823c0"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1949",
+        "sha256": [
+          "85785a1186b12ac79d67ab273cb28881f9df42e9916889f74ed60f3259b4313e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1950",
+        "sha256": [
+          "1474ed05546b90f8a6f52ddbb612a4fdbd2b093b401eab3ef706ca63553d4872"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1951",
+        "sha256": [
+          "2c38678e639c7efe9f8e3806efe51d78075c5b061daf94fb64216b78bf13bfaa"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1952",
+        "sha256": [
+          "7ace5ffd4a5a698ccf55be3c0bad0f6643acd50d08e47c9ad625f5ddd301cb5f"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1953",
+        "sha256": [
+          "e819081238bc53f7f38412bfd82affdcb086e71a00e65e2c539d9b4131d69fb2"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1954",
+        "sha256": [
+          "96d11d25835a892a225baa100940642b5a8c70226afe83efaec2cf0b0bbb1ef9"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1955",
+        "sha256": [
+          "d519d28e054f776ca3c6eeac676ecf5d2a5ac56aac9bf2eea6cabd5ea0b8f92b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1956",
+        "sha256": [
+          "b94a3a00bb3717fdb615957898c30545f0dcc72bf65728b7dc285bb85ba35eda"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1957",
+        "sha256": [
+          "142a1049de94124af1f86a7084f32d836d96beccf90acbbc321352aca97fa750"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1958",
+        "sha256": [
+          "66ed2f67e68703fd8fad86733e1c0a892e11cbe9abefdc9208cf190a0a515e5a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1959",
+        "sha256": [
+          "399f864f3de382d97007e2c31561460fc27999597a66f85bf35d3e42ce70ef6e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1960",
+        "sha256": [
+          "0f00241e7732ea5b4c8776836527b2494ff6442bea68336dc97e74acce75820b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1961",
+        "sha256": [
+          "04616847605d08ab9d9c3431399a4ffe52030e0f8a7ed1a7ddfe29a2e0b8a4e8"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1962",
+        "sha256": [
+          "378544add94ec459160b9a15986b6974bba97846796967b4d0ceeacc923038dd"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1963",
+        "sha256": [
+          "c81e40ab84120d2cf9a1ff066334ac79641028f439a6da3677ab9d8247dc93b2"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1964",
+        "sha256": [
+          "ba91535228ca9b0fb42d5538456e6cc0cb3e04833f65afa2d98d367f32d6169b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1965",
+        "sha256": [
+          "bf4c5ab01e3cc71d5320211c08b59b136542569174002b540f6fbf16b66dbd93"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1966",
+        "sha256": [
+          "4ef9cbf6b387f88a4ed04e6c88edc8c5506ca43d20ba132b1095932913b535ad"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1967",
+        "sha256": [
+          "c0be5aa36fd8cf50375aa3a91345c5e68509bc9159b9ef90ccfa4b377f975169"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1968",
+        "sha256": [
+          "7f639421a912017971ee92c8a6e29c3625d0c66e05f3f5070a591e089024f566"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1969",
+        "sha256": [
+          "6ff42ad1cf92bd9681a45863d5921ae7f00596f4e3ce3d05fcb7a9eb508839d9"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1970",
+        "sha256": [
+          "453612fa4115fb5a97253c23ecd425d3b6296eb4056be64c04461a00e3b7c17f"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1971",
+        "sha256": [
+          "ec7ad7446862410eba7f40d242d8ba247730e8e8d84ab722eb4d05e5a46a9602"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1972",
+        "sha256": [
+          "9eeb948c3e31a6b5d4d75bdfe92c400532da287e6eb0c985190a2c1c58dfcd6c"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1973",
+        "sha256": [
+          "652111f967b00c64296ddeef2b1a85592fb7f9499d25343ffea5b3ae431eca82"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1974",
+        "sha256": [
+          "4df456473b45fbf44f018b58636112f270276fdf9471b22d2f7c2b5958c39798"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1975",
+        "sha256": [
+          "3990019aec598e6993e1d1745ff84b5860c0008e1d6e8092ce036231861d3819"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1976",
+        "sha256": [
+          "d74eeb358ab476eef29f7f7275fae5785d29371e863596ce2c278f7a6c0d01c9"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1977",
+        "sha256": [
+          "eb46e2173c05c78bd1eafdf2070d286b022be1802620084eecfb94a4f0bec785"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1978",
+        "sha256": [
+          "dcb4d4287e6b3b44bf5037d9cafc980ccdb11c8e746936f45734855a226267d8"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1979",
+        "sha256": [
+          "490cace7e886170bca027fdd5002707f532780203ec96839a441d6d17476f615"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1980",
+        "sha256": [
+          "34d167481e1139dbf4ed87bec24be2919581de7fdd2b8ef02edf4ee313c7af6b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1981",
+        "sha256": [
+          "9f8894f27d7768155fd75046234c24a0874df8896f959de072ec0761488b777b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1982",
+        "sha256": [
+          "1ef0e61fe529352cdfa9839ff1aef45195a75c9d498c5876a1e8346a7af4cd01"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1983",
+        "sha256": [
+          "dcde1a24e73badd1c97aa7a18182c65885c75b18cf1f399c8dd68c8b38bb6d6e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1984",
+        "sha256": [
+          "3f48331d1632122e3f05f3cb1f5b7e7d083b6323d36b74fee9def8550d1f803f"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1985",
+        "sha256": [
+          "da594957ad60d9a8d14626a7c7aef68067682a25787f007cef833b77d1dea410"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1986",
+        "sha256": [
+          "5003af40ef6bbacdeb0ad87dc24bbf173efbca34c515415fe46d38ee7b1373dd"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1987",
+        "sha256": [
+          "317e22c48eb41f84cfd49530ffa6d9c395d046f3f5385740934c970ece9dcc3d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1988",
+        "sha256": [
+          "55abac37008add468785e99334b689df0bab4cf4d53d3e26f0a655161a9810fa"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1989",
+        "sha256": [
+          "de73e7861653166d90755c9ba6805cf905856b1806b3577432f6a9346af0f107"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1990",
+        "sha256": [
+          "eebe3a1bb472f3de8c3186ba306a0f9a719721a7b8005d581e5bd6fef75cbe6f"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1991",
+        "sha256": [
+          "4614b773a70540a70ab13772dd4eaa69c9374b500474c4b220e4befde865df05"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1992",
+        "sha256": [
+          "f85f4882ef003c8ab42eed4493cd9c2be8ea1666a0edbdbdc023cebc3fa08ef7"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1993",
+        "sha256": [
+          "fbaf39afe96c2b6c1a95e929c84bb5ab1fb11c6a363269e910fe75fbb31ff76a"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1994",
+        "sha256": [
+          "5aa1aa68578e67924f926d6954326c65afb126dc3ca54901cfc0954d90dec520"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1995",
+        "sha256": [
+          "6e0fd699074a5549d4bd0f77a7b3603594773a07eaca0fef481524ae53937f6d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1996",
+        "sha256": [
+          "7d803f23f9bfbc930647ca31f5ac3fb571f21a367c79fd98298229e89f770a41"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1997",
+        "sha256": [
+          "743690091f8563d3bc6530fccc82aa4c5d21fcc338d459559d4c22add7aa2d0e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1998",
+        "sha256": [
+          "412adc043b42e7d3e332d7e1f9888a5094c1ad875016fca309b6f3acedcbe85c"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "1999",
+        "sha256": [
+          "2ed0369ad8c8f15ca9b6bc5119e9df00dd6e02e5759837e6b282e7b4941ba1b9"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2000",
+        "sha256": [
+          "cb3eac901f38a3115408fc32ddcad1e2c7822b339fb6aecd3545720006f0ca24"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2001",
+        "sha256": [
+          "5da9f33d3b8f1f2a275e5c1785066ed5e1c0c7bcdcd4a82266616579eea9a359"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2002",
+        "sha256": [
+          "ef58a7b2629253969828b223877454b1ff67ff2f07cfe923c0af2b1b62831382"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2003",
+        "sha256": [
+          "e2072f65a267587db081d7ab3f64e2a2a62823867826f21fd59230c7d43970a0"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2004",
+        "sha256": [
+          "9f274b1d0afa93f7aa37547b30e4bad63f11fc7d0a05531acefac110950dccef"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2005",
+        "sha256": [
+          "dff51eebdece02248d7aea4051b5489415b2b7f815ab958cdddfb335db49c17d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2006",
+        "sha256": [
+          "25ca2f953b6b20cf6b332dabb1f8b27d4b5833f70b43b519adb1db28388961f6"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2007",
+        "sha256": [
+          "8633f187e5a2bdaae2b247ac80d2025a7907ef6b61b95af162cf4c7189ff90f6"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2008",
+        "sha256": [
+          "7d0c69e8c32ba83de0db8d05435f9b8e250b4d8eb79f1c607174c68d7a13b602"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2009",
+        "sha256": [
+          "a82fea40a8da1aa9148e102b2276c23400f33effda06d837baed4d583c88950d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2010",
+        "sha256": [
+          "5d2b491bbe47b539654de4c87607d11a6063de7c98953230ee7a0ae6a545d6b4"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2011",
+        "sha256": [
+          "5a35e46f5fd033f77ed01b18d9f18620833e3520e7ce4c9e0f708d83d9bceddc"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2012",
+        "sha256": [
+          "fabb53992c428c69ad1ada2659f7e9d3a2f830411a0e1c710095acf0000ae6a1"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2013",
+        "sha256": [
+          "981f304ac1d81d553013b2e7c8cce8549522c779d7998b79c0745d883a73ab03"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2014",
+        "sha256": [
+          "86a8d49b5bbb7581e5454babe4da5d940fb62bc09d12f749b3e269d05d5feb4e"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2015",
+        "sha256": [
+          "73695c4b796c318714d0acad98793e98fb25e99c969d38887af46221c358f304"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2016",
+        "sha256": [
+          "44000e0e69030af70972902c6dab63c74a7edeffca33e6f6124a239c85441a29"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2017",
+        "sha256": [
+          "f4f2ce5cdbb50f202526c36dd3602b68bc12ea58efb4250c82c6989a0f935661"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2018",
+        "sha256": [
+          "fa2a5dbbd2d828b1c17102c12feb484a95adb07fb6d5b23ba1742704b22d272b"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2019",
+        "sha256": [
+          "1b78e226b224058af7c854726483dafec3629c85edcdd2cd545ec43c708d1ab0"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2020",
+        "sha256": [
+          "b73afa18221b3e4ae0b074a9758c90588b8fa1307f31974109652b6e8363a458"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2021",
+        "sha256": [
+          "171a4a8df9611e7bed394a5ed21aadd3243ff1155ee85e1fbaf80dac272af227"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2022",
+        "sha256": [
+          "89b21c86e147034e96bc488269243eedc88f0f35cb63ca0d0bb8c7852c28e566"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2023",
+        "sha256": [
+          "0aecfd4501a8ce846b5af001634760873a6e4d6f83a6df1430790aedadbb265d"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2024",
+        "sha256": [
+          "d2f2650cb820a13134dd4390930c798caad69ffd19a8c16516f7e9748a418b87"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": "2025",
+        "sha256": [
+          "a7137e0b41db1b2c6531bbe650ec3c8626673efd5b172df3a11bda435c350b89"
+        ],
+        "table": "player_games"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "a875622911c7c03b94175d180ca3dbc228086a78292d5f2455384a1de3aa5f23"
+        ],
+        "table": "player_season_awards"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "b3dbf6fd047f3e8469771dd9a7f681a85fa72f85f8e0c8fad38c766a93f878c2"
+        ],
+        "table": "players"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "09786f9e4f0a75586c3c2fdb1ab09a0bc05eeafe9480855ea9127b0b8f2557e8"
+        ],
+        "table": "quarantine"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "4170442ab8e2a4d068e56f6042afcf4b1839a3b47fa7008b826cc9ca47f643ea"
+        ],
+        "table": "school_observations"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "fd7584f8087d9db25e9c5408a6490810eebafb5e93411e624bb9012d89b0ac84"
+        ],
+        "table": "seasons"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "fe7b4ef03e826e19f87c83b502df13a4764132580101f03c72c0305b8e061ebb"
+        ],
+        "table": "source_files"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "045b3f241c0f5b9843049556e5e76ac3defa62df3605a2888c7053bb39c9ec27"
+        ],
+        "table": "source_observations"
+      },
+      {
+        "partition": null,
+        "sha256": [
+          "c2f458c43fb41c0239d506d64e28a2d4f16c8fdf71929b0b7869dd16497a7d86"
+        ],
+        "table": "venues"
+      }
+    ],
+    "unresolved_cells_per_layer": {
+      "legacy_csv": 63,
+      "snapshot": 63
+    },
+    "unresolved_ledger": [
+      {
+        "field": "brownlow_votes",
+        "id": "07d3736e95ca3892bd29e65b",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "11437be251efbc4d3e70d7d2",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "180bff318a81454eba1808ab",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "21a7e6b7527e29ba0cfc9234",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "24c7482eec93aa2c81105a98",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "287ea204ff9091fd8b470be5",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "294c8b266aaa7052bd760f3e",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "29cd467a58d0ca744f097ece",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "354293723d3fda8db3bfffe3",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "38bf4be5f0e02dd2e227707a",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "46c78aa27a3b6e544097a670",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "50ff4e496cbc3f5a9dccfe08",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "51c5a352f60118bc02b2d415",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "5d2982707cb386b40a78fb1f",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "5d91c38810d81307882697fd",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "77dd0753fc740daa4183a2b1",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "7beaa8551cb2a17b52996efe",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "8415b41b678b2180c4465662",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "8726ba4ac54efeaa7b5667ff",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "8de9852eba6f0cce8a579ebc",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "92a5cbd82eeccf0f31f0ba1f",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "933fef35e8fa7a56fb94e5f5",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "a00b56206de94ae9bdf059b2",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "a0ca3cc97b0b412be6d26c25",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "a534a4e9bd4c628d5306d9a8",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ac83aa87b124747d3a2a83d2",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ad370944aa7f2238ea20aed5",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "b4dd82d457ad37550a1914ab",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "becec9501866714afa7cd30f",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "c33c00f9e6f3409315604a1e",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "de7aa688cc94ea6b7f2fa217",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "e10e883ed4edac4312ff0d2d",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "e85149b46c4a1b59ea241482",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ebdd7a04d2df66ae3a045499",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ed529c654530ca83b75b637e",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "eee4eef6ee251577a4f9b790",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "efe8b0b74ab191f74ecc09b4",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "f62a4ff92e3db0e6c7af107a",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "f72adece33331898698e37fa",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "fbbcdb25217875a91b830b5f",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "b61a99b3cd5348781d770c4a",
+        "layer": "legacy_csv",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1934
+      },
+      {
+        "field": "hitouts",
+        "id": "0effa4947c944600a91c32ed",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "3d68ffadb671350dbce91ff9",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "46705944481e7d5c1cd77984",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "4f4ddfce7c7089b30194f894",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "696c4819edf93b6c9c378a91",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "716ba4378c87778733570c68",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "75358adfa263ea93d0aa8e4d",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "7ad1e49ba005bde164253eee",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "83f17bc38e8b123d9f3f027c",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "86353d8890201141c8924363",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "89d21b55ab3337613d2ba2ed",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "8a141b59f54fd4a683e0c965",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "92caa29907cd50cb132e9d9f",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "9320e6c7fb37cc5c889111ac",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "a7597d109125023883c0a28c",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "c5d199be3dc2c27a41f93e59",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "d207b544fcca89e3b84bdd07",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "d31d167bdc35f018babdb464",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "e200a337afbcaa19689caba6",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "ee6d913351cf1f4aab0fcd1d",
+        "layer": "legacy_csv",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "time_on_ground_pct",
+        "id": "bc906bf78589332aa4d48501",
+        "layer": "legacy_csv",
+        "rule_id": "R-PCT-NEVER-ZERO-FILLED",
+        "season": 2004
+      },
+      {
+        "field": "time_on_ground_pct",
+        "id": "6611da6b152558a6c11212f3",
+        "layer": "legacy_csv",
+        "rule_id": "R-PCT-NEVER-ZERO-FILLED",
+        "season": 2005
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "0b845d39afae068a019c27e9",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "0bb0058b522d9fb623b181dd",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "0d5f966d0b251844e79380c0",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "156a8b992d2189707c8d69e8",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "1731bc2badb760e6148d5896",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "1936dbc0581ea399ce1709f3",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "1c7369ca7fb62569d3d8e47c",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "24251a8e8e9c64a91ebce135",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "2aa2d2b25af8cc7b02dc4877",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "2f04c1e8697c548dedb1fbbc",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "3b9abf2116d5c394f1d5bc05",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "42ab94b7bbf483682e077243",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "45285f55f49466031ee5307f",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "490f188697c5c6b3dacbfa8a",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "4ace4895e0aed7a27c1f776c",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "5f452e03c24cb8b052a6c062",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "5fc5637e221ec080b0225ab8",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "60dd1bd790e367a450c72a31",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "70f18588c6a8e3058510a783",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "72438479eaaaea0405cd9239",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "740192066b7f23388c11e606",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "79483748cebb3109bd9d5042",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "837af085f6beb0521bac0691",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "8599cda6abaae005a085cb38",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "9cf0bc4ef40bef070081bedb",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "a0bf2ebc38f4f17dd43fc83f",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "a8d5925584c4f9c28d2eabae",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ac39917c942da14ecbb7985c",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ae8b9f4516134f588155bae0",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "b2407ee44c2a9ec1786fe538",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "b468a8e389dcd73ed578c372",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "b60c16b21d4f557d9c632ef3",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ba093fd2212275e88dc1a1e5",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "bd30e57373bd8a4a37caaa89",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "c58363baab0d3dbc692cd72b",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "d9109a016894eefdd6f5fb14",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "dd900b0ed740d6ed5a880690",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "e99bc7cb55aca3b9586c7331",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "ed14ed5e4afc46a9187b5bfb",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "f5048db0d6b4b819a1f04bab",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1932
+      },
+      {
+        "field": "brownlow_votes",
+        "id": "1c3f16a4d296f8c850972a4a",
+        "layer": "snapshot",
+        "rule_id": "R-BR-AWARD-SUM-MISMATCH",
+        "season": 1934
+      },
+      {
+        "field": "hitouts",
+        "id": "15f7f504bbd53b6d29d54301",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "2d43143947274cb0c4d308de",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "32bee6d619629d80934556c1",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "389b21659c160be7509034e3",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "3d53c95b724a720f92b996cf",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "40d4cab6699b4cffecd6f7a4",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "51ce7b2ece9a116b0ea8171e",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "7de6f9990566548be9ac8000",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "86040985438694fb369d1717",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "87369adca1ba3751b0343370",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "95b33791dec77658a4ab8aca",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "97a7cceb5b8e9ccc32da9468",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "999e804dbd1bd3e8f379722d",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "a2d0eb9d15acdfdb54218094",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "aed4cac95780a7c9f6c7b386",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "c2b1bc70c7cb6b791f204894",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "e6b98a00e2dbfb2f0142f2a0",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "e73683b8605ac068d808ed03",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "f8c12a33b72b83a8073a06f9",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "hitouts",
+        "id": "fa5fb9542961995297c39f06",
+        "layer": "snapshot",
+        "rule_id": "R-ALL-ZERO-UNPROVEN",
+        "season": 1974
+      },
+      {
+        "field": "time_on_ground_pct",
+        "id": "d9a60374134379b1a802820c",
+        "layer": "snapshot",
+        "rule_id": "R-PCT-NEVER-ZERO-FILLED",
+        "season": 2004
+      },
+      {
+        "field": "time_on_ground_pct",
+        "id": "3ddaf3c7bb027c1931693192",
+        "layer": "snapshot",
+        "rule_id": "R-PCT-NEVER-ZERO-FILLED",
+        "season": 2005
+      }
+    ]
+  },
+  "source_coverage_sha256": "54fdc52c35721abdad30adf15981f7f7c901f7cb073eb601949621e87d761689",
+  "source_manifest": "var/candidates/20261005-afltables-corrected/snapshots/b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4.json",
   "stats": [
     "kicks",
     "marks",

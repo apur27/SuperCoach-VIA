@@ -34,11 +34,11 @@
   },
   {
     "career_games": 282,
-    "coverage": 0.9964539007092199,
+    "coverage": 1.0,
     "eligible_games": 282,
-    "mean": 8.078291814946619,
+    "mean": 8.049645390070921,
     "name": "Matthew Richardson",
-    "observed_games": 281,
+    "observed_games": 282,
     "player_id": "legacy:richardson_matthew_19031975",
     "rank": 4,
     "total": 2270.0
@@ -144,11 +144,11 @@
   },
   {
     "career_games": 324,
-    "coverage": 0.9969135802469136,
+    "coverage": 1.0,
     "eligible_games": 324,
-    "mean": 6.086687306501548,
+    "mean": 6.067901234567901,
     "name": "Paul Salmon",
-    "observed_games": 323,
+    "observed_games": 324,
     "player_id": "legacy:salmon_paul_20011965",
     "rank": 14,
     "total": 1966.0
@@ -199,22 +199,22 @@
   },
   {
     "career_games": 289,
-    "coverage": 0.9965397923875432,
+    "coverage": 1.0,
     "eligible_games": 289,
-    "mean": 6.586805555555555,
+    "mean": 6.56401384083045,
     "name": "Barry Hall",
-    "observed_games": 288,
+    "observed_games": 289,
     "player_id": "legacy:hall_barry_08021977",
     "rank": 19,
     "total": 1897.0
   },
   {
     "career_games": 333,
-    "coverage": 0.990990990990991,
+    "coverage": 0.996996996996997,
     "eligible_games": 333,
-    "mean": 5.703030303030303,
+    "mean": 5.668674698795181,
     "name": "David Cloke",
-    "observed_games": 330,
+    "observed_games": 332,
     "player_id": "legacy:cloke_david_28011955",
     "rank": 20,
     "total": 1882.0

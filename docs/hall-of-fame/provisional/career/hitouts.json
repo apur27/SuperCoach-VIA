@@ -133,14 +133,14 @@
   },
   {
     "career_games": 252,
-    "coverage": 0.996031746031746,
-    "eligible_games": 251,
-    "mean": 20.98406374501992,
+    "coverage": 1.0,
+    "eligible_games": 252,
+    "mean": 20.94047619047619,
     "name": "Ben McEvoy",
-    "observed_games": 251,
+    "observed_games": 252,
     "player_id": "legacy:mcevoy_ben_11071989",
     "rank": 13,
-    "total": 5267.0
+    "total": 5277.0
   },
   {
     "career_games": 148,
@@ -155,11 +155,11 @@
   },
   {
     "career_games": 378,
-    "coverage": 0.9497354497354498,
+    "coverage": 0.9444444444444444,
     "eligible_games": 378,
-    "mean": 14.557103064066853,
+    "mean": 14.638655462184873,
     "name": "Simon Madden",
-    "observed_games": 359,
+    "observed_games": 357,
     "player_id": "legacy:madden_simon_30121957",
     "rank": 15,
     "total": 5226.0
@@ -188,11 +188,11 @@
   },
   {
     "career_games": 291,
-    "coverage": 0.9965635738831615,
+    "coverage": 1.0,
     "eligible_games": 291,
-    "mean": 17.106896551724137,
+    "mean": 17.04810996563574,
     "name": "Peter Everitt",
-    "observed_games": 290,
+    "observed_games": 291,
     "player_id": "legacy:everitt_peter_03051974",
     "rank": 18,
     "total": 4961.0

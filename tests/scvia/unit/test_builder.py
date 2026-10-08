@@ -623,10 +623,11 @@ def test_browser_readers_accept_the_python_release(built: B.ReleaseCandidate) ->
     """The TypeScript readers, not a second Python parse, accept the builder's public tree."""
     web = Path(__file__).resolve().parents[3] / "web"
     env = os.environ.copy()
-    env["PATH"] = "/usr/bin:" + env.get("PATH", "")
     env["SCVIA_PY_PUBLIC"] = str(built.public_dir)
+    node = shutil.which("node")
+    assert node is not None, "Node must be installed on PATH to run the Python-to-TypeScript contract"
     proc = subprocess.run(
-        ["/usr/bin/node", "node_modules/vitest/vitest.mjs", "run", "tests/unit/python-release.test.ts"],
+        [node, "node_modules/vitest/vitest.mjs", "run", "tests/unit/python-release.test.ts"],
         cwd=web,
         env=env,
         capture_output=True,

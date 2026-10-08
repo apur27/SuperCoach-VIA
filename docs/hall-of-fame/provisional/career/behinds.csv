@@ -1,12 +1,12 @@
 rank,name,player_id,career_games,total,observed_games,eligible_games,mean,coverage
-1,Kevin Bartlett,legacy:bartlett_kevin_06031947,403,781.0,403,403,1.9379652605459057,1.0
+1,Kevin Bartlett,legacy:bartlett_kevin_06031947,403,781.0,400,403,1.9525,0.9925558312655087
 2,Lance Franklin,legacy:franklin_lance_30011987,354,742.0,354,354,2.096045197740113,1.0
 3,Leigh Matthews,legacy:matthews_leigh_01031952,332,724.0,330,332,2.193939393939394,0.9939759036144579
 4,Gary Ablett,legacy:ablett_gary_01101961,248,690.0,248,248,2.782258064516129,1.0
 5,Jason Dunstall,legacy:dunstall_jason_14081964,269,641.0,269,269,2.382899628252788,1.0
 6,Bernie Quinlan,legacy:quinlan_bernie_21071951,366,612.0,364,366,1.6813186813186813,0.994535519125683
 7,Tony Lockett,legacy:lockett_tony_09031966,281,590.0,281,281,2.099644128113879,1.0
-8,Matthew Richardson,legacy:richardson_matthew_19031975,282,551.0,281,282,1.9608540925266904,0.9964539007092199
+8,Matthew Richardson,legacy:richardson_matthew_19031975,282,551.0,282,282,1.9539007092198581,1.0
 9,Doug Wade,legacy:wade_doug_16101941,267,523.0,205,205,2.551219512195122,0.7677902621722846
 10,Jack Riewoldt,legacy:riewoldt_jack_31101988,347,480.0,347,347,1.38328530259366,1.0
 11,Stephen Kernahan,legacy:kernahan_stephen_01091963,251,471.0,251,251,1.8764940239043826,1.0
@@ -18,4 +18,4 @@ rank,name,player_id,career_games,total,observed_games,eligible_games,mean,covera
 17,Taylor Walker,legacy:walker_taylor_25041990,319,441.0,319,319,1.3824451410658307,1.0
 18,Matthew Pavlich,legacy:pavlich_matthew_31121981,353,435.0,353,353,1.2322946175637395,1.0
 19,Matthew Lloyd,legacy:lloyd_matthew_16041978,270,424.0,270,270,1.5703703703703704,1.0
-20,Barry Hall,legacy:hall_barry_08021977,289,421.0,288,289,1.4618055555555556,0.9965397923875432
+20,Barry Hall,legacy:hall_barry_08021977,289,421.0,289,289,1.4567474048442905,1.0

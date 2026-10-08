@@ -162,7 +162,9 @@ describe('production build from an external release (SCVIA_RELEASE_DIR)', () => 
     const r = spawnSync(process.execPath, ['node_modules/astro/bin/astro.mjs', 'build'], {
       cwd: WEB, encoding: 'utf8', timeout: 120000, env: buildEnv({ SCVIA_RELEASE_DIR: ext, SCVIA_OUT_DIR: join(tmp, 'dist') }),
     });
-    expect(r.status).not.toBe(0);
+    expect(r.error, `Astro subprocess: ${JSON.stringify({ status: r.status, signal: r.signal, error: r.error?.message, node: process.execPath })}`).toBeUndefined();
+    expect(r.signal).toBeNull();
+    expect(r.status).toBe(1);
     expect(`${r.stdout}${r.stderr}`).toMatch(/release manifest verification failed/);
   }, 120000);
 });

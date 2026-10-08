@@ -89,11 +89,11 @@
   },
   {
     "career_games": 324,
-    "coverage": 0.9938271604938271,
+    "coverage": 1.0,
     "eligible_games": 324,
-    "mean": 12.711180124223603,
+    "mean": 12.632716049382717,
     "name": "Scott West",
-    "observed_games": 322,
+    "observed_games": 324,
     "player_id": "legacy:west_scott_14111974",
     "rank": 9,
     "total": 4093.0

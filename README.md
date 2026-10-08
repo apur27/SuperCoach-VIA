@@ -20,7 +20,7 @@ SuperCoach VIA is a static AFL statistics website with a local Python data pipel
 
 **[Open the provisional website](https://apur27.github.io/supercoach-via/)** · [Data status](https://apur27.github.io/SuperCoach-VIA/data-status/) · [Publication and rollback](docs/pages-preview.md).
 
-The legacy weekly harness and the new local pipeline coexist. The static preview is published manually. Numeric pipeline switch-over and independent acceptance of the all-player reconciler remain pending.
+The legacy weekly harness and the new local pipeline coexist. The static preview is published manually. The all-player reconciler and corrections are merged; numeric pipeline switch-over remains pending.
 
 ⭐ **If this project is useful to you, please star the repo.**
 
@@ -28,24 +28,26 @@ The legacy weekly harness and the new local pipeline coexist. The static preview
 
 ## Data status
 
-**Checked 3 October 2026: the data has known integrity failures.** Completing an audit does not mean its inputs passed.
+**Checked 7 October 2026: corrected data remains UNKNOWN, with zero confirmed discrepancies and 63 unresolved source cells per layer.** Software acceptance, source agreement, freshness and release consistency are separate checks.
 
-| Input or check | Recorded result | Meaning |
+| Input or check | Recorded result | Evidence and delivery |
 |---|---|---|
-| September 29 candidate snapshot `3de6597513b5…` | **FAIL** against captured AFL Tables pages, with unresolved evidence | Includes the Grand Final, but has missing appearances, zero/null differences and other discrepancies |
-| Legacy CSVs in `data/` | **FAIL** against the same source capture | An older data layer; the audited CSVs lack the Grand Final |
-| Hosted preview release `20261003T124334Z-08e8e0eb65d4` | **PASS** from `scvia check-integrity` | Rebuilt from the same candidate; release files agree with their declared inputs. This does not establish full AFL Tables agreement |
-| Independent acceptance of the new reconciler | **Pending** | Implementation is still in `work/afltables-reconciliation`; it has not been merged into `main` |
+| Corrected legacy CSVs in `data/` | **UNKNOWN** overall. The full corrected audit left 63 cells unresolved; the later 2026 audit passed both layers | Full report `81ac70ba…`, 2026 report `6fecac8e…`; corrections merged in `67217df40` |
+| Corrected candidate snapshot `b9830cbf1093…` | **UNKNOWN** from the parent full audit, the candidate's 2026-only audit and verified unchanged historical partitions | [Composite source coverage](docs/reviews/evidence/afltables-candidate-source-coverage-20261007.json), original reports `81ac70ba…` and `6fecac8e…`; code acceptance delivered in `1add8cdc5`. This is not a new full audit of the child |
+| Hosted preview release `20261003T124334Z-08e8e0eb65d4`, snapshot `3de6597513b5…` | Source audit **FAIL**; its separate release-consistency check passed | Original report `58eff517…`, notice commit `a5b2b804a`; preview delivery recorded in [publication and rollback](docs/pages-preview.md). The hosted preview still uses this older snapshot |
+| Reconciler software acceptance | **ACCEPTED WITH CONDITIONS**, merged into `main`; data verdict remains UNKNOWN | [Acceptance record](docs/reviews/AFLTABLES_RECONCILIATION_ACCEPTANCE.md), report `81ac70ba…`; delivery `1add8cdc5`, gate hardening `238cacf46` |
 
-The source audit used pages captured on 1–2 October, with matches scoped through 30 September. Its canonical report SHA-256 is `58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`. The local evidence lives under `var/reconciliations/afltables/2026-10-01-full/`; it is not included in a fresh clone.
+The full parent report SHA-256 is `81ac70ba8aa25110119a91779d2c2df91088b2f0f87408db3546de8109a4509c`, for snapshot `f1abd8c2…`, using pages captured on 1–2 October. The later report SHA-256 is `6fecac8e1c8eb804774eb70a5f9d03bd5448ee86d43d1253472ca0f1ea7d9c2a`, for candidate `b9830cbf…`, covering **2026 only**, with pages captured on 6 October Melbourne time. The unresolved historical cells are in unchanged partitions. Neither report is relabelled as a full audit of the child. Full local captures and findings remain outside Git under `var/reconciliations/afltables/`.
 
-**Hall of Fame:** [provisional candidate tables](docs/hall-of-fame/provisional/README.md) are regenerated from the September 29 snapshot at the owner's request. They report snapshot values, not a clean source-audit verdict or official AFL Hall of Fame selections. Missing games, historical statistic coverage and unresolved discrepancies can affect totals and ranks. The older narrative pages retain their original data vintage. Regenerate the provisional tables after the data is corrected.
+The hosted preview's retained FAIL report SHA-256 is `58eff517a29d30b932087f919a31d36567e8be330301ecff53feb06494d8db28`. Corrected candidate publication requires its own complete release, input-consistency report and sealed site. No corrected snapshot promotion or pipeline activation is recorded here.
 
-**Forecasts:** the September 29 candidate reports `unavailable / no_valid_future_fixture`. Archived prediction pages are not current forecasts.
+**Hall of Fame:** the [provisional tables](docs/hall-of-fame/provisional/README.md) now use corrected candidate `b9830cbf…` and the pinned composite source-coverage record. Their source verdict remains UNKNOWN, with 63 unresolved cells per layer. The index and provenance retain each original report's snapshot, scope and capture dates; this regeneration is not a new full audit. They report snapshot values and are not official AFL Hall of Fame selections. The older narrative pages retain their original data vintage.
 
-The lowercase `/supercoach-via/` address now opens the canonical `/SuperCoach-VIA/` site through a small redirect. The repository name is unchanged. With JavaScript disabled, the entry page provides a link. Every hosted page displays the provisional notice and requests `noindex` while this snapshot's audit failures remain open.
+**Forecasts:** the September 29 preview reports `unavailable / no_valid_future_fixture`. Archived prediction pages are not current forecasts.
 
-Read the [integrity checker guide](docs/data-integrity.md) and [reconciliation status and handoff](docs/rewrite/afltables-reconciliation/README.md). The latter records the pending review and the preserved Claude worktree.
+The lowercase `/supercoach-via/` address opens the canonical `/SuperCoach-VIA/` site through a small redirect. The repository name is unchanged. With JavaScript disabled, the entry page provides a link. Real snapshots display their bound source-audit state and request `noindex` while provisional; an unrecognized snapshot explicitly reports UNAUDITED.
+
+Read the [integrity checker guide](docs/data-integrity.md) and [reconciliation status and handoff](docs/rewrite/afltables-reconciliation/README.md). Retain the original Claude worktree and evidence until custody and cleanup are complete.
 
 ## Recorded legacy evaluation
 

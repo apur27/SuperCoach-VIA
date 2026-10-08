@@ -1,0 +1,42 @@
+{
+  "commit_and_push": "stubbed; no remote write",
+  "data_sentinel": "PASS",
+  "exit_code": 0,
+  "final_fast_tier": {
+    "passed": 2159,
+    "skipped": 0,
+    "wall_seconds": 60.06
+  },
+  "integration_tests_passed": 22,
+  "integration_wall_seconds": 2.13,
+  "local_full_evidence": "var/agent-runs/sol-review-fixes-20261007/smoke-attempt-2/",
+  "main_audit_changes": {
+    "added": [],
+    "changed_existing": [
+      ".claude/audit/2026-10-08.jsonl"
+    ],
+    "daily_log_append_only": true
+  },
+  "operator_inputs_preserved": true,
+  "outcome": "PASS",
+  "phase": "4",
+  "recap_retry_in_this_run": "not needed; first-pass DataSentinel PASS; regression tests exercise complete retry handoff",
+  "reference_reconciliation": "noop; no legacy season changed or pending; not a fresh AFL Tables capture",
+  "schema": "scvia.scratch-smoke-evidence/1",
+  "skeptic": "PASS_WITH_CONCERNS",
+  "skeptic_concerns": [
+    "Specify pooled player-game and position population for the correlation.",
+    "Label the team average period rather than describing it as current form.",
+    "Clarify that the league mean averages player disposal averages across all positions."
+  ],
+  "source_base": "8324dc0be7a99641dc356dac9352a113270ddece",
+  "source_frozen": true,
+  "source_scrape": "stubbed; ordering-only rehearsal; scraping code unchanged",
+  "tested_patch_sha256": "9a2f3fd59733f1029ec9f177a2a7b9c5894407d79d95189992c4479baf92b516",
+  "weekly_log_sha256": "af220caead35cb030a830cbfb5b7fe1dc40a9cbfd6df81b19824d867b98297f8",
+  "wrapper_deviations": [
+    "copy latest operator audit state from main into scratch",
+    "append scratch-only scope to council invocations",
+    "resolve both legacy and new Python packages from the scratch root and src"
+  ]
+}

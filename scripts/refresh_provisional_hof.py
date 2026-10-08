@@ -8,6 +8,7 @@ import csv
 import hashlib
 import io
 import json
+from collections import Counter
 from dataclasses import asdict
 from datetime import date
 from pathlib import Path
@@ -38,6 +39,96 @@ def read_audit(path, expected_hash, snapshot_id):
     if report["snapshot_id"] != snapshot_id:
         raise ValueError("audit snapshot mismatch")
     return report
+
+
+def read_coverage(path, expected_hash, manifest, data_root):
+    """Read an operator-pinned composition and verify its complete partition binding.
+
+    The reviewed receipt hash is the trust input. This checks its storage argument;
+    it does not re-fetch source pages or rerun either original source audit.
+    """
+    if sha256_file(path) != expected_hash:
+        raise ValueError("coverage receipt hash mismatch")
+    receipt = json.loads(path.read_bytes())
+    if (receipt.get("schema") != "scvia.source-coverage-composition/1"
+            or receipt.get("kind") != "coverage_argument_from_two_existing_audits"):
+        raise ValueError("unsupported coverage receipt schema/kind")
+    if receipt.get("snapshot_id") != manifest.snapshot_id or receipt.get("parent_snapshot_id") != manifest.parent:
+        raise ValueError("coverage receipt snapshot/parent mismatch")
+    if receipt.get("source_verdict") != "UNKNOWN" or receipt.get("confirmed_discrepancies") != 0:
+        raise ValueError("coverage composition must retain UNKNOWN with zero confirmed discrepancies")
+    parent = load_snapshot(data_root, manifest.parent, verify=True)
+
+    def inventory(snapshot):
+        grouped = {}
+        for table, entry in snapshot.tables.items():
+            for ref in entry.fragments:
+                grouped.setdefault((table, ref.partition), []).append(ref.sha256)
+        return {key: sorted(values) for key, values in grouped.items()}
+
+    before, after = inventory(parent), inventory(manifest)
+    unchanged, changed = {}, {}
+    for item in receipt["unchanged_partitions"]:
+        key = item["table"], item["partition"]
+        if key in unchanged:
+            raise ValueError("duplicate unchanged partition")
+        unchanged[key] = sorted(item["sha256"])
+    storage = receipt["storage_verification"]
+    if storage["hash_mismatches"] != 0 or storage["player_game_keys_unchanged"] is not True:
+        raise ValueError("coverage storage verification failed")
+    for item in storage["changed_partitions"]:
+        key = item["table"], item["partition"]
+        if key in changed or key in unchanged:
+            raise ValueError("duplicate changed partition")
+        changed[key] = sorted(item["parent_sha256"]), sorted(item["candidate_sha256"])
+    if set(unchanged) | set(changed) != set(before) | set(after):
+        raise ValueError("coverage partition inventory is incomplete")
+    for key, hashes in unchanged.items():
+        if before.get(key) != hashes or after.get(key) != hashes:
+            raise ValueError("coverage unchanged partition mismatch")
+    for key, (old, new) in changed.items():
+        if before.get(key) != old or after.get(key) != new or old == new:
+            raise ValueError("coverage changed partition mismatch")
+    evidence = receipt["evidence"]
+    if len(evidence) != 2:
+        raise ValueError("coverage requires exactly the full parent and season candidate reports")
+    full, season = evidence
+    if (full["snapshot_id"] != parent.snapshot_id or full["scope"]["population"] != "all"
+            or full["scope"].get("full_population") is not True
+            or full["overall"] != "UNKNOWN" or set(full["layers"].values()) != {"UNKNOWN"}
+            or season["snapshot_id"] != manifest.snapshot_id or season["scope"]["population"] != "seasons"
+            or season["overall"] != "PASS" or set(season["layers"].values()) != {"PASS"}):
+        raise ValueError("coverage original report identity/scope/verdict mismatch")
+    audited = {str(y) for y in season["scope"]["seasons"]}
+    if not audited or any(table != "quality_issues" and (table != "player_games" or part not in audited)
+                          for table, part in changed):
+        raise ValueError("coverage changes exceed the candidate season audit")
+    ledger = receipt["unresolved_ledger"]
+    counts = Counter(item["layer"] for item in ledger)
+    if dict(counts) != receipt["unresolved_cells_per_layer"] or set(counts) != {"legacy_csv", "snapshot"}:
+        raise ValueError("coverage unresolved counts mismatch")
+    if len({(item["layer"], item["id"]) for item in ledger}) != len(ledger):
+        raise ValueError("duplicate unresolved finding")
+    if any(("player_games", str(item["season"])) not in unchanged for item in ledger):
+        raise ValueError("unresolved cells are outside unchanged historical partitions")
+    return receipt
+
+
+def coverage_banner(receipt):
+    full, season = receipt["evidence"]
+    count = receipt["unresolved_cells_per_layer"]["snapshot"]
+    seasons = ", ".join(str(y) for y in season["scope"]["seasons"])
+    return (
+        f"**Source agreement UNKNOWN: zero confirmed discrepancies; {count} unresolved source cells per layer.** "
+        f"Full parent audit: `{full['snapshot_id']}`, report SHA-256 `{full['report_sha256']}`, "
+        f"capture {' to '.join(full['scope']['acquisition_window_utc'])}. "
+        f"Candidate audit: `{season['snapshot_id']}`, seasons {seasons} only, "
+        f"report SHA-256 `{season['report_sha256']}`, capture {' to '.join(season['scope']['acquisition_window_utc'])}. "
+        "Verified unchanged historical partitions carry the parent's unresolved evidence forward. "
+        "This composition is not a new full audit or fresh historical capture. "
+        "Legacy counts describe the cited reports; the fragment continuity proof applies to the snapshot. "
+        "Historical Brownlow, all-zero and percentage evidence remains unresolved. "
+    )
 
 
 def output_path(root, relative):
@@ -114,10 +205,12 @@ def render_table(title, rows, banner):
     return "\n".join(lines) + "\n"
 
 
-def generate(data_root, snapshot_id, audit_path, audit_hash, as_of):
+def generate(data_root, snapshot_id, audit_path, audit_hash, as_of, *, composite=False):
     date.fromisoformat(as_of)
-    audit = read_audit(audit_path, audit_hash, snapshot_id)
     manifest = load_snapshot(data_root, snapshot_id, verify=True)
+    coverage = read_coverage(audit_path, audit_hash, manifest, data_root) if composite else None
+    audit = ({"layers": {k: {"verdict": "UNKNOWN"} for k in ("snapshot", "legacy_csv")}}
+             if coverage else read_audit(audit_path, audit_hash, snapshot_id))
     manifest_path = data_root / "snapshots" / (snapshot_id.removeprefix("sha256:") + ".json")
     config = RankingConfig.load()
     with SnapshotQuery(data_root, manifest) as q:
@@ -157,6 +250,9 @@ def generate(data_root, snapshot_id, audit_path, audit_hash, as_of):
         ranking_config_sha256=config.config_hash(),
         stats=STATS,
     )
+    if coverage:
+        provenance.update(evidence_kind=coverage["kind"], source_coverage=coverage,
+                          source_coverage_sha256=audit_hash)
     manifest_local = manifest_path.relative_to(REPO)
     base_banner = (
         f"**PROVISIONAL · as of {as_of}.** Snapshot `{snapshot_id}`. "
@@ -171,6 +267,15 @@ def generate(data_root, snapshot_id, audit_path, audit_hash, as_of):
         "Recorded appearances count rows; career_games uses max(rows, source counter). "
         "legacy_v1 alone retains its pinned historical blank-as-zero scoring imputation and era adjustments."
     )
+    if coverage:
+        base_banner = (
+            f"**PROVISIONAL · as of {as_of}.** Snapshot `{snapshot_id}`. "
+            "These are data-based ranks, not official AFL Hall of Fame selections.\n\n"
+            + coverage_banner(coverage)
+            + "Totals sum recorded values; all-missing totals are absent. Means divide by stat observed_games. "
+            "Recorded appearances count rows; career_games uses max(rows, source counter). "
+            "legacy_v1 retains its pinned historical blank-as-zero scoring imputation and era adjustments."
+        )
     outputs = {"provenance.json": encode_json(provenance)}
     for path, (title, rows) in tables.items():
         depth = path.count("/")
@@ -190,7 +295,7 @@ def generate(data_root, snapshot_id, audit_path, audit_hash, as_of):
         outputs[path + ".csv"] = buffer.getvalue()
     command = (
         f".venv/bin/python scripts/refresh_provisional_hof.py --data-root {data_root.relative_to(REPO)} "
-        f"--snapshot {snapshot_id} --audit-report {audit_path.relative_to(REPO)} "
+        f"--snapshot {snapshot_id} {'--coverage-receipt' if coverage else '--audit-report'} {audit_path.relative_to(REPO)} "
         f"--audit-sha256 {audit_hash} --as-of {as_of}"
     )
     outputs["README.md"] = (
@@ -202,10 +307,10 @@ def generate(data_root, snapshot_id, audit_path, audit_hash, as_of):
         + f"Ranking method hash: `{config.config_hash()}`. "
         + "All additive current stats are included; time-on-ground percentage is not additive.\n\n"
         + "These separate operator reports do not promote the candidate. "
-        + "Redo them after the audit corrections are verified.\n\n"
+        + ("Rebuild them when the pinned source evidence or snapshot changes.\n\n" if coverage else "Redo them after the audit corrections are verified.\n\n")
         + f"Repeat offline from repository root:\n\n```bash\n{command}\n```\n\n"
         + "Add `--check` to verify existing output bytes without writing. "
-        + "All manifest fragments and the audit report hash are verified before querying.\n\n"
+        + "All manifest fragments and the pinned evidence hash are verified before querying.\n\n"
         + "\n".join(
             f"- [{title}]({path}.md) ([CSV]({path}.csv), [JSON]({path}.json))" for path, (title, _) in tables.items()
         )
@@ -221,19 +326,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--snapshot", required=True)
-    parser.add_argument("--audit-report", type=Path, required=True)
+    evidence = parser.add_mutually_exclusive_group(required=True)
+    evidence.add_argument("--audit-report", type=Path)
+    evidence.add_argument("--coverage-receipt", type=Path,
+                          help="reviewed composite source-coverage receipt; retains UNKNOWN")
     parser.add_argument("--audit-sha256", required=True)
     parser.add_argument("--as-of", required=True)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    data_root, audit_path = args.data_root.resolve(), args.audit_report.resolve()
+    data_root, audit_path = args.data_root.resolve(), (args.audit_report or args.coverage_receipt).resolve()
     if (
         OUTPUT.resolve().is_relative_to(data_root)
         or data_root.is_relative_to(OUTPUT.resolve())
         or audit_path.is_relative_to(OUTPUT.resolve())
     ):
         raise ValueError("outputs must be separate from inputs")
-    outputs = generate(data_root, args.snapshot, audit_path, args.audit_sha256, args.as_of)
+    outputs = generate(data_root, args.snapshot, audit_path, args.audit_sha256, args.as_of,
+                       composite=args.coverage_receipt is not None)
     for relative, content in sorted(outputs.items()):
         target = output_path(OUTPUT, relative)
         if args.check:

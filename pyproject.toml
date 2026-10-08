@@ -72,13 +72,13 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 # Two tiers. The unit tier is hermetic (tmp_path fixtures, mocked HTTP, no real
-# data files) and must stay under ~10s so the pre-commit hook can run it on every
-# Python commit. The integration tier asserts against the REAL data/ tree and
+# data files). Performance targets and current misses are recorded in CLAUDE.md;
+# the hook runs every non-integration test for Python, harness shell and hook changes. The integration tier asserts against the REAL data/ tree and
 # published docs — it catches "the code is correct but the shipped artifact is
 # stale", which is the failure mode that produced the stale HOF profiles and the
 # frozen banner aria-label. It is slower and data-dependent, so it runs in the
 # weekly harness rather than pre-commit.
-#   fast tier:  pytest tests/unit -m "not integration"
+#   fast tier:  pytest tests/ -m "not integration" -n 4
 #   full tier:  pytest tests
 # New package (src/supercoach_via) tests live under tests/scvia/{unit,contract,
 # integration,performance}; its integration/performance tests carry the

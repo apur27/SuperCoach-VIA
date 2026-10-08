@@ -56,11 +56,11 @@
   },
   {
     "career_games": 312,
-    "coverage": 0.9967948717948718,
+    "coverage": 1.0,
     "eligible_games": 312,
-    "mean": 1.977491961414791,
+    "mean": 1.9711538461538463,
     "name": "Robert Murphy",
-    "observed_games": 311,
+    "observed_games": 312,
     "player_id": "legacy:murphy_robert_09061982",
     "rank": 6,
     "total": 615.0
@@ -100,11 +100,11 @@
   },
   {
     "career_games": 265,
-    "coverage": 0.8641509433962264,
+    "coverage": 0.8603773584905661,
     "eligible_games": 229,
-    "mean": 2.296943231441048,
+    "mean": 2.307017543859649,
     "name": "Joel Bowden",
-    "observed_games": 229,
+    "observed_games": 228,
     "player_id": "legacy:bowden_joel_21061978",
     "rank": 10,
     "total": 526.0
@@ -122,11 +122,11 @@
   },
   {
     "career_games": 364,
-    "coverage": 0.7252747252747253,
+    "coverage": 0.7225274725274725,
     "eligible_games": 264,
-    "mean": 1.8106060606060606,
+    "mean": 1.817490494296578,
     "name": "Brad Johnson",
-    "observed_games": 264,
+    "observed_games": 263,
     "player_id": "legacy:johnson_brad_18071976",
     "rank": 12,
     "total": 478.0
@@ -166,22 +166,22 @@
   },
   {
     "career_games": 240,
-    "coverage": 0.8958333333333334,
+    "coverage": 0.8916666666666667,
     "eligible_games": 215,
-    "mean": 1.930232558139535,
+    "mean": 1.939252336448598,
     "name": "Peter Burgoyne",
-    "observed_games": 215,
+    "observed_games": 214,
     "player_id": "legacy:burgoyne_peter_29011978",
     "rank": 15,
     "total": 415.0
   },
   {
     "career_games": 340,
-    "coverage": 0.7676470588235295,
+    "coverage": 0.7617647058823529,
     "eligible_games": 261,
-    "mean": 1.5670498084291187,
+    "mean": 1.579150579150579,
     "name": "Andrew McLeod",
-    "observed_games": 261,
+    "observed_games": 259,
     "player_id": "legacy:mcleod_andrew_04081976",
     "rank": 17,
     "total": 409.0

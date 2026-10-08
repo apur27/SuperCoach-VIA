@@ -18,7 +18,7 @@ const DS = { legacy_unverified: 'Imported legacy data, not yet independently ver
   <h1>Data status</h1>
   <p class="lede">What this release contains, how current it is, and what is known to be missing.</p>
   <ProvisionalAudit snapshotId={rel.snapshot_id} demo={rel.demo} />
-  {!provisional && (f.stale ? <p class="banner banner-stale"><strong>Stale:</strong> {f.stale_reason ?? 'the source has not been confirmed recently.'}</p> : <p class="banner banner-ok">Data is current as of the last source check.</p>)}
+  {(f.stale ? <p class="banner banner-stale"><strong>Stale:</strong> {f.stale_reason ?? 'the source has not been confirmed recently.'}</p> : <p class="banner banner-ok">Dataset freshness: current as of the last source check.</p>)}
   <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Freshness">
     <table>
       <caption>Freshness and release identity</caption>
@@ -46,7 +46,7 @@ const DS = { legacy_unverified: 'Imported legacy data, not yet independently ver
     </table>
   </div>
   <h2>Quality issues</h2>
-  {q.issues.length === 0 ? <p>{provisional ? 'No issues are listed in the release quality resource; the source audit failures above remain open.' : 'No open quality issues.'}</p> : (
+  {q.issues.length === 0 ? <p>{provisional ? 'No issues are listed in the release quality resource; the provisional source-audit status above still applies.' : 'No open quality issues.'}</p> : (
     <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable table: Quality issues">
       <table>
         <caption>Open quality issues</caption>

@@ -25,6 +25,13 @@ jobs:
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
         with:
           version: "0.12.18"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".node-version"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install browser contract dependencies
+        run: npm ci --prefix web
       - name: Install locked environment
         # legacy group: the analytics parity tests import the legacy package (optuna, lightgbm, ...)
         run: uv sync --locked --group dev --group legacy --extra ml
@@ -44,6 +51,28 @@ jobs:
           MKL_NUM_THREADS: "1"
           NUMEXPR_NUM_THREADS: "1"
         run: uv run --locked pytest tests/scvia -m "not integration" -q -n 4 --dist loadscope
+
+  # Replaces the obsolete Python 3.8-3.10/pip/Conda workflows. Ruff and mypy
+  # above are the canonical lint/type checks; this is not Pylint rule parity.
+  legacy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.18"
+      - name: Install locked environment
+        run: uv sync --locked --group dev --group legacy --extra ml
+      - name: Legacy unit tier
+        env:
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: uv run --locked pytest tests/unit -m "not integration" -q -n 4
 
   web:
     runs-on: ubuntu-24.04

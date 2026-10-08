@@ -1,6 +1,6 @@
 ---
 name: weekly-cycle
-description: Run the full weekly refresh pipeline with the Tuesday-settlement guard — scrape actuals, rank, predict, backtest, HOF recompute, weekly recap, QA gate, ship, and Chronicler. Invoke as "/weekly-cycle". Use for the routine weekly data refresh after a round settles, not for a brief.
+description: Run the full weekly refresh pipeline with the Tuesday-settlement guard — scrape actuals, rank, predict, backtest, HOF recompute, weekly recap, deterministic gates, ship, and Chronicler. Invoke as "/weekly-cycle". Use for the routine weekly data refresh after a round settles, not for a brief.
 ---
 
 # /weekly-cycle — weekly refresh pipeline
@@ -12,6 +12,8 @@ scripts/weekly_refresh.sh → Chronicler
 ```
 
 `scripts/weekly_refresh.sh` is the **single orchestrator** for all pipeline phases. This skill invokes it and handles the before/after bookkeeping. Never re-choreograph phases here — that is what caused drift in the allowlist and phase order.
+
+The harness does not invoke the QA agent. Weekly approval comes from its actual numeric/HOF gates, content-hash-bound DataSentinel and Skeptic verdicts, and Phase 3d integration tier. Do not invent a QA-agent verdict or `QA:PASS` stamp from those deterministic checks. Manual council deliveries retain the QA-agent requirement in Gaffer.md and QA.md.
 
 Gaffer owns process, not truth: never override a gate FAIL, never author a `[data]` number, never `git push --force`.
 
@@ -37,7 +39,8 @@ This single command runs all pipeline phases in order:
 - Rank → predict (forward) → backtest-by-archive (scores prior round's archived CSV, no retrain)
 - Phantom-row gate, eval surface update, cheat sheet
 - HOF pipeline + numeric gate
-- Weekly recap (FootyStrategy) + DataSentinel gate
+- Weekly recap (FootyStrategy) → DataSentinel gate → Skeptic gate
+- Phase 3d integration tier after regeneration, before staging (any failure aborts)
 - Allowlist commit + push
 - Completion sentinel (`last_refresh_complete.json`)
 

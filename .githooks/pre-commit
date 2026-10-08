@@ -29,17 +29,13 @@ CHECK_SCRIPT="$REPO_ROOT/scripts/check-council-stamp.sh"
 PYTHON="${COUNCIL_PYTHON:-${SUPERCOACH_PYTHON:-$REPO_ROOT/.venv/bin/python}}"
 
 # ---------------------------------------------------------------------------
-# Python gate (R1). Until now this hook returned 0 whenever no Markdown was
-# staged, so a pure-Python commit — a scraper rewrite, a model change, a new
-# harness module — reached history with no check at all. Every enforcement in
-# this repo applied to prose only, while CLAUDE.md's "no code commit without
-# tests" rule was enforced by habit alone.
-#
-# Two checks, both fail-closed. Human override remains `git commit --no-verify`.
+# Test gate: Python changes and harness shell/hook changes must pass the full
+# non-integration tier. Harness changes also require the CLAUDE.md §6.2 scratch
+# smoke before merge; this hook does not replace that evidence.
 # ---------------------------------------------------------------------------
-staged_py="$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.py$' || true)"
+staged_code="$(git diff --cached --no-renames --name-only --diff-filter=ACMD | grep -E '\.py$|^scripts/.*\.sh$|^refresh_and_rank\.sh$|^\.githooks/' || true)"
 
-if [ -n "$staged_py" ]; then
+if [ -n "$staged_code" ]; then
   # (a) A newly ADDED module must be referenced by something under tests/.
   #
   # Reference-based, NOT filename-based, on purpose. This repo's convention

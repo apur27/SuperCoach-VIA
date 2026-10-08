@@ -5,14 +5,20 @@ const { snapshotId, demo } = Astro.props;
 const audit = provisionalAudit(snapshotId, demo);
 ---
 {audit && <section aria-labelledby="provisional-audit-title">
-  <h2 id="provisional-audit-title">Known source audit failures</h2>
-  <p>Snapshot <code class="snapshot-id">{audit.snapshotId}</code> is provisional. The recorded audit against captured AFL Tables pages failed.</p>
+  <h2 id="provisional-audit-title">{audit.title}</h2>
+  <p>Snapshot <code class="snapshot-id">{audit.snapshotId}</code> is provisional. </p>
+  {audit.verdict === 'FAIL' ? <>
+  <p>The recorded audit against captured AFL Tables pages failed.</p>
   <ul>
     <li><strong>AFL Tables source audit: FAIL.</strong> Findings include missing appearances, zero/null differences, missing historical Brownlow values and unresolved evidence. Totals and rankings can be affected.</li>
     <li><strong>Release consistency: PASS.</strong> The sealed candidate's files agree with their declared inputs. This check does not establish agreement with AFL Tables.</li>
     <li><strong>Current forecast: unavailable.</strong> The candidate reports <code>no_valid_future_fixture</code>. Archived predictions are not current forecasts.</li>
   </ul>
-  <p>Recorded source audit report SHA-256: <code class="snapshot-id">{audit.reportSha256}</code>.</p>
-  <p><a href={audit.readmeUrl}>Committed README data status</a> · <a href={audit.reportsUrl}>Provisional Hall of Fame reports</a></p>
+  </> : audit.verdict === 'UNKNOWN' ? <>
+    <p><strong>AFL Tables source audit: UNKNOWN.</strong> The combined evidence records zero confirmed discrepancies and 63 unresolved source cells per layer. Unresolved historical Brownlow, all-zero and percentage cells remain open; totals and rankings are provisional.</p>
+    <p>This status combines the full parent audit with the candidate audit covering season 2026 only, plus verified unchanged historical partitions. Each report retains its own snapshot and scope. The pair is not a new full audit of the candidate.</p>
+  </> : <p><strong>AFL Tables source audit: UNAUDITED.</strong> No source audit evidence is bound to this snapshot. Its source agreement is unverified; totals and rankings remain provisional. Freshness and release validation do not establish source agreement.</p>}
+  {audit.evidence.map((e) => <p>{e.label}: snapshot <code class="snapshot-id">{e.snapshotId}</code>; report SHA-256 <code class="snapshot-id">{e.reportSha256}</code>.</p>)}
+  <p><a href={audit.readmeUrl}>Committed README data status</a>{audit.reportsUrl && <> · <a href={audit.reportsUrl}>{audit.reportsLabel}</a></>}{audit.coverageUrl && <> · <a href={audit.coverageUrl}>Composite source coverage evidence</a></>}</p>
 </section>}
 <style>.snapshot-id { overflow-wrap: anywhere; }</style>

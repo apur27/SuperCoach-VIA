@@ -2,6 +2,18 @@
 
 **Date:** 2026-10-06. **Decision (Gaffer): ACCEPTED WITH CONDITIONS.** This covers the corrections, the weekly changed-season gate and the harness repair described in `docs/reviews/AFLTABLES_RECONCILIATION_RUN.md` Part A. It is an acceptance of the work as delivered. It does not upgrade the data verdict: that stays **UNKNOWN, not PASS**.
 
+
+**Follow-up checked 7 October 2026:** acceptance delivery `1add8cdc5` and corrections
+`67217df40` are on `main`. Gate hardening `238cacf46` implements H1/M2/M4/L2 below;
+H2's correction path passed the `2026-10-06-h2-smoke` scratch cycle but has not been
+proved in a production correction cycle. M5 xdist landed in `f3878f3d0`; the combined
+tier passed 2,127 tests in 65.7 s on 7 October, still above unchanged targets. The chart
+reproducibility failure was repaired in `04784d509`, and the 6 October cycle completed
+through Phase 4. The rest of this document is the original acceptance record, including
+its then-open findings and QA outcome. Current candidate source coverage is recorded
+[separately](evidence/afltables-candidate-source-coverage-20261007.json), using full
+parent report `81ac70ba…` plus candidate 2026-only report `6fecac8e…`; UNKNOWN remains.
+
 Reviewers inspected the final code and run artifacts under `var/reconciliations/afltables/`, not the run summary. Opus Surveyor did this read-only. QA ran twice, and the second run was on the rebased tree.
 
 ## What was confirmed, and how

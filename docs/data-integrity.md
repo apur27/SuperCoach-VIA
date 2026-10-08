@@ -1,9 +1,12 @@
 # Data integrity checker (`scvia check-integrity`)
 
-> **Current data status:** the September 29 candidate release passes this checker's
-> input-consistency checks, while the later full AFL Tables reconciliation reports FAIL
-> for its snapshot and for the legacy CSVs. A release PASS is not proof that all source
-> statistics agree. See the [dated status](../README.md#data-status) and
+> **Current data status (7 October 2026):** the corrected candidate and current legacy
+> CSVs have an **UNKNOWN** source verdict: zero confirmed discrepancies and 63 unresolved
+> source cells per layer. Coverage combines the full parent audit with the corrected
+> candidate's 2026 audit; the [coverage receipt](reviews/evidence/afltables-candidate-source-coverage-20261007.json)
+> preserves both original report identities. The older hosted preview retains its
+> snapshot's FAIL notice. A release consistency PASS does not resolve source uncertainty.
+> See the [dated status](../README.md#data-status) and
 > [provisional Hall of Fame tables](hall-of-fame/provisional/README.md).
 
 *Operator and engineering document for the rewrite package. Numbers about the corpus carry

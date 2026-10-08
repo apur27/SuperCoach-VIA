@@ -318,3 +318,52 @@ def test_direct_commit_guard_still_applies(tmp_path):
     )
     assert res.returncode != 0
     assert "only-Gaffer-commits" in (res.stdout + res.stderr)
+
+
+@pytest.mark.parametrize("path", ["scripts/weekly_refresh.sh", "scripts/harness_env.sh", "refresh_and_rank.sh", ".githooks/pre-commit"])
+def test_shell_or_hook_change_cannot_bypass_a_failing_suite(tmp_path, path):
+    """A shell-only stage must run the tier and reject its failing result."""
+    repo = _repo(tmp_path)
+    script = repo / path
+    script.parent.mkdir(parents=True, exist_ok=True)
+    script.write_text("#!/bin/bash\nexit 0\n")
+    _git(repo, "add", path)
+    marker = tmp_path / "suite-ran"
+    runner = tmp_path / "failing-python"
+    runner.write_text(f'#!/bin/sh\nif [ "$1" = "-m" ]; then touch "{marker}"; fi\nexit 1\n')
+    runner.chmod(0o755)
+    env = {"PATH": "/usr/bin:/bin", "COUNCIL_COMMIT_AUTHORIZED": "1",
+           "HOME": str(tmp_path), "COUNCIL_PYTHON": str(runner)}
+    res = subprocess.run(["bash", str(HOOK)], cwd=repo, env=env, capture_output=True, text=True)
+    assert marker.exists(), "shell/hook commit bypassed pytest"
+    assert res.returncode != 0
+    assert "unit tests FAILED" in res.stderr
+
+
+def test_deleted_harness_script_still_runs_the_suite(tmp_path):
+    repo = _repo(tmp_path)
+    script = repo / "scripts/tool.sh"
+    script.write_text("#!/bin/sh\nexit 0\n")
+    _git(repo, "add", "scripts/tool.sh")
+    _git(repo, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "script")
+    _git(repo, "rm", "scripts/tool.sh")
+    env = {"PATH": "/usr/bin:/bin", "COUNCIL_COMMIT_AUTHORIZED": "1", "HOME": str(tmp_path),
+           "COUNCIL_PYTHON": str(repo / "missing-python")}
+    res = subprocess.run(["bash", str(HOOK)], cwd=repo, env=env, capture_output=True, text=True)
+    assert res.returncode != 0
+    assert "fail-closed" in res.stderr
+
+
+def test_harness_script_renamed_outside_scripts_still_runs_the_suite(tmp_path):
+    repo = _repo(tmp_path)
+    script = repo / "scripts/tool.sh"
+    script.write_text("#!/bin/sh\nexit 0\n")
+    _git(repo, "add", "scripts/tool.sh")
+    _git(repo, "-c", "core.hooksPath=/dev/null", "commit", "-q", "-m", "script")
+    (repo / "docs").mkdir()
+    _git(repo, "mv", "scripts/tool.sh", "docs/tool.sh")
+    env = {"PATH": "/usr/bin:/bin", "COUNCIL_COMMIT_AUTHORIZED": "1", "HOME": str(tmp_path),
+           "COUNCIL_PYTHON": str(repo / "missing-python")}
+    res = subprocess.run(["bash", str(HOOK)], cwd=repo, env=env, capture_output=True, text=True)
+    assert res.returncode != 0
+    assert "fail-closed" in res.stderr

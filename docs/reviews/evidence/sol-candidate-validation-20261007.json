@@ -1,0 +1,114 @@
+{
+  "browser": {
+    "accessibility_states": 24,
+    "accessibility_violations": 0,
+    "no_javascript": true,
+    "search": true,
+    "states": 48,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "why_section_verbatim": true,
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ]
+  },
+  "delivery": {
+    "published": false,
+    "schedule_changed": false,
+    "snapshot_promoted": false
+  },
+  "integrity": {
+    "checks": {
+      "FAIL": 0,
+      "NOT_APPLICABLE": 0,
+      "PASS": 26,
+      "UNKNOWN": 0
+    },
+    "findings_open": {
+      "blocking": 0,
+      "error": 5,
+      "info": 5,
+      "warning": 11
+    },
+    "limitations": "Includes nonblocking historical-era heuristics, stale fixture metadata and retained predictions from other snapshots. Article prose is provenance checked, not semantically audited.",
+    "outcome": "PASS",
+    "report_sha256": "9bc9394d87ccaf2a6bc415adab0865304b8a7d88dc502b31d2854ceac627e118",
+    "scope": {
+      "as_of": "2026-10-07T11:20:00Z",
+      "complete": true,
+      "current_season": 2026,
+      "families": [
+        "aggregates",
+        "contract",
+        "dataset",
+        "football",
+        "freshness",
+        "models",
+        "relations",
+        "release",
+        "source",
+        "storage"
+      ],
+      "name": "full",
+      "restricted": false,
+      "semantic_complete": true
+    }
+  },
+  "measures": {
+    "astro": {
+      "exit_code": 0,
+      "peak_tree_rss_mib": 542.6,
+      "processes_at_peak": 2,
+      "samples": 50,
+      "wall_seconds": 12.525
+    },
+    "build": {
+      "exit_code": 0,
+      "peak_tree_rss_mib": 1394.0,
+      "processes_at_peak": 2,
+      "samples": 135,
+      "wall_seconds": 33.841
+    },
+    "forecast": {
+      "exit_code": 0,
+      "peak_tree_rss_mib": 1858.2,
+      "processes_at_peak": 1,
+      "samples": 201,
+      "wall_seconds": 50.368
+    },
+    "integrity": {
+      "exit_code": 0,
+      "peak_tree_rss_mib": 1946.3,
+      "processes_at_peak": 6,
+      "samples": 285,
+      "wall_seconds": 71.418
+    },
+    "seal": {
+      "exit_code": 0,
+      "peak_tree_rss_mib": 412.2,
+      "processes_at_peak": 5,
+      "samples": 63,
+      "wall_seconds": 15.783
+    }
+  },
+  "release_id": "20261007T110646Z-de5708d65c5f",
+  "release_validation": "PASS",
+  "schema": "scvia.review-candidate-validation/1",
+  "seal_sha256": "e8e8a0fe5dc6bdd12474c8fdceb3cbdf2ce585b040942dfc6aa8cfdaf27f9a05",
+  "site": {
+    "artifact_bytes": 265010840,
+    "base": "/SuperCoach-VIA/",
+    "budget_bytes": 314572800,
+    "budget_pass": true
+  },
+  "snapshot_id": "sha256:b9830cbf1093544e234f26159440a2cc84eb834a223da13d05e931ae8f5815c4",
+  "source_coverage_sha256": "54fdc52c35721abdad30adf15981f7f7c901f7cb073eb601949621e87d761689",
+  "source_evidence_kind": "coverage_argument_from_two_existing_audits",
+  "source_verdict": "UNKNOWN",
+  "unresolved_source_cells_per_layer": 63
+}

@@ -1,5 +1,24 @@
 # AFL Tables reconciliation: audit, corrections and weekly gate
 
+## Current status — 7 October 2026
+
+This record below preserves the original handoff and its then-open findings. The work
+was subsequently merged: corrections `67217df40`, acceptance delivery `1add8cdc5`,
+and gate hardening `238cacf46`. H1/M2/M4/L2 are implemented; H2's source-backed
+fix/re-audit/commit path passed the `2026-10-06-h2-smoke` scratch cycle, while a
+production run of that correction path remains unproven. M5's xdist change landed in
+`f3878f3d0`; 2,127 tests passed in 65.7 s on 7 October, still over unchanged targets.
+The rendering check was repaired in `04784d509`; the 6 October weekly cycle then
+completed through Phase 4. Later observations do not rewrite the historical QA report.
+
+Overall source confidence stays UNKNOWN. The full parent report `81ac70ba…` and the
+candidate's 2026-only report `6fecac8e…` retain their original snapshot identities and
+scopes in the [composite coverage record](evidence/afltables-candidate-source-coverage-20261007.json).
+The hosted `3de65975…` preview retains its FAIL notice. Candidate publication and
+pipeline activation remain separate prerequisites; no pointer promotion is implied.
+
+## Original handoff (retained)
+
 **Mode:** decision-support → production, blast radius HIGH. **Branch:** `work/afltables-reconciliation` (worktree `var/worktrees/afltables-reconciliation`), base commit `21ca717978d4f573abcd2e048c801a5997eaace7`; `origin/main` has moved 8 commits (the Codex web UI) and no file overlaps. **Nothing is committed**: the tree is handed to Gaffer (A8).
 
 Part A is the corrections run (2026-10-03 to 2026-10-06, Scientist on `claude-opus-5-5`), authorised by the owner to fix the data "once and for all": both layers edited directly from the frozen capture, a season-awards table for pre-1984 Brownlow totals, and a weekly gate on changed seasons with the harness repaired first. Part B is the first, audit-only run (2026-10-01/02); its verdicts are superseded by Part A and kept as the baseline.

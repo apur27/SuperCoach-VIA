@@ -7,7 +7,10 @@ Runs in the weekly harness after the Phase 1 scrape is committed locally and bef
    (default ``origin/main``);
 2. a seasons-scoped plan, a polite capture of those seasons' AFL Tables pages (one request at a time, at least two
    seconds apart), and an offline comparison;
-3. a decision on the legacy layer:
+3. a decision on the legacy layer. The pinned snapshot is a reference input only;
+   its findings cannot certify or promote a snapshot. The gate records the actual
+   plan's snapshot ID and audited seasons separately from its legacy decision:
+
 
    * ``block`` (exit 1): a confirmed discrepancy (FAIL), or an identity conflict/unresolved player (a stub or
      duplicate player file);
@@ -131,7 +134,11 @@ def run_gate(
 
         client = make_client(load_reconciliation_policies())
     cap = Capture(plan, run_dir, client, clock=clock or SystemClock()).run()
-    out: dict[str, Any] = {"seasons": seasons, "plan_id": plan.plan_id, "capture": cap.state, "fixed": None}
+    out: dict[str, Any] = {"seasons": seasons, "plan_id": plan.plan_id, "capture": cap.state, "fixed": None,
+                           "decision_scope": "legacy_csv_changed_seasons",
+                           "reference_snapshot_id": plan.inputs.snapshot.snapshot_id,
+                           "audited_seasons": plan.scope.seasons,
+                           "snapshot_findings_role": "reference_only_no_promotion_verdict"}
     if not (run_dir / "capture" / "manifest.json").exists():
         out.update(decision="warn", reason=f"capture produced no manifest ({cap.state}); fails open", layers={})
         return _write(run_dir, out)
@@ -148,9 +155,10 @@ def run_gate(
         changes = [c for c in CO.read_changes(prop / "changes.jsonl") if c.layer == "legacy_csv"]
         out["fixed"] = CO.apply_legacy(legacy_root, changes)
         out["unsupported"] = summary["unsupported_fail_findings"]
-        plan2 = inv.build_plan(data_root=data_root, snapshot="current", legacy_root=legacy_root,
+        plan2 = inv.build_plan(data_root=data_root, snapshot=plan.inputs.snapshot.snapshot_id, legacy_root=legacy_root,
                                through_date=through_date, scope="seasons", seasons=seasons,
                                run_dir=run_dir)  # fmt: skip
+        out["re_audit_plan_id"] = plan2.plan_id
         report = _audit(inv.write_plan(plan2), run_dir, "after-fix")
         decision, reason = decide(report)
         reason = f"after source-backed corrections: {reason}"
@@ -164,12 +172,17 @@ def _write(run_dir: Path, out: dict[str, Any]) -> dict[str, Any]:
 
 
 def _record(
-    path: Path, decision: str, reason: str, seasons: list[int], pending: list[int], run_dir: str | None
+    path: Path, decision: str, reason: str, seasons: list[int], pending: list[int], run_dir: str | None,
+    audit: dict[str, Any] | None = None,
 ) -> None:
     """Persist every exit (Gaffer H1): the harness logs from this, and the next run reads ``pending``."""
     path.parent.mkdir(parents=True, exist_ok=True)
     doc = {"decision": decision, "reason": reason, "seasons": seasons, "pending": sorted(set(pending)),
            "run_dir": run_dir, "at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")}  # fmt: skip
+    doc.update(decision_scope="legacy_csv_changed_seasons",
+               reference_snapshot_id=(audit or {}).get("reference_snapshot_id"),
+               audited_seasons=(audit or {}).get("audited_seasons", []),
+               snapshot_findings_role="reference_only_no_promotion_verdict")
     path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
 
 
@@ -183,7 +196,7 @@ def _pending(path: Path) -> list[int]:
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--legacy-root", type=Path, default=REPO)
-    ap.add_argument("--data-root", type=Path, required=True, help="accepted snapshot data root (pinned, read only)")
+    ap.add_argument("--data-root", type=Path, required=True, help="reference snapshot data root (read only; snapshot findings do not decide shipment)")
     ap.add_argument("--season", type=int, action="append", help="audit these seasons (default: what changed)")
     ap.add_argument("--base", default="origin/main", help="git tree-ish the scraped working tree is compared against")
     ap.add_argument("--runs-root", type=Path, default=REPO / "var" / "reconciliations" / "afltables" / "gate")
@@ -198,7 +211,7 @@ def main(argv: list[str]) -> int:
     changed = sorted(set(a.season or [])) or seasons_since(a.legacy_root, a.base)
     seasons = sorted(set(changed) | set(pending))
     if not (a.data_root / "current.json").is_file():
-        reason = f"no accepted snapshot at {a.data_root}; gate skipped (fails open)"
+        reason = f"no reference snapshot at {a.data_root}; gate skipped (fails open)"
         _record(status, "skip", reason, seasons, seasons, None)
         print(f"reconciliation gate: WARN {reason}; seasons {seasons} stay pending")
         return 0
@@ -210,7 +223,7 @@ def main(argv: list[str]) -> int:
     run_dir = a.runs_root / f"{stamp}-{'-'.join(map(str, seasons))}"
     out = run_gate(seasons=seasons, run_dir=run_dir, data_root=a.data_root, legacy_root=a.legacy_root,
                    through_date=a.through_date, fix=a.fix)  # fmt: skip
-    _record(status, out["decision"], out["reason"], seasons, [] if out["decision"] == "pass" else seasons, str(run_dir))
+    _record(status, out["decision"], out["reason"], seasons, [] if out["decision"] == "pass" else seasons, str(run_dir), out)
     print(f"reconciliation gate: {out['decision'].upper()} for seasons {seasons}: {out['reason']} ({run_dir})")
     return 1 if out["decision"] == "block" else 0
 

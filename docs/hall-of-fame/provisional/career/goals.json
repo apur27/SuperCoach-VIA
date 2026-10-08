@@ -122,11 +122,11 @@
   },
   {
     "career_games": 282,
-    "coverage": 0.9964539007092199,
+    "coverage": 1.0,
     "eligible_games": 282,
-    "mean": 2.8469750889679717,
+    "mean": 2.8368794326241136,
     "name": "Matthew Richardson",
-    "observed_games": 281,
+    "observed_games": 282,
     "player_id": "legacy:richardson_matthew_19031975",
     "rank": 12,
     "total": 800.0
@@ -188,11 +188,11 @@
   },
   {
     "career_games": 289,
-    "coverage": 0.9965397923875432,
+    "coverage": 1.0,
     "eligible_games": 289,
-    "mean": 2.5902777777777777,
+    "mean": 2.5813148788927336,
     "name": "Barry Hall",
-    "observed_games": 288,
+    "observed_games": 289,
     "player_id": "legacy:hall_barry_08021977",
     "rank": 18,
     "total": 746.0

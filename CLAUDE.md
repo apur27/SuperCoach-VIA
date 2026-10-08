@@ -70,25 +70,41 @@ Every code change to this repo requires tests. No exceptions.
 3. Run the full test suite to confirm no regressions.
 4. Commit tests alongside the implementation — never separately after.
 
-### Test location
-Two tiers:
-- **Fast / pre-commit tier** — `tests/unit/test_<module_name>.py`. Hermetic: `tmp_path`
-  fixtures, mocked HTTP, no real data files. The pre-commit hook runs this on every
-  commit that stages a `.py`, so it must stay quick.
-  Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/ -m "not integration"`
-- **Integration tier** — `tests/integration/`, marked `@pytest.mark.integration`.
-  Asserts published artifacts against the REAL `data/` tree and shipped docs, catching
-  "the generator is correct but was never run" — the stale-HOF-profile and frozen-banner
-  class that unit tests and DataSentinel both miss. Runs in the weekly harness at Phase 0b
-  and aborts the cycle on failure.
-  Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python -m pytest tests/integration -m integration`
+### Test location and interpreter
+
+Create the locked environment with `uv sync --locked --group dev --group legacy --extra ml`.
+The harness resolves Python through `scripts/harness_env.sh`: `SUPERCOACH_PYTHON`,
+then `<repo>/.venv/bin/python`. The hook accepts `COUNCIL_PYTHON` first, then the
+same override/default. From the repository root:
+
+```bash
+REPO_ROOT="$(pwd)"
+source scripts/harness_env.sh
+PYTHON="$(harness_python)"
+# Combined pre-commit tier: legacy tests/unit plus package tests/scvia; all non-integration tests.
+"$PYTHON" -m pytest tests/ -q -m "not integration" -n 4
+# Published-artifact tier: the weekly harness runs this at Phase 3d, after regeneration.
+"$PYTHON" -m pytest tests/integration -q -m integration
+```
+
+The hook runs the combined tier for staged Python files, `scripts/*.sh`,
+`refresh_and_rank.sh` or `.githooks/*`, including deletion/rename of those paths.
+New production Python modules also need a test reference. Python-to-TypeScript
+release contracts require Node from `.node-version` and `npm ci --prefix web`;
+CI installs both. Shell/hook changes still need the full §6.2 smoke before merge.
+Integration checks assert published artifacts against the real `data/` tree and
+shipped docs. They catch stale generated output that hermetic unit tests cannot.
 
 ### Rules
 - **No network calls in unit tests** — mock all HTTP (use `unittest.mock.patch` or `responses`)
-- Fast tier budget: **under ~20 seconds total** (was 10s when the suite was ~250 tests;
-  raised 2026-07-26 at ~490 tests). Raise the budget deliberately if the suite keeps
-  growing — do NOT delete or skip tests to hit a number. If it becomes genuinely slow,
-  the subprocess-spawning tests are where to look first.
+- Fast tier target remains **under ~20 seconds total**; the package CI target remains
+  **30 seconds** (`docs/rewrite/IMPLEMENTATION_STATUS.md`, O55-07). These targets are
+  currently missed: on 2026-10-07 the combined hook tier passed 2,127 tests in 65.7 s
+  on 4 workers; legacy alone passed 622 tests serially in 31.2 s and package alone
+  passed 1,505 tests on 4 workers in 57.0 s. These are different scopes. The hook's
+  300 s timeout is a hang guard, not a performance target. Budget changes require
+  an explicit owner decision; no increase is authorized by these measurements.
+  Preserve every test while reducing cost; never delete or skip coverage to meet a target.
 - Cover: happy path, edge cases, error/failure paths (404, malformed input, empty data)
 - For scraper/audit functions: always mock the HTTP layer and test the parsing and logic separately
 - For data pipeline functions: use `tmp_path` fixtures for temp CSV files — never touch real data files
@@ -205,7 +221,7 @@ Before writing any player stat into a document - games played, goals, Brownlow v
 ```python
 import pandas as pd, glob, os
 
-VENV_PYTHON = "/home/abhi/sourceCode/python/coding/.venv/bin/python"
+VENV_PYTHON = ".venv/bin/python"
 PLAYER_DIR = "data/player_data"
 
 # Find a player's performance file (partial name match - files are named surname_firstname_DDMMYYYY_performance_details.csv)
@@ -218,7 +234,7 @@ if files:
     print(f"Years: {df['year'].min()}–{df['year'].max()}")
 ```
 
-Run with: `/home/abhi/sourceCode/python/coding/.venv/bin/python`
+Run with the `"$PYTHON"` interpreter resolved above.
 
 ### Non-negotiable
 

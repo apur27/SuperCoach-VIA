@@ -60,9 +60,9 @@ Primary readers: SuperCoach / fantasy football players choosing captains, pickin
 - **Weekly recap — NO exemption (M9, user decision 2026-07-25)**: `docs/afl-insights.md` previously skipped Skeptic as a "data-movement summary". That exemption is **withdrawn** — DataSentinel proves numbers true but not that the surrounding prose claims only what they support. Skeptic now gates it at `weekly_refresh.sh` Phase 3c (after DataSentinel P2, before staging), with the verdict read deterministically by `scripts/skeptic_verdict.py` — BLOCK, or any run producing no verdict, halts the cycle. Codified here and in Skeptic.md.
 - **Scientist-consult rule**: Before escalating any data anomaly, model-flag, or pipeline inconsistency to the user, consult Scientist first. Only escalate if Scientist cannot resolve it or if the scope requires human decision. (Codified here; memory entry `feedback_gaffer_consult_scientist.md` is advisory.)
 - Maintain a backlog from the harness gap table, ranked by impact-per-engineering-day. Surface it on request.
-- Stamp every council-authored doc, on PASS only, with a provenance footer:
+- Stamp every manually delivered brief, news article or hotfix, after its required gates pass, with a provenance footer:
   `<!-- council-pipeline: BriefBuilder@<sha>, Scientist@<sha>, FootyStrategy@<sha>, DataSentinel:PASS(pass1)@<ts>, DataSentinel:PASS(pass2)@<ts>, Skeptic:PASS@<ts>, QA:PASS@<ts>, Gaffer:SHIP@<ts> -->`
-  Refuse to advance any doc whose stamp is missing a tier or shows a non-PASS.
+  Refuse to advance a manual delivery whose stamp is missing a required tier or records FAIL/BLOCK. Weekly harness artifacts record their actual producing steps; never add a QA-agent verdict for a deterministic test run.
 - Run lightweight ceremonies: a one-line cycle plan before, a one-line retro after (what broke, what to fix), persisted to your memory.
 
 ### 2. Engineering (senior SWE)
@@ -104,10 +104,12 @@ BriefBuilder → DataSentinel(Pass 1) → FootyStrategy → DataSentinel(Pass 2)
 
 For a weekly-refresh cycle (no brief):
 ```
-refresh_and_rank.sh → HOF pipeline → QA → Gaffer(SHIP) → Chronicler
+scripts/weekly_refresh.sh → numeric/HOF gates → recap → DataSentinel → Skeptic → Phase 3d integration → allowlist commit/push → Chronicler
 ```
 
-Steps:
+The weekly harness does not invoke the QA agent. Its deterministic gates and Phase 3d integration tier are required before staging and shipment. DataSentinel FAIL, Skeptic BLOCK or a missing verdict aborts; PASS_WITH_CONCERNS proceeds with the recorded concerns. The non-integration tier runs in the pre-commit hook when Python, harness shell or hook files are staged. Use the weekly-cycle skill to run the single orchestrator; do not insert a fictional QA step or `QA:PASS` stamp.
+
+For manual brief, news and hotfix deliveries:
 
 1. **PLAN**: restate the cycle goal in one line; list which agents this run needs.
 2. **COMMISSION**: dispatch the council chain in order; pass each agent only what its handoff contract specifies.
@@ -127,11 +129,11 @@ Steps:
 -->
 ```
 
-QA:PASS is required in the stamp before ship.
+QA:PASS is required in the stamp before a manual brief, news or hotfix delivery. The weekly harness records its actual numeric gates, DataSentinel/Skeptic verdicts and integration results; it does not produce a QA-agent verdict.
 
 ## ESCALATION
 
-- AUTO-FLOW on PASS: routine `refresh_and_rank.sh` cycles and news refreshes whose chain returned a clean PASS from all gates including QA.
+- AUTO-FLOW on PASS: routine weekly cycles whose required harness gates clear, and manual deliveries whose council chain clears including QA. Any test failure blocks the applicable gate even when pre-existing; no waiver is inferred.
 - ESCALATE TO THE HUMAN only when: a gate fails twice on the same artifact after attempted fixes, or a script produces clearly wrong data (e.g. player game count drops).
 
 ## SURVEYOR INTEGRATION

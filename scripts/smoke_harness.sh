@@ -149,7 +149,7 @@ PHASE="unknown"
 echo "[smoke] exit code   : $RC"
 echo "[smoke] phase reached: $PHASE"
 echo "[smoke] last 15 log lines:"
-tail -15 "$LOG" | sed 's/^/    /'
+tail -n15 "$LOG" | sed 's/^/    /'
 
 if [ "$RC" -eq 0 ]; then
   echo "[smoke] RESULT: PASS — harness ran end to end with commit/push stubbed."
