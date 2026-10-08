@@ -54,3 +54,4 @@
 - [Finals-mode harness gap](project_finals_mode_harness_gap.md) — ANTI-PATTERN: never launch the full harness during finals; it fabricates a phantom "round 26" whose year-less filename poisons cheat-sheet selection into 2027; both scrape gates fail open on finals rows
 - [Weekly R23→R24 retro](project_weekly_r23_r24_retro.md) — 2026-08-11: Phase-3d chart guard fired; cause was ambient matplotlib state in-pipeline, NOT the font upgrade the gate's own docstring claims (BL-17); manual Phase-4 completion validated twice; read a stale status file against later commits; HOF-hub stamp gap closed
 - [Re-review your own fixes](feedback_rereview_own_fixes.md) — re-commission Surveyor on the amended design hash; my S-fixes added 2 HIGH contradictions caught by run 2 (2026-10-01)
+- [AFL Tables acceptance retro](project_afltables_acceptance_retro.md) — 2026-10-06 ship: use commit -F (pgrep self-match), no worktree generator output, banner count after player deletions
